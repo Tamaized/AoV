@@ -5,7 +5,7 @@
 
 ## Classes
   * Healer
-    * Healer, main focus is to well.. Heal, yourself, others, and so on. Yes Zombies(Well most undead really) will take damage.
+    * Healer, main focus is to well.. Heal.. yourself, others, and so on. Yes Zombies(Well most undead really) will take damage.
   * Defensive Caster
     * Main focus is to cast buffs/spells unto yourself and friends to increase your resistance and protection.
     * It's been requested so I'll be implementing a Dodge system (Base 0%) that will probably only be able to be increased from this class.
@@ -18,7 +18,7 @@
     * Now how do I resolve this? My thoughts are to reduce the amount you progress everytime you use a spell, this eventually resets over time.
     * Also you will only progress if the spells are being used as intended.
   * There will be a max total of points you'll be able to collect and I will try to make it so it's not too complicated.
-  * You begin with 1 point, you are then able to spend this point into one of the 3 class trees. After doing so you become bound to that class and cannot spend points into the other 2 tree.
+  * You begin with a single point, you are then able to spend this point into one of the three class trees. After doing so you become bound to that class and cannot spend points into the other two trees.
   * Yes you'll be able to do a reset if you didnt like your choices.
     * There will be two types, a Full reset and a Minor reset.
       * The Full reset takes you back to 1 starting point, this allows you to choose to be another class but you'll have to start from the ground up.
