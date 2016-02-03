@@ -2,6 +2,7 @@ package Tamaized.AoV;
 
 import java.util.ArrayList;
 
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -28,6 +29,7 @@ import Tamaized.AoV.registry.AoVTabs;
 import Tamaized.AoV.registry.AoVTools;
 import Tamaized.AoV.registry.RegistryBase;
 
+@Mod(modid=AoV.modid, name="Angel of Vengeance", version=AoV.version)
 public class AoV {
 	
 	protected final static String version = "0.0.1";
