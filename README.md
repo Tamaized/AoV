@@ -24,4 +24,4 @@
       * The minor reset allows you to just reset your current class, keeping the 1 point spent in it so your unable to change classes, but you regain all your points to spend inside this tree.
 
 ## Ideas
-  Feel free to submit any ideas as an issue. If I like the idea it'll remain open till it becomes implemented. IF i really really don't like it I will close it with reasons why, don't take it personally :) It could have to do with balance afterall.
+  Feel free to submit any ideas as an issue. If I like the idea it'll remain open till it becomes implemented. If I really don't like it I will close it with reasons why, don't take it personally :) It could have to do with balance afterall.
