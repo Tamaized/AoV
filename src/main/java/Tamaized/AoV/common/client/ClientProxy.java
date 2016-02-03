@@ -1,0 +1,68 @@
+package Tamaized.AoV.common.client;
+
+import net.minecraft.client.Minecraft;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import Tamaized.AoV.AoV;
+import Tamaized.AoV.common.handlers.ClientPacketHandler;
+import Tamaized.AoV.common.server.CommonProxy;
+import Tamaized.AoV.registry.RegistryBase;
+
+public class ClientProxy extends CommonProxy {
+	
+	@SideOnly(Side.CLIENT)
+	public static Minecraft mc = Minecraft.getMinecraft();
+
+	@Override
+	public void registerRenders(){
+	
+		//Events
+		//MinecraftForge.EVENT_BUS.register(new OverlayEvent());
+		//FMLCommonHandler.instance().bus().register(new BGMusic()); 
+	
+		float shadowSize = 0.5F;
+		//MOBS
+		//RenderingRegistry.registerEntityRenderingHandler(EntityMobWraith.class, new RenderWraith(new ModelWraith(), shadowSize));
+	
+		//Projectiles
+		//RenderingRegistry.registerEntityRenderingHandler(VoidChain.class, new RenderVoidChain(Minecraft.getMinecraft().getRenderManager()));
+	
+		//Blocks
+		//RenderingRegistry.registerBlockHandler(new OreRenderer()); //TODO: Deal with this at a later time
+	
+		//RenderHeimdall renderHeimdall = new RenderHeimdall();
+		//ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHeimdall.class, renderHeimdall);
+		//MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(voidCraft.blocks.Heimdall), new ItemRenderHeimdall(renderHeimdall, new TileEntityHeimdall()));
+	}
+	
+	@Override
+	public void registerInventoryRender() {
+		for(RegistryBase reg : AoV.registry) reg.setupRender();
+	}
+
+	@Override
+	public void registerItems(){
+				
+	}
+
+	@Override
+	public void registerBlocks(){
+		
+	}
+	
+	@Override
+	public void registerAchievements(){
+		
+	}
+
+	@Override
+	public void registerMISC(){
+		
+	}
+
+	@Override
+	public void registerNetwork() {
+		AoV.channel.register(new ClientPacketHandler());
+	}
+
+}

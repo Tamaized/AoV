@@ -1,0 +1,16 @@
+[
+{
+  "modid": "aov",
+  "name": "Angel of Vengeance",
+  "description": "A Magic Based Minecraft Mod about being a Healer",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Tamaized"],
+  "credits": "Tamaized",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
