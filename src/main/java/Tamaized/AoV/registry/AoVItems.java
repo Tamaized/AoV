@@ -7,19 +7,21 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import Tamaized.AoV.AoV;
+import Tamaized.AoV.items.DebugItem;
 
 public class AoVItems extends RegistryBase {
 	
 	private static ArrayList<Item> itemList;
 
-	public static Item placeholder;
+	public static Item debugger;
 	
 	@Override
 	public void preInit() {
-		//voidBurner = new VoidBurner("voidBurner").setCreativeTab(voidCraft.tabs.tabVoid);
+		debugger = new DebugItem("debugger").setCreativeTab(AoV.tabs.tabAoV);
 		
 		itemList = new ArrayList<Item>();
-		//itemList.add(placeholder);
+		itemList.add(debugger);
 	}
 
 	@Override

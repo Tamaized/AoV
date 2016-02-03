@@ -18,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 
 import Tamaized.AoV.common.handlers.ServerPacketHandler;
 import Tamaized.AoV.common.server.CommonProxy;
+import Tamaized.AoV.core.AoVCore;
 import Tamaized.AoV.registry.AoVAchievements;
 import Tamaized.AoV.registry.AoVArmors;
 import Tamaized.AoV.registry.AoVBiomes;
@@ -52,20 +53,21 @@ public class AoV {
 
 	public static final int guiPlaceholder = 0;
 
-	public static RegistryBase materials = new AoVMaterials();
-	public static RegistryBase tabs = new AoVTabs();
-	public static RegistryBase tools = new AoVTools();
-	public static RegistryBase items = new AoVItems();
-	public static RegistryBase armors = new AoVArmors();
-	public static RegistryBase fluids = new AoVFluids();
-	public static RegistryBase blocks = new AoVBlocks();
-	public static RegistryBase biomes = new AoVBiomes();
-	public static RegistryBase achievements = new AoVAchievements();
+	public static AoVMaterials materials = new AoVMaterials();
+	public static AoVTabs tabs = new AoVTabs();
+	public static AoVTools tools = new AoVTools();
+	public static AoVItems items = new AoVItems();
+	public static AoVArmors armors = new AoVArmors();
+	public static AoVFluids fluids = new AoVFluids();
+	public static AoVBlocks blocks = new AoVBlocks();
+	public static AoVBiomes biomes = new AoVBiomes();
+	public static AoVAchievements achievements = new AoVAchievements();
 	
 	public static ArrayList<RegistryBase> registry = new ArrayList<RegistryBase>();
 	
 	public static Logger logger;
 
+	public static AoVCore aovCore;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -120,6 +122,7 @@ public class AoV {
 		for(RegistryBase reg : registry) reg.postInit();
 		
 		channel.register(new ServerPacketHandler());
+		proxy.beginCore();
 		proxy.registerNetwork();
 		proxy.registerRenders();
 		proxy.registerBlocks();
