@@ -7,7 +7,7 @@
   * Healer
     * Healer, main focus is to well.. Heal, yourself, others, and so on. Yes Zombies(Well most undead really) will take damage.
   * Defensive Caster
-    * Main focus is to cast buffs/spells to yourself and friends to increase your resistance and protection.
+    * Main focus is to cast buffs/spells unto yourself and friends to increase your resistance and protection.
     * It's been requested so I'll be implementing a Dodge system (Base 0%) that will probably only be able to be increased from this class.
   * Offensive Caster
     * Main focus here is to be some sort of divine caster using light/good/lawful based spells against your foes.
