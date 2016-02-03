@@ -2,6 +2,8 @@ package Tamaized.AoV;
 
 import java.util.ArrayList;
 
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -19,6 +21,8 @@ import org.apache.logging.log4j.Logger;
 import Tamaized.AoV.common.handlers.ServerPacketHandler;
 import Tamaized.AoV.common.server.CommonProxy;
 import Tamaized.AoV.core.AoVCore;
+import Tamaized.AoV.events.PlayerJoinWorld;
+import Tamaized.AoV.events.TickHandler;
 import Tamaized.AoV.registry.AoVAchievements;
 import Tamaized.AoV.registry.AoVArmors;
 import Tamaized.AoV.registry.AoVBiomes;
@@ -66,8 +70,9 @@ public class AoV {
 	public static ArrayList<RegistryBase> registry = new ArrayList<RegistryBase>();
 	
 	public static Logger logger;
-
-	public static AoVCore aovCore;
+	
+	public static AoVCore serverAoVCore;
+	public static AoVCore clientAoVCore;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -93,15 +98,14 @@ public class AoV {
 	@EventHandler
 	public void Init(FMLInitializationEvent event){ 
 		logger.info("Starting AoV Init");
+
+		MinecraftForge.EVENT_BUS.register(new PlayerJoinWorld());
+		MinecraftForge.EVENT_BUS.register(new TickHandler());
 					
 		//register GUI Handler
 		//NetworkRegistry.instance().registerGuiHandler(this, guiHandler);
 		//GuiHandler guiHandler = new GuiHandler();
 		//NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
-		
-		//Register Events
-		//FMLCommonHandler.instance().bus().register(VoidTickEvent);
-		//MinecraftForge.EVENT_BUS.register(new PickUpEvent());
 				
 		//Tile Entities
 		//GameRegistry.registerTileEntity(TileEntityVoidMacerator.class, "tileEntityVoidMacerator");
@@ -122,7 +126,7 @@ public class AoV {
 		for(RegistryBase reg : registry) reg.postInit();
 		
 		channel.register(new ServerPacketHandler());
-		proxy.beginCore();
+		
 		proxy.registerNetwork();
 		proxy.registerRenders();
 		proxy.registerBlocks();

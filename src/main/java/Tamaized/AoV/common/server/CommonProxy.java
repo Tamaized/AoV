@@ -1,7 +1,9 @@
 package Tamaized.AoV.common.server;
 
+import net.minecraftforge.common.MinecraftForge;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.AoVCore;
+import Tamaized.AoV.events.PlayerJoinWorld;
 
 
 public class CommonProxy {
@@ -26,10 +28,6 @@ public class CommonProxy {
 
 	public void registerInventoryRender() {
 		
-	}
-
-	public void beginCore() {
-		AoV.aovCore = new AoVCore();
 	}
 
 }

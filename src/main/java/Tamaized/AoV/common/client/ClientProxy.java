@@ -1,6 +1,7 @@
 package Tamaized.AoV.common.client;
 
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import Tamaized.AoV.AoV;
@@ -18,7 +19,7 @@ public class ClientProxy extends CommonProxy {
 	public void registerRenders(){
 	
 		//Events
-		//MinecraftForge.EVENT_BUS.register(new OverlayEvent());
+		MinecraftForge.EVENT_BUS.register(new AoVOverlay());
 		//FMLCommonHandler.instance().bus().register(new BGMusic()); 
 	
 		float shadowSize = 0.5F;
@@ -64,10 +65,6 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void registerNetwork() {
 		AoV.channel.register(new ClientPacketHandler());
-	}
-	
-	public void beginCore() {
-		AoV.aovCore = new AoVCoreClient();
 	}
 
 }

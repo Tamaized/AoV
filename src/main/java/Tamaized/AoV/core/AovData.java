@@ -2,8 +2,8 @@ package Tamaized.AoV.core;
 
 import java.util.ArrayList;
 
-import Tamaized.AoV.core.skills.AoVSkill;
 import net.minecraft.entity.player.EntityPlayer;
+import Tamaized.AoV.core.skills.AoVSkill;
 
 public class AoVData {
 	
@@ -34,6 +34,13 @@ public class AoVData {
 		setObtainedSkills(skill);
 	}
 	
+	public AoVData Construct(){
+		skillPoints = 1;
+		currentPoints = 1;
+		exp = 0;
+		return this;
+	}
+	
 	public void setObtainedSkills(AoVSkill... skill){
 		obtainedSkills.clear();
 		for(AoVSkill s : skill){
@@ -59,6 +66,31 @@ public class AoVData {
 	
 	public int getXpNeededToLevel(){
 		return 150*getLevel();
+	}
+	
+	public String toPacket(){
+		String p = skillPoints+":"+currentPoints+":"+exp;
+		if(obtainedSkills.isEmpty()) p.concat(":null");
+		for(AoVSkill s : obtainedSkills){
+			p.concat(":"+s.skillName);
+		}
+		return p;
+	}
+	
+	public static AoVData fromPacket(String p){
+		String[] packet = p.split(":");
+		int sPoint = Integer.parseInt(packet[0]);
+		int cPoint = Integer.parseInt(packet[1]);
+		int xp = Integer.parseInt(packet[2]);
+		if(packet[4].equals("null")){
+			return new AoVData(null, sPoint, cPoint, xp);
+		}else{
+			ArrayList<AoVSkill> skill = new ArrayList<AoVSkill>();
+			for(int i=4; i<packet.length; i++){
+				skill.add(AoVSkill.getSkillFromName(packet[i]));
+			}
+			return new AoVData(null, sPoint, cPoint, xp, (AoVSkill[]) skill.toArray());
+		}
 	}
 
 }

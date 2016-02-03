@@ -12,7 +12,7 @@ public class AoVCore {
 	
 	public AoVCore(){
 		players = new HashMap<EntityPlayer, AoVData>();
-		defaultData = new AoVData();
+		defaultData = new AoVData().Construct();
 	}
 	
 	public void setPlayer(EntityPlayer player, AoVData dat){
@@ -29,6 +29,10 @@ public class AoVCore {
 	
 	public AoVData getPlayer(EntityPlayer player){
 		return players.get(player);
+	}
+	
+	public void update(){
+		
 	}
 
 }
