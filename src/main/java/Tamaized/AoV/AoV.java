@@ -3,7 +3,6 @@ package Tamaized.AoV;
 import java.util.ArrayList;
 
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -21,7 +20,7 @@ import org.apache.logging.log4j.Logger;
 import Tamaized.AoV.common.handlers.ServerPacketHandler;
 import Tamaized.AoV.common.server.CommonProxy;
 import Tamaized.AoV.core.AoVCore;
-import Tamaized.AoV.events.PlayerJoinWorld;
+import Tamaized.AoV.events.PlayerJoinLeaveEvent;
 import Tamaized.AoV.events.TickHandler;
 import Tamaized.AoV.registry.AoVAchievements;
 import Tamaized.AoV.registry.AoVArmors;
@@ -99,7 +98,7 @@ public class AoV {
 	public void Init(FMLInitializationEvent event){ 
 		logger.info("Starting AoV Init");
 
-		MinecraftForge.EVENT_BUS.register(new PlayerJoinWorld());
+		MinecraftForge.EVENT_BUS.register(new PlayerJoinLeaveEvent());
 		MinecraftForge.EVENT_BUS.register(new TickHandler());
 					
 		//register GUI Handler

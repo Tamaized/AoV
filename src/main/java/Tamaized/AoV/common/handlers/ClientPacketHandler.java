@@ -5,6 +5,9 @@ import io.netty.buffer.ByteBufInputStream;
 
 import java.io.IOException;
 
+import Tamaized.AoV.AoV;
+import Tamaized.AoV.core.AoVCoreClient;
+import Tamaized.AoV.core.AoVData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -16,10 +19,9 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientCustomPacketE
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
 public class ClientPacketHandler{
 	
-	public static final int TYPE_PLACEHOLDER = 0;
+	public static final int TYPE_COREDATA = 0;
 	
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
@@ -40,8 +42,10 @@ public class ClientPacketHandler{
 		if (parSide == Side.CLIENT){
 			ByteBufInputStream bbis = new ByteBufInputStream(parBB);
 			int pktType = bbis.readInt();
-			if(pktType == TYPE_PLACEHOLDER){
-				
+			if(pktType == TYPE_COREDATA){
+				String encodedPacket = bbis.readUTF();
+				if(AoV.clientAoVCore == null) AoV.clientAoVCore = new AoVCoreClient();
+				AoV.clientAoVCore.setPlayer(null, AoVData.fromPacket(encodedPacket));
 			}
 			bbis.close();   
 		}
