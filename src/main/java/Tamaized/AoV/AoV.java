@@ -20,8 +20,10 @@ import org.apache.logging.log4j.Logger;
 import Tamaized.AoV.common.handlers.ServerPacketHandler;
 import Tamaized.AoV.common.server.CommonProxy;
 import Tamaized.AoV.core.AoVCore;
+import Tamaized.AoV.core.skills.AoVSkill;
 import Tamaized.AoV.events.PlayerJoinLeaveEvent;
 import Tamaized.AoV.events.TickHandler;
+import Tamaized.AoV.gui.GuiHandler;
 import Tamaized.AoV.registry.AoVAchievements;
 import Tamaized.AoV.registry.AoVArmors;
 import Tamaized.AoV.registry.AoVBiomes;
@@ -100,11 +102,8 @@ public class AoV {
 
 		MinecraftForge.EVENT_BUS.register(new PlayerJoinLeaveEvent());
 		MinecraftForge.EVENT_BUS.register(new TickHandler());
-					
-		//register GUI Handler
-		//NetworkRegistry.instance().registerGuiHandler(this, guiHandler);
-		//GuiHandler guiHandler = new GuiHandler();
-		//NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
+		
+		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 				
 		//Tile Entities
 		//GameRegistry.registerTileEntity(TileEntityVoidMacerator.class, "tileEntityVoidMacerator");
@@ -125,6 +124,8 @@ public class AoV {
 		for(RegistryBase reg : registry) reg.postInit();
 		
 		channel.register(new ServerPacketHandler());
+		
+		AoVSkill.registerSkills();
 		
 		proxy.registerNetwork();
 		proxy.registerRenders();

@@ -13,6 +13,10 @@ public class AoVData {
 	private int currentPoints;
 	private int exp;
 	
+	//This Data is set by skills, dont set it via packets
+	private int currPower = 0;
+	private int maxPower = 0;
+	
 	public AoVData(){
 		obtainedSkills = new ArrayList<AoVSkill>();
 	}

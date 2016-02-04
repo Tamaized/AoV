@@ -26,8 +26,8 @@ public class AoVOverlay extends Gui{
 		if(data != null){
 			FontRenderer fontRender = mc.fontRendererObj;
 			
-			this.drawString(fontRender, "Divine", 5, 40, 0xFFFFFF);
-			this.drawString(fontRender, "Power", 5, 50, 0xFFFFFF);
+			this.drawString(fontRender, "Divine", 5, 40, 0xAAFFFFFF);
+			this.drawString(fontRender, "Power", 5, 50, 0xAAFFFFFF);
 			
 			{
 				int x = 5;
@@ -35,7 +35,7 @@ public class AoVOverlay extends Gui{
 				int w = 25;
 				int h = 80;
 			
-				this.drawRect(x, y, x+w, y+h, 0xAA8800FF);
+				this.drawRect(x, y, x+w, y+h, 0x558800FF);
 			}
 			
 			{
@@ -44,19 +44,19 @@ public class AoVOverlay extends Gui{
 				int w = 21;
 				int h = 76;
 			
-				this.drawRect(x, y, x+w, y+h, 0xFFFFFFFF);
+				this.drawRect(x, y, x+w, y+h, 0x77FFFFFF);
 			}
 
-			fontRender.drawString("123", 9, 85, 0x0000FF);
+			fontRender.drawString("123", 9, 85, 0x000000);
 			{
 				int x = 10;
 				int y = 95;
 				int w = 15;
 				int h = 1;
 			
-				this.drawRect(x, y, x+w, y+h, 0xFF0000FF);
+				this.drawRect(x, y, x+w, y+h, 0xFF000000);
 			}
-			fontRender.drawString("123", 9, 98, 0x0000FF);
+			fontRender.drawString("123", 9, 98, 0x000000);
 		}
 	}
 
