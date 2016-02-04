@@ -1,14 +1,17 @@
 package Tamaized.AoV.gui;
 
-import Tamaized.AoV.core.skills.AoVSkill;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
+import Tamaized.AoV.AoV;
+import Tamaized.AoV.core.AoVData;
+import Tamaized.AoV.core.skills.AoVSkill;
 
 public class SkillButton extends GuiButton {
 	
 	public final AoVSkill skill;
+	public boolean isObtained;
 
 	/**
 	 * 
@@ -20,6 +23,18 @@ public class SkillButton extends GuiButton {
 	public SkillButton(int buttonId, int x, int y, String skillName) {
 		super(buttonId, x, y, 10, 10, "");
 		skill = AoVSkill.getSkillFromName(skillName);
+		AoVData data = AoV.clientAoVCore.getPlayer(null);
+		
+		if(data.getCoreSkill() != null && skill.isCore){
+			this.enabled = false;
+		}
+		
+		if(data.hasSkill(skill)){
+			this.enabled = false;
+			isObtained = true;
+		}else{
+			isObtained = false;
+		}
 	}
 	
 	public void drawButton(Minecraft mc, int mouseX, int mouseY){
@@ -48,6 +63,7 @@ public class SkillButton extends GuiButton {
             {
                 j = 0xFFFFFFFF;
             }
+            if(isObtained) j = 0xAA00FF00;
 
             this.drawRect(this.xPosition, this.yPosition, xPosition+this.width, yPosition+this.height, j);
         }

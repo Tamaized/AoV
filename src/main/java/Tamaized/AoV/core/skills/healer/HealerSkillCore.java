@@ -7,7 +7,7 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 public class HealerSkillCore extends AoVSkill{
 
 	public HealerSkillCore() {
-		super("HealerSkillCore", "null", 1, true, 
+		super("HealerSkillCore", null, 1, true, 
 				ChatFormatting.AQUA+"Class Core: Healer",
 				ChatFormatting.RED+"Obtaining this Skill", 
 				ChatFormatting.RED+"prevents you from taking",

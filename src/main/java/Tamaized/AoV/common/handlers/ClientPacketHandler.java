@@ -5,19 +5,18 @@ import io.netty.buffer.ByteBufInputStream;
 
 import java.io.IOException;
 
-import Tamaized.AoV.AoV;
-import Tamaized.AoV.core.AoVCoreClient;
-import Tamaized.AoV.core.AoVData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import Tamaized.AoV.AoV;
+import Tamaized.AoV.core.AoVCoreClient;
+import Tamaized.AoV.core.AoVData;
+import Tamaized.AoV.core.skills.AoVSkill;
+import Tamaized.AoV.gui.client.AoVSkillsGUI;
 
 public class ClientPacketHandler{
 	
@@ -55,7 +54,12 @@ public class ClientPacketHandler{
 					AoV.clientAoVCore.getPlayer(null).setMaxDivinePower(bbis.readInt());
 					break;
 				case TYPE_SKILL_CHECK_CANOBTAIN:
-					
+					System.out.println("Packet recieved for TYPE_SKILL_CHECK_CANOBTAIN");
+					boolean flag = bbis.readBoolean();
+					String skill = bbis.readUTF();
+					System.out.println(flag+" : "+skill+" : "+AoVSkillsGUI.instance);
+					if(AoVSkillsGUI.instance != null) AoVSkillsGUI.spooler.put(skill, flag);
+					AoVSkillsGUI.doRefresh = true;
 					break;
 				default:
 					break;

@@ -17,8 +17,18 @@ public class AoVData {
 	private int currPower = 0;
 	private int maxPower = 0;
 	
+	//Local variables for ServerSide
+	private int last_exp;
+	private int last_currPower;
+	private int last_maxPower;
+	
+	private int tick = 0;
+	
+	private AoVSkill obtainedCore = null;
+	
 	public AoVData(){
 		obtainedSkills = new ArrayList<AoVSkill>();
+		obtainedCore = null;
 	}
 	
 	public AoVData(EntityPlayer p){
@@ -33,7 +43,7 @@ public class AoVData {
 		exp = xp;
 	}
 	
-	public AoVData(EntityPlayer p, int sPoints, int cPoints, int xp, AoVSkill... skill){
+	public AoVData(EntityPlayer p, int sPoints, int cPoints, int xp, Object... skill){
 		this(p, sPoints, cPoints, xp);
 		setObtainedSkills(skill);
 	}
@@ -45,16 +55,50 @@ public class AoVData {
 		return this;
 	}
 	
-	public void setObtainedSkills(AoVSkill... skill){
-		obtainedSkills.clear();
-		for(AoVSkill s : skill){
-			obtainedSkills.add(s);
+	public void updateVariables(){
+		maxPower = 0;
+		for(AoVSkill skill : obtainedSkills){
+			maxPower+=skill.getBuffs().DivinePower;
 		}
+		if(currPower > maxPower) currPower = maxPower;
+		tick = 0;
+	}
+	
+	public void update(){
+		last_exp = exp;
+		last_currPower = currPower;
+		last_maxPower = maxPower;
+		
+		if(tick % 20 == 0){
+			if(currPower < maxPower) currPower++;
+		}
+	}
+	
+	public void setObtainedSkills(Object... skill){
+		obtainedSkills.clear();
+		obtainedCore = null;
+		for(Object s : skill){
+			if(s instanceof AoVSkill) addObtainedSkill((AoVSkill) s);
+		}
+	}
+	
+	public void addObtainedSkill(AoVSkill skill){
+		obtainedSkills.add(skill);
+		if(skill.isCore) obtainedCore = skill;
+	}
+
+	public boolean hasSkill(AoVSkill skill) {
+		return obtainedSkills.contains(skill);
+	}
+	
+	public AoVSkill getCoreSkill(){
+		return obtainedCore;
 	}
 	
 	public boolean removeSkill(AoVSkill skill){
 		if(obtainedSkills.contains(skill)){
 			obtainedSkills.remove(skill);
+			if(skill == obtainedCore) obtainedCore = null;
 			return true;
 		}
 		return false;
@@ -62,6 +106,10 @@ public class AoVData {
 	
 	public void setPlayer(EntityPlayer p){
 		player = p;
+	}
+	
+	public EntityPlayer getPlayer(){
+		return player;
 	}
 	
 	public int getLevel(){
@@ -105,7 +153,7 @@ public class AoVData {
 	}
 	
 	public String toPacket(){
-		String p = skillPoints+":"+currentPoints+":"+exp;
+		String p = skillPoints+":"+currentPoints+":"+exp+":"+currPower+":"+maxPower;
 		if(obtainedSkills == null || obtainedSkills.isEmpty()) p = p.concat(":null");
 		for(AoVSkill s : obtainedSkills){
 			p = p.concat(":"+s.skillName);
@@ -120,15 +168,29 @@ public class AoVData {
 		int sPoint = Integer.parseInt(packet[0]);
 		int cPoint = Integer.parseInt(packet[1]);
 		int xp = Integer.parseInt(packet[2]);
-		if(packet[3].equals("null")){
-			return new AoVData(null, sPoint, cPoint, xp);
+		int cPower = Integer.parseInt(packet[3]);
+		int mPower = Integer.parseInt(packet[4]);
+		if(packet[5].equals("null")){
+			AoVData dat = new AoVData(null, sPoint, cPoint, xp);
+			dat.setCurrentDivinePower(cPower);
+			dat.setMaxDivinePower(mPower);
+			return dat;
 		}else{
 			ArrayList<AoVSkill> skill = new ArrayList<AoVSkill>();
-			for(int i=3; i<packet.length; i++){
+			for(int i=5; i<packet.length; i++){
 				skill.add(AoVSkill.getSkillFromName(packet[i]));
 			}
-			return new AoVData(null, sPoint, cPoint, xp, (AoVSkill[]) skill.toArray());
+			AoVData dat = new AoVData(null, sPoint, cPoint, xp, skill.toArray());
+			dat.setCurrentDivinePower(cPower);
+			dat.setMaxDivinePower(mPower);
+			return dat;
 		}
+	}
+
+	public boolean wasThereAChange() {
+		boolean flag = false;
+		if(last_exp != exp || last_currPower != currPower || last_maxPower != maxPower) flag = true;
+		return flag;
 	}
 
 }

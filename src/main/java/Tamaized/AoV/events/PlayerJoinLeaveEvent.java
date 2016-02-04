@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.common.handlers.ClientPacketHandler;
+import Tamaized.AoV.common.handlers.ServerPacketHandler;
 import Tamaized.AoV.core.AoVCore;
 import Tamaized.AoV.core.AoVData;
 
@@ -33,7 +34,7 @@ public class PlayerJoinLeaveEvent {
 		//TODO: file nbt checks for the player, if player has saved data then load it and pass it to their client; else create new data instance
 		AoVData dat = new AoVData(e.player).Construct();
 		core.setPlayer(e.player, dat);	
-		sendPacketToClient((EntityPlayerMP) e.player, dat.toPacket());
+		ServerPacketHandler.sendAovDataPacket((EntityPlayerMP) e.player, dat);
 	}
 	
 	@SubscribeEvent
@@ -44,19 +45,5 @@ public class PlayerJoinLeaveEvent {
 		AoVData dat = core.getPlayer(e.player);
 		core.removePlayer(e.player);
 		System.out.println("LOGGED OUT");	
-	}
-	
-	private void sendPacketToClient(EntityPlayerMP player, String packet){
-		ByteBufOutputStream bos = new ByteBufOutputStream(Unpooled.buffer());
-		DataOutputStream outputStream = new DataOutputStream(bos);
-		try {
-			outputStream.writeInt(ClientPacketHandler.TYPE_COREDATA);
-			outputStream.writeUTF(packet);
-			FMLProxyPacket pkt = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
-			if(AoV.channel != null && pkt != null) AoV.channel.sendTo(pkt, player);
-			bos.close();
-		}catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 }

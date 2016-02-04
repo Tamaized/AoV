@@ -12,14 +12,14 @@ public abstract class AoVSkill {
 	private static Map<String, AoVSkill> registry = new HashMap<String, AoVSkill>();
 	
 	public final String skillName;
-	public final String parent;
+	public final AoVSkill parent;
 	public final boolean isCore;
 	public final int pointCost;
 	protected Buffs buffs;
 	
 	public final List<String> description;
 	
-	public AoVSkill(String name, String p, int cost, boolean core, String... desc){
+	public AoVSkill(String name, AoVSkill p, int cost, boolean core, String... desc){
 		skillName = name;
 		parent = p;
 		pointCost = cost;
@@ -44,7 +44,7 @@ public abstract class AoVSkill {
 		new HealerSkillCore();
 	}
 	
-	protected class Buffs{
+	public class Buffs{
 		
 		public final int DivinePower;
 		

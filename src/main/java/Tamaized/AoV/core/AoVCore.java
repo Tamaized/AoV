@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import Tamaized.AoV.common.handlers.ServerPacketHandler;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 public class AoVCore {
 	
@@ -36,6 +38,8 @@ public class AoVCore {
 		Iterator<AoVData> iter = players.values().iterator();
 		while(iter.hasNext()){
 			AoVData data = iter.next();
+			data.update();
+			if(data.wasThereAChange() && data.getPlayer() instanceof EntityPlayerMP) ServerPacketHandler.sendAovDataPacket((EntityPlayerMP) data.getPlayer(), data);
 		}
 	}
 
