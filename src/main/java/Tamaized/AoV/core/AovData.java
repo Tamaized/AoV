@@ -1,19 +1,19 @@
 package Tamaized.AoV.core;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
+import net.minecraft.entity.player.EntityPlayer;
 import Tamaized.AoV.core.skills.AoVSkill;
 
 public class AoVData {
 	
-	private UUID player;
+	private EntityPlayer player;
 	private ArrayList<AoVSkill> obtainedSkills;
 	private int skillPoints;
 	private int currentPoints;
 	private int exp;
 	
-	//This Data is set by skills, dont set it via packets
+	//On Server this needs to be handled by skills; we then send the information to the client everytime it changes, dont do it every tick!
 	private int currPower = 0;
 	private int maxPower = 0;
 	
@@ -21,19 +21,19 @@ public class AoVData {
 		obtainedSkills = new ArrayList<AoVSkill>();
 	}
 	
-	public AoVData(UUID p){
+	public AoVData(EntityPlayer p){
 		this();
 		player = p;
 	}
 	
-	public AoVData(UUID p, int sPoints, int cPoints, int xp){
+	public AoVData(EntityPlayer p, int sPoints, int cPoints, int xp){
 		this(p);
 		skillPoints = sPoints;
 		currentPoints = cPoints;
 		exp = xp;
 	}
 	
-	public AoVData(UUID p, int sPoints, int cPoints, int xp, AoVSkill... skill){
+	public AoVData(EntityPlayer p, int sPoints, int cPoints, int xp, AoVSkill... skill){
 		this(p, sPoints, cPoints, xp);
 		setObtainedSkills(skill);
 	}
@@ -60,7 +60,7 @@ public class AoVData {
 		return false;
 	}
 	
-	public void setPlayer(UUID p){
+	public void setPlayer(EntityPlayer p){
 		player = p;
 	}
 	
@@ -70,6 +70,38 @@ public class AoVData {
 	
 	public int getXpNeededToLevel(){
 		return 150*getLevel();
+	}
+	
+	public void setCurrentSkillPoints(int i){
+		currentPoints = i;
+	}
+	
+	public int getCurrentSkillPoints(){
+		return currentPoints;
+	}
+	
+	public void setMaxSkillPoints(int i){
+		skillPoints = i;
+	}
+	
+	public int getMaxSkillPoints(){
+		return skillPoints;
+	}
+	
+	public void setCurrentDivinePower(int i){
+		currPower = i;
+	}
+	
+	public void setMaxDivinePower(int i){
+		maxPower = i;
+	}
+	
+	public int getCurrentDivinePower(){
+		return currPower;
+	}
+	
+	public int getMaxDivinePower(){
+		return maxPower;
 	}
 	
 	public String toPacket(){

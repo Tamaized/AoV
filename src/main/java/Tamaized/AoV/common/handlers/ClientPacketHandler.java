@@ -22,6 +22,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ClientPacketHandler{
 	
 	public static final int TYPE_COREDATA = 0;
+	public static final int TYPE_UPDATE_DIVINEPOWER = 1;
+	public static final int TYPE_SKILL_CHECK_CANOBTAIN = 2;
 	
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
@@ -42,10 +44,21 @@ public class ClientPacketHandler{
 		if (parSide == Side.CLIENT){
 			ByteBufInputStream bbis = new ByteBufInputStream(parBB);
 			int pktType = bbis.readInt();
-			if(pktType == TYPE_COREDATA){
-				String encodedPacket = bbis.readUTF();
-				if(AoV.clientAoVCore == null) AoV.clientAoVCore = new AoVCoreClient();
-				AoV.clientAoVCore.setPlayer(null, AoVData.fromPacket(encodedPacket));
+			switch(pktType){
+				case TYPE_COREDATA:
+					String encodedPacket = bbis.readUTF();
+					if(AoV.clientAoVCore == null) AoV.clientAoVCore = new AoVCoreClient();
+					AoV.clientAoVCore.setPlayer(null, AoVData.fromPacket(encodedPacket));
+					break;
+				case TYPE_UPDATE_DIVINEPOWER: //We assume clientAoVCore is not null, if it is then something is seriously wrong
+					AoV.clientAoVCore.getPlayer(null).setCurrentDivinePower(bbis.readInt());
+					AoV.clientAoVCore.getPlayer(null).setMaxDivinePower(bbis.readInt());
+					break;
+				case TYPE_SKILL_CHECK_CANOBTAIN:
+					
+					break;
+				default:
+					break;
 			}
 			bbis.close();   
 		}

@@ -1,4 +1,4 @@
-package Tamaized.AoV.common.client;
+package Tamaized.AoV.gui.client;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -47,7 +47,7 @@ public class AoVOverlay extends Gui{
 				this.drawRect(x, y, x+w, y+h, 0x77FFFFFF);
 			}
 
-			fontRender.drawString("123", 9, 85, 0x000000);
+			fontRender.drawString(String.valueOf(data.getCurrentDivinePower()), 9, 85, 0x000000);
 			{
 				int x = 10;
 				int y = 95;
@@ -56,7 +56,7 @@ public class AoVOverlay extends Gui{
 			
 				this.drawRect(x, y, x+w, y+h, 0xFF000000);
 			}
-			fontRender.drawString("123", 9, 98, 0x000000);
+			fontRender.drawString(String.valueOf(data.getMaxDivinePower()), 9, 98, 0x000000);
 		}
 	}
 

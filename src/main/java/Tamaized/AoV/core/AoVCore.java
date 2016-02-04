@@ -1,22 +1,22 @@
 package Tamaized.AoV.core;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
-import java.util.UUID;
 
 import net.minecraft.entity.player.EntityPlayer;
 
 public class AoVCore {
 	
-	private Map<UUID, AoVData> players;
+	private Map<EntityPlayer, AoVData> players;
 	private AoVData defaultData;
 	
 	public AoVCore(){
-		players = new HashMap<UUID, AoVData>();
+		players = new HashMap<EntityPlayer, AoVData>();
 		defaultData = new AoVData().Construct();
 	}
 	
-	public void setPlayer(UUID player, AoVData dat){
+	public void setPlayer(EntityPlayer player, AoVData dat){
 		if(dat != null){
 			players.put(player, dat);
 		}else{
@@ -24,16 +24,19 @@ public class AoVCore {
 		}
 	}
 	
-	public void removePlayer(UUID player){
+	public void removePlayer(EntityPlayer player){
 		if(players.containsKey(player)) players.remove(player);
 	}
 	
-	public AoVData getPlayer(UUID player){
+	public AoVData getPlayer(EntityPlayer player){
 		return players.get(player);
 	}
 	
 	public void update(){
-		
+		Iterator<AoVData> iter = players.values().iterator();
+		while(iter.hasNext()){
+			AoVData data = iter.next();
+		}
 	}
 
 }

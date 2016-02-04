@@ -31,8 +31,8 @@ public class PlayerJoinLeaveEvent {
 		System.out.println("serverAoVCore NOT NULL; Starting setup");
 		AoVCore core = AoV.serverAoVCore;
 		//TODO: file nbt checks for the player, if player has saved data then load it and pass it to their client; else create new data instance
-		AoVData dat = new AoVData(e.player.getPersistentID()).Construct();
-		core.setPlayer(e.player.getPersistentID(), dat);	
+		AoVData dat = new AoVData(e.player).Construct();
+		core.setPlayer(e.player, dat);	
 		sendPacketToClient((EntityPlayerMP) e.player, dat.toPacket());
 	}
 	
@@ -41,8 +41,8 @@ public class PlayerJoinLeaveEvent {
 		if(AoV.serverAoVCore == null) return;
 		AoVCore core = AoV.serverAoVCore;
 		//TODO: save data to NBT file
-		AoVData dat = core.getPlayer(e.player.getPersistentID());
-		core.removePlayer(e.player.getPersistentID());
+		AoVData dat = core.getPlayer(e.player);
+		core.removePlayer(e.player);
 		System.out.println("LOGGED OUT");	
 	}
 	

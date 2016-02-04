@@ -7,6 +7,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.common.handlers.ClientPacketHandler;
 import Tamaized.AoV.common.server.CommonProxy;
+import Tamaized.AoV.gui.client.AoVOverlay;
 import Tamaized.AoV.registry.RegistryBase;
 
 public class ClientProxy extends CommonProxy {

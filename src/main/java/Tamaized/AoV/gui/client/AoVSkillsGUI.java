@@ -70,12 +70,6 @@ public class AoVSkillsGUI extends GuiScreen {
 			if(b instanceof SkillButton){
 				SkillButton sb = (SkillButton) b;
 				if(sb.skill != null && sb.skill.description != null) this.drawHoveringText(sb.skill.description, mouseX, mouseY);
-				else{
-					System.out.println(sb.skill);
-					if(sb.skill != null){
-						System.out.println(sb.skill.description);
-					}
-				}
 			}
 		}
 	}

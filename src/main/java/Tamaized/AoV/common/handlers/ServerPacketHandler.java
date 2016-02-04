@@ -13,43 +13,34 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class ServerPacketHandler {
 	
-	public static final int TYPE_PLACEHOLDER = 0;
+	public static final int TYPE_SKILLEDIT_CHECK_CANOBTAIN = 0;
 	
 	@SubscribeEvent
 	public void onServerPacket(ServerCustomPacketEvent event) {
-		try {
+		try{
+			EntityPlayerMP player = ((NetHandlerPlayServer)event.handler).playerEntity;
+			ByteBufInputStream bbis = new ByteBufInputStream(event.packet.payload());
 			
-		EntityPlayerMP player = ((NetHandlerPlayServer)event.handler).playerEntity;
-		ByteBufInputStream bbis = new ByteBufInputStream(event.packet.payload());
-		
-		processPacketOnServer(event.packet.payload(), Side.SERVER, player);
-		
-		bbis.close();
+			processPacketOnServer(event.packet.payload(), Side.SERVER, player);
 			
-			
-		} catch (IOException e) {
+			bbis.close();
+		}catch(IOException e){
 			e.printStackTrace();
 		}
 	}
 	
-	public static void processPacketOnServer(ByteBuf parBB, Side parSide, EntityPlayerMP player){
+	public static void processPacketOnServer(ByteBuf parBB, Side parSide, EntityPlayerMP player) throws IOException{
 	  
 		if(parSide == Side.SERVER){
 			ByteBufInputStream bbis = new ByteBufInputStream(parBB);
-			int pktType;
-			try {
-				pktType = bbis.readInt();
-				if(pktType == TYPE_PLACEHOLDER){
-					
-				}
-			 }catch(Exception e){
-				 try {
-					bbis.close();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				 e.printStackTrace();
-			 }
+			int pktType = bbis.readInt();
+			switch(pktType){
+				case TYPE_SKILLEDIT_CHECK_CANOBTAIN:
+					break;
+				default:
+					break;
+			}
+			bbis.close();
 		}
 	}
 	

@@ -14,16 +14,26 @@ public abstract class AoVSkill {
 	public final String skillName;
 	public final String parent;
 	public final boolean isCore;
+	public final int pointCost;
+	protected Buffs buffs;
 	
 	public final List<String> description;
 	
-	public AoVSkill(String name, String p, boolean core, String... desc){
+	public AoVSkill(String name, String p, int cost, boolean core, String... desc){
 		skillName = name;
 		parent = p;
+		pointCost = cost;
 		isCore = core;
+		setupBuffs();
 		description = new ArrayList<String>();
 		for(String s : desc) description.add(s);
 		registry.put(name, this);
+	}
+	
+	protected abstract void setupBuffs();
+	
+	public Buffs getBuffs(){
+		return buffs;
 	}
 	
 	public static AoVSkill getSkillFromName(String name){
@@ -32,6 +42,16 @@ public abstract class AoVSkill {
 	
 	public static void registerSkills(){
 		new HealerSkillCore();
+	}
+	
+	protected class Buffs{
+		
+		public final int DivinePower;
+		
+		public Buffs(int divinePower){
+			DivinePower = divinePower;
+		}
+		
 	}
 
 }

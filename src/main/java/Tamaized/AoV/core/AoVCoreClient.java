@@ -1,7 +1,5 @@
 package Tamaized.AoV.core;
 
-import java.util.UUID;
-
 import net.minecraft.entity.player.EntityPlayer;
 
 
@@ -14,17 +12,17 @@ public class AoVCoreClient extends AoVCore{
 	}
 	
 	@Override
-	public void setPlayer(UUID player, AoVData dat){
+	public void setPlayer(EntityPlayer player, AoVData dat){
 		data = dat;
 	}
 	
 	@Override
-	public void removePlayer(UUID player){
+	public void removePlayer(EntityPlayer player){
 		data = null;
 	}
 	
 	@Override
-	public AoVData getPlayer(UUID player){
+	public AoVData getPlayer(EntityPlayer player){
 		return data;
 	}
 	
