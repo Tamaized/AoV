@@ -26,3 +26,7 @@
 
 ## Ideas
   Feel free to submit any ideas as an issue. If I like the idea it'll remain open till it becomes implemented. If I really don't like it I will close it with reasons why, don't take it personally :) It could have to do with balance after all.
+  
+## Misc.
+  * [Wiki](https://github.com/Tamaized/AoV/wiki)
+    * This is being edited by [Anromora](https://github.com/Anromora). If you find any issues then go bug him about it :D
