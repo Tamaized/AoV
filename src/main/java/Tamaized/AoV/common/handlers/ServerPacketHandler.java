@@ -23,6 +23,8 @@ import Tamaized.AoV.core.skills.AoVSkill;
 public class ServerPacketHandler {
 	
 	public static final int TYPE_SKILLEDIT_CHECK_CANOBTAIN = 0;
+	public static final int TYPE_RESETSKILLS_FULL = 1;
+	public static final int TYPE_RESETSKILLS_MINOR = 2;
 	
 	@SubscribeEvent
 	public void onServerPacket(ServerCustomPacketEvent event) {
@@ -46,26 +48,39 @@ public class ServerPacketHandler {
 			switch(pktType){
 				
 				case TYPE_SKILLEDIT_CHECK_CANOBTAIN:
+				{
 					String theName = bbis.readUTF();
 					AoVCore core = AoV.serverAoVCore;
 					AoVData data = core.getPlayer(player);
 					AoVSkill skillToCheck = AoVSkill.getSkillFromName(theName);
 					boolean flag = false;
-					if(skillToCheck == null){
-						sendCanObtainSkillPacket(player, theName, false);
-						break;
-					}
-					if(skillToCheck.parent == null) 
-						if(data.getCurrentSkillPoints() >= skillToCheck.pointCost) flag = true;
-						else if(data.hasSkill(skillToCheck.parent) && data.getCurrentSkillPoints() >= skillToCheck.pointCost) flag = true;
+					if(skillToCheck == null) break;
+					if(skillToCheck.parent == null) if(data.getCurrentSkillPoints() >= skillToCheck.pointCost) flag = true;
+					else if(data.hasSkill(skillToCheck.parent) && data.getCurrentSkillPoints() >= skillToCheck.pointCost) flag = true;
 					if(flag){
 						System.out.println("Server passed on canObtain, sending data to client");
 						data.addObtainedSkill(skillToCheck);
 						data.setCurrentSkillPoints(data.getCurrentSkillPoints()-skillToCheck.pointCost);
 						data.updateVariables();
 						sendAovDataPacket(player, data);
-						sendCanObtainSkillPacket(player, theName, true);
 					}
+				}
+					break;
+					
+				case TYPE_RESETSKILLS_FULL:
+				{
+					AoVCore core = AoV.serverAoVCore;
+					AoVData data = new AoVData(player).Construct();
+					core.removePlayer(player);
+					core.setPlayer(player, data);
+					sendAovDataPacket(player, data);
+				}
+					break;
+					
+				case TYPE_RESETSKILLS_MINOR:
+				{
+					
+				}
 					break;
 					
 				default:
@@ -73,17 +88,6 @@ public class ServerPacketHandler {
 			}
 			bbis.close();
 		}
-	}
-	
-	private static void sendCanObtainSkillPacket(EntityPlayerMP player, String theName, boolean b) throws IOException{
-		ByteBufOutputStream bos = new ByteBufOutputStream(Unpooled.buffer());
-		DataOutputStream outputStream = new DataOutputStream(bos);
-		outputStream.writeInt(ClientPacketHandler.TYPE_SKILL_CHECK_CANOBTAIN);
-		outputStream.writeBoolean(b);
-		outputStream.writeUTF(theName);
-		FMLProxyPacket pkt = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
-		if(AoV.channel != null && pkt != null) AoV.channel.sendTo(pkt, player);
-		bos.close();
 	}
 	
 	public static void sendAovDataPacket(EntityPlayerMP player, AoVData packet){

@@ -23,12 +23,15 @@ public class SkillButton extends GuiButton {
 	public SkillButton(int buttonId, int x, int y, String skillName) {
 		super(buttonId, x, y, 10, 10, "");
 		skill = AoVSkill.getSkillFromName(skillName);
+		updateVar();
+	}
+	
+	public void updateVar(){
 		AoVData data = AoV.clientAoVCore.getPlayer(null);
 		
 		if(data.getCoreSkill() != null && skill.isCore){
 			this.enabled = false;
 		}
-		
 		if(data.hasSkill(skill)){
 			this.enabled = false;
 			isObtained = true;
@@ -37,6 +40,7 @@ public class SkillButton extends GuiButton {
 		}
 	}
 	
+	@Override
 	public void drawButton(Minecraft mc, int mouseX, int mouseY){
         if (this.visible){
             FontRenderer fontrenderer = mc.fontRendererObj;

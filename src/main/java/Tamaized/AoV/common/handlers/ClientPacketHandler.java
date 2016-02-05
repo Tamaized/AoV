@@ -22,7 +22,6 @@ public class ClientPacketHandler{
 	
 	public static final int TYPE_COREDATA = 0;
 	public static final int TYPE_UPDATE_DIVINEPOWER = 1;
-	public static final int TYPE_SKILL_CHECK_CANOBTAIN = 2;
 	
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
@@ -48,18 +47,11 @@ public class ClientPacketHandler{
 					String encodedPacket = bbis.readUTF();
 					if(AoV.clientAoVCore == null) AoV.clientAoVCore = new AoVCoreClient();
 					AoV.clientAoVCore.setPlayer(null, AoVData.fromPacket(encodedPacket));
+					if(AoVSkillsGUI.instance != null) AoVSkillsGUI.doRefresh = true;
 					break;
 				case TYPE_UPDATE_DIVINEPOWER: //We assume clientAoVCore is not null, if it is then something is seriously wrong
 					AoV.clientAoVCore.getPlayer(null).setCurrentDivinePower(bbis.readInt());
 					AoV.clientAoVCore.getPlayer(null).setMaxDivinePower(bbis.readInt());
-					break;
-				case TYPE_SKILL_CHECK_CANOBTAIN:
-					System.out.println("Packet recieved for TYPE_SKILL_CHECK_CANOBTAIN");
-					boolean flag = bbis.readBoolean();
-					String skill = bbis.readUTF();
-					System.out.println(flag+" : "+skill+" : "+AoVSkillsGUI.instance);
-					if(AoVSkillsGUI.instance != null) AoVSkillsGUI.spooler.put(skill, flag);
-					AoVSkillsGUI.doRefresh = true;
 					break;
 				default:
 					break;

@@ -5,17 +5,14 @@ import io.netty.buffer.Unpooled;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.common.handlers.ServerPacketHandler;
-import Tamaized.AoV.core.skills.AoVSkill;
+import Tamaized.AoV.core.AoVData;
 import Tamaized.AoV.gui.GuiHandler;
 import Tamaized.AoV.gui.SkillButton;
 
@@ -28,8 +25,6 @@ public class AoVSkillsGUI extends GuiScreen {
 	private static final int BUTTON_SPELLBOOK = 2;
 	private static final int BUTTON_RESET = 3;
 	private static final int BUTTON_CHECKSTATS = 4;
-	
-	public static Map<String, Boolean> spooler = new HashMap<String, Boolean>();
 	
 	public static boolean doRefresh = false;
 
@@ -69,20 +64,12 @@ public class AoVSkillsGUI extends GuiScreen {
 					if(!(button instanceof SkillButton)) break;
 					SkillButton skillButton = (SkillButton) button;
 					skillButton.enabled = false;
-					int pktType = ServerPacketHandler.TYPE_SKILLEDIT_CHECK_CANOBTAIN;
-					ByteBufOutputStream bos = new ByteBufOutputStream(Unpooled.buffer());
-					DataOutputStream outputStream = new DataOutputStream(bos);
-					try {
-						outputStream.writeInt(pktType);
-						outputStream.writeUTF(skillButton.skill.skillName);
-		 				FMLProxyPacket packet = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
-		 				AoV.channel.sendToServer(packet);
-		 				System.out.println("Sent Server Packet");
-					} catch (Exception ex) {
-						ex.printStackTrace();
+					boolean flag = beginChecks(skillButton);
+					if(flag){
+						skillButton.isObtained = true;
+					}else{
+						skillButton.enabled = true;
 					}
-					outputStream.close();
-	 				bos.close();
 					break;
 				case BUTTON_SPELLBOOK:
 					GuiHandler.openGUI(GuiHandler.GUI_SPELLBOOK);
@@ -96,6 +83,26 @@ public class AoVSkillsGUI extends GuiScreen {
 					break;
 			}
 		}
+	}
+	
+	private boolean beginChecks(SkillButton b) throws IOException{
+		boolean flag = false;
+		AoVData data = AoV.clientAoVCore.getPlayer(null);
+		if(b.skill.parent == null) if(data.getCurrentSkillPoints() >= b.skill.pointCost) flag = true;
+		else if(data.hasSkill(b.skill.parent) && data.getCurrentSkillPoints() >= b.skill.pointCost) flag = true;
+		if(flag){
+			int pktType = ServerPacketHandler.TYPE_SKILLEDIT_CHECK_CANOBTAIN;
+			ByteBufOutputStream bos = new ByteBufOutputStream(Unpooled.buffer());
+			DataOutputStream outputStream = new DataOutputStream(bos);
+			outputStream.writeInt(pktType);
+			outputStream.writeUTF(b.skill.skillName);
+			FMLProxyPacket packet = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
+			AoV.channel.sendToServer(packet);
+			System.out.println("Sent Server Packet");
+			outputStream.close();
+			bos.close();
+		}
+		return true;
 	}
 	
 	@Override
@@ -114,13 +121,7 @@ public class AoVSkillsGUI extends GuiScreen {
 			for(GuiButton button : buttonList){
 				if(!(button instanceof SkillButton)) continue;
 				SkillButton sb = (SkillButton) button;
-				System.out.println(sb.skill.skillName+" : "+spooler.containsKey(sb.skill.skillName));
-				System.out.println(spooler.keySet());
-				if(spooler.containsKey(sb.skill.skillName)){
-					sb.enabled = !spooler.get(sb.skill.skillName);
-					sb.isObtained = !sb.enabled;
-					spooler.remove(sb.skill.skillName);
-				}
+				sb.updateVar();
 			}
 			doRefresh = false;
 		}
