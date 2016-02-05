@@ -6,13 +6,14 @@ import io.netty.buffer.Unpooled;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import Tamaized.AoV.AoV;
-import Tamaized.AoV.common.handlers.ServerPacketHandler;
-import Tamaized.AoV.gui.GuiHandler;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
+import Tamaized.AoV.AoV;
+import Tamaized.AoV.common.handlers.ServerPacketHandler;
+import Tamaized.AoV.core.AoVData;
+import Tamaized.AoV.gui.GuiHandler;
 
 public class ResetSkillsGUI extends GuiScreen {
 
@@ -40,6 +41,7 @@ public class ResetSkillsGUI extends GuiScreen {
 	@Override
 	protected void actionPerformed(GuiButton button) throws IOException{
 		if (button.enabled){
+			AoVData data = AoV.clientAoVCore.getPlayer(null);
 			switch(button.id){
 				case BUTTON_CLOSE:
 					mc.displayGuiScreen((GuiScreen)null);
@@ -48,10 +50,10 @@ public class ResetSkillsGUI extends GuiScreen {
 					GuiHandler.openGUI(GuiHandler.GUI_SKILLS);
 					break;
 				case BUTTON_RESET_MINOR:
-					this.sendPacket(ServerPacketHandler.TYPE_RESETSKILLS_MINOR);
+					if(data.hasSkillsBesidesCore()) this.sendPacket(ServerPacketHandler.TYPE_RESETSKILLS_MINOR);
 					break;
 				case BUTTON_RESET_FULL:
-					this.sendPacket(ServerPacketHandler.TYPE_RESETSKILLS_FULL);
+					if(data.getCoreSkill() != null) this.sendPacket(ServerPacketHandler.TYPE_RESETSKILLS_FULL);
 					break;
 				default:
 					break;

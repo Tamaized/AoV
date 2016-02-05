@@ -108,6 +108,10 @@ public class AoVData {
 		return obtainedCore;
 	}
 	
+	public boolean hasSkillsBesidesCore(){
+		return obtainedSkills.size() > 1;
+	}
+	
 	public boolean removeSkill(AoVSkill skill){
 		if(obtainedSkills.contains(skill)){
 			obtainedSkills.remove(skill);
