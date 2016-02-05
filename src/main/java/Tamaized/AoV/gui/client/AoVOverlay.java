@@ -23,11 +23,11 @@ public class AoVOverlay extends Gui{
 		if(AoV.clientAoVCore == null) return;
 		AoVCore core = AoV.clientAoVCore;
 		AoVData data = core.getPlayer(null);
-		if(data != null){
+		if(data != null && data.getMaxDivinePower() > 0){
 			FontRenderer fontRender = mc.fontRendererObj;
 			
-			this.drawString(fontRender, "Divine", 5, 40, 0xAAFFFFFF);
-			this.drawString(fontRender, "Power", 5, 50, 0xAAFFFFFF);
+			this.drawString(fontRender, "Divine", 5, 40, 0xFFFFFFFF);
+			this.drawString(fontRender, "Power", 5, 50, 0xFFFFFFFF);
 			
 			{
 				int x = 5;
@@ -43,8 +43,12 @@ public class AoVOverlay extends Gui{
 				int y = 62;
 				int w = 21;
 				int h = 76;
-			
-				this.drawRect(x, y, x+w, y+h, 0x77FFFFFF);
+				float perc = (float)data.getCurrentDivinePower()/(float)data.getMaxDivinePower();
+				int var = Math.round(h*perc);
+				y = y + (h - var);
+				h = var;
+				
+				this.drawRect(x, y, x+w, y+h, 0xDDFFFFFF);
 			}
 
 			fontRender.drawString(String.valueOf(data.getCurrentDivinePower()), 9, 85, 0x000000);

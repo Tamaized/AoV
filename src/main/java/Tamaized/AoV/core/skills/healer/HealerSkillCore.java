@@ -13,7 +13,10 @@ public class HealerSkillCore extends AoVSkill{
 				ChatFormatting.RED+"prevents you from taking",
 				ChatFormatting.RED+"skills from any other class!",
 				"",
-				ChatFormatting.GREEN+"+10 Divine Power");
+				ChatFormatting.GREEN+"+10 Divine Power",
+				"",
+				ChatFormatting.YELLOW+"Added Spell: Cure Light Wounds"
+				);
 	}
 
 	@Override

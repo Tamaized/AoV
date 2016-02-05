@@ -36,7 +36,17 @@ public class AoVSkillsGUI extends GuiScreen {
 	
 	@Override
 	public void initGui(){
-		buttonList.add(new GuiButton(BUTTON_CLOSE, (width/2)-50, height-25, 100, 20, "Close"));
+		int margin = 20;
+		int padding = 100;
+		float workW = width-padding;
+		int loc1 = (int) (workW*.0) + margin*1;
+		int loc2 = (int) (workW*.25) + margin*2;
+		int loc3 = (int) (workW*.50) + margin*3;
+		int loc4 = (int) (workW*.75) + margin*4;
+		buttonList.add(new GuiButton(BUTTON_CLOSE, loc1, height-25, 80, 20, "Full Reset"));
+		buttonList.add(new GuiButton(BUTTON_CLOSE, loc2, height-25, 80, 20, "Minor Reset"));
+		buttonList.add(new GuiButton(BUTTON_CLOSE, loc3, height-25, 80, 20, "Spell Book"));
+		buttonList.add(new GuiButton(BUTTON_CLOSE, loc4, height-25, 80, 20, "Close"));
 		if(AoV.clientAoVCore != null){
 			buttonList.add(new SkillButton(BUTTON_SKILL_CHECK, (width/2), height/2, "HealerSkillCore"));	
 		}else{

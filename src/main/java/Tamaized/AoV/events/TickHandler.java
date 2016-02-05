@@ -11,6 +11,7 @@ public class TickHandler {
 	
 	@SubscribeEvent
 	public void WorldTick(WorldTickEvent e){
+		if(e.phase == e.phase.START) return;
 		World world = e.world;
 		if(world.isRemote){
 			if(AoV.clientAoVCore == null) AoV.clientAoVCore = new AoVCoreClient();

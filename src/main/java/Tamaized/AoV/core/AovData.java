@@ -69,9 +69,10 @@ public class AoVData {
 		last_currPower = currPower;
 		last_maxPower = maxPower;
 		
-		if(tick % 20 == 0){
+		if(tick % 60 == 0){
 			if(currPower < maxPower) currPower++;
 		}
+		tick++;
 	}
 	
 	public void setObtainedSkills(Object... skill){
