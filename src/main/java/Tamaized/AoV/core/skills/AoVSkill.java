@@ -46,10 +46,16 @@ public abstract class AoVSkill {
 	
 	public class Buffs{
 		
-		public final int DivinePower;
+		public final int divinePower;
+		public final int spellPower;
+		public final float costReductionPerc;
+		public final int costReductionFlat;
 		
-		public Buffs(int divinePower){
-			DivinePower = divinePower;
+		public Buffs(int dP, int sP, float crP, int crF){
+			divinePower = dP;
+			spellPower = sP;
+			costReductionPerc = crP;
+			costReductionFlat = crF;
 		}
 		
 	}

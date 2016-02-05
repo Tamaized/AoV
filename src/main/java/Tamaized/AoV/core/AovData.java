@@ -17,6 +17,11 @@ public class AoVData {
 	private int currPower = 0;
 	private int maxPower = 0;
 	
+	//This is handled Locally, no packets need to be sent.
+	private int spellPower = 0;
+	private float costReductionPerc = 0;
+	private int costReductionFlat = 0;
+	
 	//Local variables for ServerSide
 	private int last_exp;
 	private int last_currPower;
@@ -57,8 +62,15 @@ public class AoVData {
 	
 	public void updateVariables(){
 		maxPower = 0;
+		costReductionPerc = 0;
+		costReductionFlat = 0;
+		
 		for(AoVSkill skill : obtainedSkills){
-			maxPower+=skill.getBuffs().DivinePower;
+			AoVSkill.Buffs buffs = skill.getBuffs();
+			maxPower += buffs.divinePower;
+			spellPower += buffs.spellPower;
+			costReductionPerc += buffs.costReductionPerc;
+			costReductionFlat += buffs.costReductionFlat;
 		}
 		if(currPower > maxPower) currPower = maxPower;
 		tick = 0;

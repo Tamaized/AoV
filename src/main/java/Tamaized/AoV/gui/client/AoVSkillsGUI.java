@@ -25,6 +25,9 @@ public class AoVSkillsGUI extends GuiScreen {
 	
 	private static final int BUTTON_CLOSE = 0;
 	private static final int BUTTON_SKILL_CHECK = 1;
+	private static final int BUTTON_SPELLBOOK = 2;
+	private static final int BUTTON_RESET = 3;
+	private static final int BUTTON_CHECKSTATS = 4;
 	
 	public static Map<String, Boolean> spooler = new HashMap<String, Boolean>();
 	
@@ -43,10 +46,10 @@ public class AoVSkillsGUI extends GuiScreen {
 		int loc2 = (int) (workW*.25) + margin*2;
 		int loc3 = (int) (workW*.50) + margin*3;
 		int loc4 = (int) (workW*.75) + margin*4;
-		buttonList.add(new GuiButton(BUTTON_CLOSE, loc1, height-25, 80, 20, "Full Reset"));
-		buttonList.add(new GuiButton(BUTTON_CLOSE, loc2, height-25, 80, 20, "Minor Reset"));
-		buttonList.add(new GuiButton(BUTTON_CLOSE, loc3, height-25, 80, 20, "Spell Book"));
-		buttonList.add(new GuiButton(BUTTON_CLOSE, loc4, height-25, 80, 20, "Close"));
+		buttonList.add(new GuiButton(BUTTON_CLOSE, loc1, height-25, 80, 20, "Close"));
+		buttonList.add(new GuiButton(BUTTON_SPELLBOOK, loc2, height-25, 80, 20, "Spell Book"));
+		buttonList.add(new GuiButton(BUTTON_CHECKSTATS, loc3, height-25, 80, 20, "Check Stats"));
+		buttonList.add(new GuiButton(BUTTON_RESET, loc4, height-25, 80, 20, "Reset Skills"));
 		if(AoV.clientAoVCore != null){
 			buttonList.add(new SkillButton(BUTTON_SKILL_CHECK, (width/2), height/2, "HealerSkillCore"));	
 		}else{
@@ -80,6 +83,14 @@ public class AoVSkillsGUI extends GuiScreen {
 					}
 					outputStream.close();
 	 				bos.close();
+					break;
+				case BUTTON_SPELLBOOK:
+					GuiHandler.openGUI(GuiHandler.GUI_SPELLBOOK);
+					break;
+				case BUTTON_RESET:
+					GuiHandler.openGUI(GuiHandler.GUI_RESET);
+					break;
+				case BUTTON_CHECKSTATS:
 					break;
 				default:
 					break;
