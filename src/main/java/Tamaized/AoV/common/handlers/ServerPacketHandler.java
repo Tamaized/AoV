@@ -25,6 +25,8 @@ public class ServerPacketHandler {
 	public static final int TYPE_SKILLEDIT_CHECK_CANOBTAIN = 0;
 	public static final int TYPE_RESETSKILLS_FULL = 1;
 	public static final int TYPE_RESETSKILLS_MINOR = 2;
+	public static final int TYPE_SPELLCAST_SELF = 3;
+	public static final int TYPE_SPELLCAST_TARGET = 4;
 	
 	@SubscribeEvent
 	public void onServerPacket(ServerCustomPacketEvent event) {
@@ -78,6 +80,18 @@ public class ServerPacketHandler {
 					break;
 					
 				case TYPE_RESETSKILLS_MINOR:
+				{
+					
+				}
+					break;
+					
+				case TYPE_SPELLCAST_SELF:
+				{
+					
+				}
+					break;
+					
+				case TYPE_SPELLCAST_TARGET:
 				{
 					
 				}

@@ -153,6 +153,18 @@ public class AoVData {
 		return skillPoints;
 	}
 	
+	public int getSpellPower(){
+		return spellPower;
+	}
+	
+	public float getCostReductionPerc(){
+		return costReductionPerc;
+	}
+	
+	public int getCostReductionFlat(){
+		return costReductionFlat;
+	}
+	
 	public void setCurrentDivinePower(int i){
 		currPower = i;
 	}

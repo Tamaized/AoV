@@ -20,6 +20,7 @@ import org.apache.logging.log4j.Logger;
 import Tamaized.AoV.common.handlers.ServerPacketHandler;
 import Tamaized.AoV.common.server.CommonProxy;
 import Tamaized.AoV.core.AoVCore;
+import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.skills.AoVSkill;
 import Tamaized.AoV.events.PlayerJoinLeaveEvent;
 import Tamaized.AoV.events.TickHandler;
@@ -126,6 +127,7 @@ public class AoV {
 		channel.register(new ServerPacketHandler());
 		
 		AoVSkill.registerSkills();
+		AbilityBase.register();
 		
 		proxy.registerNetwork();
 		proxy.registerRenders();
