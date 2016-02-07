@@ -153,8 +153,8 @@ public class AoVData {
 		return skillPoints;
 	}
 	
-	public int getSpellPower(){
-		return spellPower;
+	public float getSpellPower(){
+		return (float) spellPower;
 	}
 	
 	public float getCostReductionPerc(){

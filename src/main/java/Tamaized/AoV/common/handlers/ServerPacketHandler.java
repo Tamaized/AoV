@@ -18,6 +18,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.AoVCore;
 import Tamaized.AoV.core.AoVData;
+import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.skills.AoVSkill;
 
 public class ServerPacketHandler {
@@ -87,7 +88,11 @@ public class ServerPacketHandler {
 					
 				case TYPE_SPELLCAST_SELF:
 				{
-					
+					AoVCore core = AoV.serverAoVCore;
+					AoVData data = core.getPlayer(player);
+					AbilityBase spell = AbilityBase.fromName(bbis.readUTF());
+					if(spell == null) break;
+					spell.activate(player, data, null);
 				}
 					break;
 					
