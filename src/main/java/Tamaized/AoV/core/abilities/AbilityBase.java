@@ -40,14 +40,12 @@ public abstract class AbilityBase {
 	
 	protected abstract void doAction(EntityPlayer player, AoVData data, Entity e);
 	
-	public abstract String getName();
-	
 	public static void register(){
 		map = new HashMap<String, AbilityBase>();
 		AbilityBase a;
 		
 		a = new CureLightWounds(4, 2);
-		map.put(a.getName(), a);
+		map.put(CureLightWounds.getName(), a);
 		
 		a = null;
 	}

@@ -8,15 +8,21 @@ import Tamaized.AoV.AoV;
 import Tamaized.AoV.common.handlers.ClientPacketHandler;
 import Tamaized.AoV.common.server.CommonProxy;
 import Tamaized.AoV.gui.client.AoVOverlay;
+import Tamaized.AoV.gui.client.AoVUIBar;
 import Tamaized.AoV.registry.RegistryBase;
 
 public class ClientProxy extends CommonProxy {
 	
 	@SideOnly(Side.CLIENT)
 	public static Minecraft mc = Minecraft.getMinecraft();
+	
+	@SideOnly(Side.CLIENT)
+	public static AoVUIBar bar;
 
 	@Override
 	public void registerRenders(){
+		
+		bar = new AoVUIBar();
 	
 		//Events
 		MinecraftForge.EVENT_BUS.register(new AoVOverlay());

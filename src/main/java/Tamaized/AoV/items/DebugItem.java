@@ -30,8 +30,8 @@ public class DebugItem extends Item implements IBasicAoV{
 	}
 	
 	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ){
-		//FMLNetworkHandler.openGui(playerIn, AoV.instance, GuiHandler.GUI_SKILLS, worldIn, pos.getX(), pos.getY(), pos.getZ());
-		if(worldIn.isRemote) AbilityBase.fromName("Cure Light Wounds").activate(playerIn, AoV.clientAoVCore.getPlayer(playerIn), null);
+		FMLNetworkHandler.openGui(playerIn, AoV.instance, GuiHandler.GUI_SKILLS, worldIn, pos.getX(), pos.getY(), pos.getZ());
+		//if(worldIn.isRemote) AbilityBase.fromName(CureLightWounds.getName()).activate(playerIn, AoV.clientAoVCore.getPlayer(playerIn), null);
         return true;
     }
 

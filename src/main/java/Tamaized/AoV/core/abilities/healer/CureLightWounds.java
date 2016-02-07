@@ -33,8 +33,7 @@ public class CureLightWounds extends AbilityBase {
 		}
 	}
 
-	@Override
-	public String getName() {
+	public static String getName() {
 		return "Cure Light Wounds";
 	}
 

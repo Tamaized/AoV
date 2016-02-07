@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import Tamaized.AoV.AoV;
+import Tamaized.AoV.common.client.ClientProxy;
 import Tamaized.AoV.core.AoVCore;
 import Tamaized.AoV.core.AoVData;
 
@@ -62,6 +63,8 @@ public class AoVOverlay extends Gui{
 			}
 			fontRender.drawString(String.valueOf(data.getMaxDivinePower()), 9, 98, 0x000000);
 		}
+		
+		ClientProxy.bar.render(this, e.partialTicks);
 	}
 
 }
