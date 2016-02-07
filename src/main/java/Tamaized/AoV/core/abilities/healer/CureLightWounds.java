@@ -5,6 +5,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.ResourceLocation;
+import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.AoVData;
 import Tamaized.AoV.core.abilities.AbilityBase;
 
@@ -35,6 +37,11 @@ public class CureLightWounds extends AbilityBase {
 
 	public static String getName() {
 		return "Cure Light Wounds";
+	}
+
+	@Override
+	public ResourceLocation getIcon() {
+		return new ResourceLocation(AoV.modid+":textures/spells/test.png");
 	}
 
 }

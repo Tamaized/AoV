@@ -11,9 +11,9 @@ import java.util.Map;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 import Tamaized.AoV.AoV;
-import Tamaized.AoV.common.handlers.ClientPacketHandler;
 import Tamaized.AoV.common.handlers.ServerPacketHandler;
 import Tamaized.AoV.core.AoVData;
 import Tamaized.AoV.core.abilities.healer.CureLightWounds;
@@ -49,6 +49,8 @@ public abstract class AbilityBase {
 		
 		a = null;
 	}
+	
+	public abstract ResourceLocation getIcon();
 	
 	public static AbilityBase fromName(String n){
 		return map.get(n);
