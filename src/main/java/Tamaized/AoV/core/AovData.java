@@ -81,7 +81,7 @@ public class AoVData {
 		last_currPower = currPower;
 		last_maxPower = maxPower;
 		
-		if(tick % 60 == 0){
+		if(tick % (60*3) == 0){
 			if(currPower < maxPower) currPower++;
 		}
 		tick++;

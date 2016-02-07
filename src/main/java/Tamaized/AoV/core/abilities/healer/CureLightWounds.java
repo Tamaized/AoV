@@ -24,7 +24,7 @@ public class CureLightWounds extends AbilityBase {
 				sendPacketTypeSelf(getName());
 			}
 		}else{
-			int a = (int) (8*(1f+(data.getSpellPower()/100f)));
+			int a = (int) (4*(1f+(data.getSpellPower()/100f)));
 			if(e == null){
 				player.heal(a);
 			}else{
