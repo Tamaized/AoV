@@ -1,4 +1,4 @@
-package Tamaized.AoV.gui;
+package Tamaized.AoV.gui.buttons;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;

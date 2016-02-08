@@ -14,7 +14,7 @@ import Tamaized.AoV.AoV;
 import Tamaized.AoV.common.handlers.ServerPacketHandler;
 import Tamaized.AoV.core.AoVData;
 import Tamaized.AoV.gui.GuiHandler;
-import Tamaized.AoV.gui.SkillButton;
+import Tamaized.AoV.gui.buttons.SkillButton;
 
 public class AoVSkillsGUI extends GuiScreen {
 	
