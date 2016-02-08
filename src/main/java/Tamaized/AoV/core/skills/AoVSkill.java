@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.skills.healer.HealerSkillCore;
 
 public abstract class AoVSkill {
@@ -17,9 +18,11 @@ public abstract class AoVSkill {
 	public final int pointCost;
 	protected Buffs buffs;
 	
+	public final List<String> abilities;
+	
 	public final List<String> description;
 	
-	public AoVSkill(String name, AoVSkill p, int cost, boolean core, String... desc){
+	public AoVSkill(String name, AoVSkill p, int cost, boolean core, AbilityBase[] spells, String... desc){
 		skillName = name;
 		parent = p;
 		pointCost = cost;
@@ -27,6 +30,8 @@ public abstract class AoVSkill {
 		setupBuffs();
 		description = new ArrayList<String>();
 		for(String s : desc) description.add(s);
+		abilities = new ArrayList<String>();
+		for(AbilityBase spell : spells) abilities.add(spell.getName());
 		registry.put(name, this);
 	}
 	

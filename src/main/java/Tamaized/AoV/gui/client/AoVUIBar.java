@@ -17,7 +17,7 @@ import Tamaized.AoV.core.abilities.AbilityBase;
 
 public class AoVUIBar {
 	
-    private static final ResourceLocation widgetsTexPath = new ResourceLocation("textures/gui/widgets.png");
+    public static final ResourceLocation widgetsTexPath = new ResourceLocation("textures/gui/widgets.png");
     private Minecraft mc;
     
     public int slotLoc = 0;
@@ -40,6 +40,41 @@ public class AoVUIBar {
 		return slots[slot];
 	}
 	
+	public AbilityBase getCurrentSlot(){
+		return slots[slotLoc];
+	}
+	
+	public boolean contains(AbilityBase spell){
+		for(AbilityBase ab : slots){
+			if(ab == spell) return true;
+		}
+		return false;
+	}
+	
+	public void addToNearestSlot(AbilityBase spell){
+		if(contains(spell)) return;
+		for(int i=0; i<9; i++){
+			if(slots[i] == null){
+				slots[i] = spell;
+				break;
+			}
+		}
+	}
+	
+	public void addToSlot(int i, AbilityBase spell){
+		slots[i] = spell;
+	}
+	
+	public void removeSlot(int i){
+		slots[i] = null;
+	}
+	
+	public void clearAllSlots(){
+		for(int i=0; i<9; i++){
+			slots[i] = null;
+		}
+	}
+	
 	public void render(Gui gui, float partialTicks){
 		ScaledResolution sr = new ScaledResolution(mc);
 		float alpha = 0.2f;
@@ -54,22 +89,24 @@ public class AoVUIBar {
         GlStateManager.enableBlend();
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         RenderHelper.enableGUIStandardItemLighting();
-
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(0.01f, 0, 0);
         for (int j = 0; j < 9; ++j)
         {
         	if(slots[j] == null) continue;
-            int k = sr.getScaledWidth() / 2 - 90 + j * 20 + 2;
+            int k = sr.getScaledWidth() / 2 - 90 + 2;
             int l = -8;//sr.getScaledHeight() - 16 - 3;
 			GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);	
             renderHotbarSpell(gui, j, k, l, partialTicks, slots[j]);
+			GlStateManager.translate(20.01f, 0, 0);
         }
-
+        GlStateManager.popMatrix();
         RenderHelper.disableStandardItemLighting();
         GlStateManager.disableRescaleNormal();
         GlStateManager.disableBlend();
 	}
 	
-	private void renderHotbarSpell(Gui gui, int index, int xPos, int yPos, float partialTicks, AbilityBase spell){
+	public static void renderHotbarSpell(Gui gui, int index, int xPos, int yPos, float partialTicks, AbilityBase spell){
 		if(spell != null){
 			GlStateManager.pushMatrix();
 			float f1 = 1.0F / 16.0F;
@@ -92,12 +129,12 @@ public class AoVUIBar {
 			GlStateManager.popMatrix();
 			
 			GlStateManager.popMatrix();
-			gui.drawCenteredString(mc.fontRendererObj, ""+spell, 200, 100, 0xFFFFFFFF);
+			//gui.drawCenteredString(Minecraft.getMinecraft().fontRendererObj, ""+spell, 200, 100, 0xFFFFFFFF);
 		}
 	}
 	
-	private void renderSpell(Gui gui, AbilityBase spell){
-		mc.getTextureManager().bindTexture(spell.getIcon());
+	private static void renderSpell(Gui gui, AbilityBase spell){
+		Minecraft.getMinecraft().getTextureManager().bindTexture(spell.getIcon());
         gui.drawTexturedModalRect(0, 0, 0, 0, 256, 256);
 	}
 }

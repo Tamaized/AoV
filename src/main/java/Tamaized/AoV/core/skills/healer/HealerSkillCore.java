@@ -1,5 +1,7 @@
 package Tamaized.AoV.core.skills.healer;
 
+import Tamaized.AoV.core.abilities.AbilityBase;
+import Tamaized.AoV.core.abilities.healer.CureLightWounds;
 import Tamaized.AoV.core.skills.AoVSkill;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
@@ -7,7 +9,10 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 public class HealerSkillCore extends AoVSkill{
 
 	public HealerSkillCore() {
-		super("HealerSkillCore", null, 1, true, 
+		super("HealerSkillCore", null, 1, true,
+				new AbilityBase[]{
+					AbilityBase.fromName(CureLightWounds.getStaticName())
+				},
 				ChatFormatting.AQUA+"Class Core: Healer",
 				ChatFormatting.RED+"Obtaining this Skill", 
 				ChatFormatting.RED+"prevents you from taking",

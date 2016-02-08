@@ -108,6 +108,10 @@ public class AoVData {
 		return obtainedCore;
 	}
 	
+	public ArrayList<AoVSkill> getAllObtainedSkills(){
+		return obtainedSkills;
+	}
+	
 	public boolean hasSkillsBesidesCore(){
 		return obtainedSkills.size() > 1;
 	}

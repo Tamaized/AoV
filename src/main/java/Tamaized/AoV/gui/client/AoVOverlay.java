@@ -3,16 +3,14 @@ package Tamaized.AoV.gui.client;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.common.client.ClientProxy;
 import Tamaized.AoV.core.AoVCore;
 import Tamaized.AoV.core.AoVData;
+import Tamaized.AoV.core.abilities.AbilityBase;
 
 public class AoVOverlay extends Gui{
 	
@@ -24,11 +22,22 @@ public class AoVOverlay extends Gui{
 		if(AoV.clientAoVCore == null) return;
 		AoVCore core = AoV.clientAoVCore;
 		AoVData data = core.getPlayer(null);
+		
+		ClientProxy.bar.render(this, e.partialTicks);
+		
 		if(data != null && data.getMaxDivinePower() > 0){
 			FontRenderer fontRender = mc.fontRendererObj;
 			
-			this.drawString(fontRender, "Divine", 5, 40, 0xFFFFFFFF);
-			this.drawString(fontRender, "Power", 5, 50, 0xFFFFFFFF);
+			int cT = 0xFFFFFFFF;
+			int cB = 0xDDFFFFFF;
+			AbilityBase spell = ClientProxy.bar.getCurrentSlot();
+			if(spell != null && spell.cost > data.getCurrentDivinePower()){
+				cT = 0xFFFF0000;
+				cB = 0xDDFF0000;
+			}
+			
+			this.drawString(fontRender, "Divine", 5, 40, cT);
+			this.drawString(fontRender, "Power", 5, 50, cT);
 			
 			{
 				int x = 5;
@@ -49,7 +58,7 @@ public class AoVOverlay extends Gui{
 				y = y + (h - var);
 				h = var;
 				
-				this.drawRect(x, y, x+w, y+h, 0xDDFFFFFF);
+				this.drawRect(x, y, x+w, y+h, cB);
 			}
 
 			fontRender.drawString(String.valueOf(data.getCurrentDivinePower()), 9, 85, 0x000000);
@@ -62,9 +71,8 @@ public class AoVOverlay extends Gui{
 				this.drawRect(x, y, x+w, y+h, 0xFF000000);
 			}
 			fontRender.drawString(String.valueOf(data.getMaxDivinePower()), 9, 98, 0x000000);
+			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0f);
 		}
-		
-		ClientProxy.bar.render(this, e.partialTicks);
 	}
 
 }

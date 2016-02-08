@@ -5,10 +5,12 @@ import io.netty.buffer.Unpooled;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
@@ -25,12 +27,16 @@ public abstract class AbilityBase {
 	public final int cost;
 	public final double maxDistance;
 	
-	public AbilityBase(int c, double d){
+	public final List<String> description;
+	
+	public AbilityBase(int c, double d, String... desc){
 		cost = c;
 		maxDistance = d;
+		description = new ArrayList<String>();
+		for(String s : desc) description.add(s);
 	}
 	
-	public void activate(EntityPlayer player, AoVData data, Entity e){
+	public void activate(EntityPlayer player, AoVData data, EntityLivingBase e){
 		int trueCost = (int) ((float) cost*(1f+data.getCostReductionPerc())) - data.getCostReductionFlat();
 		if(trueCost <= data.getCurrentDivinePower()){
 			data.setCurrentDivinePower(data.getCurrentDivinePower()-trueCost);
@@ -38,26 +44,38 @@ public abstract class AbilityBase {
 		}
 	}
 	
-	protected abstract void doAction(EntityPlayer player, AoVData data, Entity e);
+	protected abstract void doAction(EntityPlayer player, AoVData data, EntityLivingBase e);
 	
 	public static void register(){
 		map = new HashMap<String, AbilityBase>();
 		AbilityBase a;
 		
 		a = new CureLightWounds(4, 2);
-		map.put(CureLightWounds.getName(), a);
+		map.put(a.getName(), a);
 		
 		a = null;
 	}
 	
 	public abstract ResourceLocation getIcon();
 	
+	public abstract String getName();
 	public static AbilityBase fromName(String n){
 		return map.get(n);
 	}
 	
 	protected static void sendPacketTypeTarget(String abilityName, int entityID){
-		
+		ByteBufOutputStream bos = new ByteBufOutputStream(Unpooled.buffer());
+		DataOutputStream outputStream = new DataOutputStream(bos);
+		try {
+			outputStream.writeInt(ServerPacketHandler.TYPE_SPELLCAST_TARGET);
+			outputStream.writeUTF(abilityName);
+			outputStream.writeInt(entityID);
+			FMLProxyPacket pkt = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
+			if(AoV.channel != null && pkt != null) AoV.channel.sendToServer(pkt);
+			bos.close();
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	protected static void sendPacketTypeSelf(String abilityName){

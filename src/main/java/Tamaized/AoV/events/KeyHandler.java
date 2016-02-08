@@ -15,37 +15,35 @@ import Tamaized.AoV.core.abilities.AbilityBase;
 public class KeyHandler {
 	
 	@SubscribeEvent
-    public void onKeyInput(InputEvent.KeyInputEvent event) {
+	public void onKeyInput(InputEvent.KeyInputEvent event) {
 		if(ClientProxy.key.isPressed()) ClientProxy.barToggle = !ClientProxy.barToggle;
-    }
+	}
 	
 	@SubscribeEvent
 	public void handleMouse(MouseEvent e){
 		if(!ClientProxy.barToggle) return;
-        
-        if(e.dwheel > 0) ClientProxy.bar.slotLoc--;
-        if(e.dwheel < 0) ClientProxy.bar.slotLoc++;
-        if(ClientProxy.bar.slotLoc < 0) ClientProxy.bar.slotLoc = 8;
-        if(ClientProxy.bar.slotLoc > 8) ClientProxy.bar.slotLoc = 0;
-        
-        if(e.button != 0){
-        	e.setCanceled(true);    		
-            KeyBinding.setKeyBindState(e.button - 100, false);
-        }
-        if(e.button == 1){
-        	AbilityBase spell = ClientProxy.bar.getSlot(ClientProxy.bar.slotLoc);
-        	if(spell != null){
-        		if(e.buttonstate){
-        			MovingObjectPosition obj = Minecraft.getMinecraft().objectMouseOver;
-        			EntityLivingBase entity = null;
-        			if(obj != null && obj.entityHit != null && obj.entityHit instanceof EntityLivingBase) entity = (EntityLivingBase) obj.entityHit;
-                	spell.activate(Minecraft.getMinecraft().thePlayer, AoV.clientAoVCore.getPlayer(null), entity);
-            	}else{
-                	//System.out.println(e.buttonstate);
-            	}
-        	}
-        }
-        
+		
+		if(e.dwheel > 0) ClientProxy.bar.slotLoc--;
+		if(e.dwheel < 0) ClientProxy.bar.slotLoc++;
+		if(ClientProxy.bar.slotLoc < 0) ClientProxy.bar.slotLoc = 8;
+		if(ClientProxy.bar.slotLoc > 8) ClientProxy.bar.slotLoc = 0;
+		
+		if(e.button != 0){
+			e.setCanceled(true);    		
+  	     	KeyBinding.setKeyBindState(e.button - 100, false);
+		}
+		if(e.button == 1){
+			AbilityBase spell = ClientProxy.bar.getCurrentSlot();
+			if(spell != null){
+				if(e.buttonstate){
+					MovingObjectPosition obj = Minecraft.getMinecraft().objectMouseOver;
+					EntityLivingBase entity = null;
+					if(obj != null && obj.entityHit != null && obj.entityHit instanceof EntityLivingBase) entity = (EntityLivingBase) obj.entityHit;
+					spell.activate(Minecraft.getMinecraft().thePlayer, AoV.clientAoVCore.getPlayer(null), entity);
+				}else{
+					//System.out.println(e.buttonstate);
+				}
+			}
+		}
 	}
-
 }

@@ -127,9 +127,9 @@ public class AoV {
 		for(RegistryBase reg : registry) reg.postInit();
 		
 		channel.register(new ServerPacketHandler());
-		
-		AoVSkill.registerSkills();
+
 		AbilityBase.register();
+		AoVSkill.registerSkills();
 		
 		proxy.registerKeyBinds();
 		proxy.registerNetwork();

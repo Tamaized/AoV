@@ -8,6 +8,8 @@ import io.netty.buffer.Unpooled;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.network.PacketBuffer;
@@ -98,7 +100,12 @@ public class ServerPacketHandler {
 					
 				case TYPE_SPELLCAST_TARGET:
 				{
-					
+					AoVCore core = AoV.serverAoVCore;
+					AoVData data = core.getPlayer(player);
+					AbilityBase spell = AbilityBase.fromName(bbis.readUTF());
+					Entity entity = player.worldObj.getEntityByID(bbis.readInt());
+					if(spell == null || !(entity instanceof EntityLivingBase)) break;
+					spell.activate(player, data, (EntityLivingBase) entity);
 				}
 					break;
 					

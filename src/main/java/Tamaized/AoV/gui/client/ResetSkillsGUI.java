@@ -11,6 +11,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 import Tamaized.AoV.AoV;
+import Tamaized.AoV.common.client.ClientProxy;
 import Tamaized.AoV.common.handlers.ServerPacketHandler;
 import Tamaized.AoV.core.AoVData;
 import Tamaized.AoV.gui.GuiHandler;
@@ -50,9 +51,11 @@ public class ResetSkillsGUI extends GuiScreen {
 					GuiHandler.openGUI(GuiHandler.GUI_SKILLS);
 					break;
 				case BUTTON_RESET_MINOR:
+					ClientProxy.bar.clearAllSlots();
 					if(data.hasSkillsBesidesCore()) this.sendPacket(ServerPacketHandler.TYPE_RESETSKILLS_MINOR);
 					break;
 				case BUTTON_RESET_FULL:
+					ClientProxy.bar.clearAllSlots();
 					if(data.getCoreSkill() != null) this.sendPacket(ServerPacketHandler.TYPE_RESETSKILLS_FULL);
 					break;
 				default:
