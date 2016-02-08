@@ -2,7 +2,9 @@ package Tamaized.AoV;
 
 import java.util.ArrayList;
 
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -129,6 +131,7 @@ public class AoV {
 		AoVSkill.registerSkills();
 		AbilityBase.register();
 		
+		proxy.registerKeyBinds();
 		proxy.registerNetwork();
 		proxy.registerRenders();
 		proxy.registerBlocks();

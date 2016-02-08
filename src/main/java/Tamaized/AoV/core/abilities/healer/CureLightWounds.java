@@ -18,10 +18,10 @@ public class CureLightWounds extends AbilityBase {
 
 	@Override
 	protected void doAction(EntityPlayer player, AoVData data, Entity e) {
+    	System.out.println("test");
 		if(player.worldObj.isRemote){
-			MovingObjectPosition obj = Minecraft.getMinecraft().objectMouseOver;
-			if(obj != null && obj.entityHit != null){
-				sendPacketTypeTarget(getName(), obj.entityHit.getEntityId());
+			if(e != null){
+				sendPacketTypeTarget(getName(), e.getEntityId());
 			}else{
 				sendPacketTypeSelf(getName());
 			}

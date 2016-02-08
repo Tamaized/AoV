@@ -26,4 +26,6 @@ public class CommonProxy {
 		
 	}
 
+	public void registerKeyBinds() {}
+
 }

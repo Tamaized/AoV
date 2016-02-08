@@ -1,12 +1,17 @@
 package Tamaized.AoV.common.client;
 
+import net.java.games.input.Keyboard;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.common.handlers.ClientPacketHandler;
 import Tamaized.AoV.common.server.CommonProxy;
+import Tamaized.AoV.events.KeyHandler;
+import Tamaized.AoV.events.TickHandler;
 import Tamaized.AoV.gui.client.AoVOverlay;
 import Tamaized.AoV.gui.client.AoVUIBar;
 import Tamaized.AoV.registry.RegistryBase;
@@ -18,6 +23,9 @@ public class ClientProxy extends CommonProxy {
 	
 	@SideOnly(Side.CLIENT)
 	public static AoVUIBar bar;
+	
+	public static KeyBinding key;
+	public static boolean barToggle = false;
 
 	@Override
 	public void registerRenders(){
@@ -41,6 +49,13 @@ public class ClientProxy extends CommonProxy {
 		//RenderHeimdall renderHeimdall = new RenderHeimdall();
 		//ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHeimdall.class, renderHeimdall);
 		//MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(voidCraft.blocks.Heimdall), new ItemRenderHeimdall(renderHeimdall, new TileEntityHeimdall()));
+	}
+	
+	@Override
+	public void registerKeyBinds(){
+		key = new KeyBinding("key.aovbar", org.lwjgl.input.Keyboard.KEY_LMENU, "key.categories.aov");
+		ClientRegistry.registerKeyBinding(key);
+		MinecraftForge.EVENT_BUS.register(new KeyHandler());
 	}
 	
 	@Override

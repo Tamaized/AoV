@@ -12,12 +12,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import Tamaized.AoV.AoV;
+import Tamaized.AoV.common.client.ClientProxy;
 import Tamaized.AoV.core.abilities.AbilityBase;
 
 public class AoVUIBar {
 	
     private static final ResourceLocation widgetsTexPath = new ResourceLocation("textures/gui/widgets.png");
     private Minecraft mc;
+    
+    public int slotLoc = 0;
 	
 	private AbilityBase[] slots = new AbilityBase[10];
 	
@@ -39,12 +42,14 @@ public class AoVUIBar {
 	
 	public void render(Gui gui, float partialTicks){
 		ScaledResolution sr = new ScaledResolution(mc);
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		float alpha = 0.2f;
+		if(ClientProxy.barToggle) alpha = 1.0f;
+		GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
         mc.getTextureManager().bindTexture(widgetsTexPath);
         EntityPlayer entityplayer = (EntityPlayer)this.mc.getRenderViewEntity();
         int i = sr.getScaledWidth() / 2;
         gui.drawTexturedModalRect(i - 91, 1, 0, 0, 182, 22);
-        gui.drawTexturedModalRect(i - 91 - 1 + /* Slot ID */0 * 20, 0, 0, 22, 24, 22);
+        gui.drawTexturedModalRect(i - 91 - 1 + slotLoc * 20, 0, 0, 22, 24, 22);
         GlStateManager.enableRescaleNormal();
         GlStateManager.enableBlend();
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
@@ -55,6 +60,7 @@ public class AoVUIBar {
         	if(slots[j] == null) continue;
             int k = sr.getScaledWidth() / 2 - 90 + j * 20 + 2;
             int l = -8;//sr.getScaledHeight() - 16 - 3;
+			GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);	
             renderHotbarSpell(gui, j, k, l, partialTicks, slots[j]);
         }
 
@@ -73,21 +79,20 @@ public class AoVUIBar {
 			
 			GlStateManager.pushMatrix();
 			GlStateManager.enableRescaleNormal();
-	        GlStateManager.enableAlpha();
-	        GlStateManager.alphaFunc(516, 0.1F);
-	        GlStateManager.enableBlend();
-	        GlStateManager.blendFunc(770, 771);
-	        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			GlStateManager.enableAlpha();
+			GlStateManager.alphaFunc(516, 0.1F);
+			GlStateManager.enableBlend();
+			GlStateManager.blendFunc(770, 771);
 
-	        renderSpell(gui, spell);
-	        
-	        GlStateManager.disableAlpha();
-	        GlStateManager.disableRescaleNormal();
-	        GlStateManager.disableLighting();
-	        GlStateManager.popMatrix();
+			renderSpell(gui, spell);
+			
+			GlStateManager.disableAlpha();
+			GlStateManager.disableRescaleNormal();
+			GlStateManager.disableLighting();
+			GlStateManager.popMatrix();
 			
 			GlStateManager.popMatrix();
-	        gui.drawCenteredString(mc.fontRendererObj, ""+spell, 200, 100, 0xFFFFFFFF);
+			gui.drawCenteredString(mc.fontRendererObj, ""+spell, 200, 100, 0xFFFFFFFF);
 		}
 	}
 	
