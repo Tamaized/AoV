@@ -91,14 +91,15 @@ public class AoVUIBar {
         RenderHelper.enableGUIStandardItemLighting();
         GlStateManager.pushMatrix();
         GlStateManager.translate(0.01f, 0, 0);
+        GlStateManager.translate(-20.01f, 0, 0);
         for (int j = 0; j < 9; ++j)
         {
+			GlStateManager.translate(20.01f, 0, 0);
         	if(slots[j] == null) continue;
             int k = sr.getScaledWidth() / 2 - 90 + 2;
-            int l = -8;//sr.getScaledHeight() - 16 - 3;
+            int l = 4;//sr.getScaledHeight() - 16 - 3;
 			GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);	
-            renderHotbarSpell(gui, j, k, l, partialTicks, slots[j]);
-			GlStateManager.translate(20.01f, 0, 0);
+            renderHotbarIcon(gui, j, k, l, partialTicks, slots[j] == null ? null : slots[j].getIcon());
         }
         GlStateManager.popMatrix();
         RenderHelper.disableStandardItemLighting();
@@ -106,13 +107,13 @@ public class AoVUIBar {
         GlStateManager.disableBlend();
 	}
 	
-	public static void renderHotbarSpell(Gui gui, int index, int xPos, int yPos, float partialTicks, AbilityBase spell){
-		if(spell != null){
+	public static void renderHotbarIcon(Gui gui, int index, int xPos, int yPos, float partialTicks, ResourceLocation icon){
+		if(icon != null){
 			GlStateManager.pushMatrix();
 			float f1 = 1.0F / 16.0F;
-			GlStateManager.translate((float)(xPos + 8), (float)(yPos + 12), 0.0F);
+			GlStateManager.translate((float)(xPos), (float)(yPos), 0.0F);
 			GlStateManager.scale(1.0F * f1, 1.0f * f1, 1.0F);
-			GlStateManager.translate((float)(-(xPos + 8)), (float)(-(yPos + 12)), 0.0F);
+			//GlStateManager.translate((float)(-(xPos + 8)), (float)(-(yPos + 12)), 0.0F);
 			
 			GlStateManager.pushMatrix();
 			GlStateManager.enableRescaleNormal();
@@ -121,7 +122,7 @@ public class AoVUIBar {
 			GlStateManager.enableBlend();
 			GlStateManager.blendFunc(770, 771);
 
-			renderSpell(gui, spell);
+			renderIcon(gui, icon);
 			
 			GlStateManager.disableAlpha();
 			GlStateManager.disableRescaleNormal();
@@ -133,8 +134,8 @@ public class AoVUIBar {
 		}
 	}
 	
-	private static void renderSpell(Gui gui, AbilityBase spell){
-		Minecraft.getMinecraft().getTextureManager().bindTexture(spell.getIcon());
+	private static void renderIcon(Gui gui, ResourceLocation icon){
+		Minecraft.getMinecraft().getTextureManager().bindTexture(icon);
         gui.drawTexturedModalRect(0, 0, 0, 0, 256, 256);
 	}
 }

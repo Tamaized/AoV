@@ -1,34 +1,37 @@
-package Tamaized.AoV.core.skills.healer;
+package Tamaized.AoV.core.skills.caster;
+
+import com.mojang.realmsclient.gui.ChatFormatting;
 
 import net.minecraft.util.ResourceLocation;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.abilities.AbilityBase;
+import Tamaized.AoV.core.abilities.caster.NimbusRay;
 import Tamaized.AoV.core.abilities.healer.CureLightWounds;
 import Tamaized.AoV.core.skills.AoVSkill;
+import Tamaized.AoV.core.skills.AoVSkill.Buffs;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
+public class CasterSkillCore extends AoVSkill {
 
-public class HealerSkillCore extends AoVSkill{
-
-	public HealerSkillCore() {
-		super("HealerSkillCore", null, 1, true,
+	public CasterSkillCore() {
+		super("CasterSkillCore", null, 1, true,
 				new AbilityBase[]{
-					AbilityBase.fromName(CureLightWounds.getStaticName())
+					AbilityBase.fromName(NimbusRay.getStaticName())
 				},
-				ChatFormatting.AQUA+"Class Core: Healer",
+				ChatFormatting.AQUA+"Class Core: Offensive Caster",
 				ChatFormatting.RED+"Obtaining this Skill", 
 				ChatFormatting.RED+"prevents you from taking",
 				ChatFormatting.RED+"skills from any other class!",
 				"",
-				ChatFormatting.GREEN+"+10 Divine Power",
+				ChatFormatting.GREEN+"+15 Divine Power",
+				ChatFormatting.GREEN+"+10 Spell Power",
 				"",
-				ChatFormatting.YELLOW+"Added Spell: Cure Light Wounds"
+				ChatFormatting.YELLOW+"Added Spell: Nimbus Ray"
 				);
 	}
 
 	@Override
 	protected void setupBuffs() {
-		buffs = new Buffs(10, 0, 0, 0);
+		buffs = new Buffs(15, 10, 0, 0);
 	}
 
 	@Override

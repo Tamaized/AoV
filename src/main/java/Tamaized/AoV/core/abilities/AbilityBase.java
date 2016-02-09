@@ -18,6 +18,7 @@ import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.common.handlers.ServerPacketHandler;
 import Tamaized.AoV.core.AoVData;
+import Tamaized.AoV.core.abilities.caster.NimbusRay;
 import Tamaized.AoV.core.abilities.healer.CureLightWounds;
 
 public abstract class AbilityBase {
@@ -50,7 +51,10 @@ public abstract class AbilityBase {
 		map = new HashMap<String, AbilityBase>();
 		AbilityBase a;
 		
-		a = new CureLightWounds(4, 2);
+		a = new CureLightWounds(4, 2, 4);
+		map.put(a.getName(), a);
+
+		a = new NimbusRay(6, 20, 4);
 		map.put(a.getName(), a);
 		
 		a = null;

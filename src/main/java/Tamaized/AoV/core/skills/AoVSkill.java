@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.util.ResourceLocation;
 import Tamaized.AoV.core.abilities.AbilityBase;
+import Tamaized.AoV.core.skills.caster.CasterSkillCore;
 import Tamaized.AoV.core.skills.healer.HealerSkillCore;
 
 public abstract class AoVSkill {
@@ -44,9 +46,12 @@ public abstract class AoVSkill {
 	public static AoVSkill getSkillFromName(String name){
 		return registry.get(name);
 	}
+
+	public abstract ResourceLocation getIcon();
 	
 	public static void registerSkills(){
 		new HealerSkillCore();
+		new CasterSkillCore();
 	}
 	
 	public class Buffs{

@@ -11,17 +11,21 @@ import Tamaized.AoV.core.AoVData;
 import Tamaized.AoV.core.abilities.AbilityBase;
 
 public class CureLightWounds extends AbilityBase{
+	
+	private int damage = 0;
 
-	public CureLightWounds(int c, double d) {
+	public CureLightWounds(int c, double d, int dmg) {
 		super(c, d,
 				ChatFormatting.YELLOW+getStaticName(),
 				"",
 				ChatFormatting.AQUA+"Cost: "+c,
 				ChatFormatting.AQUA+"Range: "+d,
+				ChatFormatting.AQUA+"Base Healing: "+dmg,
 				"",
 				ChatFormatting.DARK_PURPLE+"Heals yourself or an entity",
-				ChatFormatting.DARK_PURPLE+"if your crosshair is over the entity"
+				ChatFormatting.DARK_PURPLE+"if your crosshair is over the entity."
 				);
+		damage = dmg;
 	}
 
 	@Override
@@ -34,7 +38,7 @@ public class CureLightWounds extends AbilityBase{
 			}
 		}else{
 			System.out.println(e);
-			int a = (int) (4*(1f+(data.getSpellPower()/100f)));
+			int a = (int) (damage*(1f+(data.getSpellPower()/100f)));
 			if(e == null){
 				player.heal(a);
 			}else{

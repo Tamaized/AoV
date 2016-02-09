@@ -163,14 +163,15 @@ public class SpellBookGUI extends GuiScreen {
         RenderHelper.enableGUIStandardItemLighting();
         GlStateManager.pushMatrix();
 		GlStateManager.translate(0.01f, 0, 0);
+		GlStateManager.translate(-20.01f, 0, 0);
         for (int j = 0; j < 9; ++j)
         {
+			GlStateManager.translate(20.01f, 0, 0);
         	if(ClientProxy.bar.getSlot(j) == null) continue;
             int k = sr.getScaledWidth() / 2 - 90 + 2;
-            int l = sr.getScaledHeight() - 45;
+            int l = sr.getScaledHeight() - 47;
 			GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);	
-            AoVUIBar.renderHotbarSpell(this, j, k, l, partialTicks, ClientProxy.bar.getSlot(j));
-			GlStateManager.translate(20.01f, 0, 0);
+            AoVUIBar.renderHotbarIcon(this, j, k, l, partialTicks, ClientProxy.bar.getSlot(j) == null ? null : ClientProxy.bar.getSlot(j).getIcon());
         }
         GlStateManager.popMatrix();
         RenderHelper.disableStandardItemLighting();

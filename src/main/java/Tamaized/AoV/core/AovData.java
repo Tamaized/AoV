@@ -23,9 +23,10 @@ public class AoVData {
 	private int costReductionFlat = 0;
 	
 	//Local variables for ServerSide
-	private int last_exp;
-	private int last_currPower;
-	private int last_maxPower;
+	public boolean forceSync = false;
+	private int last_exp = 0;
+	private int last_currPower = 0;
+	private int last_maxPower = 0;
 	
 	private int tick = 0;
 	
@@ -74,6 +75,7 @@ public class AoVData {
 		}
 		if(currPower > maxPower) currPower = maxPower;
 		tick = 0;
+		forceSync = true;
 	}
 	
 	public void update(){
@@ -93,11 +95,13 @@ public class AoVData {
 		for(Object s : skill){
 			if(s instanceof AoVSkill) addObtainedSkill((AoVSkill) s);
 		}
+		forceSync = true;
 	}
 	
 	public void addObtainedSkill(AoVSkill skill){
 		obtainedSkills.add(skill);
 		if(skill.isCore) obtainedCore = skill;
+		forceSync = true;
 	}
 
 	public boolean hasSkill(AoVSkill skill) {
@@ -120,6 +124,7 @@ public class AoVData {
 		if(obtainedSkills.contains(skill)){
 			obtainedSkills.remove(skill);
 			if(skill == obtainedCore) obtainedCore = null;
+			forceSync = true;
 			return true;
 		}
 		return false;
@@ -143,6 +148,7 @@ public class AoVData {
 	
 	public void setCurrentSkillPoints(int i){
 		currentPoints = i;
+		forceSync = true;
 	}
 	
 	public int getCurrentSkillPoints(){
@@ -151,6 +157,7 @@ public class AoVData {
 	
 	public void setMaxSkillPoints(int i){
 		skillPoints = i;
+		forceSync = true;
 	}
 	
 	public int getMaxSkillPoints(){
@@ -171,10 +178,12 @@ public class AoVData {
 	
 	public void setCurrentDivinePower(int i){
 		currPower = i;
+		forceSync = true;
 	}
 	
 	public void setMaxDivinePower(int i){
 		maxPower = i;
+		forceSync = true;
 	}
 	
 	public int getCurrentDivinePower(){
@@ -195,8 +204,8 @@ public class AoVData {
 	}
 	
 	public static AoVData fromPacket(String p){
-		System.out.println("incomming packet to parse");
-		System.out.println(p);
+		//System.out.println("incomming packet to parse");
+		//System.out.println(p);
 		String[] packet = p.split(":");
 		int sPoint = Integer.parseInt(packet[0]);
 		int cPoint = Integer.parseInt(packet[1]);
@@ -222,7 +231,8 @@ public class AoVData {
 
 	public boolean wasThereAChange() {
 		boolean flag = false;
-		if(last_exp != exp || last_currPower != currPower || last_maxPower != maxPower) flag = true;
+		if(last_exp != exp || last_currPower != currPower || last_maxPower != maxPower || forceSync) flag = true;
+		forceSync = false;
 		return flag;
 	}
 

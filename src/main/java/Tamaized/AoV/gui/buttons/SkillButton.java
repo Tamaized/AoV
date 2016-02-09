@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.AoVData;
 import Tamaized.AoV.core.skills.AoVSkill;
+import Tamaized.AoV.gui.client.AoVUIBar;
 
 public class SkillButton extends GuiButton {
 	
@@ -22,7 +23,7 @@ public class SkillButton extends GuiButton {
 	 * @param skillName
 	 */
 	public SkillButton(int buttonId, int x, int y, String skillName) {
-		super(buttonId, x, y, 10, 10, "");
+		super(buttonId, x, y, 18, 18, "");
 		skill = AoVSkill.getSkillFromName(skillName);
 		updateVar();
 	}
@@ -43,6 +44,7 @@ public class SkillButton extends GuiButton {
 		
 		if(data.getCoreSkill() != null && skill.isCore){
 			this.enabled = false;
+			notEnoughPoints = true;
 		}
 		if(data.hasSkill(skill)){
 			this.enabled = false;
@@ -80,9 +82,12 @@ public class SkillButton extends GuiButton {
                 j = 0xFFFFFFFF;
             }
             if(notEnoughPoints) j = 0xAAFF0000;
-            if(isObtained) j = 0xAA00FF00;
+            if(isObtained) j = 0xFF00FF00;
 
             this.drawRect(this.xPosition, this.yPosition, xPosition+this.width, yPosition+this.height, j);
+            float alpha = (float)(j >> 24 & 255) / 255.0F;
+            GlStateManager.color(1.0f, 1.0f, 1.0f, alpha);
+            AoVUIBar.renderHotbarIcon(this, 0, xPosition+1, yPosition+1, 0, skill == null ? null : skill.getIcon());
         }
     }
 

@@ -5,6 +5,7 @@ import io.netty.buffer.Unpooled;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -27,6 +28,8 @@ public class AoVSkillsGUI extends GuiScreen {
 	private static final int BUTTON_CHECKSTATS = 4;
 	
 	public static boolean doRefresh = false;
+	
+	public static ArrayList<SkillButton> skillButtonList = new ArrayList<SkillButton>();
 
 	public AoVSkillsGUI() {
 		super();
@@ -46,7 +49,15 @@ public class AoVSkillsGUI extends GuiScreen {
 		buttonList.add(new GuiButton(BUTTON_CHECKSTATS, loc3, height-25, 80, 20, "Check Stats"));
 		buttonList.add(new GuiButton(BUTTON_RESET, loc4, height-25, 80, 20, "Reset Skills"));
 		if(AoV.clientAoVCore != null){
-			buttonList.add(new SkillButton(BUTTON_SKILL_CHECK, (width/2), height/2, "HealerSkillCore"));	
+			skillButtonList.clear();
+			
+			SkillButton sbI = new SkillButton(BUTTON_SKILL_CHECK, 148, height-48, "HealerSkillCore");
+			buttonList.add(sbI);
+			skillButtonList.add(sbI);
+			
+			sbI = new SkillButton(BUTTON_SKILL_CHECK, 13, height-48, "CasterSkillCore");
+			buttonList.add(sbI);
+			skillButtonList.add(sbI);
 		}else{
 			mc.displayGuiScreen((GuiScreen)null);
 		}
@@ -118,10 +129,8 @@ public class AoVSkillsGUI extends GuiScreen {
 	@Override
 	public void updateScreen(){
 		if(doRefresh){
-			for(GuiButton button : buttonList){
-				if(!(button instanceof SkillButton)) continue;
-				SkillButton sb = (SkillButton) button;
-				sb.updateVar();
+			for(SkillButton button : skillButtonList){
+				button.updateVar();
 			}
 			doRefresh = false;
 		}
@@ -131,13 +140,13 @@ public class AoVSkillsGUI extends GuiScreen {
 	public void drawScreen(int mouseX, int mouseY, float partialTicks){
 		this.drawDefaultBackground();
 		this.drawCenteredString(this.fontRendererObj, "Angel of Vengeance: Skills", this.width / 2, 15, 16777215);
+		this.drawRect(10+(135*0), 25, 135*1, height-27, 0x88000000);
+		this.drawRect(10+(135*1), 25, 135*2, height-27, 0x88000000);
+		this.drawRect(10+(135*2), 25, 135*3, height-27, 0x88000000);
 		super.drawScreen(mouseX, mouseY, partialTicks);
-		for(GuiButton b : buttonList){
+		for(SkillButton b : skillButtonList){
 			if(!b.isMouseOver()) continue;
-			if(b instanceof SkillButton){
-				SkillButton sb = (SkillButton) b;
-				if(sb.skill != null && sb.skill.description != null) this.drawHoveringText(sb.skill.description, mouseX, mouseY);
-			}
+			if(b.skill != null && b.skill.description != null) this.drawHoveringText(b.skill.description, mouseX, mouseY);	
 		}
 	}
 }
