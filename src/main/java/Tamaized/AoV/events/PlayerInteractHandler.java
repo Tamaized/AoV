@@ -21,12 +21,12 @@ public class PlayerInteractHandler {
 			if(player.getCurrentEquippedItem().getItem() == Items.diamond){
 				if(doChecks(player.worldObj, e.pos, e.face)){
 					player.getCurrentEquippedItem().stackSize--;
+					setBlocks(player.worldObj, e.pos, e.face);
 					player.worldObj.spawnEntityInWorld(new EntityLightningBolt(player.worldObj, e.pos.getX(), e.pos.getY()+2, e.pos.getZ()));
 					player.worldObj.spawnEntityInWorld(new EntityLightningBolt(player.worldObj, e.pos.getX()+2, e.pos.getY()-1, e.pos.getZ()+2));
 					player.worldObj.spawnEntityInWorld(new EntityLightningBolt(player.worldObj, e.pos.getX()-2, e.pos.getY()-1, e.pos.getZ()+2));
 					player.worldObj.spawnEntityInWorld(new EntityLightningBolt(player.worldObj, e.pos.getX()+2, e.pos.getY()-1, e.pos.getZ()-2));
 					player.worldObj.spawnEntityInWorld(new EntityLightningBolt(player.worldObj, e.pos.getX()-2, e.pos.getY()-1, e.pos.getZ()-2));
-					setBlocks(player.worldObj, e.pos);
 				}
 			}
 		}
@@ -92,14 +92,37 @@ public class PlayerInteractHandler {
 						flag = true;
 					}
 				}else{
-					
+					if(
+							world.getBlockState(pos.add(0, 0, -5)) == Blocks.stone.getStateFromMeta(4) &&
+							world.getBlockState(pos.add(0, 1, -5)) == Blocks.stone.getStateFromMeta(4) &&
+							world.getBlockState(pos.add(0, 1, -4)) == Blocks.stone.getStateFromMeta(4) &&
+							world.getBlockState(pos.add(0, 1, -3)) == Blocks.stone.getStateFromMeta(4) &&
+							world.getBlockState(pos.add(0, 2, -4)) == Blocks.stone.getStateFromMeta(4) &&
+							world.getBlockState(pos.add(0, 2, -3)) == Blocks.stone.getStateFromMeta(4) &&
+							world.getBlockState(pos.add(0, 2, -2)) == Blocks.stone.getStateFromMeta(4) &&
+							world.getBlockState(pos.add(0, 2, -1)) == Blocks.stone.getStateFromMeta(4) &&
+							world.getBlockState(pos.add(0, 3, -3)) == Blocks.stone.getStateFromMeta(4) &&
+							world.getBlockState(pos.add(0, 3, -2)) == Blocks.stone.getStateFromMeta(4) &&
+							world.getBlockState(pos.add(0, 0, 5)) == Blocks.stone.getStateFromMeta(4) &&
+							world.getBlockState(pos.add(0, 1, 5)) == Blocks.stone.getStateFromMeta(4) &&
+							world.getBlockState(pos.add(0, 1, 4)) == Blocks.stone.getStateFromMeta(4) &&
+							world.getBlockState(pos.add(0, 1, 3)) == Blocks.stone.getStateFromMeta(4) &&
+							world.getBlockState(pos.add(0, 2, 4)) == Blocks.stone.getStateFromMeta(4) &&
+							world.getBlockState(pos.add(0, 2, 3)) == Blocks.stone.getStateFromMeta(4) &&
+							world.getBlockState(pos.add(0, 2, 2)) == Blocks.stone.getStateFromMeta(4) &&
+							world.getBlockState(pos.add(0, 2, 1)) == Blocks.stone.getStateFromMeta(4) &&
+							world.getBlockState(pos.add(0, 3, 3)) == Blocks.stone.getStateFromMeta(4) &&
+							world.getBlockState(pos.add(0, 3, 2)) == Blocks.stone.getStateFromMeta(4)
+							){
+						flag = true;
+					}
 				}
 			}
 		}
 		return flag;
 	}
 	
-	private void setBlocks(World world, BlockPos pos){
+	private void setBlocks(World world, BlockPos pos, EnumFacing face){
 		for(int x = -5; x<6; x++){
 			for(int y = -1; y<5; y++){
 				for(int z = -5; z<6; z++){
@@ -107,7 +130,11 @@ public class PlayerInteractHandler {
 				}
 			}
 		}
-		world.setBlockState(pos.add(0, -1, 0), AoV.blocks.angelicBlock.getDefaultState());
+		world.setBlockState(pos.add(2, -2, 2), Blocks.netherrack.getDefaultState());
+		world.setBlockState(pos.add(2, -2, -2), Blocks.netherrack.getDefaultState());
+		world.setBlockState(pos.add(-2, -2, 2), Blocks.netherrack.getDefaultState());
+		world.setBlockState(pos.add(-2, -2, -2), Blocks.netherrack.getDefaultState());
+		world.setBlockState(pos.add(0, -1, 0), AoV.blocks.angelicBlock.getStateFromMeta(face == EnumFacing.NORTH ? 1 : face == EnumFacing.SOUTH ? 1 : 2));
 	}
 	
 }

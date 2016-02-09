@@ -34,6 +34,8 @@ public class RenderAngelicBlock extends TileEntitySpecialRenderer{
         Minecraft.getMinecraft().renderEngine.bindTexture(texture);                    
         GlStateManager.pushMatrix();
         GlStateManager.rotate(180F, 0.0F, 0.0F, 1.0F);
+        int meta = te.getBlockMetadata();
+        GlStateManager.rotate((meta - 1) * (90), 0F, 1F, 0F);
         this.model.render((Entity)null, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
         GlStateManager.popMatrix();
         GlStateManager.popMatrix();

@@ -1,6 +1,5 @@
 package Tamaized.AoV.common.client;
 
-import net.java.games.input.Keyboard;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.MinecraftForge;
@@ -11,7 +10,6 @@ import Tamaized.AoV.AoV;
 import Tamaized.AoV.common.handlers.ClientPacketHandler;
 import Tamaized.AoV.common.server.CommonProxy;
 import Tamaized.AoV.events.KeyHandler;
-import Tamaized.AoV.events.TickHandler;
 import Tamaized.AoV.gui.client.AoVOverlay;
 import Tamaized.AoV.gui.client.AoVUIBar;
 import Tamaized.AoV.registry.RegistryBase;
@@ -50,7 +48,6 @@ public class ClientProxy extends CommonProxy {
 	
 		RenderAngelicBlock renderAngelicblock = new RenderAngelicBlock();
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAngelicBlock.class, renderAngelicblock);
-		//MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(voidCraft.blocks.Heimdall), new ItemRenderHeimdall(renderHeimdall, new TileEntityHeimdall()));
 	}
 	
 	@Override
