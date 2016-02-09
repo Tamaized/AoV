@@ -33,7 +33,7 @@ public class HealerSkillCore extends AoVSkill{
 
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid+":textures/skills/test.png");
+		return new ResourceLocation(AoV.modid+":textures/skills/HealerCore.png");
 	}
 
 }

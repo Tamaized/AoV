@@ -138,6 +138,7 @@ public class AoVSkillsGUI extends GuiScreen {
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks){
+		AoVData data = AoV.clientAoVCore.getPlayer(null);
 		this.drawDefaultBackground();
 		this.drawCenteredString(this.fontRendererObj, "Angel of Vengeance: Skills", this.width / 2, 15, 16777215);
 		this.drawRect(10+(135*0), 25, 135*1, height-27, 0x88000000);
@@ -148,5 +149,7 @@ public class AoVSkillsGUI extends GuiScreen {
 			if(!b.isMouseOver()) continue;
 			if(b.skill != null && b.skill.description != null) this.drawHoveringText(b.skill.description, mouseX, mouseY);	
 		}
+		this.drawString(fontRendererObj, "Skill Points: "+data.getCurrentSkillPoints(), 5, 5, 0xFFFFFF00);
+		this.drawString(fontRendererObj, "Spent: "+(data.getMaxSkillPoints()-data.getCurrentSkillPoints())+" out of "+data.getMaxSkillPoints(), 5, 15, 0xFFFFFF00);
 	}
 }
