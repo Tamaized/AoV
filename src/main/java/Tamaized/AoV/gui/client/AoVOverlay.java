@@ -28,50 +28,54 @@ public class AoVOverlay extends Gui{
 
 			ClientProxy.bar.render(this, e.partialTicks);
 			
-			int cT = 0xFFFFFFFF;
-			int cB = 0xDDFFFFFF;
-			AbilityBase spell = ClientProxy.bar.getCurrentSlot();
-			if(spell != null && spell.cost > data.getCurrentDivinePower()){
-				cT = 0xFFFF0000;
-				cB = 0xDDFF0000;
-			}
-			
-			this.drawString(fontRender, "Divine", 5, 40, cT);
-			this.drawString(fontRender, "Power", 5, 50, cT);
-			
+			GlStateManager.pushMatrix();
 			{
-				int x = 5;
-				int y = 60;
-				int w = 25;
-				int h = 80;
-			
-				this.drawRect(x, y, x+w, y+h, 0x558800FF);
-			}
-			
-			{
-				int x = 7;
-				int y = 62;
-				int w = 21;
-				int h = 76;
-				float perc = (float)data.getCurrentDivinePower()/(float)data.getMaxDivinePower();
-				int var = Math.round(h*perc);
-				y = y + (h - var);
-				h = var;
+				GlStateManager.scale(0.5f, 0.5f, 0f);
+				int cT = 0xFFFFFFFF;
+				int cB = 0xDDFFFFFF;
+				AbilityBase spell = ClientProxy.bar.getCurrentSlot();
+				if(spell != null && spell.cost > data.getCurrentDivinePower()){
+					cT = 0xFFFF0000;
+					cB = 0xDDFF0000;
+				}
 				
-				this.drawRect(x, y, x+w, y+h, cB);
+				this.drawString(fontRender, "Divine", 5, 180, cT);
+				this.drawString(fontRender, "Power", 5, 190, cT);
+				
+				{
+					int x = 5;
+					int y = 200;
+					int w = 25;
+					int h = 80;
+					
+					this.drawRect(x, y, x+w, y+h, 0x558800FF);
+				}
+				
+				{
+					int x = 7;
+					int y = 202;
+					int w = 21;
+					int h = 76;
+					float perc = (float)data.getCurrentDivinePower()/(float)data.getMaxDivinePower();
+					int var = Math.round(h*perc);
+					y = y + (h - var);
+					h = var;
+					
+					this.drawRect(x, y, x+w, y+h, cB);
+				}
+				
+				fontRender.drawString(String.valueOf(data.getCurrentDivinePower()), 9, 230, 0x000000);
+				{
+					int x = 8;
+					int y = 240;
+					int w = 19;
+					int h = 1;
+					
+					this.drawRect(x, y, x+w, y+h, 0xFF000000);
+				}
+				fontRender.drawString(String.valueOf(data.getMaxDivinePower()), 9, 243, 0x000000);
 			}
-
-			fontRender.drawString(String.valueOf(data.getCurrentDivinePower()), 9, 85, 0x000000);
-			{
-				int x = 10;
-				int y = 95;
-				int w = 15;
-				int h = 1;
-			
-				this.drawRect(x, y, x+w, y+h, 0xFF000000);
-			}
-			fontRender.drawString(String.valueOf(data.getMaxDivinePower()), 9, 98, 0x000000);
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0f);
+			GlStateManager.popMatrix();
 		}
 	}
 
