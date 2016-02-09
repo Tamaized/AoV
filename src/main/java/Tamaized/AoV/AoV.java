@@ -2,9 +2,7 @@ package Tamaized.AoV;
 
 import java.util.ArrayList;
 
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -14,6 +12,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.FMLEventChannel;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
 import org.apache.logging.log4j.LogManager;
@@ -24,6 +23,7 @@ import Tamaized.AoV.common.server.CommonProxy;
 import Tamaized.AoV.core.AoVCore;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.skills.AoVSkill;
+import Tamaized.AoV.events.PlayerInteractHandler;
 import Tamaized.AoV.events.PlayerJoinLeaveEvent;
 import Tamaized.AoV.events.TickHandler;
 import Tamaized.AoV.gui.GuiHandler;
@@ -37,6 +37,7 @@ import Tamaized.AoV.registry.AoVMaterials;
 import Tamaized.AoV.registry.AoVTabs;
 import Tamaized.AoV.registry.AoVTools;
 import Tamaized.AoV.registry.RegistryBase;
+import Tamaized.AoV.tileentity.TileEntityAngelicBlock;
 
 @Mod(modid=AoV.modid, name="Angel of Vengeance", version=AoV.version)
 public class AoV {
@@ -105,11 +106,11 @@ public class AoV {
 
 		MinecraftForge.EVENT_BUS.register(new PlayerJoinLeaveEvent());
 		MinecraftForge.EVENT_BUS.register(new TickHandler());
+		MinecraftForge.EVENT_BUS.register(new PlayerInteractHandler());
 		
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
-				
-		//Tile Entities
-		//GameRegistry.registerTileEntity(TileEntityVoidMacerator.class, "tileEntityVoidMacerator");
+		
+		GameRegistry.registerTileEntity(TileEntityAngelicBlock.class, "tileEntityAngelicBlock");
 		
 
 		for(RegistryBase reg : registry) reg.init();

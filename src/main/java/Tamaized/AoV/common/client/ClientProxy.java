@@ -15,6 +15,8 @@ import Tamaized.AoV.events.TickHandler;
 import Tamaized.AoV.gui.client.AoVOverlay;
 import Tamaized.AoV.gui.client.AoVUIBar;
 import Tamaized.AoV.registry.RegistryBase;
+import Tamaized.AoV.render.RenderAngelicBlock;
+import Tamaized.AoV.tileentity.TileEntityAngelicBlock;
 
 public class ClientProxy extends CommonProxy {
 	
@@ -46,8 +48,8 @@ public class ClientProxy extends CommonProxy {
 		//Blocks
 		//RenderingRegistry.registerBlockHandler(new OreRenderer()); //TODO: Deal with this at a later time
 	
-		//RenderHeimdall renderHeimdall = new RenderHeimdall();
-		//ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHeimdall.class, renderHeimdall);
+		RenderAngelicBlock renderAngelicblock = new RenderAngelicBlock();
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAngelicBlock.class, renderAngelicblock);
 		//MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(voidCraft.blocks.Heimdall), new ItemRenderHeimdall(renderHeimdall, new TileEntityHeimdall()));
 	}
 	

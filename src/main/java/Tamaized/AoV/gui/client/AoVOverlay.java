@@ -23,10 +23,10 @@ public class AoVOverlay extends Gui{
 		AoVCore core = AoV.clientAoVCore;
 		AoVData data = core.getPlayer(null);
 		
-		ClientProxy.bar.render(this, e.partialTicks);
-		
 		if(data != null && data.getMaxDivinePower() > 0){
 			FontRenderer fontRender = mc.fontRendererObj;
+
+			ClientProxy.bar.render(this, e.partialTicks);
 			
 			int cT = 0xFFFFFFFF;
 			int cB = 0xDDFFFFFF;
