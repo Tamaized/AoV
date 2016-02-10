@@ -36,7 +36,7 @@ public class SkillButton extends GuiButton {
 		if(skill.parent == null) {
 			notEnoughPoints = true;
 			this.enabled = false;
-			if(data.getCurrentSkillPoints() >= skill.pointCost && data.getLevel() >= skill.minLevel){
+			if(data.getCurrentSkillPoints() >= skill.pointCost && data.getLevel() >= skill.minLevel && data.getSpentSkillPoints() >= skill.minPointsSpent){
 				notEnoughPoints = false;
 				this.enabled = true;
 			}
@@ -44,7 +44,7 @@ public class SkillButton extends GuiButton {
 		else if(data.hasSkill(skill.parent)) {
 			notEnoughPoints = true;
 			this.enabled = false;
-			if(data.getCurrentSkillPoints() >= skill.pointCost && data.getLevel() >= skill.minLevel){
+			if(data.getCurrentSkillPoints() >= skill.pointCost && data.getLevel() >= skill.minLevel && data.getSpentSkillPoints() >= skill.minPointsSpent){
 				notEnoughPoints = false;
 				this.enabled = true;
 			}

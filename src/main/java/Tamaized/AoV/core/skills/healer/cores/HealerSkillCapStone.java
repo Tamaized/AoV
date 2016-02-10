@@ -11,7 +11,7 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 public class HealerSkillCapStone extends AoVSkill{
 
 	public HealerSkillCapStone() {
-		super(getUnlocalizedName(), AoVSkill.getSkillFromName(HealerSkillCore4.getUnlocalizedName()), 1, 15, false,
+		super(getUnlocalizedName(), AoVSkill.getSkillFromName(HealerSkillCore4.getUnlocalizedName()), 1, 15, 0, false,
 				new AbilityBase[]{
 					
 				},

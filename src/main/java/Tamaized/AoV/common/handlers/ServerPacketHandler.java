@@ -61,10 +61,10 @@ public class ServerPacketHandler {
 					boolean flag = false;
 					if(skillToCheck == null) break;
 					if(skillToCheck.parent == null){
-						if(data.getCurrentSkillPoints() >= skillToCheck.pointCost && data.getLevel() >= skillToCheck.minLevel){
+						if(data.getCurrentSkillPoints() >= skillToCheck.pointCost && data.getLevel() >= skillToCheck.minLevel && data.getSpentSkillPoints() >= skillToCheck.minPointsSpent){
 							flag = true;
 						}
-					}else if(data.hasSkill(skillToCheck.parent) && data.getCurrentSkillPoints() >= skillToCheck.pointCost && data.getLevel() >= skillToCheck.minLevel){
+					}else if(data.hasSkill(skillToCheck.parent) && data.getCurrentSkillPoints() >= skillToCheck.pointCost && data.getLevel() >= skillToCheck.minLevel && data.getSpentSkillPoints() >= skillToCheck.minPointsSpent){
 						flag = true;
 					}
 					if(flag){

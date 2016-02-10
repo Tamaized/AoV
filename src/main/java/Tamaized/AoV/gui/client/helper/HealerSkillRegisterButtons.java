@@ -11,6 +11,8 @@ import Tamaized.AoV.gui.client.AoVSkillsGUI;
 public class HealerSkillRegisterButtons {
 	
 	public static void register(AoVSkillsGUI instance){
+
+		//////////////////////////////////////////////////// Cores ////////////////////////////////////////////////////////////////////////
 		SkillButton sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 - 63, instance.height-48, HealerSkillCore1.getUnlocalizedName());
 		instance.addButton(sbI);
 		instance.skillButtonList.add(sbI);
@@ -31,19 +33,91 @@ public class HealerSkillRegisterButtons {
 		instance.addButton(sbI);
 		instance.skillButtonList.add(sbI);
 		
+		////////////////////////////////////////////////////////// Tier 1 //////////////////////////////////////////////////////////////////////////
+		
 		sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 - 63, instance.height-88, HealerSkillCore1.getUnlocalizedName());
 		instance.addButton(sbI);
 		instance.skillButtonList.add(sbI);
+
+		sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 - 38, instance.height-88, HealerSkillCore1.getUnlocalizedName());
+		instance.addButton(sbI);
+		instance.skillButtonList.add(sbI);
+
+		sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 - 13, instance.height-88, HealerSkillCore1.getUnlocalizedName());
+		instance.addButton(sbI);
+		instance.skillButtonList.add(sbI);
+
+		sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 + 12, instance.height-88, HealerSkillCore1.getUnlocalizedName());
+		instance.addButton(sbI);
+		instance.skillButtonList.add(sbI);
+
+		sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 + 37, instance.height-88, HealerSkillCore1.getUnlocalizedName());
+		instance.addButton(sbI);
+		instance.skillButtonList.add(sbI);
+
+		////////////////////////////////////////////////////////// Tier 2 //////////////////////////////////////////////////////////////////////////
 		
 		sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 - 63, instance.height-128, HealerSkillCore1.getUnlocalizedName());
 		instance.addButton(sbI);
 		instance.skillButtonList.add(sbI);
+
+		sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 - 38, instance.height-128, HealerSkillCore1.getUnlocalizedName());
+		instance.addButton(sbI);
+		instance.skillButtonList.add(sbI);
+
+		sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 - 13, instance.height-128, HealerSkillCore1.getUnlocalizedName());
+		instance.addButton(sbI);
+		instance.skillButtonList.add(sbI);
+
+		sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 + 12, instance.height-128, HealerSkillCore1.getUnlocalizedName());
+		instance.addButton(sbI);
+		instance.skillButtonList.add(sbI);
+
+		sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 + 37, instance.height-128, HealerSkillCore1.getUnlocalizedName());
+		instance.addButton(sbI);
+		instance.skillButtonList.add(sbI);
+
+		////////////////////////////////////////////////////////// Tier 3 //////////////////////////////////////////////////////////////////////////
 		
 		sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 - 63, instance.height-168, HealerSkillCore1.getUnlocalizedName());
 		instance.addButton(sbI);
 		instance.skillButtonList.add(sbI);
+
+		sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 - 38, instance.height-168, HealerSkillCore1.getUnlocalizedName());
+		instance.addButton(sbI);
+		instance.skillButtonList.add(sbI);
+
+		sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 - 13, instance.height-168, HealerSkillCore1.getUnlocalizedName());
+		instance.addButton(sbI);
+		instance.skillButtonList.add(sbI);
+
+		sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 + 12, instance.height-168, HealerSkillCore1.getUnlocalizedName());
+		instance.addButton(sbI);
+		instance.skillButtonList.add(sbI);
+
+		sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 + 37, instance.height-168, HealerSkillCore1.getUnlocalizedName());
+		instance.addButton(sbI);
+		instance.skillButtonList.add(sbI);
+
+		////////////////////////////////////////////////////////// Tier 4 //////////////////////////////////////////////////////////////////////////
 		
 		sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 - 63, instance.height-208, HealerSkillCore1.getUnlocalizedName());
+		instance.addButton(sbI);
+		instance.skillButtonList.add(sbI);
+
+		sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 - 38, instance.height-208, HealerSkillCore1.getUnlocalizedName());
+		instance.addButton(sbI);
+		instance.skillButtonList.add(sbI);
+
+		sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 - 13, instance.height-208, HealerSkillCore1.getUnlocalizedName());
+		instance.addButton(sbI);
+		instance.skillButtonList.add(sbI);
+
+		sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 + 12, instance.height-208, HealerSkillCore1.getUnlocalizedName());
+		instance.addButton(sbI);
+		instance.skillButtonList.add(sbI);
+
+		sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 + 37, instance.height-208, HealerSkillCore1.getUnlocalizedName());
 		instance.addButton(sbI);
 		instance.skillButtonList.add(sbI);
 	}

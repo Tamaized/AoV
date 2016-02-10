@@ -13,7 +13,7 @@ import Tamaized.AoV.core.skills.AoVSkill.Buffs;
 public class CasterSkillCore extends AoVSkill {
 
 	public CasterSkillCore() {
-		super(getUnlocalizedName(), null, 1, 0, true,
+		super(getUnlocalizedName(), null, 1, 0, 0, true,
 				new AbilityBase[]{
 					AbilityBase.fromName(NimbusRay.getStaticName())
 				},

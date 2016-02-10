@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 import Tamaized.AoV.AoV;
@@ -18,6 +19,7 @@ import Tamaized.AoV.core.skills.healer.cores.HealerSkillCore1;
 import Tamaized.AoV.gui.GuiHandler;
 import Tamaized.AoV.gui.buttons.SkillButton;
 import Tamaized.AoV.gui.client.helper.CasterSkillRegisterButtons;
+import Tamaized.AoV.gui.client.helper.DefenderSkillRegisterButtons;
 import Tamaized.AoV.gui.client.helper.HealerSkillRegisterButtons;
 
 public class AoVSkillsGUI extends GuiScreen {
@@ -33,6 +35,9 @@ public class AoVSkillsGUI extends GuiScreen {
 	public static boolean doRefresh = false;
 	
 	public static ArrayList<SkillButton> skillButtonList = new ArrayList<SkillButton>();
+	
+	private int lastMx = 0;
+	private int lastMy = 0;
 
 	public AoVSkillsGUI() {
 		super();
@@ -56,6 +61,7 @@ public class AoVSkillsGUI extends GuiScreen {
 			
 			HealerSkillRegisterButtons.register(this);
 			CasterSkillRegisterButtons.register(this);
+			DefenderSkillRegisterButtons.register(this);
 			
 		}else{
 			mc.displayGuiScreen((GuiScreen)null);
@@ -103,10 +109,10 @@ public class AoVSkillsGUI extends GuiScreen {
 		boolean flag = false;
 		AoVData data = AoV.clientAoVCore.getPlayer(null);
 		if(b.skill.parent == null) {
-			if(data.getCurrentSkillPoints() >= b.skill.pointCost && data.getLevel() >= b.skill.minLevel){
+			if(data.getCurrentSkillPoints() >= b.skill.pointCost && data.getLevel() >= b.skill.minLevel && data.getSpentSkillPoints() >= b.skill.minPointsSpent){
 				flag = true;
 			}
-		}else if(data.hasSkill(b.skill.parent) && data.getCurrentSkillPoints() >= b.skill.pointCost && data.getLevel() >= b.skill.minLevel){
+		}else if(data.hasSkill(b.skill.parent) && data.getCurrentSkillPoints() >= b.skill.pointCost && data.getLevel() >= b.skill.minLevel && data.getSpentSkillPoints() >= b.skill.minPointsSpent){
 			flag = true;
 		}
 		if(flag){
@@ -149,6 +155,11 @@ public class AoVSkillsGUI extends GuiScreen {
 		AoVData data = AoV.clientAoVCore.getPlayer(null);
 		this.drawDefaultBackground();
 		this.drawCenteredString(this.fontRendererObj, "Angel of Vengeance: Skills", this.width / 2, 15, 16777215);
+		this.drawString(fontRendererObj, "Skill Points: "+data.getCurrentSkillPoints(), 5, 5, 0xFFFFFF00);
+		this.drawString(fontRendererObj, "Spent: "+(data.getMaxSkillPoints()-data.getCurrentSkillPoints())+" out of "+data.getMaxSkillPoints(), 5, 15, 0xFFFFFF00);
+		this.drawString(fontRendererObj, "Level:", width-40, 5, 0xFFFFFF00);
+		this.drawString(fontRendererObj, ""+data.getLevel(), width-40, 15, 0xFFFFFF00);
+		
 		this.drawCenteredString(this.fontRendererObj, "Tier 4", this.width / 2 - 135, height-222, 0xFFFFFF00);
 		this.drawCenteredString(this.fontRendererObj, "Tier 3", this.width / 2 - 135, height-182, 0xFFFFFF00);
 		this.drawCenteredString(this.fontRendererObj, "Tier 2", this.width / 2 - 135, height-142, 0xFFFFFF00);
@@ -171,13 +182,20 @@ public class AoVSkillsGUI extends GuiScreen {
 		this.drawRect(this.width/2 - 66, height-225, this.width/2 - 66 + 126, height-27, 0x88000000);
 		this.drawRect(this.width/2 + 68, height-225, this.width/2 + 68 + 126, height-27, 0x88000000);
 		super.drawScreen(mouseX, mouseY, partialTicks);
-		for(SkillButton b : skillButtonList){
-			if(!b.isMouseOver()) continue;
-			if(b.skill != null && b.skill.description != null) this.drawHoveringText(b.skill.description, mouseX, mouseY);	
+		if(mouseX != lastMx || mouseY != lastMy){
+			boolean flag = true;
+			for(SkillButton b : skillButtonList){
+				if(!b.isMouseOver()) continue;
+				if(b.skill != null && b.skill.description != null){
+					this.drawHoveringText(b.skill.description, mouseX, mouseY);	
+					flag = false;
+					break;
+				}
+			}
+			if(flag){
+				lastMy = mouseY;
+				lastMx = mouseX;
+			}
 		}
-		this.drawString(fontRendererObj, "Skill Points: "+data.getCurrentSkillPoints(), 5, 5, 0xFFFFFF00);
-		this.drawString(fontRendererObj, "Spent: "+(data.getMaxSkillPoints()-data.getCurrentSkillPoints())+" out of "+data.getMaxSkillPoints(), 5, 15, 0xFFFFFF00);
-		this.drawString(fontRendererObj, "Level:", width-40, 5, 0xFFFFFF00);
-		this.drawString(fontRendererObj, ""+data.getLevel(), width-40, 15, 0xFFFFFF00);
 	}
 }

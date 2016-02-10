@@ -11,7 +11,7 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 public class HealerSkillCore2 extends AoVSkill{
 
 	public HealerSkillCore2() {
-		super(getUnlocalizedName(), AoVSkill.getSkillFromName(HealerSkillCore1.getUnlocalizedName()), 1, 3, false,
+		super(getUnlocalizedName(), AoVSkill.getSkillFromName(HealerSkillCore1.getUnlocalizedName()), 1, 3, 0, false,
 				new AbilityBase[]{
 					
 				},

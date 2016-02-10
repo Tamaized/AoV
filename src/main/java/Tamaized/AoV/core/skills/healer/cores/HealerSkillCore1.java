@@ -11,7 +11,7 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 public class HealerSkillCore1 extends AoVSkill{
 
 	public HealerSkillCore1() {
-		super(getUnlocalizedName(), null, 1, 0, true,
+		super(getUnlocalizedName(), null, 1, 0, 0, true,
 				new AbilityBase[]{
 					AbilityBase.fromName(CureLightWounds.getStaticName())
 				},

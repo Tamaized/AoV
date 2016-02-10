@@ -23,17 +23,19 @@ public abstract class AoVSkill {
 	public final boolean isCore;
 	public final int pointCost;
 	public final int minLevel;
+	public final int minPointsSpent;
 	protected Buffs buffs;
 	
 	public final List<String> abilities;
 	
 	public final List<String> description;
 	
-	public AoVSkill(String name, AoVSkill p, int cost, int level, boolean core, AbilityBase[] spells, String... desc){
+	public AoVSkill(String name, AoVSkill p, int cost, int level, int spentPoints, boolean core, AbilityBase[] spells, String... desc){
 		skillName = name;
 		parent = p;
 		pointCost = cost;
 		minLevel = level;
+		minPointsSpent = spentPoints;
 		isCore = core;
 		setupBuffs();
 		description = new ArrayList<String>();

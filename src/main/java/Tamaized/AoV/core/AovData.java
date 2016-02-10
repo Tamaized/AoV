@@ -31,6 +31,7 @@ public class AoVData {
 	private int tick = 0;
 	
 	private AoVSkill obtainedCore = null;
+	private int currSkillPoints;
 	
 	public AoVData(){
 		obtainedSkills = new ArrayList<AoVSkill>();
@@ -159,6 +160,10 @@ public class AoVData {
 	
 	public int getCurrentSkillPoints(){
 		return currentPoints;
+	}
+	
+	public int getSpentSkillPoints(){
+		return skillPoints - currSkillPoints;
 	}
 	
 	public void setMaxSkillPoints(int i){
