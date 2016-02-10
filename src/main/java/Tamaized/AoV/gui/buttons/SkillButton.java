@@ -30,16 +30,27 @@ public class SkillButton extends GuiButton {
 	
 	public void updateVar(){
 		AoVData data = AoV.clientAoVCore.getPlayer(null);
+		this.enabled = true;
+		notEnoughPoints = false;
 		
 		if(skill.parent == null) {
 			notEnoughPoints = true;
-			if(data.getCurrentSkillPoints() >= skill.pointCost) notEnoughPoints = false;
+			this.enabled = false;
+			if(data.getCurrentSkillPoints() >= skill.pointCost && data.getLevel() >= skill.minLevel){
+				notEnoughPoints = false;
+				this.enabled = true;
+			}
 		}
 		else if(data.hasSkill(skill.parent)) {
 			notEnoughPoints = true;
-			if(data.getCurrentSkillPoints() >= skill.pointCost){
+			this.enabled = false;
+			if(data.getCurrentSkillPoints() >= skill.pointCost && data.getLevel() >= skill.minLevel){
 				notEnoughPoints = false;
+				this.enabled = true;
 			}
+		}else{
+			notEnoughPoints = true;
+			this.enabled = false;
 		}
 		
 		if(data.getCoreSkill() != null && skill.isCore){

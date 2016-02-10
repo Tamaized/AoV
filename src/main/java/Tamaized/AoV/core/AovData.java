@@ -139,7 +139,7 @@ public class AoVData {
 	}
 	
 	public int getLevel(){
-		return Math.round(exp/150);
+		return (int) Math.floor(exp/150) + 1;
 	}
 	
 	public int getXpNeededToLevel(){
@@ -148,6 +148,12 @@ public class AoVData {
 	
 	public void setCurrentSkillPoints(int i){
 		currentPoints = i;
+		forceSync = true;
+	}
+	
+	public void addSkillPoints(int amount){
+		currentPoints+=amount;
+		skillPoints+=amount;
 		forceSync = true;
 	}
 	

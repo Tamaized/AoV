@@ -60,13 +60,21 @@ public class ServerPacketHandler {
 					AoVSkill skillToCheck = AoVSkill.getSkillFromName(theName);
 					boolean flag = false;
 					if(skillToCheck == null) break;
-					if(skillToCheck.parent == null) if(data.getCurrentSkillPoints() >= skillToCheck.pointCost) flag = true;
-					else if(data.hasSkill(skillToCheck.parent) && data.getCurrentSkillPoints() >= skillToCheck.pointCost) flag = true;
+					if(skillToCheck.parent == null){
+						if(data.getCurrentSkillPoints() >= skillToCheck.pointCost && data.getLevel() >= skillToCheck.minLevel){
+							flag = true;
+						}
+					}else if(data.hasSkill(skillToCheck.parent) && data.getCurrentSkillPoints() >= skillToCheck.pointCost && data.getLevel() >= skillToCheck.minLevel){
+						flag = true;
+					}
 					if(flag){
 						System.out.println("Server passed on canObtain, sending data to client");
 						data.addObtainedSkill(skillToCheck);
 						data.setCurrentSkillPoints(data.getCurrentSkillPoints()-skillToCheck.pointCost);
 						data.updateVariables();
+						sendAovDataPacket(player, data);
+					}else{
+						System.out.println("Server failed checks on canObtain");
 						sendAovDataPacket(player, data);
 					}
 				}

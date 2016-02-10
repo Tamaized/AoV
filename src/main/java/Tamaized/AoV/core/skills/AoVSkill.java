@@ -8,7 +8,11 @@ import java.util.Map;
 import net.minecraft.util.ResourceLocation;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.skills.caster.CasterSkillCore;
-import Tamaized.AoV.core.skills.healer.HealerSkillCore;
+import Tamaized.AoV.core.skills.healer.cores.HealerSkillCapStone;
+import Tamaized.AoV.core.skills.healer.cores.HealerSkillCore1;
+import Tamaized.AoV.core.skills.healer.cores.HealerSkillCore2;
+import Tamaized.AoV.core.skills.healer.cores.HealerSkillCore3;
+import Tamaized.AoV.core.skills.healer.cores.HealerSkillCore4;
 
 public abstract class AoVSkill {
 	
@@ -18,16 +22,18 @@ public abstract class AoVSkill {
 	public final AoVSkill parent;
 	public final boolean isCore;
 	public final int pointCost;
+	public final int minLevel;
 	protected Buffs buffs;
 	
 	public final List<String> abilities;
 	
 	public final List<String> description;
 	
-	public AoVSkill(String name, AoVSkill p, int cost, boolean core, AbilityBase[] spells, String... desc){
+	public AoVSkill(String name, AoVSkill p, int cost, int level, boolean core, AbilityBase[] spells, String... desc){
 		skillName = name;
 		parent = p;
 		pointCost = cost;
+		minLevel = level;
 		isCore = core;
 		setupBuffs();
 		description = new ArrayList<String>();
@@ -50,7 +56,12 @@ public abstract class AoVSkill {
 	public abstract ResourceLocation getIcon();
 	
 	public static void registerSkills(){
-		new HealerSkillCore();
+		new HealerSkillCore1();
+		new HealerSkillCore2();
+		new HealerSkillCore3();
+		new HealerSkillCore4();
+		new HealerSkillCapStone();
+		
 		new CasterSkillCore();
 	}
 	
