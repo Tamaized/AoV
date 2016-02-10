@@ -163,7 +163,7 @@ public class AoVData {
 	}
 	
 	public int getSpentSkillPoints(){
-		return skillPoints - currSkillPoints;
+		return skillPoints - currentPoints;
 	}
 	
 	public void setMaxSkillPoints(int i){

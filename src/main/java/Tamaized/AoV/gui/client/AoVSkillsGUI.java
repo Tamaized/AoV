@@ -156,7 +156,7 @@ public class AoVSkillsGUI extends GuiScreen {
 		this.drawDefaultBackground();
 		this.drawCenteredString(this.fontRendererObj, "Angel of Vengeance: Skills", this.width / 2, 15, 16777215);
 		this.drawString(fontRendererObj, "Skill Points: "+data.getCurrentSkillPoints(), 5, 5, 0xFFFFFF00);
-		this.drawString(fontRendererObj, "Spent: "+(data.getMaxSkillPoints()-data.getCurrentSkillPoints())+" out of "+data.getMaxSkillPoints(), 5, 15, 0xFFFFFF00);
+		this.drawString(fontRendererObj, "Spent: "+data.getSpentSkillPoints()+" out of "+data.getMaxSkillPoints(), 5, 15, 0xFFFFFF00);
 		this.drawString(fontRendererObj, "Level:", width-40, 5, 0xFFFFFF00);
 		this.drawString(fontRendererObj, ""+data.getLevel(), width-40, 15, 0xFFFFFF00);
 		

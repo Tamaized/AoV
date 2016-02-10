@@ -11,6 +11,8 @@ import Tamaized.AoV.core.skills.AoVSkill;
 import Tamaized.AoV.core.skills.AoVSkill.Buffs;
 
 public class CasterSkillCore extends AoVSkill {
+	
+	private static final ResourceLocation icon = new ResourceLocation(AoV.modid+":textures/skills/test.png");
 
 	public CasterSkillCore() {
 		super(getUnlocalizedName(), null, 1, 0, 0, true,
@@ -36,7 +38,7 @@ public class CasterSkillCore extends AoVSkill {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid+":textures/skills/test.png");
+		return icon;
 	}
 	
 	public static String getUnlocalizedName(){

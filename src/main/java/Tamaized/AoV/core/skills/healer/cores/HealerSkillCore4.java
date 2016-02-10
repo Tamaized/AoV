@@ -9,6 +9,8 @@ import Tamaized.AoV.core.skills.AoVSkill;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
 public class HealerSkillCore4 extends AoVSkill{
+	
+	private static final ResourceLocation icon = new ResourceLocation(AoV.modid+":textures/skills/test.png");
 
 	public HealerSkillCore4() {
 		super(getUnlocalizedName(), AoVSkill.getSkillFromName(HealerSkillCore3.getUnlocalizedName()), 1, 12, 0, false,
@@ -33,7 +35,7 @@ public class HealerSkillCore4 extends AoVSkill{
 
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid+":textures/skills/test.png");
+		return icon;
 	}
 	
 	public static String getUnlocalizedName(){

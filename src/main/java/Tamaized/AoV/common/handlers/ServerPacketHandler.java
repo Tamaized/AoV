@@ -92,7 +92,11 @@ public class ServerPacketHandler {
 					
 				case TYPE_RESETSKILLS_MINOR:
 				{
-					
+					AoVCore core = AoV.serverAoVCore;
+					AoVData data = core.getPlayer(player);
+					data.setObtainedSkills(data.getCoreSkill());
+					data.setCurrentSkillPoints(data.getMaxSkillPoints()-1);
+					sendAovDataPacket(player, data);
 				}
 					break;
 					

@@ -13,6 +13,10 @@ import Tamaized.AoV.core.skills.healer.cores.HealerSkillCore1;
 import Tamaized.AoV.core.skills.healer.cores.HealerSkillCore2;
 import Tamaized.AoV.core.skills.healer.cores.HealerSkillCore3;
 import Tamaized.AoV.core.skills.healer.cores.HealerSkillCore4;
+import Tamaized.AoV.core.skills.healer.tier1.HealerSkillT1S1;
+import Tamaized.AoV.core.skills.healer.tier2.HealerSkillT2S1;
+import Tamaized.AoV.core.skills.healer.tier3.HealerSkillT3S1;
+import Tamaized.AoV.core.skills.healer.tier4.HealerSkillT4S1;
 
 public abstract class AoVSkill {
 	
@@ -63,6 +67,12 @@ public abstract class AoVSkill {
 		new HealerSkillCore3();
 		new HealerSkillCore4();
 		new HealerSkillCapStone();
+		
+		new HealerSkillT1S1();
+		new HealerSkillT2S1();
+		new HealerSkillT3S1();
+		new HealerSkillT4S1();
+		//////////////////////////
 		
 		new CasterSkillCore();
 	}

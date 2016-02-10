@@ -36,7 +36,7 @@ public class DebugItem extends Item implements IBasicAoV{
 		//if(worldIn.isRemote) Tamaized.AoV.common.client.ClientProxy.bar.setSlot(AbilityBase.fromName(CureLightWounds.getName()), 0);
 		//if(!worldIn.isRemote) AoV.serverAoVCore.getPlayer(playerIn).setCurrentDivinePower(AoV.serverAoVCore.getPlayer(playerIn).getMaxDivinePower());
 		if(!worldIn.isRemote){
-			//AoV.serverAoVCore.getPlayer(playerIn).addSkillPoints(1);
+			AoV.serverAoVCore.getPlayer(playerIn).addSkillPoints(1);
 		}
         return true;
     }
