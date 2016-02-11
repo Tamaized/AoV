@@ -90,6 +90,15 @@ public class AoVData {
 		tick++;
 	}
 	
+	public void addExp(int amount){
+		int currLevel = this.getLevel();
+		if(currLevel >= 15) return;
+		this.exp+=amount;
+		int points = this.getLevel()-currLevel;
+		this.addSkillPoints(points);
+		forceSync = true;
+	}
+	
 	public void setObtainedSkills(Object... skill){
 		obtainedSkills.clear();
 		obtainedCore = null;
@@ -227,6 +236,7 @@ public class AoVData {
 			AoVData dat = new AoVData(null, sPoint, cPoint, xp);
 			dat.setCurrentDivinePower(cPower);
 			dat.setMaxDivinePower(mPower);
+			dat.updateVariables();
 			return dat;
 		}else{
 			ArrayList<AoVSkill> skill = new ArrayList<AoVSkill>();
@@ -236,6 +246,7 @@ public class AoVData {
 			AoVData dat = new AoVData(null, sPoint, cPoint, xp, skill.toArray());
 			dat.setCurrentDivinePower(cPower);
 			dat.setMaxDivinePower(mPower);
+			dat.updateVariables();
 			return dat;
 		}
 	}

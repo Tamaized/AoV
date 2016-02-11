@@ -38,11 +38,17 @@ public abstract class AbilityBase {
 	}
 	
 	public void activate(EntityPlayer player, AoVData data, EntityLivingBase e){
-		int trueCost = (int) ((float) cost*(1f+data.getCostReductionPerc())) - data.getCostReductionFlat();
+		int trueCost = getTrueCost(data);
+		System.out.println(cost+" : "+Math.ceil(cost*(data.getCostReductionPerc()/100))+" : "+data.getCostReductionFlat()+" = "+trueCost);
 		if(trueCost <= data.getCurrentDivinePower()){
 			data.setCurrentDivinePower(data.getCurrentDivinePower()-trueCost);
 			doAction(player, data, e);
 		}
+	}
+	
+	public int getTrueCost(AoVData data){
+		int tCost =  (int) (cost - Math.ceil(cost*(data.getCostReductionPerc()/100))) - data.getCostReductionFlat();
+		return tCost < 1 ? 1 : tCost;
 	}
 	
 	protected abstract void doAction(EntityPlayer player, AoVData data, EntityLivingBase e);

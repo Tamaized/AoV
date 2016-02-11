@@ -14,9 +14,25 @@ import Tamaized.AoV.core.skills.healer.cores.HealerSkillCore2;
 import Tamaized.AoV.core.skills.healer.cores.HealerSkillCore3;
 import Tamaized.AoV.core.skills.healer.cores.HealerSkillCore4;
 import Tamaized.AoV.core.skills.healer.tier1.HealerSkillT1S1;
+import Tamaized.AoV.core.skills.healer.tier1.HealerSkillT1S2;
+import Tamaized.AoV.core.skills.healer.tier1.HealerSkillT1S3;
+import Tamaized.AoV.core.skills.healer.tier1.HealerSkillT1S4;
+import Tamaized.AoV.core.skills.healer.tier1.HealerSkillT1S5;
 import Tamaized.AoV.core.skills.healer.tier2.HealerSkillT2S1;
+import Tamaized.AoV.core.skills.healer.tier2.HealerSkillT2S2;
+import Tamaized.AoV.core.skills.healer.tier2.HealerSkillT2S3;
+import Tamaized.AoV.core.skills.healer.tier2.HealerSkillT2S4;
+import Tamaized.AoV.core.skills.healer.tier2.HealerSkillT2S5;
 import Tamaized.AoV.core.skills.healer.tier3.HealerSkillT3S1;
+import Tamaized.AoV.core.skills.healer.tier3.HealerSkillT3S2;
+import Tamaized.AoV.core.skills.healer.tier3.HealerSkillT3S3;
+import Tamaized.AoV.core.skills.healer.tier3.HealerSkillT3S4;
+import Tamaized.AoV.core.skills.healer.tier3.HealerSkillT3S5;
 import Tamaized.AoV.core.skills.healer.tier4.HealerSkillT4S1;
+import Tamaized.AoV.core.skills.healer.tier4.HealerSkillT4S2;
+import Tamaized.AoV.core.skills.healer.tier4.HealerSkillT4S3;
+import Tamaized.AoV.core.skills.healer.tier4.HealerSkillT4S4;
+import Tamaized.AoV.core.skills.healer.tier4.HealerSkillT4S5;
 
 public abstract class AoVSkill {
 	
@@ -69,9 +85,28 @@ public abstract class AoVSkill {
 		new HealerSkillCapStone();
 		
 		new HealerSkillT1S1();
+		new HealerSkillT1S2();
+		new HealerSkillT1S3();
+		new HealerSkillT1S4();
+		new HealerSkillT1S5();
+		
 		new HealerSkillT2S1();
+		new HealerSkillT2S2();
+		new HealerSkillT2S3();
+		new HealerSkillT2S4();
+		new HealerSkillT2S5();
+		
 		new HealerSkillT3S1();
+		new HealerSkillT3S2();
+		new HealerSkillT3S3();
+		new HealerSkillT3S4();
+		new HealerSkillT3S5();
+		
 		new HealerSkillT4S1();
+		new HealerSkillT4S2();
+		new HealerSkillT4S3();
+		new HealerSkillT4S4();
+		new HealerSkillT4S5();
 		//////////////////////////
 		
 		new CasterSkillCore();
@@ -83,6 +118,8 @@ public abstract class AoVSkill {
 		public final int spellPower;
 		public final float costReductionPerc;
 		public final int costReductionFlat;
+		
+		public boolean selectiveFocus = false;
 		
 		public Buffs(int dP, int sP, float crP, int crF){
 			divinePower = dP;
