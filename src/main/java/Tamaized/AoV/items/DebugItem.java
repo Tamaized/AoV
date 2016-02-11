@@ -12,6 +12,7 @@ import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.abilities.healer.CureLightWounds;
 import Tamaized.AoV.gui.GuiHandler;
+import Tamaized.AoV.gui.client.AoVOverlay;
 import Tamaized.AoV.registry.IBasicAoV;
 
 public class DebugItem extends Item implements IBasicAoV{
@@ -35,10 +36,9 @@ public class DebugItem extends Item implements IBasicAoV{
 		//if(worldIn.isRemote) AbilityBase.fromName(CureLightWounds.getName()).activate(playerIn, AoV.clientAoVCore.getPlayer(playerIn), null);
 		//if(worldIn.isRemote) Tamaized.AoV.common.client.ClientProxy.bar.setSlot(AbilityBase.fromName(CureLightWounds.getName()), 0);
 		//if(!worldIn.isRemote) AoV.serverAoVCore.getPlayer(playerIn).setCurrentDivinePower(AoV.serverAoVCore.getPlayer(playerIn).getMaxDivinePower());
-		if(!worldIn.isRemote){
-			//AoV.serverAoVCore.getPlayer(playerIn).addSkillPoints(1);
-			AoV.serverAoVCore.getPlayer(playerIn).addExp(150);
-		}
+		//if(!worldIn.isRemote) AoV.serverAoVCore.getPlayer(playerIn).addSkillPoints(1);
+		if(!worldIn.isRemote) AoV.serverAoVCore.getPlayer(playerIn).addExp(150);
+		//if(worldIn.isRemote) AoVOverlay.addFloatyText("test");
         return true;
     }
 

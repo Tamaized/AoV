@@ -3,7 +3,10 @@ package Tamaized.AoV.core;
 import java.util.ArrayList;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import Tamaized.AoV.core.skills.AoVSkill;
+import Tamaized.AoV.gui.client.AoVOverlay;
 
 public class AoVData {
 	
@@ -90,6 +93,24 @@ public class AoVData {
 		tick++;
 	}
 	
+	/**
+	 * This will be client specific, it is used to update the client's data after getting the new AoVData from a packet
+	 * This is also used to render GUI based things (Like FloatyText)
+	 */
+	@SideOnly(Side.CLIENT)
+	public void updateData(AoVData data){
+		skillPoints = data.getMaxSkillPoints();
+		currentPoints = data.getCurrentSkillPoints();
+		if(exp != data.getXP()){
+			AoVOverlay.addFloatyText("+"+(data.getXP() - exp)+"xp");
+			exp = data.getXP();
+		}
+		currPower = data.getCurrentDivinePower();
+		maxPower = data.getMaxDivinePower();
+		setObtainedSkills(data.getAllObtainedSkills());
+		this.updateVariables();
+	}
+	
 	public void addExp(int amount){
 		int currLevel = this.getLevel();
 		if(currLevel >= 15) return;
@@ -150,6 +171,10 @@ public class AoVData {
 	
 	public int getLevel(){
 		return (int) Math.floor(exp/150) + 1;
+	}
+	
+	public int getXP(){
+		return exp;
 	}
 	
 	public int getXpNeededToLevel(){

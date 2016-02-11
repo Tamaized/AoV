@@ -16,6 +16,7 @@ import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.AoVCoreClient;
 import Tamaized.AoV.core.AoVData;
 import Tamaized.AoV.core.skills.AoVSkill;
+import Tamaized.AoV.gui.client.AoVOverlay;
 import Tamaized.AoV.gui.client.AoVSkillsGUI;
 
 public class ClientPacketHandler{
@@ -46,7 +47,9 @@ public class ClientPacketHandler{
 				case TYPE_COREDATA:
 					String encodedPacket = bbis.readUTF();
 					if(AoV.clientAoVCore == null) AoV.clientAoVCore = new AoVCoreClient();
-					AoV.clientAoVCore.setPlayer(null, AoVData.fromPacket(encodedPacket));
+					AoVData newData = AoVData.fromPacket(encodedPacket);
+					if(AoV.clientAoVCore.getPlayer(null) == null) AoV.clientAoVCore.setPlayer(null, newData);
+					else AoV.clientAoVCore.getPlayer(null).updateData(newData);
 					if(AoVSkillsGUI.instance != null) AoVSkillsGUI.doRefresh = true;
 					break;
 				case TYPE_UPDATE_DIVINEPOWER: //We assume clientAoVCore is not null, if it is then something is seriously wrong
