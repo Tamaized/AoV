@@ -6,7 +6,7 @@ import net.minecraft.util.ResourceLocation;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.abilities.caster.NimbusRay;
-import Tamaized.AoV.core.abilities.healer.CureLightWounds;
+import Tamaized.AoV.core.abilities.healer.Healing.CureLightWounds;
 import Tamaized.AoV.core.skills.AoVSkill;
 import Tamaized.AoV.core.skills.AoVSkill.Buffs;
 

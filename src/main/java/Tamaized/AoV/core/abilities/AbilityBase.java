@@ -21,8 +21,11 @@ import Tamaized.AoV.AoV;
 import Tamaized.AoV.common.handlers.ServerPacketHandler;
 import Tamaized.AoV.core.AoVData;
 import Tamaized.AoV.core.abilities.caster.NimbusRay;
-import Tamaized.AoV.core.abilities.healer.CureLightWounds;
-import Tamaized.AoV.core.abilities.healer.CureModWounds;
+import Tamaized.AoV.core.abilities.healer.Healing.CureCriticalWounds;
+import Tamaized.AoV.core.abilities.healer.Healing.CureLightWounds;
+import Tamaized.AoV.core.abilities.healer.Healing.CureModWounds;
+import Tamaized.AoV.core.abilities.healer.Healing.CureSeriousWounds;
+import Tamaized.AoV.core.abilities.healer.Healing.Heal;
 
 public abstract class AbilityBase {
 	
@@ -68,20 +71,20 @@ public abstract class AbilityBase {
 	
 	public static void register(){
 		map = new HashMap<String, AbilityBase>();
-		AbilityBase a;
 		
 		//Healer
-		a = new CureLightWounds(4, 2, 4);
-		map.put(a.getName(), a);
-		
-		a = new CureModWounds(8, 2, 8);
-		map.put(a.getName(), a);
+		new CureLightWounds();
+		new CureModWounds();
+		new CureSeriousWounds();
+		new CureCriticalWounds();
+		new Heal();
 
 		//Caster
-		a = new NimbusRay(6, 20, 4);
+		new NimbusRay(6, 20, 4);
+	}
+	
+	public static void registerAbility(AbilityBase a){
 		map.put(a.getName(), a);
-		
-		a = null;
 	}
 	
 	public abstract ResourceLocation getIcon();

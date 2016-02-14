@@ -3,6 +3,7 @@ package Tamaized.AoV.core.skills.healer.tier1;
 import net.minecraft.util.ResourceLocation;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.abilities.AbilityBase;
+import Tamaized.AoV.core.abilities.healer.Healing.CureCriticalWounds;
 import Tamaized.AoV.core.skills.AoVSkill;
 import Tamaized.AoV.core.skills.healer.cores.HealerSkillCore1;
 

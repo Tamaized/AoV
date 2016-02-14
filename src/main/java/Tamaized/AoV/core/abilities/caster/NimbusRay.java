@@ -27,6 +27,7 @@ public class NimbusRay extends AbilityBase {
 				ChatFormatting.DARK_PURPLE+"Undead targets."
 				);
 		damage = dmg;
+		AbilityBase.registerAbility(this);
 	}
 
 	@Override

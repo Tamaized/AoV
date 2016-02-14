@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.abilities.AbilityBase;
-import Tamaized.AoV.core.abilities.healer.CureLightWounds;
+import Tamaized.AoV.core.abilities.healer.Healing.CureLightWounds;
 import Tamaized.AoV.gui.GuiHandler;
 import Tamaized.AoV.gui.client.AoVOverlay;
 import Tamaized.AoV.registry.IBasicAoV;
@@ -37,7 +37,7 @@ public class DebugItem extends Item implements IBasicAoV{
 		//if(worldIn.isRemote) Tamaized.AoV.common.client.ClientProxy.bar.setSlot(AbilityBase.fromName(CureLightWounds.getName()), 0);
 		//if(!worldIn.isRemote) AoV.serverAoVCore.getPlayer(playerIn).setCurrentDivinePower(AoV.serverAoVCore.getPlayer(playerIn).getMaxDivinePower());
 		//if(!worldIn.isRemote) AoV.serverAoVCore.getPlayer(playerIn).addSkillPoints(1);
-		if(!worldIn.isRemote) AoV.serverAoVCore.getPlayer(playerIn).addExp(150); else AoV.clientAoVCore.getPlayer(null).addExp(150);
+		if(!worldIn.isRemote) AoV.serverAoVCore.getPlayer(playerIn).addExp(AoV.serverAoVCore.getPlayer(playerIn).getXpNeededToLevel()); else AoV.clientAoVCore.getPlayer(null).addExp(AoV.clientAoVCore.getPlayer(null).getXpNeededToLevel());
 		//if(worldIn.isRemote) AoVOverlay.addFloatyText("test");
         return true;
     }

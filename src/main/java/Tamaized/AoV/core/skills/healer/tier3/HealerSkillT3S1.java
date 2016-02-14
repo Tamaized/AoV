@@ -3,6 +3,7 @@ package Tamaized.AoV.core.skills.healer.tier3;
 import net.minecraft.util.ResourceLocation;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.abilities.AbilityBase;
+import Tamaized.AoV.core.abilities.healer.Healing.CureCriticalWounds;
 import Tamaized.AoV.core.skills.AoVSkill;
 import Tamaized.AoV.core.skills.healer.tier2.HealerSkillT2S1;
 
@@ -15,7 +16,7 @@ public class HealerSkillT3S1 extends AoVSkill{
 	public HealerSkillT3S1() {
 		super(getUnlocalizedName(), AoVSkill.getSkillFromName(HealerSkillT2S1.getUnlocalizedName()), 1, 0, 8, false,
 				new AbilityBase[]{
-					
+					AbilityBase.fromName(CureCriticalWounds.getStaticName())	
 				},
 				ChatFormatting.AQUA+"Cure Critical Wounds",
 				ChatFormatting.RED+"Requires: 8 Points Spent in Tree",

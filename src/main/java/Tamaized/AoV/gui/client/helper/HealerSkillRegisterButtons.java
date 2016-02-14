@@ -67,13 +67,13 @@ public class HealerSkillRegisterButtons {
 		instance.addButton(sbI);
 		instance.skillButtonList.add(sbI);
 
-		sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 + 12, instance.height-88, HealerSkillT1S4.getUnlocalizedName());
-		instance.addButton(sbI);
-		instance.skillButtonList.add(sbI);
+		//sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 + 12, instance.height-88, HealerSkillT1S4.getUnlocalizedName());
+		//instance.addButton(sbI);
+		//instance.skillButtonList.add(sbI);
 
-		sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 + 37, instance.height-88, HealerSkillT1S5.getUnlocalizedName());
-		instance.addButton(sbI);
-		instance.skillButtonList.add(sbI);
+		//sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 + 37, instance.height-88, HealerSkillT1S5.getUnlocalizedName());
+		//instance.addButton(sbI);
+		//instance.skillButtonList.add(sbI);
 
 		////////////////////////////////////////////////////////// Tier 2 //////////////////////////////////////////////////////////////////////////
 		
@@ -93,9 +93,9 @@ public class HealerSkillRegisterButtons {
 		instance.addButton(sbI);
 		instance.skillButtonList.add(sbI);
 
-		sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 + 37, instance.height-128, HealerSkillT2S5.getUnlocalizedName());
-		instance.addButton(sbI);
-		instance.skillButtonList.add(sbI);
+		//sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 + 37, instance.height-128, HealerSkillT2S5.getUnlocalizedName());
+		//instance.addButton(sbI);
+		//instance.skillButtonList.add(sbI);
 
 		////////////////////////////////////////////////////////// Tier 3 //////////////////////////////////////////////////////////////////////////
 		
@@ -111,9 +111,9 @@ public class HealerSkillRegisterButtons {
 		instance.addButton(sbI);
 		instance.skillButtonList.add(sbI);
 
-		sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 + 12, instance.height-168, HealerSkillT3S4.getUnlocalizedName());
-		instance.addButton(sbI);
-		instance.skillButtonList.add(sbI);
+		//sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 + 12, instance.height-168, HealerSkillT3S4.getUnlocalizedName());
+		//instance.addButton(sbI);
+		//instance.skillButtonList.add(sbI);
 
 		sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 + 37, instance.height-168, HealerSkillT3S5.getUnlocalizedName());
 		instance.addButton(sbI);
@@ -133,9 +133,9 @@ public class HealerSkillRegisterButtons {
 		instance.addButton(sbI);
 		instance.skillButtonList.add(sbI);
 
-		sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 + 12, instance.height-208, HealerSkillT4S4.getUnlocalizedName());
-		instance.addButton(sbI);
-		instance.skillButtonList.add(sbI);
+		//sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 + 12, instance.height-208, HealerSkillT4S4.getUnlocalizedName());
+		//instance.addButton(sbI);
+		//instance.skillButtonList.add(sbI);
 
 		sbI = new SkillButton(instance.BUTTON_SKILL_CHECK, instance.width/2 + 37, instance.height-208, HealerSkillT4S5.getUnlocalizedName());
 		instance.addButton(sbI);

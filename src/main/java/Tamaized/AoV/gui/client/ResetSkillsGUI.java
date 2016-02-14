@@ -34,8 +34,8 @@ public class ResetSkillsGUI extends GuiScreen {
 		int loc4 = (int) (workW*.75) + margin*4;
 		buttonList.add(new GuiButton(BUTTON_CLOSE, loc1, height-25, 80, 20, "Close"));
 		buttonList.add(new GuiButton(BUTTON_BACK, loc2, height-25, 80, 20, "Back"));
-		buttonList.add(new GuiButton(BUTTON_RESET_MINOR, loc3, height-25, 80, 20, "Minor Reset"));
-		buttonList.add(new GuiButton(BUTTON_RESET_FULL, loc4, height-25, 80, 20, "Full Reset"));
+		buttonList.add(new GuiButton(BUTTON_RESET_FULL, loc3, height-25, 80, 20, "Full Reset"));
+		buttonList.add(new GuiButton(BUTTON_RESET_MINOR, loc4, height-25, 80, 20, "Minor Reset"));
 		
 	}
 	
