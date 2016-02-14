@@ -1,20 +1,28 @@
 package Tamaized.AoV.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.skills.AoVSkill;
 import Tamaized.AoV.gui.client.AoVOverlay;
 
 public class AoVData {
+	
+	private static final int xpScale = 50;
 	
 	private EntityPlayer player;
 	private ArrayList<AoVSkill> obtainedSkills;
 	private int skillPoints;
 	private int currentPoints;
 	private int exp;
+	private int level;
 	
 	//On Server this needs to be handled by skills; we then send the information to the client everytime it changes, dont do it every tick!
 	private int currPower = 0;
@@ -46,15 +54,16 @@ public class AoVData {
 		player = p;
 	}
 	
-	public AoVData(EntityPlayer p, int sPoints, int cPoints, int xp){
+	public AoVData(EntityPlayer p, int sPoints, int cPoints, int xp, int lvl){
 		this(p);
 		skillPoints = sPoints;
 		currentPoints = cPoints;
 		exp = xp;
+		level = lvl;
 	}
 	
-	public AoVData(EntityPlayer p, int sPoints, int cPoints, int xp, Object... skill){
-		this(p, sPoints, cPoints, xp);
+	public AoVData(EntityPlayer p, int sPoints, int cPoints, int xp, int lvl, Object... skill){
+		this(p, sPoints, cPoints, xp, lvl);
 		setObtainedSkills(skill);
 	}
 	
@@ -62,6 +71,7 @@ public class AoVData {
 		skillPoints = 1;
 		currentPoints = 1;
 		exp = 0;
+		level = 1;
 		return this;
 	}
 	
@@ -78,7 +88,6 @@ public class AoVData {
 			costReductionFlat += buffs.costReductionFlat;
 		}
 		if(currPower > maxPower) currPower = maxPower;
-		tick = 0;
 		forceSync = true;
 	}
 	
@@ -90,6 +99,10 @@ public class AoVData {
 		if(tick % (60*3) == 0){
 			if(currPower < maxPower) currPower++;
 		}
+		if(tick % (60*20) == 0){
+			AbilityBase.updateDecay();
+			tick = 0;
+		}
 		tick++;
 	}
 	
@@ -99,25 +112,35 @@ public class AoVData {
 	 */
 	@SideOnly(Side.CLIENT)
 	public void updateData(AoVData data){
-		skillPoints = data.getMaxSkillPoints();
-		currentPoints = data.getCurrentSkillPoints();
-		if(exp != data.getXP()){
-			AoVOverlay.addFloatyText("+"+(data.getXP() - exp)+"xp");
-			exp = data.getXP();
+		if(exp != data.getXP() || level != data.getLevel()){
+			AoVOverlay.addFloatyText("+"+String.valueOf(((data.getLevel()*xpScale) + data.getXP())-((getLevel()*xpScale) + getXP()))+"xp");
+			System.out.println(String.valueOf((data.getLevel()*xpScale) + data.getXP())+" : "+String.valueOf((getLevel()*xpScale) + getXP()));
+			System.out.println(String.valueOf((data.getLevel()))+" : "+String.valueOf((getLevel())));
+			if(data.getLevel() != getLevel()) AoVOverlay.addFloatyText("+"+(data.getLevel() - getLevel())+" Level(s)");
 		}
-		currPower = data.getCurrentDivinePower();
-		maxPower = data.getMaxDivinePower();
-		setObtainedSkills(data.getAllObtainedSkills());
-		this.updateVariables();
 	}
 	
 	public void addExp(int amount){
-		int currLevel = this.getLevel();
-		if(currLevel >= 15) return;
+		if(level >= 15) return;
 		this.exp+=amount;
-		int points = this.getLevel()-currLevel;
-		this.addSkillPoints(points);
+		if(getPlayer() == null){
+			Tamaized.AoV.gui.client.AoVOverlay.addFloatyText("+"+amount+"xp");
+		}
+		checkLevels();
 		forceSync = true;
+	}
+	
+	private void checkLevels(){
+		System.out.println(exp+" : "+this.getXpNeededToLevel());
+		if(exp >= this.getXpNeededToLevel()){
+			exp -= this.getXpNeededToLevel();
+			level++;
+			if(getPlayer() == null){
+				Tamaized.AoV.gui.client.AoVOverlay.addFloatyText("Level Up");
+			}
+			this.addSkillPoints(1);
+			checkLevels();
+		}
 	}
 	
 	public void setObtainedSkills(Object... skill){
@@ -170,7 +193,7 @@ public class AoVData {
 	}
 	
 	public int getLevel(){
-		return (int) Math.floor(exp/150) + 1;
+		return level;
 	}
 	
 	public int getXP(){
@@ -178,7 +201,7 @@ public class AoVData {
 	}
 	
 	public int getXpNeededToLevel(){
-		return 150*getLevel();
+		return xpScale*level;
 	}
 	
 	public void setCurrentSkillPoints(int i){
@@ -240,7 +263,7 @@ public class AoVData {
 	}
 	
 	public String toPacket(){
-		String p = skillPoints+":"+currentPoints+":"+exp+":"+currPower+":"+maxPower;
+		String p = skillPoints+":"+currentPoints+":"+exp+":"+level+":"+currPower+":"+maxPower;
 		if(obtainedSkills == null || obtainedSkills.isEmpty()) p = p.concat(":null");
 		for(AoVSkill s : obtainedSkills){
 			p = p.concat(":"+s.skillName);
@@ -255,20 +278,21 @@ public class AoVData {
 		int sPoint = Integer.parseInt(packet[0]);
 		int cPoint = Integer.parseInt(packet[1]);
 		int xp = Integer.parseInt(packet[2]);
-		int cPower = Integer.parseInt(packet[3]);
-		int mPower = Integer.parseInt(packet[4]);
-		if(packet[5].equals("null")){
-			AoVData dat = new AoVData(null, sPoint, cPoint, xp);
+		int lvl = Integer.parseInt(packet[3]);
+		int cPower = Integer.parseInt(packet[4]);
+		int mPower = Integer.parseInt(packet[5]);
+		if(packet[6].equals("null")){
+			AoVData dat = new AoVData(null, sPoint, cPoint, xp, lvl);
 			dat.setCurrentDivinePower(cPower);
 			dat.setMaxDivinePower(mPower);
 			dat.updateVariables();
 			return dat;
 		}else{
 			ArrayList<AoVSkill> skill = new ArrayList<AoVSkill>();
-			for(int i=5; i<packet.length; i++){
+			for(int i=6; i<packet.length; i++){
 				skill.add(AoVSkill.getSkillFromName(packet[i]));
 			}
-			AoVData dat = new AoVData(null, sPoint, cPoint, xp, skill.toArray());
+			AoVData dat = new AoVData(null, sPoint, cPoint, xp, lvl, skill.toArray());
 			dat.setCurrentDivinePower(cPower);
 			dat.setMaxDivinePower(mPower);
 			dat.updateVariables();

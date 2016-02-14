@@ -48,8 +48,8 @@ public class ClientPacketHandler{
 					String encodedPacket = bbis.readUTF();
 					if(AoV.clientAoVCore == null) AoV.clientAoVCore = new AoVCoreClient();
 					AoVData newData = AoVData.fromPacket(encodedPacket);
-					if(AoV.clientAoVCore.getPlayer(null) == null) AoV.clientAoVCore.setPlayer(null, newData);
-					else AoV.clientAoVCore.getPlayer(null).updateData(newData);
+					//if(AoV.clientAoVCore.getPlayer(null) != null) AoV.clientAoVCore.getPlayer(null).updateData(newData);
+					AoV.clientAoVCore.setPlayer(null, newData);
 					if(AoVSkillsGUI.instance != null) AoVSkillsGUI.doRefresh = true;
 					break;
 				case TYPE_UPDATE_DIVINEPOWER: //We assume clientAoVCore is not null, if it is then something is seriously wrong

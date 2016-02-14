@@ -10,11 +10,11 @@ import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.AoVData;
 import Tamaized.AoV.core.abilities.AbilityBase;
 
-public class CureLightWounds extends AbilityBase{
+public class CureModWounds extends AbilityBase{
 	
 	private int damage = 0;
 
-	public CureLightWounds(int c, double r, int dmg) {
+	public CureModWounds(int c, double r, int dmg) {
 		super(c, r,
 				ChatFormatting.YELLOW+getStaticName(),
 				"",
@@ -55,12 +55,12 @@ public class CureLightWounds extends AbilityBase{
 	}
 
 	public static String getStaticName() {
-		return "Cure Light Wounds";
+		return "Cure Moderate Wounds";
 	}
 
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid+":textures/spells/cureLightWounds.png");
+		return new ResourceLocation(AoV.modid+":textures/spells/cureModWounds.png");
 	}
 
 }

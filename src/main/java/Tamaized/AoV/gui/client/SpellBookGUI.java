@@ -54,7 +54,7 @@ public class SpellBookGUI extends GuiScreen {
 				AbilityBase spell = AbilityBase.fromName(s);
 				if(spellList.contains(s) || spell == null) continue;
 				spellList.add(s);
-				buttonList.add(new SpellButton(BUTTON_SPELL, xLoc, yLoc*(id+1), spell));
+				buttonList.add(new SpellButton(BUTTON_SPELL, xLoc, yLoc+(25*(id)), spell));
 				id++;
 			}
 		}

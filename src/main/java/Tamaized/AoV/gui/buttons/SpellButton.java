@@ -14,7 +14,7 @@ public class SpellButton extends GuiButton{
 	public final AbilityBase spell;
 
 	public SpellButton(int buttonId, int x, int y, AbilityBase theSpell) {
-		super(buttonId, x, y, 65, 18, "");
+		super(buttonId, x, y, 80, 18, "");
 		spell = theSpell;
 	}
 	
@@ -50,7 +50,7 @@ public class SpellButton extends GuiButton{
             AoVUIBar.renderHotbarIcon(this, 0, xPosition+1, yPosition+1, 0, spell == null ? null : spell.getIcon());
             GlStateManager.pushMatrix();
             GlStateManager.scale(0.5f, 0.5f, 0.0f);
-            this.drawString(fontrenderer, spell.getName(), xPosition+85, yPosition+63, 0xFFFF00);
+            this.drawString(fontrenderer, spell.getName(), xPosition+85, yPosition*2 + 14, 0xFFFF00);
             GlStateManager.popMatrix();
         }
     }
