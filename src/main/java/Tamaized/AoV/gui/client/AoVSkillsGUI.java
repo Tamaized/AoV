@@ -98,6 +98,7 @@ public class AoVSkillsGUI extends GuiScreen {
 					GuiHandler.openGUI(GuiHandler.GUI_RESET);
 					break;
 				case BUTTON_CHECKSTATS:
+					GuiHandler.openGUI(GuiHandler.GUI_CHECKSTATS);
 					break;
 				default:
 					break;
