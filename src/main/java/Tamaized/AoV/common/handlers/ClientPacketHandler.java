@@ -18,17 +18,18 @@ import Tamaized.AoV.core.AoVData;
 import Tamaized.AoV.core.skills.AoVSkill;
 import Tamaized.AoV.gui.client.AoVOverlay;
 import Tamaized.AoV.gui.client.AoVSkillsGUI;
+import Tamaized.AoV.helper.ParticleHelper;
 
 public class ClientPacketHandler{
 	
 	public static final int TYPE_COREDATA = 0;
 	public static final int TYPE_UPDATE_DIVINEPOWER = 1;
+	public static final int TYPE_PARTICLE_BURST = 2;
 	
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onClientPacket(ClientCustomPacketEvent event) {
 		try {
-			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 			ByteBufInputStream bbis = new ByteBufInputStream(event.packet.payload());
 			processPacketOnClient(event.packet.payload(), Side.CLIENT);
 			bbis.close();
@@ -39,7 +40,7 @@ public class ClientPacketHandler{
 	
 	@SideOnly(Side.CLIENT)
 	public static void processPacketOnClient(ByteBuf parBB, Side parSide) throws IOException{
-		World theWorld = Minecraft.getMinecraft().theWorld;
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		if (parSide == Side.CLIENT){
 			ByteBufInputStream bbis = new ByteBufInputStream(parBB);
 			int pktType = bbis.readInt();
@@ -55,6 +56,9 @@ public class ClientPacketHandler{
 				case TYPE_UPDATE_DIVINEPOWER: //We assume clientAoVCore is not null, if it is then something is seriously wrong
 					AoV.clientAoVCore.getPlayer(null).setCurrentDivinePower(bbis.readInt());
 					AoV.clientAoVCore.getPlayer(null).setMaxDivinePower(bbis.readInt());
+					break;
+				case TYPE_PARTICLE_BURST: //We assume clientAoVCore is not null, if it is then something is seriously wrong
+					ParticleHelper.burstParticles(player.worldObj, bbis.readDouble(), bbis.readDouble(), bbis.readDouble(), player.getRNG(), bbis.readInt());
 					break;
 				default:
 					break;

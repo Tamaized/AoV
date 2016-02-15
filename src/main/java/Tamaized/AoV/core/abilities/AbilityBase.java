@@ -22,6 +22,7 @@ import Tamaized.AoV.common.handlers.ServerPacketHandler;
 import Tamaized.AoV.core.AoVData;
 import Tamaized.AoV.core.abilities.caster.NimbusRay;
 import Tamaized.AoV.core.abilities.healer.Test;
+import Tamaized.AoV.core.abilities.healer.Cores.Burst;
 import Tamaized.AoV.core.abilities.healer.Healing.CureCriticalWounds;
 import Tamaized.AoV.core.abilities.healer.Healing.CureLightWounds;
 import Tamaized.AoV.core.abilities.healer.Healing.CureModWounds;
@@ -77,14 +78,15 @@ public abstract class AbilityBase {
 	public static void register(){
 		map = new HashMap<String, AbilityBase>();
 		
+		new Test();
+		
 		//Healer
 		new CureLightWounds();
 		new CureModWounds();
 		new CureSeriousWounds();
 		new CureCriticalWounds();
 		new Heal();
-		
-		new Test();
+		new Burst();
 
 		//Caster
 		new NimbusRay(6, 20, 4);
