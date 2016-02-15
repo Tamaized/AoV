@@ -29,4 +29,4 @@
   
 ## Misc.
   * [Wiki](https://github.com/Tamaized/AoV/wiki)
-    * This is being edited by [Anromora](https://github.com/Anromora). If you find any issues then go bug him about it :D
+    * This is being done by [Anromora](https://github.com/Anromora). If you find any issues then go bug him about it :D
