@@ -13,10 +13,9 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 public abstract class CureWounds extends AbilityBase{
 	
 	private int damage = 0;
-	public final String name;
 
 	public CureWounds(String n, int c, double r, int dmg) {
-		super(c, r,
+		super(n, c, r,
 				ChatFormatting.YELLOW+n,
 				"",
 				ChatFormatting.AQUA+"Cost: "+c,
@@ -26,9 +25,8 @@ public abstract class CureWounds extends AbilityBase{
 				ChatFormatting.DARK_PURPLE+"Heals yourself or an entity if",
 				ChatFormatting.DARK_PURPLE+"your crosshair is over the entity."
 				);
-		name = n;
+		System.out.println(name);
 		damage = dmg;
-		AbilityBase.registerAbility(this);
 	}
 
 	@Override
@@ -51,11 +49,6 @@ public abstract class CureWounds extends AbilityBase{
 			}
 		}
 		this.addXP(data, 20);
-	}
-	
-	@Override
-	public String getName(){
-		return name;
 	}
 
 }

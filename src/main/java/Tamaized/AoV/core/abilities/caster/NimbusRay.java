@@ -14,7 +14,7 @@ public class NimbusRay extends AbilityBase {
 	private int damage = 0;
 
 	public NimbusRay(int c, double d, int dmg) {
-		super(c, d,
+		super(getStaticName(), c, d,
 				ChatFormatting.YELLOW+getStaticName(),
 				"",
 				ChatFormatting.AQUA+"Cost: "+c,
@@ -27,7 +27,6 @@ public class NimbusRay extends AbilityBase {
 				ChatFormatting.DARK_PURPLE+"Undead targets."
 				);
 		damage = dmg;
-		AbilityBase.registerAbility(this);
 	}
 
 	@Override

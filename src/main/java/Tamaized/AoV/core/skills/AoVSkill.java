@@ -61,8 +61,9 @@ public abstract class AoVSkill {
 		description = new ArrayList<String>();
 		for(String s : desc) description.add(s);
 		abilities = new ArrayList<String>();
-		for(AbilityBase spell : spells) abilities.add(spell.getName());
 		registry.put(name, this);
+		for(AbilityBase spell : spells) abilities.add(spell.getName());
+		
 	}
 	
 	protected abstract void setupBuffs();

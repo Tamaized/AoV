@@ -21,6 +21,7 @@ import Tamaized.AoV.AoV;
 import Tamaized.AoV.common.handlers.ServerPacketHandler;
 import Tamaized.AoV.core.AoVData;
 import Tamaized.AoV.core.abilities.caster.NimbusRay;
+import Tamaized.AoV.core.abilities.healer.Test;
 import Tamaized.AoV.core.abilities.healer.Healing.CureCriticalWounds;
 import Tamaized.AoV.core.abilities.healer.Healing.CureLightWounds;
 import Tamaized.AoV.core.abilities.healer.Healing.CureModWounds;
@@ -30,6 +31,8 @@ import Tamaized.AoV.core.abilities.healer.Healing.Heal;
 public abstract class AbilityBase {
 	
 	private static Map<String, AbilityBase> map = new HashMap<String, AbilityBase>();
+
+	public final String name;
 	
 	public final int cost;
 	public final double maxDistance;
@@ -38,11 +41,13 @@ public abstract class AbilityBase {
 
 	private static Map<String, Integer> decay = new HashMap<String, Integer>();
 	
-	public AbilityBase(int c, double d, String... desc){
+	public AbilityBase(String n, int c, double d, String... desc){
+		name = n;
 		cost = c;
 		maxDistance = d;
 		description = new ArrayList<String>();
 		for(String s : desc) description.add(s);
+		registerAbility(this);
 	}
 	
 	public void activate(EntityPlayer player, AoVData data, EntityLivingBase e){
@@ -78,18 +83,24 @@ public abstract class AbilityBase {
 		new CureSeriousWounds();
 		new CureCriticalWounds();
 		new Heal();
+		
+		new Test();
 
 		//Caster
 		new NimbusRay(6, 20, 4);
 	}
 	
-	public static void registerAbility(AbilityBase a){
+	private static void registerAbility(AbilityBase a){
+		System.out.println(a.getName()+" : "+a);
 		map.put(a.getName(), a);
 	}
 	
 	public abstract ResourceLocation getIcon();
 	
-	public abstract String getName();
+	public String getName(){
+		return name;
+	}
+	
 	public static AbilityBase fromName(String n){
 		return map.get(n);
 	}

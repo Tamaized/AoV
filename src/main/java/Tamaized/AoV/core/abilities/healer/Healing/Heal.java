@@ -7,7 +7,7 @@ import Tamaized.AoV.core.abilities.healer.CureWounds;
 public class Heal extends CureWounds{
 
 	public Heal() {
-		super(getStaticName(), 20, 10, 20);
+		super(Heal.getStaticName(), 20, 10, 20);
 	}
 
 	public static String getStaticName() {
