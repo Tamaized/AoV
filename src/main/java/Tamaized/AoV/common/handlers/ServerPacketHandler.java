@@ -30,6 +30,8 @@ public class ServerPacketHandler {
 	public static final int TYPE_RESETSKILLS_MINOR = 2;
 	public static final int TYPE_SPELLCAST_SELF = 3;
 	public static final int TYPE_SPELLCAST_TARGET = 4;
+	public static final int TYPE_SPELLBAR_REMOVE = 5;
+	public static final int TYPE_SPELLBAR_ADDNEAR = 6;
 	
 	@SubscribeEvent
 	public void onServerPacket(ServerCustomPacketEvent event) {
@@ -96,6 +98,7 @@ public class ServerPacketHandler {
 					AoVData data = core.getPlayer(player);
 					data.setObtainedSkills(data.getCoreSkill());
 					data.setCurrentSkillPoints(data.getMaxSkillPoints()-1);
+					data.clearAllSlots();
 					sendAovDataPacket(player, data);
 				}
 					break;
@@ -118,6 +121,24 @@ public class ServerPacketHandler {
 					Entity entity = player.worldObj.getEntityByID(bbis.readInt());
 					if(spell == null || !(entity instanceof EntityLivingBase)) break;
 					spell.activate(player, data, (EntityLivingBase) entity);
+				}
+					break;
+					
+				case TYPE_SPELLBAR_REMOVE:
+				{
+					AoVCore core = AoV.serverAoVCore;
+					AoVData data = core.getPlayer(player);
+					data.removeSlot(bbis.readInt());
+					sendAovDataPacket(player, data);
+				}
+					break;
+					
+				case TYPE_SPELLBAR_ADDNEAR:
+				{
+					AoVCore core = AoV.serverAoVCore;
+					AoVData data = core.getPlayer(player);
+					data.addToNearestSlot(AbilityBase.fromName(bbis.readUTF()));
+					sendAovDataPacket(player, data);
 				}
 					break;
 					

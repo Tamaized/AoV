@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.skills.AoVSkill;
 import Tamaized.AoV.gui.client.AoVOverlay;
@@ -23,6 +24,9 @@ public class AoVData {
 	private int currentPoints;
 	private int exp;
 	private int level;
+	
+    public int slotLoc = 0; //This needs to be handled on client side
+	private AbilityBase[] slots = new AbilityBase[10]; //This needs to be handled on the server
 	
 	//On Server this needs to be handled by skills; we then send the information to the client everytime it changes, dont do it every tick!
 	private int currPower = 0;
@@ -264,6 +268,10 @@ public class AoVData {
 	
 	public String toPacket(){
 		String p = skillPoints+":"+currentPoints+":"+exp+":"+level+":"+currPower+":"+maxPower;
+		for(int i=0; i<9; i++){
+			System.out.println(slots[i]);
+			p = p.concat(":".concat(slots[i] == null ? "null" : slots[i].getName()));
+		}
 		if(obtainedSkills == null || obtainedSkills.isEmpty()) p = p.concat(":null");
 		for(AoVSkill s : obtainedSkills){
 			p = p.concat(":"+s.skillName);
@@ -272,8 +280,8 @@ public class AoVData {
 	}
 	
 	public static AoVData fromPacket(String p){
-		//System.out.println("incomming packet to parse");
-		//System.out.println(p);
+		System.out.println("incomming packet to parse");
+		System.out.println(p);
 		String[] packet = p.split(":");
 		int sPoint = Integer.parseInt(packet[0]);
 		int cPoint = Integer.parseInt(packet[1]);
@@ -281,21 +289,28 @@ public class AoVData {
 		int lvl = Integer.parseInt(packet[3]);
 		int cPower = Integer.parseInt(packet[4]);
 		int mPower = Integer.parseInt(packet[5]);
-		if(packet[6].equals("null")){
+		AbilityBase[] slotz = new AbilityBase[10];
+		for(int i=0; i<9; i++){
+			String s = packet[6+i];
+			slotz[i] = s == null ? null : AbilityBase.fromName(s);
+		}
+		if(packet[15].equals("null")){
 			AoVData dat = new AoVData(null, sPoint, cPoint, xp, lvl);
 			dat.setCurrentDivinePower(cPower);
 			dat.setMaxDivinePower(mPower);
 			dat.updateVariables();
+			dat.setAllSlots(slotz);
 			return dat;
 		}else{
 			ArrayList<AoVSkill> skill = new ArrayList<AoVSkill>();
-			for(int i=6; i<packet.length; i++){
+			for(int i=15; i<packet.length; i++){
 				skill.add(AoVSkill.getSkillFromName(packet[i]));
 			}
 			AoVData dat = new AoVData(null, sPoint, cPoint, xp, lvl, skill.toArray());
 			dat.setCurrentDivinePower(cPower);
 			dat.setMaxDivinePower(mPower);
 			dat.updateVariables();
+			dat.setAllSlots(slotz);
 			return dat;
 		}
 	}
@@ -305,6 +320,55 @@ public class AoVData {
 		if(last_exp != exp || last_currPower != currPower || last_maxPower != maxPower || forceSync) flag = true;
 		forceSync = false;
 		return flag;
+	}
+	
+	public void setSlot(AbilityBase spell, int slot){
+		if(slot < 0 || slot > 9){
+			AoV.logger.error("ISSUE! An Ability was attempted to be set out of bounds on AoVUIBar!");
+			return;
+		}
+		slots[slot] = spell;
+	}
+	
+	public AbilityBase getSlot(int slot){
+		return slots[slot];
+	}
+	
+	public AbilityBase getCurrentSlot(){
+		return slots[slotLoc];
+	}
+	
+	public boolean contains(AbilityBase spell){
+		for(AbilityBase ab : slots){
+			if(ab == spell) return true;
+		}
+		return false;
+	}
+	
+	public void addToNearestSlot(AbilityBase spell){
+		if(contains(spell)) return;
+		for(int i=0; i<9; i++){
+			if(slots[i] == null){
+				setSlot(spell, i);
+				break;
+			}
+		}
+	}
+	
+	public void setAllSlots(AbilityBase... ab){
+		for(int i=0; i<ab.length; i++){
+			setSlot(ab[i], i);
+		}
+	}
+	
+	public void removeSlot(int i){
+		slots[i] = null;
+	}
+	
+	public void clearAllSlots(){
+		for(int i=0; i<9; i++){
+			slots[i] = null;
+		}
 	}
 
 }

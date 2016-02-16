@@ -50,7 +50,6 @@ public class Burst extends AbilityBase{
 				else entity.heal(a);
 				this.addXP(data, 20);
 			}
-			list.clear();
 		}
 	}
 

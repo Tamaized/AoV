@@ -51,11 +51,11 @@ public class ResetSkillsGUI extends GuiScreen {
 					GuiHandler.openGUI(GuiHandler.GUI_SKILLS);
 					break;
 				case BUTTON_RESET_MINOR:
-					ClientProxy.bar.clearAllSlots();
+					data.clearAllSlots();
 					if(data.hasSkillsBesidesCore()) this.sendPacket(ServerPacketHandler.TYPE_RESETSKILLS_MINOR);
 					break;
 				case BUTTON_RESET_FULL:
-					ClientProxy.bar.clearAllSlots();
+					data.clearAllSlots();
 					if(data.getCoreSkill() != null) this.sendPacket(ServerPacketHandler.TYPE_RESETSKILLS_FULL);
 					break;
 				default:

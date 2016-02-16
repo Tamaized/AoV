@@ -73,7 +73,7 @@ public class AoVOverlay extends Gui{
 				GlStateManager.scale(0.5f, 0.5f, 0f);
 				int cT = 0xFFFFFFFF;
 				int cB = 0xDDFFFFFF;
-				AbilityBase spell = ClientProxy.bar.getCurrentSlot();
+				AbilityBase spell = data.getCurrentSlot();
 				if(spell != null && spell.getTrueCost(data) > data.getCurrentDivinePower()){
 					cT = 0xFFFF0000;
 					cB = 0xDDFF0000;

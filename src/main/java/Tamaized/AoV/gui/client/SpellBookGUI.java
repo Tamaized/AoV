@@ -1,5 +1,9 @@
 package Tamaized.AoV.gui.client;
 
+import io.netty.buffer.ByteBufOutputStream;
+import io.netty.buffer.Unpooled;
+
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -8,9 +12,12 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.common.client.ClientProxy;
+import Tamaized.AoV.common.handlers.ServerPacketHandler;
+import Tamaized.AoV.core.AoVData;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.skills.AoVSkill;
 import Tamaized.AoV.gui.GuiHandler;
@@ -83,34 +90,34 @@ public class SpellBookGUI extends GuiScreen {
 					GuiHandler.openGUI(GuiHandler.GUI_SKILLS);
 					break;
 				case BUTTON_SPELL:
-					ClientProxy.bar.addToNearestSlot(((SpellButton) button).spell);
+					this.sendPacketTypeAddNearestSlot(((SpellButton) button).spell.getName());
 					break;
 				case BUTTON_BAR_SLOT_0:
-					ClientProxy.bar.removeSlot(0);
+					sendPacketTypeRemoveSlot(0);
 					break;
 				case BUTTON_BAR_SLOT_1:
-					ClientProxy.bar.removeSlot(1);
+					sendPacketTypeRemoveSlot(1);
 					break;
 				case BUTTON_BAR_SLOT_2:
-					ClientProxy.bar.removeSlot(2);
+					sendPacketTypeRemoveSlot(2);
 					break;
 				case BUTTON_BAR_SLOT_3:
-					ClientProxy.bar.removeSlot(3);
+					sendPacketTypeRemoveSlot(3);
 					break;
 				case BUTTON_BAR_SLOT_4:
-					ClientProxy.bar.removeSlot(4);
+					sendPacketTypeRemoveSlot(4);
 					break;
 				case BUTTON_BAR_SLOT_5:
-					ClientProxy.bar.removeSlot(5);
+					sendPacketTypeRemoveSlot(5);
 					break;
 				case BUTTON_BAR_SLOT_6:
-					ClientProxy.bar.removeSlot(6);
+					sendPacketTypeRemoveSlot(6);
 					break;
 				case BUTTON_BAR_SLOT_7:
-					ClientProxy.bar.removeSlot(7);
+					sendPacketTypeRemoveSlot(7);
 					break;
 				case BUTTON_BAR_SLOT_8:
-					ClientProxy.bar.removeSlot(8);
+					sendPacketTypeRemoveSlot(8);
 					break;
 				default:
 					break;
@@ -151,6 +158,7 @@ public class SpellBookGUI extends GuiScreen {
 	}
 	
 	private void renderBar(float partialTicks){
+		AoVData data = AoV.clientAoVCore.getPlayer(null);
 		ScaledResolution sr = new ScaledResolution(mc);
 		float alpha = 1.0f;
 		GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
@@ -167,16 +175,44 @@ public class SpellBookGUI extends GuiScreen {
         for (int j = 0; j < 9; ++j)
         {
 			GlStateManager.translate(20.01f, 0, 0);
-        	if(ClientProxy.bar.getSlot(j) == null) continue;
+        	if(data.getSlot(j) == null) continue;
             int k = sr.getScaledWidth() / 2 - 90 + 2;
             int l = sr.getScaledHeight() - 47;
 			GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);	
-            AoVUIBar.renderHotbarIcon(this, j, k, l, partialTicks, ClientProxy.bar.getSlot(j) == null ? null : ClientProxy.bar.getSlot(j).getIcon());
+            AoVUIBar.renderHotbarIcon(this, j, k, l, partialTicks, data.getSlot(j) == null ? null : data.getSlot(j).getIcon());
         }
         GlStateManager.popMatrix();
         RenderHelper.disableStandardItemLighting();
         GlStateManager.disableRescaleNormal();
         GlStateManager.disableBlend();
+	}
+	
+	private void sendPacketTypeRemoveSlot(int slot){
+		ByteBufOutputStream bos = new ByteBufOutputStream(Unpooled.buffer());
+		DataOutputStream outputStream = new DataOutputStream(bos);
+		try {
+			outputStream.writeInt(ServerPacketHandler.TYPE_SPELLBAR_REMOVE);
+			outputStream.writeInt(slot);
+			FMLProxyPacket pkt = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
+			if(AoV.channel != null && pkt != null) AoV.channel.sendToServer(pkt);
+			bos.close();
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void sendPacketTypeAddNearestSlot(String ability){
+		ByteBufOutputStream bos = new ByteBufOutputStream(Unpooled.buffer());
+		DataOutputStream outputStream = new DataOutputStream(bos);
+		try {
+			outputStream.writeInt(ServerPacketHandler.TYPE_SPELLBAR_ADDNEAR);
+			outputStream.writeUTF(ability);
+			FMLProxyPacket pkt = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
+			if(AoV.channel != null && pkt != null) AoV.channel.sendToServer(pkt);
+			bos.close();
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
