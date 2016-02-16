@@ -54,12 +54,8 @@ public class PlayerJoinLeaveEvent {
 					obtainedSkills.add(AoVSkill.getSkillFromName(s));
 				}
 				data = new AoVData(player, ct.getInteger("skillPointsMax"), ct.getInteger("skillPointsCurrent"), ct.getInteger("xp"), ct.getInteger("level"), obtainedSkills.toArray());
-				data.setCurrentDivinePower(ct.getInteger("currentDivinePower"));
-				data.setMaxDivinePower(ct.getInteger("maxDivinePower"));
-				data.updateVariables();
 			}else{
 				data = new AoVData(player, ct.getInteger("skillPointsMax"), ct.getInteger("skillPointsCurrent"), ct.getInteger("xp"), ct.getInteger("level"));
-				data.updateVariables();
 			}
 			NBTTagCompound bar = ct.getCompoundTag("bar");
 			if(bar != null){
@@ -69,6 +65,9 @@ public class PlayerJoinLeaveEvent {
 					else data.setSlot(AbilityBase.fromName(s), i);
 				}
 			}
+			data.setCurrentDivinePower(ct.getInteger("currentDivinePower"));
+			data.setMaxDivinePower(ct.getInteger("maxDivinePower"));
+			data.updateVariables();
 			return data;
 		}
 		return new AoVData(player).Construct();
