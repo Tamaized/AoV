@@ -280,8 +280,8 @@ public class AoVData {
 	}
 	
 	public static AoVData fromPacket(String p){
-		System.out.println("incomming packet to parse");
-		System.out.println(p);
+		//System.out.println("incomming packet to parse");
+		//System.out.println(p);
 		String[] packet = p.split(":");
 		int sPoint = Integer.parseInt(packet[0]);
 		int cPoint = Integer.parseInt(packet[1]);

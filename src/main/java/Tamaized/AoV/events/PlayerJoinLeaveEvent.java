@@ -54,6 +54,8 @@ public class PlayerJoinLeaveEvent {
 					obtainedSkills.add(AoVSkill.getSkillFromName(s));
 				}
 				data = new AoVData(player, ct.getInteger("skillPointsMax"), ct.getInteger("skillPointsCurrent"), ct.getInteger("xp"), ct.getInteger("level"), obtainedSkills.toArray());
+				data.setCurrentDivinePower(ct.getInteger("currentDivinePower"));
+				data.setMaxDivinePower(ct.getInteger("maxDivinePower"));
 				data.updateVariables();
 			}else{
 				data = new AoVData(player, ct.getInteger("skillPointsMax"), ct.getInteger("skillPointsCurrent"), ct.getInteger("xp"), ct.getInteger("level"));
@@ -74,6 +76,8 @@ public class PlayerJoinLeaveEvent {
 	
 	private void writeNBT(EntityPlayer player, AoVData data){
 		NBTTagCompound ct = new NBTTagCompound();{
+			ct.setInteger("currentDivinePower", data.getCurrentDivinePower());
+			ct.setInteger("maxDivinePower", data.getMaxDivinePower());
 			ct.setInteger("skillPointsMax", data.getMaxSkillPoints());
 			ct.setInteger("skillPointsCurrent", data.getCurrentSkillPoints());
 			ct.setInteger("xp", data.getXP());
