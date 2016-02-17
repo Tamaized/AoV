@@ -7,7 +7,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Random;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
@@ -24,7 +24,7 @@ public class ParticleHelper {
 		BURST
 	}
 	
-	public static void sendPacketToClients(Type type, EntityPlayer target, int range){
+	public static void sendPacketToClients(Type type, EntityLivingBase target, int range){
 		switch(type){
 			case BURST:
 				packetTypeBurst(target, range);
@@ -34,7 +34,7 @@ public class ParticleHelper {
 		}
 	}
 	
-	private static void packetTypeBurst(EntityPlayer target, int range){
+	private static void packetTypeBurst(EntityLivingBase target, int range){
 		ByteBufOutputStream bos = new ByteBufOutputStream(Unpooled.buffer());
 		DataOutputStream outputStream = new DataOutputStream(bos);
 		try {

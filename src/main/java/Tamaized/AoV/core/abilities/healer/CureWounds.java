@@ -1,12 +1,16 @@
 package Tamaized.AoV.core.abilities.healer;
 
+import java.util.List;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.AoVData;
 import Tamaized.AoV.core.abilities.AbilityBase;
+import Tamaized.AoV.helper.ParticleHelper;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 
@@ -15,7 +19,7 @@ public abstract class CureWounds extends AbilityBase{
 	private int damage = 0;
 
 	public CureWounds(String n, int c, double r, int dmg) {
-		super(n, c, r,
+		super(n, c, r, true,
 				ChatFormatting.YELLOW+n,
 				"",
 				ChatFormatting.AQUA+"Cost: "+c,
@@ -39,15 +43,34 @@ public abstract class CureWounds extends AbilityBase{
 		}else{
 			int a = (int) (damage*(1f+(data.getSpellPower()/100f)));
 			if(e == null){
-				player.heal(a);
+				if(data.invokeMass){
+					castAsMass(player, a, data);
+				}else{
+					player.heal(a);
+				}
 			}else{
 				if(e != null){
-					if(e.isEntityUndead()) e.attackEntityFrom(DamageSource.magic, a);
-					else e.heal(a);
+					if(data.invokeMass){
+						castAsMass(e, a, data);
+					}else{
+						if(e.isEntityUndead()) e.attackEntityFrom(DamageSource.magic, a);
+						else e.heal(a);
+					}
 				}
 			}
 		}
 		this.addXP(data, 20);
+	}
+	
+	private void castAsMass(EntityLivingBase target, int dmg, AoVData data){
+		int range = (int) (maxDistance*2);
+		ParticleHelper.sendPacketToClients(ParticleHelper.Type.BURST, target, range);
+		List<EntityLivingBase> list = target.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(target.getPosition().add(-range, -range, -range), target.getPosition().add(range, range, range)));
+		for(EntityLivingBase entity : list){
+			if(entity.isEntityUndead()) entity.attackEntityFrom(DamageSource.magic, dmg);
+			else entity.heal(dmg);
+			this.addXP(data, 20);
+		}
 	}
 
 }

@@ -28,6 +28,7 @@ import Tamaized.AoV.core.abilities.healer.Healing.CureLightWounds;
 import Tamaized.AoV.core.abilities.healer.Healing.CureModWounds;
 import Tamaized.AoV.core.abilities.healer.Healing.CureSeriousWounds;
 import Tamaized.AoV.core.abilities.healer.Healing.Heal;
+import Tamaized.AoV.core.abilities.universal.InvokeMass;
 
 public abstract class AbilityBase {
 	
@@ -37,15 +38,17 @@ public abstract class AbilityBase {
 	
 	public final int cost;
 	public final double maxDistance;
+	private final boolean usesInvoke;
 	
 	public final List<String> description;
 
 	private static Map<String, Integer> decay = new HashMap<String, Integer>();
 	
-	public AbilityBase(String n, int c, double d, String... desc){
+	public AbilityBase(String n, int c, double d, boolean invoke, String... desc){
 		name = n;
 		cost = c;
 		maxDistance = d;
+		usesInvoke = invoke;
 		description = new ArrayList<String>();
 		for(String s : desc) description.add(s);
 		registerAbility(this);
@@ -60,7 +63,8 @@ public abstract class AbilityBase {
 	}
 	
 	public int getTrueCost(AoVData data){
-		int tCost =  (int) (cost - Math.ceil(cost*(data.getCostReductionPerc()/100))) - data.getCostReductionFlat();
+		int theCost = usesInvoke ? data.invokeMass ? cost*2 : cost : cost;
+		int tCost =  (int) (theCost - Math.ceil(theCost*(data.getCostReductionPerc()/100))) - data.getCostReductionFlat();
 		return tCost < 1 ? 1 : tCost;
 	}
 	
@@ -78,7 +82,9 @@ public abstract class AbilityBase {
 	public static void register(){
 		map = new HashMap<String, AbilityBase>();
 		
+		//Universal
 		new Test();
+		new InvokeMass();
 		
 		//Healer
 		new CureLightWounds();
@@ -89,7 +95,7 @@ public abstract class AbilityBase {
 		new Burst();
 
 		//Caster
-		new NimbusRay(6, 20, 4);
+		new NimbusRay();
 	}
 	
 	private static void registerAbility(AbilityBase a){

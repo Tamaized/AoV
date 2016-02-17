@@ -19,6 +19,7 @@ import Tamaized.AoV.common.client.ClientProxy;
 import Tamaized.AoV.common.handlers.ServerPacketHandler;
 import Tamaized.AoV.core.AoVData;
 import Tamaized.AoV.core.abilities.AbilityBase;
+import Tamaized.AoV.core.abilities.universal.InvokeMass;
 import Tamaized.AoV.core.skills.AoVSkill;
 import Tamaized.AoV.gui.GuiHandler;
 import Tamaized.AoV.gui.buttons.BlankButton;
@@ -179,7 +180,7 @@ public class SpellBookGUI extends GuiScreen {
             int k = sr.getScaledWidth() / 2 - 90 + 2;
             int l = sr.getScaledHeight() - 47;
 			GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);	
-            AoVUIBar.renderHotbarIcon(this, j, k, l, partialTicks, data.getSlot(j) == null ? null : data.getSlot(j).getIcon());
+            AoVUIBar.renderHotbarIcon(this, j, k, l, partialTicks, data.getSlot(j).getIcon(), (data.getSlot(j) instanceof InvokeMass) ? data.invokeMass : false);
         }
         GlStateManager.popMatrix();
         RenderHelper.disableStandardItemLighting();

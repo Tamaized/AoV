@@ -1,10 +1,6 @@
 package Tamaized.AoV.core;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
@@ -24,8 +20,8 @@ public class AoVData {
 	private int currentPoints;
 	private int exp;
 	private int level;
+	public boolean invokeMass = false;
 	
-    public int slotLoc = 0; //This needs to be handled on client side
 	private AbilityBase[] slots = new AbilityBase[10]; //This needs to be handled on the server
 	
 	//On Server this needs to be handled by skills; we then send the information to the client everytime it changes, dont do it every tick!
@@ -264,9 +260,8 @@ public class AoVData {
 	}
 	
 	public String toPacket(){
-		String p = skillPoints+":"+currentPoints+":"+exp+":"+level+":"+currPower+":"+maxPower;
+		String p = skillPoints+":"+currentPoints+":"+exp+":"+level+":"+currPower+":"+maxPower+":"+String.valueOf(invokeMass);
 		for(int i=0; i<9; i++){
-			System.out.println(slots[i]);
 			p = p.concat(":".concat(slots[i] == null ? "null" : slots[i].getName()));
 		}
 		if(obtainedSkills == null || obtainedSkills.isEmpty()) p = p.concat(":null");
@@ -277,8 +272,6 @@ public class AoVData {
 	}
 	
 	public static AoVData fromPacket(String p){
-		//System.out.println("incomming packet to parse");
-		//System.out.println(p);
 		String[] packet = p.split(":");
 		int sPoint = Integer.parseInt(packet[0]);
 		int cPoint = Integer.parseInt(packet[1]);
@@ -286,26 +279,31 @@ public class AoVData {
 		int lvl = Integer.parseInt(packet[3]);
 		int cPower = Integer.parseInt(packet[4]);
 		int mPower = Integer.parseInt(packet[5]);
+		boolean invoke = Boolean.parseBoolean(packet[6]);
+		int packetID_Slots = 7;
+		int packetID_Skills = packetID_Slots+9;
 		AbilityBase[] slotz = new AbilityBase[10];
 		for(int i=0; i<9; i++){
-			String s = packet[6+i];
+			String s = packet[packetID_Slots+i];
 			slotz[i] = s == null ? null : AbilityBase.fromName(s);
 		}
-		if(packet[15].equals("null")){
+		if(packet[packetID_Skills].equals("null")){
 			AoVData dat = new AoVData(null, sPoint, cPoint, xp, lvl);
 			dat.setCurrentDivinePower(cPower);
 			dat.setMaxDivinePower(mPower);
+			dat.invokeMass = invoke;
 			dat.updateVariables();
 			dat.setAllSlots(slotz);
 			return dat;
 		}else{
 			ArrayList<AoVSkill> skill = new ArrayList<AoVSkill>();
-			for(int i=15; i<packet.length; i++){
+			for(int i=packetID_Skills; i<packet.length; i++){
 				skill.add(AoVSkill.getSkillFromName(packet[i]));
 			}
 			AoVData dat = new AoVData(null, sPoint, cPoint, xp, lvl, skill.toArray());
 			dat.setCurrentDivinePower(cPower);
 			dat.setMaxDivinePower(mPower);
+			dat.invokeMass = invoke;
 			dat.updateVariables();
 			dat.setAllSlots(slotz);
 			return dat;
@@ -331,8 +329,9 @@ public class AoVData {
 		return slots[slot];
 	}
 	
+	@SideOnly(Side.CLIENT)
 	public AbilityBase getCurrentSlot(){
-		return slots[slotLoc];
+		return slots[Tamaized.AoV.common.client.ClientProxy.bar.slotLoc];
 	}
 	
 	public boolean contains(AbilityBase spell){

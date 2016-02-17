@@ -24,7 +24,6 @@ public class AoVCore {
 		}else{
 			players.put(player, defaultData);
 		}
-		System.out.println(players);
 	}
 	
 	public void removePlayer(EntityPlayer player){

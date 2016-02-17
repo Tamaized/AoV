@@ -11,14 +11,16 @@ import Tamaized.AoV.core.abilities.AbilityBase;
 
 public class NimbusRay extends AbilityBase {
 
-	private int damage = 0;
+	private static final int cost = 6;
+	private static final int range = 20;
+	private static final int dmg = 4;
 
-	public NimbusRay(int c, double d, int dmg) {
-		super(getStaticName(), c, d,
+	public NimbusRay() {
+		super(getStaticName(), cost, dmg, false,
 				ChatFormatting.YELLOW+getStaticName(),
 				"",
-				ChatFormatting.AQUA+"Cost: "+c,
-				ChatFormatting.AQUA+"Range: "+d,
+				ChatFormatting.AQUA+"Cost: "+cost,
+				ChatFormatting.AQUA+"Range: "+range,
 				ChatFormatting.AQUA+"Base Damage: "+dmg,
 				"",
 				ChatFormatting.DARK_PURPLE+"Shoots a small ray of light",
@@ -26,7 +28,6 @@ public class NimbusRay extends AbilityBase {
 				ChatFormatting.DARK_PURPLE+"This damage is doubled on",
 				ChatFormatting.DARK_PURPLE+"Undead targets."
 				);
-		damage = dmg;
 	}
 
 	@Override

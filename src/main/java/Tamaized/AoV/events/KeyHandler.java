@@ -29,10 +29,10 @@ public class KeyHandler {
 		
 		AoVData data = AoV.clientAoVCore.getPlayer(null);
 		
-		if(e.dwheel > 0) data.slotLoc--;
-		if(e.dwheel < 0) data.slotLoc++;
-		if(data.slotLoc < 0) data.slotLoc = 8;
-		if(data.slotLoc > 8) data.slotLoc = 0;
+		if(e.dwheel > 0) ClientProxy.bar.slotLoc--;
+		if(e.dwheel < 0) ClientProxy.bar.slotLoc++;
+		if(ClientProxy.bar.slotLoc < 0) ClientProxy.bar.slotLoc = 8;
+		if(ClientProxy.bar.slotLoc > 8) ClientProxy.bar.slotLoc = 0;
 		
 		if(e.button != 0){
 			e.setCanceled(true);    		

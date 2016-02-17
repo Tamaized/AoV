@@ -10,11 +10,13 @@ import net.minecraft.util.ResourceLocation;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.common.client.ClientProxy;
 import Tamaized.AoV.core.AoVData;
+import Tamaized.AoV.core.abilities.universal.InvokeMass;
 
 public class AoVUIBar {
 	
     public static final ResourceLocation widgetsTexPath = new ResourceLocation("textures/gui/widgets.png");
     private Minecraft mc;
+    public int slotLoc = 0;
 	
 	public AoVUIBar(){
 		mc = Minecraft.getMinecraft();
@@ -30,7 +32,7 @@ public class AoVUIBar {
         EntityPlayer entityplayer = (EntityPlayer)this.mc.getRenderViewEntity();
         int i = sr.getScaledWidth() / 2;
         gui.drawTexturedModalRect(i - 91, 1, 0, 0, 182, 22);
-        gui.drawTexturedModalRect(i - 91 - 1 + data.slotLoc * 20, 0, 0, 22, 24, 22);
+        gui.drawTexturedModalRect(i - 91 - 1 + slotLoc * 20, 0, 0, 22, 24, 22);
         GlStateManager.enableRescaleNormal();
         GlStateManager.enableBlend();
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
@@ -45,7 +47,7 @@ public class AoVUIBar {
             int k = sr.getScaledWidth() / 2 - 90 + 2;
             int l = 4;//sr.getScaledHeight() - 16 - 3;
 			GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);	
-            renderHotbarIcon(gui, j, k, l, partialTicks, data.getSlot(j) == null ? null : data.getSlot(j).getIcon());
+            renderHotbarIcon(gui, j, k, l, partialTicks, data.getSlot(j).getIcon(), (data.getSlot(j) instanceof InvokeMass) ? data.invokeMass : false);
         }
         GlStateManager.popMatrix();
         RenderHelper.disableStandardItemLighting();
@@ -53,7 +55,7 @@ public class AoVUIBar {
         GlStateManager.disableBlend();
 	}
 	
-	public static void renderHotbarIcon(Gui gui, int index, int xPos, int yPos, float partialTicks, ResourceLocation icon){
+	public static void renderHotbarIcon(Gui gui, int index, int xPos, int yPos, float partialTicks, ResourceLocation icon, boolean active){
 		if(icon != null){
 			GlStateManager.pushMatrix();
 			float f1 = 1.0F / 16.0F;
@@ -67,8 +69,9 @@ public class AoVUIBar {
 			GlStateManager.alphaFunc(516, 0.1F);
 			GlStateManager.enableBlend();
 			GlStateManager.blendFunc(770, 771);
-
+			
 			renderIcon(gui, icon);
+			if(active) gui.drawRect(0, 0, 256, 256, 0x7700FFFF);
 			
 			GlStateManager.disableAlpha();
 			GlStateManager.disableRescaleNormal();

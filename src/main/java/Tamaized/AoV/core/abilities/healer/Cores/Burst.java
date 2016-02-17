@@ -23,7 +23,7 @@ public class Burst extends AbilityBase{
 	private final static int dmg = 4;
 	
 	public Burst() {
-		super(getStaticName(), cost, range, 
+		super(getStaticName(), cost, range, false,
 				ChatFormatting.YELLOW+getStaticName(),
 				"",
 				ChatFormatting.AQUA+"Cost: "+cost,

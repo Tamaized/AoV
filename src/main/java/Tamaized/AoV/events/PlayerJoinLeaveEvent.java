@@ -64,6 +64,7 @@ public class PlayerJoinLeaveEvent {
 			}
 			data.setCurrentDivinePower(ct.getInteger("currentDivinePower"));
 			data.setMaxDivinePower(ct.getInteger("maxDivinePower"));
+			data.invokeMass = ct.getBoolean("invokeMass");
 			data.updateVariables();
 			return data;
 		}
@@ -78,6 +79,7 @@ public class PlayerJoinLeaveEvent {
 			ct.setInteger("skillPointsCurrent", data.getCurrentSkillPoints());
 			ct.setInteger("xp", data.getXP());
 			ct.setInteger("level", data.getLevel());
+			ct.setBoolean("invokeMass", data.invokeMass);
 			NBTTagCompound skills = new NBTTagCompound();{
 				for(AoVSkill s : data.getAllObtainedSkills()){
 					skills.setString(s.skillName, s.skillName);
