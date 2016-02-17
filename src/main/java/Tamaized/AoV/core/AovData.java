@@ -118,8 +118,6 @@ public class AoVData {
 	public void updateData(AoVData data){
 		if(exp != data.getXP() || level != data.getLevel()){
 			AoVOverlay.addFloatyText("+"+String.valueOf(((data.getLevel()*xpScale) + data.getXP())-((getLevel()*xpScale) + getXP()))+"xp");
-			System.out.println(String.valueOf((data.getLevel()*xpScale) + data.getXP())+" : "+String.valueOf((getLevel()*xpScale) + getXP()));
-			System.out.println(String.valueOf((data.getLevel()))+" : "+String.valueOf((getLevel())));
 			if(data.getLevel() != getLevel()) AoVOverlay.addFloatyText("+"+(data.getLevel() - getLevel())+" Level(s)");
 		}
 	}
@@ -135,7 +133,6 @@ public class AoVData {
 	}
 	
 	private void checkLevels(){
-		System.out.println(exp+" : "+this.getXpNeededToLevel());
 		if(exp >= this.getXpNeededToLevel()){
 			exp -= this.getXpNeededToLevel();
 			level++;

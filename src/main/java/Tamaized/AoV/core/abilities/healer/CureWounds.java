@@ -25,7 +25,6 @@ public abstract class CureWounds extends AbilityBase{
 				ChatFormatting.DARK_PURPLE+"Heals yourself or an entity if",
 				ChatFormatting.DARK_PURPLE+"your crosshair is over the entity."
 				);
-		System.out.println(name);
 		damage = dmg;
 	}
 

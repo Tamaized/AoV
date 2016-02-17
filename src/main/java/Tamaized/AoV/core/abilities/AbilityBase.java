@@ -93,7 +93,6 @@ public abstract class AbilityBase {
 	}
 	
 	private static void registerAbility(AbilityBase a){
-		System.out.println(a.getName()+" : "+a);
 		map.put(a.getName(), a);
 	}
 	

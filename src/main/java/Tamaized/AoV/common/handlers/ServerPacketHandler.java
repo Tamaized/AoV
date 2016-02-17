@@ -70,13 +70,11 @@ public class ServerPacketHandler {
 						flag = true;
 					}
 					if(flag){
-						System.out.println("Server passed on canObtain, sending data to client");
 						data.addObtainedSkill(skillToCheck);
 						data.setCurrentSkillPoints(data.getCurrentSkillPoints()-skillToCheck.pointCost);
 						data.updateVariables();
 						sendAovDataPacket(player, data);
 					}else{
-						System.out.println("Server failed checks on canObtain");
 						sendAovDataPacket(player, data);
 					}
 				}

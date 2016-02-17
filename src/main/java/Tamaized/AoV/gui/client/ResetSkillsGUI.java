@@ -94,7 +94,6 @@ public class ResetSkillsGUI extends GuiScreen {
 		outputStream.writeInt(pktType);
 		FMLProxyPacket packet = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
 		AoV.channel.sendToServer(packet);
-		System.out.println("Sent Server Packet");
 		outputStream.close();
 		bos.close();
 	}

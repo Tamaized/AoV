@@ -24,9 +24,7 @@ public class PlayerJoinLeaveEvent {
 	
 	@SubscribeEvent
 	public void join(PlayerLoggedInEvent e){
-		System.out.println("LOGGED IN");
 		if(AoV.serverAoVCore == null) return;
-		System.out.println("serverAoVCore NOT NULL; Starting setup");
 		AoVCore core = AoV.serverAoVCore;
 		AoVData dat = readNBT(e.player);
 		core.setPlayer(e.player, dat);	
@@ -40,7 +38,6 @@ public class PlayerJoinLeaveEvent {
 		AoVData dat = core.getPlayer(e.player);
 		writeNBT(e.player, dat);
 		core.removePlayer(e.player);
-		System.out.println("LOGGED OUT");	
 	}
 	
 	private AoVData readNBT(EntityPlayer player){
