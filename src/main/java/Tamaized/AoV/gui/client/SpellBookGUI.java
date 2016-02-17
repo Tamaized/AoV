@@ -163,29 +163,28 @@ public class SpellBookGUI extends GuiScreen {
 		ScaledResolution sr = new ScaledResolution(mc);
 		float alpha = 1.0f;
 		GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
-        mc.getTextureManager().bindTexture(AoVUIBar.widgetsTexPath);
-        int i = sr.getScaledWidth() / 2;
-        this.drawTexturedModalRect(i - 91, sr.getScaledHeight() - 50, 0, 0, 182, 22);
-        GlStateManager.enableRescaleNormal();
-        GlStateManager.enableBlend();
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-        RenderHelper.enableGUIStandardItemLighting();
-        GlStateManager.pushMatrix();
+		mc.getTextureManager().bindTexture(AoVUIBar.widgetsTexPath);
+		int i = sr.getScaledWidth() / 2;
+		this.drawTexturedModalRect(i - 91, sr.getScaledHeight() - 50, 0, 0, 182, 22);
+		GlStateManager.enableRescaleNormal();
+		GlStateManager.enableBlend();
+		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+		RenderHelper.enableGUIStandardItemLighting();
+		GlStateManager.pushMatrix();
 		GlStateManager.translate(0.01f, 0, 0);
 		GlStateManager.translate(-20.01f, 0, 0);
-        for (int j = 0; j < 9; ++j)
-        {
+		for (int j = 0; j < 9; ++j){
 			GlStateManager.translate(20.01f, 0, 0);
-        	if(data.getSlot(j) == null) continue;
-            int k = sr.getScaledWidth() / 2 - 90 + 2;
-            int l = sr.getScaledHeight() - 47;
+			if(data.getSlot(j) == null) continue;
+			int k = sr.getScaledWidth() / 2 - 90 + 2;
+			int l = sr.getScaledHeight() - 47;
 			GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);	
-            AoVUIBar.renderHotbarIcon(this, j, k, l, partialTicks, data.getSlot(j).getIcon(), (data.getSlot(j) instanceof InvokeMass) ? data.invokeMass : false);
-        }
-        GlStateManager.popMatrix();
-        RenderHelper.disableStandardItemLighting();
-        GlStateManager.disableRescaleNormal();
-        GlStateManager.disableBlend();
+			AoVUIBar.renderHotbarIcon(this, j, k, l, partialTicks, data.getSlot(j).getIcon(), (data.getSlot(j) instanceof InvokeMass) ? data.invokeMass : false);
+		}
+		GlStateManager.popMatrix();
+		RenderHelper.disableStandardItemLighting();
+		GlStateManager.disableRescaleNormal();
+		GlStateManager.disableBlend();
 	}
 	
 	private void sendPacketTypeRemoveSlot(int slot){
@@ -215,5 +214,4 @@ public class SpellBookGUI extends GuiScreen {
 			e.printStackTrace();
 		}
 	}
-
 }
