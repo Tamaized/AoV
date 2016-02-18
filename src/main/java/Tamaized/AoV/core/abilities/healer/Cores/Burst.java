@@ -44,17 +44,10 @@ public class Burst extends AbilityBase{
 			int a = (int) (dmg*(1f+(data.getSpellPower()/100f)));
 			List<EntityLivingBase> list = player.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(player.getPosition().add(-range, -range, -range), player.getPosition().add(range, range, range)));
 			for(EntityLivingBase entity : list){
-				if(entity.isEntityUndead()){
-					entity.attackEntityFrom(DamageSource.magic, a);
-					this.addXP(data, 20);
-				}
-				else if(data.hasSelectiveFocus() && !(e instanceof IMob)){
-					//Do Nothing
-				}
-				else{
-					entity.heal(a);
-					this.addXP(data, 20);
-				}
+				if(entity.isEntityUndead()) entity.attackEntityFrom(DamageSource.magic, a);	
+				else if(data.hasSelectiveFocus() && !(e instanceof IMob)) continue;
+				else entity.heal(a);
+				this.addXP(data, 20);
 			}
 		}
 	}

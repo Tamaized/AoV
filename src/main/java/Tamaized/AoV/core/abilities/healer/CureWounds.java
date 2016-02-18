@@ -53,7 +53,7 @@ public abstract class CureWounds extends AbilityBase{
 						castAsMass(e, a, data);
 					}else{
 						if(e.isEntityUndead()) e.attackEntityFrom(DamageSource.magic, a);
-						else if(data.hasSelectiveFocus() && (e instanceof IMob)) ;
+						else if(data.hasSelectiveFocus() && (e instanceof IMob)) return;
 						else e.heal(a);
 					}
 				}
@@ -67,17 +67,10 @@ public abstract class CureWounds extends AbilityBase{
 		ParticleHelper.sendPacketToClients(ParticleHelper.Type.BURST, target, range);
 		List<EntityLivingBase> list = target.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(target.getPosition().add(-range, -range, -range), target.getPosition().add(range, range, range)));
 		for(EntityLivingBase entity : list){
-			if(entity.isEntityUndead()){
-				entity.attackEntityFrom(DamageSource.magic, dmg);
-				this.addXP(data, 20);
-			}
-			else if(data.hasSelectiveFocus() && (entity instanceof IMob)){
-				//Do Nothing
-			}
-			else{
-				entity.heal(dmg);
-				this.addXP(data, 20);
-			}
+			if(entity.isEntityUndead()) entity.attackEntityFrom(DamageSource.magic, dmg);
+			else if(data.hasSelectiveFocus() && (entity instanceof IMob)) continue;
+			else entity.heal(dmg);
+			this.addXP(data, 20);	
 		}
 	}
 
