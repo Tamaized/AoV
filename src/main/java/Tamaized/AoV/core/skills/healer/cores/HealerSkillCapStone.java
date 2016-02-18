@@ -30,7 +30,7 @@ public class HealerSkillCapStone extends AoVSkill{
 
 	@Override
 	protected void setupBuffs() {
-		buffs = new Buffs(30, 50, 10, 2);
+		buffs = new Buffs(30, 50, 10, 2, false);
 	}
 
 	@Override

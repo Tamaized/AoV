@@ -30,7 +30,7 @@ public class HealerSkillCore4 extends AoVSkill{
 
 	@Override
 	protected void setupBuffs() {
-		buffs = new Buffs(10, 10, 0, 0);
+		buffs = new Buffs(10, 10, 0, 0, false);
 	}
 
 	@Override

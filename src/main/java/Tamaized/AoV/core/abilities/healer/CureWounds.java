@@ -3,11 +3,10 @@ package Tamaized.AoV.core.abilities.healer;
 import java.util.List;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
-import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.AoVData;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.helper.ParticleHelper;
@@ -54,6 +53,7 @@ public abstract class CureWounds extends AbilityBase{
 						castAsMass(e, a, data);
 					}else{
 						if(e.isEntityUndead()) e.attackEntityFrom(DamageSource.magic, a);
+						else if(data.hasSelectiveFocus() && (e instanceof IMob)) ;
 						else e.heal(a);
 					}
 				}
@@ -67,9 +67,17 @@ public abstract class CureWounds extends AbilityBase{
 		ParticleHelper.sendPacketToClients(ParticleHelper.Type.BURST, target, range);
 		List<EntityLivingBase> list = target.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(target.getPosition().add(-range, -range, -range), target.getPosition().add(range, range, range)));
 		for(EntityLivingBase entity : list){
-			if(entity.isEntityUndead()) entity.attackEntityFrom(DamageSource.magic, dmg);
-			else entity.heal(dmg);
-			this.addXP(data, 20);
+			if(entity.isEntityUndead()){
+				entity.attackEntityFrom(DamageSource.magic, dmg);
+				this.addXP(data, 20);
+			}
+			else if(data.hasSelectiveFocus() && (entity instanceof IMob)){
+				//Do Nothing
+			}
+			else{
+				entity.heal(dmg);
+				this.addXP(data, 20);
+			}
 		}
 	}
 

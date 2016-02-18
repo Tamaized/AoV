@@ -1,15 +1,13 @@
 package Tamaized.AoV.core.abilities.healer.Cores;
 
 import java.util.List;
-import java.util.Random;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
 import Tamaized.AoV.core.AoVData;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.helper.ParticleHelper;
@@ -46,9 +44,17 @@ public class Burst extends AbilityBase{
 			int a = (int) (dmg*(1f+(data.getSpellPower()/100f)));
 			List<EntityLivingBase> list = player.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(player.getPosition().add(-range, -range, -range), player.getPosition().add(range, range, range)));
 			for(EntityLivingBase entity : list){
-				if(entity.isEntityUndead()) entity.attackEntityFrom(DamageSource.magic, a);
-				else entity.heal(a);
-				this.addXP(data, 20);
+				if(entity.isEntityUndead()){
+					entity.attackEntityFrom(DamageSource.magic, a);
+					this.addXP(data, 20);
+				}
+				else if(data.hasSelectiveFocus() && !(e instanceof IMob)){
+					//Do Nothing
+				}
+				else{
+					entity.heal(a);
+					this.addXP(data, 20);
+				}
 			}
 		}
 	}

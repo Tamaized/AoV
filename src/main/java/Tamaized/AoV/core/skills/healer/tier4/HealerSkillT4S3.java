@@ -27,7 +27,7 @@ public class HealerSkillT4S3 extends AoVSkill{
 
 	@Override
 	protected void setupBuffs() {
-		buffs = new Buffs(0, 20, 0, 0);
+		buffs = new Buffs(0, 20, 0, 0, false);
 	}
 
 	@Override

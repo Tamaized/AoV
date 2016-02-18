@@ -120,13 +120,14 @@ public abstract class AoVSkill {
 		public final float costReductionPerc;
 		public final int costReductionFlat;
 		
-		public boolean selectiveFocus = false;
+		public final boolean selectiveFocus;
 		
-		public Buffs(int dP, int sP, float crP, int crF){
+		public Buffs(int dP, int sP, float crP, int crF, boolean sel){
 			divinePower = dP;
 			spellPower = sP;
 			costReductionPerc = crP;
 			costReductionFlat = crF;
+			selectiveFocus = sel;
 		}
 		
 	}

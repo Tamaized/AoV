@@ -21,6 +21,7 @@ public class AoVData {
 	private int exp;
 	private int level;
 	public boolean invokeMass = false;
+	private boolean selectiveFocus = false;
 	
 	private AbilityBase[] slots = new AbilityBase[10]; //This needs to be handled on the server
 	
@@ -79,6 +80,7 @@ public class AoVData {
 		maxPower = 0;
 		costReductionPerc = 0;
 		costReductionFlat = 0;
+		selectiveFocus = false;
 		
 		for(AoVSkill skill : obtainedSkills){
 			AoVSkill.Buffs buffs = skill.getBuffs();
@@ -86,6 +88,7 @@ public class AoVData {
 			spellPower += buffs.spellPower;
 			costReductionPerc += buffs.costReductionPerc;
 			costReductionFlat += buffs.costReductionFlat;
+			if(buffs.selectiveFocus) selectiveFocus = true;
 		}
 		if(currPower > maxPower) currPower = maxPower;
 		forceSync = true;
@@ -257,6 +260,10 @@ public class AoVData {
 	
 	public int getMaxDivinePower(){
 		return maxPower;
+	}
+	
+	public boolean hasSelectiveFocus(){
+		return selectiveFocus;
 	}
 	
 	public String toPacket(){
