@@ -76,6 +76,14 @@ public class AoVData {
 		return this;
 	}
 	
+	public void resetVar(){
+		setObtainedSkills(getCoreSkill());
+		setCurrentSkillPoints(getMaxSkillPoints()-1);
+		clearAllSlots();
+		invokeMass = false;
+		updateVariables();
+	}
+	
 	public void updateVariables(){
 		maxPower = 0;
 		costReductionPerc = 0;

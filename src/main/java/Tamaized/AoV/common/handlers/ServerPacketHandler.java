@@ -94,9 +94,7 @@ public class ServerPacketHandler {
 				{
 					AoVCore core = AoV.serverAoVCore;
 					AoVData data = core.getPlayer(player);
-					data.setObtainedSkills(data.getCoreSkill());
-					data.setCurrentSkillPoints(data.getMaxSkillPoints()-1);
-					data.clearAllSlots();
+					data.resetVar();
 					sendAovDataPacket(player, data);
 				}
 					break;
