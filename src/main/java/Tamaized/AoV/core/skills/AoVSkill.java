@@ -7,7 +7,31 @@ import java.util.Map;
 
 import net.minecraft.util.ResourceLocation;
 import Tamaized.AoV.core.abilities.AbilityBase;
-import Tamaized.AoV.core.skills.caster.CasterSkillCore;
+import Tamaized.AoV.core.skills.caster.cores.CasterSkillCapStone;
+import Tamaized.AoV.core.skills.caster.cores.CasterSkillCore1;
+import Tamaized.AoV.core.skills.caster.cores.CasterSkillCore2;
+import Tamaized.AoV.core.skills.caster.cores.CasterSkillCore3;
+import Tamaized.AoV.core.skills.caster.cores.CasterSkillCore4;
+import Tamaized.AoV.core.skills.caster.tier1.CasterSkillT1S1;
+import Tamaized.AoV.core.skills.caster.tier1.CasterSkillT1S2;
+import Tamaized.AoV.core.skills.caster.tier1.CasterSkillT1S3;
+import Tamaized.AoV.core.skills.caster.tier1.CasterSkillT1S4;
+import Tamaized.AoV.core.skills.caster.tier1.CasterSkillT1S5;
+import Tamaized.AoV.core.skills.caster.tier2.CasterSkillT2S1;
+import Tamaized.AoV.core.skills.caster.tier2.CasterSkillT2S2;
+import Tamaized.AoV.core.skills.caster.tier2.CasterSkillT2S3;
+import Tamaized.AoV.core.skills.caster.tier2.CasterSkillT2S4;
+import Tamaized.AoV.core.skills.caster.tier2.CasterSkillT2S5;
+import Tamaized.AoV.core.skills.caster.tier3.CasterSkillT3S1;
+import Tamaized.AoV.core.skills.caster.tier3.CasterSkillT3S2;
+import Tamaized.AoV.core.skills.caster.tier3.CasterSkillT3S3;
+import Tamaized.AoV.core.skills.caster.tier3.CasterSkillT3S4;
+import Tamaized.AoV.core.skills.caster.tier3.CasterSkillT3S5;
+import Tamaized.AoV.core.skills.caster.tier4.CasterSkillT4S1;
+import Tamaized.AoV.core.skills.caster.tier4.CasterSkillT4S2;
+import Tamaized.AoV.core.skills.caster.tier4.CasterSkillT4S3;
+import Tamaized.AoV.core.skills.caster.tier4.CasterSkillT4S4;
+import Tamaized.AoV.core.skills.caster.tier4.CasterSkillT4S5;
 import Tamaized.AoV.core.skills.healer.cores.HealerSkillCapStone;
 import Tamaized.AoV.core.skills.healer.cores.HealerSkillCore1;
 import Tamaized.AoV.core.skills.healer.cores.HealerSkillCore2;
@@ -79,38 +103,70 @@ public abstract class AoVSkill {
 	public abstract ResourceLocation getIcon();
 	
 	public static void registerSkills(){
-		new HealerSkillCore1();
-		new HealerSkillCore2();
-		new HealerSkillCore3();
-		new HealerSkillCore4();
-		new HealerSkillCapStone();
+		/*Healer*/{
+			new HealerSkillCore1();
+			new HealerSkillCore2();
+			new HealerSkillCore3();
+			new HealerSkillCore4();
+			new HealerSkillCapStone();
+			
+			new HealerSkillT1S1();
+			new HealerSkillT1S2();
+			new HealerSkillT1S3();
+			new HealerSkillT1S4();
+			new HealerSkillT1S5();
+			
+			new HealerSkillT2S1();
+			new HealerSkillT2S2();
+			new HealerSkillT2S3();
+			new HealerSkillT2S4();
+			new HealerSkillT2S5();
+			
+			new HealerSkillT3S1();
+			new HealerSkillT3S2();
+			new HealerSkillT3S3();
+			new HealerSkillT3S4();
+			new HealerSkillT3S5();
+			
+			new HealerSkillT4S1();
+			new HealerSkillT4S2();
+			new HealerSkillT4S3();
+			new HealerSkillT4S4();
+			new HealerSkillT4S5();
+		}
 		
-		new HealerSkillT1S1();
-		new HealerSkillT1S2();
-		new HealerSkillT1S3();
-		new HealerSkillT1S4();
-		new HealerSkillT1S5();
+		/*Caster*/{
+			new CasterSkillCore1();
+			new CasterSkillCore2();
+			new CasterSkillCore3();
+			new CasterSkillCore4();
+			new CasterSkillCapStone();
+			
+			new CasterSkillT1S1();
+			new CasterSkillT1S2();
+			new CasterSkillT1S3();
+			new CasterSkillT1S4();
+			new CasterSkillT1S5();
+			
+			new CasterSkillT2S1();
+			new CasterSkillT2S2();
+			new CasterSkillT2S3();
+			new CasterSkillT2S4();
+			new CasterSkillT2S5();
+			
+			new CasterSkillT3S1();
+			new CasterSkillT3S2();
+			new CasterSkillT3S3();
+			new CasterSkillT3S4();
+			new CasterSkillT3S5();
+			
+			new CasterSkillT4S1();
+			new CasterSkillT4S2();
+			new CasterSkillT4S3();
+			new CasterSkillT4S4();
+			new CasterSkillT4S5();
+		}
 		
-		new HealerSkillT2S1();
-		new HealerSkillT2S2();
-		new HealerSkillT2S3();
-		new HealerSkillT2S4();
-		new HealerSkillT2S5();
-		
-		new HealerSkillT3S1();
-		new HealerSkillT3S2();
-		new HealerSkillT3S3();
-		new HealerSkillT3S4();
-		new HealerSkillT3S5();
-		
-		new HealerSkillT4S1();
-		new HealerSkillT4S2();
-		new HealerSkillT4S3();
-		new HealerSkillT4S4();
-		new HealerSkillT4S5();
-		//////////////////////////
-		
-		new CasterSkillCore();
 	}
 	
 	public class Buffs{

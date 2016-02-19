@@ -1,6 +1,4 @@
-package Tamaized.AoV.core.skills.caster;
-
-import com.mojang.realmsclient.gui.ChatFormatting;
+package Tamaized.AoV.core.skills.caster.cores;
 
 import net.minecraft.util.ResourceLocation;
 import Tamaized.AoV.AoV;
@@ -8,13 +6,14 @@ import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.abilities.caster.NimbusRay;
 import Tamaized.AoV.core.abilities.healer.Healing.CureLightWounds;
 import Tamaized.AoV.core.skills.AoVSkill;
-import Tamaized.AoV.core.skills.AoVSkill.Buffs;
 
-public class CasterSkillCore extends AoVSkill {
+import com.mojang.realmsclient.gui.ChatFormatting;
+
+public class CasterSkillCore1 extends AoVSkill{
 	
 	private static final ResourceLocation icon = new ResourceLocation(AoV.modid+":textures/skills/test.png");
 
-	public CasterSkillCore() {
+	public CasterSkillCore1() {
 		super(getUnlocalizedName(), null, 1, 0, 0, true,
 				new AbilityBase[]{
 					AbilityBase.fromName(NimbusRay.getStaticName())
@@ -33,7 +32,7 @@ public class CasterSkillCore extends AoVSkill {
 
 	@Override
 	protected void setupBuffs() {
-		buffs = new Buffs(15, 10, 0, 0);
+		buffs = new Buffs(15, 0, 0, 0, false);
 	}
 
 	@Override
