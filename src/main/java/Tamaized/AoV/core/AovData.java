@@ -1,12 +1,18 @@
 package Tamaized.AoV.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.abilities.AbilityBase;
+import Tamaized.AoV.core.abilities.AuraBase;
+import Tamaized.AoV.core.abilities.IAura;
 import Tamaized.AoV.core.skills.AoVSkill;
 import Tamaized.AoV.gui.client.AoVOverlay;
 
@@ -39,6 +45,7 @@ public class AoVData {
 	private int last_exp = 0;
 	private int last_currPower = 0;
 	private int last_maxPower = 0;
+	private Map<AuraBase, Integer> auras;
 	
 	private int tick = 0;
 	
@@ -46,6 +53,7 @@ public class AoVData {
 	private int currSkillPoints;
 	
 	public AoVData(){
+		auras = new HashMap<AuraBase, Integer>();
 		obtainedSkills = new ArrayList<AoVSkill>();
 		obtainedCore = null;
 	}
@@ -77,6 +85,7 @@ public class AoVData {
 	}
 	
 	public void resetVar(){
+		auras.clear();
 		setObtainedSkills(getCoreSkill());
 		setCurrentSkillPoints(getMaxSkillPoints()-1);
 		clearAllSlots();
@@ -106,7 +115,15 @@ public class AoVData {
 		last_exp = exp;
 		last_currPower = currPower;
 		last_maxPower = maxPower;
-		
+		if(tick % 60 == 0){
+			Iterator<Entry<AuraBase, Integer>> iter = auras.entrySet().iterator();
+			while(iter.hasNext()){
+				Entry<AuraBase, Integer> e = iter.next();
+				AuraBase k = e.getKey();
+				k.update();
+				if(k.getCurrentLife() >= e.getValue()) iter.remove();
+			}
+		}
 		if(tick % (60*3) == 0){
 			if(currPower < maxPower) currPower++;
 		}
@@ -127,6 +144,10 @@ public class AoVData {
 			AoVOverlay.addFloatyText("+"+String.valueOf(((data.getLevel()*xpScale) + data.getXP())-((getLevel()*xpScale) + getXP()))+"xp");
 			if(data.getLevel() != getLevel()) AoVOverlay.addFloatyText("+"+(data.getLevel() - getLevel())+" Level(s)");
 		}
+	}
+	
+	public void addAura(IAura aura){
+		auras.put(aura.createAura(), aura.getLife());
 	}
 	
 	public void addExp(int amount){
