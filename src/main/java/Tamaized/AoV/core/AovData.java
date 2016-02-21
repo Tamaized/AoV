@@ -120,7 +120,7 @@ public class AoVData {
 			while(iter.hasNext()){
 				Entry<AuraBase, Integer> e = iter.next();
 				AuraBase k = e.getKey();
-				k.update();
+				k.update(this);
 				if(k.getCurrentLife() >= e.getValue()) iter.remove();
 			}
 		}

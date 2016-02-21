@@ -23,6 +23,7 @@ import Tamaized.AoV.core.AoVData;
 import Tamaized.AoV.core.abilities.caster.NimbusRay;
 import Tamaized.AoV.core.abilities.healer.Test;
 import Tamaized.AoV.core.abilities.healer.Cores.Burst;
+import Tamaized.AoV.core.abilities.healer.Cores.PosEnergyAura;
 import Tamaized.AoV.core.abilities.healer.Healing.CureCriticalWounds;
 import Tamaized.AoV.core.abilities.healer.Healing.CureLightWounds;
 import Tamaized.AoV.core.abilities.healer.Healing.CureModWounds;
@@ -93,6 +94,7 @@ public abstract class AbilityBase {
 		new CureCriticalWounds();
 		new Heal();
 		new Burst();
+		new PosEnergyAura();
 
 		//Caster
 		new NimbusRay();

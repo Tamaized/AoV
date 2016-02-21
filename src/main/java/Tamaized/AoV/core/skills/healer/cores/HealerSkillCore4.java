@@ -3,6 +3,7 @@ package Tamaized.AoV.core.skills.healer.cores;
 import net.minecraft.util.ResourceLocation;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.abilities.AbilityBase;
+import Tamaized.AoV.core.abilities.healer.Cores.PosEnergyAura;
 import Tamaized.AoV.core.abilities.healer.Healing.CureLightWounds;
 import Tamaized.AoV.core.skills.AoVSkill;
 
@@ -15,7 +16,7 @@ public class HealerSkillCore4 extends AoVSkill{
 	public HealerSkillCore4() {
 		super(getUnlocalizedName(), AoVSkill.getSkillFromName(HealerSkillCore3.getUnlocalizedName()), 1, 12, 0, false,
 				new AbilityBase[]{
-					
+					AbilityBase.fromName(PosEnergyAura.getStaticName())
 				},
 				ChatFormatting.AQUA+"Healer Core 4",
 				ChatFormatting.RED+"Requires: Healer Core 3",
