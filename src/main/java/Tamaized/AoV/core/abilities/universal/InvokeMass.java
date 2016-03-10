@@ -56,4 +56,9 @@ public class InvokeMass extends AbilityBase {
 		return "Invoke Mass";
 	}
 
+	@Override
+	public int getCoolDown() {
+		return 1;
+	}
+
 }

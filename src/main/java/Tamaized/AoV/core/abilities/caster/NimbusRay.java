@@ -50,5 +50,10 @@ public class NimbusRay extends AbilityBase {
 	public static String getStaticName(){
 		return "Nimbus Ray";
 	}
+	
+	@Override
+	public int getCoolDown() {
+		return 2;
+	}
 
 }

@@ -18,5 +18,10 @@ public class CureCriticalWounds extends CureWounds{
 	public ResourceLocation getIcon() {
 		return new ResourceLocation(AoV.modid+":textures/spells/cureCritWounds.png");
 	}
+	
+	@Override
+	public int getCoolDown() {
+		return 5;
+	}
 
 }

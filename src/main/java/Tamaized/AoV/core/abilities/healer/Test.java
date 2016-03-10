@@ -32,4 +32,9 @@ public class Test extends AbilityBase {
 		return "Test";
 	}
 
+	@Override
+	public int getCoolDown() {
+		return 0;
+	}
+
 }

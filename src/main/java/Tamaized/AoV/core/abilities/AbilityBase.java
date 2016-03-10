@@ -56,12 +56,15 @@ public abstract class AbilityBase {
 	}
 	
 	public void activate(EntityPlayer player, AoVData data, EntityLivingBase e){
+		if(!data.castAbility(this)) return;
 		int trueCost = getTrueCost(data);
 		if(trueCost <= data.getCurrentDivinePower()){
 			data.setCurrentDivinePower(data.getCurrentDivinePower()-trueCost);
 			doAction(player, data, e);
 		}
 	}
+	
+	public abstract int getCoolDown();
 	
 	public int getTrueCost(AoVData data){
 		int theCost = usesInvoke ? data.invokeMass ? cost*2 : cost : cost;

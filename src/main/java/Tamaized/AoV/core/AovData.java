@@ -36,6 +36,7 @@ public class AoVData {
 	private int maxPower = 0;
 	
 	//This is handled Locally, no packets need to be sent.
+	private Map<AbilityBase, Integer> coolDowns = new HashMap<AbilityBase, Integer>();
 	private int spellPower = 0;
 	private float costReductionPerc = 0;
 	private int costReductionFlat = 0;
@@ -116,12 +117,23 @@ public class AoVData {
 		last_currPower = currPower;
 		last_maxPower = maxPower;
 		if(tick % 60 == 0){
-			Iterator<Entry<AuraBase, Integer>> iter = auras.entrySet().iterator();
-			while(iter.hasNext()){
-				Entry<AuraBase, Integer> e = iter.next();
-				AuraBase k = e.getKey();
-				k.update(this);
-				if(k.getCurrentLife() >= e.getValue()) iter.remove();
+			{
+				Iterator<Entry<AuraBase, Integer>> iter = auras.entrySet().iterator();
+				while(iter.hasNext()){
+					Entry<AuraBase, Integer> e = iter.next();
+					AuraBase k = e.getKey();
+					k.update(this);
+					if(k.getCurrentLife() >= e.getValue()) iter.remove();
+				}
+			}
+			{
+				Iterator<Entry<AbilityBase, Integer>> iter = coolDowns.entrySet().iterator();
+				while(iter.hasNext()){
+					Entry<AbilityBase, Integer> e = iter.next();
+					int v = e.getValue()-1;
+					if(v<=0) iter.remove();
+					else e.setValue(v);
+				}
 			}
 		}
 		if(tick % (60*3) == 0){
@@ -144,6 +156,17 @@ public class AoVData {
 			AoVOverlay.addFloatyText("+"+String.valueOf(((data.getLevel()*xpScale) + data.getXP())-((getLevel()*xpScale) + getXP()))+"xp");
 			if(data.getLevel() != getLevel()) AoVOverlay.addFloatyText("+"+(data.getLevel() - getLevel())+" Level(s)");
 		}
+	}
+	
+	public boolean castAbility(AbilityBase ab){
+		if(coolDowns.containsKey(ab)) return false;
+		coolDowns.put(ab, ab.getCoolDown());
+		return true;
+	}
+	
+	public int getCoolDown(AbilityBase ab){
+		if(coolDowns.containsKey(ab)) return coolDowns.get(ab);
+		return 0;
 	}
 	
 	public void addAura(IAura aura){

@@ -65,5 +65,10 @@ public class Burst extends AbilityBase{
 	public static String getStaticName() {
 		return "Positive Energy Burst";
 	}
+	
+	@Override
+	public int getCoolDown() {
+		return 3;
+	}
 
 }

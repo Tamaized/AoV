@@ -72,6 +72,11 @@ public class PosEnergyAura extends AbilityBase implements IAura{
 		return life;
 	}
 	
+	@Override
+	public int getCoolDown() {
+		return 60;
+	}
+	
 	private class PosAura extends AuraBase {
 		
 		private int currLife = 0;

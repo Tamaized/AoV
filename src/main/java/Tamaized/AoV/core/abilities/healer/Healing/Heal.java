@@ -18,5 +18,10 @@ public class Heal extends CureWounds{
 	public ResourceLocation getIcon() {
 		return new ResourceLocation(AoV.modid+":textures/spells/Heal.png");
 	}
+	
+	@Override
+	public int getCoolDown() {
+		return 6;
+	}
 
 }
