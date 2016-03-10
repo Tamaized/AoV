@@ -22,6 +22,7 @@ public class AoVData {
 	
 	private EntityPlayer player;
 	private ArrayList<AoVSkill> obtainedSkills;
+	private Map<AbilityBase, Integer> coolDowns;
 	private int skillPoints;
 	private int currentPoints;
 	private int exp;
@@ -36,7 +37,6 @@ public class AoVData {
 	private int maxPower = 0;
 	
 	//This is handled Locally, no packets need to be sent.
-	private Map<AbilityBase, Integer> coolDowns = new HashMap<AbilityBase, Integer>();
 	private int spellPower = 0;
 	private float costReductionPerc = 0;
 	private int costReductionFlat = 0;
@@ -54,6 +54,7 @@ public class AoVData {
 	private int currSkillPoints;
 	
 	public AoVData(){
+		coolDowns = new HashMap<AbilityBase, Integer>();
 		auras = new HashMap<AuraBase, Integer>();
 		obtainedSkills = new ArrayList<AoVSkill>();
 		obtainedCore = null;
@@ -161,12 +162,21 @@ public class AoVData {
 	public boolean castAbility(AbilityBase ab){
 		if(coolDowns.containsKey(ab)) return false;
 		coolDowns.put(ab, ab.getCoolDown());
+		this.forceSync = true;
 		return true;
 	}
 	
 	public int getCoolDown(AbilityBase ab){
 		if(coolDowns.containsKey(ab)) return coolDowns.get(ab);
 		return 0;
+	}
+	
+	public void setCoolDown(AbilityBase ab, int v){
+		coolDowns.put(ab, v);
+	}
+	
+	public void setCoolDowns(Map<AbilityBase, Integer> map){
+		coolDowns.putAll(map);
 	}
 	
 	public void addAura(IAura aura){
@@ -318,55 +328,120 @@ public class AoVData {
 		return selectiveFocus;
 	}
 	
+	private static final String packetDataSplitter = "<!Split!>";
+	private static final String packetDataSplitter_Child = "<!S!>";
+	
 	public String toPacket(){
-		String p = skillPoints+":"+currentPoints+":"+exp+":"+level+":"+currPower+":"+maxPower+":"+String.valueOf(invokeMass);
-		for(int i=0; i<9; i++){
-			p = p.concat(":".concat(slots[i] == null ? "null" : slots[i].getName()));
+		String p = "Values{"+skillPoints+","+currentPoints+","+exp+","+level+","+currPower+","+maxPower+","+String.valueOf(invokeMass)+"}";
+		
+		{
+			String tmp = "";
+			for(int i=0; i<9; i++){
+				tmp = tmp.concat(",".concat(slots[i] == null ? "null" : slots[i].getName()));
+			}
+			p = p.concat(packetDataSplitter+"Slots{"+tmp.substring(1)+"}");
 		}
-		if(obtainedSkills == null || obtainedSkills.isEmpty()) p = p.concat(":null");
-		for(AoVSkill s : obtainedSkills){
-			p = p.concat(":"+s.skillName);
+		
+		{
+			String tmp = "";
+			for(AoVSkill s : obtainedSkills){
+				tmp = tmp.concat(","+s.skillName);
+			}
+			tmp = tmp.length()>0 ? tmp : ",";
+			p = p.concat(packetDataSplitter+"ObtainedSkills{"+tmp.substring(1)+"}");
+		}
+		
+		{
+			String tmp = "";
+			for(Entry<AbilityBase, Integer> e : coolDowns.entrySet()){
+				tmp = tmp.concat(","+e.getKey().getName()+packetDataSplitter_Child+e.getValue());
+			}
+			tmp = tmp.length()>0 ? tmp : ",";
+			p = p.concat(packetDataSplitter+"CoolDowns{"+tmp.substring(1)+"}");
 		}
 		return p;
 	}
 	
 	public static AoVData fromPacket(String p){
-		String[] packet = p.split(":");
-		int sPoint = Integer.parseInt(packet[0]);
-		int cPoint = Integer.parseInt(packet[1]);
-		int xp = Integer.parseInt(packet[2]);
-		int lvl = Integer.parseInt(packet[3]);
-		int cPower = Integer.parseInt(packet[4]);
-		int mPower = Integer.parseInt(packet[5]);
-		boolean invoke = Boolean.parseBoolean(packet[6]);
-		int packetID_Slots = 7;
-		int packetID_Skills = packetID_Slots+9;
+		System.out.println(p);
+		int sPoint = 1;
+		int cPoint = 1;
+		int xp = 0;
+		int lvl = 1;
+		int cPower = 0;
+		int mPower = 0;
+		boolean invoke = false;
 		AbilityBase[] slotz = new AbilityBase[10];
-		for(int i=0; i<9; i++){
-			String s = packet[packetID_Slots+i];
-			slotz[i] = s == null ? null : AbilityBase.fromName(s);
-		}
-		if(packet[packetID_Skills].equals("null")){
-			AoVData dat = new AoVData(null, sPoint, cPoint, xp, lvl);
-			dat.setCurrentDivinePower(cPower);
-			dat.setMaxDivinePower(mPower);
-			dat.invokeMass = invoke;
-			dat.updateVariables();
-			dat.setAllSlots(slotz);
-			return dat;
-		}else{
-			ArrayList<AoVSkill> skill = new ArrayList<AoVSkill>();
-			for(int i=packetID_Skills; i<packet.length; i++){
-				skill.add(AoVSkill.getSkillFromName(packet[i]));
+		Map<AbilityBase, Integer> coolDownMap = new HashMap<AbilityBase, Integer>();
+		AoVData dat = null;
+		
+		boolean flag = true;
+		String[] packet = p.split(packetDataSplitter);
+		for(String rawData : packet){
+			if(rawData.contains("Values{")){
+				String snipData = rawData.substring("Values{".length(), rawData.length()-1);
+				String[] dataValues = snipData.split(",");
+				sPoint = Integer.parseInt(dataValues[0]);
+				cPoint = Integer.parseInt(dataValues[1]);
+				xp = Integer.parseInt(dataValues[2]);
+				lvl = Integer.parseInt(dataValues[3]);
+				cPower = Integer.parseInt(dataValues[4]);
+				mPower = Integer.parseInt(dataValues[5]);
+				invoke = Boolean.parseBoolean(dataValues[6]);
 			}
-			AoVData dat = new AoVData(null, sPoint, cPoint, xp, lvl, skill.toArray());
+			else if(rawData.contains("Slots{")){
+				String snipData = rawData.substring("Slots{".length(), rawData.length()-1);
+				String[] dataValues = snipData.split(",");
+				for(int i=0; i<9; i++){
+					String s = dataValues[i];
+					slotz[i] = s == null ? null : AbilityBase.fromName(s);
+				}
+			}
+			else if(rawData.contains("CoolDowns{")){
+				String snipData = rawData.substring("CoolDowns{".length(), rawData.length()-1);
+				String[] dataValues = snipData.split(",");
+				for(int i=0; i<dataValues.length; i++){
+					if(!dataValues[i].contains(packetDataSplitter_Child)) continue;
+					AbilityBase ab = AbilityBase.fromName(dataValues[i].split(packetDataSplitter_Child)[0]);
+					int cd = Integer.valueOf(dataValues[i].split(packetDataSplitter_Child)[1]);
+					coolDownMap.put(ab, cd);
+				}
+			}
+			else if(rawData.contains("ObtainedSkills{")){
+				flag = false;
+				String snipData = rawData.substring("ObtainedSkills{".length(), rawData.length()-1);
+				String[] dataValues = snipData.split(",");
+				if(dataValues.length > 0){
+					ArrayList<AoVSkill> skill = new ArrayList<AoVSkill>();
+					for(int i=0; i<dataValues.length; i++){
+						skill.add(AoVSkill.getSkillFromName(dataValues[i]));
+					}
+					dat = new AoVData(null, sPoint, cPoint, xp, lvl, skill.toArray());
+					dat.setCurrentDivinePower(cPower);
+					dat.setMaxDivinePower(mPower);
+					dat.invokeMass = invoke;
+					dat.updateVariables();
+					dat.setAllSlots(slotz);
+				}else{
+					dat = new AoVData(null, sPoint, cPoint, xp, lvl);
+					dat.setCurrentDivinePower(cPower);
+					dat.setMaxDivinePower(mPower);
+					dat.invokeMass = invoke;
+					dat.updateVariables();
+					dat.setAllSlots(slotz);
+				}
+			}
+		}
+		if(flag){
+			dat = new AoVData(null, sPoint, cPoint, xp, lvl);
 			dat.setCurrentDivinePower(cPower);
 			dat.setMaxDivinePower(mPower);
 			dat.invokeMass = invoke;
 			dat.updateVariables();
 			dat.setAllSlots(slotz);
-			return dat;
 		}
+		dat.setCoolDowns(coolDownMap);
+		return dat;
 	}
 
 	public boolean wasThereAChange() {
