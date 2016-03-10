@@ -28,7 +28,7 @@ public class AoVCoreClient extends AoVCore{
 	
 	@Override
 	public void update(){
-		data.update();
+		if(data != null) data.update();
 	}
 
 }

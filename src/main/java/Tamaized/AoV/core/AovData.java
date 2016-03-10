@@ -117,7 +117,7 @@ public class AoVData {
 		last_exp = exp;
 		last_currPower = currPower;
 		last_maxPower = maxPower;
-		if(tick % 60 == 0){
+		if(tick % 20 == 0){
 			{
 				Iterator<Entry<AuraBase, Integer>> iter = auras.entrySet().iterator();
 				while(iter.hasNext()){
@@ -137,10 +137,10 @@ public class AoVData {
 				}
 			}
 		}
-		if(tick % (60*3) == 0){
+		if(tick % (20*3) == 0){
 			if(currPower < maxPower) currPower++;
 		}
-		if(tick % (60*20) == 0){
+		if(tick % (20*20) == 0){
 			AbilityBase.updateDecay();
 			tick = 0;
 		}
@@ -363,7 +363,7 @@ public class AoVData {
 	}
 	
 	public static AoVData fromPacket(String p){
-		System.out.println(p);
+		//System.out.println(p);
 		int sPoint = 1;
 		int cPoint = 1;
 		int xp = 0;

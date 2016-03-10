@@ -1,15 +1,21 @@
 package Tamaized.AoV.gui.client;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+
+import org.lwjgl.opengl.GL11;
+
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.common.client.ClientProxy;
 import Tamaized.AoV.core.AoVData;
+import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.abilities.universal.InvokeMass;
 
 public class AoVUIBar {
@@ -44,10 +50,12 @@ public class AoVUIBar {
         {
 			GlStateManager.translate(20.01f, 0, 0);
         	if(data.getSlot(j) == null) continue;
+        	AbilityBase ab = data.getSlot(j);
             int k = sr.getScaledWidth() / 2 - 90 + 2;
             int l = 4;//sr.getScaledHeight() - 16 - 3;
 			GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);	
-            renderHotbarIcon(gui, j, k, l, partialTicks, data.getSlot(j).getIcon(), (data.getSlot(j) instanceof InvokeMass) ? data.invokeMass : false);
+            renderHotbarIcon(gui, j, k, l, partialTicks, ab.getIcon(), (data.getSlot(j) instanceof InvokeMass) ? data.invokeMass : false);
+            if(data.getCoolDown(ab) > 0) renderCoolDown(gui, mc.fontRendererObj, k, l, (((float)data.getCoolDown(ab))/ab.getCoolDown()), data.getCoolDown(ab));
         }
         GlStateManager.popMatrix();
         RenderHelper.disableStandardItemLighting();
@@ -86,5 +94,76 @@ public class AoVUIBar {
 	private static void renderIcon(Gui gui, ResourceLocation icon){
 		Minecraft.getMinecraft().getTextureManager().bindTexture(icon);
         gui.drawTexturedModalRect(0, 0, 0, 0, 256, 256);
+	}
+	
+	private static void renderCoolDown(Gui gui, FontRenderer fr, int xPos, int yPos, float perc, int timeLeft){
+		GlStateManager.pushMatrix();{
+			float f1 = 1.0F / 16.0F;
+			GlStateManager.translate((float)(xPos), (float)(yPos), 0.0F);
+			GlStateManager.scale(1.0F * f1, 1.0f * f1, 1.0F);
+			
+			GlStateManager.pushMatrix();{
+				GlStateManager.enableRescaleNormal();
+				GlStateManager.enableAlpha();
+				GlStateManager.alphaFunc(516, 0.1F);
+				GlStateManager.enableBlend();
+				GlStateManager.blendFunc(770, 771);
+				
+				{
+					GlStateManager.scale(16.0f, 16.0f, 1.0f);
+					renderRadial(0, 0, perc);
+					gui.drawCenteredString(fr, String.valueOf(timeLeft), 8, 4, 0xFFFF00);
+				}
+				
+				GlStateManager.disableAlpha();
+				GlStateManager.disableRescaleNormal();
+				GlStateManager.disableLighting();
+			}
+			GlStateManager.popMatrix();
+		}
+		GlStateManager.popMatrix();
+	}
+	
+	/**
+	 * Credit to Vazkii here, I used code from Botania :P
+	 */
+	public static void renderRadial(int x, int y, float perc) {
+		GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
+		GL11.glEnable(GL11.GL_STENCIL_TEST);
+		GL11.glColorMask(false, false, false, false);
+		GL11.glDepthMask(false);
+		GL11.glStencilFunc(GL11.GL_NEVER, 1, 0xFF);
+		GL11.glStencilOp(GL11.GL_REPLACE, GL11.GL_KEEP, GL11.GL_KEEP);
+		GL11.glStencilMask(0xFF);
+		
+		int r = 10;
+		int centerX = x + 8;
+		int centerY = y + 8;
+		int degs = (int) (360 * perc);
+		float a = 0.5f;	
+		
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glColorMask(true, true, true, true);
+		GL11.glDepthMask(true);
+		GL11.glStencilMask(0x00);
+		GL11.glStencilFunc(GL11.GL_EQUAL, 1, 0xFF);
+		GL11.glBegin(GL11.GL_TRIANGLE_FAN);
+		GL11.glColor4f(0F, 0.0F, 0.0F, a);
+		GL11.glVertex2i(centerX, centerY);
+		GL11.glColor4f(0F, 0F, 0.0F, a);
+		for(int i = degs; i > 0; i--) {
+			double rad = (i - 90) / 180F * Math.PI;
+			GL11.glVertex2d(centerX + Math.cos(rad) * r, centerY + Math.sin(rad) * r);
+		}
+		GL11.glVertex2i(centerX, centerY);
+		GL11.glEnd();
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glShadeModel(GL11.GL_FLAT);
+		GL11.glDisable(GL11.GL_STENCIL_TEST);
 	}
 }
