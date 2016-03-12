@@ -55,8 +55,11 @@ public class AoVUIBar {
             int l = 4;//sr.getScaledHeight() - 16 - 3;
 			GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);	
             renderHotbarIcon(gui, j, k, l, partialTicks, ab.getIcon(), (data.getSlot(j) instanceof InvokeMass) ? data.invokeMass : false);
+            GlStateManager.pushAttrib();
             if(data.getCoolDown(ab) > 0) renderCoolDown(gui, mc.fontRendererObj, k, l, (((float)data.getCoolDown(ab))/ab.getCoolDown()), data.getCoolDown(ab));
+            GlStateManager.popAttrib();
         }
+        //renderRadial(0, 50, 0.90f);
         GlStateManager.popMatrix();
         RenderHelper.disableStandardItemLighting();
         GlStateManager.disableRescaleNormal();
@@ -155,10 +158,32 @@ public class AoVUIBar {
 		GL11.glColor4f(0F, 0.0F, 0.0F, a);
 		GL11.glVertex2i(centerX, centerY);
 		GL11.glColor4f(0F, 0F, 0.0F, a);
-		for(int i = degs; i > 0; i--) {
-			double rad = (i - 90) / 180F * Math.PI;
-			GL11.glVertex2d(centerX + Math.cos(rad) * r, centerY + Math.sin(rad) * r);
-		}
+		int v = (int)((405f)*perc);
+		//v = 210;
+		int v1 = v > 45 ? -45 : -v;
+		int v2 = v > 135 ? -135 : -v;
+		int v3 = v > 225 ? -225 : -v;
+		int v4 = v > 315 ? -315 : -v;
+		int v5 = v > 405 ? -405 : -v;
+		double rad = (v1) / 180F * Math.PI;
+		GL11.glVertex2d(centerX + Math.cos((-45) / 180F * Math.PI) * r, centerY + Math.sin(rad) * r);
+		//GL11.glVertex2d(centerX + Math.cos(rad) * r, centerY + Math.sin(rad) * r);
+		rad = (v2) / 180F * Math.PI;
+		if(v > 45) GL11.glVertex2d(centerX + Math.cos(rad) * r, centerY + Math.sin((-135) / 180F * Math.PI) * r);
+		//GL11.glVertex2d(centerX + Math.cos(rad) * r, centerY + Math.sin(rad) * r);
+		rad = (v3) / 180F * Math.PI;
+		if(v > 135) GL11.glVertex2d(centerX + Math.cos((-225) / 180F * Math.PI) * r, centerY + Math.sin(rad) * r);
+		//GL11.glVertex2d(centerX + Math.cos(rad) * r, centerY + Math.sin(rad) * r);
+		rad = (v4) / 180F * Math.PI;
+		if(v > 225) GL11.glVertex2d(centerX + Math.cos(rad) * r, centerY + Math.sin((-315) / 180F * Math.PI) * r);
+		//GL11.glVertex2d(centerX + Math.cos(rad) * r, centerY + Math.sin(rad) * r);
+		rad = (v5) / 180F * Math.PI;
+		if(v > 315) GL11.glVertex2d(centerX + Math.cos((-405) / 180F * Math.PI) * r, centerY + Math.sin(rad) * r);
+		
+		//for(int i = degs; i > 0; i--) {
+		//	double rad = (i - 90) / 180F * Math.PI;
+		//	GL11.glVertex2d(centerX + Math.cos(rad) * r, centerY + Math.sin(rad) * r);
+		//}
 		GL11.glVertex2i(centerX, centerY);
 		GL11.glEnd();
 		GL11.glDisable(GL11.GL_BLEND);

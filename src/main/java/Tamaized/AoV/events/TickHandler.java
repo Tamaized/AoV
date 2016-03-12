@@ -1,5 +1,6 @@
 package Tamaized.AoV.events;
 
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
@@ -19,7 +20,7 @@ public class TickHandler {
 	
 	@SubscribeEvent
 	public void ClientTickEvent(ClientTickEvent e){
-		if(e.phase == e.phase.START) return;
+		if(e.phase == e.phase.START || Minecraft.getMinecraft().isGamePaused()) return;
 		if(AoV.clientAoVCore == null) AoV.clientAoVCore = new AoVCoreClient();
 		AoV.clientAoVCore.update();
 		if(AoV.clientAoVCore.getPlayer(null) == null) ClientProxy.barToggle = false;
