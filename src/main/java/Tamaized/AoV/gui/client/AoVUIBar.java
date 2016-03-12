@@ -34,36 +34,35 @@ public class AoVUIBar {
 		float alpha = 0.2f;
 		if(ClientProxy.barToggle) alpha = 1.0f;
 		GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
-        mc.getTextureManager().bindTexture(widgetsTexPath);
-        EntityPlayer entityplayer = (EntityPlayer)this.mc.getRenderViewEntity();
-        int i = sr.getScaledWidth() / 2;
-        gui.drawTexturedModalRect(i - 91, 1, 0, 0, 182, 22);
-        gui.drawTexturedModalRect(i - 91 - 1 + slotLoc * 20, 0, 0, 22, 24, 22);
-        GlStateManager.enableRescaleNormal();
-        GlStateManager.enableBlend();
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-        RenderHelper.enableGUIStandardItemLighting();
-        GlStateManager.pushMatrix();
-        GlStateManager.translate(0.01f, 0, 0);
-        GlStateManager.translate(-20.01f, 0, 0);
-        for (int j = 0; j < 9; ++j)
-        {
+		mc.getTextureManager().bindTexture(widgetsTexPath);
+		EntityPlayer entityplayer = (EntityPlayer)this.mc.getRenderViewEntity();
+		int i = sr.getScaledWidth() / 2;
+		gui.drawTexturedModalRect(i - 91, 1, 0, 0, 182, 22);
+		gui.drawTexturedModalRect(i - 91 - 1 + slotLoc * 20, 0, 0, 22, 24, 22);
+		GlStateManager.enableRescaleNormal();
+		GlStateManager.enableBlend();
+		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+		RenderHelper.enableGUIStandardItemLighting();
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(0.01f, 0, 0);
+		GlStateManager.translate(-20.01f, 0, 0);
+		for (int j = 0; j < 9; ++j){
 			GlStateManager.translate(20.01f, 0, 0);
-        	if(data.getSlot(j) == null) continue;
-        	AbilityBase ab = data.getSlot(j);
-            int k = sr.getScaledWidth() / 2 - 90 + 2;
-            int l = 4;//sr.getScaledHeight() - 16 - 3;
+			if(data.getSlot(j) == null) continue;
+			AbilityBase ab = data.getSlot(j);
+			int k = sr.getScaledWidth() / 2 - 90 + 2;
+			int l = 4;//sr.getScaledHeight() - 16 - 3;
 			GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);	
-            renderHotbarIcon(gui, j, k, l, partialTicks, ab.getIcon(), (data.getSlot(j) instanceof InvokeMass) ? data.invokeMass : false);
-            GlStateManager.pushAttrib();
-            if(data.getCoolDown(ab) > 0) renderCoolDown(gui, mc.fontRendererObj, k, l, (((float)data.getCoolDown(ab))/ab.getCoolDown()), data.getCoolDown(ab));
-            GlStateManager.popAttrib();
-        }
-        //renderRadial(0, 50, 0.90f);
-        GlStateManager.popMatrix();
-        RenderHelper.disableStandardItemLighting();
-        GlStateManager.disableRescaleNormal();
-        GlStateManager.disableBlend();
+			renderHotbarIcon(gui, j, k, l, partialTicks, ab.getIcon(), (data.getSlot(j) instanceof InvokeMass) ? data.invokeMass : false);
+			GlStateManager.pushAttrib();
+			if(data.getCoolDown(ab) > 0) renderCoolDown(gui, mc.fontRendererObj, k, l, (((float)data.getCoolDown(ab))/ab.getCoolDown()), data.getCoolDown(ab));
+			GlStateManager.popAttrib();
+		}
+		//renderRadial(0, 50, 0.90f);
+		GlStateManager.popMatrix();
+		RenderHelper.disableStandardItemLighting();
+		GlStateManager.disableRescaleNormal();
+		GlStateManager.disableBlend();
 	}
 	
 	public static void renderHotbarIcon(Gui gui, int index, int xPos, int yPos, float partialTicks, ResourceLocation icon, boolean active){
@@ -96,7 +95,7 @@ public class AoVUIBar {
 	
 	private static void renderIcon(Gui gui, ResourceLocation icon){
 		Minecraft.getMinecraft().getTextureManager().bindTexture(icon);
-        gui.drawTexturedModalRect(0, 0, 0, 0, 256, 256);
+		gui.drawTexturedModalRect(0, 0, 0, 0, 256, 256);
 	}
 	
 	private static void renderCoolDown(Gui gui, FontRenderer fr, int xPos, int yPos, float perc, int timeLeft){
