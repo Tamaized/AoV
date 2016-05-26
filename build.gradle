@@ -17,9 +17,9 @@ group= "tamaized.aov"
 archivesBaseName = "AoV"
 
 minecraft {
-    version = "1.8.9-11.15.1.1744"
+    version = "1.8.9-11.15.1.1902-1.8.9"
     runDir = "run"
-    mappings = "snapshot_20160214"
+    mappings = "stable_22"
     makeObfSourceJar = false
 }
 
