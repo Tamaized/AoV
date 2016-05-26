@@ -161,7 +161,7 @@ public class AoVData {
 	
 	public boolean castAbility(AbilityBase ab){
 		if(coolDowns.containsKey(ab)) return false;
-		coolDowns.put(ab, ab.getCoolDown());
+		coolDowns.put(ab, ab.usesInvoke() ? ab.getCoolDown()*2 : ab.getCoolDown());
 		this.forceSync = true;
 		return true;
 	}

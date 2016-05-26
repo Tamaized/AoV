@@ -31,6 +31,8 @@ import Tamaized.AoV.registry.AoVAchievements;
 import Tamaized.AoV.registry.AoVArmors;
 import Tamaized.AoV.registry.AoVBiomes;
 import Tamaized.AoV.registry.AoVBlocks;
+import Tamaized.AoV.registry.AoVDamageSource;
+import Tamaized.AoV.registry.AoVEntities;
 import Tamaized.AoV.registry.AoVFluids;
 import Tamaized.AoV.registry.AoVItems;
 import Tamaized.AoV.registry.AoVMaterials;
@@ -71,6 +73,8 @@ public class AoV {
 	public static AoVBlocks blocks = new AoVBlocks();
 	public static AoVBiomes biomes = new AoVBiomes();
 	public static AoVAchievements achievements = new AoVAchievements();
+	public static AoVDamageSource damageSources = new AoVDamageSource();
+	public static AoVEntities entities = new AoVEntities();
 	
 	public static ArrayList<RegistryBase> registry = new ArrayList<RegistryBase>();
 	
@@ -96,6 +100,8 @@ public class AoV {
 		registry.add(blocks);
 		registry.add(biomes);
 		registry.add(achievements);
+		registry.add(damageSources);
+		registry.add(entities);
 		
 		for(RegistryBase reg : registry) reg.preInit();
 	}

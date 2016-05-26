@@ -24,11 +24,11 @@ public class InvokeMass extends AbilityBase {
 		super(getStaticName(), cost, dmg, false,
 				ChatFormatting.YELLOW+getStaticName(),
 				"",
-				ChatFormatting.DARK_PURPLE+"While Active your spells",
+				ChatFormatting.DARK_PURPLE+"While Active, certain spells",
 				ChatFormatting.DARK_PURPLE+"and abilities have double",
-				ChatFormatting.DARK_PURPLE+"range and are cast on",
-				ChatFormatting.DARK_PURPLE+"everything around you.",
-				ChatFormatting.RED+"This also doubles the cost."
+				ChatFormatting.DARK_PURPLE+"range and are cast as",
+				ChatFormatting.DARK_PURPLE+"an AoE (Area of Effect).",
+				ChatFormatting.RED+"This also doubles the cost and cooldown."
 				);
 	}
 

@@ -66,6 +66,10 @@ public abstract class AbilityBase {
 	
 	public abstract int getCoolDown();
 	
+	public boolean usesInvoke(){
+		return usesInvoke;
+	}
+	
 	public int getTrueCost(AoVData data){
 		int theCost = usesInvoke ? data.invokeMass ? cost*2 : cost : cost;
 		int tCost =  (int) (theCost - Math.ceil(theCost*(data.getCostReductionPerc()/100))) - data.getCostReductionFlat();
