@@ -23,7 +23,7 @@ public class HealerSkillCore4 extends AoVSkill{
 				ChatFormatting.RED+"Requires: Level 12",
 				"",
 				ChatFormatting.GREEN+"+10 Spell Power",
-				ChatFormatting.GREEN+"+10 Divine Power",
+				ChatFormatting.GREEN+"+1 Charge",
 				"",
 				ChatFormatting.YELLOW+"Added Spell: Positive Energy Aura"
 				);
@@ -31,7 +31,7 @@ public class HealerSkillCore4 extends AoVSkill{
 
 	@Override
 	protected void setupBuffs() {
-		buffs = new Buffs(10, 10, 0, 0, false);
+		buffs = new Buffs(1, 10, false);
 	}
 
 	@Override

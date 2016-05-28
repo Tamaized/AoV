@@ -20,7 +20,7 @@ public class HealerSkillCore1 extends AoVSkill{
 				ChatFormatting.RED+"prevents you from taking",
 				ChatFormatting.RED+"skills from any other class!",
 				"",
-				ChatFormatting.GREEN+"+10 Divine Power",
+				ChatFormatting.GREEN+"+1 Charge",
 				"",
 				ChatFormatting.YELLOW+"Added Spell: Cure Light Wounds"
 				);
@@ -28,7 +28,7 @@ public class HealerSkillCore1 extends AoVSkill{
 
 	@Override
 	protected void setupBuffs() {
-		buffs = new Buffs(10, 0, 0, 0, false);
+		buffs = new Buffs(1, 0, false);
 	}
 
 	@Override

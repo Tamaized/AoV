@@ -18,16 +18,16 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 
 public class PosEnergyAura extends AbilityBase implements IAura{
 	
-	private final static int cost = 10;
+	private final static int charges = 6;
 	private final static int range = 10;
 	private final static int dmg = 2;
 	private final static int life = 45;
 
 	public PosEnergyAura() {
-		super(getStaticName(), cost, range, false,
+		super(getStaticName(), charges, range, false,
 				ChatFormatting.YELLOW+getStaticName(),
 				"",
-				ChatFormatting.AQUA+"Cost: "+cost,
+				ChatFormatting.AQUA+"Charges: "+charges,
 				ChatFormatting.AQUA+"Range: "+range,
 				ChatFormatting.AQUA+"Base Healing: "+dmg,
 				ChatFormatting.AQUA+"Lasts: "+life+" Seconds",

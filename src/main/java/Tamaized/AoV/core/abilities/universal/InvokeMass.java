@@ -16,12 +16,12 @@ import Tamaized.AoV.helper.ParticleHelper;
 
 public class InvokeMass extends AbilityBase {
 
-	private final static int cost = 0;
+	private final static int charges = -1;
 	private final static int range = 0;
 	private final static int dmg = 0;
 
 	public InvokeMass() {
-		super(getStaticName(), cost, dmg, false,
+		super(getStaticName(), charges, dmg, false,
 				ChatFormatting.YELLOW+getStaticName(),
 				"",
 				ChatFormatting.DARK_PURPLE+"While Active, certain spells",

@@ -56,7 +56,7 @@ public class ResetSkillsGUI extends GuiScreen {
 					break;
 				case BUTTON_RESET_FULL:
 					data.clearAllSlots();
-					if(data.getCoreSkill() != null) this.sendPacket(ServerPacketHandler.TYPE_RESETSKILLS_FULL);
+					if(data.hasSkillCore()) this.sendPacket(ServerPacketHandler.TYPE_RESETSKILLS_FULL);
 					break;
 				default:
 					break;

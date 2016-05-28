@@ -22,7 +22,7 @@ public class CasterSkillCore4 extends AoVSkill{
 				ChatFormatting.RED+"Requires: Level 12",
 				"",
 				ChatFormatting.GREEN+"+15 Spell Power",
-				ChatFormatting.GREEN+"+15 Divine Power",
+				ChatFormatting.GREEN+"+1 Charge",
 				"",
 				ChatFormatting.YELLOW+"Added Spell: Blade Barrier"
 				);
@@ -30,7 +30,7 @@ public class CasterSkillCore4 extends AoVSkill{
 
 	@Override
 	protected void setupBuffs() {
-		buffs = new Buffs(15, 15, 0, 0, false);
+		buffs = new Buffs(1, 15, false);
 	}
 
 	@Override

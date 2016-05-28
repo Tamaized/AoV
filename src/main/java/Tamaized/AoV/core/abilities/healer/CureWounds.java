@@ -21,7 +21,7 @@ public abstract class CureWounds extends AbilityBase{
 		super(n, c, r, true,
 				ChatFormatting.YELLOW+n,
 				"",
-				ChatFormatting.AQUA+"Cost: "+c,
+				ChatFormatting.AQUA+"Charges: "+c,
 				ChatFormatting.AQUA+"Range: "+r,
 				ChatFormatting.AQUA+"Base Healing: "+dmg,
 				"",

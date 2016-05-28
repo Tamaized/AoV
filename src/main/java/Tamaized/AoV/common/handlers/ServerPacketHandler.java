@@ -32,6 +32,8 @@ public class ServerPacketHandler {
 	public static final int TYPE_SPELLCAST_TARGET = 4;
 	public static final int TYPE_SPELLBAR_REMOVE = 5;
 	public static final int TYPE_SPELLBAR_ADDNEAR = 6;
+	public static final int TYPE_CHARGES_RESET = 7;
+	public static final int TYPE_CHARGES_CONFIGURE = 8;
 	
 	@SubscribeEvent
 	public void onServerPacket(ServerCustomPacketEvent event) {
@@ -135,6 +137,26 @@ public class ServerPacketHandler {
 					AoVData data = core.getPlayer(player);
 					data.addToNearestSlot(AbilityBase.fromName(bbis.readUTF()));
 					sendAovDataPacket(player, data);
+				}
+					break;
+					
+				case TYPE_CHARGES_RESET:
+				{
+					AoVCore core = AoV.serverAoVCore;
+					AoVData data = core.getPlayer(player);
+					data.resetAbilityCharges();
+				}
+					break;
+					
+				case TYPE_CHARGES_CONFIGURE:
+				{
+					AoVCore core = AoV.serverAoVCore;
+					AoVData data = core.getPlayer(player);
+					data.clearAbilityCharges();
+					for(int i=0; i<9; i++){
+						AbilityBase ab = data.getSlot(i);
+						if(ab != null) data.setAbilityCharges(ab, ab.charges);
+					}
 				}
 					break;
 					

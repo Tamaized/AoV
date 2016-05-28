@@ -17,17 +17,17 @@ public class HealerSkillT4S2 extends AoVSkill{
 				new AbilityBase[]{
 					
 				},
-				ChatFormatting.AQUA+"Spell Cost Reduction II",
+				ChatFormatting.AQUA+"Charges II",
 				ChatFormatting.RED+"Requires: 12 Points Spent in Tree",
-				ChatFormatting.RED+"Requires: Spell Cost Reduction I",
+				ChatFormatting.RED+"Requires: Charges I",
 				"",
-				ChatFormatting.GREEN+"+10% Spell Cost Reduction"
+				ChatFormatting.GREEN+"+2 Charges"
 				);
 	}
 
 	@Override
 	protected void setupBuffs() {
-		buffs = new Buffs(0, 0, 10, 0, false);
+		buffs = new Buffs(2, 0, false);
 	}
 
 	@Override

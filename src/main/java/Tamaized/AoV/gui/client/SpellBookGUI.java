@@ -68,16 +68,19 @@ public class SpellBookGUI extends GuiScreen {
 		}
 		spellList.clear();
 		spellList = null;
-		
-		buttonList.add(new BlankButton(BUTTON_BAR_SLOT_0, 122, 210, 16, 16, false));
-		buttonList.add(new BlankButton(BUTTON_BAR_SLOT_1, 142, 210, 16, 16, false));
-		buttonList.add(new BlankButton(BUTTON_BAR_SLOT_2, 162, 210, 16, 16, false));
-		buttonList.add(new BlankButton(BUTTON_BAR_SLOT_3, 182, 210, 16, 16, false));
-		buttonList.add(new BlankButton(BUTTON_BAR_SLOT_4, 202, 210, 16, 16, false));
-		buttonList.add(new BlankButton(BUTTON_BAR_SLOT_5, 222, 210, 16, 16, false));
-		buttonList.add(new BlankButton(BUTTON_BAR_SLOT_6, 242, 210, 16, 16, false));
-		buttonList.add(new BlankButton(BUTTON_BAR_SLOT_7, 262, 210, 16, 16, false));
-		buttonList.add(new BlankButton(BUTTON_BAR_SLOT_8, 282, 210, 16, 16, false));
+		{
+			int y = height-47;
+			int x = width/2;
+			buttonList.add(new BlankButton(BUTTON_BAR_SLOT_0, x-88, y, 16, 16, false));
+			buttonList.add(new BlankButton(BUTTON_BAR_SLOT_1, x-68, y, 16, 16, false));
+			buttonList.add(new BlankButton(BUTTON_BAR_SLOT_2, x-48, y, 16, 16, false));
+			buttonList.add(new BlankButton(BUTTON_BAR_SLOT_3, x-28, y, 16, 16, false));
+			buttonList.add(new BlankButton(BUTTON_BAR_SLOT_4, x-8, y, 16, 16, false));
+			buttonList.add(new BlankButton(BUTTON_BAR_SLOT_5, x+12, y, 16, 16, false));
+			buttonList.add(new BlankButton(BUTTON_BAR_SLOT_6, x+32, y, 16, 16, false));
+			buttonList.add(new BlankButton(BUTTON_BAR_SLOT_7, x+52, y, 16, 16, false));
+			buttonList.add(new BlankButton(BUTTON_BAR_SLOT_8, x+72, y, 16, 16, false));
+		}
 	}
 	
 	@Override
@@ -179,7 +182,7 @@ public class SpellBookGUI extends GuiScreen {
 			int k = sr.getScaledWidth() / 2 - 90 + 2;
 			int l = sr.getScaledHeight() - 47;
 			GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);	
-			AoVUIBar.renderHotbarIcon(this, j, k, l, partialTicks, data.getSlot(j).getIcon(), (data.getSlot(j) instanceof InvokeMass) ? data.invokeMass : false);
+			AoVUIBar.renderHotbarIcon(this, null, j, k, l, partialTicks, data.getSlot(j).getIcon(), (data.getSlot(j) instanceof InvokeMass) ? data.invokeMass : false);
 		}
 		GlStateManager.popMatrix();
 		RenderHelper.disableStandardItemLighting();
@@ -199,6 +202,7 @@ public class SpellBookGUI extends GuiScreen {
 		}catch (IOException e) {
 			e.printStackTrace();
 		}
+		sendChargeUpdates();
 	}
 	
 	private void sendPacketTypeAddNearestSlot(String ability){
@@ -207,6 +211,20 @@ public class SpellBookGUI extends GuiScreen {
 		try {
 			outputStream.writeInt(ServerPacketHandler.TYPE_SPELLBAR_ADDNEAR);
 			outputStream.writeUTF(ability);
+			FMLProxyPacket pkt = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
+			if(AoV.channel != null && pkt != null) AoV.channel.sendToServer(pkt);
+			bos.close();
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+		sendChargeUpdates();
+	}
+	
+	private void sendChargeUpdates(){
+		ByteBufOutputStream bos = new ByteBufOutputStream(Unpooled.buffer());
+		DataOutputStream outputStream = new DataOutputStream(bos);
+		try {
+			outputStream.writeInt(ServerPacketHandler.TYPE_CHARGES_CONFIGURE);
 			FMLProxyPacket pkt = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
 			if(AoV.channel != null && pkt != null) AoV.channel.sendToServer(pkt);
 			bos.close();

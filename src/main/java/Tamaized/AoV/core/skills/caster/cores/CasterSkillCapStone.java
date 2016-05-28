@@ -22,15 +22,13 @@ public class CasterSkillCapStone extends AoVSkill{
 				ChatFormatting.RED+"Requires: Level 15",
 				"",
 				ChatFormatting.GREEN+"+50 Spell Power",
-				ChatFormatting.GREEN+"+40 Divine Power",
-				ChatFormatting.GREEN+"+10% Spell Cost Reduction",
-				ChatFormatting.GREEN+"+2 Spell Cost Reduction"
+				ChatFormatting.GREEN+"+4 Charges"
 				);
 	}
 
 	@Override
 	protected void setupBuffs() {
-		buffs = new Buffs(40, 50, 10, 2, false);
+		buffs = new Buffs(4, 50, false);
 	}
 
 	@Override

@@ -63,6 +63,7 @@ public class AoVSkillsGUI extends GuiScreen {
 			CasterSkillRegisterButtons.register(this);
 			DefenderSkillRegisterButtons.register(this);
 			
+			sendChargeUpdates();
 		}else{
 			mc.displayGuiScreen((GuiScreen)null);
 		}
@@ -196,6 +197,19 @@ public class AoVSkillsGUI extends GuiScreen {
 				lastMy = mouseY;
 				lastMx = mouseX;
 			}
+		}
+	}
+	
+	private void sendChargeUpdates(){
+		ByteBufOutputStream bos = new ByteBufOutputStream(Unpooled.buffer());
+		DataOutputStream outputStream = new DataOutputStream(bos);
+		try {
+			outputStream.writeInt(ServerPacketHandler.TYPE_CHARGES_CONFIGURE);
+			FMLProxyPacket pkt = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
+			if(AoV.channel != null && pkt != null) AoV.channel.sendToServer(pkt);
+			bos.close();
+		}catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

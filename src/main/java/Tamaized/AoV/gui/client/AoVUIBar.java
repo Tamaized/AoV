@@ -53,7 +53,7 @@ public class AoVUIBar {
 			int k = sr.getScaledWidth() / 2 - 90 + 2;
 			int l = 4;//sr.getScaledHeight() - 16 - 3;
 			GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);	
-			renderHotbarIcon(gui, j, k, l, partialTicks, ab.getIcon(), (data.getSlot(j) instanceof InvokeMass) ? data.invokeMass : false);
+			renderHotbarIcon(gui, data, j, k, l, partialTicks, ab.getIcon(), (data.getSlot(j) instanceof InvokeMass) ? data.invokeMass : false);
 			GlStateManager.pushAttrib();
 			if(data.getCoolDown(ab) > 0) renderCoolDown(gui, mc.fontRendererObj, k, l, (((float)data.getCoolDown(ab))/ab.getCoolDown()), data.getCoolDown(ab));
 			GlStateManager.popAttrib();
@@ -65,7 +65,7 @@ public class AoVUIBar {
 		GlStateManager.disableBlend();
 	}
 	
-	public static void renderHotbarIcon(Gui gui, int index, int xPos, int yPos, float partialTicks, ResourceLocation icon, boolean active){
+	public static void renderHotbarIcon(Gui gui, AoVData data, int index, int xPos, int yPos, float partialTicks, ResourceLocation icon, boolean active){
 		if(icon != null){
 			GlStateManager.pushMatrix();
 			float f1 = 1.0F / 16.0F;
@@ -82,7 +82,10 @@ public class AoVUIBar {
 			
 			renderIcon(gui, icon);
 			if(active) gui.drawRect(0, 0, 256, 256, 0x7700FFFF);
-			
+			if(data != null){
+				AbilityBase ab = data.getSlot(index);
+				if(data.getAbilityCharge(ab) < ab.getTrueCost(data)) gui.drawRect(0, 0, 256, 256, 0x77FF0000);
+			}
 			GlStateManager.disableAlpha();
 			GlStateManager.disableRescaleNormal();
 			GlStateManager.disableLighting();

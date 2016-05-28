@@ -23,7 +23,7 @@ public class CasterSkillCore1 extends AoVSkill{
 				ChatFormatting.RED+"prevents you from taking",
 				ChatFormatting.RED+"skills from any other class!",
 				"",
-				ChatFormatting.GREEN+"+15 Divine Power",
+				ChatFormatting.GREEN+"+1 Charge",
 				ChatFormatting.GREEN+"+10 Spell Power",
 				"",
 				ChatFormatting.YELLOW+"Added Spell: Nimbus Ray"
@@ -32,7 +32,7 @@ public class CasterSkillCore1 extends AoVSkill{
 
 	@Override
 	protected void setupBuffs() {
-		buffs = new Buffs(15, 0, 0, 0, false);
+		buffs = new Buffs(1, 10, false);
 	}
 
 	@Override

@@ -22,15 +22,13 @@ public class HealerSkillCapStone extends AoVSkill{
 				ChatFormatting.RED+"Requires: Level 15",
 				"",
 				ChatFormatting.GREEN+"+50 Spell Power",
-				ChatFormatting.GREEN+"+30 Divine Power",
-				ChatFormatting.GREEN+"+10% Spell Cost Reduction",
-				ChatFormatting.GREEN+"+2 Spell Cost Reduction"
+				ChatFormatting.GREEN+"+3 Charges"
 				);
 	}
 
 	@Override
 	protected void setupBuffs() {
-		buffs = new Buffs(30, 50, 10, 2, false);
+		buffs = new Buffs(3, 50, false);
 	}
 
 	@Override

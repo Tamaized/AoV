@@ -17,7 +17,7 @@ public class KeyHandler {
 	@SubscribeEvent
 	public void onKeyInput(InputEvent.KeyInputEvent event) {
 		if(ClientProxy.key.isPressed()){
-			if(AoV.clientAoVCore != null && AoV.clientAoVCore.getPlayer(null) != null && AoV.clientAoVCore.getPlayer(null).getCoreSkill() != null) ClientProxy.barToggle = !ClientProxy.barToggle;
+			if(AoV.clientAoVCore != null && AoV.clientAoVCore.getPlayer(null) != null && AoV.clientAoVCore.getPlayer(null).hasSkillCore()) ClientProxy.barToggle = !ClientProxy.barToggle;
 			else ClientProxy.barToggle = false;
 		}
 				

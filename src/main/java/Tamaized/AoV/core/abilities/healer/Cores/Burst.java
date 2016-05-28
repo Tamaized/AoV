@@ -16,15 +16,15 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 
 public class Burst extends AbilityBase{
 
-	private final static int cost = 10;
+	private final static int charges = 6;
 	private final static int range = 20;
 	private final static int dmg = 4;
 	
 	public Burst() {
-		super(getStaticName(), cost, range, false,
+		super(getStaticName(), charges, range, false,
 				ChatFormatting.YELLOW+getStaticName(),
 				"",
-				ChatFormatting.AQUA+"Cost: "+cost,
+				ChatFormatting.AQUA+"Charges: "+charges,
 				ChatFormatting.AQUA+"Range: "+range,
 				ChatFormatting.AQUA+"Base Healing: "+dmg,
 				"",

@@ -1,10 +1,15 @@
 package Tamaized.AoV.events;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
@@ -54,6 +59,18 @@ public class PlayerJoinLeaveEvent {
 			}else{
 				data = new AoVData(player, ct.getInteger("skillPointsMax"), ct.getInteger("skillPointsCurrent"), ct.getInteger("xp"), ct.getInteger("level"));
 			}
+			NBTTagCompound charges = ct.getCompoundTag("charges");
+			Map<AbilityBase, Integer> chargeMap = new HashMap<AbilityBase, Integer>();
+			System.out.println(charges);
+			if(charges != null){
+				for(int i = charges.getInteger("amount")-1; i>=0; i--){
+					NBTTagCompound comp = charges.getCompoundTag(String.valueOf(i));
+					System.out.println(i);
+					System.out.println(comp);
+					if(comp != null) chargeMap.put(AbilityBase.fromName(comp.getString("dataS")), comp.getInteger("dataI"));
+				}
+				data.setAbilityCharges(chargeMap);
+			}
 			NBTTagCompound bar = ct.getCompoundTag("bar");
 			if(bar != null){
 				for(int i=0; i<9; i++){
@@ -62,8 +79,6 @@ public class PlayerJoinLeaveEvent {
 					else data.setSlot(AbilityBase.fromName(s), i);
 				}
 			}
-			data.setCurrentDivinePower(ct.getInteger("currentDivinePower"));
-			data.setMaxDivinePower(ct.getInteger("maxDivinePower"));
 			data.invokeMass = ct.getBoolean("invokeMass");
 			data.updateVariables();
 			return data;
@@ -73,8 +88,6 @@ public class PlayerJoinLeaveEvent {
 	
 	private void writeNBT(EntityPlayer player, AoVData data){
 		NBTTagCompound ct = new NBTTagCompound();{
-			ct.setInteger("currentDivinePower", data.getCurrentDivinePower());
-			ct.setInteger("maxDivinePower", data.getMaxDivinePower());
 			ct.setInteger("skillPointsMax", data.getMaxSkillPoints());
 			ct.setInteger("skillPointsCurrent", data.getCurrentSkillPoints());
 			ct.setInteger("xp", data.getXP());
@@ -86,6 +99,22 @@ public class PlayerJoinLeaveEvent {
 				}
 			}
 			ct.setTag("skills", skills);
+			NBTTagCompound charges = new NBTTagCompound();{
+				if(!data.getAbilityCharges().isEmpty()){
+					Iterator<Entry<AbilityBase, Integer>> iter = data.getAbilityCharges().entrySet().iterator();
+					int id = 0;
+					while(iter.hasNext()){
+						Entry<AbilityBase, Integer> entry = iter.next();
+						NBTTagCompound tag = new NBTTagCompound();
+						tag.setString("dataS", entry.getKey().name);
+						tag.setInteger("dataI", entry.getValue());
+						charges.setTag(String.valueOf(id), tag);
+						id++;
+					}
+					charges.setInteger("amount", id);
+				}
+			}
+			ct.setTag("charges", charges);
 			NBTTagCompound bar = new NBTTagCompound();{
 				for(int i=0; i<9; i++){
 					AbilityBase ab = data.getSlot(i);

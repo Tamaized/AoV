@@ -29,23 +29,17 @@ public class AoVData {
 	private int level;
 	public boolean invokeMass = false;
 	private boolean selectiveFocus = false;
+	private Map<AbilityBase, Integer> charges = new HashMap<AbilityBase, Integer>();
+	private int extraCharges = 0;
 	
 	private AbilityBase[] slots = new AbilityBase[10]; //This needs to be handled on the server
 	
-	//On Server this needs to be handled by skills; we then send the information to the client everytime it changes, dont do it every tick!
-	private int currPower = 0;
-	private int maxPower = 0;
-	
 	//This is handled Locally, no packets need to be sent.
 	private int spellPower = 0;
-	private float costReductionPerc = 0;
-	private int costReductionFlat = 0;
 	
 	//Local variables for ServerSide
 	public boolean forceSync = false;
 	private int last_exp = 0;
-	private int last_currPower = 0;
-	private int last_maxPower = 0;
 	private Map<AuraBase, Integer> auras;
 	
 	private int tick = 0;
@@ -55,6 +49,7 @@ public class AoVData {
 	
 	public AoVData(){
 		coolDowns = new HashMap<AbilityBase, Integer>();
+		charges = new HashMap<AbilityBase, Integer>();
 		auras = new HashMap<AuraBase, Integer>();
 		obtainedSkills = new ArrayList<AoVSkill>();
 		obtainedCore = null;
@@ -79,10 +74,12 @@ public class AoVData {
 	}
 	
 	public AoVData Construct(){
+		charges = new HashMap<AbilityBase, Integer>();
 		skillPoints = 1;
 		currentPoints = 1;
 		exp = 0;
 		level = 1;
+		extraCharges = 0;
 		return this;
 	}
 	
@@ -96,27 +93,21 @@ public class AoVData {
 	}
 	
 	public void updateVariables(){
-		maxPower = 0;
-		costReductionPerc = 0;
-		costReductionFlat = 0;
 		selectiveFocus = false;
+		extraCharges = 0;
+		spellPower = 0;
 		
 		for(AoVSkill skill : obtainedSkills){
 			AoVSkill.Buffs buffs = skill.getBuffs();
-			maxPower += buffs.divinePower;
+			extraCharges += buffs.charges;
 			spellPower += buffs.spellPower;
-			costReductionPerc += buffs.costReductionPerc;
-			costReductionFlat += buffs.costReductionFlat;
 			if(buffs.selectiveFocus) selectiveFocus = true;
 		}
-		if(currPower > maxPower) currPower = maxPower;
 		forceSync = true;
 	}
 	
 	public void update(){
 		last_exp = exp;
-		last_currPower = currPower;
-		last_maxPower = maxPower;
 		if(tick % 20 == 0){
 			{
 				Iterator<Entry<AuraBase, Integer>> iter = auras.entrySet().iterator();
@@ -137,9 +128,6 @@ public class AoVData {
 				}
 			}
 		}
-		if(tick % (20*3) == 0){
-			if(currPower < maxPower) currPower++;
-		}
 		if(tick % (20*20) == 0){
 			AbilityBase.updateDecay();
 			tick = 0;
@@ -157,6 +145,54 @@ public class AoVData {
 			AoVOverlay.addFloatyText("+"+String.valueOf(((data.getLevel()*xpScale) + data.getXP())-((getLevel()*xpScale) + getXP()))+"xp");
 			if(data.getLevel() != getLevel()) AoVOverlay.addFloatyText("+"+(data.getLevel() - getLevel())+" Level(s)");
 		}
+	}
+	
+	/**
+	 * Returns the amount of charges remaining or -1 if the ability doesnt exist in the list
+	 */
+	public int getAbilityCharge(AbilityBase ab){
+		if(charges.containsKey(ab)) return charges.get(ab);
+		return -1;
+	}
+	
+	public Map<AbilityBase, Integer> getAbilityCharges(){
+		return charges;
+	}
+	
+	public void reduceAbilityCharges(AbilityBase ab, int amount){
+		int a = charges.get(ab);
+		if(amount > -1) charges.put(ab, a-amount);
+		forceSync = true;
+	}
+	
+	private void addAbilityCharge(AbilityBase ab, int c){
+		if(ab == null) return;
+		charges.put(ab, c + (c < 0 ? 0 : extraCharges));
+	}
+	
+	public void setAbilityCharges(AbilityBase ab, int c){
+		addAbilityCharge(ab, c);
+		forceSync = true;
+	}
+	
+	public void setAbilityCharges(Map<AbilityBase, Integer> chargeMap){
+		charges = new HashMap<AbilityBase, Integer>();
+		charges.putAll(chargeMap);
+		charges.remove(null);
+	}
+	
+	public void clearAbilityCharges(){
+		charges.clear();
+	}
+	
+	public void resetAbilityCharges(){
+		ArrayList<AbilityBase> ab = new ArrayList<AbilityBase>();
+		for(AbilityBase a : charges.keySet()) ab.add(a);
+		for(AbilityBase b : ab){
+			if(b == null) continue;
+			addAbilityCharge(b, b.charges);
+		}
+		forceSync = true;
 	}
 	
 	public boolean castAbility(AbilityBase ab){
@@ -222,6 +258,10 @@ public class AoVData {
 
 	public boolean hasSkill(AoVSkill skill) {
 		return obtainedSkills.contains(skill);
+	}
+	
+	public boolean hasSkillCore(){
+		return obtainedCore != null;
 	}
 	
 	public AoVSkill getCoreSkill(){
@@ -298,30 +338,8 @@ public class AoVData {
 		return (float) spellPower;
 	}
 	
-	public float getCostReductionPerc(){
-		return costReductionPerc;
-	}
-	
-	public int getCostReductionFlat(){
-		return costReductionFlat;
-	}
-	
-	public void setCurrentDivinePower(int i){
-		currPower = i;
-		forceSync = true;
-	}
-	
-	public void setMaxDivinePower(int i){
-		maxPower = i;
-		forceSync = true;
-	}
-	
-	public int getCurrentDivinePower(){
-		return currPower;
-	}
-	
-	public int getMaxDivinePower(){
-		return maxPower;
+	public int getExtraCharges(){
+		return extraCharges;
 	}
 	
 	public boolean hasSelectiveFocus(){
@@ -332,7 +350,7 @@ public class AoVData {
 	private static final String packetDataSplitter_Child = "<!S!>";
 	
 	public String toPacket(){
-		String p = "Values{"+skillPoints+","+currentPoints+","+exp+","+level+","+currPower+","+maxPower+","+String.valueOf(invokeMass)+"}";
+		String p = "Values{"+skillPoints+","+currentPoints+","+exp+","+level+","+String.valueOf(invokeMass)+"}";
 		
 		{
 			String tmp = "";
@@ -359,20 +377,30 @@ public class AoVData {
 			tmp = tmp.length()>0 ? tmp : ",";
 			p = p.concat(packetDataSplitter+"CoolDowns{"+tmp.substring(1)+"}");
 		}
+		
+		{
+			String tmp = "";
+			if(!charges.isEmpty()){
+				for(Entry<AbilityBase, Integer> e : charges.entrySet()){
+					if(e.getKey() == null) continue;
+					tmp = tmp.concat(","+e.getKey().getName()+packetDataSplitter_Child+e.getValue());
+				}
+			}
+			tmp = tmp.length()>0 ? tmp : ",";
+			p = p.concat(packetDataSplitter+"Charges{"+tmp.substring(1)+"}");
+		}
 		return p;
 	}
 	
 	public static AoVData fromPacket(String p){
-		//System.out.println(p);
 		int sPoint = 1;
 		int cPoint = 1;
 		int xp = 0;
 		int lvl = 1;
-		int cPower = 0;
-		int mPower = 0;
 		boolean invoke = false;
 		AbilityBase[] slotz = new AbilityBase[10];
 		Map<AbilityBase, Integer> coolDownMap = new HashMap<AbilityBase, Integer>();
+		Map<AbilityBase, Integer> chargeMap = new HashMap<AbilityBase, Integer>();
 		AoVData dat = null;
 		
 		boolean flag = true;
@@ -385,9 +413,7 @@ public class AoVData {
 				cPoint = Integer.parseInt(dataValues[1]);
 				xp = Integer.parseInt(dataValues[2]);
 				lvl = Integer.parseInt(dataValues[3]);
-				cPower = Integer.parseInt(dataValues[4]);
-				mPower = Integer.parseInt(dataValues[5]);
-				invoke = Boolean.parseBoolean(dataValues[6]);
+				invoke = Boolean.parseBoolean(dataValues[4]);
 			}
 			else if(rawData.contains("Slots{")){
 				String snipData = rawData.substring("Slots{".length(), rawData.length()-1);
@@ -407,6 +433,16 @@ public class AoVData {
 					coolDownMap.put(ab, cd);
 				}
 			}
+			else if(rawData.contains("Charges{")){
+				String snipData = rawData.substring("Charges{".length(), rawData.length()-1);
+				String[] dataValues = snipData.split(",");
+				for(int i=0; i<dataValues.length; i++){
+					if(!dataValues[i].contains(packetDataSplitter_Child)) continue;
+					AbilityBase ab = AbilityBase.fromName(dataValues[i].split(packetDataSplitter_Child)[0]);
+					int charge = Integer.valueOf(dataValues[i].split(packetDataSplitter_Child)[1]);
+					chargeMap.put(ab, charge);
+				}
+			}
 			else if(rawData.contains("ObtainedSkills{")){
 				flag = false;
 				String snipData = rawData.substring("ObtainedSkills{".length(), rawData.length()-1);
@@ -417,15 +453,11 @@ public class AoVData {
 						skill.add(AoVSkill.getSkillFromName(dataValues[i]));
 					}
 					dat = new AoVData(null, sPoint, cPoint, xp, lvl, skill.toArray());
-					dat.setCurrentDivinePower(cPower);
-					dat.setMaxDivinePower(mPower);
 					dat.invokeMass = invoke;
 					dat.updateVariables();
 					dat.setAllSlots(slotz);
 				}else{
 					dat = new AoVData(null, sPoint, cPoint, xp, lvl);
-					dat.setCurrentDivinePower(cPower);
-					dat.setMaxDivinePower(mPower);
 					dat.invokeMass = invoke;
 					dat.updateVariables();
 					dat.setAllSlots(slotz);
@@ -434,19 +466,18 @@ public class AoVData {
 		}
 		if(flag){
 			dat = new AoVData(null, sPoint, cPoint, xp, lvl);
-			dat.setCurrentDivinePower(cPower);
-			dat.setMaxDivinePower(mPower);
 			dat.invokeMass = invoke;
 			dat.updateVariables();
 			dat.setAllSlots(slotz);
 		}
 		dat.setCoolDowns(coolDownMap);
+		dat.setAbilityCharges(chargeMap);
 		return dat;
 	}
 
 	public boolean wasThereAChange() {
 		boolean flag = false;
-		if(last_exp != exp || last_currPower != currPower || last_maxPower != maxPower || forceSync) flag = true;
+		if(last_exp != exp || forceSync) flag = true;
 		forceSync = false;
 		return flag;
 	}

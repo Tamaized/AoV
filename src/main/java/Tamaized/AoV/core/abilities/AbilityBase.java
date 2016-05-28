@@ -37,7 +37,7 @@ public abstract class AbilityBase {
 
 	public final String name;
 	
-	public final int cost;
+	public final int charges;
 	public final double maxDistance;
 	private final boolean usesInvoke;
 	
@@ -47,7 +47,7 @@ public abstract class AbilityBase {
 	
 	public AbilityBase(String n, int c, double d, boolean invoke, String... desc){
 		name = n;
-		cost = c;
+		charges = c;
 		maxDistance = d;
 		usesInvoke = invoke;
 		description = new ArrayList<String>();
@@ -58,9 +58,11 @@ public abstract class AbilityBase {
 	public void activate(EntityPlayer player, AoVData data, EntityLivingBase e){
 		if(!data.castAbility(this)) return;
 		int trueCost = getTrueCost(data);
-		if(trueCost <= data.getCurrentDivinePower()){
-			data.setCurrentDivinePower(data.getCurrentDivinePower()-trueCost);
+		if(trueCost < 0 || trueCost <= data.getAbilityCharge(this)){
+			data.reduceAbilityCharges(this, trueCost);
 			doAction(player, data, e);
+		}else{
+			data.setCoolDown(this, 0);
 		}
 	}
 	
@@ -71,9 +73,7 @@ public abstract class AbilityBase {
 	}
 	
 	public int getTrueCost(AoVData data){
-		int theCost = usesInvoke ? data.invokeMass ? cost*2 : cost : cost;
-		int tCost =  (int) (theCost - Math.ceil(theCost*(data.getCostReductionPerc()/100))) - data.getCostReductionFlat();
-		return tCost < 1 ? 1 : tCost;
+		return charges < 0 ? -1 : usesInvoke ? data.invokeMass ? 2 : 1 : 1;
 	}
 	
 	protected abstract void doAction(EntityPlayer player, AoVData data, EntityLivingBase e);

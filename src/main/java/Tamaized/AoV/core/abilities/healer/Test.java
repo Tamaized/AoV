@@ -10,7 +10,7 @@ import Tamaized.AoV.entity.EntityTest;
 public class Test extends AbilityBase {
 
 	public Test() {
-		super(getStaticName(), 0, 20, false, "");
+		super(getStaticName(), 50, 20, false, "");
 	}
 
 	@Override

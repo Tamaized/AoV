@@ -23,8 +23,7 @@ import Tamaized.AoV.helper.ParticleHelper;
 public class ClientPacketHandler{
 	
 	public static final int TYPE_COREDATA = 0;
-	public static final int TYPE_UPDATE_DIVINEPOWER = 1;
-	public static final int TYPE_PARTICLE_BURST = 2;
+	public static final int TYPE_PARTICLE_BURST = 1;
 	
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
@@ -52,10 +51,6 @@ public class ClientPacketHandler{
 					//if(AoV.clientAoVCore.getPlayer(null) != null) AoV.clientAoVCore.getPlayer(null).updateData(newData);
 					AoV.clientAoVCore.setPlayer(null, newData);
 					if(AoVSkillsGUI.instance != null) AoVSkillsGUI.doRefresh = true;
-					break;
-				case TYPE_UPDATE_DIVINEPOWER: //We assume clientAoVCore is not null, if it is then something is seriously wrong
-					AoV.clientAoVCore.getPlayer(null).setCurrentDivinePower(bbis.readInt());
-					AoV.clientAoVCore.getPlayer(null).setMaxDivinePower(bbis.readInt());
 					break;
 				case TYPE_PARTICLE_BURST: //We assume clientAoVCore is not null, if it is then something is seriously wrong
 					ParticleHelper.burstParticles(player.worldObj, bbis.readDouble(), bbis.readDouble(), bbis.readDouble(), player.getRNG(), bbis.readInt());

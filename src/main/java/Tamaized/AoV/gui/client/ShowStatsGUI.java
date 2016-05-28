@@ -66,10 +66,8 @@ public class ShowStatsGUI extends GuiScreen {
 		String s = data.getLevel() == 15 ? "Max Experience Achieved" : data.getXP()+"/"+data.getXpNeededToLevel();
 		this.drawCenteredString(fontRendererObj, "Experience: "+s, width/2, 50, 0xFFFF00);
 		this.drawCenteredString(fontRendererObj, "Level: "+data.getLevel(), width/2, 60, 0xFFFF00);
-		this.drawCenteredString(fontRendererObj, "Divine Power: "+data.getCurrentDivinePower()+"/"+data.getMaxDivinePower(), width/2, 70, 0xFFFFFF);
-		this.drawCenteredString(fontRendererObj, "Flat Spell Cost Reduction: "+data.getCostReductionFlat(), width/2, 80, 0x00FFFF);
-		this.drawCenteredString(fontRendererObj, "Percentage Spell Cost Reduction: "+(int)data.getCostReductionPerc()+"%", width/2, 90, 0x00FFFF);
-		this.drawCenteredString(fontRendererObj, "Spell Power: "+(int) data.getSpellPower(), width/2, 100, 0x00FF00);
+		this.drawCenteredString(fontRendererObj, "Extra Charges: "+data.getExtraCharges(), width/2, 70, 0x00BBFF);
+		this.drawCenteredString(fontRendererObj, "Spell Power: "+(int) data.getSpellPower(), width/2, 80, 0x00FF00);
 		
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}

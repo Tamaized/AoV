@@ -11,15 +11,15 @@ import Tamaized.AoV.core.abilities.AbilityBase;
 
 public class NimbusRay extends AbilityBase {
 
-	private static final int cost = 6;
+	private static final int charges = 6;
 	private static final int range = 20;
 	private static final int dmg = 4;
 
 	public NimbusRay() {
-		super(getStaticName(), cost, dmg, false,
+		super(getStaticName(), charges, dmg, false,
 				ChatFormatting.YELLOW+getStaticName(),
 				"",
-				ChatFormatting.AQUA+"Cost: "+cost,
+				ChatFormatting.AQUA+"Charges: "+charges,
 				ChatFormatting.AQUA+"Range: "+range,
 				ChatFormatting.AQUA+"Base Damage: "+dmg,
 				"",
