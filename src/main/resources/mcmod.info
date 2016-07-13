@@ -11,6 +11,8 @@
   "credits": "Tamaized",
   "logoFile": "",
   "screenshots": [],
-  "dependencies": []
+  "requiredMods": [ "Forge", "tammodized" ],
+  "dependencies": [ "tammodized" ],
+  "useDependencyInformation": true
 }
 ]
