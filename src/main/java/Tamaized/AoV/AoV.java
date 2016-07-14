@@ -1,7 +1,5 @@
 package Tamaized.AoV;
 
-import java.util.ArrayList;
-
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -38,20 +36,21 @@ import Tamaized.AoV.registry.AoVItems;
 import Tamaized.AoV.registry.AoVMaterials;
 import Tamaized.AoV.registry.AoVTabs;
 import Tamaized.AoV.registry.AoVTools;
-import Tamaized.AoV.registry.RegistryBase;
 import Tamaized.AoV.tileentity.TileEntityAngelicBlock;
+import Tamaized.TamModized.TamModBase;
+import Tamaized.TamModized.TamModized;
 
-@Mod(modid=AoV.modid, name="Angel of Vengeance", version=AoV.version)
-public class AoV {
-	
+@Mod(modid = AoV.modid, name = "Angel of Vengeance", version = AoV.version, dependencies = "required-before:" + TamModized.modid + "@[" + TamModized.version + ",)")
+public class AoV extends TamModBase {
+
 	protected final static String version = "0.0.1";
 	public static final String modid = "aov";
-	
-	public static String getVersion(){
+
+	public static String getVersion() {
 		return version;
 	}
-	
-	@Instance(modid) 
+
+	@Instance(modid)
 	public static AoV instance = new AoV();
 
 	public static FMLEventChannel channel;
@@ -75,77 +74,62 @@ public class AoV {
 	public static AoVAchievements achievements = new AoVAchievements();
 	public static AoVDamageSource damageSources = new AoVDamageSource();
 	public static AoVEntities entities = new AoVEntities();
-	
-	public static ArrayList<RegistryBase> registry = new ArrayList<RegistryBase>();
-	
-	public static Logger logger;
-	
+
 	public static AoVCore serverAoVCore;
 	public static AoVCore clientAoVCore;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		logger = LogManager.getLogger("AoV");
-		
+
 		logger.info("Starting AoV PreInit");
-	
+
 		channel = NetworkRegistry.INSTANCE.newEventDrivenChannel(networkChannelName);
-		
-		registry.add(materials);
-		registry.add(tabs);
-		registry.add(tools);
-		registry.add(items);
-		registry.add(armors);
-		registry.add(fluids);
-		registry.add(blocks);
-		registry.add(biomes);
-		registry.add(achievements);
-		registry.add(damageSources);
-		registry.add(entities);
-		
-		for(RegistryBase reg : registry) reg.preInit();
+
+		register(materials);
+		register(tabs);
+		register(tools);
+		register(items);
+		register(armors);
+		register(fluids);
+		register(blocks);
+		register(biomes);
+		register(achievements);
+		register(damageSources);
+		register(entities);
+
 	}
 
 	@EventHandler
-	public void Init(FMLInitializationEvent event){ 
+	public void Init(FMLInitializationEvent event) {
 		logger.info("Starting AoV Init");
 
 		MinecraftForge.EVENT_BUS.register(new PlayerJoinLeaveEvent());
 		MinecraftForge.EVENT_BUS.register(new TickHandler());
 		MinecraftForge.EVENT_BUS.register(new PlayerInteractHandler());
-		
-		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
-		
-		GameRegistry.registerTileEntity(TileEntityAngelicBlock.class, "tileEntityAngelicBlock");
-		
 
-		for(RegistryBase reg : registry) reg.init();
-		
-		//Projectiles
-		//EntityRegistry.registerModEntity(VoidChain.class, "VoidChain", 0, this, 128, 1, true);
-		
-		proxy.registerInventoryRender();
+		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
+
+		GameRegistry.registerTileEntity(TileEntityAngelicBlock.class, "tileEntityAngelicBlock");
+
+		// Projectiles
+		// EntityRegistry.registerModEntity(VoidChain.class, "VoidChain", 0, this, 128, 1, true);
+
 	}
 
 	@EventHandler
-	public void postInit(FMLPostInitializationEvent e){ 
+	public void postInit(FMLPostInitializationEvent e) {
 		logger.info("Starting AoV PostInit");
-		
-		for(RegistryBase reg : registry) reg.postInit();
-		
+
 		channel.register(new ServerPacketHandler());
 
 		AbilityBase.register();
 		AoVSkill.registerSkills();
-		
+
 		proxy.registerKeyBinds();
 		proxy.registerNetwork();
 		proxy.registerRenders();
-		proxy.registerBlocks();
-		proxy.registerRenderInformation();
-		proxy.registerItems();
 		proxy.registerMISC();
-		proxy.registerAchievements();
 	}
 
 }

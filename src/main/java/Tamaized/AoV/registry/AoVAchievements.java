@@ -1,37 +1,38 @@
 package Tamaized.AoV.registry;
 
-import net.minecraft.stats.Achievement;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import java.util.ArrayList;
 
-public class AoVAchievements extends RegistryBase {
-	
-	public static Achievement placeholder;
+import Tamaized.AoV.AoV;
+import Tamaized.TamModized.registry.ITamModel;
+import Tamaized.TamModized.registry.ITamRegistry;
+
+public class AoVAchievements implements ITamRegistry {
+
+	private static ArrayList<ITamModel> modelList;
 
 	@Override
 	public void preInit() {
-		// TODO Auto-generated method stub
-
+		modelList = new ArrayList<ITamModel>();
 	}
 
 	@Override
 	public void init() {
-		//voidCraftAchMainLine_1 = new Achievement("achievement.achM_1", "achM_1", 0, 0, voidCraft.items.voidcrystal, (Achievement) null);
-		//voidCraftAchMainLine_1.setSpecial().initIndependentStat().registerStat();
+
 	}
 
 	@Override
 	public void postInit() {
-		Achievement[] achArray = {
-				placeholder
-		};
-		//AchievementPage.registerAchievementPage(new AchievementPage("VoidCraft", achArray));
+
 	}
-	
-	@SideOnly(Side.CLIENT)
+
 	@Override
-	public void setupRender() {
-		
+	public ArrayList<ITamModel> getModelList() {
+		return modelList;
+	}
+
+	@Override
+	public String getModID() {
+		return AoV.modid;
 	}
 
 }

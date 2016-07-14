@@ -14,7 +14,6 @@ import Tamaized.AoV.common.client.ClientProxy;
 import Tamaized.AoV.common.client.ClientTicker;
 import Tamaized.AoV.core.AoVCore;
 import Tamaized.AoV.core.AoVData;
-import Tamaized.AoV.core.abilities.AbilityBase;
 
 public class AoVOverlay extends Gui{
 	
@@ -30,7 +29,7 @@ public class AoVOverlay extends Gui{
 	
 	@SubscribeEvent
 	public void RenderAoVData(RenderGameOverlayEvent e){
-		if(e.isCancelable() || e.type != e.type.EXPERIENCE) return;
+		if(e.isCancelable() || e.getType() != e.getType().EXPERIENCE) return;
 		if(AoV.clientAoVCore == null) return;
 		AoVCore core = AoV.clientAoVCore;
 		AoVData data = core.getPlayer(null);
@@ -48,7 +47,7 @@ public class AoVOverlay extends Gui{
 				}
 			}
 
-			ClientProxy.bar.render(this, e.partialTicks);
+			ClientProxy.bar.render(this, e.getPartialTicks());
 			
 			GlStateManager.pushMatrix();{
 				GlStateManager.scale(0.5f, 0.5f, 0f);

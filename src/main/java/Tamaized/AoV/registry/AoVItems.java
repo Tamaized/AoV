@@ -2,51 +2,48 @@ package Tamaized.AoV.registry;
 
 import java.util.ArrayList;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.item.Item;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.items.DebugItem;
+import Tamaized.TamModized.registry.ITamModel;
+import Tamaized.TamModized.registry.ITamRegistry;
 
-public class AoVItems extends RegistryBase {
-	
-	private static ArrayList<Item> itemList;
+public class AoVItems implements ITamRegistry {
 
-	public static Item debugger;
-	
+	private static ArrayList<ITamModel> modelList;
+
+	public static DebugItem debugger;
+
 	@Override
 	public void preInit() {
-		debugger = new DebugItem("debugger").setCreativeTab(AoV.tabs.tabAoV);
-		
-		itemList = new ArrayList<Item>();
-		itemList.add(debugger);
+		modelList = new ArrayList<ITamModel>();
+
+		modelList.add(debugger = new DebugItem("debugger"));
 	}
 
 	@Override
 	public void init() {
 
-		//OreDictionary.registerOre("dustIron", ironDust);
-		
-		//GameRegistry.addShapelessRecipe(new ItemStack(voidBurner), voidcrystal, new ItemStack(Items.flint_and_steel, 1, voidCraft.WILDCARD_VALUE));
-		//GameRegistry.addRecipe(new ItemStack(MoltenvoidChain), "XYX", "YXY", "XYX", 'Y', MoltenvoidChainPart, 'X', burnBone);
+		// OreDictionary.registerOre("dustIron", ironDust);
 
-		//GameRegistry.addSmelting(voidCraft.blocks.oreVoidcrystal, new ItemStack(voidcrystal), 0.1F);
+		// GameRegistry.addShapelessRecipe(new ItemStack(voidBurner), voidcrystal, new ItemStack(Items.flint_and_steel, 1, voidCraft.WILDCARD_VALUE));
+		// GameRegistry.addRecipe(new ItemStack(MoltenvoidChain), "XYX", "YXY", "XYX", 'Y', MoltenvoidChainPart, 'X', burnBone);
+
+		// GameRegistry.addSmelting(voidCraft.blocks.oreVoidcrystal, new ItemStack(voidcrystal), 0.1F);
 	}
 
 	@Override
 	public void postInit() {
-		
+
 	}
 
-	@SideOnly(Side.CLIENT)
 	@Override
-	public void setupRender() {
-		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
-		for(Item i : itemList){
-			renderItem.getItemModelMesher().register(i, 0, new Tamaized.AoV.common.client.ScrewModelResourceLocation("items/", ((IBasicAoV)i).getName(), "inventory"));
-		}
+	public ArrayList<ITamModel> getModelList() {
+		return modelList;
+	}
+
+	@Override
+	public String getModID() {
+		return AoV.modid;
 	}
 
 }

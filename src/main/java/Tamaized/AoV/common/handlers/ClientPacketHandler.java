@@ -29,8 +29,8 @@ public class ClientPacketHandler{
 	@SideOnly(Side.CLIENT)
 	public void onClientPacket(ClientCustomPacketEvent event) {
 		try {
-			ByteBufInputStream bbis = new ByteBufInputStream(event.packet.payload());
-			processPacketOnClient(event.packet.payload(), Side.CLIENT);
+			ByteBufInputStream bbis = new ByteBufInputStream(event.getPacket().payload());
+			processPacketOnClient(event.getPacket().payload(), Side.CLIENT);
 			bbis.close();
 		} catch (IOException e) {
 			e.printStackTrace();

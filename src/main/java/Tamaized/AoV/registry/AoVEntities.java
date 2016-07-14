@@ -1,16 +1,20 @@
 package Tamaized.AoV.registry;
 
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import java.util.ArrayList;
+
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.entity.projectile.caster.ProjectileNimbusRay;
+import Tamaized.TamModized.registry.ITamModel;
+import Tamaized.TamModized.registry.ITamRegistry;
 
-public class AoVEntities extends RegistryBase {
+public class AoVEntities implements ITamRegistry {
+
+	private static ArrayList<ITamModel> modelList;
 
 	@Override
 	public void preInit() {
-		
+		modelList = new ArrayList<ITamModel>();
 	}
 
 	@Override
@@ -20,12 +24,17 @@ public class AoVEntities extends RegistryBase {
 
 	@Override
 	public void postInit() {
-		
+
 	}
 
 	@Override
-	public void setupRender() {
-		//RenderingRegistry.registerEntityRenderingHandler(ProjectileNimbusRay.class, new RenderProjectileNimbusRay(Minecraft.getMinecraft().getRenderManager()));
+	public ArrayList<ITamModel> getModelList() {
+		return modelList;
+	}
+
+	@Override
+	public String getModID() {
+		return AoV.modid;
 	}
 
 }

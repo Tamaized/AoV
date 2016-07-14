@@ -4,14 +4,6 @@ package Tamaized.AoV.common.server;
 
 public class CommonProxy {
 
-	public void registerRenderInformation() {}
-
-	public void registerTiles() {}
-
-	public void registerBlocks() {}
-
-	public void registerItems() {}
-
 	public void registerRenders() {}
 
 	public void registerMISC() {
@@ -19,12 +11,6 @@ public class CommonProxy {
 	}
 
 	public void registerNetwork() {}
-
-	public void registerAchievements() {}
-
-	public void registerInventoryRender() {
-		
-	}
 
 	public void registerKeyBinds() {}
 

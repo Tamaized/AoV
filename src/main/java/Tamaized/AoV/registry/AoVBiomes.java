@@ -1,36 +1,38 @@
 package Tamaized.AoV.registry;
 
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.biome.BiomeGenBase.Height;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import java.util.ArrayList;
 
-public class AoVBiomes extends RegistryBase {
+import Tamaized.AoV.AoV;
+import Tamaized.TamModized.registry.ITamModel;
+import Tamaized.TamModized.registry.ITamRegistry;
 
-	public static BiomeGenBase placeholder;
+public class AoVBiomes implements ITamRegistry {
+
+	private static ArrayList<ITamModel> modelList;
 
 	@Override
 	public void preInit() {
-		// TODO Auto-generated method stub
-
+		modelList = new ArrayList<ITamModel>();
 	}
 
 	@Override
 	public void init() {
-		Height bvoidmm = new Height(-1F, 0.1F);
-		//biomeVoid = new BiomeGenVoid(251).setBiomeName("The Void").setHeight(bvoidmm).setTemperatureRainfall(0.21F, 0.0F).setDisableRain();
-		//BiomeManager.coolBiomes.add(new BiomeEntry(biomeVoid, 100));
+
 	}
 
 	@Override
 	public void postInit() {
 
 	}
-	
-	@SideOnly(Side.CLIENT)
+
 	@Override
-	public void setupRender() {
-		
+	public ArrayList<ITamModel> getModelList() {
+		return modelList;
+	}
+
+	@Override
+	public String getModID() {
+		return AoV.modid;
 	}
 
 }

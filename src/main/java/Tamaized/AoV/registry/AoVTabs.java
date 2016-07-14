@@ -1,13 +1,16 @@
 package Tamaized.AoV.registry;
 
+import java.util.ArrayList;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import Tamaized.AoV.AoV;
+import Tamaized.TamModized.registry.ITamModel;
+import Tamaized.TamModized.registry.ITamRegistry;
 
-public class AoVTabs extends RegistryBase{
-	
+public class AoVTabs implements ITamRegistry {
+
 	public static CreativeTabs tabAoV;
 
 	@Override
@@ -15,25 +18,29 @@ public class AoVTabs extends RegistryBase{
 		tabAoV = new CreativeTabs("tabAoV") {
 			@Override
 			public Item getTabIconItem() {
-				return Items.blaze_powder;
+				return Items.BLAZE_POWDER;
 			}
 		};
 	}
 
 	@Override
 	public void init() {
-		
+
 	}
 
 	@Override
 	public void postInit() {
-		
+
 	}
-	
-	@SideOnly(Side.CLIENT)
+
 	@Override
-	public void setupRender() {
-		
+	public ArrayList<ITamModel> getModelList() {
+		return new ArrayList<ITamModel>();
+	}
+
+	@Override
+	public String getModID() {
+		return AoV.modid;
 	}
 
 }

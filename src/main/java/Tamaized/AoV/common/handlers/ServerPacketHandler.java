@@ -38,10 +38,10 @@ public class ServerPacketHandler {
 	@SubscribeEvent
 	public void onServerPacket(ServerCustomPacketEvent event) {
 		try{
-			EntityPlayerMP player = ((NetHandlerPlayServer)event.handler).playerEntity;
-			ByteBufInputStream bbis = new ByteBufInputStream(event.packet.payload());
+			EntityPlayerMP player = ((NetHandlerPlayServer)event.getHandler()).playerEntity;
+			ByteBufInputStream bbis = new ByteBufInputStream(event.getPacket().payload());
 			
-			processPacketOnServer(event.packet.payload(), Side.SERVER, player);
+			processPacketOnServer(event.getPacket().payload(), Side.SERVER, player);
 			
 			bbis.close();
 		}catch(IOException e){

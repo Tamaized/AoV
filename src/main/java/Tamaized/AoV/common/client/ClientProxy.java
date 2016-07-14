@@ -12,7 +12,6 @@ import Tamaized.AoV.common.server.CommonProxy;
 import Tamaized.AoV.events.KeyHandler;
 import Tamaized.AoV.gui.client.AoVOverlay;
 import Tamaized.AoV.gui.client.AoVUIBar;
-import Tamaized.AoV.registry.RegistryBase;
 import Tamaized.AoV.render.RenderAngelicBlock;
 import Tamaized.AoV.tileentity.TileEntityAngelicBlock;
 
@@ -57,26 +56,6 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForge.EVENT_BUS.register(new KeyHandler());
 	}
 	
-	@Override
-	public void registerInventoryRender() {
-		for(RegistryBase reg : AoV.registry) reg.setupRender();
-	}
-
-	@Override
-	public void registerItems(){
-				
-	}
-
-	@Override
-	public void registerBlocks(){
-		
-	}
-	
-	@Override
-	public void registerAchievements(){
-		
-	}
-
 	@Override
 	public void registerMISC(){
 		

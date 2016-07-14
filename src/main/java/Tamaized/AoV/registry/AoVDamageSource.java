@@ -1,32 +1,43 @@
 package Tamaized.AoV.registry;
 
-import net.minecraft.util.DamageSource;
+import java.util.ArrayList;
 
-public class AoVDamageSource extends RegistryBase {
+import net.minecraft.util.DamageSource;
+import Tamaized.AoV.AoV;
+import Tamaized.TamModized.registry.ITamModel;
+import Tamaized.TamModized.registry.ITamRegistry;
+
+public class AoVDamageSource implements ITamRegistry {
+
+	private static ArrayList<ITamModel> modelList;
 	
 	public static DamageSource damageSource_caster_NimbusRay;
 
 	@Override
 	public void preInit() {
+		modelList = new ArrayList<ITamModel>();
+		
 		damageSource_caster_NimbusRay = new DamageSource("nimbusRay").setDamageBypassesArmor().setMagicDamage();
 	}
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void postInit() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void setupRender() {
-		// TODO Auto-generated method stub
+	public ArrayList<ITamModel> getModelList() {
+		return modelList;
+	}
 
+	@Override
+	public String getModID() {
+		return AoV.modid;
 	}
 
 }

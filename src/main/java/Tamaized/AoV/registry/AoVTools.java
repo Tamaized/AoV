@@ -1,32 +1,36 @@
 package Tamaized.AoV.registry;
 
-import net.minecraft.item.Item;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import java.util.ArrayList;
 
-public class AoVTools extends RegistryBase {
-	
-	public static Item palceholder;
+import Tamaized.AoV.AoV;
+import Tamaized.TamModized.registry.ITamModel;
+import Tamaized.TamModized.registry.ITamRegistry;
+
+public class AoVTools implements ITamRegistry {
 
 	@Override
 	public void preInit() {
-		//voidPickaxe = new VoidPickaxe(voidCraft.materials.voidTools).setCreativeTab(voidCraft.tabs.tabVoid).setUnlocalizedName("voidPickaxe");
+
 	}
 
 	@Override
 	public void init() {
-		//GameRegistry.addRecipe(new ItemStack(voidPickaxe, 1), "XXX", " S ", " S ", 'X', voidCraft.items.voidcrystal, 'S', Items.stick);
+
 	}
 
 	@Override
 	public void postInit() {
 
 	}
-	
-	@SideOnly(Side.CLIENT)
+
 	@Override
-	public void setupRender() {
-		
+	public ArrayList<ITamModel> getModelList() {
+		return new ArrayList<ITamModel>();
+	}
+
+	@Override
+	public String getModID() {
+		return AoV.modid;
 	}
 
 }

@@ -3,7 +3,7 @@ package Tamaized.AoV.events;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
@@ -29,20 +29,20 @@ public class KeyHandler {
 		
 		AoVData data = AoV.clientAoVCore.getPlayer(null);
 		
-		if(e.dwheel > 0) ClientProxy.bar.slotLoc--;
-		if(e.dwheel < 0) ClientProxy.bar.slotLoc++;
+		if(e.getDwheel() > 0) ClientProxy.bar.slotLoc--;
+		if(e.getDwheel() < 0) ClientProxy.bar.slotLoc++;
 		if(ClientProxy.bar.slotLoc < 0) ClientProxy.bar.slotLoc = 8;
 		if(ClientProxy.bar.slotLoc > 8) ClientProxy.bar.slotLoc = 0;
 		
-		if(e.button != 0){
+		if(e.getButton() != 0){
 			e.setCanceled(true);    		
-  	     	KeyBinding.setKeyBindState(e.button - 100, false);
+  	     	KeyBinding.setKeyBindState(e.getButton() - 100, false);
 		}
-		if(e.button == 1){
+		if(e.getButton() == 1){
 			AbilityBase spell = data.getCurrentSlot();
 			if(spell != null){
-				if(e.buttonstate){
-					MovingObjectPosition obj = Minecraft.getMinecraft().objectMouseOver;
+				if(e.isButtonstate()){
+					RayTraceResult obj = Minecraft.getMinecraft().objectMouseOver;
 					EntityLivingBase entity = null;
 					if(obj != null && obj.entityHit != null && obj.entityHit instanceof EntityLivingBase) entity = (EntityLivingBase) obj.entityHit;
 					spell.activate(Minecraft.getMinecraft().thePlayer, data, entity);
