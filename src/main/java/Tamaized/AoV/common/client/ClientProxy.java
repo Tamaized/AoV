@@ -12,8 +12,6 @@ import Tamaized.AoV.common.server.CommonProxy;
 import Tamaized.AoV.events.KeyHandler;
 import Tamaized.AoV.gui.client.AoVOverlay;
 import Tamaized.AoV.gui.client.AoVUIBar;
-import Tamaized.AoV.render.RenderAngelicBlock;
-import Tamaized.AoV.tileentity.TileEntityAngelicBlock;
 
 public class ClientProxy extends CommonProxy {
 	
@@ -45,8 +43,6 @@ public class ClientProxy extends CommonProxy {
 		//Blocks
 		//RenderingRegistry.registerBlockHandler(new OreRenderer()); //TODO: Deal with this at a later time
 	
-		RenderAngelicBlock renderAngelicblock = new RenderAngelicBlock();
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityAngelicBlock.class, renderAngelicblock);
 	}
 	
 	@Override

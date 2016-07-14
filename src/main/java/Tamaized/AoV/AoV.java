@@ -10,11 +10,9 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.FMLEventChannel;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import Tamaized.AoV.common.handlers.ServerPacketHandler;
 import Tamaized.AoV.common.server.CommonProxy;
@@ -36,7 +34,6 @@ import Tamaized.AoV.registry.AoVItems;
 import Tamaized.AoV.registry.AoVMaterials;
 import Tamaized.AoV.registry.AoVTabs;
 import Tamaized.AoV.registry.AoVTools;
-import Tamaized.AoV.tileentity.TileEntityAngelicBlock;
 import Tamaized.TamModized.TamModBase;
 import Tamaized.TamModized.TamModized;
 
@@ -97,20 +94,22 @@ public class AoV extends TamModBase {
 		register(achievements);
 		register(damageSources);
 		register(entities);
+		
+		super.preInit(event);
 
 	}
 
 	@EventHandler
 	public void Init(FMLInitializationEvent event) {
 		logger.info("Starting AoV Init");
+		
+		super.init(event);
 
 		MinecraftForge.EVENT_BUS.register(new PlayerJoinLeaveEvent());
 		MinecraftForge.EVENT_BUS.register(new TickHandler());
 		MinecraftForge.EVENT_BUS.register(new PlayerInteractHandler());
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
-
-		GameRegistry.registerTileEntity(TileEntityAngelicBlock.class, "tileEntityAngelicBlock");
 
 		// Projectiles
 		// EntityRegistry.registerModEntity(VoidChain.class, "VoidChain", 0, this, 128, 1, true);
@@ -120,6 +119,8 @@ public class AoV extends TamModBase {
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent e) {
 		logger.info("Starting AoV PostInit");
+		
+		super.postInit(e);
 
 		channel.register(new ServerPacketHandler());
 

@@ -1,5 +1,6 @@
 {
     "variants": {
-        "normal": { "model": "aov:blockAngelic" }
+        "axis=z": { "model": "aov:blockAngelic" },
+        "axis=x": { "model": "aov:blockAngelic" }
     }
 }

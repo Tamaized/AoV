@@ -13,33 +13,41 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.gui.GuiHandler;
-import Tamaized.AoV.tileentity.TileEntityAngelicBlock;
-import Tamaized.TamModized.blocks.TamBlockContainer;
+import Tamaized.TamModized.blocks.TamBlock;
 
-public class BlockAngelicBlock extends TamBlockContainer {
+public class BlockAngelicBlock extends TamBlock {
 
 	public static final PropertyEnum<EnumFacing.Axis> AXIS = PropertyEnum.<EnumFacing.Axis> create("axis", EnumFacing.Axis.class, new EnumFacing.Axis[] { EnumFacing.Axis.X, EnumFacing.Axis.Z });
 
 	public BlockAngelicBlock(CreativeTabs tab, Material materialIn, String n, float f) {
 		super(tab, materialIn, n, f);
+		this.setDefaultState(this.blockState.getBaseState().withProperty(AXIS, EnumFacing.Axis.X));
 		setSoundType(Blocks.STONE.getSoundType());
 		this.useNeighborBrightness = true;
 	}
-
+	
 	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta) {
-		return new TileEntityAngelicBlock();
+	public boolean isVisuallyOpaque() {
+		return false;
 	}
-
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+    public BlockRenderLayer getBlockLayer(){
+        return BlockRenderLayer.TRANSLUCENT;
+    }
+	
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		int l = MathHelper.floor_double((double) (placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
@@ -79,7 +87,7 @@ public class BlockAngelicBlock extends TamBlockContainer {
 	}
 
 	@Override
-	public BlockStateContainer getBlockState() {
+	public BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, new IProperty[] { AXIS });
 	}
 
