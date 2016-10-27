@@ -393,6 +393,7 @@ public class AoVData {
 	}
 	
 	public static AoVData fromPacket(String p){
+		System.out.println(p);
 		int sPoint = 1;
 		int cPoint = 1;
 		int xp = 0;
