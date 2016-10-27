@@ -18,7 +18,7 @@ repositories {
 	}
 }
 
-version = "1.8.9-0.0.1"
+version = "${project.minecraftVersion}-${modVersion}${modVersionValue}"
 group= "tamaized.aov"
 archivesBaseName = "AoV"
 
@@ -26,17 +26,19 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 minecraft {
-    version = "1.10.2-12.18.0.2002-1.10.0"
+    version = "${project.minecraftVersion}-${project.forgeVersion}"
     runDir = "run"
-    mappings = "snapshot_20160518"
+    mappings = "${project.forgeMapping}"
     makeObfSourceJar = false
 	useDepAts = true
+	replaceIn 'AoV.java'
+	replace '${version}', "${modVersion}${modVersionValue}"
 }
 
 dependencies {
-	deobfCompile "mezz.jei:jei_1.10.2:3.7.3.221:api"
-	runtime "mezz.jei:jei_1.10.2:3.7.3.221"
-	compile files('libs/TamModized-1.10.2-0.1.1.jar')
+	deobfCompile "mezz.jei:${project.jeiVersion}:api"
+	runtime "mezz.jei:${project.jeiVersion}"
+	compile files("libs/TamModized-1.10.2-${project.tammodizedVersion}.jar")
 }
 
 processResources
@@ -46,7 +48,12 @@ processResources
 
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+		expand([
+			'version'		: project.modVersion+""+project.modVersionValue,
+			'mcversion'		: project.minecraftVersion,
+			'fVersion'		: project.forgeVersion,
+			'tamVersion'	: project.tammodizedVersion
+        ])
     }
 	
     from(sourceSets.main.resources.srcDirs) {

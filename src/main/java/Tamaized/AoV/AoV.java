@@ -40,7 +40,7 @@ import Tamaized.TamModized.TamModized;
 @Mod(modid = AoV.modid, name = "Angel of Vengeance", version = AoV.version, dependencies = "required-before:" + TamModized.modid + "@[" + TamModized.version + ",)")
 public class AoV extends TamModBase {
 
-	protected final static String version = "0.0.1";
+	protected final static String version = "${version}";
 	public static final String modid = "aov";
 
 	public static String getVersion() {
