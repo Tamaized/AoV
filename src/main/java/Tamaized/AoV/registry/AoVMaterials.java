@@ -39,4 +39,22 @@ public class AoVMaterials implements ITamRegistry {
 		return AoV.modid;
 	}
 
+	@Override
+	public void clientPreInit() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void clientInit() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void clientPostInit() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

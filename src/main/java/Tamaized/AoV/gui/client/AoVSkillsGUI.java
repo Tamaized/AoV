@@ -70,7 +70,7 @@ public class AoVSkillsGUI extends GuiScreen {
 		instance = this;
 	}
 	
-	public void addButton(GuiButton button){
+	public void addNewButton(GuiButton button){
 		buttonList.add(button);
 	}
 	
