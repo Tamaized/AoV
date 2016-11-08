@@ -20,47 +20,47 @@ import Tamaized.AoV.gui.client.AoVOverlay;
 import Tamaized.AoV.gui.client.AoVSkillsGUI;
 import Tamaized.AoV.helper.ParticleHelper;
 
-public class ClientPacketHandler{
-	
+public class ClientPacketHandler {
+
 	public static final int TYPE_COREDATA = 0;
 	public static final int TYPE_PARTICLE_BURST = 1;
-	
+
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onClientPacket(ClientCustomPacketEvent event) {
-		try {
-			ByteBufInputStream bbis = new ByteBufInputStream(event.getPacket().payload());
-			processPacketOnClient(event.getPacket().payload(), Side.CLIENT);
-			bbis.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Minecraft.getMinecraft().addScheduledTask(new Runnable() {
+			public void run() {
+				try {
+					processPacketOnClient(event.getPacket().payload(), Side.CLIENT);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
-	
+
 	@SideOnly(Side.CLIENT)
-	public static void processPacketOnClient(ByteBuf parBB, Side parSide) throws IOException{
+	public static void processPacketOnClient(ByteBuf parBB, Side parSide) throws IOException {
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-		if (parSide == Side.CLIENT){
+		if (parSide == Side.CLIENT) {
 			ByteBufInputStream bbis = new ByteBufInputStream(parBB);
 			int pktType = bbis.readInt();
-			switch(pktType){
+			switch (pktType) {
 				case TYPE_COREDATA:
 					String encodedPacket = bbis.readUTF();
-					if(AoV.clientAoVCore == null) AoV.clientAoVCore = new AoVCoreClient();
+					if (AoV.clientAoVCore == null) AoV.clientAoVCore = new AoVCoreClient();
 					AoVData newData = AoVData.fromPacket(encodedPacket);
-					//if(AoV.clientAoVCore.getPlayer(null) != null) AoV.clientAoVCore.getPlayer(null).updateData(newData);
+					// if(AoV.clientAoVCore.getPlayer(null) != null) AoV.clientAoVCore.getPlayer(null).updateData(newData);
 					AoV.clientAoVCore.setPlayer(null, newData);
-					if(AoVSkillsGUI.instance != null) AoVSkillsGUI.doRefresh = true;
+					if (AoVSkillsGUI.instance != null) AoVSkillsGUI.doRefresh = true;
 					break;
-				case TYPE_PARTICLE_BURST: //We assume clientAoVCore is not null, if it is then something is seriously wrong
+				case TYPE_PARTICLE_BURST: // We assume clientAoVCore is not null, if it is then something is seriously wrong
 					ParticleHelper.burstParticles(player.worldObj, bbis.readDouble(), bbis.readDouble(), bbis.readDouble(), player.getRNG(), bbis.readInt());
 					break;
 				default:
 					break;
 			}
-			bbis.close();   
+			bbis.close();
 		}
 	}
 }
-
-

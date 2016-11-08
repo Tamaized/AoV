@@ -15,95 +15,96 @@ import Tamaized.AoV.common.client.ClientTicker;
 import Tamaized.AoV.core.AoVCore;
 import Tamaized.AoV.core.AoVData;
 
-public class AoVOverlay extends Gui{
-	
+public class AoVOverlay extends Gui {
+
 	private Minecraft mc = Minecraft.getMinecraft();
-	
+
 	private static ArrayList<String> textSpooler = new ArrayList<String>();
 	private FloatyText[] floatyText = new FloatyText[11];
 	private int tick = 0;
-	
-	public static void addFloatyText(String s){
+
+	public static void addFloatyText(String s) {
 		textSpooler.add(s);
 	}
-	
+
 	@SubscribeEvent
-	public void RenderAoVData(RenderGameOverlayEvent e){
-		if(e.isCancelable() || e.getType() != e.getType().EXPERIENCE) return;
-		if(AoV.clientAoVCore == null) return;
+	public void RenderAoVData(RenderGameOverlayEvent e) {
+		if (e.isCancelable() || e.getType() != e.getType().EXPERIENCE) return;
+		if (AoV.clientAoVCore == null) return;
 		AoVCore core = AoV.clientAoVCore;
 		AoVData data = core.getPlayer(null);
 		FontRenderer fontRender = mc.fontRendererObj;
 		ScaledResolution sr = new ScaledResolution(mc);
 		int sW = sr.getScaledWidth() / 2;
-		
-		if(data != null && data.hasSkillCore()){
-			
-			if(ClientProxy.barToggle){
-				for(int i=0; i<9; i++){
-					int x = sW-90+(20*i);
-					int y = 1+ClientTicker.charges.getValue(i);
+
+		if (data != null && data.hasSkillCore()) {
+
+			if (ClientProxy.barToggle) {
+				for (int i = 0; i < 9; i++) {
+					int x = sW - 90 + (20 * i);
+					int y = 1 + ClientTicker.charges.getValue(i);
 					renderCharges(x, y, fontRender, data, i);
 				}
 			}
 
 			ClientProxy.bar.render(this, e.getPartialTicks());
-			
-			GlStateManager.pushMatrix();{
+
+			GlStateManager.pushMatrix();
+			{
 				GlStateManager.scale(0.5f, 0.5f, 0f);
-				if(tick % 20 == 0){
-					for(int i=5; i>=0; i--){
-						if(floatyText[i] == null) continue;
-						floatyText[i].pos+=1;
-						if(floatyText[i].pos % 8 == 0){
+				if (tick % 20 == 0) {
+					for (int i = 5; i >= 0; i--) {
+						if (floatyText[i] == null) continue;
+						floatyText[i].pos += 1;
+						if (floatyText[i].pos % 8 == 0) {
 							FloatyText newText = floatyText[i];
 							floatyText[i] = null;
-							if(i != 5) floatyText[i+1] = newText;
+							if (i != 5) floatyText[i + 1] = newText;
 						}
 					}
-					if(!textSpooler.isEmpty() && floatyText[0] == null){
+					if (!textSpooler.isEmpty() && floatyText[0] == null) {
 						floatyText[0] = new FloatyText(textSpooler.get(0));
 						textSpooler.remove(0);
 					}
 					tick = 0;
 				}
-				
-				for(int i = 0; i<=5; i++){
+
+				for (int i = 0; i <= 5; i++) {
 					FloatyText ft = floatyText[i];
-					if(ft == null) continue;
-					float perc = 255 - ((float)i/10)*255;
-					fontRender.drawStringWithShadow(ft.text, (sW*4)-230, -5+ft.pos, 0xFFFF00);
+					if (ft == null) continue;
+					float perc = 255 - ((float) i / 10) * 255;
+					fontRender.drawStringWithShadow(ft.text, (sW * 4) - 230, -5 + ft.pos, 0xFFFF00);
 				}
-				
-			}GlStateManager.popMatrix();
-			
-			if(!mc.isGamePaused()) tick++;
+
+			}
+			GlStateManager.popMatrix();
+
+			if (!mc.isGamePaused()) tick++;
 		}
-		
-		
+
 	}
-	
-	private void renderCharges(int x, int y, FontRenderer fontRender, AoVData data, int index){
+
+	private void renderCharges(int x, int y, FontRenderer fontRender, AoVData data, int index) {
 		int val = data.getAbilityCharge(data.getSlot(index));
-		if(val < 0) return;
+		if (val < 0) return;
 		int w = 20;
 		int h = 20;
-		this.drawRect(x, y, x+w, y+h, val == 0 ? 0x77FF0000 : 0x7700BBFF);
-		this.drawCenteredStringNoShadow(fontRender, String.valueOf(val), x+10, y+10, 0x000000);
+		this.drawRect(x, y, x + w, y + h, val == 0 ? 0x77FF0000 : 0x7700BBFF);
+		this.drawCenteredStringNoShadow(fontRender, String.valueOf(val), x + 10, y + 10, 0x000000);
 	}
-	
-	private class FloatyText{
-		
+
+	private class FloatyText {
+
 		public final String text;
 		public int pos = 0;
-		
-		public FloatyText(String s){
+
+		public FloatyText(String s) {
 			text = s;
 		}
 	}
-	
-    private void drawCenteredStringNoShadow(FontRenderer fontRendererIn, String text, int x, int y, int color){
-        fontRendererIn.drawString(text, (float)(x - fontRendererIn.getStringWidth(text) / 2), (float)y, color, false);
-    }
+
+	private void drawCenteredStringNoShadow(FontRenderer fontRendererIn, String text, int x, int y, int color) {
+		fontRendererIn.drawString(text, (float) (x - fontRendererIn.getStringWidth(text) / 2), (float) y, color, false);
+	}
 
 }

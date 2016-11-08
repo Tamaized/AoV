@@ -6,19 +6,18 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.common.handlers.ServerPacketHandler;
 import Tamaized.AoV.core.AoVCore;
 import Tamaized.AoV.core.AoVData;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.skills.AoVSkill;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 
 /**
  * The Client Side and Server Side are two different instances!!!
@@ -46,10 +45,10 @@ public class PlayerJoinLeaveEvent {
 
 	private AoVData readNBT(EntityPlayer player) {
 		NBTTagCompound ct = player.getEntityData().getCompoundTag("AoV");
-		if (ct != null) {
+		if (!ct.hasNoTags()) {
 			AoVData data;
 			NBTTagCompound skills = ct.getCompoundTag("skills");
-			if (skills != null) {
+			if (!skills.hasNoTags()) {
 				ArrayList<AoVSkill> obtainedSkills = new ArrayList<AoVSkill>();
 				for (String s : skills.getKeySet()) {
 					obtainedSkills.add(AoVSkill.getSkillFromName(s));
@@ -60,21 +59,18 @@ public class PlayerJoinLeaveEvent {
 			}
 			NBTTagCompound charges = ct.getCompoundTag("charges");
 			Map<AbilityBase, Integer> chargeMap = new HashMap<AbilityBase, Integer>();
-			System.out.println(charges);
-			if (charges != null) {
+			if (!charges.hasNoTags()) {
 				for (int i = charges.getInteger("amount") - 1; i >= 0; i--) {
 					NBTTagCompound comp = charges.getCompoundTag(String.valueOf(i));
-					System.out.println(i);
-					System.out.println(comp);
-					if (comp != null) chargeMap.put(AbilityBase.fromName(comp.getString("dataS")), comp.getInteger("dataI"));
+					if (!comp.hasNoTags()) chargeMap.put(AbilityBase.fromName(comp.getString("dataS")), comp.getInteger("dataI"));
 				}
 				data.setAbilityCharges(chargeMap);
 			}
 			NBTTagCompound bar = ct.getCompoundTag("bar");
-			if (bar != null) {
+			if (!bar.hasNoTags()) {
 				for (int i = 0; i < 9; i++) {
 					String s = bar.getString(String.valueOf(i));
-					if (s == null) data.setSlot(null, i);
+					if (s.isEmpty()) data.setSlot(null, i);
 					else data.setSlot(AbilityBase.fromName(s), i);
 				}
 			}
