@@ -79,7 +79,7 @@ public abstract class AbilityBase {
 	protected abstract void doAction(EntityPlayer player, AoVData data, EntityLivingBase e);
 	
 	protected void addXP(AoVData data, int amount){
-		String w = data.getPlayer() == null ? "c" : data.getPlayer().worldObj.isRemote ? "c" : "s";
+		String w = data.getPlayer() == null ? "c" : data.getPlayer().world.isRemote ? "c" : "s";
 		int decay = getDecay(data.getPlayer()+"_"+w+"_"+getName());
 		addDecay(data.getPlayer()+"_"+w+"_"+getName());
 		if(decay < 1) decay = 1;

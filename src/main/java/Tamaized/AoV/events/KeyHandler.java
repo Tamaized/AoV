@@ -45,7 +45,7 @@ public class KeyHandler {
 					RayTraceResult obj = Minecraft.getMinecraft().objectMouseOver;
 					EntityLivingBase entity = null;
 					if(obj != null && obj.entityHit != null && obj.entityHit instanceof EntityLivingBase) entity = (EntityLivingBase) obj.entityHit;
-					spell.activate(Minecraft.getMinecraft().thePlayer, data, entity);
+					spell.activate(Minecraft.getMinecraft().player, data, entity);
 				}else{
 					//System.out.println(e.buttonstate);
 				}

@@ -29,7 +29,7 @@ public class InvokeMass extends AbilityBase {
 
 	@Override
 	protected void doAction(EntityPlayer player, AoVData data, EntityLivingBase e) {
-		if(player.worldObj.isRemote){
+		if(player.world.isRemote){
 			sendPacketTypeSelf(getName());
 		}else{
 			data.invokeMass = !data.invokeMass;

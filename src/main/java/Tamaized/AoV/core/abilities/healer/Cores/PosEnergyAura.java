@@ -40,7 +40,7 @@ public class PosEnergyAura extends AbilityBase implements IAura{
 
 	@Override
 	protected void doAction(EntityPlayer player, AoVData data, EntityLivingBase e) {
-		if(player.worldObj.isRemote){
+		if(player.world.isRemote){
 			sendPacketTypeSelf(getName());
 		}else{
 			data.addAura(this);
@@ -86,7 +86,7 @@ public class PosEnergyAura extends AbilityBase implements IAura{
 			EntityPlayer player = data.getPlayer();
 			ParticleHelper.sendPacketToClients(ParticleHelper.Type.BURST, player, range);
 			int a = (int) (dmg*(1f+(data.getSpellPower()/100f)));
-			List<EntityLivingBase> list = player.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(player.getPosition().add(-range, -range, -range), player.getPosition().add(range, range, range)));
+			List<EntityLivingBase> list = player.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(player.getPosition().add(-range, -range, -range), player.getPosition().add(range, range, range)));
 			for(EntityLivingBase entity : list){
 				if(entity.isEntityUndead()) entity.attackEntityFrom(DamageSource.magic, a);	
 				else if(data.hasSelectiveFocus() && !(entity instanceof IMob)) continue;

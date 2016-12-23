@@ -15,7 +15,7 @@ public class Test extends AbilityBase {
 
 	@Override
 	protected void doAction(EntityPlayer player, AoVData data, EntityLivingBase e) {
-		player.worldObj.spawnEntityInWorld(new EntityTest(player.worldObj, player.getPosition()));
+		player.world.spawnEntity(new EntityTest(player.world, player.getPosition()));
 	}
 
 	@Override

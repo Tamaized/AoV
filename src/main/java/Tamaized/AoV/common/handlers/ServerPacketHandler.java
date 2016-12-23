@@ -111,7 +111,7 @@ public class ServerPacketHandler {
 					AoVCore core = AoV.serverAoVCore;
 					AoVData data = core.getPlayer(player);
 					AbilityBase spell = AbilityBase.fromName(bbis.readUTF());
-					Entity entity = player.worldObj.getEntityByID(bbis.readInt());
+					Entity entity = player.world.getEntityByID(bbis.readInt());
 					if (spell == null || !(entity instanceof EntityLivingBase)) break;
 					spell.activate(player, data, (EntityLivingBase) entity);
 				}

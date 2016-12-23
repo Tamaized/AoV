@@ -32,7 +32,7 @@ public class EntityTest extends Entity {
 						double d0 = (double) ((float) (posX+x) + 0.4F + rand.nextFloat() * 0.2F);
 						double d1 = (double) ((float) (posY) + 0.0F + rand.nextFloat() * 0.3F);
 						double d2 = (double) ((float) (posZ+z) + 0.4F + rand.nextFloat() * 0.2F);
-						worldObj.spawnParticle(EnumParticleTypes.PORTAL, d0, d1, d2, 0, 0.5, 0);
+						world.spawnParticle(EnumParticleTypes.PORTAL, d0, d1, d2, 0, 0.5, 0);
 					}
 				}
 			}

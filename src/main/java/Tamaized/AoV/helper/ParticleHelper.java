@@ -44,7 +44,7 @@ public class ParticleHelper {
 			outputStream.writeDouble(target.posZ);
 			outputStream.writeInt(range);
 			FMLProxyPacket pkt = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
-			if(pkt != null) AoV.channel.sendToAllAround(pkt, new TargetPoint(target.worldObj.provider.getDimension(), target.posX, target.posY, target.posZ, 32*3));
+			if(pkt != null) AoV.channel.sendToAllAround(pkt, new TargetPoint(target.world.provider.getDimension(), target.posX, target.posY, target.posZ, 32*3));
 			bos.close();
 		}catch (IOException e) {
 			e.printStackTrace();

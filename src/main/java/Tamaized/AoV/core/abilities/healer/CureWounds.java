@@ -33,7 +33,7 @@ public abstract class CureWounds extends AbilityBase{
 
 	@Override
 	protected void doAction(EntityPlayer player, AoVData data, EntityLivingBase e) {
-		if(player.worldObj.isRemote){
+		if(player.world.isRemote){
 			if(e != null){
 				sendPacketTypeTarget(getName(), e.getEntityId());
 			}else{
@@ -65,7 +65,7 @@ public abstract class CureWounds extends AbilityBase{
 	private void castAsMass(EntityLivingBase target, int dmg, AoVData data){
 		int range = (int) (maxDistance*2);
 		ParticleHelper.sendPacketToClients(ParticleHelper.Type.BURST, target, range);
-		List<EntityLivingBase> list = target.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(target.getPosition().add(-range, -range, -range), target.getPosition().add(range, range, range)));
+		List<EntityLivingBase> list = target.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(target.getPosition().add(-range, -range, -range), target.getPosition().add(range, range, range)));
 		for(EntityLivingBase entity : list){
 			if(entity.isEntityUndead()) entity.attackEntityFrom(DamageSource.magic, dmg);
 			else if(data.hasSelectiveFocus() && (entity instanceof IMob)) continue;

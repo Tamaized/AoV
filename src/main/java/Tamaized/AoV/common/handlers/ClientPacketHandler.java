@@ -41,7 +41,7 @@ public class ClientPacketHandler {
 
 	@SideOnly(Side.CLIENT)
 	public static void processPacketOnClient(ByteBuf parBB, Side parSide) throws IOException {
-		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		EntityPlayer player = Minecraft.getMinecraft().player;
 		if (parSide == Side.CLIENT) {
 			ByteBufInputStream bbis = new ByteBufInputStream(parBB);
 			int pktType = bbis.readInt();
@@ -55,7 +55,7 @@ public class ClientPacketHandler {
 					if (AoVSkillsGUI.instance != null) AoVSkillsGUI.doRefresh = true;
 					break;
 				case TYPE_PARTICLE_BURST: // We assume clientAoVCore is not null, if it is then something is seriously wrong
-					ParticleHelper.burstParticles(player.worldObj, bbis.readDouble(), bbis.readDouble(), bbis.readDouble(), player.getRNG(), bbis.readInt());
+					ParticleHelper.burstParticles(player.world, bbis.readDouble(), bbis.readDouble(), bbis.readDouble(), player.getRNG(), bbis.readInt());
 					break;
 				default:
 					break;

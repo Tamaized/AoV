@@ -38,7 +38,7 @@ public class BlockAngelicBlock extends TamBlock {
 	}
 	
 	@Override
-	public boolean isVisuallyOpaque() {
+	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 	
@@ -50,7 +50,7 @@ public class BlockAngelicBlock extends TamBlock {
 	
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-		int l = MathHelper.floor_double((double) (placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+		int l = MathHelper.floor((double) (placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 		int flag = 0;
 		if (l == 0 || l == 2) flag = 1;
 		else flag = 2;
@@ -69,11 +69,11 @@ public class BlockAngelicBlock extends TamBlock {
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return null;
 	}
-
+	
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		FMLNetworkHandler.openGui(playerIn, AoV.instance, GuiHandler.GUI_SKILLS, worldIn, pos.getX(), pos.getY(), pos.getZ());
-		return true;
+		return super.onBlockActivated(worldIn, pos, state, playerIn, hand, side, hitX, hitY, hitZ);
 	}
 
 	@Override

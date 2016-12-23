@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import Tamaized.AoV.AoV;
 import Tamaized.TamModized.registry.ITamModel;
 import Tamaized.TamModized.registry.ITamRegistry;
@@ -17,8 +18,8 @@ public class AoVTabs implements ITamRegistry {
 	public void preInit() {
 		tabAoV = new CreativeTabs("tabAoV") {
 			@Override
-			public Item getTabIconItem() {
-				return Items.BLAZE_POWDER;
+			public ItemStack getTabIconItem() {
+				return new ItemStack(Items.BLAZE_POWDER);
 			}
 		};
 	}

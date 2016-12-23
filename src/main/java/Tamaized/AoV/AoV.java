@@ -1,5 +1,29 @@
 package Tamaized.AoV;
 
+import org.apache.logging.log4j.LogManager;
+
+import Tamaized.AoV.common.handlers.ServerPacketHandler;
+import Tamaized.AoV.common.server.CommonProxy;
+import Tamaized.AoV.core.AoVCore;
+import Tamaized.AoV.core.abilities.AbilityBase;
+import Tamaized.AoV.core.skills.AoVSkill;
+import Tamaized.AoV.entity.projectile.caster.ProjectileNimbusRay;
+import Tamaized.AoV.events.PlayerInteractHandler;
+import Tamaized.AoV.events.PlayerJoinLeaveEvent;
+import Tamaized.AoV.events.TickHandler;
+import Tamaized.AoV.gui.GuiHandler;
+import Tamaized.AoV.registry.AoVAchievements;
+import Tamaized.AoV.registry.AoVArmors;
+import Tamaized.AoV.registry.AoVBiomes;
+import Tamaized.AoV.registry.AoVBlocks;
+import Tamaized.AoV.registry.AoVDamageSource;
+import Tamaized.AoV.registry.AoVFluids;
+import Tamaized.AoV.registry.AoVItems;
+import Tamaized.AoV.registry.AoVMaterials;
+import Tamaized.AoV.registry.AoVTabs;
+import Tamaized.AoV.registry.AoVTools;
+import Tamaized.TamModized.TamModBase;
+import Tamaized.TamModized.TamModized;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -11,31 +35,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.FMLEventChannel;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.oredict.OreDictionary;
-
-import org.apache.logging.log4j.LogManager;
-
-import Tamaized.AoV.common.handlers.ServerPacketHandler;
-import Tamaized.AoV.common.server.CommonProxy;
-import Tamaized.AoV.core.AoVCore;
-import Tamaized.AoV.core.abilities.AbilityBase;
-import Tamaized.AoV.core.skills.AoVSkill;
-import Tamaized.AoV.events.PlayerInteractHandler;
-import Tamaized.AoV.events.PlayerJoinLeaveEvent;
-import Tamaized.AoV.events.TickHandler;
-import Tamaized.AoV.gui.GuiHandler;
-import Tamaized.AoV.registry.AoVAchievements;
-import Tamaized.AoV.registry.AoVArmors;
-import Tamaized.AoV.registry.AoVBiomes;
-import Tamaized.AoV.registry.AoVBlocks;
-import Tamaized.AoV.registry.AoVDamageSource;
-import Tamaized.AoV.registry.AoVEntities;
-import Tamaized.AoV.registry.AoVFluids;
-import Tamaized.AoV.registry.AoVItems;
-import Tamaized.AoV.registry.AoVMaterials;
-import Tamaized.AoV.registry.AoVTabs;
-import Tamaized.AoV.registry.AoVTools;
-import Tamaized.TamModized.TamModBase;
-import Tamaized.TamModized.TamModized;
 
 @Mod(modid = AoV.modid, name = "Angel of Vengeance", version = AoV.version, dependencies = "required-before:" + TamModized.modid + "@[" + TamModized.version + ",)")
 public class AoV extends TamModBase {
@@ -70,7 +69,6 @@ public class AoV extends TamModBase {
 	public static AoVBiomes biomes = new AoVBiomes();
 	public static AoVAchievements achievements = new AoVAchievements();
 	public static AoVDamageSource damageSources = new AoVDamageSource();
-	public static AoVEntities entities = new AoVEntities();
 
 	public static AoVCore serverAoVCore;
 	public static AoVCore clientAoVCore;
@@ -93,8 +91,7 @@ public class AoV extends TamModBase {
 		register(biomes);
 		register(achievements);
 		register(damageSources);
-		register(entities);
-		
+
 		super.preInit(event);
 
 	}
@@ -102,7 +99,7 @@ public class AoV extends TamModBase {
 	@EventHandler
 	public void Init(FMLInitializationEvent event) {
 		logger.info("Starting AoV Init");
-		
+
 		super.init(event);
 
 		MinecraftForge.EVENT_BUS.register(new PlayerJoinLeaveEvent());
@@ -112,14 +109,14 @@ public class AoV extends TamModBase {
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 
 		// Projectiles
-		// EntityRegistry.registerModEntity(VoidChain.class, "VoidChain", 0, this, 128, 1, true);
+		registerEntity(ProjectileNimbusRay.class, "ProjectileNimbusRay", AoV.instance, modid, 128, 1, true);
 
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent e) {
 		logger.info("Starting AoV PostInit");
-		
+
 		super.postInit(e);
 
 		channel.register(new ServerPacketHandler());

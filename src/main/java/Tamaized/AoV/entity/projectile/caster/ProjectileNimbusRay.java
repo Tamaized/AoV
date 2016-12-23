@@ -9,21 +9,19 @@ import Tamaized.AoV.entity.projectile.ProjectileBase;
 
 public class ProjectileNimbusRay extends ProjectileBase {
 
-	private int damage = 0;
-
-	public ProjectileNimbusRay(World worldIn, EntityLivingBase shooter, int dmg) {
-		super(worldIn, shooter);
-		damage = dmg;
+	public ProjectileNimbusRay(World worldIn) {
+		super(worldIn);
+		setDamageRangeSpeed(2.0F, getRange(), 0.0F);
 	}
 
 	@Override
-	protected DamageSource damageEntity(Entity hit, Entity source) {
-		return ProjectileBase.causeDamage(this, source, AoV.damageSources.damageSource_caster_NimbusRay);
+	protected void particles() {
+
 	}
 
 	@Override
-	protected void updateMotion(float f4, float f6) {
-		super.updateMotion(f4, 0.00f);
+	protected DamageSource getDamageSource() {
+		return AoV.damageSources.damageSource_caster_NimbusRay;
 	}
 
 }
