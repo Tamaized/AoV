@@ -38,13 +38,12 @@ minecraft {
 dependencies {
 	deobfCompile "mezz.jei:${project.jeiVersion}:api"
 	runtime "mezz.jei:${project.jeiVersion}"
-	compile files("libs/TamModized-1.10.2-${project.tammodizedVersion}.jar")
+	compile files("libs/TamModized-${project.minecraftVersion}-${project.tammodizedVersion}.jar")
 }
 
-processResources
-{
+processResources {
     inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
+    inputs.property "mcversion", project.minecraftVersion
 
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
@@ -55,7 +54,7 @@ processResources
 			'tamVersion'	: project.tammodizedVersion
         ])
     }
-	
+        
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
