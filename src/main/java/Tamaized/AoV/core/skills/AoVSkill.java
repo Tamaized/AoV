@@ -1,11 +1,8 @@
 package Tamaized.AoV.core.skills;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import net.minecraft.util.ResourceLocation;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.skills.caster.cores.CasterSkillCapStone;
 import Tamaized.AoV.core.skills.caster.cores.CasterSkillCore1;
@@ -57,131 +54,147 @@ import Tamaized.AoV.core.skills.healer.tier4.HealerSkillT4S2;
 import Tamaized.AoV.core.skills.healer.tier4.HealerSkillT4S3;
 import Tamaized.AoV.core.skills.healer.tier4.HealerSkillT4S4;
 import Tamaized.AoV.core.skills.healer.tier4.HealerSkillT4S5;
+import net.minecraft.util.ResourceLocation;
 
 public abstract class AoVSkill {
-	
-	private static Map<String, AoVSkill> registry = new HashMap<String, AoVSkill>();
-	
-	public final String skillName;
-	public final AoVSkill parent;
-	public final boolean isCore;
-	public final int pointCost;
-	public final int minLevel;
-	public final int minPointsSpent;
-	protected Buffs buffs;
-	
-	public final List<String> abilities;
-	
-	public final List<String> description;
-	
-	public AoVSkill(String name, AoVSkill p, int cost, int level, int spentPoints, boolean core, AbilityBase[] spells, String... desc){
-		skillName = name;
-		parent = p;
-		pointCost = cost;
-		minLevel = level;
-		minPointsSpent = spentPoints;
-		isCore = core;
-		setupBuffs();
+
+	private static final List<AoVSkill> registry = new ArrayList<AoVSkill>();
+
+	public static final int getID(AoVSkill skill) {
+		return registry.contains(skill) ? registry.indexOf(skill) : -1;
+	}
+
+	public final int getID() {
+		return getID(this);
+	}
+
+	public static final AoVSkill getSkillFromID(int id) {
+		return id >= 0 && id < registry.size() ? registry.get(id) : null;
+	}
+
+	private final Buffs buffs;
+	private final List<AbilityBase> abilities;
+	private final List<String> description;
+
+	public AoVSkill(List<AbilityBase> spells, String... desc) {
+		buffs = setupBuffs();
 		description = new ArrayList<String>();
-		for(String s : desc) description.add(s);
-		abilities = new ArrayList<String>();
-		registry.put(name, this);
-		for(AbilityBase spell : spells) abilities.add(spell.getName());
-		
+		for (String s : desc)
+			description.add(s);
+		abilities = spells;
+		registry.add(this);
 	}
-	
-	protected abstract void setupBuffs();
-	
-	public Buffs getBuffs(){
+
+	public final List<AbilityBase> getAbilities() {
+		return abilities;
+	}
+
+	public abstract boolean isCore();
+
+	public abstract String getName();
+
+	public abstract AoVSkill getParent();
+
+	public abstract int getCost();
+
+	public abstract int getLevel();
+
+	public abstract int getSpentPoints();
+
+	public abstract List<AbilityBase> getSpells();
+
+	protected abstract Buffs setupBuffs();
+
+	public final Buffs getBuffs() {
 		return buffs;
-	}
-	
-	public static AoVSkill getSkillFromName(String name){
-		return registry.get(name);
 	}
 
 	public abstract ResourceLocation getIcon();
-	
-	public static void registerSkills(){
-		/*Healer*/{
+
+	public final List<String> getDescription() {
+		return description;
+	}
+
+	public static void registerSkills() {
+		/* Healer */ {
 			new HealerSkillCore1();
 			new HealerSkillCore2();
 			new HealerSkillCore3();
 			new HealerSkillCore4();
 			new HealerSkillCapStone();
-			
+
 			new HealerSkillT1S1();
 			new HealerSkillT1S2();
 			new HealerSkillT1S3();
 			new HealerSkillT1S4();
 			new HealerSkillT1S5();
-			
+
 			new HealerSkillT2S1();
 			new HealerSkillT2S2();
 			new HealerSkillT2S3();
 			new HealerSkillT2S4();
 			new HealerSkillT2S5();
-			
+
 			new HealerSkillT3S1();
 			new HealerSkillT3S2();
 			new HealerSkillT3S3();
 			new HealerSkillT3S4();
 			new HealerSkillT3S5();
-			
+
 			new HealerSkillT4S1();
 			new HealerSkillT4S2();
 			new HealerSkillT4S3();
 			new HealerSkillT4S4();
 			new HealerSkillT4S5();
 		}
-		
-		/*Caster*/{
+
+		/* Caster */ {
 			new CasterSkillCore1();
 			new CasterSkillCore2();
 			new CasterSkillCore3();
 			new CasterSkillCore4();
 			new CasterSkillCapStone();
-			
+
 			new CasterSkillT1S1();
 			new CasterSkillT1S2();
 			new CasterSkillT1S3();
 			new CasterSkillT1S4();
 			new CasterSkillT1S5();
-			
+
 			new CasterSkillT2S1();
 			new CasterSkillT2S2();
 			new CasterSkillT2S3();
 			new CasterSkillT2S4();
 			new CasterSkillT2S5();
-			
+
 			new CasterSkillT3S1();
 			new CasterSkillT3S2();
 			new CasterSkillT3S3();
 			new CasterSkillT3S4();
 			new CasterSkillT3S5();
-			
+
 			new CasterSkillT4S1();
 			new CasterSkillT4S2();
 			new CasterSkillT4S3();
 			new CasterSkillT4S4();
 			new CasterSkillT4S5();
 		}
-		
+
 	}
-	
-	public class Buffs{
-		
+
+	public final class Buffs {
+
 		public final int charges;
 		public final int spellPower;
-		
+
 		public final boolean selectiveFocus;
-		
-		public Buffs(int c, int sP, boolean sel){
+
+		public Buffs(int c, int sP, boolean sel) {
 			charges = c;
 			spellPower = sP;
 			selectiveFocus = sel;
 		}
-		
+
 	}
 
 }

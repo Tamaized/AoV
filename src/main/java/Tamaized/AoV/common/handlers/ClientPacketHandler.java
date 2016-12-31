@@ -13,6 +13,8 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientCustomPacketE
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import Tamaized.AoV.AoV;
+import Tamaized.AoV.capabilities.CapabilityList;
+import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.core.AoVCoreClient;
 import Tamaized.AoV.core.AoVData;
 import Tamaized.AoV.core.skills.AoVSkill;
@@ -21,6 +23,18 @@ import Tamaized.AoV.gui.client.AoVSkillsGUI;
 import Tamaized.AoV.helper.ParticleHelper;
 
 public class ClientPacketHandler {
+
+	public static enum PacketType {
+		AOVDATA
+	}
+
+	public static int getPacketTypeID(PacketType type) {
+		return type.ordinal();
+	}
+
+	public static PacketType getPacketTypeFromID(int id) {
+		return id < PacketType.values().length ? PacketType.values()[id] : null;
+	}
 
 	public static final int TYPE_COREDATA = 0;
 	public static final int TYPE_PARTICLE_BURST = 1;
@@ -41,6 +55,33 @@ public class ClientPacketHandler {
 
 	@SideOnly(Side.CLIENT)
 	public static void processPacketOnClient(ByteBuf parBB, Side parSide) throws IOException {
+		World world = Minecraft.getMinecraft().world;
+		if (world == null) return;
+		ByteBufInputStream bbis = new ByteBufInputStream(parBB);
+		int pktType = bbis.readInt();
+		switch (getPacketTypeFromID(pktType)) {
+			case AOVDATA: {
+				EntityPlayer player = Minecraft.getMinecraft().player;
+				if (player != null) {
+					IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
+					if (cap != null) {
+						cap.decodePacket(bbis);
+					}
+				}
+			}
+				break;
+			default: {
+
+			}
+				break;
+		}
+		bbis.close();
+
+	}
+
+	@Deprecated
+	@SideOnly(Side.CLIENT)
+	public static void processPacketOnClient(ByteBuf parBB, Side parSide, boolean b) throws IOException {
 		EntityPlayer player = Minecraft.getMinecraft().player;
 		if (parSide == Side.CLIENT) {
 			ByteBufInputStream bbis = new ByteBufInputStream(parBB);
