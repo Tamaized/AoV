@@ -2,14 +2,15 @@ package Tamaized.AoV;
 
 import org.apache.logging.log4j.LogManager;
 
+import Tamaized.AoV.capabilities.CapabilityList;
+import Tamaized.AoV.capabilities.aov.AoVCapabilityHandler;
+import Tamaized.AoV.capabilities.aov.AoVCapabilityStorage;
+import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.common.handlers.ServerPacketHandler;
 import Tamaized.AoV.common.server.CommonProxy;
-import Tamaized.AoV.core.AoVCore;
-import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.skills.AoVSkill;
 import Tamaized.AoV.entity.projectile.caster.ProjectileNimbusRay;
 import Tamaized.AoV.events.PlayerInteractHandler;
-import Tamaized.AoV.events.PlayerJoinLeaveEvent;
 import Tamaized.AoV.events.TickHandler;
 import Tamaized.AoV.gui.GuiHandler;
 import Tamaized.AoV.registry.AoVAchievements;
@@ -25,6 +26,7 @@ import Tamaized.AoV.registry.AoVTools;
 import Tamaized.TamModized.TamModBase;
 import Tamaized.TamModized.TamModized;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -70,9 +72,6 @@ public class AoV extends TamModBase {
 	public static AoVAchievements achievements = new AoVAchievements();
 	public static AoVDamageSource damageSources = new AoVDamageSource();
 
-	public static AoVCore serverAoVCore;
-	public static AoVCore clientAoVCore;
-
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		logger = LogManager.getLogger("AoV");
@@ -94,6 +93,8 @@ public class AoV extends TamModBase {
 
 		super.preInit(event);
 
+		CapabilityManager.INSTANCE.register(IAoVCapability.class, new AoVCapabilityStorage(), AoVCapabilityHandler.class);
+		MinecraftForge.EVENT_BUS.register(new CapabilityList());
 	}
 
 	@EventHandler
@@ -102,7 +103,6 @@ public class AoV extends TamModBase {
 
 		super.init(event);
 
-		MinecraftForge.EVENT_BUS.register(new PlayerJoinLeaveEvent());
 		MinecraftForge.EVENT_BUS.register(new TickHandler());
 		MinecraftForge.EVENT_BUS.register(new PlayerInteractHandler());
 
@@ -110,7 +110,6 @@ public class AoV extends TamModBase {
 
 		// Projectiles
 		registerEntity(ProjectileNimbusRay.class, "ProjectileNimbusRay", AoV.instance, modid, 128, 1, true);
-
 	}
 
 	@EventHandler
@@ -120,9 +119,6 @@ public class AoV extends TamModBase {
 		super.postInit(e);
 
 		channel.register(new ServerPacketHandler());
-
-		AbilityBase.register();
-		AoVSkill.registerSkills();
 
 		proxy.registerKeyBinds();
 		proxy.registerNetwork();

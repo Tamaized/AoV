@@ -1,44 +1,82 @@
 package Tamaized.AoV.core.skills.caster.cores;
 
-import net.minecraft.util.ResourceLocation;
+import java.util.ArrayList;
+import java.util.List;
+
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.skills.AoVSkill;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
+public class CasterSkillCore3 extends AoVSkill {
 
-public class CasterSkillCore3 extends AoVSkill{
-	
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid+":textures/skills/test.png");
+	private static final ResourceLocation icon = new ResourceLocation(AoV.modid + ":textures/skills/test.png");
+
+	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
+
+	static {
+
+	}
 
 	public CasterSkillCore3() {
-		super(getUnlocalizedName(), AoVSkill.getSkillFromName(CasterSkillCore2.getUnlocalizedName()), 1, 6, 0, false,
-				new AbilityBase[]{
-					
-				},
-				ChatFormatting.AQUA+"Caster Core 3",
-				ChatFormatting.RED+"Requires: Caster Core 2",
-				ChatFormatting.RED+"Requires: Level 6",
+		super(spells, TextFormatting.AQUA + "Caster Core 3",
+
+				TextFormatting.RED + "Requires: Caster Core 2",
+
+				TextFormatting.RED + "Requires: Level 6",
+
 				"",
-				ChatFormatting.GREEN+"+15 Spell Power",
-				ChatFormatting.GREEN+"+1 Charge",
+
+				TextFormatting.GREEN + "+15 Spell Power",
+
+				TextFormatting.GREEN + "+1 Charge",
+
 				"",
-				ChatFormatting.YELLOW+"Added Spell: Flame Strike"
-				);
+
+				TextFormatting.YELLOW + "Added Spell: Flame Strike"
+
+		);
 	}
 
 	@Override
-	protected void setupBuffs() {
-		buffs = new Buffs(1, 15, false);
+	protected Buffs setupBuffs() {
+		return new Buffs(1, 15, false);
 	}
 
 	@Override
 	public ResourceLocation getIcon() {
 		return icon;
 	}
-	
-	public static String getUnlocalizedName(){
+
+	@Override
+	public boolean isClassCore() {
+		return false;
+	}
+
+	@Override
+	public AoVSkill getParent() {
+		return AoVSkill.caster_core_2;
+	}
+
+	@Override
+	public String getName() {
 		return "CasterSkillCore3";
+	}
+
+	@Override
+	public int getCost() {
+		return 1;
+	}
+
+	@Override
+	public int getLevel() {
+		return 6;
+	}
+
+	@Override
+	public int getSpentPoints() {
+		return 0;
 	}
 
 }

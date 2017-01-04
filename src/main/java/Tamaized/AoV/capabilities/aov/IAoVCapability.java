@@ -3,16 +3,25 @@ package Tamaized.AoV.capabilities.aov;
 import java.io.IOException;
 import java.util.List;
 
+import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.abilities.Ability;
+import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.abilities.IAura;
 import Tamaized.AoV.core.skills.AoVSkill;
 import io.netty.buffer.ByteBufInputStream;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
 
 public interface IAoVCapability {
+	
+	public static final ResourceLocation ID = new ResourceLocation(AoV.modid, "AoVCapabilityHandler");
+
+	void reset(boolean b);
 
 	void update(EntityPlayer player);
+
+	void resetCharges();
 
 	List<Ability> getAbilities();
 
@@ -26,7 +35,7 @@ public interface IAoVCapability {
 
 	void addAura(IAura aura);
 
-	void addExp(int amount);
+	void addExp(int amount, AbilityBase spell);
 
 	void addObtainedSkill(AoVSkill skill);
 
@@ -41,18 +50,22 @@ public interface IAoVCapability {
 	void removeSkill(AoVSkill skill);
 
 	int getLevel();
-	
+
 	int getMaxLevel();
+	
+	void setMaxLevel(int amount);
 
-	int getXP();
+	int getExp();
+	
+	void setExp(int amount);
 
-	int getXpNeededToLevel();
+	int getExpNeededToLevel();
 
 	int getSkillPoints();
+	
+	void setSkillPoints(int amount);
 
 	int getSpentSkillPoints();
-
-	int getMaxSkillPoints();
 
 	float getSpellPower();
 
@@ -64,6 +77,8 @@ public interface IAoVCapability {
 
 	void toggleInvokeMass();
 
+	boolean getInvokeMass();
+
 	boolean hasInvokeMass();
 
 	void setSlot(Ability ability, int slot);
@@ -71,6 +86,8 @@ public interface IAoVCapability {
 	Ability getSlot(int slot);
 
 	int getCurrentSlot();
+	
+	void setCurrentSlot(int index);
 
 	boolean slotsContain(Ability ability);
 

@@ -1,214 +1,207 @@
 package Tamaized.AoV.gui.client;
 
-import io.netty.buffer.ByteBufOutputStream;
-import io.netty.buffer.Unpooled;
-
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 import Tamaized.AoV.AoV;
+import Tamaized.AoV.capabilities.CapabilityList;
+import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.common.handlers.ServerPacketHandler;
-import Tamaized.AoV.core.AoVData;
-import Tamaized.AoV.core.skills.healer.cores.HealerSkillCore1;
 import Tamaized.AoV.gui.GuiHandler;
 import Tamaized.AoV.gui.buttons.SkillButton;
-import Tamaized.AoV.gui.client.helper.CasterSkillRegisterButtons;
-import Tamaized.AoV.gui.client.helper.DefenderSkillRegisterButtons;
-import Tamaized.AoV.gui.client.helper.HealerSkillRegisterButtons;
+import Tamaized.AoV.gui.client.buttonList.CasterSkillRegisterButtons;
+import Tamaized.AoV.gui.client.buttonList.DefenderSkillRegisterButtons;
+import Tamaized.AoV.gui.client.buttonList.HealerSkillRegisterButtons;
+import io.netty.buffer.ByteBufOutputStream;
+import io.netty.buffer.Unpooled;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 
 public class AoVSkillsGUI extends GuiScreen {
-	
-	public static AoVSkillsGUI instance;
-	
+
 	private static final int BUTTON_CLOSE = 0;
-	public static final int BUTTON_SKILL_CHECK = 1;
+	private static final int BUTTON_SKILL_CHECK = 1;
 	private static final int BUTTON_SPELLBOOK = 2;
 	private static final int BUTTON_RESET = 3;
 	private static final int BUTTON_CHECKSTATS = 4;
-	
-	public static boolean doRefresh = false;
-	
-	public static ArrayList<SkillButton> skillButtonList = new ArrayList<SkillButton>();
-	
+
+	public static int getSkillButtonID() {
+		return BUTTON_SKILL_CHECK;
+	}
+
+	private ArrayList<SkillButton> skillButtonList = new ArrayList<SkillButton>();
+
 	private int lastMx = 0;
 	private int lastMy = 0;
+
+	private IAoVCapability cap;
 
 	public AoVSkillsGUI() {
 		super();
 	}
-	
+
 	@Override
-	public void initGui(){
+	public void initGui() {
+		cap = mc.player.getCapability(CapabilityList.AOV, null);
 		int margin = 20;
 		int padding = 100;
-		float workW = width-padding;
-		int loc1 = (int) (workW*.0) + margin*1;
-		int loc2 = (int) (workW*.25) + margin*2;
-		int loc3 = (int) (workW*.50) + margin*3;
-		int loc4 = (int) (workW*.75) + margin*4;
-		buttonList.add(new GuiButton(BUTTON_CLOSE, loc1, height-25, 80, 20, "Close"));
-		buttonList.add(new GuiButton(BUTTON_SPELLBOOK, loc2, height-25, 80, 20, "Spell Book"));
-		buttonList.add(new GuiButton(BUTTON_CHECKSTATS, loc3, height-25, 80, 20, "Check Stats"));
-		buttonList.add(new GuiButton(BUTTON_RESET, loc4, height-25, 80, 20, "Reset Skills"));
-		if(AoV.clientAoVCore != null){
+		float workW = width - padding;
+		int loc1 = (int) (workW * .0) + margin * 1;
+		int loc2 = (int) (workW * .25) + margin * 2;
+		int loc3 = (int) (workW * .50) + margin * 3;
+		int loc4 = (int) (workW * .75) + margin * 4;
+		buttonList.add(new GuiButton(BUTTON_CLOSE, loc1, height - 25, 80, 20, "Close"));
+		buttonList.add(new GuiButton(BUTTON_SPELLBOOK, loc2, height - 25, 80, 20, "Spell Book"));
+		buttonList.add(new GuiButton(BUTTON_CHECKSTATS, loc3, height - 25, 80, 20, "Check Stats"));
+		buttonList.add(new GuiButton(BUTTON_RESET, loc4, height - 25, 80, 20, "Reset Skills"));
+		if (cap != null) {
 			skillButtonList.clear();
-			
+
 			HealerSkillRegisterButtons.register(this);
 			CasterSkillRegisterButtons.register(this);
 			DefenderSkillRegisterButtons.register(this);
-			
+
 			sendChargeUpdates();
-		}else{
-			mc.displayGuiScreen((GuiScreen)null);
+		} else {
+			mc.displayGuiScreen((GuiScreen) null);
 		}
-		instance = this;
 	}
-	
-	public void addNewButton(GuiButton button){
+
+	public void addNewButton(SkillButton button) {
 		buttonList.add(button);
+		skillButtonList.add(button);
 	}
-	
+
 	@Override
-	protected void actionPerformed(GuiButton button) throws IOException{
-		if (button.enabled){
-			switch(button.id){
-				case BUTTON_CLOSE:
-					mc.displayGuiScreen((GuiScreen)null);
+	protected void actionPerformed(GuiButton button) {
+		if (button.enabled) {
+			switch (button.id) {
+				case BUTTON_CLOSE: {
+					mc.displayGuiScreen((GuiScreen) null);
+				}
 					break;
-				case BUTTON_SKILL_CHECK:
-					if(!(button instanceof SkillButton)) break;
+				case BUTTON_SKILL_CHECK: {
+					if (!(button instanceof SkillButton)) break;
 					SkillButton skillButton = (SkillButton) button;
 					skillButton.enabled = false;
-					boolean flag = beginChecks(skillButton);
-					if(flag){
-						skillButton.isObtained = true;
-					}else{
-						skillButton.enabled = true;
-					}
+					if (!beginChecks(skillButton)) skillButton.enabled = true;
+				}
 					break;
-				case BUTTON_SPELLBOOK:
+				case BUTTON_SPELLBOOK: {
 					GuiHandler.openGUI(GuiHandler.GUI_SPELLBOOK);
+				}
 					break;
-				case BUTTON_RESET:
+				case BUTTON_RESET: {
 					GuiHandler.openGUI(GuiHandler.GUI_RESET);
+				}
 					break;
-				case BUTTON_CHECKSTATS:
+				case BUTTON_CHECKSTATS: {
 					GuiHandler.openGUI(GuiHandler.GUI_CHECKSTATS);
+				}
 					break;
 				default:
 					break;
 			}
 		}
 	}
-	
-	private boolean beginChecks(SkillButton b) throws IOException{
-		boolean flag = false;
-		AoVData data = AoV.clientAoVCore.getPlayer(null);
-		if(b.skill.parent == null) {
-			if(data.getCurrentSkillPoints() >= b.skill.pointCost && data.getLevel() >= b.skill.minLevel && data.getSpentSkillPoints() >= b.skill.minPointsSpent){
-				flag = true;
+
+	private boolean beginChecks(SkillButton button) {
+		if ((button.getSkill() == null || !cap.hasSkill(button.getSkill())) && button.canObtain(cap)) {
+			try {
+				int pktType = ServerPacketHandler.getPacketTypeID(ServerPacketHandler.PacketType.SKILLEDIT_CHECK_CANOBTAIN);
+				ByteBufOutputStream bos = new ByteBufOutputStream(Unpooled.buffer());
+				DataOutputStream outputStream = new DataOutputStream(bos);
+				outputStream.writeInt(pktType);
+				outputStream.writeInt(button.getSkill().getID());
+				FMLProxyPacket packet = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
+				AoV.channel.sendToServer(packet);
+				outputStream.close();
+				bos.close();
+				return true;
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-		}else if(data.hasSkill(b.skill.parent) && data.getCurrentSkillPoints() >= b.skill.pointCost && data.getLevel() >= b.skill.minLevel && data.getSpentSkillPoints() >= b.skill.minPointsSpent){
-			flag = true;
 		}
-		if(flag){
-			int pktType = ServerPacketHandler.TYPE_SKILLEDIT_CHECK_CANOBTAIN;
-			ByteBufOutputStream bos = new ByteBufOutputStream(Unpooled.buffer());
-			DataOutputStream outputStream = new DataOutputStream(bos);
-			outputStream.writeInt(pktType);
-			outputStream.writeUTF(b.skill.skillName);
-			FMLProxyPacket packet = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
-			AoV.channel.sendToServer(packet);
-			outputStream.close();
-			bos.close();
-		}
-		return true;
+		return false;
 	}
-	
-	@Override
-	public boolean doesGuiPauseGame(){
-        return false;
-    }
 
 	@Override
-	public void onGuiClosed(){
-		instance = null;
-    }
-	
+	public boolean doesGuiPauseGame() {
+		return false;
+	}
+
 	@Override
-	public void updateScreen(){
-		if(doRefresh){
-			for(SkillButton button : skillButtonList){
-				button.updateVar();
-			}
-			doRefresh = false;
+	public void onGuiClosed() {
+
+	}
+
+	@Override
+	public void updateScreen() {
+		for (SkillButton button : skillButtonList) {
+			button.update(cap);
 		}
-    }
-	
+	}
+
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks){
-		AoVData data = AoV.clientAoVCore.getPlayer(null);
-		this.drawDefaultBackground();
-		this.drawCenteredString(this.fontRendererObj, "Angel of Vengeance: Skills", this.width / 2, 15, 16777215);
-		this.drawString(fontRendererObj, "Skill Points: "+data.getCurrentSkillPoints(), 5, 5, 0xFFFFFF00);
-		this.drawString(fontRendererObj, "Spent: "+data.getSpentSkillPoints()+" out of "+data.getMaxSkillPoints(), 5, 15, 0xFFFFFF00);
-		this.drawString(fontRendererObj, "Level:", width-40, 5, 0xFFFFFF00);
-		this.drawString(fontRendererObj, ""+data.getLevel(), width-40, 15, 0xFFFFFF00);
-		
-		this.drawCenteredString(this.fontRendererObj, "Tier 4", this.width / 2 - 135, height-222, 0xFFFFFF00);
-		this.drawCenteredString(this.fontRendererObj, "Tier 3", this.width / 2 - 135, height-182, 0xFFFFFF00);
-		this.drawCenteredString(this.fontRendererObj, "Tier 2", this.width / 2 - 135, height-142, 0xFFFFFF00);
-		this.drawCenteredString(this.fontRendererObj, "Tier 1", this.width / 2 - 135, height-102, 0xFFFFFF00);
-		this.drawCenteredString(this.fontRendererObj, "Core", this.width / 2 - 135, height-62, 0xFFFFFF00);
-		
-		this.drawCenteredString(this.fontRendererObj, "Tier 4", this.width / 2, height-222, 0xFFFFFF00);
-		this.drawCenteredString(this.fontRendererObj, "Tier 3", this.width / 2, height-182, 0xFFFFFF00);
-		this.drawCenteredString(this.fontRendererObj, "Tier 2", this.width / 2, height-142, 0xFFFFFF00);
-		this.drawCenteredString(this.fontRendererObj, "Tier 1", this.width / 2, height-102, 0xFFFFFF00);
-		this.drawCenteredString(this.fontRendererObj, "Core", this.width / 2, height-62, 0xFFFFFF00);
-		
-		this.drawCenteredString(this.fontRendererObj, "Tier 4", this.width / 2 + 135, height-222, 0xFFFFFF00);
-		this.drawCenteredString(this.fontRendererObj, "Tier 3", this.width / 2 + 135, height-182, 0xFFFFFF00);
-		this.drawCenteredString(this.fontRendererObj, "Tier 2", this.width / 2 + 135, height-142, 0xFFFFFF00);
-		this.drawCenteredString(this.fontRendererObj, "Tier 1", this.width / 2 + 135, height-102, 0xFFFFFF00);
-		this.drawCenteredString(this.fontRendererObj, "Core", this.width / 2 + 135, height-62, 0xFFFFFF00);
-		
-		this.drawRect(this.width/2 - 200, height-225, this.width/2 - 200 + 126, height-27, 0x88000000);
-		this.drawRect(this.width/2 - 66, height-225, this.width/2 - 66 + 126, height-27, 0x88000000);
-		this.drawRect(this.width/2 + 68, height-225, this.width/2 + 68 + 126, height-27, 0x88000000);
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		drawDefaultBackground();
+		drawCenteredString(fontRendererObj, "Angel of Vengeance: Skills", width / 2, 15, 16777215);
+		drawString(fontRendererObj, "Skill Points: " + (cap == null ? "null" : cap.getSkillPoints()), 5, 5, 0xFFFFFF00);
+		drawString(fontRendererObj, "Spent: " + (cap == null ? "null" : cap.getSpentSkillPoints()) + " out of " + (cap == null ? "null" : cap.getLevel()), 5, 15, 0xFFFFFF00);
+		drawString(fontRendererObj, "Level:", width - 40, 5, 0xFFFFFF00);
+		drawString(fontRendererObj, "" + (cap == null ? "null" : cap.getLevel()), width - 40, 15, 0xFFFFFF00);
+
+		drawCenteredString(fontRendererObj, "Tier 4", width / 2 - 135, height - 222, 0xFFFFFF00);
+		drawCenteredString(fontRendererObj, "Tier 3", width / 2 - 135, height - 182, 0xFFFFFF00);
+		drawCenteredString(fontRendererObj, "Tier 2", width / 2 - 135, height - 142, 0xFFFFFF00);
+		drawCenteredString(fontRendererObj, "Tier 1", width / 2 - 135, height - 102, 0xFFFFFF00);
+		drawCenteredString(fontRendererObj, "Core", width / 2 - 135, height - 62, 0xFFFFFF00);
+
+		drawCenteredString(fontRendererObj, "Tier 4", width / 2, height - 222, 0xFFFFFF00);
+		drawCenteredString(fontRendererObj, "Tier 3", width / 2, height - 182, 0xFFFFFF00);
+		drawCenteredString(fontRendererObj, "Tier 2", width / 2, height - 142, 0xFFFFFF00);
+		drawCenteredString(fontRendererObj, "Tier 1", width / 2, height - 102, 0xFFFFFF00);
+		drawCenteredString(fontRendererObj, "Core", width / 2, height - 62, 0xFFFFFF00);
+
+		drawCenteredString(fontRendererObj, "Tier 4", width / 2 + 135, height - 222, 0xFFFFFF00);
+		drawCenteredString(fontRendererObj, "Tier 3", width / 2 + 135, height - 182, 0xFFFFFF00);
+		drawCenteredString(fontRendererObj, "Tier 2", width / 2 + 135, height - 142, 0xFFFFFF00);
+		drawCenteredString(fontRendererObj, "Tier 1", width / 2 + 135, height - 102, 0xFFFFFF00);
+		drawCenteredString(fontRendererObj, "Core", width / 2 + 135, height - 62, 0xFFFFFF00);
+
+		drawRect(width / 2 - 200, height - 225, width / 2 - 200 + 126, height - 27, 0x88000000);
+		drawRect(width / 2 - 66, height - 225, width / 2 - 66 + 126, height - 27, 0x88000000);
+		drawRect(width / 2 + 68, height - 225, width / 2 + 68 + 126, height - 27, 0x88000000);
 		super.drawScreen(mouseX, mouseY, partialTicks);
-		if(mouseX != lastMx || mouseY != lastMy){
+		if (mouseX != lastMx || mouseY != lastMy) {
 			boolean flag = true;
-			for(SkillButton b : skillButtonList){
-				if(!b.isMouseOver()) continue;
-				if(b.skill != null && b.skill.description != null){
-					this.drawHoveringText(b.skill.description, mouseX, mouseY);	
+			for (SkillButton b : skillButtonList) {
+				if (!b.isMouseOver()) continue;
+				if (b.getSkill() != null && b.getSkill().getDescription() != null) {
+					drawHoveringText(b.getSkill().getDescription(), mouseX, mouseY);
 					flag = false;
 					break;
 				}
 			}
-			if(flag){
+			if (flag) {
 				lastMy = mouseY;
 				lastMx = mouseX;
 			}
 		}
 	}
-	
-	private void sendChargeUpdates(){
+
+	private void sendChargeUpdates() {
 		ByteBufOutputStream bos = new ByteBufOutputStream(Unpooled.buffer());
 		DataOutputStream outputStream = new DataOutputStream(bos);
 		try {
-			outputStream.writeInt(ServerPacketHandler.TYPE_CHARGES_CONFIGURE);
+			outputStream.writeInt(ServerPacketHandler.getPacketTypeID(ServerPacketHandler.PacketType.CHARGES_RESET));
 			FMLProxyPacket pkt = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
-			if(AoV.channel != null && pkt != null) AoV.channel.sendToServer(pkt);
+			if (AoV.channel != null && pkt != null) AoV.channel.sendToServer(pkt);
 			bos.close();
-		}catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

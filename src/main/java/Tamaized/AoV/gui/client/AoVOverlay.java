@@ -2,6 +2,11 @@ package Tamaized.AoV.gui.client;
 
 import java.util.ArrayList;
 
+import Tamaized.AoV.capabilities.CapabilityList;
+import Tamaized.AoV.capabilities.aov.IAoVCapability;
+import Tamaized.AoV.common.client.ClientProxy;
+import Tamaized.AoV.common.client.ClientTicker;
+import Tamaized.AoV.core.abilities.Ability;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -9,11 +14,6 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import Tamaized.AoV.AoV;
-import Tamaized.AoV.common.client.ClientProxy;
-import Tamaized.AoV.common.client.ClientTicker;
-import Tamaized.AoV.core.AoVCore;
-import Tamaized.AoV.core.AoVData;
 
 public class AoVOverlay extends Gui {
 
@@ -29,21 +29,19 @@ public class AoVOverlay extends Gui {
 
 	@SubscribeEvent
 	public void RenderAoVData(RenderGameOverlayEvent e) {
-		if (e.isCancelable() || e.getType() != e.getType().EXPERIENCE) return;
-		if (AoV.clientAoVCore == null) return;
-		AoVCore core = AoV.clientAoVCore;
-		AoVData data = core.getPlayer(null);
+		if (e.isCancelable() || e.getType() != e.getType().EXPERIENCE || !mc.player.hasCapability(CapabilityList.AOV, null)) return;
+		IAoVCapability cap = mc.player.getCapability(CapabilityList.AOV, null);
 		FontRenderer fontRender = mc.fontRendererObj;
 		ScaledResolution sr = new ScaledResolution(mc);
 		int sW = sr.getScaledWidth() / 2;
 
-		if (data != null && data.hasSkillCore()) {
+		if (cap.hasCoreSkill()) {
 
 			if (ClientProxy.barToggle) {
 				for (int i = 0; i < 9; i++) {
 					int x = sW - 90 + (20 * i);
 					int y = 1 + ClientTicker.charges.getValue(i);
-					renderCharges(x, y, fontRender, data, i);
+					renderCharges(x, y, fontRender, cap, i);
 				}
 			}
 
@@ -52,7 +50,7 @@ public class AoVOverlay extends Gui {
 			GlStateManager.pushMatrix();
 			{
 				GlStateManager.scale(0.5f, 0.5f, 0f);
-				if (tick % 20 == 0) {
+				if (!mc.isGamePaused()) {
 					for (int i = 5; i >= 0; i--) {
 						if (floatyText[i] == null) continue;
 						floatyText[i].pos += 1;
@@ -66,7 +64,6 @@ public class AoVOverlay extends Gui {
 						floatyText[0] = new FloatyText(textSpooler.get(0));
 						textSpooler.remove(0);
 					}
-					tick = 0;
 				}
 
 				for (int i = 0; i <= 5; i++) {
@@ -78,18 +75,17 @@ public class AoVOverlay extends Gui {
 
 			}
 			GlStateManager.popMatrix();
-
-			if (!mc.isGamePaused()) tick++;
 		}
 
 	}
 
-	private void renderCharges(int x, int y, FontRenderer fontRender, AoVData data, int index) {
-		int val = data.getAbilityCharge(data.getSlot(index));
+	private void renderCharges(int x, int y, FontRenderer fontRender, IAoVCapability cap, int index) {
+		Ability ability = cap.getSlot(index);
+		int val = ability == null ? 0 : ability.getCharges();
 		if (val < 0) return;
 		int w = 20;
 		int h = 20;
-		this.drawRect(x, y, x + w, y + h, val == 0 ? 0x77FF0000 : 0x7700BBFF);
+		this.drawRect(x, y, x + w, y + h, ability.canUse(cap) ? 0x77FF0000 : 0x7700BBFF);
 		this.drawCenteredStringNoShadow(fontRender, String.valueOf(val), x + 10, y + 10, 0x000000);
 	}
 

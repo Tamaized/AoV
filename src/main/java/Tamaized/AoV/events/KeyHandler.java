@@ -1,53 +1,57 @@
 package Tamaized.AoV.events;
 
+import Tamaized.AoV.capabilities.CapabilityList;
+import Tamaized.AoV.capabilities.aov.IAoVCapability;
+import Tamaized.AoV.common.client.ClientProxy;
+import Tamaized.AoV.core.abilities.Ability;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
-import Tamaized.AoV.AoV;
-import Tamaized.AoV.common.client.ClientProxy;
-import Tamaized.AoV.core.AoVData;
-import Tamaized.AoV.core.abilities.AbilityBase;
 
 public class KeyHandler {
-	
+
 	@SubscribeEvent
 	public void onKeyInput(InputEvent.KeyInputEvent event) {
-		if(ClientProxy.key.isPressed()){
-			if(AoV.clientAoVCore != null && AoV.clientAoVCore.getPlayer(null) != null && AoV.clientAoVCore.getPlayer(null).hasSkillCore()) ClientProxy.barToggle = !ClientProxy.barToggle;
+		if (ClientProxy.key.isPressed()) {
+			EntityPlayer player = Minecraft.getMinecraft().player;
+			if (player == null || !player.hasCapability(CapabilityList.AOV, null)) return;
+			IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
+			if (cap.hasCoreSkill()) ClientProxy.barToggle = !ClientProxy.barToggle;
 			else ClientProxy.barToggle = false;
 		}
-				
+
 	}
-	
+
 	@SubscribeEvent
-	public void handleMouse(MouseEvent e){
-		if(!ClientProxy.barToggle) return;
-		
-		AoVData data = AoV.clientAoVCore.getPlayer(null);
-		
-		if(e.getDwheel() > 0) ClientProxy.bar.slotLoc--;
-		if(e.getDwheel() < 0) ClientProxy.bar.slotLoc++;
-		if(ClientProxy.bar.slotLoc < 0) ClientProxy.bar.slotLoc = 8;
-		if(ClientProxy.bar.slotLoc > 8) ClientProxy.bar.slotLoc = 0;
-		
-		if(e.getButton() != 0){
-			e.setCanceled(true);    		
-  	     	KeyBinding.setKeyBindState(e.getButton() - 100, false);
+	public void handleMouse(MouseEvent e) {
+		if (!ClientProxy.barToggle) return;
+
+		EntityPlayer player = Minecraft.getMinecraft().player;
+		if (player == null || !player.hasCapability(CapabilityList.AOV, null)) return;
+		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
+
+		if (e.getDwheel() > 0) ClientProxy.bar.slotLoc--;
+		if (e.getDwheel() < 0) ClientProxy.bar.slotLoc++;
+		if (ClientProxy.bar.slotLoc < 0) ClientProxy.bar.slotLoc = 8;
+		if (ClientProxy.bar.slotLoc > 8) ClientProxy.bar.slotLoc = 0;
+
+		if (e.getButton() != 0) {
+			e.setCanceled(true);
+			KeyBinding.setKeyBindState(e.getButton() - 100, false);
 		}
-		if(e.getButton() == 1){
-			AbilityBase spell = data.getCurrentSlot();
-			if(spell != null){
-				if(e.isButtonstate()){
+		if (e.getButton() == 1) {
+			Ability spell = cap.getSlot(cap.getCurrentSlot());
+			if (spell != null) {
+				if (e.isButtonstate()) {
 					RayTraceResult obj = Minecraft.getMinecraft().objectMouseOver;
 					EntityLivingBase entity = null;
-					if(obj != null && obj.entityHit != null && obj.entityHit instanceof EntityLivingBase) entity = (EntityLivingBase) obj.entityHit;
-					spell.activate(Minecraft.getMinecraft().player, data, entity);
-				}else{
-					//System.out.println(e.buttonstate);
+					if (obj != null && obj.entityHit != null && obj.entityHit instanceof EntityLivingBase) entity = (EntityLivingBase) obj.entityHit;
+					spell.cast(player, entity);
 				}
 			}
 		}

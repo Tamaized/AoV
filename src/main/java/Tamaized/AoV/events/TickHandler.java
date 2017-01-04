@@ -1,33 +1,37 @@
 package Tamaized.AoV.events;
 
-import net.minecraft.client.Minecraft;
+import Tamaized.AoV.capabilities.CapabilityList;
+import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import Tamaized.AoV.AoV;
-import Tamaized.AoV.common.client.ClientProxy;
-import Tamaized.AoV.common.client.ClientTicker;
-import Tamaized.AoV.core.AoVCore;
-import Tamaized.AoV.core.AoVCoreClient;
+import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
 public class TickHandler {
-	
+
+	private int lastLevel = -1;
+	private int lastExp = -1;
+
 	@SubscribeEvent
-	public void ServerTickEvent(ServerTickEvent e){
-		if(e.phase == e.phase.START) return;
-		if(AoV.serverAoVCore == null) AoV.serverAoVCore = new AoVCore();
-		AoV.serverAoVCore.update();
-	}
-	
-	@SubscribeEvent
-	public void ClientTickEvent(ClientTickEvent e){
-		if(e.phase == e.phase.START || Minecraft.getMinecraft().isGamePaused()) return;
-		if(AoV.clientAoVCore == null) AoV.clientAoVCore = new AoVCoreClient();
-		AoV.clientAoVCore.update();
-		if(AoV.clientAoVCore.getPlayer(null) == null) ClientProxy.barToggle = false;
-		ClientTicker.update();
+	public void update(PlayerTickEvent e) {
+		if (e.phase == e.phase.START) return;
+		IAoVCapability cap = e.player.getCapability(CapabilityList.AOV, null);
+		if (cap != null) {
+			cap.update(e.player);
+			if (e.player.world.isRemote) {
+				if (lastLevel < 0) lastLevel = cap.getLevel();
+				if (lastExp < 0) lastExp = cap.getExp();
+				if (lastExp < cap.getExp()) {
+					int amount = cap.getExp() - lastExp;
+					Tamaized.AoV.gui.client.AoVOverlay.addFloatyText("+" + amount + " Exp");
+					lastExp += amount;
+				}
+				if (lastLevel < cap.getLevel()) {
+					lastLevel++;
+					Tamaized.AoV.gui.client.AoVOverlay.addFloatyText("Level Up! (" + lastLevel + ")");
+				}
+				if (lastExp > cap.getExp()) lastExp = cap.getExp();
+				if (lastLevel > cap.getLevel()) lastLevel = cap.getLevel();
+			}
+		}
 	}
 
 }

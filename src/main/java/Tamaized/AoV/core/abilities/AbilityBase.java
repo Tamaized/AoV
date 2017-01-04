@@ -8,9 +8,7 @@ import java.util.List;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.common.handlers.ServerPacketHandler;
-import Tamaized.AoV.core.AoVData;
 import Tamaized.AoV.core.abilities.caster.NimbusRay;
-import Tamaized.AoV.core.abilities.healer.Test;
 import Tamaized.AoV.core.abilities.healer.Cores.Burst;
 import Tamaized.AoV.core.abilities.healer.Cores.PosEnergyAura;
 import Tamaized.AoV.core.abilities.healer.Healing.CureCriticalWounds;
@@ -44,7 +42,6 @@ public abstract class AbilityBase {
 	}
 
 	// Universal
-	public static final AbilityBase test = new Test();
 	public static final AbilityBase invokeMass = new InvokeMass();
 
 	// Healer
@@ -59,13 +56,17 @@ public abstract class AbilityBase {
 	// Caster
 	public static final AbilityBase nimbusRay = new NimbusRay();
 
-	public final List<String> description;
+	private final List<String> description;
 
 	public AbilityBase(String... desc) {
 		description = new ArrayList<String>();
 		for (String s : desc)
 			description.add(s);
 		registry.add(this);
+	}
+
+	public final List<String> getDescription() {
+		return description;
 	}
 
 	public abstract String getName();
@@ -76,41 +77,24 @@ public abstract class AbilityBase {
 
 	public abstract double getMaxDistance();
 
-	public void activate(EntityPlayer player, AoVData data, EntityLivingBase e) {
-		if (!data.castAbility(this)) return;
-		int trueCost = getTrueCost(data);
-		if (trueCost < 0 || trueCost <= data.getAbilityCharge(this)) {
-			data.reduceAbilityCharges(this, trueCost);
-			doAction(player, data, e);
-		} else {
-			data.setCoolDown(this, 0);
-		}
-	}
-
 	public abstract int getCoolDown();
 
 	public abstract boolean usesInvoke();
-
-	public int getTrueCost(AoVData data) {
-		return getChargeCost() < 0 ? -1 : usesInvoke() ? data.invokeMass ? 2 : 1 : 1;
-	}
 
 	public int getCost(IAoVCapability cap) {
 		return usesInvoke() ? cap.hasInvokeMass() ? (getChargeCost() * 2) : getChargeCost() : getChargeCost();
 	}
 
-	protected abstract void doAction(EntityPlayer player, AoVData data, EntityLivingBase e);
-
-	protected abstract void cast(EntityPlayer caster, EntityLivingBase target);
+	public abstract void cast(EntityPlayer caster, EntityLivingBase target);
 
 	public abstract ResourceLocation getIcon();
 
-	protected static void sendPacketTypeTarget(String abilityName, int entityID) {
+	protected static void sendPacketTypeTarget(AbilityBase ability, int entityID) {
 		ByteBufOutputStream bos = new ByteBufOutputStream(Unpooled.buffer());
 		DataOutputStream outputStream = new DataOutputStream(bos);
 		try {
-			outputStream.writeInt(ServerPacketHandler.TYPE_SPELLCAST_TARGET);
-			outputStream.writeUTF(abilityName);
+			outputStream.writeInt(ServerPacketHandler.getPacketTypeID(ServerPacketHandler.PacketType.SPELLCAST_TARGET));
+			outputStream.writeInt(getID(ability));
 			outputStream.writeInt(entityID);
 			FMLProxyPacket pkt = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
 			if (AoV.channel != null && pkt != null) AoV.channel.sendToServer(pkt);
@@ -120,12 +104,12 @@ public abstract class AbilityBase {
 		}
 	}
 
-	protected static void sendPacketTypeSelf(String abilityName) {
+	protected static void sendPacketTypeSelf(AbilityBase ability) {
 		ByteBufOutputStream bos = new ByteBufOutputStream(Unpooled.buffer());
 		DataOutputStream outputStream = new DataOutputStream(bos);
 		try {
-			outputStream.writeInt(ServerPacketHandler.TYPE_SPELLCAST_SELF);
-			outputStream.writeUTF(abilityName);
+			outputStream.writeInt(ServerPacketHandler.getPacketTypeID(ServerPacketHandler.PacketType.SPELLCAST_SELF));
+			outputStream.writeInt(getID(ability));
 			FMLProxyPacket pkt = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
 			if (AoV.channel != null && pkt != null) AoV.channel.sendToServer(pkt);
 			bos.close();

@@ -1,10 +1,10 @@
 package Tamaized.AoV.core.abilities.healer.Healing;
 
-import net.minecraft.util.ResourceLocation;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.abilities.healer.CureWounds;
+import net.minecraft.util.ResourceLocation;
 
-public class CureModWounds extends CureWounds{
+public class CureModWounds extends CureWounds {
 
 	public CureModWounds() {
 		super(CureModWounds.getStaticName(), 8, 2, 6);
@@ -16,12 +16,17 @@ public class CureModWounds extends CureWounds{
 
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid+":textures/spells/cureModWounds.png");
+		return new ResourceLocation(AoV.modid + ":textures/spells/cureModWounds.png");
 	}
 
 	@Override
 	public int getCoolDown() {
 		return 3;
+	}
+
+	@Override
+	public int getChargeCost() {
+		return 1;
 	}
 
 }

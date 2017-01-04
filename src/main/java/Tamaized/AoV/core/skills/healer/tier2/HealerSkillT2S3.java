@@ -1,42 +1,78 @@
 package Tamaized.AoV.core.skills.healer.tier2;
 
-import net.minecraft.util.ResourceLocation;
+import java.util.ArrayList;
+import java.util.List;
+
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.skills.AoVSkill;
-import Tamaized.AoV.core.skills.healer.tier1.HealerSkillT1S3;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
+public class HealerSkillT2S3 extends AoVSkill {
 
-public class HealerSkillT2S3 extends AoVSkill{
-	
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid+":textures/skills/HealerT2S3.png");
+	private static final ResourceLocation icon = new ResourceLocation(AoV.modid + ":textures/skills/HealerT2S3.png");
+
+	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
+
+	static {
+
+	}
 
 	public HealerSkillT2S3() {
-		super(getUnlocalizedName(), AoVSkill.getSkillFromName(HealerSkillT1S3.getUnlocalizedName()), 1, 0, 4, false,
-				new AbilityBase[]{
-					
-				},
-				ChatFormatting.AQUA+"Spell Power II",
-				ChatFormatting.RED+"Requires: 4 Points Spent in Tree",
-				ChatFormatting.RED+"Requires: Spell Power I",
+		super(spells,
+
+				TextFormatting.AQUA + "Spell Power II",
+
+				TextFormatting.RED + "Requires: 4 Points Spent in Tree",
+
+				TextFormatting.RED + "Requires: Spell Power I",
+
 				"",
-				ChatFormatting.YELLOW+"+10 Spell Power"
-				);
+
+				TextFormatting.YELLOW + "+10 Spell Power"
+
+		);
 	}
 
 	@Override
-	protected void setupBuffs() {
-		buffs = new Buffs(0, 10, false);
+	public String getName() {
+		return "HealerSkillT2S3";
+	}
+
+	@Override
+	protected Buffs setupBuffs() {
+		return new Buffs(0, 10, false);
 	}
 
 	@Override
 	public ResourceLocation getIcon() {
 		return icon;
 	}
-	
-	public static String getUnlocalizedName(){
-		return "HealerSkillT2S3";
+
+	@Override
+	public boolean isClassCore() {
+		return false;
+	}
+
+	@Override
+	public AoVSkill getParent() {
+		return AoVSkill.healer_tier_1_3;
+	}
+
+	@Override
+	public int getCost() {
+		return 1;
+	}
+
+	@Override
+	public int getLevel() {
+		return 0;
+	}
+
+	@Override
+	public int getSpentPoints() {
+		return 4;
 	}
 
 }

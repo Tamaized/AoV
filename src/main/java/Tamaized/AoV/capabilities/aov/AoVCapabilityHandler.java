@@ -3,6 +3,7 @@ package Tamaized.AoV.capabilities.aov;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -28,39 +29,90 @@ public class AoVCapabilityHandler implements IAoVCapability {
 
 	public static final float xpScale = 2.5F;
 
-	public static int getXpForLevel(IAoVCapability cap, int level) {
-		return level > cap.getMaxLevel() ? 0 : getXpForLevel(level);
+	public static int getExpForLevel(IAoVCapability cap, int level) {
+		return level > cap.getMaxLevel() ? 0 : getExpForLevel(level);
 	}
 
-	public static int getXpForLevel(int level) {
-		return level < 1 ? 0 : (int) Math.floor(25 * (xpScale * (level - 1)));
+	public static int getExpForLevel(int level) {
+		return level < 1 ? 0 : (int) Math.floor(25 * ((xpScale + (level - 2)) * (level - 1)));
+	}
+
+	public static int getLevelFromExp(float xp) {
+		xp += 0.5F; // We need to offset because of float to int to float casting
+		double a = ((-5 * xpScale) + Math.sqrt(25 * Math.pow(xpScale, 2) - 50 * xpScale + 4 * xp + 25) + 15) / 10;
+		double b = ((-5 * xpScale) - Math.sqrt(25 * Math.pow(xpScale, 2) - 50 * xpScale + 4 * xp + 25) + 15) / 10;
+		return Math.max((int) a, (int) b);
 	}
 
 	private int tick = 1;
 	private boolean dirty = false;
 
-	private List<AoVSkill> obtainedSkills;
+	private List<AoVSkill> obtainedSkills = new ArrayList<AoVSkill>();
 	private List<Ability> abilities = new ArrayList<Ability>();
-	private Map<AuraBase, Integer> auras;
-	private int maxSkillPoints = 1;
+	private Map<AuraBase, Integer> auras = new HashMap<AuraBase, Integer>();
 	private int skillPoints = 1;
 	private int exp = 0;
-	private int level = 1;
 	private int maxLevel = 15;
 	private boolean invokeMass = false;
 	private Ability[] slots = new Ability[] { null, null, null, null, null, null, null, null, null };
 	private int currentSlot = 0;
 
 	// Calculate and update these when 'dirty'
-	private int spellpower = 0;
+	private float spellpower = 0;
 	private int extraCharges = 0;
 	private boolean selectiveFocus = false;
 	private boolean hasInvoke = false;
+
+	// Keep this on the server
+	private Map<AbilityBase, DecayWrapper> decay = new HashMap<AbilityBase, DecayWrapper>();
+
+	private class DecayWrapper {
+		private int amount = 1;
+		private int tick = 0;
+		private int decayTick = 20 * 30;
+
+		public void addDecay() {
+			amount++;
+		}
+
+		public void update() {
+			tick++;
+			if (tick % decayTick == 0) {
+				amount--;
+			}
+		}
+
+		public int getDecay() {
+			return amount;
+		}
+	}
+
+	@Override
+	public void reset(boolean b) {
+		if (b) {
+			obtainedSkills.clear();
+			skillPoints = 1;
+			exp = 0;
+			maxLevel = 15;
+		} else {
+			AoVSkill core = getCoreSkill();
+			obtainedSkills.clear();
+			obtainedSkills.add(core);
+			skillPoints = getLevel();
+		}
+		abilities.clear();
+		auras.clear();
+		decay.clear();
+		invokeMass = false;
+		slots = new Ability[] { null, null, null, null, null, null, null, null, null };
+		dirty = true;
+	}
 
 	@Override
 	public void update(EntityPlayer player) {
 		updateAbilities();
 		updateAuras();
+		updateDecay();
 		if (dirty) {
 			updateValues();
 			if (player instanceof EntityPlayerMP) sendPacketUpdates((EntityPlayerMP) player);
@@ -98,6 +150,22 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			// k.update(this);
 			if (k.getCurrentLife() >= e.getValue()) iter.remove();
 		}
+	}
+
+	private void updateDecay() {
+		Iterator<DecayWrapper> iter = decay.values().iterator();
+		while (iter.hasNext()) {
+			DecayWrapper wrapper = iter.next();
+			wrapper.update();
+			if (wrapper.getDecay() <= 0) iter.remove();
+		}
+	}
+
+	@Override
+	public void resetCharges() {
+		for (Ability ability : abilities)
+			ability.reset(this);
+		dirty = true;
 	}
 
 	@Override
@@ -138,7 +206,15 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@Override
-	public void addExp(int amount) {
+	public void addExp(int amount, AbilityBase spell) { // TODO: send packet to client for overlay floating text
+		if (spell == null) {
+
+		} else if (decay.containsKey(spell)) {
+			amount /= decay.get(spell).getDecay();
+			decay.get(spell).addDecay();
+		} else {
+			decay.put(spell, new DecayWrapper());
+		}
 		exp += amount;
 		dirty = true;
 	}
@@ -159,14 +235,14 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	@Override
 	public boolean hasCoreSkill() {
 		for (AoVSkill skill : obtainedSkills)
-			if (skill.isCore()) return true;
+			if (skill.isClassCore()) return true;
 		return false;
 	}
 
 	@Override
 	public AoVSkill getCoreSkill() {
 		for (AoVSkill skill : obtainedSkills)
-			if (skill.isCore()) return skill;
+			if (skill.isClassCore()) return skill;
 		return null;
 	}
 
@@ -183,7 +259,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 
 	@Override
 	public int getLevel() {
-		return level;
+		return getLevelFromExp(exp);
 	}
 
 	@Override
@@ -192,13 +268,25 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@Override
-	public int getXP() {
+	public void setMaxLevel(int amount) {
+		maxLevel = amount;
+		dirty = true;
+	}
+
+	@Override
+	public int getExp() {
 		return exp;
 	}
 
 	@Override
-	public int getXpNeededToLevel() {
-		return level >= maxLevel ? 0 : getXpForLevel(this, level) - exp;
+	public void setExp(int amount) {
+		exp = amount;
+		dirty = true;
+	}
+
+	@Override
+	public int getExpNeededToLevel() {
+		return getLevel() >= maxLevel ? 0 : getExpForLevel(this, getLevel() + 1) - exp;
 	}
 
 	@Override
@@ -207,13 +295,14 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@Override
-	public int getSpentSkillPoints() {
-		return maxSkillPoints - skillPoints;
+	public void setSkillPoints(int amount) {
+		skillPoints = amount;
+		dirty = true;
 	}
 
 	@Override
-	public int getMaxSkillPoints() {
-		return maxSkillPoints;
+	public int getSpentSkillPoints() {
+		return getLevel() - skillPoints;
 	}
 
 	@Override
@@ -244,13 +333,22 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@Override
+	public boolean getInvokeMass() {
+		return invokeMass;
+	}
+
+	@Override
 	public boolean hasInvokeMass() {
 		return hasInvoke;
 	}
 
 	@Override
 	public void setSlot(Ability ability, int slot) {
-		if (slot >= 0 && slot < slots.length) slots[slot] = ability;
+		boolean flag = false;
+		for (Ability check : getAbilities()) {
+			if (check.compare(ability)) flag = true;
+		}
+		if (flag && slot >= 0 && slot < slots.length) slots[slot] = ability;
 		dirty = true;
 	}
 
@@ -265,6 +363,12 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@Override
+	public void setCurrentSlot(int index) {
+		currentSlot = index;
+		dirty = true;
+	}
+
+	@Override
 	public boolean slotsContain(Ability ability) {
 		for (Ability a : slots)
 			if (a != null && ability.getAbility() == a.getAbility()) return true;
@@ -275,7 +379,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	public void addToNearestSlot(Ability ability) {
 		for (int i = 0; i < slots.length; i++) {
 			if (slots[i] == null) {
-				slots[i] = ability;
+				setSlot(ability, i);
 				break;
 			}
 		}
@@ -296,8 +400,21 @@ public class AoVCapabilityHandler implements IAoVCapability {
 
 	@Override
 	public void copyFrom(IAoVCapability cap) {
-		// TODO Auto-generated method stub
-
+		obtainedSkills = cap.getObtainedSkills();
+		abilities = cap.getAbilities();
+		skillPoints = cap.getSkillPoints();
+		exp = cap.getExp();
+		maxLevel = cap.getMaxLevel();
+		invokeMass = cap.getInvokeMass();
+		for (int index = 0; index < 9; index++) {
+			slots[index] = cap.getSlot(index);
+		}
+		currentSlot = cap.getCurrentSlot();
+		spellpower = cap.getSpellPower();
+		extraCharges = cap.getExtraCharges();
+		selectiveFocus = cap.hasSelectiveFocus();
+		hasInvoke = cap.hasInvokeMass();
+		dirty = true;
 	}
 
 	private void sendPacketUpdates(EntityPlayerMP player) {
@@ -316,10 +433,8 @@ public class AoVCapabilityHandler implements IAoVCapability {
 					ability.encode(stream);
 			}
 			// TODO: figure out auras
-			stream.writeInt(maxSkillPoints);
 			stream.writeInt(skillPoints);
 			stream.writeInt(exp);
-			stream.writeInt(level);
 			stream.writeInt(maxLevel);
 			stream.writeBoolean(invokeMass);
 			for (int index = 0; index < 9; index++) {
@@ -332,11 +447,12 @@ public class AoVCapabilityHandler implements IAoVCapability {
 				}
 			}
 			stream.writeInt(currentSlot);
-			stream.writeInt(spellpower);
+			stream.writeFloat(spellpower);
 			stream.writeInt(extraCharges);
 			stream.writeBoolean(selectiveFocus);
 			stream.writeBoolean(hasInvoke);
 			FMLProxyPacket packet = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
+			AoV.channel.sendTo(packet, player);
 			bos.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -345,7 +461,33 @@ public class AoVCapabilityHandler implements IAoVCapability {
 
 	@Override
 	public void decodePacket(ByteBufInputStream stream) throws IOException {
-		// TODO Auto-generated method stub
+		int size = 0;
+		size = stream.readInt();
+		{
+			obtainedSkills.clear();
+			for (int index = 0; index < size; index++) {
+				obtainedSkills.add(AoVSkill.getSkillFromID(stream.readInt()));
+			}
+		}
+		size = stream.readInt();
+		{
+			abilities.clear();
+			for (int index = 0; index < size; index++) {
+				abilities.add(Ability.construct(this, stream));
+			}
+		}
+		skillPoints = stream.readInt();
+		exp = stream.readInt();
+		maxLevel = stream.readInt();
+		invokeMass = stream.readBoolean();
+		for (int index = 0; index < 9; index++) {
+			slots[index] = stream.readBoolean() ? Ability.construct(this, stream) : null;
+		}
+		currentSlot = stream.readInt();
+		spellpower = stream.readFloat();
+		extraCharges = stream.readInt();
+		selectiveFocus = stream.readBoolean();
+		hasInvoke = stream.readBoolean();
 	}
 
 }

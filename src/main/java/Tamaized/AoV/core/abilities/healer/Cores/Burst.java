@@ -2,52 +2,65 @@ package Tamaized.AoV.core.abilities.healer.Cores;
 
 import java.util.List;
 
+import Tamaized.AoV.capabilities.CapabilityList;
+import Tamaized.AoV.capabilities.aov.IAoVCapability;
+import Tamaized.AoV.core.abilities.AbilityBase;
+import Tamaized.AoV.helper.ParticleHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
-import Tamaized.AoV.core.AoVData;
-import Tamaized.AoV.core.abilities.AbilityBase;
-import Tamaized.AoV.helper.ParticleHelper;
+import net.minecraft.util.text.TextFormatting;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
-
-public class Burst extends AbilityBase{
+public class Burst extends AbilityBase {
 
 	private final static int charges = 6;
 	private final static int range = 20;
 	private final static int dmg = 4;
-	
+
 	public Burst() {
-		super(getStaticName(), charges, range, false,
-				ChatFormatting.YELLOW+getStaticName(),
+		super(getStaticName(),
+
+				TextFormatting.YELLOW + getStaticName(),
+
 				"",
-				ChatFormatting.AQUA+"Charges: "+charges,
-				ChatFormatting.AQUA+"Range: "+range,
-				ChatFormatting.AQUA+"Base Healing: "+dmg,
+
+				TextFormatting.AQUA + "Charges: " + charges,
+
+				TextFormatting.AQUA + "Range: " + range,
+
+				TextFormatting.AQUA + "Base Healing: " + dmg,
+
 				"",
-				ChatFormatting.DARK_PURPLE+"Heals everything and cures",
-				ChatFormatting.DARK_PURPLE+"poison, blind, and slows.",
-				ChatFormatting.DARK_PURPLE+"around you, including you.",
-				ChatFormatting.DARK_PURPLE+"Deals damage to Undead."
-				);
+
+				TextFormatting.DARK_PURPLE + "Heals everything and cures",
+
+				TextFormatting.DARK_PURPLE + "poison, blind, and slows.",
+
+				TextFormatting.DARK_PURPLE + "around you, including you.",
+
+				TextFormatting.DARK_PURPLE + "Deals damage to Undead."
+
+		);
 	}
 
 	@Override
-	protected void doAction(EntityPlayer player, AoVData data, EntityLivingBase e) {
-		if(player.world.isRemote){
-			sendPacketTypeSelf(getName());
-		}else{
-			ParticleHelper.sendPacketToClients(ParticleHelper.Type.BURST, player, range);
-			int a = (int) (dmg*(1f+(data.getSpellPower()/100f)));
+	public void cast(EntityPlayer player, EntityLivingBase e) {
+		if (player.world.isRemote) {
+			sendPacketTypeSelf(this);
+		} else {
+			IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
+			if (cap == null) return;
+			ParticleHelper.spawnParticleMesh(ParticleHelper.Type.BURST, player.world, player.getPositionVector(), range);
+			int a = (int) (dmg * (1f + (cap.getSpellPower() / 100f)));
 			List<EntityLivingBase> list = player.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(player.getPosition().add(-range, -range, -range), player.getPosition().add(range, range, range)));
-			for(EntityLivingBase entity : list){
-				if(entity.isEntityUndead()) entity.attackEntityFrom(DamageSource.magic, a);	
-				else if(data.hasSelectiveFocus() && !(entity instanceof IMob)) continue;
+			for (EntityLivingBase entity : list) {
+				if (entity.isEntityUndead()) entity.attackEntityFrom(DamageSource.MAGIC, a);
+				else if (cap.hasSelectiveFocus() && !(entity instanceof IMob)) continue;
 				else entity.heal(a);
-				this.addXP(data, 20);
+				cap.addExp(20, this);
 			}
 		}
 	}
@@ -61,14 +74,38 @@ public class Burst extends AbilityBase{
 	public String getName() {
 		return getStaticName();
 	}
-	
+
 	public static String getStaticName() {
 		return "Positive Energy Burst";
 	}
-	
+
 	@Override
 	public int getCoolDown() {
 		return 3;
+	}
+
+	@Override
+	public int getMaxCharges() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getChargeCost() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getMaxDistance() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean usesInvoke() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

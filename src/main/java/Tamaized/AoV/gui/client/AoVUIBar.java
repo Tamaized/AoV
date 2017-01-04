@@ -1,21 +1,19 @@
 package Tamaized.AoV.gui.client;
 
+import org.lwjgl.opengl.GL11;
+
+import Tamaized.AoV.capabilities.CapabilityList;
+import Tamaized.AoV.capabilities.aov.IAoVCapability;
+import Tamaized.AoV.common.client.ClientProxy;
+import Tamaized.AoV.core.abilities.Ability;
+import Tamaized.AoV.core.abilities.universal.InvokeMass;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
-
-import Tamaized.AoV.AoV;
-import Tamaized.AoV.common.client.ClientProxy;
-import Tamaized.AoV.core.AoVData;
-import Tamaized.AoV.core.abilities.AbilityBase;
-import Tamaized.AoV.core.abilities.universal.InvokeMass;
 
 public class AoVUIBar {
 
@@ -28,9 +26,10 @@ public class AoVUIBar {
 	}
 
 	public void render(Gui gui, float partialTicks) {
+		if (mc.player == null || !mc.player.hasCapability(CapabilityList.AOV, null)) return;
+		IAoVCapability cap = mc.player.getCapability(CapabilityList.AOV, null);
 		GlStateManager.pushMatrix();
 		{
-			AoVData data = AoV.clientAoVCore.getPlayer(null);
 			ScaledResolution sr = new ScaledResolution(mc);
 			float alpha = 0.2f;
 			if (ClientProxy.barToggle) alpha = 1.0f;
@@ -49,17 +48,17 @@ public class AoVUIBar {
 				GlStateManager.translate(-20.01f, 0, 0);
 				for (int j = 0; j < 9; ++j) {
 					GlStateManager.translate(20.01f, 0, 0);
-					if (data.getSlot(j) == null) continue;
-					AbilityBase ab = data.getSlot(j);
+					Ability ability = cap.getSlot(j);
+					if (ability == null) continue;
 					int k = sr.getScaledWidth() / 2 - 90 + 2;
 					int l = 4;// sr.getScaledHeight() - 16 - 3;
 					GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
 					// RenderHelper.enableGUIStandardItemLighting();
-					renderHotbarIcon(gui, data, j, k, l, partialTicks, ab.getIcon(), (data.getSlot(j) instanceof InvokeMass) ? data.invokeMass : false);
+					renderHotbarIcon(gui, cap, j, k, l, partialTicks, ability.getAbility().getIcon(), (ability.getAbility() instanceof InvokeMass) ? cap.getInvokeMass() : false);
 					// RenderHelper.disableStandardItemLighting();
 					GlStateManager.pushAttrib();
 					{
-						if (data.getCoolDown(ab) > 0) renderCoolDown(gui, mc.fontRendererObj, k, l, (((float) data.getCoolDown(ab)) / ab.getCoolDown()), data.getCoolDown(ab));
+						if (ability.getCooldown() > 0) renderCooldown(gui, mc.fontRendererObj, k, l, ability.getCooldownPerc(), ability.getCooldown());
 					}
 					GlStateManager.popAttrib();
 				}
@@ -72,7 +71,7 @@ public class AoVUIBar {
 		GlStateManager.popMatrix();
 	}
 
-	public static void renderHotbarIcon(Gui gui, AoVData data, int index, int xPos, int yPos, float partialTicks, ResourceLocation icon, boolean active) {
+	public static void renderHotbarIcon(Gui gui, IAoVCapability cap, int index, int xPos, int yPos, float partialTicks, ResourceLocation icon, boolean active) {
 		if (icon != null) {
 			GlStateManager.pushMatrix();
 			{
@@ -91,10 +90,8 @@ public class AoVUIBar {
 
 					renderIcon(gui, icon);
 					if (active) gui.drawRect(0, 0, 256, 256, 0x7700FFFF);
-					if (data != null) {
-						AbilityBase ab = data.getSlot(index);
-						if (data.getAbilityCharge(ab) < ab.getTrueCost(data)) gui.drawRect(0, 0, 256, 256, 0x77FF0000);
-					}
+					Ability ability = cap == null ? null : cap.getSlot(index);
+					if (ability != null && ability.canUse(cap)) gui.drawRect(0, 0, 256, 256, 0x77FF0000);
 					// GlStateManager.disableAlpha();
 					// GlStateManager.disableRescaleNormal();
 					// GlStateManager.disableLighting();
@@ -112,7 +109,7 @@ public class AoVUIBar {
 		gui.drawTexturedModalRect(0, 0, 0, 0, 256, 256);
 	}
 
-	private static void renderCoolDown(Gui gui, FontRenderer fr, int xPos, int yPos, float perc, int timeLeft) {
+	private static void renderCooldown(Gui gui, FontRenderer fr, int xPos, int yPos, float perc, int timeLeft) {
 		GlStateManager.pushMatrix();
 		{
 			float f1 = 1.0F / 16.0F;
@@ -121,11 +118,11 @@ public class AoVUIBar {
 
 			GlStateManager.pushMatrix();
 			{
-				//GlStateManager.enableRescaleNormal();
-				//GlStateManager.enableAlpha();
-				//GlStateManager.alphaFunc(516, 0.1F);
-				//GlStateManager.enableBlend();
-				//GlStateManager.blendFunc(770, 771);
+				// GlStateManager.enableRescaleNormal();
+				// GlStateManager.enableAlpha();
+				// GlStateManager.alphaFunc(516, 0.1F);
+				// GlStateManager.enableBlend();
+				// GlStateManager.blendFunc(770, 771);
 
 				{
 					GlStateManager.scale(16.0f, 16.0f, 1.0f);
@@ -133,9 +130,9 @@ public class AoVUIBar {
 					gui.drawCenteredString(fr, String.valueOf(timeLeft), 8, 4, 0xFFFF00);
 				}
 
-				//GlStateManager.disableAlpha();
-				//GlStateManager.disableRescaleNormal();
-				//GlStateManager.disableLighting();
+				// GlStateManager.disableAlpha();
+				// GlStateManager.disableRescaleNormal();
+				// GlStateManager.disableLighting();
 			}
 			GlStateManager.popMatrix();
 		}

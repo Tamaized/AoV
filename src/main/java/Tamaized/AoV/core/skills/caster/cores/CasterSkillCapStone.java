@@ -1,43 +1,80 @@
 package Tamaized.AoV.core.skills.caster.cores;
 
-import net.minecraft.util.ResourceLocation;
+import java.util.ArrayList;
+import java.util.List;
+
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.abilities.AbilityBase;
-import Tamaized.AoV.core.abilities.healer.Healing.CureLightWounds;
 import Tamaized.AoV.core.skills.AoVSkill;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
+public class CasterSkillCapStone extends AoVSkill {
 
-public class CasterSkillCapStone extends AoVSkill{
-	
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid+":textures/skills/test.png");
+	private static final ResourceLocation icon = new ResourceLocation(AoV.modid + ":textures/skills/test.png");
+
+	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
+
+	static {
+
+	}
 
 	public CasterSkillCapStone() {
-		super(getUnlocalizedName(), AoVSkill.getSkillFromName(CasterSkillCore4.getUnlocalizedName()), 1, 15, 0, false,
-				new AbilityBase[]{
-					
-				},
-				ChatFormatting.AQUA+"Capstone: Caster",
-				ChatFormatting.RED+"Requires: Caster Core 4",
-				ChatFormatting.RED+"Requires: Level 15",
+		super(spells,
+
+				TextFormatting.AQUA + "Capstone: Caster",
+
+				TextFormatting.RED + "Requires: Caster Core 4",
+
+				TextFormatting.RED + "Requires: Level 15",
+
 				"",
-				ChatFormatting.GREEN+"+50 Spell Power",
-				ChatFormatting.GREEN+"+4 Charges"
-				);
+
+				TextFormatting.GREEN + "+50 Spell Power",
+
+				TextFormatting.GREEN + "+4 Charges"
+
+		);
 	}
 
 	@Override
-	protected void setupBuffs() {
-		buffs = new Buffs(4, 50, false);
+	protected Buffs setupBuffs() {
+		return new Buffs(4, 50, false);
 	}
 
 	@Override
 	public ResourceLocation getIcon() {
 		return icon;
 	}
-	
-	public static String getUnlocalizedName(){
+
+	@Override
+	public boolean isClassCore() {
+		return false;
+	}
+
+	@Override
+	public String getName() {
 		return "CasterSkillCapStone";
+	}
+
+	@Override
+	public AoVSkill getParent() {
+		return caster_core_4;
+	}
+
+	@Override
+	public int getCost() {
+		return 1;
+	}
+
+	@Override
+	public int getLevel() {
+		return 15;
+	}
+
+	@Override
+	public int getSpentPoints() {
+		return 0;
 	}
 
 }

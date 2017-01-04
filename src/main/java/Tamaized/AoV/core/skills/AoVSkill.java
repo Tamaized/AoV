@@ -72,6 +72,68 @@ public abstract class AoVSkill {
 		return id >= 0 && id < registry.size() ? registry.get(id) : null;
 	}
 
+	/* Healer */
+	public static final AoVSkill healer_core_1 = new HealerSkillCore1();
+	public static final AoVSkill healer_core_2 = new HealerSkillCore2();
+	public static final AoVSkill healer_core_3 = new HealerSkillCore3();
+	public static final AoVSkill healer_core_4 = new HealerSkillCore4();
+	public static final AoVSkill healer_capstone = new HealerSkillCapStone();
+
+	public static final AoVSkill healer_tier_1_1 = new HealerSkillT1S1();
+	public static final AoVSkill healer_tier_1_2 = new HealerSkillT1S2();
+	public static final AoVSkill healer_tier_1_3 = new HealerSkillT1S3();
+	public static final AoVSkill healer_tier_1_4 = new HealerSkillT1S4();
+	public static final AoVSkill healer_tier_1_5 = new HealerSkillT1S5();
+
+	public static final AoVSkill healer_tier_2_1 = new HealerSkillT2S1();
+	public static final AoVSkill healer_tier_2_2 = new HealerSkillT2S2();
+	public static final AoVSkill healer_tier_2_3 = new HealerSkillT2S3();
+	public static final AoVSkill healer_tier_2_4 = new HealerSkillT2S4();
+	public static final AoVSkill healer_tier_2_5 = new HealerSkillT2S5();
+
+	public static final AoVSkill healer_tier_3_1 = new HealerSkillT3S1();
+	public static final AoVSkill healer_tier_3_2 = new HealerSkillT3S2();
+	public static final AoVSkill healer_tier_3_3 = new HealerSkillT3S3();
+	public static final AoVSkill healer_tier_3_4 = new HealerSkillT3S4();
+	public static final AoVSkill healer_tier_3_5 = new HealerSkillT3S5();
+
+	public static final AoVSkill healer_tier_4_1 = new HealerSkillT4S1();
+	public static final AoVSkill healer_tier_4_2 = new HealerSkillT4S2();
+	public static final AoVSkill healer_tier_4_3 = new HealerSkillT4S3();
+	public static final AoVSkill healer_tier_4_4 = new HealerSkillT4S4();
+	public static final AoVSkill healer_tier_4_5 = new HealerSkillT4S5();
+
+	/* Caster */
+	public static final AoVSkill caster_core_1 = new CasterSkillCore1();
+	public static final AoVSkill caster_core_2 = new CasterSkillCore2();
+	public static final AoVSkill caster_core_3 = new CasterSkillCore3();
+	public static final AoVSkill caster_core_4 = new CasterSkillCore4();
+	public static final AoVSkill caster_capstone = new CasterSkillCapStone();
+
+	public static final AoVSkill caster_tier_1_1 = new CasterSkillT1S1();
+	public static final AoVSkill caster_tier_1_2 = new CasterSkillT1S2();
+	public static final AoVSkill caster_tier_1_3 = new CasterSkillT1S3();
+	public static final AoVSkill caster_tier_1_4 = new CasterSkillT1S4();
+	public static final AoVSkill caster_tier_1_5 = new CasterSkillT1S5();
+
+	public static final AoVSkill caster_tier_2_1 = new CasterSkillT2S1();
+	public static final AoVSkill caster_tier_2_2 = new CasterSkillT2S2();
+	public static final AoVSkill caster_tier_2_3 = new CasterSkillT2S3();
+	public static final AoVSkill caster_tier_2_4 = new CasterSkillT2S4();
+	public static final AoVSkill caster_tier_2_5 = new CasterSkillT2S5();
+
+	public static final AoVSkill caster_tier_3_1 = new CasterSkillT3S1();
+	public static final AoVSkill caster_tier_3_2 = new CasterSkillT3S2();
+	public static final AoVSkill caster_tier_3_3 = new CasterSkillT3S3();
+	public static final AoVSkill caster_tier_3_4 = new CasterSkillT3S4();
+	public static final AoVSkill caster_tier_3_5 = new CasterSkillT3S5();
+
+	public static final AoVSkill caster_tier_4_1 = new CasterSkillT4S1();
+	public static final AoVSkill caster_tier_4_2 = new CasterSkillT4S2();
+	public static final AoVSkill caster_tier_4_3 = new CasterSkillT4S3();
+	public static final AoVSkill caster_tier_4_4 = new CasterSkillT4S4();
+	public static final AoVSkill caster_tier_4_5 = new CasterSkillT4S5();
+
 	private final Buffs buffs;
 	private final List<AbilityBase> abilities;
 	private final List<String> description;
@@ -89,7 +151,7 @@ public abstract class AoVSkill {
 		return abilities;
 	}
 
-	public abstract boolean isCore();
+	public abstract boolean isClassCore();
 
 	public abstract String getName();
 
@@ -101,8 +163,6 @@ public abstract class AoVSkill {
 
 	public abstract int getSpentPoints();
 
-	public abstract List<AbilityBase> getSpells();
-
 	protected abstract Buffs setupBuffs();
 
 	public final Buffs getBuffs() {
@@ -113,73 +173,6 @@ public abstract class AoVSkill {
 
 	public final List<String> getDescription() {
 		return description;
-	}
-
-	public static void registerSkills() {
-		/* Healer */ {
-			new HealerSkillCore1();
-			new HealerSkillCore2();
-			new HealerSkillCore3();
-			new HealerSkillCore4();
-			new HealerSkillCapStone();
-
-			new HealerSkillT1S1();
-			new HealerSkillT1S2();
-			new HealerSkillT1S3();
-			new HealerSkillT1S4();
-			new HealerSkillT1S5();
-
-			new HealerSkillT2S1();
-			new HealerSkillT2S2();
-			new HealerSkillT2S3();
-			new HealerSkillT2S4();
-			new HealerSkillT2S5();
-
-			new HealerSkillT3S1();
-			new HealerSkillT3S2();
-			new HealerSkillT3S3();
-			new HealerSkillT3S4();
-			new HealerSkillT3S5();
-
-			new HealerSkillT4S1();
-			new HealerSkillT4S2();
-			new HealerSkillT4S3();
-			new HealerSkillT4S4();
-			new HealerSkillT4S5();
-		}
-
-		/* Caster */ {
-			new CasterSkillCore1();
-			new CasterSkillCore2();
-			new CasterSkillCore3();
-			new CasterSkillCore4();
-			new CasterSkillCapStone();
-
-			new CasterSkillT1S1();
-			new CasterSkillT1S2();
-			new CasterSkillT1S3();
-			new CasterSkillT1S4();
-			new CasterSkillT1S5();
-
-			new CasterSkillT2S1();
-			new CasterSkillT2S2();
-			new CasterSkillT2S3();
-			new CasterSkillT2S4();
-			new CasterSkillT2S5();
-
-			new CasterSkillT3S1();
-			new CasterSkillT3S2();
-			new CasterSkillT3S3();
-			new CasterSkillT3S4();
-			new CasterSkillT3S5();
-
-			new CasterSkillT4S1();
-			new CasterSkillT4S2();
-			new CasterSkillT4S3();
-			new CasterSkillT4S4();
-			new CasterSkillT4S5();
-		}
-
 	}
 
 	public final class Buffs {

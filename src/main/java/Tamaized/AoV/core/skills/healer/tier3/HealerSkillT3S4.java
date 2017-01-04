@@ -1,39 +1,72 @@
 package Tamaized.AoV.core.skills.healer.tier3;
 
-import net.minecraft.util.ResourceLocation;
+import java.util.ArrayList;
+import java.util.List;
+
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.skills.AoVSkill;
-import Tamaized.AoV.core.skills.healer.cores.HealerSkillCore1;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
+public class HealerSkillT3S4 extends AoVSkill {
 
-public class HealerSkillT3S4 extends AoVSkill{
-	
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid+":textures/skills/HealerT3S4.png");
+	private static final ResourceLocation icon = new ResourceLocation(AoV.modid + ":textures/skills/HealerT3S4.png");
+
+	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
+
+	static {
+
+	}
 
 	public HealerSkillT3S4() {
-		super(getUnlocalizedName(), AoVSkill.getSkillFromName(HealerSkillCore1.getUnlocalizedName()), 1, 0, 8, false,
-				new AbilityBase[]{
-					
-				},
-				ChatFormatting.AQUA+"null",
-				ChatFormatting.RED+"Requires: 8 Points Spent in Tree"
-				);
+		super(spells,
+
+				TextFormatting.AQUA + "null",
+
+				TextFormatting.RED + "Requires: 8 Points Spent in Tree"
+
+		);
 	}
 
 	@Override
-	protected void setupBuffs() {
-		buffs = new Buffs(0, 0, false);
+	public String getName() {
+		return "HealerSkillT3S4";
+	}
+
+	@Override
+	protected Buffs setupBuffs() {
+		return new Buffs(0, 0, false);
 	}
 
 	@Override
 	public ResourceLocation getIcon() {
 		return icon;
 	}
-	
-	public static String getUnlocalizedName(){
-		return "HealerSkillT3S4";
+
+	@Override
+	public boolean isClassCore() {
+		return false;
+	}
+
+	@Override
+	public AoVSkill getParent() {
+		return AoVSkill.healer_core_1;
+	}
+
+	@Override
+	public int getCost() {
+		return 1;
+	}
+
+	@Override
+	public int getLevel() {
+		return 0;
+	}
+
+	@Override
+	public int getSpentPoints() {
+		return 8;
 	}
 
 }

@@ -1,4 +1,4 @@
-package Tamaized.AoV.gui.client.helper;
+package Tamaized.AoV.gui.client.buttonList;
 
 import Tamaized.AoV.gui.client.AoVSkillsGUI;
 
