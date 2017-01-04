@@ -65,6 +65,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 
 	// Keep this on the server
 	private Map<AbilityBase, DecayWrapper> decay = new HashMap<AbilityBase, DecayWrapper>();
+	private int lastLevel = -1;
 
 	private class DecayWrapper {
 		private int amount = 1;
@@ -94,6 +95,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			skillPoints = 1;
 			exp = 0;
 			maxLevel = 15;
+			lastLevel = -1;
 		} else {
 			AoVSkill core = getCoreSkill();
 			obtainedSkills.clear();
@@ -122,6 +124,11 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	private void updateValues() {
+		if (lastLevel < 0) lastLevel = getLevel();
+		if (lastLevel < getLevel()) {
+			skillPoints += (getLevel() - lastLevel);
+			lastLevel = getLevel();
+		}
 		spellpower = 0;
 		extraCharges = 0;
 		selectiveFocus = false;
