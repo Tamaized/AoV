@@ -1,6 +1,6 @@
 {
     "variants": {
         "axis=z": { "model": "aov:blockAngelic" },
-        "axis=x": { "model": "aov:blockAngelic" }
+        "axis=x": { "model": "aov:blockAngelic", "y": 90 }
     }
 }

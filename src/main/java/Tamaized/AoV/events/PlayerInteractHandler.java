@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import Tamaized.AoV.AoV;
+import Tamaized.AoV.blocks.BlockAngelicBlock;
 
 public class PlayerInteractHandler {
 
@@ -35,7 +36,6 @@ public class PlayerInteractHandler {
 	private boolean doChecks(World world, BlockPos pos, EnumFacing face) {
 		boolean flag = false;
 		if (world.getBlockState(pos) == Blocks.STONE.getStateFromMeta(2)) {
-			boolean isX = (face == EnumFacing.NORTH || face == EnumFacing.SOUTH) ? true : false;
 			if (world.getBlockState(pos.add(0, -1, 0)) == Blocks.STONE.getStateFromMeta(6) &&
 
 					world.getBlockState(pos.add(0, -2, 0)) == Blocks.STONE.getStateFromMeta(6) &&
@@ -91,7 +91,9 @@ public class PlayerInteractHandler {
 					world.getBlockState(pos.add(0, 1, 0)) == Blocks.STONE.getStateFromMeta(6) &&
 
 					world.getBlockState(pos.add(0, 2, 0)).getBlock() == Blocks.AIR) {
-				if (isX) {
+
+				if (face.getAxis() == face.getAxis().Z) {
+
 					if (world.getBlockState(pos.add(-5, 0, 0)) == Blocks.STONE.getStateFromMeta(4) &&
 
 							world.getBlockState(pos.add(-5, 1, 0)) == Blocks.STONE.getStateFromMeta(4) &&
@@ -133,7 +135,9 @@ public class PlayerInteractHandler {
 							world.getBlockState(pos.add(2, 3, 0)) == Blocks.STONE.getStateFromMeta(4)) {
 						flag = true;
 					}
+
 				} else {
+
 					if (world.getBlockState(pos.add(0, 0, -5)) == Blocks.STONE.getStateFromMeta(4) &&
 
 							world.getBlockState(pos.add(0, 1, -5)) == Blocks.STONE.getStateFromMeta(4) &&
@@ -193,7 +197,7 @@ public class PlayerInteractHandler {
 		world.setBlockState(pos.add(2, -2, -2), Blocks.NETHERRACK.getDefaultState());
 		world.setBlockState(pos.add(-2, -2, 2), Blocks.NETHERRACK.getDefaultState());
 		world.setBlockState(pos.add(-2, -2, -2), Blocks.NETHERRACK.getDefaultState());
-		world.setBlockState(pos.add(0, -1, 0), AoV.blocks.angelicBlock.getStateFromMeta(face == EnumFacing.NORTH ? 1 : face == EnumFacing.SOUTH ? 1 : 2));
+		world.setBlockState(pos.add(0, -1, 0), AoV.blocks.angelicBlock.getDefaultState().withProperty(BlockAngelicBlock.AXIS, face.getAxis()));
 	}
 
 }
