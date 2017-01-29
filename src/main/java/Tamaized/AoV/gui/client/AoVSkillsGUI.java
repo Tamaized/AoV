@@ -46,17 +46,10 @@ public class AoVSkillsGUI extends GuiScreen {
 	@Override
 	public void initGui() {
 		cap = mc.player.getCapability(CapabilityList.AOV, null);
-		int margin = 20;
-		int padding = 100;
-		float workW = width - padding;
-		int loc1 = (int) (workW * .0) + margin * 1;
-		int loc2 = (int) (workW * .25) + margin * 2;
-		int loc3 = (int) (workW * .50) + margin * 3;
-		int loc4 = (int) (workW * .75) + margin * 4;
-		buttonList.add(new GuiButton(BUTTON_CLOSE, loc1, height - 25, 80, 20, "Close"));
-		buttonList.add(new GuiButton(BUTTON_SPELLBOOK, loc2, height - 25, 80, 20, "Spell Book"));
-		buttonList.add(new GuiButton(BUTTON_CHECKSTATS, loc3, height - 25, 80, 20, "Check Stats"));
-		buttonList.add(new GuiButton(BUTTON_RESET, loc4, height - 25, 80, 20, "Reset Skills"));
+		buttonList.add(new GuiButton(BUTTON_CLOSE, 10 + (width * 0) / 4, height - 25, 80, 20, "Close"));
+		buttonList.add(new GuiButton(BUTTON_SPELLBOOK, 10 + (width * 1) / 4, height - 25, 80, 20, "Spell Book"));
+		buttonList.add(new GuiButton(BUTTON_CHECKSTATS, 10 + (width * 2) / 4, height - 25, 80, 20, "Check Stats"));
+		buttonList.add(new GuiButton(BUTTON_RESET, 10 + (width * 3) / 4, height - 25, 80, 20, "Reset Skills"));
 		if (cap != null) {
 			skillButtonList.clear();
 
@@ -154,27 +147,27 @@ public class AoVSkillsGUI extends GuiScreen {
 		drawString(fontRendererObj, "Level:", width - 40, 5, 0xFFFFFF00);
 		drawString(fontRendererObj, "" + (cap == null ? "null" : cap.getLevel()), width - 40, 15, 0xFFFFFF00);
 
-		drawCenteredString(fontRendererObj, "Tier 4", width / 2 - 135, height - 222, 0xFFFFFF00);
-		drawCenteredString(fontRendererObj, "Tier 3", width / 2 - 135, height - 182, 0xFFFFFF00);
-		drawCenteredString(fontRendererObj, "Tier 2", width / 2 - 135, height - 142, 0xFFFFFF00);
-		drawCenteredString(fontRendererObj, "Tier 1", width / 2 - 135, height - 102, 0xFFFFFF00);
-		drawCenteredString(fontRendererObj, "Core", width / 2 - 135, height - 62, 0xFFFFFF00);
+		// drawCenteredString(fontRendererObj, "Tier 4", width / 2 - 135, height - 222, 0xFFFFFF00);
+		// drawCenteredString(fontRendererObj, "Tier 3", width / 2 - 135, height - 182, 0xFFFFFF00);
+		// drawCenteredString(fontRendererObj, "Tier 2", width / 2 - 135, height - 142, 0xFFFFFF00);
+		// drawCenteredString(fontRendererObj, "Tier 1", width / 2 - 135, height - 102, 0xFFFFFF00);
+		// drawCenteredString(fontRendererObj, "Core", width / 2 - 135, height - 62, 0xFFFFFF00);
 
-		drawCenteredString(fontRendererObj, "Tier 4", width / 2, height - 222, 0xFFFFFF00);
-		drawCenteredString(fontRendererObj, "Tier 3", width / 2, height - 182, 0xFFFFFF00);
-		drawCenteredString(fontRendererObj, "Tier 2", width / 2, height - 142, 0xFFFFFF00);
-		drawCenteredString(fontRendererObj, "Tier 1", width / 2, height - 102, 0xFFFFFF00);
-		drawCenteredString(fontRendererObj, "Core", width / 2, height - 62, 0xFFFFFF00);
+		// drawCenteredString(fontRendererObj, "Tier 4", width / 2, height - 222, 0xFFFFFF00);
+		// drawCenteredString(fontRendererObj, "Tier 3", width / 2, height - 182, 0xFFFFFF00);
+		// drawCenteredString(fontRendererObj, "Tier 2", width / 2, height - 142, 0xFFFFFF00);
+		// drawCenteredString(fontRendererObj, "Tier 1", width / 2, height - 102, 0xFFFFFF00);
+		// drawCenteredString(fontRendererObj, "Core", width / 2, height - 62, 0xFFFFFF00);
 
-		drawCenteredString(fontRendererObj, "Tier 4", width / 2 + 135, height - 222, 0xFFFFFF00);
-		drawCenteredString(fontRendererObj, "Tier 3", width / 2 + 135, height - 182, 0xFFFFFF00);
-		drawCenteredString(fontRendererObj, "Tier 2", width / 2 + 135, height - 142, 0xFFFFFF00);
-		drawCenteredString(fontRendererObj, "Tier 1", width / 2 + 135, height - 102, 0xFFFFFF00);
-		drawCenteredString(fontRendererObj, "Core", width / 2 + 135, height - 62, 0xFFFFFF00);
+		// drawCenteredString(fontRendererObj, "Tier 4", width / 2 + 135, height - 222, 0xFFFFFF00);
+		// drawCenteredString(fontRendererObj, "Tier 3", width / 2 + 135, height - 182, 0xFFFFFF00);
+		// drawCenteredString(fontRendererObj, "Tier 2", width / 2 + 135, height - 142, 0xFFFFFF00);
+		// drawCenteredString(fontRendererObj, "Tier 1", width / 2 + 135, height - 102, 0xFFFFFF00);
+		// drawCenteredString(fontRendererObj, "Core", width / 2 + 135, height - 62, 0xFFFFFF00);
 
-		drawRect(width / 2 - 200, height - 225, width / 2 - 200 + 126, height - 27, 0x88000000);
-		drawRect(width / 2 - 66, height - 225, width / 2 - 66 + 126, height - 27, 0x88000000);
-		drawRect(width / 2 + 68, height - 225, width / 2 + 68 + 126, height - 27, 0x88000000);
+		drawRect(width / 2 - 200, height - 215, width / 2 - 200 + 126, height - 27, 0x88000000);
+		drawRect(width / 2 - 66, height - 215, width / 2 - 66 + 126, height - 27, 0x88000000);
+		drawRect(width / 2 + 68, height - 215, width / 2 + 68 + 126, height - 27, 0x88000000);
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		if (mouseX != lastMx || mouseY != lastMy) {
 			boolean flag = true;

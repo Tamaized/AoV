@@ -100,7 +100,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			AoVSkill core = getCoreSkill();
 			obtainedSkills.clear();
 			obtainedSkills.add(core);
-			skillPoints = getLevel();
+			skillPoints = getLevel()-1;
 		}
 		abilities.clear();
 		auras.clear();
