@@ -30,7 +30,7 @@ public final class Ability {
 		if (id < 0) return null;
 		Ability ability = new Ability(AbilityBase.getAbilityFromID(id), cap);
 		ability.decode(stream);
-		return null;
+		return ability;
 	}
 
 	public static Ability construct(IAoVCapability cap, NBTTagCompound nbt) {
@@ -38,7 +38,7 @@ public final class Ability {
 		if (id < 0) return null;
 		Ability ability = new Ability(AbilityBase.getAbilityFromID(id), cap);
 		ability.decode(nbt);
-		return null;
+		return ability;
 	}
 
 	public void encode(DataOutputStream stream) throws IOException {
@@ -87,7 +87,7 @@ public final class Ability {
 	}
 
 	public boolean canUse(IAoVCapability cap) {
-		return cooldown <= 0 && charges >= ability.getCost(cap);
+		return cooldown <= 0 && charges >= ability.getCost(cap) && cap.slotsContain(this);
 	}
 
 	public AbilityBase getAbility() {
@@ -117,7 +117,7 @@ public final class Ability {
 	}
 
 	public boolean compare(Ability check) {
-		return ability == check.ability && charges == check.charges;
+		return check != null && ability == check.ability && charges == check.charges;
 	}
 
 }

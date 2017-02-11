@@ -69,7 +69,7 @@ public class SpellBookGUI extends GuiScreen {
 		IAoVCapability cap = mc.player.getCapability(CapabilityList.AOV, null);
 		int index = 0;
 		for (Ability ability : cap.getAbilities()) {
-			buttonList.add(new SpellButton(BUTTON_SPELL, xLoc, yLoc + (25 * (index)), ability));
+			buttonList.add(new SpellButton(BUTTON_SPELL, xLoc + (100 * ((int) Math.floor(index / 6))), yLoc + (25 * (index % 6)), ability));
 			index++;
 		}
 	}
@@ -129,7 +129,7 @@ public class SpellBookGUI extends GuiScreen {
 	public void onGuiClosed() {
 
 	}
-
+	
 	@Override
 	public void updateScreen() {
 

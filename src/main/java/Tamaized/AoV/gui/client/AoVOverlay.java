@@ -85,7 +85,7 @@ public class AoVOverlay extends Gui {
 		if (val < 0) return;
 		int w = 20;
 		int h = 20;
-		this.drawRect(x, y, x + w, y + h, ability.canUse(cap) ? 0x77FF0000 : 0x7700BBFF);
+		this.drawRect(x, y, x + w, y + h, cap.canUseAbility(ability) ? 0x77FF0000 : 0x7700BBFF);
 		this.drawCenteredStringNoShadow(fontRender, String.valueOf(val), x + 10, y + 10, 0x000000);
 	}
 

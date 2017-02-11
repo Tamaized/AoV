@@ -100,7 +100,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			AoVSkill core = getCoreSkill();
 			obtainedSkills.clear();
 			obtainedSkills.add(core);
-			skillPoints = getLevel()-1;
+			skillPoints = getLevel() - 1;
 		}
 		abilities.clear();
 		auras.clear();
@@ -133,15 +133,19 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		extraCharges = 0;
 		selectiveFocus = false;
 		hasInvoke = false;
+		List<AbilityBase> list = new ArrayList<AbilityBase>();
+		abilities.clear();
 		for (AoVSkill skill : obtainedSkills) {
 			spellpower += skill.getBuffs().spellPower;
 			extraCharges += skill.getBuffs().charges;
 			if (skill.getBuffs().selectiveFocus) selectiveFocus = true;
 			for (AbilityBase ability : skill.getAbilities()) {
 				if (ability == AbilityBase.invokeMass) hasInvoke = true;
+				list.add(ability);
 			}
-
 		}
+		for (AbilityBase ability : list)
+			addAbility(new Ability(ability, this));
 	}
 
 	private void updateAbilities() {
@@ -182,7 +186,10 @@ public class AoVCapabilityHandler implements IAoVCapability {
 
 	@Override
 	public boolean canUseAbility(Ability ability) {
-		return abilities.contains(ability) && ability.canUse(this);
+		boolean flag = false;
+		for (Ability a : abilities)
+			if (a.compare(ability) && ability.canUse(this)) flag = true;
+		return flag;
 	}
 
 	@Override
@@ -195,9 +202,13 @@ public class AoVCapabilityHandler implements IAoVCapability {
 
 	@Override
 	public void removeAbility(Ability ability) {
-		if (abilities.contains(ability)) {
-			abilities.remove(ability);
-			dirty = true;
+		Iterator<Ability> iter = abilities.iterator();
+		while (iter.hasNext()) {
+			Ability a = iter.next();
+			if (a.compare(ability)) {
+				iter.remove();
+				dirty = true;
+			}
 		}
 	}
 
@@ -378,7 +389,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	@Override
 	public boolean slotsContain(Ability ability) {
 		for (Ability a : slots)
-			if (a != null && ability.getAbility() == a.getAbility()) return true;
+			if (a != null && ability.compare(a)) return true;
 		return false;
 	}
 
@@ -408,7 +419,6 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	@Override
 	public void copyFrom(IAoVCapability cap) {
 		obtainedSkills = cap.getObtainedSkills();
-		abilities = cap.getAbilities();
 		skillPoints = cap.getSkillPoints();
 		exp = cap.getExp();
 		maxLevel = cap.getMaxLevel();
@@ -417,14 +427,11 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			slots[index] = cap.getSlot(index);
 		}
 		currentSlot = cap.getCurrentSlot();
-		spellpower = cap.getSpellPower();
-		extraCharges = cap.getExtraCharges();
-		selectiveFocus = cap.hasSelectiveFocus();
-		hasInvoke = cap.hasInvokeMass();
 		dirty = true;
 	}
 
 	private void sendPacketUpdates(EntityPlayerMP player) {
+
 		ByteBufOutputStream bos = new ByteBufOutputStream(Unpooled.buffer());
 		DataOutputStream stream = new DataOutputStream(bos);
 		try {
@@ -433,11 +440,6 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			{
 				for (AoVSkill skill : obtainedSkills)
 					stream.writeInt(skill.getID());
-			}
-			stream.writeInt(abilities.size());
-			{
-				for (Ability ability : abilities)
-					ability.encode(stream);
 			}
 			// TODO: figure out auras
 			stream.writeInt(skillPoints);
@@ -454,10 +456,6 @@ public class AoVCapabilityHandler implements IAoVCapability {
 				}
 			}
 			stream.writeInt(currentSlot);
-			stream.writeFloat(spellpower);
-			stream.writeInt(extraCharges);
-			stream.writeBoolean(selectiveFocus);
-			stream.writeBoolean(hasInvoke);
 			FMLProxyPacket packet = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
 			AoV.channel.sendTo(packet, player);
 			bos.close();
@@ -476,13 +474,6 @@ public class AoVCapabilityHandler implements IAoVCapability {
 				obtainedSkills.add(AoVSkill.getSkillFromID(stream.readInt()));
 			}
 		}
-		size = stream.readInt();
-		{
-			abilities.clear();
-			for (int index = 0; index < size; index++) {
-				abilities.add(Ability.construct(this, stream));
-			}
-		}
 		skillPoints = stream.readInt();
 		exp = stream.readInt();
 		maxLevel = stream.readInt();
@@ -491,10 +482,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			slots[index] = stream.readBoolean() ? Ability.construct(this, stream) : null;
 		}
 		currentSlot = stream.readInt();
-		spellpower = stream.readFloat();
-		extraCharges = stream.readInt();
-		selectiveFocus = stream.readBoolean();
-		hasInvoke = stream.readBoolean();
+		dirty = true;
 	}
 
 }

@@ -22,31 +22,31 @@ public class SpellButton extends GuiButton {
 
 	@Override
 	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
-		if (this.visible) {
+		if (visible) {
 			FontRenderer fontrenderer = mc.fontRendererObj;
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
-			int i = this.getHoverState(this.hovered);
+			hovered = mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
+			int i = getHoverState(hovered);
 			GlStateManager.enableBlend();
 			GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 			GlStateManager.blendFunc(770, 771);
-			// this.drawRect(this.xPosition + this.width / 2, this.yPosition, this.width / 2, this.height, 0xFFFFFFFF);
-			this.mouseDragged(mc, mouseX, mouseY);
+			// drawRect(xPosition + width / 2, yPosition, width / 2, height, 0xFFFFFFFF);
+			mouseDragged(mc, mouseX, mouseY);
 			int j = 0xBBFFFFFF;
 
 			if (packedFGColour != 0) {
 				// j = packedFGColour;
-			} else if (!this.enabled) {
+			} else if (!enabled) {
 				j = 0xFF888888;
-			} else if (this.hovered) {
+			} else if (hovered) {
 				j = 0xFFFFFFFF;
 			}
 
-			this.drawRect(this.xPosition, this.yPosition, xPosition + this.width, yPosition + this.height, j);
+			drawRect(xPosition, yPosition, xPosition + width, yPosition + height, j);
 			AoVUIBar.renderHotbarIcon(this, null, 0, xPosition + 1, yPosition + 1, 0, spell == null ? null : spell.getAbility().getIcon(), false);
 			GlStateManager.pushMatrix();
 			GlStateManager.scale(0.5f, 0.5f, 0.0f);
-			this.drawString(fontrenderer, spell.getAbility().getName(), xPosition + 85, yPosition * 2 + 14, 0xFFFF00);
+			drawString(fontrenderer, spell.getAbility().getName(), xPosition * 2 + 38, yPosition * 2 + 14, 0xFFFF00);
 			GlStateManager.popMatrix();
 		}
 	}

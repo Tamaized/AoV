@@ -19,10 +19,6 @@ public class AoVCapabilityStorage implements IStorage<IAoVCapability> {
 		for (AoVSkill skill : instance.getObtainedSkills())
 			list.appendTag(new NBTTagInt(skill.getID()));
 		nbt.setTag("obtainedSkills", list);
-		list = new NBTTagList();
-		for (Ability ability : instance.getAbilities())
-			list.appendTag(ability.encode(new NBTTagCompound()));
-		nbt.setTag("abilities", list);
 		// TODO: figure out auras
 		nbt.setInteger("skillPoints", instance.getSkillPoints());
 		nbt.setInteger("exp", instance.getExp());
@@ -52,13 +48,6 @@ public class AoVCapabilityStorage implements IStorage<IAoVCapability> {
 			NBTTagList list = (NBTTagList) tag;
 			for (int index = 0; index < list.tagCount(); index++) {
 				instance.addObtainedSkill(AoVSkill.getSkillFromID(list.getIntAt(index)));
-			}
-		}
-		tag = compound.getTag("abilities");
-		if (tag instanceof NBTTagList) {
-			NBTTagList list = (NBTTagList) tag;
-			for (int index = 0; index < list.tagCount(); index++) {
-				instance.addAbility(Ability.construct(instance, list.getCompoundTagAt(index)));
 			}
 		}
 		instance.setSkillPoints(compound.getInteger("skillPoints"));
