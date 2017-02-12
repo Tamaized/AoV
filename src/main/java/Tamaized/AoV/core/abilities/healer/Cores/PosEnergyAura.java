@@ -4,6 +4,7 @@ import java.util.List;
 
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
+import Tamaized.AoV.core.abilities.Ability;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.abilities.AuraBase;
 import Tamaized.AoV.core.abilities.IAura;
@@ -24,7 +25,7 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 	private final static int life = 45;
 
 	public PosEnergyAura() {
-		super(getStaticName(),
+		super(
 
 				TextFormatting.YELLOW + getStaticName(),
 
@@ -50,9 +51,9 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 	}
 
 	@Override
-	public void cast(EntityPlayer player, EntityLivingBase e) {
+	public void cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
 		if (player.world.isRemote) {
-			sendPacketTypeSelf(this);
+			sendPacketTypeSelf(ability);
 		} else {
 			IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
 			if (cap == null) return;

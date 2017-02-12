@@ -112,7 +112,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 
 	@Override
 	public void update(EntityPlayer player) {
-		updateAbilities();
+		if (tick > 0 && tick % 20 == 0) updateAbilities();
 		updateAuras();
 		updateDecay();
 		if (dirty) {
@@ -149,8 +149,8 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	private void updateAbilities() {
-		for (Ability ability : abilities)
-			ability.update();
+		for (Ability ability : slots)
+			if (ability != null) ability.update();
 	}
 
 	private void updateAuras() {
@@ -174,8 +174,8 @@ public class AoVCapabilityHandler implements IAoVCapability {
 
 	@Override
 	public void resetCharges() {
-		for (Ability ability : abilities)
-			ability.reset(this);
+		for (Ability ability : slots)
+			if (ability != null) ability.reset(this);
 		dirty = true;
 	}
 
@@ -225,6 +225,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 
 	@Override
 	public void addExp(int amount, AbilityBase spell) { // TODO: send packet to client for overlay floating text
+		if (getLevel() >= getMaxLevel()) return;
 		if (spell == null) {
 
 		} else if (decay.containsKey(spell)) {
@@ -376,6 +377,16 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@Override
+	public int getSlotFromAbility(Ability ability) {
+		int index = 0;
+		for (Ability a : slots) {
+			if (a != null && ability.compare(a)) return index;
+			index++;
+		}
+		return -1;
+	}
+
+	@Override
 	public int getCurrentSlot() {
 		return currentSlot;
 	}
@@ -395,6 +406,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 
 	@Override
 	public void addToNearestSlot(Ability ability) {
+		if (slotsContain(ability)) return;
 		for (int i = 0; i < slots.length; i++) {
 			if (slots[i] == null) {
 				setSlot(ability, i);

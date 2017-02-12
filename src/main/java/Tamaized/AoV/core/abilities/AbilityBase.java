@@ -85,17 +85,17 @@ public abstract class AbilityBase {
 		return usesInvoke() ? cap.hasInvokeMass() ? (getChargeCost() * 2) : getChargeCost() : getChargeCost();
 	}
 
-	public abstract void cast(EntityPlayer caster, EntityLivingBase target);
+	public abstract void cast(Ability ability, EntityPlayer caster, EntityLivingBase target);
 
 	public abstract ResourceLocation getIcon();
 
-	protected static void sendPacketTypeTarget(AbilityBase ability, int entityID) {
+	protected static void sendPacketTypeTarget(Ability ability, int entityID) {
 		ByteBufOutputStream bos = new ByteBufOutputStream(Unpooled.buffer());
 		DataOutputStream outputStream = new DataOutputStream(bos);
 		try {
 			outputStream.writeInt(ServerPacketHandler.getPacketTypeID(ServerPacketHandler.PacketType.SPELLCAST_TARGET));
-			outputStream.writeInt(getID(ability));
 			outputStream.writeInt(entityID);
+			ability.encode(outputStream);
 			FMLProxyPacket pkt = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
 			if (AoV.channel != null && pkt != null) AoV.channel.sendToServer(pkt);
 			bos.close();
@@ -104,12 +104,12 @@ public abstract class AbilityBase {
 		}
 	}
 
-	protected static void sendPacketTypeSelf(AbilityBase ability) {
+	protected static void sendPacketTypeSelf(Ability ability) {
 		ByteBufOutputStream bos = new ByteBufOutputStream(Unpooled.buffer());
 		DataOutputStream outputStream = new DataOutputStream(bos);
 		try {
 			outputStream.writeInt(ServerPacketHandler.getPacketTypeID(ServerPacketHandler.PacketType.SPELLCAST_SELF));
-			outputStream.writeInt(getID(ability));
+			ability.encode(outputStream);
 			FMLProxyPacket pkt = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
 			if (AoV.channel != null && pkt != null) AoV.channel.sendToServer(pkt);
 			bos.close();

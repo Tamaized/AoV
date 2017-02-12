@@ -91,7 +91,7 @@ public class AoVUIBar {
 					renderIcon(gui, icon);
 					if (active) gui.drawRect(0, 0, 256, 256, 0x7700FFFF);
 					Ability ability = cap == null ? null : cap.getSlot(index);
-					if (ability != null && ability.canUse(cap)) gui.drawRect(0, 0, 256, 256, 0x77FF0000);
+					if (ability != null && !ability.canUse(cap)) gui.drawRect(0, 0, 256, 256, 0x77FF0000);
 					// GlStateManager.disableAlpha();
 					// GlStateManager.disableRescaleNormal();
 					// GlStateManager.disableLighting();

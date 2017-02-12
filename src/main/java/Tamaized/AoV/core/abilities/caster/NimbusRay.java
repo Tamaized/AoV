@@ -1,6 +1,7 @@
 package Tamaized.AoV.core.abilities.caster;
 
 import Tamaized.AoV.AoV;
+import Tamaized.AoV.core.abilities.Ability;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,7 +15,7 @@ public class NimbusRay extends AbilityBase {
 	private static final int distance = 20;
 
 	public NimbusRay() {
-		super(getStaticName(),
+		super(
 
 				TextFormatting.YELLOW + getStaticName(),
 
@@ -79,7 +80,7 @@ public class NimbusRay extends AbilityBase {
 	}
 
 	@Override
-	public void cast(EntityPlayer caster, EntityLivingBase target) {
+	public void cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 
 	}
 

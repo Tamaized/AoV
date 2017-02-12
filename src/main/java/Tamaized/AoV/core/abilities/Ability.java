@@ -79,7 +79,7 @@ public final class Ability {
 		if (cap != null) {
 			if (canUse(cap)) {
 				int cost = ability.getCost(cap);
-				ability.cast(caster, target);
+				ability.cast(this, caster, target);
 				charges -= cost;
 				cooldown = ability.getCoolDown();
 			}
@@ -117,7 +117,7 @@ public final class Ability {
 	}
 
 	public boolean compare(Ability check) {
-		return check != null && ability == check.ability && charges == check.charges;
+		return check != null && ability == check.ability;
 	}
 
 }

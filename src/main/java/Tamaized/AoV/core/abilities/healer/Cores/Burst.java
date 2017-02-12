@@ -4,6 +4,7 @@ import java.util.List;
 
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
+import Tamaized.AoV.core.abilities.Ability;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.helper.ParticleHelper;
 import net.minecraft.entity.EntityLivingBase;
@@ -21,7 +22,7 @@ public class Burst extends AbilityBase {
 	private final static int dmg = 4;
 
 	public Burst() {
-		super(getStaticName(),
+		super(
 
 				TextFormatting.YELLOW + getStaticName(),
 
@@ -47,9 +48,9 @@ public class Burst extends AbilityBase {
 	}
 
 	@Override
-	public void cast(EntityPlayer player, EntityLivingBase e) {
+	public void cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
 		if (player.world.isRemote) {
-			sendPacketTypeSelf(this);
+			sendPacketTypeSelf(ability);
 		} else {
 			IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
 			if (cap == null) return;

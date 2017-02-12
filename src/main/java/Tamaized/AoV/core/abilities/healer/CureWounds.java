@@ -4,6 +4,7 @@ import java.util.List;
 
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
+import Tamaized.AoV.core.abilities.Ability;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.helper.ParticleHelper;
 import net.minecraft.entity.EntityLivingBase;
@@ -21,7 +22,7 @@ public abstract class CureWounds extends AbilityBase {
 	private final double range;
 
 	public CureWounds(String n, int c, double r, int dmg) {
-		super(n,
+		super(
 
 				TextFormatting.YELLOW + n,
 
@@ -67,12 +68,12 @@ public abstract class CureWounds extends AbilityBase {
 	}
 
 	@Override
-	public void cast(EntityPlayer player, EntityLivingBase e) {
+	public void cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
 		if (player.world.isRemote) {
 			if (e != null) {
-				sendPacketTypeTarget(this, e.getEntityId());
+				sendPacketTypeTarget(ability, e.getEntityId());
 			} else {
-				sendPacketTypeSelf(this);
+				sendPacketTypeSelf(ability);
 			}
 		} else {
 			IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);

@@ -3,6 +3,7 @@ package Tamaized.AoV.core.abilities.universal;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
+import Tamaized.AoV.core.abilities.Ability;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,9 +35,9 @@ public class InvokeMass extends AbilityBase {
 	}
 
 	@Override
-	public void cast(EntityPlayer player, EntityLivingBase e) {
+	public void cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
 		if (player.world.isRemote) {
-			sendPacketTypeSelf(this);
+			sendPacketTypeSelf(ability);
 		} else {
 			IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
 			if (cap == null) return;

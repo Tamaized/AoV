@@ -54,6 +54,7 @@ public class AoVCapabilityStorage implements IStorage<IAoVCapability> {
 		instance.setExp(compound.getInteger("exp"));
 		instance.setMaxLevel(compound.getInteger("maxLevel"));
 		instance.toggleInvokeMass(compound.getBoolean("invokeMass"));
+		instance.update(null);
 		tag = compound.getTag("slots");
 		if (tag instanceof NBTTagList) {
 			NBTTagList list = (NBTTagList) tag;

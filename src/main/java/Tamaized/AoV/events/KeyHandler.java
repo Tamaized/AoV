@@ -45,7 +45,7 @@ public class KeyHandler {
 			KeyBinding.setKeyBindState(e.getButton() - 100, false);
 		}
 		if (e.getButton() == 1) {
-			Ability spell = cap.getSlot(cap.getCurrentSlot());
+			Ability spell = cap.getSlot(ClientProxy.bar.slotLoc);
 			if (spell != null) {
 				if (e.isButtonstate()) {
 					RayTraceResult obj = Minecraft.getMinecraft().objectMouseOver;

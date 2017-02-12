@@ -75,15 +75,17 @@ public class ServerPacketHandler {
 					if (cap == null) break;
 					Ability spell = Ability.construct(cap, bbis);
 					if (spell == null) break;
-					spell.cast(player, null);
+					Ability trueSpell = cap.getAbilityFromSlots(spell);
+					trueSpell.cast(player, null);
 				}
 					break;
 				case SPELLCAST_TARGET: {
 					if (cap == null) break;
-					Ability spell = Ability.construct(cap, bbis);
 					Entity entity = player.world.getEntityByID(bbis.readInt());
+					Ability spell = Ability.construct(cap, bbis);
 					if (spell == null || !(entity instanceof EntityLivingBase)) break;
-					spell.cast(player, (EntityLivingBase) entity);
+					Ability trueSpell = cap.getAbilityFromSlots(spell);
+					trueSpell.cast(player, (EntityLivingBase) entity);
 				}
 					break;
 				case SPELLBAR_REMOVE: {

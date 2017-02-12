@@ -84,6 +84,15 @@ public interface IAoVCapability {
 	void setSlot(Ability ability, int slot);
 
 	Ability getSlot(int slot);
+	
+	/**
+	 * Returns -1 if slots dont contain ability
+	 */
+	int getSlotFromAbility(Ability ability);
+	
+	default Ability getAbilityFromSlots(Ability ability){
+		return getSlot(getSlotFromAbility(ability));
+	}
 
 	int getCurrentSlot();
 	
