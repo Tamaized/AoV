@@ -47,17 +47,20 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	private int tick = 1;
 	private boolean dirty = false;
 
-	private List<AoVSkill> obtainedSkills = new ArrayList<AoVSkill>();
-	private List<Ability> abilities = new ArrayList<Ability>();
+	// TODO
 	private Map<AuraBase, Integer> auras = new HashMap<AuraBase, Integer>();
+	private int currentSlot = 0;
+
+	// Calculate and update these when 'dirty'
+	private List<AoVSkill> obtainedSkills = new ArrayList<AoVSkill>();
 	private int skillPoints = 1;
 	private int exp = 0;
 	private int maxLevel = 15;
 	private boolean invokeMass = false;
 	private Ability[] slots = new Ability[] { null, null, null, null, null, null, null, null, null };
-	private int currentSlot = 0;
 
-	// Calculate and update these when 'dirty'
+	// These can be separate
+	private List<Ability> abilities = new ArrayList<Ability>();
 	private float spellpower = 0;
 	private int extraCharges = 0;
 	private boolean selectiveFocus = false;

@@ -27,6 +27,7 @@ public class ParticleHelper {
 		double d2 = (double) ((float) (posZ - .5) + 0.4F + world.rand.nextFloat() * 0.2F);
 		for (int x = -range; x <= range; x++) {
 			for (int z = -range; z <= range; z++) {
+				// Tamaized.TamModized.particles.FX.network.ParticleFluffPacketHandler.spawnOnServer(world, new Vec3d(d0 + x, d1, d2 + z), 20*(world.rand.nextInt(6)), 0, world.rand.nextFloat(), 0xFFFFFFFF);
 				Tamaized.TamModized.particles.ParticleHelper.spawnVanillaParticleOnServer(world, EnumParticleTypes.PORTAL, d0 + x, d1, d2 + z, -x, 1, -z);
 			}
 		}

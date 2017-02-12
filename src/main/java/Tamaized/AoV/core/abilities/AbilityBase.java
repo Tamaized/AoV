@@ -82,7 +82,7 @@ public abstract class AbilityBase {
 	public abstract boolean usesInvoke();
 
 	public int getCost(IAoVCapability cap) {
-		return usesInvoke() ? cap.hasInvokeMass() ? (getChargeCost() * 2) : getChargeCost() : getChargeCost();
+		return (usesInvoke() && cap.getInvokeMass()) ? (getChargeCost() * 2) : getChargeCost();
 	}
 
 	public abstract void cast(Ability ability, EntityPlayer caster, EntityLivingBase target);

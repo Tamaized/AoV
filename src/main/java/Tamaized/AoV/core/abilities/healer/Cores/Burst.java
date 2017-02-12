@@ -87,25 +87,21 @@ public class Burst extends AbilityBase {
 
 	@Override
 	public int getMaxCharges() {
-		// TODO Auto-generated method stub
-		return 0;
+		return charges;
 	}
 
 	@Override
 	public int getChargeCost() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 1;
 	}
 
 	@Override
 	public double getMaxDistance() {
-		// TODO Auto-generated method stub
-		return 0;
+		return range;
 	}
 
 	@Override
 	public boolean usesInvoke() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

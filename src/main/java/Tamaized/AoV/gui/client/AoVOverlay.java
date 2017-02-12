@@ -82,7 +82,7 @@ public class AoVOverlay extends Gui {
 
 	private void renderCharges(int x, int y, FontRenderer fontRender, IAoVCapability cap, int index) {
 		Ability ability = cap.getSlot(index);
-		int val = ability == null ? 0 : ability.getCharges();
+		int val = ability == null ? -1 : ability.getCharges();
 		if (val < 0) return;
 		int w = 20;
 		int h = 20;

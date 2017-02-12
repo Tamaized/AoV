@@ -15,7 +15,7 @@ public class InvokeMass extends AbilityBase {
 	private final static int charges = -1;
 
 	public InvokeMass() {
-		super(getStaticName(),
+		super(
 
 				TextFormatting.YELLOW + getStaticName(),
 
@@ -47,7 +47,7 @@ public class InvokeMass extends AbilityBase {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid + ":textures/spells/InvokeMass.png");
+		return new ResourceLocation(AoV.modid, "textures/spells/InvokeMass.png");
 	}
 
 	@Override

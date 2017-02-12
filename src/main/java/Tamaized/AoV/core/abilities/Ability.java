@@ -70,7 +70,7 @@ public final class Ability {
 
 	public void reset(IAoVCapability cap) {
 		cooldown = 0;
-		charges = ability.getMaxCharges() + cap.getExtraCharges();
+		charges = ability.getMaxCharges() < 0 ? -1 : ability.getMaxCharges() + cap.getExtraCharges();
 		decay = 0;
 	}
 
@@ -78,16 +78,15 @@ public final class Ability {
 		IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
 		if (cap != null) {
 			if (canUse(cap)) {
-				int cost = ability.getCost(cap);
 				ability.cast(this, caster, target);
-				charges -= cost;
+				charges -= ability.getCost(cap);
 				cooldown = ability.getCoolDown();
 			}
 		}
 	}
 
 	public boolean canUse(IAoVCapability cap) {
-		return cooldown <= 0 && charges >= ability.getCost(cap) && cap.slotsContain(this);
+		return cooldown <= 0 && (charges == -1 || charges >= ability.getCost(cap)) && cap.slotsContain(this);
 	}
 
 	public AbilityBase getAbility() {
