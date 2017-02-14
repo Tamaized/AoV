@@ -7,8 +7,6 @@ import Tamaized.AoV.capabilities.aov.AoVCapabilityHandler;
 import Tamaized.AoV.capabilities.aov.AoVCapabilityStorage;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.common.handlers.ServerPacketHandler;
-import Tamaized.AoV.common.server.CommonProxy;
-import Tamaized.AoV.core.skills.AoVSkill;
 import Tamaized.AoV.entity.projectile.caster.ProjectileNimbusRay;
 import Tamaized.AoV.events.PlayerInteractHandler;
 import Tamaized.AoV.events.TickHandler;
@@ -25,6 +23,7 @@ import Tamaized.AoV.registry.AoVTabs;
 import Tamaized.AoV.registry.AoVTools;
 import Tamaized.TamModized.TamModBase;
 import Tamaized.TamModized.TamModized;
+import Tamaized.TamModized.proxy.AbstractProxy;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.common.Mod;
@@ -36,7 +35,6 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.FMLEventChannel;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.oredict.OreDictionary;
 
 @Mod(modid = AoV.modid, name = "Angel of Vengeance", version = AoV.version, dependencies = "required-before:" + TamModized.modid + "@[" + TamModized.version + ",)")
 public class AoV extends TamModBase {
@@ -54,12 +52,8 @@ public class AoV extends TamModBase {
 	public static FMLEventChannel channel;
 	public static final String networkChannelName = "AoV";
 
-	@SidedProxy(clientSide = "Tamaized.AoV.common.client.ClientProxy", serverSide = "Tamaized.AoV.common.server.CommonProxy")
-	public static CommonProxy proxy;
-
-	public static final int WILDCARD_VALUE = OreDictionary.WILDCARD_VALUE;
-
-	public static final int guiPlaceholder = 0;
+	@SidedProxy(clientSide = "Tamaized.AoV.common.client.ClientProxy", serverSide = "Tamaized.AoV.common.server.ServerProxy")
+	public static AbstractProxy proxy;
 
 	public static AoVMaterials materials = new AoVMaterials();
 	public static AoVTabs tabs = new AoVTabs();
@@ -72,7 +66,35 @@ public class AoV extends TamModBase {
 	public static AoVAchievements achievements = new AoVAchievements();
 	public static AoVDamageSource damageSources = new AoVDamageSource();
 
+	@Override
+	protected AbstractProxy getProxy() {
+		return proxy;
+	}
+
+	@Override
+	public String getModID() {
+		return modid;
+	}
+
+	@Override
 	@EventHandler
+	public void FMLpreInit(FMLPreInitializationEvent event) {
+		super.FMLpreInit(event);
+	}
+
+	@Override
+	@EventHandler
+	public void FMLinit(FMLInitializationEvent event) {
+		super.FMLinit(event);
+	}
+
+	@Override
+	@EventHandler
+	public void FMLpostInit(FMLPostInitializationEvent event) {
+		super.FMLpostInit(event);
+	}
+
+	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		logger = LogManager.getLogger("AoV");
 
@@ -91,17 +113,13 @@ public class AoV extends TamModBase {
 		register(achievements);
 		register(damageSources);
 
-		super.preInit(event);
-
 		CapabilityManager.INSTANCE.register(IAoVCapability.class, new AoVCapabilityStorage(), AoVCapabilityHandler.class);
 		MinecraftForge.EVENT_BUS.register(new CapabilityList());
 	}
 
-	@EventHandler
-	public void Init(FMLInitializationEvent event) {
+	@Override
+	public void init(FMLInitializationEvent event) {
 		logger.info("Starting AoV Init");
-
-		super.init(event);
 
 		MinecraftForge.EVENT_BUS.register(new TickHandler());
 		MinecraftForge.EVENT_BUS.register(new PlayerInteractHandler());
@@ -112,18 +130,12 @@ public class AoV extends TamModBase {
 		registerEntity(ProjectileNimbusRay.class, "ProjectileNimbusRay", AoV.instance, modid, 128, 1, true);
 	}
 
-	@EventHandler
+	@Override
 	public void postInit(FMLPostInitializationEvent e) {
 		logger.info("Starting AoV PostInit");
 
-		super.postInit(e);
-
 		channel.register(new ServerPacketHandler());
 
-		proxy.registerKeyBinds();
-		proxy.registerNetwork();
-		proxy.registerRenders();
-		proxy.registerMISC();
 	}
 
 }
