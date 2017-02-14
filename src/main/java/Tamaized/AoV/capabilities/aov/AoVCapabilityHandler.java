@@ -7,14 +7,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.common.handlers.ClientPacketHandler;
 import Tamaized.AoV.core.abilities.Ability;
 import Tamaized.AoV.core.abilities.AbilityBase;
-import Tamaized.AoV.core.abilities.AuraBase;
-import Tamaized.AoV.core.abilities.IAura;
+import Tamaized.AoV.core.abilities.Aura;
 import Tamaized.AoV.core.skills.AoVSkill;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
@@ -48,7 +46,6 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	private boolean dirty = false;
 
 	// TODO
-	private Map<AuraBase, Integer> auras = new HashMap<AuraBase, Integer>();
 	private int currentSlot = 0;
 
 	// Calculate and update these when 'dirty'
@@ -67,6 +64,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	private boolean hasInvoke = false;
 
 	// Keep this on the server
+	private List<Aura> auras = new ArrayList<Aura>();
 	private Map<AbilityBase, DecayWrapper> decay = new HashMap<AbilityBase, DecayWrapper>();
 	private int lastLevel = -1;
 
@@ -116,7 +114,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	@Override
 	public void update(EntityPlayer player) {
 		if (tick > 0 && tick % 20 == 0) updateAbilities();
-		updateAuras();
+		updateAuras(player);
 		updateDecay();
 		if (dirty) {
 			updateValues();
@@ -156,13 +154,12 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			if (ability != null) ability.update();
 	}
 
-	private void updateAuras() {
-		Iterator<Entry<AuraBase, Integer>> iter = auras.entrySet().iterator();
+	private void updateAuras(EntityPlayer player) {
+		Iterator<Aura> iter = auras.iterator();
 		while (iter.hasNext()) {
-			Entry<AuraBase, Integer> e = iter.next();
-			AuraBase k = e.getKey();
-			// k.update(this);
-			if (k.getCurrentLife() >= e.getValue()) iter.remove();
+			Aura aura = iter.next();
+			 aura.update(player);
+			if (aura.isDead()) iter.remove();
 		}
 	}
 
@@ -221,8 +218,8 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@Override
-	public void addAura(IAura aura) {
-		// TODO Auto-generated method stub
+	public void addAura(Aura aura) {
+		auras.add(aura);
 		dirty = true;
 	}
 

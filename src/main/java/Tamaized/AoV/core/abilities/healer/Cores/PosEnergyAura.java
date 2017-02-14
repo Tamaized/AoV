@@ -6,7 +6,6 @@ import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.core.abilities.Ability;
 import Tamaized.AoV.core.abilities.AbilityBase;
-import Tamaized.AoV.core.abilities.AuraBase;
 import Tamaized.AoV.core.abilities.IAura;
 import Tamaized.AoV.helper.ParticleHelper;
 import net.minecraft.entity.EntityLivingBase;
@@ -57,9 +56,29 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 		} else {
 			IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
 			if (cap == null) return;
-			cap.addAura(this);
+			cap.addAura(createAura(ability));
 			cap.addExp(20, this);
 		}
+	}
+
+	@Override
+	public void castAsAura(EntityPlayer caster, IAoVCapability cap, int life) {
+		int tick = this.life - life;
+		if (tick > 0 && tick % 20 == 0) {
+			ParticleHelper.spawnParticleMesh(ParticleHelper.Type.BURST, caster.world, caster.getPositionVector(), range);
+			int a = (int) (dmg * (1f + (cap.getSpellPower() / 100f)));
+			List<EntityLivingBase> list = caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-range, -range, -range), caster.getPosition().add(range, range, range)));
+			for (EntityLivingBase entity : list) {
+				if (entity.isEntityUndead()) entity.attackEntityFrom(DamageSource.MAGIC, a);
+				else if (cap.hasSelectiveFocus() && !(entity instanceof IMob)) continue;
+				else entity.heal(a);
+			}
+		}
+	}
+
+	@Override
+	public int getLife() {
+		return life;
 	}
 
 	@Override
@@ -74,16 +93,6 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 
 	public static String getStaticName() {
 		return "Positive Energy Aura";
-	}
-
-	@Override
-	public AuraBase createAura() {
-		return new PosAura();
-	}
-
-	@Override
-	public int getLife() {
-		return life;
 	}
 
 	@Override
@@ -109,30 +118,6 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 	@Override
 	public boolean usesInvoke() {
 		return false;
-	}
-
-	private class PosAura extends AuraBase {
-
-		private int currLife = 0;
-
-		@Override
-		public void update(IAoVCapability cap, EntityPlayer player) {
-			ParticleHelper.spawnParticleMesh(ParticleHelper.Type.BURST, player.world, player.getPositionVector(), range);
-			int a = (int) (dmg * (1f + (cap.getSpellPower() / 100f)));
-			List<EntityLivingBase> list = player.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(player.getPosition().add(-range, -range, -range), player.getPosition().add(range, range, range)));
-			for (EntityLivingBase entity : list) {
-				if (entity.isEntityUndead()) entity.attackEntityFrom(DamageSource.MAGIC, a);
-				else if (cap.hasSelectiveFocus() && !(entity instanceof IMob)) continue;
-				else entity.heal(a);
-			}
-			currLife++;
-		}
-
-		@Override
-		public int getCurrentLife() {
-			return currLife;
-		}
-
 	}
 
 }

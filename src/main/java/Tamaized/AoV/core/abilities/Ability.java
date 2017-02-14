@@ -85,6 +85,10 @@ public final class Ability {
 		}
 	}
 
+	public void castAsAura(EntityPlayer caster, IAoVCapability cap, int life) {
+		if (ability instanceof IAura) ((IAura) ability).castAsAura(caster, cap, life);
+	}
+
 	public boolean canUse(IAoVCapability cap) {
 		return cooldown <= 0 && (charges == -1 || charges >= ability.getCost(cap)) && cap.slotsContain(this);
 	}

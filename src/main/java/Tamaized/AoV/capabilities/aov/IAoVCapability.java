@@ -6,7 +6,7 @@ import java.util.List;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.abilities.Ability;
 import Tamaized.AoV.core.abilities.AbilityBase;
-import Tamaized.AoV.core.abilities.IAura;
+import Tamaized.AoV.core.abilities.Aura;
 import Tamaized.AoV.core.skills.AoVSkill;
 import io.netty.buffer.ByteBufInputStream;
 import net.minecraft.entity.EntityLivingBase;
@@ -33,7 +33,7 @@ public interface IAoVCapability {
 
 	void castAbility(Ability ability, EntityPlayer caster, EntityLivingBase target);
 
-	void addAura(IAura aura);
+	void addAura(Aura aura);
 
 	void addExp(int amount, AbilityBase spell);
 
