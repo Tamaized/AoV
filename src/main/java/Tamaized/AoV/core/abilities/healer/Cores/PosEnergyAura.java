@@ -14,6 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 
 public class PosEnergyAura extends AbilityBase implements IAura {
@@ -63,7 +64,7 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 
 	@Override
 	public void castAsAura(EntityPlayer caster, IAoVCapability cap, int life) {
-		int tick = this.life - life;
+		int tick = (this.life * 20) - life;
 		if (tick > 0 && tick % 20 == 0) {
 			ParticleHelper.spawnParticleMesh(ParticleHelper.Type.BURST, caster.world, caster.getPositionVector(), range);
 			int a = (int) (dmg * (1f + (cap.getSpellPower() / 100f)));

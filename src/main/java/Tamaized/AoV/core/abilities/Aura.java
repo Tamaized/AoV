@@ -10,7 +10,7 @@ public final class Aura {
 
 	public Aura(Ability ability, int duration) {
 		spell = ability;
-		life = duration;
+		life = duration*20;
 	}
 
 	/**
