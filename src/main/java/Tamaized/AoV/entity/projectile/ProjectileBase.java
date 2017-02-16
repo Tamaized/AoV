@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
+import Tamaized.AoV.core.abilities.AbilityBase;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -60,9 +61,14 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 
 	private double speed = 0.5D;
 	private float range = 0.0F;
+	private int maxRange = -1;
+	private Vec3d startingPoint;
+
+	private AbilityBase parentSpell;
 
 	public ProjectileBase(World worldIn) {
 		super(worldIn);
+		startingPoint = getPositionVector();
 		xTile = -1;
 		yTile = -1;
 		zTile = -1;
@@ -74,12 +80,14 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 	public ProjectileBase(World worldIn, double x, double y, double z) {
 		this(worldIn);
 		setPosition(x, y, z);
+		startingPoint = getPositionVector();
 	}
 
 	public ProjectileBase(World worldIn, EntityLivingBase shooter, double x, double y, double z) {
 		this(worldIn);
 		shootingEntity = shooter;
 		setPosition(x, y + shooter.getEyeHeight(), z);
+		startingPoint = getPositionVector();
 		Vec3d vec = shooter.getLook(1.0f);
 		setVelocity(vec.xCoord, vec.yCoord, vec.zCoord);
 	}
@@ -93,6 +101,23 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 		double d2 = target.posZ - posZ;
 		double d3 = (double) MathHelper.sqrt(d0 * d0 + d2 * d2);
 		setThrowableHeading(d0, d1/* + d3 * 0.20000000298023224D */, d2, 1.6F, (float) (14 - world.getDifficulty().getDifficultyId() * 4));
+	}
+
+	public void setSpell(AbilityBase ability) {
+		parentSpell = ability;
+	}
+
+	public AbilityBase getSpell() {
+		return parentSpell;
+	}
+
+	public void setMaxRange(int range) {
+		maxRange = range;
+	}
+	
+	@Override
+	public void setDamage(double damageIn) {
+		damage = damageIn;
 	}
 
 	@Override
@@ -173,7 +198,9 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 		} else { // Traveling
 			timeInGround = 0;
 			++ticksInAir;
-			if (ticksInAir > 20 * 10) setDead();
+			if (maxRange >= 0) {
+				if (startingPoint.distanceTo(getPositionVector()) >= maxRange) setDead();
+			} else if (ticksInAir > 20 * 10) setDead();
 			Vec3d vec3d1 = new Vec3d(posX, posY, posZ);
 			Vec3d vec3d = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
 			RayTraceResult raytraceresult = world.rayTraceBlocks(vec3d1, vec3d, false, true, false);
@@ -262,7 +289,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 	protected abstract boolean canHitEntity(Entity entity);
 
 	protected abstract DamageSource getDamageSource();
-	
+
 	protected abstract float getDamageAmp(double damage, Entity shooter, Entity target);
 
 	@Override
@@ -358,6 +385,9 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 			}
 		}
 	}
+
+	@Override
+	protected abstract void arrowHit(EntityLivingBase entity);
 
 	@SideOnly(Side.CLIENT)
 	private void particles() {

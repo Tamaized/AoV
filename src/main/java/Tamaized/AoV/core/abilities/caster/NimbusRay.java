@@ -1,8 +1,11 @@
 package Tamaized.AoV.core.abilities.caster;
 
 import Tamaized.AoV.AoV;
+import Tamaized.AoV.capabilities.CapabilityList;
+import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.core.abilities.Ability;
 import Tamaized.AoV.core.abilities.AbilityBase;
+import Tamaized.AoV.entity.projectile.caster.ProjectileNimbusRay;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -81,7 +84,17 @@ public class NimbusRay extends AbilityBase {
 
 	@Override
 	public void cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
-
+		if (caster.world.isRemote) {
+			sendPacketTypeSelf(ability);
+		} else {
+			IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
+			if (cap == null) return;
+			int a = (int) (damage * (1f + (cap.getSpellPower() / 100f)));
+			ProjectileNimbusRay ray = new ProjectileNimbusRay(caster.world, caster, caster.posX, caster.posY, caster.posZ);
+			ray.setDamage(a);
+			ray.setMaxRange(distance);
+			caster.world.spawnEntity(ray);
+		}
 	}
 
 }
