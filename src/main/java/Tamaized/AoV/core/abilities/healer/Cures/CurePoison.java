@@ -27,4 +27,9 @@ public class CurePoison extends CureEffect {
 		return new ResourceLocation(AoV.modid + ":textures/spells/curepoison.png");
 	}
 
+	@Override
+	protected int getParticleColor() {
+		return 0x68FF77FF;
+	}
+
 }

@@ -27,4 +27,9 @@ public class CureWither extends CureEffect {
 		return new ResourceLocation(AoV.modid + ":textures/spells/curewither.png");
 	}
 
+	@Override
+	protected int getParticleColor() {
+		return 0x555555FF;
+	}
+
 }

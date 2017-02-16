@@ -29,4 +29,9 @@ public class CureModWounds extends CureWounds {
 		return 1;
 	}
 
+	@Override
+	protected int getParticleColor() {
+		return 0xFF5454FF;
+	}
+
 }

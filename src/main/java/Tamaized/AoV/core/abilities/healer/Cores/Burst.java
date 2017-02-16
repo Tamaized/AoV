@@ -55,7 +55,7 @@ public class Burst extends AbilityBase {
 		} else {
 			IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
 			if (cap == null) return;
-			ParticleHelper.spawnParticleMesh(ParticleHelper.Type.BURST, player.world, player.getPositionVector(), range);
+			ParticleHelper.spawnParticleMesh(ParticleHelper.Type.BURST, player.world, player.getPositionVector(), range, 0xFFFF00FF);
 			int a = (int) (dmg * (1f + (cap.getSpellPower() / 100f)));
 			List<EntityLivingBase> list = player.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(player.getPosition().add(-range, -range, -range), player.getPosition().add(range, range, range)));
 			for (EntityLivingBase entity : list) {

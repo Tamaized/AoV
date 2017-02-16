@@ -29,4 +29,9 @@ public class Heal extends CureWounds {
 		return 1;
 	}
 
+	@Override
+	protected int getParticleColor() {
+		return 0xFF8484FF;
+	}
+
 }

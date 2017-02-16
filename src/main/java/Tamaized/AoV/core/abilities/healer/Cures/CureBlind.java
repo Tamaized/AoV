@@ -27,4 +27,9 @@ public class CureBlind extends CureEffect {
 		return new ResourceLocation(AoV.modid + ":textures/spells/cureblind.png");
 	}
 
+	@Override
+	protected int getParticleColor() {
+		return 0xFFFFFFFF;
+	}
+
 }

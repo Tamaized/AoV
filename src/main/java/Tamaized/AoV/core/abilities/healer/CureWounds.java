@@ -66,6 +66,8 @@ public abstract class CureWounds extends AbilityBase {
 	public boolean usesInvoke() {
 		return true;
 	}
+	
+	protected abstract int getParticleColor();
 
 	@Override
 	public void cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
@@ -94,7 +96,7 @@ public abstract class CureWounds extends AbilityBase {
 
 	private void castAsMass(EntityLivingBase target, int dmg, IAoVCapability cap) {
 		int range = (int) (getMaxDistance() * 2);
-		ParticleHelper.spawnParticleMesh(ParticleHelper.Type.BURST, target.world, target.getPositionVector(), range);
+		ParticleHelper.spawnParticleMesh(ParticleHelper.Type.BURST, target.world, target.getPositionVector(), range, getParticleColor());
 		List<EntityLivingBase> list = target.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(target.getPosition().add(-range, -range, -range), target.getPosition().add(range, range, range)));
 		for (EntityLivingBase entity : list) {
 			if (entity.isEntityUndead()) entity.attackEntityFrom(DamageSource.MAGIC, dmg);
