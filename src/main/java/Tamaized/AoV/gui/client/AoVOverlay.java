@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
-import Tamaized.AoV.common.client.ClientProxy;
-import Tamaized.AoV.common.client.ClientTicker;
 import Tamaized.AoV.core.abilities.Ability;
+import Tamaized.AoV.handler.ClientTicker;
+import Tamaized.AoV.proxy.ClientProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;

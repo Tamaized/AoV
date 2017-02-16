@@ -7,7 +7,6 @@ import java.util.List;
 
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
-import Tamaized.AoV.common.handlers.ServerPacketHandler;
 import Tamaized.AoV.core.abilities.caster.NimbusRay;
 import Tamaized.AoV.core.abilities.healer.Cores.Burst;
 import Tamaized.AoV.core.abilities.healer.Cores.PosEnergyAura;
@@ -20,6 +19,7 @@ import Tamaized.AoV.core.abilities.healer.Healing.CureModWounds;
 import Tamaized.AoV.core.abilities.healer.Healing.CureSeriousWounds;
 import Tamaized.AoV.core.abilities.healer.Healing.Heal;
 import Tamaized.AoV.core.abilities.universal.InvokeMass;
+import Tamaized.AoV.network.ServerPacketHandler;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.EntityLivingBase;

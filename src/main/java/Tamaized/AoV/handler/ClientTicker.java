@@ -1,6 +1,4 @@
-package Tamaized.AoV.common.client;
-
-import Tamaized.AoV.common.client.tickerData.TickerDataCharges;
+package Tamaized.AoV.handler;
 
 public class ClientTicker {
 

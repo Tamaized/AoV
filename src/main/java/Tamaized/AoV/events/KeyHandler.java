@@ -2,8 +2,8 @@ package Tamaized.AoV.events;
 
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
-import Tamaized.AoV.common.client.ClientProxy;
 import Tamaized.AoV.core.abilities.Ability;
+import Tamaized.AoV.proxy.ClientProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;

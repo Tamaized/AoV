@@ -1,4 +1,4 @@
-package Tamaized.AoV.common.handlers;
+package Tamaized.AoV.network;
 
 import java.io.IOException;
 

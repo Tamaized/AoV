@@ -1,10 +1,10 @@
-package Tamaized.AoV.common.client;
+package Tamaized.AoV.proxy;
 
 import Tamaized.AoV.AoV;
-import Tamaized.AoV.common.handlers.ClientPacketHandler;
 import Tamaized.AoV.events.KeyHandler;
 import Tamaized.AoV.gui.client.AoVOverlay;
 import Tamaized.AoV.gui.client.AoVUIBar;
+import Tamaized.AoV.network.ClientPacketHandler;
 import Tamaized.TamModized.proxy.AbstractProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;

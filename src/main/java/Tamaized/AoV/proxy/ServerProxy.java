@@ -1,4 +1,4 @@
-package Tamaized.AoV.common.server;
+package Tamaized.AoV.proxy;
 
 import Tamaized.TamModized.proxy.AbstractProxy;
 

@@ -112,14 +112,6 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 
 	}
 
-	public final float getRange(){
-		return range;
-	}
-
-	public final double getSpeed(){
-		return speed;
-	}
-
 	@Override
 	public void setIsCritical(boolean critical) {
 
@@ -267,14 +259,20 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 		if (world.isRemote) particles();
 	}
 
+	protected abstract boolean canHitEntity(Entity entity);
+
+	protected abstract DamageSource getDamageSource();
+	
+	protected abstract float getDamageAmp(double damage, Entity shooter, Entity target);
+
 	@Override
 	protected void onHit(RayTraceResult raytraceResultIn) {
 		Entity entity = raytraceResultIn.entityHit;
 
 		if (entity != null) {
-			if (entity == shootingEntity) return;
-			float f = MathHelper.sqrt(motionX * motionX + motionY * motionY + motionZ * motionZ);
-			int i = MathHelper.ceil((double) f * damage);
+			if (entity == shootingEntity || !canHitEntity(entity)) return;
+			// float f = MathHelper.sqrt(motionX * motionX + motionY * motionY + motionZ * motionZ);
+			// int i = MathHelper.ceil((double) f * damage);
 
 			// if (getIsCritical()){
 			// i += rand.nextInt(i / 2 + 2);
@@ -286,7 +284,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 				entity.setFire(5);
 			}
 
-			if (entity.attackEntityFrom(damagesource, (float) i)) {
+			if (entity.attackEntityFrom(damagesource, getDamageAmp(damage, shootingEntity, entity))) {
 				if (entity instanceof EntityLivingBase) {
 					EntityLivingBase entitylivingbase = (EntityLivingBase) entity;
 
@@ -362,7 +360,8 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 	}
 
 	@SideOnly(Side.CLIENT)
-	protected abstract void particles();
+	private void particles() {
+	}
 
 	/**
 	 * (abstract) Protected helper method to write subclass entity data to NBT.
@@ -431,7 +430,5 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 	protected ItemStack getArrowStack() {
 		return ItemStack.EMPTY;
 	}
-
-	protected abstract DamageSource getDamageSource();
 
 }

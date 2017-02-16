@@ -1,6 +1,6 @@
-package Tamaized.AoV.common.client.tickerData;
+package Tamaized.AoV.handler;
 
-import Tamaized.AoV.common.client.ClientProxy;
+import Tamaized.AoV.proxy.ClientProxy;
 
 public class TickerDataCharges {
 

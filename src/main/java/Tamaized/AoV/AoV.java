@@ -6,11 +6,11 @@ import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.AoVCapabilityHandler;
 import Tamaized.AoV.capabilities.aov.AoVCapabilityStorage;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
-import Tamaized.AoV.common.handlers.ServerPacketHandler;
 import Tamaized.AoV.entity.projectile.caster.ProjectileNimbusRay;
 import Tamaized.AoV.events.PlayerInteractHandler;
 import Tamaized.AoV.events.TickHandler;
 import Tamaized.AoV.gui.GuiHandler;
+import Tamaized.AoV.network.ServerPacketHandler;
 import Tamaized.AoV.registry.AoVAchievements;
 import Tamaized.AoV.registry.AoVArmors;
 import Tamaized.AoV.registry.AoVBiomes;
@@ -52,7 +52,7 @@ public class AoV extends TamModBase {
 	public static FMLEventChannel channel;
 	public static final String networkChannelName = "AoV";
 
-	@SidedProxy(clientSide = "Tamaized.AoV.common.client.ClientProxy", serverSide = "Tamaized.AoV.common.server.ServerProxy")
+	@SidedProxy(clientSide = "Tamaized.AoV.proxy.ClientProxy", serverSide = "Tamaized.AoV.proxy.ServerProxy")
 	public static AbstractProxy proxy;
 
 	public static AoVMaterials materials = new AoVMaterials();

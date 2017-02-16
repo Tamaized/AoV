@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Map;
 
 import Tamaized.AoV.AoV;
-import Tamaized.AoV.common.handlers.ClientPacketHandler;
 import Tamaized.AoV.core.abilities.Ability;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.abilities.Aura;
 import Tamaized.AoV.core.skills.AoVSkill;
+import Tamaized.AoV.network.ClientPacketHandler;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
@@ -223,7 +223,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@Override
-	public void addExp(int amount, AbilityBase spell) { // TODO: send packet to client for overlay floating text
+	public void addExp(int amount, AbilityBase spell) {
 		if (getLevel() >= getMaxLevel()) return;
 		if (spell == null) {
 
@@ -452,7 +452,6 @@ public class AoVCapabilityHandler implements IAoVCapability {
 				for (AoVSkill skill : obtainedSkills)
 					stream.writeInt(skill.getID());
 			}
-			// TODO: figure out auras
 			stream.writeInt(skillPoints);
 			stream.writeInt(exp);
 			stream.writeInt(maxLevel);
