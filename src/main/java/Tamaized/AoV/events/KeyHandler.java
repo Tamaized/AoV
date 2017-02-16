@@ -5,6 +5,7 @@ import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.common.client.ClientProxy;
 import Tamaized.AoV.core.abilities.Ability;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,6 +24,15 @@ public class KeyHandler {
 			IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
 			if (cap.hasCoreSkill()) ClientProxy.barToggle = !ClientProxy.barToggle;
 			else ClientProxy.barToggle = false;
+		} else if (ClientProxy.barToggle) {
+			for (int i = 0; i <= 8; i++) {
+				KeyBinding keyBind = Minecraft.getMinecraft().gameSettings.keyBindsHotbar[i];
+				if (keyBind.isPressed()) {
+					keyBind.setKeyBindState(keyBind.getKeyCode(), false);
+					ClientProxy.bar.slotLoc = i;
+					break;
+				}
+			}
 		}
 
 	}

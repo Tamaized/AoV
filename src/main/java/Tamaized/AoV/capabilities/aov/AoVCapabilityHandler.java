@@ -21,6 +21,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 
 public class AoVCapabilityHandler implements IAoVCapability {

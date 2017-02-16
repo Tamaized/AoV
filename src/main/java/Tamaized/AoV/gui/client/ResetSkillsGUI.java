@@ -6,6 +6,7 @@ import java.io.IOException;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
+import Tamaized.AoV.common.client.ClientProxy;
 import Tamaized.AoV.common.handlers.ServerPacketHandler;
 import Tamaized.AoV.gui.GuiHandler;
 import io.netty.buffer.ByteBufOutputStream;
@@ -55,6 +56,7 @@ public class ResetSkillsGUI extends GuiScreen {
 					break;
 				case BUTTON_RESET_FULL:
 					if (cap.hasCoreSkill()) sendPacket(ServerPacketHandler.PacketType.RESETSKILLS_FULL);
+					ClientProxy.barToggle = false;
 					break;
 				default:
 					break;
