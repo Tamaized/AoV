@@ -2,6 +2,7 @@ package Tamaized.AoV.core.abilities.healer.Cores;
 
 import java.util.List;
 
+import Tamaized.AoV.AoV;
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.core.abilities.Ability;
@@ -68,7 +69,7 @@ public class Burst extends AbilityBase {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return null;
+		return new ResourceLocation(AoV.modid+":textures/spells/posenergyburst.png");
 	}
 
 	@Override

@@ -16,7 +16,7 @@ public class HealerSkillT2S2 extends AoVSkill {
 	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
 
 	static {
-
+		spells.add(AbilityBase.cureWither);
 	}
 
 	public HealerSkillT2S2() {

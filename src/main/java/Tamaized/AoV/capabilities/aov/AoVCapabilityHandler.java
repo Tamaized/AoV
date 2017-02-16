@@ -158,7 +158,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		Iterator<Aura> iter = auras.iterator();
 		while (iter.hasNext()) {
 			Aura aura = iter.next();
-			 aura.update(player);
+			aura.update(player);
 			if (aura.isDead()) iter.remove();
 		}
 	}
@@ -194,10 +194,8 @@ public class AoVCapabilityHandler implements IAoVCapability {
 
 	@Override
 	public void addAbility(Ability ability) {
-		if (abilities.size() < 9) {
-			abilities.add(ability);
-			dirty = true;
-		}
+		abilities.add(ability);
+		dirty = true;
 	}
 
 	@Override

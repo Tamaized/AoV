@@ -11,6 +11,9 @@ import Tamaized.AoV.common.handlers.ServerPacketHandler;
 import Tamaized.AoV.core.abilities.caster.NimbusRay;
 import Tamaized.AoV.core.abilities.healer.Cores.Burst;
 import Tamaized.AoV.core.abilities.healer.Cores.PosEnergyAura;
+import Tamaized.AoV.core.abilities.healer.Cures.CureBlind;
+import Tamaized.AoV.core.abilities.healer.Cures.CurePoison;
+import Tamaized.AoV.core.abilities.healer.Cures.CureWither;
 import Tamaized.AoV.core.abilities.healer.Healing.CureCriticalWounds;
 import Tamaized.AoV.core.abilities.healer.Healing.CureLightWounds;
 import Tamaized.AoV.core.abilities.healer.Healing.CureModWounds;
@@ -52,6 +55,9 @@ public abstract class AbilityBase {
 	public static final AbilityBase heal = new Heal();
 	public static final AbilityBase burst = new Burst();
 	public static final AbilityBase posEnergyAura = new PosEnergyAura();
+	public static final AbilityBase curePoison = new CurePoison();
+	public static final AbilityBase cureWither = new CureWither();
+	public static final AbilityBase cureBlind = new CureBlind();
 
 	// Caster
 	public static final AbilityBase nimbusRay = new NimbusRay();
