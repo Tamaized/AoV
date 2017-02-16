@@ -80,7 +80,7 @@ public final class Ability {
 			if (canUse(cap)) {
 				ability.cast(this, caster, target);
 				charges -= ability.getCost(cap);
-				cooldown = ability.getCoolDown();
+				cooldown = ability.getCoolDown() * ((ability.usesInvoke() && cap.getInvokeMass()) ? 2 : 1);
 			}
 		}
 	}
