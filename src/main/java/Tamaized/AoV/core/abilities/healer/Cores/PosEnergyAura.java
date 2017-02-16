@@ -72,7 +72,7 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 			List<EntityLivingBase> list = caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-range, -range, -range), caster.getPosition().add(range, range, range)));
 			for (EntityLivingBase entity : list) {
 				if (entity.isEntityUndead()) entity.attackEntityFrom(DamageSource.MAGIC, a);
-				else if (cap.hasSelectiveFocus() && !(entity instanceof IMob)) continue;
+				else if (cap.hasSelectiveFocus() && (entity instanceof IMob)) continue;
 				else entity.heal(a);
 			}
 		}
