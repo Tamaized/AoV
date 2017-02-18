@@ -67,6 +67,8 @@ public class ShowStatsGUI extends GuiScreen {
 		this.drawCenteredString(fontRendererObj, "Level: " + (cap == null ? "null" : cap.getLevel()), width / 2, 60, 0xFFFF00);
 		this.drawCenteredString(fontRendererObj, "Extra Charges: " + (cap == null ? "null" : cap.getExtraCharges()), width / 2, 70, 0x00BBFF);
 		this.drawCenteredString(fontRendererObj, "Spell Power: " + (cap == null ? "null" : (int) cap.getSpellPower()), width / 2, 80, 0x00FF00);
+		this.drawCenteredString(fontRendererObj, "Dodge: " + (cap == null ? "null" : (int) cap.getDodge()) + "%", width / 2, 90, 0x00FF00);
+		this.drawCenteredString(fontRendererObj, "DoubleStrike: " + (cap == null ? "null" : (int) cap.getDoubleStrike()) + "%", width / 2, 100, 0x00FF00);
 
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}

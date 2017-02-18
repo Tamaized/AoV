@@ -44,7 +44,7 @@ public class HealerSkillCapStone extends AoVSkill {
 
 	@Override
 	protected Buffs setupBuffs() {
-		return new Buffs(3, 50, false);
+		return new Buffs(3, 50, 0, 0, false);
 	}
 
 	@Override

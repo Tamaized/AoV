@@ -29,6 +29,31 @@ import Tamaized.AoV.core.skills.caster.tier4.CasterSkillT4S2;
 import Tamaized.AoV.core.skills.caster.tier4.CasterSkillT4S3;
 import Tamaized.AoV.core.skills.caster.tier4.CasterSkillT4S4;
 import Tamaized.AoV.core.skills.caster.tier4.CasterSkillT4S5;
+import Tamaized.AoV.core.skills.defender.cores.DefenderSkillCapStone;
+import Tamaized.AoV.core.skills.defender.cores.DefenderSkillCore1;
+import Tamaized.AoV.core.skills.defender.cores.DefenderSkillCore2;
+import Tamaized.AoV.core.skills.defender.cores.DefenderSkillCore3;
+import Tamaized.AoV.core.skills.defender.cores.DefenderSkillCore4;
+import Tamaized.AoV.core.skills.defender.tier1.DefenderSkillT1S1;
+import Tamaized.AoV.core.skills.defender.tier1.DefenderSkillT1S2;
+import Tamaized.AoV.core.skills.defender.tier1.DefenderSkillT1S3;
+import Tamaized.AoV.core.skills.defender.tier1.DefenderSkillT1S4;
+import Tamaized.AoV.core.skills.defender.tier1.DefenderSkillT1S5;
+import Tamaized.AoV.core.skills.defender.tier2.DefenderSkillT2S1;
+import Tamaized.AoV.core.skills.defender.tier2.DefenderSkillT2S2;
+import Tamaized.AoV.core.skills.defender.tier2.DefenderSkillT2S3;
+import Tamaized.AoV.core.skills.defender.tier2.DefenderSkillT2S4;
+import Tamaized.AoV.core.skills.defender.tier2.DefenderSkillT2S5;
+import Tamaized.AoV.core.skills.defender.tier3.DefenderSkillT3S1;
+import Tamaized.AoV.core.skills.defender.tier3.DefenderSkillT3S2;
+import Tamaized.AoV.core.skills.defender.tier3.DefenderSkillT3S3;
+import Tamaized.AoV.core.skills.defender.tier3.DefenderSkillT3S4;
+import Tamaized.AoV.core.skills.defender.tier3.DefenderSkillT3S5;
+import Tamaized.AoV.core.skills.defender.tier4.DefenderSkillT4S1;
+import Tamaized.AoV.core.skills.defender.tier4.DefenderSkillT4S2;
+import Tamaized.AoV.core.skills.defender.tier4.DefenderSkillT4S3;
+import Tamaized.AoV.core.skills.defender.tier4.DefenderSkillT4S4;
+import Tamaized.AoV.core.skills.defender.tier4.DefenderSkillT4S5;
 import Tamaized.AoV.core.skills.healer.cores.HealerSkillCapStone;
 import Tamaized.AoV.core.skills.healer.cores.HealerSkillCore1;
 import Tamaized.AoV.core.skills.healer.cores.HealerSkillCore2;
@@ -134,6 +159,37 @@ public abstract class AoVSkill {
 	public static final AoVSkill caster_tier_4_4 = new CasterSkillT4S4();
 	public static final AoVSkill caster_tier_4_5 = new CasterSkillT4S5();
 
+	/* Defender */
+	public static final AoVSkill defender_core_1 = new DefenderSkillCore1();
+	public static final AoVSkill defender_core_2 = new DefenderSkillCore2();
+	public static final AoVSkill defender_core_3 = new DefenderSkillCore3();
+	public static final AoVSkill defender_core_4 = new DefenderSkillCore4();
+	public static final AoVSkill defender_capstone = new DefenderSkillCapStone();
+
+	public static final AoVSkill defender_tier_1_1 = new DefenderSkillT1S1();
+	public static final AoVSkill defender_tier_1_2 = new DefenderSkillT1S2();
+	public static final AoVSkill defender_tier_1_3 = new DefenderSkillT1S3();
+	public static final AoVSkill defender_tier_1_4 = new DefenderSkillT1S4();
+	public static final AoVSkill defender_tier_1_5 = new DefenderSkillT1S5();
+
+	public static final AoVSkill defender_tier_2_1 = new DefenderSkillT2S1();
+	public static final AoVSkill defender_tier_2_2 = new DefenderSkillT2S2();
+	public static final AoVSkill defender_tier_2_3 = new DefenderSkillT2S3();
+	public static final AoVSkill defender_tier_2_4 = new DefenderSkillT2S4();
+	public static final AoVSkill defender_tier_2_5 = new DefenderSkillT2S5();
+
+	public static final AoVSkill defender_tier_3_1 = new DefenderSkillT3S1();
+	public static final AoVSkill defender_tier_3_2 = new DefenderSkillT3S2();
+	public static final AoVSkill defender_tier_3_3 = new DefenderSkillT3S3();
+	public static final AoVSkill defender_tier_3_4 = new DefenderSkillT3S4();
+	public static final AoVSkill defender_tier_3_5 = new DefenderSkillT3S5();
+
+	public static final AoVSkill defender_tier_4_1 = new DefenderSkillT4S1();
+	public static final AoVSkill defender_tier_4_2 = new DefenderSkillT4S2();
+	public static final AoVSkill defender_tier_4_3 = new DefenderSkillT4S3();
+	public static final AoVSkill defender_tier_4_4 = new DefenderSkillT4S4();
+	public static final AoVSkill defender_tier_4_5 = new DefenderSkillT4S5();
+
 	private final Buffs buffs;
 	private final List<AbilityBase> abilities;
 	private final List<String> description;
@@ -179,12 +235,16 @@ public abstract class AoVSkill {
 
 		public final int charges;
 		public final int spellPower;
+		public final int dodge;
+		public final int doublestrike;
 
 		public final boolean selectiveFocus;
 
-		public Buffs(int c, int sP, boolean sel) {
+		public Buffs(int c, int sP, int dodge, int dStrike, boolean sel) {
 			charges = c;
 			spellPower = sP;
+			this.dodge = dodge;
+			doublestrike = dStrike;
 			selectiveFocus = sel;
 		}
 

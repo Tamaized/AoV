@@ -43,7 +43,7 @@ public class CasterSkillCore4 extends AoVSkill {
 
 	@Override
 	protected Buffs setupBuffs() {
-		return new Buffs(1, 15, false);
+		return new Buffs(1, 15, 0, 0, false);
 	}
 
 	@Override

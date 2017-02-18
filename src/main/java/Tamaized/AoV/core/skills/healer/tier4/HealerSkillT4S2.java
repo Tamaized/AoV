@@ -42,7 +42,7 @@ public class HealerSkillT4S2 extends AoVSkill {
 
 	@Override
 	protected Buffs setupBuffs() {
-		return new Buffs(2, 0, false);
+		return new Buffs(2, 0, 0, 0, false);
 	}
 
 	@Override

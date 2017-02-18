@@ -42,7 +42,7 @@ public class CasterSkillT3S3 extends AoVSkill {
 
 	@Override
 	protected Buffs setupBuffs() {
-		return new Buffs(0, 15, false);
+		return new Buffs(0, 15, 0, 0, false);
 	}
 
 	@Override

@@ -71,6 +71,10 @@ public interface IAoVCapability {
 
 	int getExtraCharges();
 
+	int getDodge();
+
+	int getDoubleStrike();
+
 	boolean hasSelectiveFocus();
 
 	void toggleInvokeMass(boolean b);

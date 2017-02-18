@@ -39,7 +39,7 @@ public class CasterSkillCapStone extends AoVSkill {
 
 	@Override
 	protected Buffs setupBuffs() {
-		return new Buffs(4, 50, false);
+		return new Buffs(4, 50, 0, 0, false);
 	}
 
 	@Override

@@ -61,6 +61,8 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	private List<Ability> abilities = new ArrayList<Ability>();
 	private float spellpower = 0;
 	private int extraCharges = 0;
+	private int dodge = 0;
+	private int doublestrike = 0;
 	private boolean selectiveFocus = false;
 	private boolean hasInvoke = false;
 
@@ -133,6 +135,8 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		}
 		spellpower = 0;
 		extraCharges = 0;
+		dodge = 0;
+		doublestrike = 0;
 		selectiveFocus = false;
 		hasInvoke = false;
 		List<AbilityBase> list = new ArrayList<AbilityBase>();
@@ -140,6 +144,8 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		for (AoVSkill skill : obtainedSkills) {
 			spellpower += skill.getBuffs().spellPower;
 			extraCharges += skill.getBuffs().charges;
+			dodge += skill.getBuffs().dodge;
+			doublestrike += skill.getBuffs().doublestrike;
 			if (skill.getBuffs().selectiveFocus) selectiveFocus = true;
 			for (AbilityBase ability : skill.getAbilities()) {
 				if (ability == AbilityBase.invokeMass) hasInvoke = true;
@@ -331,6 +337,16 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	@Override
 	public int getExtraCharges() {
 		return extraCharges;
+	}
+
+	@Override
+	public int getDodge() {
+		return dodge;
+	}
+
+	@Override
+	public int getDoubleStrike() {
+		return doublestrike;
 	}
 
 	@Override
