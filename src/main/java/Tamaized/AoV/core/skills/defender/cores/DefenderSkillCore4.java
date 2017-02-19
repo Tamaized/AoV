@@ -11,7 +11,7 @@ import net.minecraft.util.text.TextFormatting;
 
 public class DefenderSkillCore4 extends AoVSkill {
 
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid + ":textures/skills/test.png");
+	private static final ResourceLocation icon = new ResourceLocation(AoV.modid, "textures/skills/test.png");
 
 	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
 
@@ -30,7 +30,7 @@ public class DefenderSkillCore4 extends AoVSkill {
 
 				"",
 
-				TextFormatting.YELLOW + "Shields you equip no longer have a blocking cooldown (0.25 seconds of cooldown between blocked attacks is vanilla)"
+				TextFormatting.YELLOW + "You are now able to block all angles with your shield, not just in front of you."
 
 		);
 	}
