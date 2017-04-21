@@ -28,17 +28,35 @@ import net.minecraftforge.fml.relauncher.ReflectionHelper.UnableToFindMethodExce
 
 public class LivingAttackEvent {
 
+	private boolean state = true;
+
 	@SubscribeEvent
 	public void onLivingAttack(net.minecraftforge.event.entity.living.LivingAttackEvent event) {
+		Entity attacker = event.getSource().getEntity();
 		EntityLivingBase entity = event.getEntityLiving();
-		if(entity.world.isRemote) return;
+		if (entity.world.isRemote) return;
+		System.out.println("Base: "+entity.getHealth());
+		
+		// DoubleStrike
+		if (state && attacker != null && attacker.hasCapability(CapabilityList.AOV, null) && attacker.world.rand.nextInt(attacker.getCapability(CapabilityList.AOV, null).getDoubleStrikeForRand()) == 0) {
+			state = false;
+			System.out.println("DS");
+			System.out.println("Pre: "+entity.getHealth());
+			entity.attackEntityFrom(event.getSource(), event.getAmount());
+			entity.hurtResistantTime = 0;
+			System.out.println("Post: "+entity.getHealth());
+			state = true;
+		}
+		
 		if (entity.hasCapability(CapabilityList.AOV, null)) {
 			IAoVCapability cap = entity.getCapability(CapabilityList.AOV, null);
+			// Dodge
 			if (isWhiteListed(event.getSource()) && cap.getDodge() > 0 && entity.world.rand.nextInt(cap.getDodgeForRand()) == 0) {
 				if (entity instanceof EntityPlayer) FloatyTextHelper.sendText((EntityPlayer) entity, "Dodged");
 				event.setCanceled(true);
 				return;
 			}
+			// Full Radial Shield
 			if (cap.hasSkill(AoVSkill.defender_core_4)) {
 				handleShield(event, true);
 			}
@@ -108,7 +126,7 @@ public class LivingAttackEvent {
 
 		return false;
 	}
-	
+
 	private boolean isWhiteListed(DamageSource source) {
 		return source.damageType.equals("generic") || source.damageType.equals("mob") || source.damageType.equals("player") || source.damageType.equals("arrow") || source.damageType.equals("thrown");
 	}

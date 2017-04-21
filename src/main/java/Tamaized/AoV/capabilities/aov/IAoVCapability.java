@@ -79,6 +79,10 @@ public interface IAoVCapability {
 
 	int getDoubleStrike();
 
+	default int getDoubleStrikeForRand() {
+		return Math.round(100F / ((float) getDoubleStrike()));
+	}
+
 	boolean hasSelectiveFocus();
 
 	void toggleInvokeMass(boolean b);
