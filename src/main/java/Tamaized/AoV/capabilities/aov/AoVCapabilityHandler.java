@@ -136,17 +136,15 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	private void updateHealth(EntityPlayer player) {
 		if (player == null) return;
 		IAttributeInstance hp = player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
-		if (hasSkill(AoVSkill.defender_tier_4_2)) {
-			if (!hp.hasModifier(defenderHealth)) hp.applyModifier(defenderHealth);
-		} else {
-			if (hp.hasModifier(defenderHealth)) hp.removeModifier(defenderHealth);
-			Iterator<AttributeModifier> iter = hp.getModifiers().iterator();
-			while (iter.hasNext()) {
-				AttributeModifier mod = iter.next();
-				if (mod.getName().equals("AoV Defender")) {
-					hp.removeModifier(mod);
-				}
+		Iterator<AttributeModifier> iter = hp.getModifiers().iterator();
+		while (iter.hasNext()) {
+			AttributeModifier mod = iter.next();
+			if (mod.getName().equals("AoV Defender")) {
+				hp.removeModifier(mod);
 			}
+		}
+		if (hasSkill(AoVSkill.defender_tier_4_2) && !hp.hasModifier(defenderHealth)) {
+			hp.applyModifier(defenderHealth);
 		}
 	}
 

@@ -31,9 +31,10 @@ public class LivingAttackEvent {
 	@SubscribeEvent
 	public void onLivingAttack(net.minecraftforge.event.entity.living.LivingAttackEvent event) {
 		EntityLivingBase entity = event.getEntityLiving();
+		if(entity.world.isRemote) return;
 		if (entity.hasCapability(CapabilityList.AOV, null)) {
 			IAoVCapability cap = entity.getCapability(CapabilityList.AOV, null);
-			if (!entity.world.isRemote && cap.getDodge() > 0 && entity.world.rand.nextInt(cap.getDodgeForRand()) == 0) {
+			if (isWhiteListed(event.getSource()) && cap.getDodge() > 0 && entity.world.rand.nextInt(cap.getDodgeForRand()) == 0) {
 				if (entity instanceof EntityPlayer) FloatyTextHelper.sendText((EntityPlayer) entity, "Dodged");
 				event.setCanceled(true);
 				return;
@@ -91,10 +92,10 @@ public class LivingAttackEvent {
 
 	private boolean canBlockDamageSource(EntityPlayer player, DamageSource damageSourceIn, boolean fullRadial) {
 		if (!damageSourceIn.isUnblockable() && player.isActiveItemStackBlocking()) {
-			if (fullRadial) return true;
 			Vec3d vec3d = damageSourceIn.getDamageLocation();
 
 			if (vec3d != null) {
+				if (fullRadial) return true;
 				Vec3d vec3d1 = player.getLook(1.0F);
 				Vec3d vec3d2 = vec3d.subtractReverse(new Vec3d(player.posX, player.posY, player.posZ)).normalize();
 				vec3d2 = new Vec3d(vec3d2.xCoord, 0.0D, vec3d2.zCoord);
@@ -106,6 +107,10 @@ public class LivingAttackEvent {
 		}
 
 		return false;
+	}
+	
+	private boolean isWhiteListed(DamageSource source) {
+		return source.damageType.equals("generic") || source.damageType.equals("mob") || source.damageType.equals("player") || source.damageType.equals("arrow") || source.damageType.equals("thrown");
 	}
 
 }
