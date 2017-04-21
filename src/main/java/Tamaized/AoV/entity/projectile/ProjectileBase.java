@@ -89,7 +89,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 		setPosition(x, y + shooter.getEyeHeight(), z);
 		startingPoint = getPositionVector();
 		Vec3d vec = shooter.getLook(1.0f);
-		setVelocity(vec.xCoord, vec.yCoord, vec.zCoord);
+		setTheVelocity(vec.xCoord, vec.yCoord, vec.zCoord);
 	}
 
 	public ProjectileBase(World worldIn, EntityLivingBase shooter, EntityLivingBase target, float dmg) {
@@ -103,6 +103,22 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 		setThrowableHeading(d0, d1/* + d3 * 0.20000000298023224D */, d2, 1.6F, (float) (14 - world.getDifficulty().getDifficultyId() * 4));
 	}
 
+	public void setTheVelocity(double x, double y, double z) {
+		this.motionX = x;
+		this.motionY = y;
+		this.motionZ = z;
+
+		if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F) {
+			float f = MathHelper.sqrt(x * x + z * z);
+			this.rotationPitch = (float) (MathHelper.atan2(y, (double) f) * (180D / Math.PI));
+			this.rotationYaw = (float) (MathHelper.atan2(x, z) * (180D / Math.PI));
+			this.prevRotationPitch = this.rotationPitch;
+			this.prevRotationYaw = this.rotationYaw;
+			this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
+			this.ticksInGround = 0;
+		}
+	}
+
 	public void setSpell(AbilityBase ability) {
 		parentSpell = ability;
 	}
@@ -114,7 +130,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 	public void setMaxRange(int range) {
 		maxRange = range;
 	}
-	
+
 	@Override
 	public void setDamage(double damageIn) {
 		damage = damageIn;
