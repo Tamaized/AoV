@@ -21,10 +21,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ClientProxy extends AbstractProxy {
 
-	@SideOnly(Side.CLIENT)
-	public static Minecraft mc = Minecraft.getMinecraft();
+	public ClientProxy() {
+		super(Side.CLIENT);
+	}
 
-	@SideOnly(Side.CLIENT)
 	public static AoVUIBar bar;
 
 	public static KeyBinding key;

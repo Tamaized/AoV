@@ -2,6 +2,10 @@ package Tamaized.AoV.blocks;
 
 import java.util.Random;
 
+import Tamaized.AoV.AoV;
+import Tamaized.AoV.gui.GuiHandler;
+import Tamaized.TamModized.blocks.TamBlock;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
@@ -22,32 +26,29 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import Tamaized.AoV.AoV;
-import Tamaized.AoV.gui.GuiHandler;
-import Tamaized.TamModized.blocks.TamBlock;
 
 public class BlockAngelicBlock extends TamBlock {
 
 	public static final PropertyEnum<EnumFacing.Axis> AXIS = PropertyEnum.<EnumFacing.Axis> create("axis", EnumFacing.Axis.class, new EnumFacing.Axis[] { EnumFacing.Axis.X, EnumFacing.Axis.Z });
 
 	public BlockAngelicBlock(CreativeTabs tab, Material materialIn, String n, float f) {
-		super(tab, materialIn, n, f);
+		super(tab, materialIn, n, f, SoundType.STONE);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(AXIS, EnumFacing.Axis.X));
 		setSoundType(Blocks.STONE.getSoundType());
 		this.useNeighborBrightness = true;
 	}
-	
+
 	@Override
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
-    public BlockRenderLayer getBlockLayer(){
-        return BlockRenderLayer.TRANSLUCENT;
-    }
-	
+	public BlockRenderLayer getBlockLayer() {
+		return BlockRenderLayer.TRANSLUCENT;
+	}
+
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		int l = MathHelper.floor((double) (placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
@@ -69,7 +70,7 @@ public class BlockAngelicBlock extends TamBlock {
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return null;
 	}
-	
+
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		FMLNetworkHandler.openGui(playerIn, AoV.instance, GuiHandler.GUI_SKILLS, worldIn, pos.getX(), pos.getY(), pos.getZ());
