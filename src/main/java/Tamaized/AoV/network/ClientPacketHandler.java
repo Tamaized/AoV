@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
+import Tamaized.AoV.helper.FloatyTextHelper;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
 import net.minecraft.client.Minecraft;
@@ -17,7 +18,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ClientPacketHandler {
 
 	public static enum PacketType {
-		AOVDATA
+		AOVDATA, FloatyText
 	}
 
 	public static int getPacketTypeID(PacketType type) {
@@ -59,6 +60,10 @@ public class ClientPacketHandler {
 				}
 			}
 				break;
+			case FloatyText: {
+				FloatyTextHelper.decode(bbis);
+			}
+			break;
 			default: {
 
 			}

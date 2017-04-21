@@ -8,6 +8,7 @@ import java.util.List;
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.core.skills.AoVSkill;
+import Tamaized.AoV.helper.FloatyTextHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,9 +33,8 @@ public class LivingAttackEvent {
 		EntityLivingBase entity = event.getEntityLiving();
 		if (entity.hasCapability(CapabilityList.AOV, null)) {
 			IAoVCapability cap = entity.getCapability(CapabilityList.AOV, null);
-			if (cap.getDodge() > 0 && entity.world.rand.nextInt(cap.getDodgeForRand()) == 0) {
-				System.out.println("Dodged");
-				// TODO: add floaty text saying 'Dodged'
+			if (!entity.world.isRemote && cap.getDodge() > 0 && entity.world.rand.nextInt(cap.getDodgeForRand()) == 0) {
+				if (entity instanceof EntityPlayer) FloatyTextHelper.sendText((EntityPlayer) entity, "Dodged");
 				event.setCanceled(true);
 				return;
 			}
