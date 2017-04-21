@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Tamaized.AoV.capabilities.CapabilityList;
+import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.core.skills.AoVSkill;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,6 +19,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TextComponentScore;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
@@ -28,8 +30,17 @@ public class LivingAttackEvent {
 	@SubscribeEvent
 	public void onLivingAttack(net.minecraftforge.event.entity.living.LivingAttackEvent event) {
 		EntityLivingBase entity = event.getEntityLiving();
-		if (entity.hasCapability(CapabilityList.AOV, null) && entity.getCapability(CapabilityList.AOV, null).hasSkill(AoVSkill.defender_core_4)) {
-			handleShield(event, true);
+		if (entity.hasCapability(CapabilityList.AOV, null)) {
+			IAoVCapability cap = entity.getCapability(CapabilityList.AOV, null);
+			if (cap.getDodge() > 0 && entity.world.rand.nextInt(cap.getDodgeForRand()) == 0) {
+				System.out.println("Dodged");
+				// TODO: add floaty text saying 'Dodged'
+				event.setCanceled(true);
+				return;
+			}
+			if (cap.hasSkill(AoVSkill.defender_core_4)) {
+				handleShield(event, true);
+			}
 		}
 	}
 

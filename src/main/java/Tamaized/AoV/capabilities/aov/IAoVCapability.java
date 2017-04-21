@@ -14,7 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
 public interface IAoVCapability {
-	
+
 	public static final ResourceLocation ID = new ResourceLocation(AoV.modid, "AoVCapabilityHandler");
 
 	void reset(boolean b);
@@ -52,17 +52,17 @@ public interface IAoVCapability {
 	int getLevel();
 
 	int getMaxLevel();
-	
+
 	void setMaxLevel(int amount);
 
 	int getExp();
-	
+
 	void setExp(int amount);
 
 	int getExpNeededToLevel();
 
 	int getSkillPoints();
-	
+
 	void setSkillPoints(int amount);
 
 	int getSpentSkillPoints();
@@ -72,6 +72,10 @@ public interface IAoVCapability {
 	int getExtraCharges();
 
 	int getDodge();
+
+	default int getDodgeForRand() {
+		return Math.round(100F / ((float) getDodge()));
+	}
 
 	int getDoubleStrike();
 
@@ -88,18 +92,18 @@ public interface IAoVCapability {
 	void setSlot(Ability ability, int slot);
 
 	Ability getSlot(int slot);
-	
+
 	/**
 	 * Returns -1 if slots dont contain ability
 	 */
 	int getSlotFromAbility(Ability ability);
-	
-	default Ability getAbilityFromSlots(Ability ability){
+
+	default Ability getAbilityFromSlots(Ability ability) {
 		return getSlot(getSlotFromAbility(ability));
 	}
 
 	int getCurrentSlot();
-	
+
 	void setCurrentSlot(int index);
 
 	boolean slotsContain(Ability ability);
