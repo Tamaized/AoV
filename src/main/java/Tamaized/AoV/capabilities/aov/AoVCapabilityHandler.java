@@ -18,6 +18,9 @@ import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.PacketBuffer;
@@ -124,7 +127,27 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			if (player instanceof EntityPlayerMP) sendPacketUpdates((EntityPlayerMP) player);
 			dirty = false;
 		}
+		updateHealth(player);
 		tick++;
+	}
+
+	private static final AttributeModifier defenderHealth = new AttributeModifier("AoV Defender", 10.0D, 0);
+
+	private void updateHealth(EntityPlayer player) {
+		if (player == null) return;
+		IAttributeInstance hp = player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
+		if (hasSkill(AoVSkill.defender_tier_4_2)) {
+			if (!hp.hasModifier(defenderHealth)) hp.applyModifier(defenderHealth);
+		} else {
+			if (hp.hasModifier(defenderHealth)) hp.removeModifier(defenderHealth);
+			Iterator<AttributeModifier> iter = hp.getModifiers().iterator();
+			while (iter.hasNext()) {
+				AttributeModifier mod = iter.next();
+				if (mod.getName().equals("AoV Defender")) {
+					hp.removeModifier(mod);
+				}
+			}
+		}
 	}
 
 	private void updateValues() {
