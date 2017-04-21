@@ -25,22 +25,6 @@ import net.minecraftforge.fml.relauncher.ReflectionHelper.UnableToFindMethodExce
 
 public class LivingAttackEvent {
 
-	public static List<ShieldWrapper> shieldRegistry = new ArrayList<ShieldWrapper>(); // Move this into TamModized
-
-	public static class ShieldWrapper extends Item {
-
-		private final boolean fullRadial;
-
-		public ShieldWrapper(boolean fullRadial) {
-			this.fullRadial = fullRadial;
-		}
-
-		public boolean isFullRadial() {
-			return fullRadial;
-		}
-
-	}
-
 	@SubscribeEvent
 	public void onLivingAttack(net.minecraftforge.event.entity.living.LivingAttackEvent event) {
 		EntityLivingBase entity = event.getEntityLiving();
@@ -74,7 +58,7 @@ public class LivingAttackEvent {
 	}
 
 	private void damageShield(EntityPlayer player, float damage) {
-		if (damage >= 3.0F && !player.getActiveItemStack().isEmpty() && shieldRegistry.contains(player.getActiveItemStack().getItem())) {
+		if (damage >= 3.0F && !player.getActiveItemStack().isEmpty()) {
 			int i = 1 + MathHelper.floor(damage);
 			player.getActiveItemStack().damageItem(i, player);
 
