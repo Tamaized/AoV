@@ -35,19 +35,30 @@ public class LivingAttackEvent {
 		Entity attacker = event.getSource().getEntity();
 		EntityLivingBase entity = event.getEntityLiving();
 		if (entity.world.isRemote) return;
-		System.out.println("Base: "+entity.getHealth());
-		
+		System.out.println("Base: " + entity.getHealth());
+
 		// DoubleStrike
-		if (state && attacker != null && attacker.hasCapability(CapabilityList.AOV, null) && attacker.world.rand.nextInt(attacker.getCapability(CapabilityList.AOV, null).getDoubleStrikeForRand()) == 0) {
-			state = false;
-			System.out.println("DS");
-			System.out.println("Pre: "+entity.getHealth());
-			entity.attackEntityFrom(event.getSource(), event.getAmount());
-			entity.hurtResistantTime = 0;
-			System.out.println("Post: "+entity.getHealth());
-			state = true;
+		if (attacker != null && attacker.hasCapability(CapabilityList.AOV, null)) {
+			if (state && attacker.world.rand.nextInt(attacker.getCapability(CapabilityList.AOV, null).getDoubleStrikeForRand()) == 0) {
+				state = false;
+				System.out.println("DS");
+				System.out.println("Pre: " + entity.getHealth());
+				entity.attackEntityFrom(event.getSource(), event.getAmount());
+				entity.hurtResistantTime = 0;
+				System.out.println("Post: " + entity.getHealth());
+				state = true;
+			}
+			if (attacker.getCapability(CapabilityList.AOV, null).hasSkill(AoVSkill.defender_core_3)) {
+				double d1 = attacker.posX - entity.posX;
+				double d0;
+				for (d0 = attacker.posZ - entity.posZ; d1 * d1 + d0 * d0 < 1.0E-4D; d0 = (Math.random() - Math.random()) * 0.01D) {
+					d1 = (Math.random() - Math.random()) * 0.01D;
+				}
+				entity.attackedAtYaw = (float) (MathHelper.atan2(d0, d1) * (180D / Math.PI) - (double) entity.rotationYaw);
+				entity.knockBack(attacker, 1.0F, d1, d0);
+			}
 		}
-		
+
 		if (entity.hasCapability(CapabilityList.AOV, null)) {
 			IAoVCapability cap = entity.getCapability(CapabilityList.AOV, null);
 			// Dodge

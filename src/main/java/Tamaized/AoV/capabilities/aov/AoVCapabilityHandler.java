@@ -131,7 +131,8 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		tick++;
 	}
 
-	private static final AttributeModifier defenderHealth = new AttributeModifier("AoV Defender", 10.0D, 0);
+	private static final String defenderHealthName = "AoV Defender Health";
+	private static final AttributeModifier defenderHealth = new AttributeModifier(defenderHealthName, 10.0D, 0);
 
 	private void updateHealth(EntityPlayer player) {
 		if (player == null) return;
@@ -139,7 +140,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		Iterator<AttributeModifier> iter = hp.getModifiers().iterator();
 		while (iter.hasNext()) {
 			AttributeModifier mod = iter.next();
-			if (mod.getName().equals("AoV Defender")) {
+			if (mod.getName().equals(defenderHealthName)) {
 				hp.removeModifier(mod);
 			}
 		}
