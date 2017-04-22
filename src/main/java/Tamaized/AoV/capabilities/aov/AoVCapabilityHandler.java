@@ -3,6 +3,7 @@ package Tamaized.AoV.capabilities.aov;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -75,10 +76,18 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	private Map<AbilityBase, DecayWrapper> decay = new HashMap<AbilityBase, DecayWrapper>();
 	private int lastLevel = -1;
 
-	private class DecayWrapper {
-		private int amount = 1;
+	protected class DecayWrapper {
+		private int amount;
 		private int tick = 0;
 		private int decayTick = 20 * 30;
+		
+		public DecayWrapper(int a){
+			amount = a;
+		}
+		
+		public DecayWrapper(){
+			this(1);
+		}
 
 		public void addDecay() {
 			amount++;
@@ -491,7 +500,19 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			slots[index] = cap.getSlot(index);
 		}
 		currentSlot = cap.getCurrentSlot();
+		setDecayMap(cap.getDecayMap());
 		dirty = true;
+	}
+
+	@Override
+	public void setDecayMap(Map<AbilityBase, DecayWrapper> map) {
+		decay.clear();
+		decay.putAll(map);
+	}
+
+	@Override
+	public Map<AbilityBase, DecayWrapper> getDecayMap() {
+		return Collections.unmodifiableMap(decay);
 	}
 
 	private void sendPacketUpdates(EntityPlayerMP player) {

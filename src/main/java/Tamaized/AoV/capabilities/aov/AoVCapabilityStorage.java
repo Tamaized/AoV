@@ -1,6 +1,12 @@
 package Tamaized.AoV.capabilities.aov;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import Tamaized.AoV.capabilities.aov.AoVCapabilityHandler.DecayWrapper;
 import Tamaized.AoV.core.abilities.Ability;
+import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.skills.AoVSkill;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,6 +25,14 @@ public class AoVCapabilityStorage implements IStorage<IAoVCapability> {
 		for (AoVSkill skill : instance.getObtainedSkills())
 			list.appendTag(new NBTTagInt(skill.getID()));
 		nbt.setTag("obtainedSkills", list);
+		list = new NBTTagList();
+		for (Entry<AbilityBase, DecayWrapper> entry : instance.getDecayMap().entrySet()) {
+			NBTTagCompound comp = new NBTTagCompound();
+			comp.setInteger("id", AbilityBase.getID(entry.getKey()));
+			comp.setInteger("decay", entry.getValue().getDecay());
+			list.appendTag(comp);
+		}
+		nbt.setTag("decay", list);
 		// TODO: figure out auras
 		nbt.setInteger("skillPoints", instance.getSkillPoints());
 		nbt.setInteger("exp", instance.getExp());
@@ -50,6 +64,16 @@ public class AoVCapabilityStorage implements IStorage<IAoVCapability> {
 				instance.addObtainedSkill(AoVSkill.getSkillFromID(list.getIntAt(index)));
 			}
 		}
+		Map<AbilityBase, DecayWrapper> decay = new HashMap<AbilityBase, DecayWrapper>();
+		tag = compound.getTag("decay");
+		if (tag instanceof NBTTagList) {
+			NBTTagList list = (NBTTagList) tag;
+			for (int index = 0; index < list.tagCount(); index++) {
+				NBTTagCompound comp = list.getCompoundTagAt(index);
+				decay.put(AbilityBase.getAbilityFromID(comp.getInteger("id")), ((AoVCapabilityHandler) instance).new DecayWrapper(comp.getInteger("decay")));
+			}
+		}
+		if (!decay.isEmpty()) instance.setDecayMap(decay);
 		instance.setSkillPoints(compound.getInteger("skillPoints"));
 		instance.setExp(compound.getInteger("exp"));
 		instance.setMaxLevel(compound.getInteger("maxLevel"));

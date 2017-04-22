@@ -2,8 +2,10 @@ package Tamaized.AoV.capabilities.aov;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import Tamaized.AoV.AoV;
+import Tamaized.AoV.capabilities.aov.AoVCapabilityHandler.DecayWrapper;
 import Tamaized.AoV.core.abilities.Ability;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.abilities.Aura;
@@ -117,6 +119,10 @@ public interface IAoVCapability {
 	void removeSlot(int slot);
 
 	void clearAllSlots();
+
+	void setDecayMap(Map<AbilityBase, DecayWrapper> map);
+
+	Map<AbilityBase, DecayWrapper> getDecayMap();
 
 	void copyFrom(IAoVCapability cap);
 
