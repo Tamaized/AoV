@@ -8,6 +8,7 @@ import java.util.List;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.core.abilities.caster.NimbusRay;
+import Tamaized.AoV.core.abilities.defender.Aid;
 import Tamaized.AoV.core.abilities.healer.Cores.Burst;
 import Tamaized.AoV.core.abilities.healer.Cores.PosEnergyAura;
 import Tamaized.AoV.core.abilities.healer.Cures.CureBlind;
@@ -61,6 +62,9 @@ public abstract class AbilityBase {
 
 	// Caster
 	public static final AbilityBase nimbusRay = new NimbusRay();
+	
+	// Defender
+	public static final AbilityBase aid = new Aid();
 
 	private final List<String> description;
 

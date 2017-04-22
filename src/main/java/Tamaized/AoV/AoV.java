@@ -20,6 +20,7 @@ import Tamaized.AoV.registry.AoVDamageSource;
 import Tamaized.AoV.registry.AoVFluids;
 import Tamaized.AoV.registry.AoVItems;
 import Tamaized.AoV.registry.AoVMaterials;
+import Tamaized.AoV.registry.AoVPotions;
 import Tamaized.AoV.registry.AoVTabs;
 import Tamaized.AoV.registry.AoVTools;
 import Tamaized.TamModized.TamModBase;
@@ -63,6 +64,7 @@ public class AoV extends TamModBase {
 	public static AoVArmors armors = new AoVArmors();
 	public static AoVFluids fluids = new AoVFluids();
 	public static AoVBlocks blocks = new AoVBlocks();
+	public static AoVPotions potions = new AoVPotions();
 	public static AoVBiomes biomes = new AoVBiomes();
 	public static AoVAchievements achievements = new AoVAchievements();
 	public static AoVDamageSource damageSources = new AoVDamageSource();
@@ -110,6 +112,7 @@ public class AoV extends TamModBase {
 		register(armors);
 		register(fluids);
 		register(blocks);
+		register(potions);
 		register(biomes);
 		register(achievements);
 		register(damageSources);
@@ -128,7 +131,6 @@ public class AoV extends TamModBase {
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 
-		// Projectiles
 		registerEntity(ProjectileNimbusRay.class, "ProjectileNimbusRay", AoV.instance, modid, 128, 1, true);
 	}
 

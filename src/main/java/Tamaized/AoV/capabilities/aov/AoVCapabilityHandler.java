@@ -124,7 +124,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		updateAuras(player);
 		updateDecay();
 		if (dirty) {
-			updateValues();
+			updateValues(player);
 			if (player instanceof EntityPlayerMP) sendPacketUpdates((EntityPlayerMP) player);
 			dirty = false;
 		}
@@ -160,7 +160,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		}
 	}
 
-	private void updateValues() {
+	private void updateValues(EntityPlayer player) {
 		if (lastLevel < 0) lastLevel = getLevel();
 		if (lastLevel < getLevel()) {
 			skillPoints += (getLevel() - lastLevel);
@@ -187,6 +187,9 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		}
 		for (AbilityBase ability : list)
 			addAbility(new Ability(ability, this));
+		if (player != null) {
+			if (player.getActivePotionEffect(AoV.potions.aid) != null) dodge += 5;
+		}
 	}
 
 	private void updateAbilities() {
