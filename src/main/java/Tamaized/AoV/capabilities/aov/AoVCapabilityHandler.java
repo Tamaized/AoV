@@ -23,8 +23,9 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemShield;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 
 public class AoVCapabilityHandler implements IAoVCapability {
@@ -128,6 +129,16 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			dirty = false;
 		}
 		updateHealth(player);
+		if (tick > 0 && tick % (20 * 30) == 0 && hasSkill(AoVSkill.defender_core_4) && player != null) {
+			ItemStack main = player.getHeldItemMainhand();
+			ItemStack off = player.getHeldItemOffhand();
+			if (!main.isEmpty() && main.getItem() instanceof ItemShield && main.getItem().isRepairable() && main.getItemDamage() > 0) {
+				main.setItemDamage(0);
+			}
+			if (!off.isEmpty() && off.getItem() instanceof ItemShield && off.getItem().isRepairable() && off.getItemDamage() > 0) {
+				off.setItemDamage(0);
+			}
+		}
 		tick++;
 	}
 
