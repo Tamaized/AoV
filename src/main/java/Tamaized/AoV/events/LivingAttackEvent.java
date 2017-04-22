@@ -3,6 +3,7 @@ package Tamaized.AoV.events;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
+import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.skills.AoVSkill;
 import Tamaized.AoV.helper.FloatyTextHelper;
 import net.minecraft.entity.Entity;
@@ -38,6 +39,8 @@ public class LivingAttackEvent {
 		if (attacker != null && attacker.hasCapability(CapabilityList.AOV, null)) {
 			if (state && attacker.world.rand.nextInt(attacker.getCapability(CapabilityList.AOV, null).getDoubleStrikeForRand()) == 0) {
 				state = false;
+				attacker.getCapability(CapabilityList.AOV, null).addExp(20, AbilityBase.defenderDoublestrike);
+				if (attacker instanceof EntityPlayer) FloatyTextHelper.sendText((EntityPlayer) attacker, "Doublestrike");
 				entity.attackEntityFrom(event.getSource(), event.getAmount());
 				entity.hurtResistantTime = 0;
 				state = true;
@@ -55,8 +58,16 @@ public class LivingAttackEvent {
 
 		if (entity.hasCapability(CapabilityList.AOV, null)) {
 			IAoVCapability cap = entity.getCapability(CapabilityList.AOV, null);
+
+			if (cap.hasSkill(AoVSkill.defender_core_1) && entity instanceof EntityPlayer) {
+				if (canBlockDamageSource((EntityPlayer) entity, event.getSource(), false) && event.getAmount() > 0.0F) {
+					cap.addExp(20, AbilityBase.defenderBlocking);
+				}
+			}
+
 			// Dodge
 			if (isWhiteListed(event.getSource()) && cap.getDodge() > 0 && entity.world.rand.nextInt(cap.getDodgeForRand()) == 0) {
+				cap.addExp(20, AbilityBase.defenderDodge);
 				if (entity instanceof EntityPlayer) FloatyTextHelper.sendText((EntityPlayer) entity, "Dodged");
 				event.setCanceled(true);
 				return;

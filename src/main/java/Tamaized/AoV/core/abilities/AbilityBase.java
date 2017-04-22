@@ -71,6 +71,59 @@ public abstract class AbilityBase {
 	public static final AbilityBase shieldOfFaith = new ShieldOfFaith();
 	public static final AbilityBase zeal = new Zeal();
 	public static final AbilityBase stalwartPact = new StalwartPact();
+	public static final AbilityBase defenderBlocking = new NullAbility("DefenderBlocking");
+	public static final AbilityBase defenderDodge = new NullAbility("DefenderDodge");
+	public static final AbilityBase defenderDoublestrike = new NullAbility("DefenderDoublestrike");
+	
+	private static final class NullAbility extends AbilityBase {
+		
+		private final String name;
+		
+		public NullAbility(String name){
+			this.name = name;
+		}
+
+		@Override
+		public String getName() {
+			return name;
+		}
+
+		@Override
+		public int getMaxCharges() {
+			return 0;
+		}
+
+		@Override
+		public int getChargeCost() {
+			return 0;
+		}
+
+		@Override
+		public double getMaxDistance() {
+			return 0;
+		}
+
+		@Override
+		public int getCoolDown() {
+			return 0;
+		}
+
+		@Override
+		public boolean usesInvoke() {
+			return false;
+		}
+
+		@Override
+		public void cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
+			
+		}
+
+		@Override
+		public ResourceLocation getIcon() {
+			return null;
+		}
+		
+	}
 
 	private final List<String> description;
 
