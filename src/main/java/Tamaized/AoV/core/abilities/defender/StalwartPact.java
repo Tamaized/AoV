@@ -17,13 +17,13 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextFormatting;
 
-public class Aid extends AbilityBase {
+public class StalwartPact extends AbilityBase {
 
-	private final static String name = "Aid";
-	private final static int charges = 5;
+	private final static String name = "Stalwart Pact";
+	private final static int charges = 3;
 	private final static double range = 3;
 
-	public Aid() {
+	public StalwartPact() {
 		super(
 
 				TextFormatting.YELLOW + name,
@@ -36,7 +36,13 @@ public class Aid extends AbilityBase {
 
 				"",
 
-				TextFormatting.DARK_PURPLE + "Grants absorption and a +5 bonus to dodge."
+				TextFormatting.DARK_PURPLE + "Upon reaching half or less health",
+
+				TextFormatting.DARK_PURPLE + " you are granted with Absorption III",
+
+				TextFormatting.DARK_PURPLE + " and Regeneration III, can be cast on",
+
+				TextFormatting.DARK_PURPLE + " yourself or a target."
 
 		);
 	}
@@ -91,8 +97,7 @@ public class Aid extends AbilityBase {
 	}
 
 	private void addPotionEffects(EntityLivingBase entity) {
-		entity.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 20 * (60 * 5)));
-		entity.addPotionEffect(new PotionEffect(AoV.potions.aid, 20 * (60 * 5)));
+		entity.addPotionEffect(new PotionEffect(AoV.potions.stalwartPact, 20 * (60 * 5)));
 	}
 
 	private void castAsMass(EntityLivingBase target, IAoVCapability cap) {

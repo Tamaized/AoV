@@ -9,6 +9,9 @@ import Tamaized.AoV.AoV;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.core.abilities.caster.NimbusRay;
 import Tamaized.AoV.core.abilities.defender.Aid;
+import Tamaized.AoV.core.abilities.defender.ShieldOfFaith;
+import Tamaized.AoV.core.abilities.defender.StalwartPact;
+import Tamaized.AoV.core.abilities.defender.Zeal;
 import Tamaized.AoV.core.abilities.healer.Cores.Burst;
 import Tamaized.AoV.core.abilities.healer.Cores.PosEnergyAura;
 import Tamaized.AoV.core.abilities.healer.Cures.CureBlind;
@@ -65,6 +68,9 @@ public abstract class AbilityBase {
 	
 	// Defender
 	public static final AbilityBase aid = new Aid();
+	public static final AbilityBase shieldOfFaith = new ShieldOfFaith();
+	public static final AbilityBase zeal = new Zeal();
+	public static final AbilityBase stalwartPact = new StalwartPact();
 
 	private final List<String> description;
 

@@ -16,7 +16,7 @@ public class DefenderSkillT2S1 extends AoVSkill {
 	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
 
 	static {
-
+		spells.add(AbilityBase.shieldOfFaith);
 	}
 
 	public DefenderSkillT2S1() {

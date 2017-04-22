@@ -1,10 +1,6 @@
 package Tamaized.AoV.events;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-
+import Tamaized.AoV.AoV;
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.core.skills.AoVSkill;
@@ -14,38 +10,36 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.TextComponentScore;
-import net.minecraft.world.World;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
-import net.minecraftforge.fml.relauncher.ReflectionHelper.UnableToFindMethodException;
 
 public class LivingAttackEvent {
 
 	private boolean state = true;
+	private boolean faith = true;
+
+	@SubscribeEvent
+	public void onLivingHurtEvent(LivingHurtEvent event) {
+		if (event.getEntityLiving() != null && event.getEntityLiving().getActivePotionEffect(AoV.potions.shieldOfFaith) != null) event.setAmount(event.getAmount() / 2F);
+	}
 
 	@SubscribeEvent
 	public void onLivingAttack(net.minecraftforge.event.entity.living.LivingAttackEvent event) {
 		Entity attacker = event.getSource().getEntity();
 		EntityLivingBase entity = event.getEntityLiving();
 		if (entity.world.isRemote) return;
-		System.out.println("Base: " + entity.getHealth());
 
 		// DoubleStrike
 		if (attacker != null && attacker.hasCapability(CapabilityList.AOV, null)) {
 			if (state && attacker.world.rand.nextInt(attacker.getCapability(CapabilityList.AOV, null).getDoubleStrikeForRand()) == 0) {
 				state = false;
-				System.out.println("DS");
-				System.out.println("Pre: " + entity.getHealth());
 				entity.attackEntityFrom(event.getSource(), event.getAmount());
 				entity.hurtResistantTime = 0;
-				System.out.println("Post: " + entity.getHealth());
 				state = true;
 			}
 			if (attacker.getCapability(CapabilityList.AOV, null).hasSkill(AoVSkill.defender_core_3)) {

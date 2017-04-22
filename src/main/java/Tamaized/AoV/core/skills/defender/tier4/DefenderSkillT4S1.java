@@ -16,7 +16,7 @@ public class DefenderSkillT4S1 extends AoVSkill {
 	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
 
 	static {
-
+		spells.add(AbilityBase.stalwartPact);
 	}
 
 	public DefenderSkillT4S1() {

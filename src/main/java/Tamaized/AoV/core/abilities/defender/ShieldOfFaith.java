@@ -17,13 +17,13 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextFormatting;
 
-public class Aid extends AbilityBase {
+public class ShieldOfFaith extends AbilityBase {
 
-	private final static String name = "Aid";
+	private final static String name = "Shield of Faith";
 	private final static int charges = 5;
 	private final static double range = 3;
 
-	public Aid() {
+	public ShieldOfFaith() {
 		super(
 
 				TextFormatting.YELLOW + name,
@@ -36,7 +36,9 @@ public class Aid extends AbilityBase {
 
 				"",
 
-				TextFormatting.DARK_PURPLE + "Grants absorption and a +5 bonus to dodge."
+				TextFormatting.DARK_PURPLE + "Doubles the damage resistance",
+
+				TextFormatting.DARK_PURPLE + " of yourself or a target entity."
 
 		);
 	}
@@ -91,8 +93,7 @@ public class Aid extends AbilityBase {
 	}
 
 	private void addPotionEffects(EntityLivingBase entity) {
-		entity.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 20 * (60 * 5)));
-		entity.addPotionEffect(new PotionEffect(AoV.potions.aid, 20 * (60 * 5)));
+		entity.addPotionEffect(new PotionEffect(AoV.potions.shieldOfFaith, 20 * (60 * 5)));
 	}
 
 	private void castAsMass(EntityLivingBase target, IAoVCapability cap) {

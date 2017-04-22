@@ -16,7 +16,7 @@ public class DefenderSkillT3S1 extends AoVSkill {
 	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
 
 	static {
-
+		spells.add(AbilityBase.zeal);
 	}
 
 	public DefenderSkillT3S1() {
