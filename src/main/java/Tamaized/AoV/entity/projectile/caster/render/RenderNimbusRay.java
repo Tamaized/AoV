@@ -29,7 +29,12 @@ public class RenderNimbusRay<T extends ProjectileBase> extends Render<T> {
 	 */
 	public void doRender(T entity, double x, double y, double z, float entityYaw, float partialTicks) {
 		this.bindEntityTexture(entity);
-		GlStateManager.color(0xFF / 255F, 0xFF / 255F, 0x66 / 255F, 1.0F);
+		int color = entity.getColor();
+		float red = ((color >> 24) & 0xFF) / 255F;
+		float green = ((color >> 16) & 0xFF) / 255F;
+		float blue = ((color >> 8) & 0xFF) / 255F;
+		float alpha = ((color) & 0xFF) / 255F;
+		GlStateManager.color(red, green, blue, alpha);
 		GlStateManager.pushMatrix();
 		GlStateManager.disableLighting();
 		GlStateManager.translate((float) x, (float) y, (float) z);
@@ -101,7 +106,7 @@ public class RenderNimbusRay<T extends ProjectileBase> extends Render<T> {
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 		Vec3d vec = entity.getLook(1.0F);
 		for (int index = 0; index < 20; index++)
-			net.minecraft.client.Minecraft.getMinecraft().effectRenderer.addEffect(new Tamaized.TamModized.particles.FX.ParticleFluff(entity.world, entity.getPositionVector(), new Vec3d(-((0.015 * vec.xCoord) + ((rand.nextFloat() * 0.125) - 0.0625)), ((0.015 * vec.yCoord) + ((rand.nextFloat() * 0.125) - 0.0625)), -((0.015 * vec.zCoord) + ((rand.nextFloat() * 0.125) - 0.0625))), rand.nextInt(10), 0, (rand.nextFloat() * 0.85F) + 0.15F, 0xFFFF66FF));
+			net.minecraft.client.Minecraft.getMinecraft().effectRenderer.addEffect(new Tamaized.TamModized.particles.FX.ParticleFluff(entity.world, entity.getPositionVector(), new Vec3d(-((0.015 * vec.xCoord) + ((rand.nextFloat() * 0.125) - 0.0625)), ((0.015 * vec.yCoord) + ((rand.nextFloat() * 0.125) - 0.0625)), -((0.015 * vec.zCoord) + ((rand.nextFloat() * 0.125) - 0.0625))), rand.nextInt(10), 0, (rand.nextFloat() * 0.85F) + 0.15F, color));
 
 	}
 

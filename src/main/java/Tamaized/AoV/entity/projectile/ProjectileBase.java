@@ -65,6 +65,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 	private Vec3d startingPoint;
 
 	private AbilityBase parentSpell;
+	private int color = 0xFFFFFFFF;
 
 	public ProjectileBase(World worldIn) {
 		super(worldIn);
@@ -103,6 +104,14 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 		setThrowableHeading(d0, d1/* + d3 * 0.20000000298023224D */, d2, 1.6F, (float) (14 - world.getDifficulty().getDifficultyId() * 4));
 	}
 
+	public void setColor(int c) {
+		color = c;
+	}
+
+	public int getColor() {
+		return color;
+	}
+
 	public void setTheVelocity(double x, double y, double z) {
 		this.motionX = x;
 		this.motionY = y;
@@ -131,6 +140,10 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 		maxRange = range;
 	}
 
+	public void setSpeed(int s) {
+		speed = s;
+	}
+
 	@Override
 	public void setDamage(double damageIn) {
 		damage = damageIn;
@@ -141,11 +154,19 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 		buffer.writeDouble(posX);
 		buffer.writeDouble(posY);
 		buffer.writeDouble(posZ);
+		
+		buffer.writeDouble(damage);
+		buffer.writeFloat(range);
+		buffer.writeDouble(speed);
+		
+		buffer.writeInt(color);
 	}
 
 	@Override
-	public void readSpawnData(ByteBuf additionalData) {
-		setPosition(additionalData.readDouble(), additionalData.readDouble(), additionalData.readDouble());
+	public void readSpawnData(ByteBuf data) {
+		setPosition(data.readDouble(), data.readDouble(), data.readDouble());
+		setDamageRangeSpeed(data.readDouble(), data.readFloat(), data.readDouble());
+		setColor(data.readInt());
 	}
 
 	@Override

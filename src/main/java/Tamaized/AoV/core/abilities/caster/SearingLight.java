@@ -11,13 +11,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
-public class NimbusRay extends AbilityBase {
+public class SearingLight extends AbilityBase {
 
-	private static final int damage = 4;
+	private static final int damage = 8;
 	private static final int charges = 6;
-	private static final int distance = 20;
+	private static final int distance = 40;
 
-	public NimbusRay() {
+	public SearingLight() {
 		super(
 
 				TextFormatting.YELLOW + getStaticName(),
@@ -32,7 +32,7 @@ public class NimbusRay extends AbilityBase {
 
 				"",
 
-				TextFormatting.DARK_PURPLE + "Shoots a small ray of light",
+				TextFormatting.DARK_PURPLE + "Shoots a ray searing of light",
 
 				TextFormatting.DARK_PURPLE + "to deal damage.",
 
@@ -54,12 +54,12 @@ public class NimbusRay extends AbilityBase {
 	}
 
 	public static String getStaticName() {
-		return "Nimbus Ray";
+		return "Searing Light";
 	}
 
 	@Override
 	public int getCoolDown() {
-		return 2;
+		return 4;
 	}
 
 	@Override
@@ -92,9 +92,10 @@ public class NimbusRay extends AbilityBase {
 			int a = (int) (damage * (1f + (cap.getSpellPower() / 100f)));
 			ProjectileNimbusRay ray = new ProjectileNimbusRay(caster.world, caster, caster.posX, caster.posY, caster.posZ);
 			ray.setSpell(this);
-			ray.setColor(0xFFFF66FF);
+			ray.setColor(0xFFFFFFFF);
 			ray.setDamage(a);
 			ray.setMaxRange(distance);
+			ray.setSpeed(3);
 			caster.world.spawnEntity(ray);
 		}
 	}
