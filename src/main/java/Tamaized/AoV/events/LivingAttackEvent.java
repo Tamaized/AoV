@@ -17,6 +17,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -24,6 +25,11 @@ public class LivingAttackEvent {
 
 	private boolean state = true;
 	private boolean faith = true;
+
+	@SubscribeEvent
+	public void onLivingFallEvent(LivingFallEvent event) {
+		if (event.getEntityLiving() != null && event.getEntityLiving().getActivePotionEffect(AoV.potions.slowFall) != null) event.setDamageMultiplier(0);
+	}
 
 	@SubscribeEvent
 	public void onLivingHurtEvent(LivingHurtEvent event) {

@@ -5,6 +5,7 @@ import java.io.IOException;
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.helper.FloatyTextHelper;
+import Tamaized.AoV.helper.MotionHelper;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
 import net.minecraft.client.Minecraft;
@@ -18,7 +19,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ClientPacketHandler {
 
 	public static enum PacketType {
-		AOVDATA, FloatyText
+		AOVDATA, FloatyText, PLAYER_MOTION
 	}
 
 	public static int getPacketTypeID(PacketType type) {
@@ -50,6 +51,10 @@ public class ClientPacketHandler {
 		ByteBufInputStream bbis = new ByteBufInputStream(parBB);
 		int pktType = bbis.readInt();
 		switch (getPacketTypeFromID(pktType)) {
+			case PLAYER_MOTION: {
+				MotionHelper.updatePlayerMotion(bbis.readDouble(), bbis.readDouble(), bbis.readDouble());
+			}
+			break;
 			case AOVDATA: {
 				EntityPlayer player = Minecraft.getMinecraft().player;
 				if (player != null) {
