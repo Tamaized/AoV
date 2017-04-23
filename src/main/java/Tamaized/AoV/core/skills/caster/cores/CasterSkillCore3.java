@@ -16,7 +16,7 @@ public class CasterSkillCore3 extends AoVSkill {
 	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
 
 	static {
-
+		spells.add(AbilityBase.flameStrike);
 	}
 
 	public CasterSkillCore3() {

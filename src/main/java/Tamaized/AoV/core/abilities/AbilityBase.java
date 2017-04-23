@@ -7,6 +7,7 @@ import java.util.List;
 
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
+import Tamaized.AoV.core.abilities.caster.FlameStrike;
 import Tamaized.AoV.core.abilities.caster.NimbusRay;
 import Tamaized.AoV.core.abilities.caster.SearingLight;
 import Tamaized.AoV.core.abilities.defender.Aid;
@@ -67,6 +68,7 @@ public abstract class AbilityBase {
 	// Caster
 	public static final AbilityBase nimbusRay = new NimbusRay();
 	public static final AbilityBase searingLight = new SearingLight();
+	public static final AbilityBase flameStrike = new FlameStrike();
 	
 	// Defender
 	public static final AbilityBase aid = new Aid();

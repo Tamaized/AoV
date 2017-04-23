@@ -6,6 +6,7 @@ import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.AoVCapabilityHandler;
 import Tamaized.AoV.capabilities.aov.AoVCapabilityStorage;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
+import Tamaized.AoV.entity.projectile.caster.ProjectileFlameStrike;
 import Tamaized.AoV.entity.projectile.caster.ProjectileNimbusRay;
 import Tamaized.AoV.events.LivingAttackEvent;
 import Tamaized.AoV.events.PlayerInteractHandler;
@@ -132,6 +133,7 @@ public class AoV extends TamModBase {
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 
 		registerEntity(ProjectileNimbusRay.class, "ProjectileNimbusRay", AoV.instance, modid, 128, 1, true);
+		registerEntity(ProjectileFlameStrike.class, "ProjectileFlameStrike", AoV.instance, modid, 128, 1, true);
 	}
 
 	@Override

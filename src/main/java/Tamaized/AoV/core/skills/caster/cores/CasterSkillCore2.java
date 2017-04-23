@@ -16,7 +16,7 @@ public class CasterSkillCore2 extends AoVSkill {
 	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
 
 	static {
-		spells.add(AbilityBase.nimbusRay);
+
 	}
 
 	public CasterSkillCore2() {
