@@ -27,5 +27,14 @@ public final class Aura {
 	public final boolean isDead() {
 		return life <= 0;
 	}
+	
+	public Ability getSpell(){
+		return spell;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof Aura && ((Aura)obj).getSpell().compare(getSpell());
+	}
 
 }
