@@ -12,12 +12,14 @@ public class AoVDamageSource implements ITamRegistry {
 	private static ArrayList<ITamModel> modelList;
 	
 	public static DamageSource damageSource_caster_NimbusRay;
+	public static DamageSource destruction;
 
 	@Override
 	public void preInit() {
 		modelList = new ArrayList<ITamModel>();
 		
 		damageSource_caster_NimbusRay = new DamageSource("nimbusRay").setDamageBypassesArmor().setMagicDamage();
+		destruction = new DamageSource("destruction").setDamageBypassesArmor().setMagicDamage();
 	}
 
 	@Override

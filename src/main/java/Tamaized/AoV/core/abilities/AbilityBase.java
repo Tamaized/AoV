@@ -11,6 +11,7 @@ import Tamaized.AoV.core.abilities.caster.FlameStrike;
 import Tamaized.AoV.core.abilities.caster.LeapOfFaith;
 import Tamaized.AoV.core.abilities.caster.NimbusRay;
 import Tamaized.AoV.core.abilities.caster.SearingLight;
+import Tamaized.AoV.core.abilities.caster.SlayLiving;
 import Tamaized.AoV.core.abilities.defender.Aid;
 import Tamaized.AoV.core.abilities.defender.ShieldOfFaith;
 import Tamaized.AoV.core.abilities.defender.StalwartPact;
@@ -71,6 +72,7 @@ public abstract class AbilityBase {
 	public static final AbilityBase searingLight = new SearingLight();
 	public static final AbilityBase flameStrike = new FlameStrike();
 	public static final AbilityBase leapOfFaith = new LeapOfFaith();
+	public static final AbilityBase slayLiving = new SlayLiving();
 	
 	// Defender
 	public static final AbilityBase aid = new Aid();

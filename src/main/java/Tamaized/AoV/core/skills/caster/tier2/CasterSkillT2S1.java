@@ -16,7 +16,7 @@ public class CasterSkillT2S1 extends AoVSkill {
 	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
 
 	static {
-		
+		spells.add(AbilityBase.slayLiving);
 	}
 
 	public CasterSkillT2S1() {
