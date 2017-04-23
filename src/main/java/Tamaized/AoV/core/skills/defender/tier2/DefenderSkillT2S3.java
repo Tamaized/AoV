@@ -30,7 +30,7 @@ public class DefenderSkillT2S3 extends AoVSkill {
 
 				"",
 
-				TextFormatting.YELLOW + "+5% Dodge"
+				TextFormatting.GREEN + "+5% Dodge"
 
 		);
 	}
