@@ -6,6 +6,7 @@ import java.util.List;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.skills.AoVSkill;
+import Tamaized.AoV.core.skills.AoVSkill.Buffs;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
@@ -22,22 +23,20 @@ public class CasterSkillT2S2 extends AoVSkill {
 	public CasterSkillT2S2() {
 		super(spells,
 
-				TextFormatting.AQUA + "null",
+				TextFormatting.AQUA + "Charges I",
 
 				TextFormatting.RED + "Requires: 4 Points Spent in Tree",
 
-				TextFormatting.RED + "Requires: null",
-
 				"",
 
-				TextFormatting.YELLOW + "Added Spell: null"
+				TextFormatting.GREEN + "+1 Charge"
 
 		);
 	}
 
 	@Override
 	protected Buffs setupBuffs() {
-		return new Buffs(0, 0, 0, 0, false);
+		return new Buffs(1, 0, 0, 0, false);
 	}
 
 	@Override
@@ -56,7 +55,7 @@ public class CasterSkillT2S2 extends AoVSkill {
 
 	@Override
 	public AoVSkill getParent() {
-		return AoVSkill.caster_tier_1_2;
+		return AoVSkill.caster_core_1;
 	}
 
 	@Override

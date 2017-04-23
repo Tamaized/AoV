@@ -22,9 +22,13 @@ public class CasterSkillT4S4 extends AoVSkill {
 	public CasterSkillT4S4() {
 		super(spells,
 
-				TextFormatting.AQUA + "null",
+				TextFormatting.AQUA + "Leap of Faith",
 
-				TextFormatting.RED + "Requires: 12 Points Spent in Tree"
+				TextFormatting.RED + "Requires: 12 Points Spent in Tree",
+
+				"",
+
+				TextFormatting.YELLOW+ "Added Spell: Leap of Faith"
 
 		);
 	}

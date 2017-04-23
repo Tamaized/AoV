@@ -22,13 +22,15 @@ public class CasterSkillT3S2 extends AoVSkill {
 	public CasterSkillT3S2() {
 		super(spells,
 
-				TextFormatting.AQUA + "Charges I",
+				TextFormatting.AQUA + "Charges II",
 
 				TextFormatting.RED + "Requires: 8 Points Spent in Tree",
 
+				TextFormatting.RED + "Requires: Charges I",
+
 				"",
 
-				TextFormatting.GREEN + "+1 Charge"
+				TextFormatting.GREEN + "+2 Charges"
 
 		);
 	}
@@ -55,7 +57,7 @@ public class CasterSkillT3S2 extends AoVSkill {
 
 	@Override
 	public AoVSkill getParent() {
-		return AoVSkill.caster_core_1;
+		return AoVSkill.caster_tier_2_2;
 	}
 
 	@Override

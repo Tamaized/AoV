@@ -35,8 +35,8 @@ public class CasterSkillRegisterButtons {
 		/* Tier 2 */
 		sbI = new SkillButton(instance.getSkillButtonID(), instance.width / 2 - 197, instance.height - 128, AoVSkill.caster_tier_2_1);
 		instance.addNewButton(sbI);
-		// sbI = new SkillButton(instance.getSkillButtonID(), instance.width/2 - 172, instance.height-128, AoVSkill.caster_tier_2_2);
-		// instance.addNewButton(sbI);
+		sbI = new SkillButton(instance.getSkillButtonID(), instance.width / 2 - 172, instance.height - 128, AoVSkill.caster_tier_2_2);
+		instance.addNewButton(sbI);
 		sbI = new SkillButton(instance.getSkillButtonID(), instance.width / 2 - 147, instance.height - 128, AoVSkill.caster_tier_2_3);
 		instance.addNewButton(sbI);
 		// sbI = new SkillButton(instance.getSkillButtonID(), instance.width/2 - 122, instance.height-128, AoVSkill.caster_tier_2_4);
@@ -53,18 +53,18 @@ public class CasterSkillRegisterButtons {
 		instance.addNewButton(sbI);
 		// sbI = new SkillButton(instance.getSkillButtonID(), instance.width/2 - 122, instance.height-168, AoVSkill.caster_tier_3_4);
 		// instance.addNewButton(sbI);
-		sbI = new SkillButton(instance.getSkillButtonID(), instance.width / 2 - 97, instance.height - 168, AoVSkill.caster_tier_3_5);
-		instance.addNewButton(sbI);
+		// sbI = new SkillButton(instance.getSkillButtonID(), instance.width / 2 - 97, instance.height - 168, AoVSkill.caster_tier_3_5);
+		// instance.addNewButton(sbI);
 
 		/* Tier 4 */
 		sbI = new SkillButton(instance.getSkillButtonID(), instance.width / 2 - 197, instance.height - 208, AoVSkill.caster_tier_4_1);
 		instance.addNewButton(sbI);
-		sbI = new SkillButton(instance.getSkillButtonID(), instance.width / 2 - 172, instance.height - 208, AoVSkill.caster_tier_4_2);
-		instance.addNewButton(sbI);
+		// sbI = new SkillButton(instance.getSkillButtonID(), instance.width / 2 - 172, instance.height - 208, AoVSkill.caster_tier_4_2);
+		// instance.addNewButton(sbI);
 		sbI = new SkillButton(instance.getSkillButtonID(), instance.width / 2 - 147, instance.height - 208, AoVSkill.caster_tier_4_3);
 		instance.addNewButton(sbI);
-		// sbI = new SkillButton(instance.getSkillButtonID(), instance.width/2 - 122, instance.height-208, AoVSkill.caster_tier_4_4);
-		// instance.addNewButton(sbI);
+		 sbI = new SkillButton(instance.getSkillButtonID(), instance.width/2 - 122, instance.height-208, AoVSkill.caster_tier_4_4);
+		 instance.addNewButton(sbI);
 		sbI = new SkillButton(instance.getSkillButtonID(), instance.width / 2 - 97, instance.height - 208, AoVSkill.caster_tier_4_5);
 		instance.addNewButton(sbI);
 
