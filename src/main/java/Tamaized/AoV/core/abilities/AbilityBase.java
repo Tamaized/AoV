@@ -7,6 +7,7 @@ import java.util.List;
 
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
+import Tamaized.AoV.core.abilities.caster.Destruction;
 import Tamaized.AoV.core.abilities.caster.FlameStrike;
 import Tamaized.AoV.core.abilities.caster.LeapOfFaith;
 import Tamaized.AoV.core.abilities.caster.NimbusRay;
@@ -73,6 +74,7 @@ public abstract class AbilityBase {
 	public static final AbilityBase flameStrike = new FlameStrike();
 	public static final AbilityBase leapOfFaith = new LeapOfFaith();
 	public static final AbilityBase slayLiving = new SlayLiving();
+	public static final AbilityBase destruction = new Destruction();
 	
 	// Defender
 	public static final AbilityBase aid = new Aid();

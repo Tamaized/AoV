@@ -16,7 +16,7 @@ public class CasterSkillT3S1 extends AoVSkill {
 	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
 
 	static {
-
+		spells.add(AbilityBase.destruction);
 	}
 
 	public CasterSkillT3S1() {
