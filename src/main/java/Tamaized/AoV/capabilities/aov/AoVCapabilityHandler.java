@@ -80,12 +80,12 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		private int amount;
 		private int tick = 0;
 		private int decayTick = 20 * 30;
-		
-		public DecayWrapper(int a){
+
+		public DecayWrapper(int a) {
 			amount = a;
 		}
-		
-		public DecayWrapper(){
+
+		public DecayWrapper() {
 			this(1);
 		}
 
@@ -270,6 +270,13 @@ public class AoVCapabilityHandler implements IAoVCapability {
 
 	@Override
 	public void addAura(Aura aura) {
+		Iterator<Aura> iter = auras.iterator();
+		while (iter.hasNext()) {
+			Aura a = iter.next();
+			if (a.equals(aura)) {
+				iter.remove();
+			}
+		}
 		auras.add(aura);
 		dirty = true;
 	}
