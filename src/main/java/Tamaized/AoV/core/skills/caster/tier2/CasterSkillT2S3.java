@@ -30,7 +30,7 @@ public class CasterSkillT2S3 extends AoVSkill {
 
 				"",
 
-				TextFormatting.YELLOW + "+15 Spell Power"
+				TextFormatting.GREEN + "+15 Spell Power"
 
 		);
 	}

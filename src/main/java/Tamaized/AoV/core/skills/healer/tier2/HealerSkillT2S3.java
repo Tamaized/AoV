@@ -30,7 +30,7 @@ public class HealerSkillT2S3 extends AoVSkill {
 
 				"",
 
-				TextFormatting.YELLOW + "+10 Spell Power"
+				TextFormatting.GREEN + "+10 Spell Power"
 
 		);
 	}
