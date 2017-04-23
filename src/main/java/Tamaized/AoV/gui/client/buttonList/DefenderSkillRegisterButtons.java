@@ -39,8 +39,8 @@ public class DefenderSkillRegisterButtons {
 		// instance.addNewButton(sbI);
 		sbI = new SkillButton(instance.getSkillButtonID(), instance.width / 2 + 121, instance.height - 128, AoVSkill.defender_tier_2_3);
 		instance.addNewButton(sbI);
-		// sbI = new SkillButton(instance.getSkillButtonID(), instance.width/2 - 146, instance.height-128, AoVSkill.defender_tier_2_4);
-		// instance.addNewButton(sbI);
+		sbI = new SkillButton(instance.getSkillButtonID(), instance.width / 2 + 146, instance.height - 128, AoVSkill.defender_tier_2_4);
+		instance.addNewButton(sbI);
 		// sbI = new SkillButton(instance.getSkillButtonID(), instance.width/2 - 171, instance.height-128, AoVSkill.defender_tier_2_5);
 		// instance.addNewButton(sbI);
 
@@ -63,8 +63,8 @@ public class DefenderSkillRegisterButtons {
 		instance.addNewButton(sbI);
 		sbI = new SkillButton(instance.getSkillButtonID(), instance.width / 2 + 121, instance.height - 208, AoVSkill.defender_tier_4_3);
 		instance.addNewButton(sbI);
-		sbI = new SkillButton(instance.getSkillButtonID(), instance.width / 2 + 146, instance.height - 208, AoVSkill.defender_tier_4_4);
-		instance.addNewButton(sbI);
+		// sbI = new SkillButton(instance.getSkillButtonID(), instance.width / 2 + 146, instance.height - 208, AoVSkill.defender_tier_4_4);
+		// instance.addNewButton(sbI);
 		sbI = new SkillButton(instance.getSkillButtonID(), instance.width / 2 + 171, instance.height - 208, AoVSkill.defender_tier_4_5);
 		instance.addNewButton(sbI);
 

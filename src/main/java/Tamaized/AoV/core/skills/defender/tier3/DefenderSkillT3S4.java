@@ -22,9 +22,11 @@ public class DefenderSkillT3S4 extends AoVSkill {
 	public DefenderSkillT3S4() {
 		super(spells,
 
-				TextFormatting.AQUA + "DoubleStrike I",
+				TextFormatting.AQUA + "DoubleStrike II",
 
 				TextFormatting.RED + "Requires: 8 Points Spent in Tree",
+				
+				TextFormatting.RED + "Requires: DoubleStrike I",
 				
 				"",
 				
@@ -55,7 +57,7 @@ public class DefenderSkillT3S4 extends AoVSkill {
 
 	@Override
 	public AoVSkill getParent() {
-		return AoVSkill.defender_core_1;
+		return AoVSkill.defender_tier_2_4;
 	}
 
 	@Override

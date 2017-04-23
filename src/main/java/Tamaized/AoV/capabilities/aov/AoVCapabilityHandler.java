@@ -276,7 +276,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 
 	@Override
 	public void addExp(int amount, AbilityBase spell) {
-		if (getLevel() >= getMaxLevel()) return;
+		if (!hasCoreSkill() || getLevel() >= getMaxLevel()) return;
 		if (spell == null) {
 
 		} else if (decay.containsKey(spell)) {

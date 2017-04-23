@@ -11,6 +11,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
@@ -45,7 +46,9 @@ public class LivingAttackEvent {
 				entity.hurtResistantTime = 0;
 				state = true;
 			}
-			if (attacker.getCapability(CapabilityList.AOV, null).hasSkill(AoVSkill.defender_core_3)) {
+			EntityLivingBase attackerLiving = null;
+			if (attacker instanceof EntityLivingBase) attackerLiving = (EntityLivingBase) attacker;
+			if (attacker.getCapability(CapabilityList.AOV, null).hasSkill(AoVSkill.defender_core_3) && attackerLiving != null && ((!attackerLiving.getHeldItemMainhand().isEmpty() && attackerLiving.getHeldItemMainhand().getItem() instanceof ItemShield) || (!attackerLiving.getHeldItemOffhand().isEmpty() && attackerLiving.getHeldItemOffhand().getItem() instanceof ItemShield))) {
 				double d1 = attacker.posX - entity.posX;
 				double d0;
 				for (d0 = attacker.posZ - entity.posZ; d1 * d1 + d0 * d0 < 1.0E-4D; d0 = (Math.random() - Math.random()) * 0.01D) {

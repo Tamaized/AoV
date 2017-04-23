@@ -16,17 +16,19 @@ public class DefenderSkillT2S4 extends AoVSkill {
 	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
 
 	static {
-		spells.add(AbilityBase.cureBlind);
+
 	}
 
 	public DefenderSkillT2S4() {
 		super(spells,
 
-				TextFormatting.AQUA + "null",
+				TextFormatting.AQUA + "DoubleStrike I",
 
 				TextFormatting.RED + "Requires: 4 Points Spent in Tree",
-
-				""
+				
+				"",
+				
+				TextFormatting.GREEN + "+5% DoubleStrike"
 
 		);
 	}
@@ -38,7 +40,7 @@ public class DefenderSkillT2S4 extends AoVSkill {
 
 	@Override
 	protected Buffs setupBuffs() {
-		return new Buffs(0, 0, 0, 0, false);
+		return new Buffs(0, 0, 0, 5, false);
 	}
 
 	@Override

@@ -29,14 +29,14 @@ public class AoVOverlay extends Gui {
 
 	@SubscribeEvent
 	public void RenderAoVData(RenderGameOverlayEvent e) {
-		if (e.isCancelable() || e.getType() != e.getType().EXPERIENCE || !mc.player.hasCapability(CapabilityList.AOV, null)) return;
+		if (e.isCancelable() || e.getType() != e.getType().EXPERIENCE) return;
 		ClientTicker.update();
 		IAoVCapability cap = mc.player.getCapability(CapabilityList.AOV, null);
 		FontRenderer fontRender = mc.fontRendererObj;
 		ScaledResolution sr = new ScaledResolution(mc);
 		int sW = sr.getScaledWidth() / 2;
 
-		if (cap.hasCoreSkill()) {
+		if (cap != null && cap.hasCoreSkill()) {
 
 			if (ClientProxy.barToggle) {
 				for (int i = 0; i < 9; i++) {
@@ -47,36 +47,35 @@ public class AoVOverlay extends Gui {
 			}
 
 			ClientProxy.bar.render(this, e.getPartialTicks());
-
-			GlStateManager.pushMatrix();
-			{
-				GlStateManager.scale(0.5f, 0.5f, 0f);
-				if (!mc.isGamePaused()) {
-					for (int i = 5; i >= 0; i--) {
-						if (floatyText[i] == null) continue;
-						floatyText[i].pos += 1;
-						if (floatyText[i].pos % 8 == 0) {
-							FloatyText newText = floatyText[i];
-							floatyText[i] = null;
-							if (i != 5) floatyText[i + 1] = newText;
-						}
-					}
-					if (!textSpooler.isEmpty() && floatyText[0] == null) {
-						floatyText[0] = new FloatyText(textSpooler.get(0));
-						textSpooler.remove(0);
-					}
-				}
-
-				for (int i = 0; i <= 5; i++) {
-					FloatyText ft = floatyText[i];
-					if (ft == null) continue;
-					float perc = 255 - ((float) i / 10) * 255;
-					fontRender.drawStringWithShadow(ft.text, (sW * 4) - 230, -5 + ft.pos, 0xFFFF00);
-				}
-
-			}
-			GlStateManager.popMatrix();
 		}
+		GlStateManager.pushMatrix();
+		{
+			GlStateManager.scale(0.5f, 0.5f, 0f);
+			if (!mc.isGamePaused()) {
+				for (int i = 5; i >= 0; i--) {
+					if (floatyText[i] == null) continue;
+					floatyText[i].pos += 1;
+					if (floatyText[i].pos % 8 == 0) {
+						FloatyText newText = floatyText[i];
+						floatyText[i] = null;
+						if (i != 5) floatyText[i + 1] = newText;
+					}
+				}
+				if (!textSpooler.isEmpty() && floatyText[0] == null) {
+					floatyText[0] = new FloatyText(textSpooler.get(0));
+					textSpooler.remove(0);
+				}
+			}
+
+			for (int i = 0; i <= 5; i++) {
+				FloatyText ft = floatyText[i];
+				if (ft == null) continue;
+				float perc = 255 - ((float) i / 10) * 255;
+				fontRender.drawStringWithShadow(ft.text, (sW * 4) - 230, -5 + ft.pos, 0xFFFF00);
+			}
+
+		}
+		GlStateManager.popMatrix();
 
 	}
 
