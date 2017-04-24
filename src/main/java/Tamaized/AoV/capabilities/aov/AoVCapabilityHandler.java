@@ -244,6 +244,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 
 	@Override
 	public boolean canUseAbility(Ability ability) {
+		dirty = true;
 		boolean flag = false;
 		for (Ability a : abilities)
 			if (a.compare(ability) && ability.canUse(this)) flag = true;
