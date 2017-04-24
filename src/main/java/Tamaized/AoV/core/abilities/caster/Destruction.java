@@ -54,7 +54,7 @@ public class Destruction extends AbilityBase {
 
 	@Override
 	public int getCoolDown() {
-		return 2;
+		return 15;
 	}
 
 	@Override
@@ -79,12 +79,14 @@ public class Destruction extends AbilityBase {
 
 	@Override
 	public void cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
-		if(target == null) return;
+		if (target == null) return;
 		if (caster.world.isRemote) {
 			sendPacketTypeTarget(ability, target.getEntityId());
 		} else {
-			if(!target.isEntityUndead() && target.isNonBoss()) {
+			IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
+			if (cap != null && !target.isEntityUndead() && target.isNonBoss()) {
 				target.attackEntityFrom(AoV.damageSources.destruction, Integer.MAX_VALUE);
+				cap.addExp(20, AbilityBase.destruction);
 			}
 		}
 	}

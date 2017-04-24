@@ -5,18 +5,21 @@ import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.core.abilities.Ability;
 import Tamaized.AoV.core.abilities.AbilityBase;
+import Tamaized.AoV.entity.EntitySpellImplosion;
 import Tamaized.AoV.entity.projectile.caster.ProjectileNimbusRay;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextFormatting;
 
-public class SlayLiving extends AbilityBase {
+public class Implosion extends AbilityBase {
 
-	private static final int charges = 4;
-	private static final int distance = 3;
+	private static final int charges = 1;
+	private static final int distance = 10;
 
-	public SlayLiving() {
+	public Implosion() {
 		super(
 
 				TextFormatting.YELLOW + getStaticName(),
@@ -29,11 +32,13 @@ public class SlayLiving extends AbilityBase {
 
 				"",
 
-				TextFormatting.DARK_PURPLE + "Destroys a living target.",
+				TextFormatting.DARK_PURPLE + "Targets around you",
 
-				TextFormatting.DARK_PURPLE + "Does not affect Undead or",
+				TextFormatting.DARK_PURPLE + "begin to implode",
 
-				TextFormatting.DARK_PURPLE + "bosses."
+				TextFormatting.DARK_PURPLE + "and die after a",
+
+				TextFormatting.DARK_PURPLE + "short time."
 
 		);
 	}
@@ -49,12 +54,12 @@ public class SlayLiving extends AbilityBase {
 	}
 
 	public static String getStaticName() {
-		return "Slay Living";
+		return "Implosion";
 	}
 
 	@Override
 	public int getCoolDown() {
-		return 6;
+		return 30;
 	}
 
 	@Override
@@ -79,14 +84,14 @@ public class SlayLiving extends AbilityBase {
 
 	@Override
 	public void cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
-		if (target == null) return;
 		if (caster.world.isRemote) {
-			sendPacketTypeTarget(ability, target.getEntityId());
+			sendPacketTypeSelf(ability);
 		} else {
-			IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
-			if (cap != null && !target.isEntityUndead() && target.isNonBoss()) {
-				target.attackEntityFrom(AoV.damageSources.destruction, Integer.MAX_VALUE);
-				cap.addExp(20, AbilityBase.slayLiving);
+			for (EntityLivingBase entity : caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-distance, -1, -distance), caster.getPosition().add(distance, 5, distance)))) {
+				IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
+				if (entity == caster || (cap != null && cap.hasSelectiveFocus() && entity.isOnSameTeam(caster))) continue;
+				caster.world.spawnEntity(new EntitySpellImplosion(caster.world, entity));
+				cap.addExp(20, AbilityBase.implosion);
 			}
 		}
 	}

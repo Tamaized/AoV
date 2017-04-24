@@ -9,6 +9,7 @@ import Tamaized.AoV.AoV;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.core.abilities.caster.Destruction;
 import Tamaized.AoV.core.abilities.caster.FlameStrike;
+import Tamaized.AoV.core.abilities.caster.Implosion;
 import Tamaized.AoV.core.abilities.caster.LeapOfFaith;
 import Tamaized.AoV.core.abilities.caster.NimbusRay;
 import Tamaized.AoV.core.abilities.caster.SearingLight;
@@ -75,6 +76,7 @@ public abstract class AbilityBase {
 	public static final AbilityBase leapOfFaith = new LeapOfFaith();
 	public static final AbilityBase slayLiving = new SlayLiving();
 	public static final AbilityBase destruction = new Destruction();
+	public static final AbilityBase implosion = new Implosion();
 	
 	// Defender
 	public static final AbilityBase aid = new Aid();
