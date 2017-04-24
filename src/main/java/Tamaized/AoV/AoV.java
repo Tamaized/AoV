@@ -133,8 +133,8 @@ public class AoV extends TamModBase {
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 
-		registerEntity(ProjectileNimbusRay.class, "ProjectileNimbusRay", AoV.instance, modid, 128, 1, true);
-		registerEntity(ProjectileFlameStrike.class, "ProjectileFlameStrike", AoV.instance, modid, 128, 1, true);
+		registerEntity(ProjectileNimbusRay.class, "ProjectileNimbusRay", this, modid, 128, 1, true);
+		registerEntity(ProjectileFlameStrike.class, "ProjectileFlameStrike", this, modid, 128, 1, true);
 		registerEntity(EntitySpellImplosion.class, "EntitySpellImplosion", this, modid, 64, 1, true);
 	}
 
