@@ -84,15 +84,11 @@ public class Implosion extends AbilityBase {
 
 	@Override
 	public void cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
-		if (caster.world.isRemote) {
-			sendPacketTypeSelf(ability);
-		} else {
-			for (EntityLivingBase entity : caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-distance, -1, -distance), caster.getPosition().add(distance, 5, distance)))) {
-				IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
-				if (entity == caster || (cap != null && cap.hasSelectiveFocus() && entity.isOnSameTeam(caster))) continue;
-				caster.world.spawnEntity(new EntitySpellImplosion(caster.world, entity));
-				cap.addExp(20, AbilityBase.implosion);
-			}
+		for (EntityLivingBase entity : caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-distance, -1, -distance), caster.getPosition().add(distance, 5, distance)))) {
+			IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
+			if (entity == caster || (cap != null && cap.hasSelectiveFocus() && entity.isOnSameTeam(caster))) continue;
+			caster.world.spawnEntity(new EntitySpellImplosion(caster.world, entity));
+			cap.addExp(20, AbilityBase.implosion);
 		}
 	}
 

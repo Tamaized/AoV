@@ -84,20 +84,16 @@ public class SearingLight extends AbilityBase {
 
 	@Override
 	public void cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
-		if (caster.world.isRemote) {
-			sendPacketTypeSelf(ability);
-		} else {
-			IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
-			if (cap == null) return;
-			int a = (int) (damage * (1f + (cap.getSpellPower() / 100f)));
-			ProjectileNimbusRay ray = new ProjectileNimbusRay(caster.world, caster, caster.posX, caster.posY, caster.posZ);
-			ray.setSpell(this);
-			ray.setColor(0xFFFFFFFF);
-			ray.setDamage(a);
-			ray.setMaxRange(distance);
-			ray.setSpeed(3);
-			caster.world.spawnEntity(ray);
-		}
+		IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
+		if (cap == null) return;
+		int a = (int) (damage * (1f + (cap.getSpellPower() / 100f)));
+		ProjectileNimbusRay ray = new ProjectileNimbusRay(caster.world, caster, caster.posX, caster.posY, caster.posZ);
+		ray.setSpell(this);
+		ray.setColor(0xFFFFFFFF);
+		ray.setDamage(a);
+		ray.setMaxRange(distance);
+		ray.setSpeed(3);
+		caster.world.spawnEntity(ray);
 	}
 
 }

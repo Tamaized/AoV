@@ -90,34 +90,30 @@ public class FlameStrike extends AbilityBase {
 
 	@Override
 	public void cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
-		if (caster.world.isRemote) {
-			sendPacketTypeSelf(ability);
-		} else {
-			IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
-			if (cap == null) return;
-			int a = (int) (damage * (1f + (cap.getSpellPower() / 100f)));
-			ProjectileFlameStrike strike = new ProjectileFlameStrike(caster.world, caster, a);
-			HashSet<Entity> exclude = new HashSet<Entity>();
-			exclude.add(caster);
-			RayTraceResult result = RayTraceHelper.tracePath(caster.world, caster, distance, 1, exclude);
-			if (result != null && result.typeOfHit != null) {
-				switch (result.typeOfHit) {
-					case BLOCK:
-						BlockPos pos = result.getBlockPos();
-						strike.setPosition(pos.getX(), pos.getY() + 20, pos.getZ());
-						break;
-					case ENTITY:
-						pos = result.entityHit.getPosition();
-						strike.setPosition(pos.getX(), pos.getY() + 20, pos.getZ());
-						break;
-					default:
-						pos = caster.getPosition();
-						strike.setPosition(pos.getX(), pos.getY() + 20, pos.getZ());
-						break;
-				}
+		IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
+		if (cap == null) return;
+		int a = (int) (damage * (1f + (cap.getSpellPower() / 100f)));
+		ProjectileFlameStrike strike = new ProjectileFlameStrike(caster.world, caster, a);
+		HashSet<Entity> exclude = new HashSet<Entity>();
+		exclude.add(caster);
+		RayTraceResult result = RayTraceHelper.tracePath(caster.world, caster, distance, 1, exclude);
+		if (result != null && result.typeOfHit != null) {
+			switch (result.typeOfHit) {
+				case BLOCK:
+					BlockPos pos = result.getBlockPos();
+					strike.setPosition(pos.getX(), pos.getY() + 20, pos.getZ());
+					break;
+				case ENTITY:
+					pos = result.entityHit.getPosition();
+					strike.setPosition(pos.getX(), pos.getY() + 20, pos.getZ());
+					break;
+				default:
+					pos = caster.getPosition();
+					strike.setPosition(pos.getX(), pos.getY() + 20, pos.getZ());
+					break;
 			}
-			caster.world.spawnEntity(strike);
 		}
+		caster.world.spawnEntity(strike);
 	}
 
 }

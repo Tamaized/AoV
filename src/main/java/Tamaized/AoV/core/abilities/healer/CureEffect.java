@@ -64,29 +64,21 @@ public abstract class CureEffect extends AbilityBase {
 	public boolean usesInvoke() {
 		return true;
 	}
-	
+
 	protected abstract int getParticleColor();
 
 	@Override
 	public void cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
-		if (player.world.isRemote) {
-			if (e != null) {
-				sendPacketTypeTarget(ability, e.getEntityId());
-			} else {
-				sendPacketTypeSelf(ability);
-			}
+		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
+		if (cap == null) return;
+		if (cap.getInvokeMass()) castAsMass(player, cap);
+		else if (e == null) {
+			player.removePotionEffect(effect);
 		} else {
-			IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
-			if (cap == null) return;
-			if (cap.getInvokeMass()) castAsMass(player, cap);
-			else if (e == null) {
-				player.removePotionEffect(effect);
-			} else {
-				if (cap.hasSelectiveFocus() && (e instanceof IMob)) return;
-				else e.removePotionEffect(effect);
-			}
-			cap.addExp(20, this);
+			if (cap.hasSelectiveFocus() && (e instanceof IMob)) return;
+			else e.removePotionEffect(effect);
 		}
+		cap.addExp(20, this);
 
 	}
 

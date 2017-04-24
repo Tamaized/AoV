@@ -172,33 +172,4 @@ public abstract class AbilityBase {
 	
 	public abstract ResourceLocation getIcon();
 
-	protected static void sendPacketTypeTarget(Ability ability, int entityID) {
-		ByteBufOutputStream bos = new ByteBufOutputStream(Unpooled.buffer());
-		DataOutputStream outputStream = new DataOutputStream(bos);
-		try {
-			outputStream.writeInt(ServerPacketHandler.getPacketTypeID(ServerPacketHandler.PacketType.SPELLCAST_TARGET));
-			outputStream.writeInt(entityID);
-			ability.encode(outputStream);
-			FMLProxyPacket pkt = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
-			if (AoV.channel != null && pkt != null) AoV.channel.sendToServer(pkt);
-			bos.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	protected static void sendPacketTypeSelf(Ability ability) {
-		ByteBufOutputStream bos = new ByteBufOutputStream(Unpooled.buffer());
-		DataOutputStream outputStream = new DataOutputStream(bos);
-		try {
-			outputStream.writeInt(ServerPacketHandler.getPacketTypeID(ServerPacketHandler.PacketType.SPELLCAST_SELF));
-			ability.encode(outputStream);
-			FMLProxyPacket pkt = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
-			if (AoV.channel != null && pkt != null) AoV.channel.sendToServer(pkt);
-			bos.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 }

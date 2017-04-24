@@ -15,6 +15,9 @@ import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.abilities.Aura;
 import Tamaized.AoV.core.skills.AoVSkill;
 import Tamaized.AoV.network.ClientPacketHandler;
+import Tamaized.AoV.network.ServerPacketHandler;
+import Tamaized.TamModized.helper.PacketHelper;
+import Tamaized.TamModized.helper.PacketHelper.PacketWrapper;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
@@ -28,6 +31,8 @@ import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class AoVCapabilityHandler implements IAoVCapability {
 
@@ -264,11 +269,6 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@Override
-	public void castAbility(Ability ability, EntityPlayer caster, EntityLivingBase target) {
-		if (canUseAbility(ability)) ability.cast(caster, target);
-	}
-
-	@Override
 	public void addAura(Aura aura) {
 		Iterator<Aura> iter = auras.iterator();
 		while (iter.hasNext()) {
@@ -427,6 +427,18 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	@Override
 	public boolean hasInvokeMass() {
 		return hasInvoke;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void cast(int slotLoc) {
+		try {
+			PacketWrapper packet = PacketHelper.createPacket(AoV.channel, AoV.networkChannelName, ServerPacketHandler.getPacketTypeID(ServerPacketHandler.PacketType.CAST_SPELL));
+			packet.getStream().writeInt(slotLoc);
+			packet.sendPacketToServer();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

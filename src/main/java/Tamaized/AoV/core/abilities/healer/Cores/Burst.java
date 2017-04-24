@@ -50,26 +50,22 @@ public class Burst extends AbilityBase {
 
 	@Override
 	public void cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
-		if (player.world.isRemote) {
-			sendPacketTypeSelf(ability);
-		} else {
-			IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
-			if (cap == null) return;
-			ParticleHelper.spawnParticleMesh(ParticleHelper.Type.BURST, player.world, player.getPositionVector(), range, 0xFFFF00FF);
-			int a = (int) (dmg * (1f + (cap.getSpellPower() / 100f)));
-			List<EntityLivingBase> list = player.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(player.getPosition().add(-range, -range, -range), player.getPosition().add(range, range, range)));
-			for (EntityLivingBase entity : list) {
-				if (entity.isEntityUndead()) entity.attackEntityFrom(DamageSource.MAGIC, a);
-				else if (cap.hasSelectiveFocus() && (entity instanceof IMob)) continue;
-				else entity.heal(a);
-				cap.addExp(20, this);
-			}
+		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
+		if (cap == null) return;
+		ParticleHelper.spawnParticleMesh(ParticleHelper.Type.BURST, player.world, player.getPositionVector(), range, 0xFFFF00FF);
+		int a = (int) (dmg * (1f + (cap.getSpellPower() / 100f)));
+		List<EntityLivingBase> list = player.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(player.getPosition().add(-range, -range, -range), player.getPosition().add(range, range, range)));
+		for (EntityLivingBase entity : list) {
+			if (entity.isEntityUndead()) entity.attackEntityFrom(DamageSource.MAGIC, a);
+			else if (cap.hasSelectiveFocus() && (entity instanceof IMob)) continue;
+			else entity.heal(a);
+			cap.addExp(20, this);
 		}
 	}
 
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid+":textures/spells/posenergyburst.png");
+		return new ResourceLocation(AoV.modid + ":textures/spells/posenergyburst.png");
 	}
 
 	@Override

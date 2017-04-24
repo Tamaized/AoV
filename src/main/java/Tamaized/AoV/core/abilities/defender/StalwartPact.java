@@ -73,27 +73,18 @@ public class StalwartPact extends AbilityBase {
 
 	@Override
 	public void cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
-		if (player.world.isRemote) {
-			if (e != null) {
-				sendPacketTypeTarget(ability, e.getEntityId());
-			} else {
-				sendPacketTypeSelf(ability);
-			}
+		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
+		if (cap == null) return;
+		if (cap.getInvokeMass()) castAsMass(player, cap);
+		else if (e == null) {
+			addPotionEffects(player);
 		} else {
-			IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
-			if (cap == null) return;
-			if (cap.getInvokeMass()) castAsMass(player, cap);
-			else if (e == null) {
-				addPotionEffects(player);
-			} else {
-				if (cap.hasSelectiveFocus() && (e instanceof IMob)) return;
-				else {
-					addPotionEffects(e);
-				}
+			if (cap.hasSelectiveFocus() && (e instanceof IMob)) return;
+			else {
+				addPotionEffects(e);
 			}
-			cap.addExp(20, this);
 		}
-
+		cap.addExp(20, this);
 	}
 
 	private void addPotionEffects(EntityLivingBase entity) {

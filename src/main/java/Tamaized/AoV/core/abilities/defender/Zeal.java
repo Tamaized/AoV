@@ -66,15 +66,10 @@ public class Zeal extends AbilityBase {
 
 	@Override
 	public void cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
-		if (player.world.isRemote) {
-			sendPacketTypeSelf(ability);
-		} else {
-			IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
-			if (cap == null) return;
-			addPotionEffects(player);
-			cap.addExp(20, this);
-		}
-
+		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
+		if (cap == null) return;
+		addPotionEffects(player);
+		cap.addExp(20, this);
 	}
 
 	private void addPotionEffects(EntityLivingBase entity) {

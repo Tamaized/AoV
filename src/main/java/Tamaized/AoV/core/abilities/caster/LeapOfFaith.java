@@ -77,14 +77,10 @@ public class LeapOfFaith extends AbilityBase {
 
 	@Override
 	public void cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
-		if (caster.world.isRemote) {
-			sendPacketTypeSelf(ability);
-		} else {
-			Vec3d vec = caster.getLook(1.0F);
-			double distance = 3.5;
-			MotionHelper.addMotion(caster, vec.xCoord*distance, 1, vec.zCoord*distance);
-			caster.addPotionEffect(new PotionEffect(AoV.potions.slowFall, 20*15));
-		}
+		Vec3d vec = caster.getLook(1.0F);
+		double distance = 3.5;
+		MotionHelper.addMotion(caster, vec.xCoord * distance, 1, vec.zCoord * distance);
+		caster.addPotionEffect(new PotionEffect(AoV.potions.slowFall, 20 * 15));
 	}
 
 }

@@ -247,19 +247,6 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 			HashSet<Entity> set = new HashSet<Entity>();
 			set.add(shootingEntity);
 			RayTraceResult raytraceresult = RayTraceHelper.tracePath(world, vec3d1, vec3d, 1, set);//world.rayTraceBlocks(vec3d1, vec3d, false, true, false);
-//			vec3d1 = new Vec3d(posX, posY, posZ);
-//			vec3d = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
-
-//			if (raytraceresult != null) {
-//				vec3d = new Vec3d(raytraceresult.hitVec.xCoord, raytraceresult.hitVec.yCoord, raytraceresult.hitVec.zCoord);
-//			}
-
-//			Entity entity = findEntityOnPath(vec3d1, vec3d);
-
-//			if (entity != null) {
-//				raytraceresult = new RayTraceResult(entity);
-//			}
-
 			if (raytraceresult != null && raytraceresult.entityHit != null && raytraceresult.entityHit instanceof EntityPlayer) {
 				EntityPlayer entityplayer = (EntityPlayer) raytraceresult.entityHit;
 
@@ -271,12 +258,6 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 			if (raytraceresult != null) {
 				onHit(raytraceresult);
 			}
-
-			// if (getIsCritical()){
-			// for (int k = 0; k < 4; ++k){
-			// worldObj.spawnParticle(EnumParticleTypes.CRIT, posX + motionX * (double)k / 4.0D, posY + motionY * (double)k / 4.0D, posZ + motionZ * (double)k / 4.0D, -motionX, -motionY + 0.2D, -motionZ, new int[0]);
-			// }
-			// }
 
 			posX += motionX * speed;
 			posY += motionY * speed;
@@ -341,12 +322,6 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 
 		if (entity != null) {
 			if (entity == shootingEntity || !canHitEntity(entity)) return;
-			// float f = MathHelper.sqrt(motionX * motionX + motionY * motionY + motionZ * motionZ);
-			// int i = MathHelper.ceil((double) f * damage);
-
-			// if (getIsCritical()){
-			// i += rand.nextInt(i / 2 + 2);
-			// }
 
 			DamageSource damagesource = getDamageSource();
 
@@ -421,7 +396,6 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 			playSound(SoundEvents.ENTITY_ARROW_HIT, 1.0F, 1.2F / (rand.nextFloat() * 0.2F + 0.9F));
 			inGround = true;
 			arrowShake = 7;
-			// setIsCritical(false);
 
 			if (iblockstate.getMaterial() != Material.AIR) {
 				inTile.onEntityCollidedWithBlock(world, blockpos, iblockstate, this);

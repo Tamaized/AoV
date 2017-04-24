@@ -53,14 +53,10 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 
 	@Override
 	public void cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
-		if (player.world.isRemote) {
-			sendPacketTypeSelf(ability);
-		} else {
-			IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
-			if (cap == null) return;
-			cap.addAura(createAura(ability));
-			cap.addExp(20, this);
-		}
+		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
+		if (cap == null) return;
+		cap.addAura(createAura(ability));
+		cap.addExp(20, this);
 	}
 
 	@Override
@@ -85,7 +81,7 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid+":textures/spells/posenergyaura.png");
+		return new ResourceLocation(AoV.modid + ":textures/spells/posenergyaura.png");
 	}
 
 	@Override

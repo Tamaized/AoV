@@ -19,7 +19,7 @@ import net.minecraftforge.fml.relauncher.Side;
 public class ServerPacketHandler {
 
 	public static enum PacketType {
-		SKILLEDIT_CHECK_CANOBTAIN, RESETSKILLS_FULL, RESETSKILLS_MINOR, SPELLCAST_SELF, SPELLCAST_TARGET, SPELLBAR_REMOVE, SPELLBAR_ADDNEAR, CHARGES_RESET
+		SKILLEDIT_CHECK_CANOBTAIN, RESETSKILLS_FULL, RESETSKILLS_MINOR, SPELLBAR_REMOVE, SPELLBAR_ADDNEAR, CHARGES_RESET, CAST_SPELL
 	}
 
 	public static int getPacketTypeID(PacketType type) {
@@ -49,6 +49,15 @@ public class ServerPacketHandler {
 			ByteBufInputStream bbis = new ByteBufInputStream(parBB);
 			IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
 			switch (getPacketTypeFromID(bbis.readInt())) {
+				case CAST_SPELL: {
+					int slot = bbis.readInt();
+					if(cap != null){
+						Ability ability = cap.getSlot(slot);
+						if(ability == null) break;
+						ability.cast(player);
+					}
+				}
+				break;
 				case SKILLEDIT_CHECK_CANOBTAIN: {
 					if (cap == null) break;
 					AoVSkill skillToCheck = AoVSkill.getSkillFromID(bbis.readInt());
@@ -69,23 +78,6 @@ public class ServerPacketHandler {
 				case RESETSKILLS_MINOR: {
 					if (cap == null) break;
 					cap.reset(false);
-				}
-					break;
-				case SPELLCAST_SELF: {
-					if (cap == null) break;
-					Ability spell = Ability.construct(cap, bbis);
-					if (spell == null) break;
-					Ability trueSpell = cap.getAbilityFromSlots(spell);
-					trueSpell.cast(player, null);
-				}
-					break;
-				case SPELLCAST_TARGET: {
-					if (cap == null) break;
-					Entity entity = player.world.getEntityByID(bbis.readInt());
-					Ability spell = Ability.construct(cap, bbis);
-					if (spell == null || !(entity instanceof EntityLivingBase)) break;
-					Ability trueSpell = cap.getAbilityFromSlots(spell);
-					trueSpell.cast(player, (EntityLivingBase) entity);
 				}
 					break;
 				case SPELLBAR_REMOVE: {

@@ -66,31 +66,23 @@ public abstract class CureWounds extends AbilityBase {
 	public boolean usesInvoke() {
 		return true;
 	}
-	
+
 	protected abstract int getParticleColor();
 
 	@Override
 	public void cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
-		if (player.world.isRemote) {
-			if (e != null) {
-				sendPacketTypeTarget(ability, e.getEntityId());
-			} else {
-				sendPacketTypeSelf(ability);
-			}
+		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
+		if (cap == null) return;
+		int a = (int) (damage * (1f + (cap.getSpellPower() / 100f)));
+		if (cap.getInvokeMass()) castAsMass(player, a, cap);
+		else if (e == null) {
+			player.heal(a);
 		} else {
-			IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
-			if (cap == null) return;
-			int a = (int) (damage * (1f + (cap.getSpellPower() / 100f)));
-			if (cap.getInvokeMass()) castAsMass(player, a, cap);
-			else if (e == null) {
-				player.heal(a);
-			} else {
-				if (e.isEntityUndead()) e.attackEntityFrom(DamageSource.MAGIC, a);
-				else if (cap.hasSelectiveFocus() && (e instanceof IMob)) return;
-				else e.heal(a);
-			}
-			cap.addExp(20, this);
+			if (e.isEntityUndead()) e.attackEntityFrom(DamageSource.MAGIC, a);
+			else if (cap.hasSelectiveFocus() && (e instanceof IMob)) return;
+			else e.heal(a);
 		}
+		cap.addExp(20, this);
 
 	}
 

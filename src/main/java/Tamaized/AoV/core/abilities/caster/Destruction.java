@@ -80,14 +80,10 @@ public class Destruction extends AbilityBase {
 	@Override
 	public void cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		if (target == null) return;
-		if (caster.world.isRemote) {
-			sendPacketTypeTarget(ability, target.getEntityId());
-		} else {
-			IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
-			if (cap != null && target.isNonBoss()) {
-				target.attackEntityFrom(AoV.damageSources.destruction, Integer.MAX_VALUE);
-				cap.addExp(20, AbilityBase.destruction);
-			}
+		IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
+		if (cap != null && target.isNonBoss()) {
+			target.attackEntityFrom(AoV.damageSources.destruction, Integer.MAX_VALUE);
+			cap.addExp(20, AbilityBase.destruction);
 		}
 	}
 

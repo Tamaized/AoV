@@ -33,8 +33,6 @@ public interface IAoVCapability {
 
 	void removeAbility(Ability ability);
 
-	void castAbility(Ability ability, EntityPlayer caster, EntityLivingBase target);
-
 	void addAura(Aura aura);
 
 	void addExp(int amount, AbilityBase spell);
@@ -94,6 +92,8 @@ public interface IAoVCapability {
 	boolean getInvokeMass();
 
 	boolean hasInvokeMass();
+
+	void cast(int slotLoc);
 
 	void setSlot(Ability ability, int slot);
 

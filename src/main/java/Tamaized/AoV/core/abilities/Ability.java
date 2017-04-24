@@ -88,7 +88,7 @@ public final class Ability {
 	public void cast(EntityPlayer caster, EntityLivingBase target) {
 		IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
 		if (cap != null) {
-			if (canUse(cap)) {
+			if (cap.canUseAbility(this)) {
 				ability.cast(this, caster, target);
 				charges -= ability.getCost(cap);
 				cooldown = ability.getCoolDown() * ((ability.usesInvoke() && cap.getInvokeMass()) ? 2 : 1);
