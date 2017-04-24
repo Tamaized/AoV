@@ -84,7 +84,7 @@ public class Destruction extends AbilityBase {
 			sendPacketTypeTarget(ability, target.getEntityId());
 		} else {
 			IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
-			if (cap != null && !target.isEntityUndead() && target.isNonBoss()) {
+			if (cap != null && target.isNonBoss()) {
 				target.attackEntityFrom(AoV.damageSources.destruction, Integer.MAX_VALUE);
 				cap.addExp(20, AbilityBase.destruction);
 			}

@@ -169,7 +169,7 @@ public abstract class AbilityBase {
 	}
 
 	public abstract void cast(Ability ability, EntityPlayer caster, EntityLivingBase target);
-
+	
 	public abstract ResourceLocation getIcon();
 
 	protected static void sendPacketTypeTarget(Ability ability, int entityID) {

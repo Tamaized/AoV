@@ -58,10 +58,7 @@ public class KeyHandler {
 			Ability spell = cap.getSlot(ClientProxy.bar.slotLoc);
 			if (spell != null) {
 				if (e.isButtonstate()) {
-					RayTraceResult obj = Minecraft.getMinecraft().objectMouseOver;
-					EntityLivingBase entity = null;
-					if (obj != null && obj.entityHit != null && obj.entityHit instanceof EntityLivingBase) entity = (EntityLivingBase) obj.entityHit;
-					spell.cast(player, entity);
+					spell.cast(player);
 				}
 			}
 		}

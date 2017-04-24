@@ -36,6 +36,7 @@ public class PotionSlowFall extends Potion {
 
 	@Override
 	public void performEffect(EntityLivingBase entityLivingBaseIn, int p_76394_2_) {
+		if (entityLivingBaseIn.motionY < -0.25) entityLivingBaseIn.motionY = -0.25;
 	}
 
 	@Override

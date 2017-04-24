@@ -2,13 +2,17 @@ package Tamaized.AoV.core.abilities;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.HashSet;
 
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
+import Tamaized.TamModized.helper.RayTraceHelper;
 import io.netty.buffer.ByteBufInputStream;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.RayTraceResult;
 
 public final class Ability {
 
@@ -72,6 +76,13 @@ public final class Ability {
 		cooldown = 0;
 		charges = ability.getMaxCharges() < 0 ? -1 : ability.getMaxCharges() + cap.getExtraCharges();
 		decay = 0;
+	}
+
+	public final void cast(EntityPlayer caster) {
+		HashSet<Entity> set = new HashSet<Entity>();
+		set.add(caster);
+		RayTraceResult ray = RayTraceHelper.tracePath(caster.world, caster, (int) getAbility().getMaxDistance(), 1, set);
+		cast(caster, (ray == null || ray.entityHit == null || !(ray.entityHit instanceof EntityLivingBase)) ? null : (EntityLivingBase) ray.entityHit);
 	}
 
 	public void cast(EntityPlayer caster, EntityLivingBase target) {

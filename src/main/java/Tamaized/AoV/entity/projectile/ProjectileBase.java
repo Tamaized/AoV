@@ -1,11 +1,14 @@
 package Tamaized.AoV.entity.projectile;
 
+import java.util.HashSet;
+
 import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
 import Tamaized.AoV.core.abilities.AbilityBase;
+import Tamaized.TamModized.helper.RayTraceHelper;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -76,6 +79,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 		pickupStatus = EntityArrow.PickupStatus.DISALLOWED;
 		damage = 2.0D;
 		setSize(0.5F, 0.5F);
+		ignoreFrustumCheck = true;
 	}
 
 	public ProjectileBase(World worldIn, double x, double y, double z) {
@@ -238,21 +242,23 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 			if (maxRange >= 0) {
 				if (startingPoint.distanceTo(getPositionVector()) >= maxRange) setDead();
 			} else if (ticksInAir > 20 * 10) setDead();
-			Vec3d vec3d1 = new Vec3d(posX, posY, posZ);
+			Vec3d vec3d1 = new Vec3d(posX - motionX, posY - motionY, posZ - motionZ);
 			Vec3d vec3d = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
-			RayTraceResult raytraceresult = world.rayTraceBlocks(vec3d1, vec3d, false, true, false);
-			vec3d1 = new Vec3d(posX, posY, posZ);
-			vec3d = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
+			HashSet<Entity> set = new HashSet<Entity>();
+			set.add(shootingEntity);
+			RayTraceResult raytraceresult = RayTraceHelper.tracePath(world, vec3d1, vec3d, 1, set);//world.rayTraceBlocks(vec3d1, vec3d, false, true, false);
+//			vec3d1 = new Vec3d(posX, posY, posZ);
+//			vec3d = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
 
-			if (raytraceresult != null) {
-				vec3d = new Vec3d(raytraceresult.hitVec.xCoord, raytraceresult.hitVec.yCoord, raytraceresult.hitVec.zCoord);
-			}
+//			if (raytraceresult != null) {
+//				vec3d = new Vec3d(raytraceresult.hitVec.xCoord, raytraceresult.hitVec.yCoord, raytraceresult.hitVec.zCoord);
+//			}
 
-			Entity entity = findEntityOnPath(vec3d1, vec3d);
+//			Entity entity = findEntityOnPath(vec3d1, vec3d);
 
-			if (entity != null) {
-				raytraceresult = new RayTraceResult(entity);
-			}
+//			if (entity != null) {
+//				raytraceresult = new RayTraceResult(entity);
+//			}
 
 			if (raytraceresult != null && raytraceresult.entityHit != null && raytraceresult.entityHit instanceof EntityPlayer) {
 				EntityPlayer entityplayer = (EntityPlayer) raytraceresult.entityHit;
