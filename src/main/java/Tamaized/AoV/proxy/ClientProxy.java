@@ -1,11 +1,13 @@
 package Tamaized.AoV.proxy;
 
 import Tamaized.AoV.AoV;
+import Tamaized.AoV.entity.EntitySpellBladeBarrier;
 import Tamaized.AoV.entity.EntitySpellImplosion;
 import Tamaized.AoV.entity.projectile.caster.ProjectileFlameStrike;
 import Tamaized.AoV.entity.projectile.caster.ProjectileNimbusRay;
 import Tamaized.AoV.entity.projectile.caster.render.RenderFlameStrike;
 import Tamaized.AoV.entity.projectile.caster.render.RenderNimbusRay;
+import Tamaized.AoV.entity.render.RenderSpellBladeBarrier;
 import Tamaized.AoV.entity.render.RenderSpellImplosion;
 import Tamaized.AoV.events.KeyHandler;
 import Tamaized.AoV.gui.client.AoVOverlay;
@@ -44,14 +46,14 @@ public class ClientProxy extends AbstractProxy {
 		MinecraftForge.EVENT_BUS.register(new AoVOverlay());
 
 		float shadowSize = 0.5F;
-		
+
 		RenderingRegistry.registerEntityRenderingHandler(ProjectileNimbusRay.class, new IRenderFactory<ProjectileNimbusRay>() {
 			@Override
 			public Render<? super ProjectileNimbusRay> createRenderFor(RenderManager manager) {
 				return new RenderNimbusRay(manager);
 			}
 		});
-		
+
 		RenderingRegistry.registerEntityRenderingHandler(ProjectileFlameStrike.class, new IRenderFactory<ProjectileFlameStrike>() {
 			@Override
 			public Render<? super ProjectileFlameStrike> createRenderFor(RenderManager manager) {
@@ -62,6 +64,12 @@ public class ClientProxy extends AbstractProxy {
 			@Override
 			public Render<? super EntitySpellImplosion> createRenderFor(RenderManager manager) {
 				return new RenderSpellImplosion(manager);
+			}
+		});
+		RenderingRegistry.registerEntityRenderingHandler(EntitySpellBladeBarrier.class, new IRenderFactory<EntitySpellBladeBarrier>() {
+			@Override
+			public Render<? super EntitySpellBladeBarrier> createRenderFor(RenderManager manager) {
+				return new RenderSpellBladeBarrier(manager);
 			}
 		});
 

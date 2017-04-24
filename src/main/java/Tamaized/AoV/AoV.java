@@ -6,6 +6,7 @@ import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.AoVCapabilityHandler;
 import Tamaized.AoV.capabilities.aov.AoVCapabilityStorage;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
+import Tamaized.AoV.entity.EntitySpellBladeBarrier;
 import Tamaized.AoV.entity.EntitySpellImplosion;
 import Tamaized.AoV.entity.projectile.caster.ProjectileFlameStrike;
 import Tamaized.AoV.entity.projectile.caster.ProjectileNimbusRay;
@@ -136,6 +137,7 @@ public class AoV extends TamModBase {
 		registerEntity(ProjectileNimbusRay.class, "ProjectileNimbusRay", this, modid, 128, 1, true);
 		registerEntity(ProjectileFlameStrike.class, "ProjectileFlameStrike", this, modid, 128, 1, true);
 		registerEntity(EntitySpellImplosion.class, "EntitySpellImplosion", this, modid, 64, 1, true);
+		registerEntity(EntitySpellBladeBarrier.class, "EntitySpellBladeBarrier", this, modid, 64, 1, true);
 	}
 
 	@Override

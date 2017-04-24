@@ -7,6 +7,7 @@ import java.util.List;
 
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
+import Tamaized.AoV.core.abilities.caster.BladeBarrier;
 import Tamaized.AoV.core.abilities.caster.Destruction;
 import Tamaized.AoV.core.abilities.caster.FlameStrike;
 import Tamaized.AoV.core.abilities.caster.Implosion;
@@ -77,6 +78,7 @@ public abstract class AbilityBase {
 	public static final AbilityBase slayLiving = new SlayLiving();
 	public static final AbilityBase destruction = new Destruction();
 	public static final AbilityBase implosion = new Implosion();
+	public static final AbilityBase bladeBarrier = new BladeBarrier();
 	
 	// Defender
 	public static final AbilityBase aid = new Aid();
