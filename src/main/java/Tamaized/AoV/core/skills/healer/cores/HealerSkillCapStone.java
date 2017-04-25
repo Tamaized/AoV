@@ -6,12 +6,11 @@ import java.util.List;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.skills.AoVSkill;
+import Tamaized.AoV.core.skills.SkillIcons;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
 public class HealerSkillCapStone extends AoVSkill {
-
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid + ":textures/skills/test.png");
 
 	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
 
@@ -49,7 +48,7 @@ public class HealerSkillCapStone extends AoVSkill {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return icon;
+		return SkillIcons.charges;
 	}
 
 	@Override

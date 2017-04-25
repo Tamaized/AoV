@@ -3,15 +3,12 @@ package Tamaized.AoV.core.skills.healer.tier2;
 import java.util.ArrayList;
 import java.util.List;
 
-import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.skills.AoVSkill;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
 public class HealerSkillT2S1 extends AoVSkill {
-
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid + ":textures/skills/HealerT2S1.png");
 
 	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
 
@@ -47,7 +44,7 @@ public class HealerSkillT2S1 extends AoVSkill {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return icon;
+		return AbilityBase.cureSeriousWounds.getIcon();
 	}
 
 	@Override

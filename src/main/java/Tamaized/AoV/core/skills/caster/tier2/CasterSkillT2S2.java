@@ -6,13 +6,12 @@ import java.util.List;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.skills.AoVSkill;
+import Tamaized.AoV.core.skills.SkillIcons;
 import Tamaized.AoV.core.skills.AoVSkill.Buffs;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
 public class CasterSkillT2S2 extends AoVSkill {
-
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid + ":textures/skills/CasterT2S2.png");
 
 	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
 
@@ -41,7 +40,7 @@ public class CasterSkillT2S2 extends AoVSkill {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return icon;
+		return SkillIcons.charges;
 	}
 
 	public String getName() {

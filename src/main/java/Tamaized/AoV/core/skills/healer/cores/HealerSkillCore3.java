@@ -11,8 +11,6 @@ import net.minecraft.util.text.TextFormatting;
 
 public class HealerSkillCore3 extends AoVSkill {
 
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid + ":textures/skills/test.png");
-
 	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
 
 	static {
@@ -53,7 +51,7 @@ public class HealerSkillCore3 extends AoVSkill {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return icon;
+		return AbilityBase.burst.getIcon();
 	}
 
 	@Override

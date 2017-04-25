@@ -3,15 +3,13 @@ package Tamaized.AoV.core.skills.defender.cores;
 import java.util.ArrayList;
 import java.util.List;
 
-import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.skills.AoVSkill;
+import Tamaized.AoV.core.skills.SkillIcons;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 
 public class DefenderSkillCore2 extends AoVSkill {
-
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid + ":textures/skills/test.png");
 
 	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
 
@@ -47,7 +45,7 @@ public class DefenderSkillCore2 extends AoVSkill {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return icon;
+		return SkillIcons.doublestrike;
 	}
 
 	@Override
