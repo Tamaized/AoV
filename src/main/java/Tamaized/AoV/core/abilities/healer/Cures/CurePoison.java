@@ -24,7 +24,7 @@ public class CurePoison extends CureEffect {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid + ":textures/spells/curepoison.png");
+		return new ResourceLocation(AoV.modid, "textures/spells/curepoison.png");
 	}
 
 	@Override

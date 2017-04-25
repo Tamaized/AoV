@@ -1,5 +1,6 @@
 package Tamaized.AoV.core.abilities.healer.Cores;
 
+import java.util.Iterator;
 import java.util.List;
 
 import Tamaized.AoV.AoV;
@@ -11,6 +12,7 @@ import Tamaized.AoV.helper.ParticleHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -20,7 +22,7 @@ public class Burst extends AbilityBase {
 
 	private final static int charges = 6;
 	private final static int range = 20;
-	private final static int dmg = 4;
+	private final static int dmg = 10;
 
 	public Burst() {
 		super(
@@ -37,13 +39,13 @@ public class Burst extends AbilityBase {
 
 				"",
 
-				TextFormatting.DARK_PURPLE + "Heals everything and cures",
+				TextFormatting.DARK_PURPLE + "Heals everything around you,",
 
-				TextFormatting.DARK_PURPLE + "poison, blind, and slows.",
+				TextFormatting.DARK_PURPLE + " including you, and cures",
 
-				TextFormatting.DARK_PURPLE + "around you, including you.",
+				TextFormatting.DARK_PURPLE + " all harmful effects.",
 
-				TextFormatting.DARK_PURPLE + "Deals damage to Undead."
+				TextFormatting.DARK_PURPLE + " Deals damage to Undead."
 
 		);
 	}
@@ -59,13 +61,18 @@ public class Burst extends AbilityBase {
 			if (entity.isEntityUndead()) entity.attackEntityFrom(DamageSource.MAGIC, a);
 			else if (cap.hasSelectiveFocus() && (entity instanceof IMob)) continue;
 			else entity.heal(a);
+			Iterator<PotionEffect> iter = entity.getActivePotionEffects().iterator();
+			while (iter.hasNext()) {
+				PotionEffect pot = iter.next();
+				if (pot.getPotion().isBadEffect()) iter.remove();
+			}
 			cap.addExp(20, this);
 		}
 	}
 
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid + ":textures/spells/posenergyburst.png");
+		return new ResourceLocation(AoV.modid, "textures/spells/burst.png");
 	}
 
 	@Override
@@ -79,7 +86,7 @@ public class Burst extends AbilityBase {
 
 	@Override
 	public int getCoolDown() {
-		return 3;
+		return 30;
 	}
 
 	@Override

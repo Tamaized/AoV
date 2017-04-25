@@ -114,6 +114,6 @@ public class StalwartPact extends AbilityBase {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return null;
+		return new ResourceLocation(AoV.modid, "textures/spells/stalwart.png");
 	}
 }
