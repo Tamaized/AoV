@@ -18,3 +18,4 @@
 !setupWorkspace.bat
 !/run/
 !/run/eula.txt
+!/run/server.properties
