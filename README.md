@@ -1,7 +1,7 @@
 # Angel of Vengeance (Or AoV for short)
-  The aim of this Minecraft mod is to be a magic mod, one based around being a Healer.
-  Most magic mods I've played dont really go too deep in the healer aspect.
-  I will be implementing more than just healer of course, but the main focus is the healer :)
+  The goal is to be a magic mod focused around being a healer. You have the ability to heal players, other entities and even damage undead with this power. You can also cure status effects. However, there are two other classes you can use instead. Three in total, Healer, Caster, and Defender.
+
+  Healer's purpose is to well.. heal. The Caster is the offensive spell casting mage which uses light based spells to destroy undead. The Defender is your tank, they get a dodge mechanic where attacks have a chance to not land at all on them. Defenders also get benefits while having a shield equipped. 
   
 ## Downloads
   [Can be found here](https://minecraft.curseforge.com/projects/angel-of-vengeance)
