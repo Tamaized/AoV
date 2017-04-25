@@ -15,7 +15,7 @@
     * Main focus here is to be some sort of divine caster using light/good/lawful based spells against your foes.
 
 ## The Skill System
-  * You slowly gain experience and this points from leveling up by using your spells/abilities.
+  * You slowly gain experience and thus points from leveling up by using your spells/abilities.
     * The amount of experience you gain decays as you spam abilities, this decay goes away over time, so don't spam.
     * You will only progress if the spells are being used as intended.
   * There will be a max total of points you'll be able to collect.
