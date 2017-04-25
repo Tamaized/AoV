@@ -51,7 +51,7 @@ public class FlameStrike extends AbilityBase {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid + ":textures/spells/test.png");
+		return new ResourceLocation(AoV.modid, "textures/spells/flamestrike.png");
 	}
 
 	@Override

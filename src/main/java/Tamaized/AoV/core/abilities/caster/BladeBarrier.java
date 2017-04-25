@@ -52,7 +52,7 @@ public class BladeBarrier extends AbilityBase {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid + ":textures/spells/test.png");
+		return new ResourceLocation(AoV.modid, "textures/spells/bladebarrier.png");
 	}
 
 	@Override

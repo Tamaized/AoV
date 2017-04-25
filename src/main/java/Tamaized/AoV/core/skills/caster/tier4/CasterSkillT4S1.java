@@ -11,8 +11,6 @@ import net.minecraft.util.text.TextFormatting;
 
 public class CasterSkillT4S1 extends AoVSkill {
 
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid + ":textures/skills/CasterT4S1.png");
-
 	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
 
 	static {
@@ -47,7 +45,7 @@ public class CasterSkillT4S1 extends AoVSkill {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return icon;
+		return AbilityBase.implosion.getIcon();
 	}
 
 	@Override

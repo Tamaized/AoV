@@ -45,7 +45,7 @@ public class SearingLight extends AbilityBase {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid + ":textures/spells/test.png");
+		return new ResourceLocation(AoV.modid, "textures/spells/searing.png");
 	}
 
 	@Override

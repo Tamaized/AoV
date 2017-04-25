@@ -11,8 +11,6 @@ import net.minecraft.util.text.TextFormatting;
 
 public class CasterSkillCore4 extends AoVSkill {
 
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid + ":textures/skills/test.png");
-
 	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
 
 	static {
@@ -24,7 +22,7 @@ public class CasterSkillCore4 extends AoVSkill {
 
 				TextFormatting.AQUA + "Caster Core 4",
 
-				TextFormatting.RED + "Requires: Healer Core 3",
+				TextFormatting.RED + "Requires: Caster Core 3",
 
 				TextFormatting.RED + "Requires: Level 12",
 
@@ -48,7 +46,7 @@ public class CasterSkillCore4 extends AoVSkill {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return icon;
+		return AbilityBase.bladeBarrier.getIcon();
 	}
 
 	@Override

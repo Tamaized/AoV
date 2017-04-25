@@ -40,7 +40,7 @@ public class Destruction extends AbilityBase {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid + ":textures/spells/test.png");
+		return new ResourceLocation(AoV.modid, "textures/spells/destruction.png");
 	}
 
 	@Override
