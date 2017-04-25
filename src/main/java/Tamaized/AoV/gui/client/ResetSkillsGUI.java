@@ -11,12 +11,13 @@ import Tamaized.AoV.network.ServerPacketHandler;
 import Tamaized.AoV.proxy.ClientProxy;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 
-public class ResetSkillsGUI extends GuiScreen {
+public class ResetSkillsGUI extends GuiScreenClose {
 
 	private static final int BUTTON_CLOSE = 0;
 	private static final int BUTTON_BACK = 1;
@@ -76,7 +77,6 @@ public class ResetSkillsGUI extends GuiScreen {
 
 	@Override
 	public void updateScreen() {
-
 	}
 
 	@Override

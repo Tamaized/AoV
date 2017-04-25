@@ -6,10 +6,11 @@ import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.AoVCapabilityHandler;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.gui.GuiHandler;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
-public class ShowStatsGUI extends GuiScreen {
+public class ShowStatsGUI extends GuiScreenClose {
 
 	private static final int BUTTON_CLOSE = 0;
 	private static final int BUTTON_BACK = 1;
@@ -54,7 +55,6 @@ public class ShowStatsGUI extends GuiScreen {
 
 	@Override
 	public void updateScreen() {
-
 	}
 
 	@Override

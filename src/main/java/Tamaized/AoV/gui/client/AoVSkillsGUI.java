@@ -15,12 +15,13 @@ import Tamaized.AoV.gui.client.buttonList.HealerSkillRegisterButtons;
 import Tamaized.AoV.network.ServerPacketHandler;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 
-public class AoVSkillsGUI extends GuiScreen {
+public class AoVSkillsGUI extends GuiScreenClose {
 
 	private static final int BUTTON_CLOSE = 0;
 	private static final int BUTTON_SKILL_CHECK = 1;
@@ -45,6 +46,7 @@ public class AoVSkillsGUI extends GuiScreen {
 
 	@Override
 	public void initGui() {
+		super.initGui();
 		cap = mc.player.getCapability(CapabilityList.AOV, null);
 		buttonList.add(new GuiButton(BUTTON_CLOSE, 10 + (width * 0) / 4, height - 25, 80, 20, "Close"));
 		buttonList.add(new GuiButton(BUTTON_SPELLBOOK, 10 + (width * 1) / 4, height - 25, 80, 20, "Spell Book"));

@@ -14,6 +14,7 @@ import Tamaized.AoV.gui.buttons.SpellButton;
 import Tamaized.AoV.network.ServerPacketHandler;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
@@ -22,7 +23,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 
-public class SpellBookGUI extends GuiScreen {
+public class SpellBookGUI extends GuiScreenClose {
 
 	private static final int BUTTON_CLOSE = 0;
 	private static final int BUTTON_BACK = 1;
@@ -132,7 +133,6 @@ public class SpellBookGUI extends GuiScreen {
 	
 	@Override
 	public void updateScreen() {
-
 	}
 
 	@Override
