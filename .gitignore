@@ -16,3 +16,5 @@
 !build.bat
 !setupClassPath.bat
 !setupWorkspace.bat
+!/run/
+!/run/eula.txt
