@@ -475,7 +475,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 
 	@Override
 	protected ItemStack getArrowStack() {
-		return ItemStack.EMPTY;
+		return null;
 	}
 
 }

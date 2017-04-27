@@ -54,7 +54,7 @@ public class LivingAttackEvent {
 			}
 			EntityLivingBase attackerLiving = null;
 			if (attacker instanceof EntityLivingBase) attackerLiving = (EntityLivingBase) attacker;
-			if (attacker.getCapability(CapabilityList.AOV, null).hasSkill(AoVSkill.defender_core_3) && attackerLiving != null && ((!attackerLiving.getHeldItemMainhand().isEmpty() && attackerLiving.getHeldItemMainhand().getItem() instanceof ItemShield) || (!attackerLiving.getHeldItemOffhand().isEmpty() && attackerLiving.getHeldItemOffhand().getItem() instanceof ItemShield))) {
+			if (attacker.getCapability(CapabilityList.AOV, null).hasSkill(AoVSkill.defender_core_3) && attackerLiving != null && ((attackerLiving.getHeldItemMainhand() != null && attackerLiving.getHeldItemMainhand().getItem() instanceof ItemShield) || (attackerLiving.getHeldItemOffhand() != null && attackerLiving.getHeldItemOffhand().getItem() instanceof ItemShield))) {
 				double d1 = attacker.posX - entity.posX;
 				double d0;
 				for (d0 = attacker.posZ - entity.posZ; d1 * d1 + d0 * d0 < 1.0E-4D; d0 = (Math.random() - Math.random()) * 0.01D) {
@@ -113,18 +113,18 @@ public class LivingAttackEvent {
 	}
 
 	private void damageShield(EntityPlayer player, float damage) {
-		if (damage >= 3.0F && !player.getActiveItemStack().isEmpty()) {
+		if (damage >= 3.0F && player.getActiveItemStack() != null) {
 			int i = 1 + MathHelper.floor(damage);
 			player.getActiveItemStack().damageItem(i, player);
 
-			if (player.getActiveItemStack().isEmpty()) {
+			if (player.getActiveItemStack() == null) {
 				EnumHand enumhand = player.getActiveHand();
 				net.minecraftforge.event.ForgeEventFactory.onPlayerDestroyItem(player, player.getActiveItemStack(), enumhand);
 
 				if (enumhand == EnumHand.MAIN_HAND) {
-					player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, ItemStack.EMPTY);
+					player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, null);
 				} else {
-					player.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, ItemStack.EMPTY);
+					player.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, null);
 				}
 
 				player.resetActiveHand();

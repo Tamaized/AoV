@@ -18,8 +18,8 @@ public class AoVTabs implements ITamRegistry {
 	public void preInit() {
 		tabAoV = new CreativeTabs("tabAoV") {
 			@Override
-			public ItemStack getTabIconItem() {
-				return new ItemStack(Items.BLAZE_POWDER);
+			public Item getTabIconItem() {
+				return Items.BLAZE_POWDER;
 			}
 		};
 	}

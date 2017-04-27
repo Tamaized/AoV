@@ -17,8 +17,8 @@ public class DebugItem extends TamItem {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
-		ItemStack stack = player.getHeldItem(hand);
+	public ActionResult<ItemStack> onItemRightClick(ItemStack stack, World world, EntityPlayer player, EnumHand hand) {
+		// ItemStack stack = player.getHeldItem(hand);
 		// FMLNetworkHandler.openGui(playerIn, AoV.instance, GuiHandler.GUI_SKILLS, worldIn, pos.getX(), pos.getY(), pos.getZ());
 		// if(worldIn.isRemote) AbilityBase.fromName(CureLightWounds.getName()).activate(playerIn, AoV.clientAoVCore.getPlayer(playerIn), null);
 		// if(worldIn.isRemote) Tamaized.AoV.common.client.ClientProxy.bar.setSlot(AbilityBase.fromName(CureLightWounds.getName()), 0);
@@ -29,7 +29,7 @@ public class DebugItem extends TamItem {
 			cap.addExp(cap.getExpNeededToLevel(), null);
 		}
 		// if(worldIn.isRemote) AoVOverlay.addFloatyText("test");
-		return super.onItemRightClick(world, player, hand);
+		return super.onItemRightClick(stack, world, player, hand);
 	}
 
 }

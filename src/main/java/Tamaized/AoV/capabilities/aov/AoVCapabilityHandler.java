@@ -146,10 +146,10 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		if (tick > 0 && tick % (20 * 30) == 0 && hasSkill(AoVSkill.defender_capstone) && player != null) {
 			ItemStack main = player.getHeldItemMainhand();
 			ItemStack off = player.getHeldItemOffhand();
-			if (!main.isEmpty() && main.getItem() instanceof ItemShield && main.getItem().isRepairable() && main.getItemDamage() > 0) {
+			if (main != null && main.getItem() instanceof ItemShield && main.getItem().isRepairable() && main.getItemDamage() > 0) {
 				main.setItemDamage(0);
 			}
-			if (!off.isEmpty() && off.getItem() instanceof ItemShield && off.getItem().isRepairable() && off.getItemDamage() > 0) {
+			if (off != null && off.getItem() instanceof ItemShield && off.getItem().isRepairable() && off.getItemDamage() > 0) {
 				off.setItemDamage(0);
 			}
 		}

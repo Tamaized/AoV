@@ -18,10 +18,10 @@ public class PlayerInteractHandler {
 	public void onInteract(PlayerInteractEvent.RightClickBlock e) {
 		if (e.getEntityPlayer() != null && e.getEntityPlayer().world.getBlockState(e.getPos()) == Blocks.STONE.getStateFromMeta(2)) {
 			EntityPlayer player = e.getEntityPlayer();
-			if (e.getItemStack().isEmpty()) return;
+			if (e.getItemStack() == null) return;
 			if (e.getItemStack().getItem() == Items.DIAMOND) {
 				if (doChecks(player.world, e.getPos(), e.getFace())) {
-					e.getItemStack().shrink(1);
+					e.getItemStack().stackSize -= (1);
 					setBlocks(player.world, e.getPos(), e.getFace());
 					player.world.spawnEntity(new EntityLightningBolt(player.world, e.getPos().getX(), e.getPos().getY() + 2, e.getPos().getZ(), false));
 					player.world.spawnEntity(new EntityLightningBolt(player.world, e.getPos().getX() + 2, e.getPos().getY() - 1, e.getPos().getZ() + 2, false));
