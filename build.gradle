@@ -33,6 +33,7 @@ minecraft {
 	useDepAts = true
 	replaceIn 'AoV.java'
 	replace '${version}', "${modVersion}${modVersionValue}"
+	replace '${tamversion}', "${project.tammodizedVersion}"
 }
 
 dependencies {
