@@ -27,6 +27,7 @@ import Tamaized.AoV.registry.AoVPotions;
 import Tamaized.AoV.registry.AoVTabs;
 import Tamaized.AoV.registry.AoVTools;
 import Tamaized.TamModized.TamModBase;
+import Tamaized.TamModized.TamModized;
 import Tamaized.TamModized.proxy.AbstractProxy;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -40,7 +41,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.FMLEventChannel;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
-@Mod(modid = AoV.modid, name = "Angel of Vengeance", version = AoV.version, dependencies = "required-before:${tamversion}@[${tamversion},)")
+@Mod(modid = AoV.modid, name = "Angel of Vengeance", version = AoV.version, dependencies = "required-before:" + TamModized.modid + "@[${tamversion},)")
 public class AoV extends TamModBase {
 
 	protected final static String version = "${version}";
