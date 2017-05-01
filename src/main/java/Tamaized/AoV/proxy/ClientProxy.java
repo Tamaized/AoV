@@ -1,6 +1,7 @@
 package Tamaized.AoV.proxy;
 
 import Tamaized.AoV.AoV;
+import Tamaized.AoV.client.RenderPlayer;
 import Tamaized.AoV.entity.EntitySpellBladeBarrier;
 import Tamaized.AoV.entity.EntitySpellImplosion;
 import Tamaized.AoV.entity.projectile.caster.ProjectileFlameStrike;
@@ -44,6 +45,7 @@ public class ClientProxy extends AbstractProxy {
 		bar = new AoVUIBar();
 
 		MinecraftForge.EVENT_BUS.register(new AoVOverlay());
+		MinecraftForge.EVENT_BUS.register(new RenderPlayer());
 
 		float shadowSize = 0.5F;
 
