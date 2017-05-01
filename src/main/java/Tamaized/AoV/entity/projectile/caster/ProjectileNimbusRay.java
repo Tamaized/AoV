@@ -37,11 +37,13 @@ public class ProjectileNimbusRay extends ProjectileBase {
 	protected float getDamageAmp(double damage, Entity shooter, Entity target) {
 		return (float) (damage * (target instanceof EntityMob && ((EntityMob) target).isEntityUndead() ? 2 : 1));
 	}
-	
+
 	@Override
 	protected void arrowHit(EntityLivingBase entity) {
-		IAoVCapability cap = shootingEntity.getCapability(CapabilityList.AOV, null);
-		if(cap != null) cap.addExp(20, getSpell());
+		if (shootingEntity != null) {
+			IAoVCapability cap = shootingEntity.getCapability(CapabilityList.AOV, null);
+			if (cap != null) cap.addExp(20, getSpell());
+		}
 	}
 
 }
