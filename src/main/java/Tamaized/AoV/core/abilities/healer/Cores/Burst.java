@@ -66,7 +66,7 @@ public class Burst extends AbilityBase {
 				PotionEffect pot = iter.next();
 				if (pot.getPotion().isBadEffect()) iter.remove();
 			}
-			cap.addExp(20, this);
+			cap.addExp(player, 20, this);
 		}
 	}
 

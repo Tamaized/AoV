@@ -84,7 +84,7 @@ public class StalwartPact extends AbilityBase {
 				addPotionEffects(e);
 			}
 		}
-		cap.addExp(20, this);
+		cap.addExp(player, 20, this);
 	}
 
 	private void addPotionEffects(EntityLivingBase entity) {
@@ -98,7 +98,7 @@ public class StalwartPact extends AbilityBase {
 		for (EntityLivingBase entity : list) {
 			if (cap.hasSelectiveFocus() && (entity instanceof IMob)) continue;
 			addPotionEffects(entity);
-			cap.addExp(20, this);
+			cap.addExp(target, 20, this);
 		}
 	}
 

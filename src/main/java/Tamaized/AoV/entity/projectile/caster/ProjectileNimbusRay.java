@@ -42,7 +42,7 @@ public class ProjectileNimbusRay extends ProjectileBase {
 	protected void arrowHit(EntityLivingBase entity) {
 		if (shootingEntity != null) {
 			IAoVCapability cap = shootingEntity.getCapability(CapabilityList.AOV, null);
-			if (cap != null) cap.addExp(20, getSpell());
+			if (cap != null) cap.addExp(shootingEntity, 20, getSpell());
 		}
 	}
 

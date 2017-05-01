@@ -78,7 +78,7 @@ public abstract class CureEffect extends AbilityBase {
 			if (cap.hasSelectiveFocus() && (e instanceof IMob)) return;
 			else e.removePotionEffect(effect);
 		}
-		cap.addExp(20, this);
+		cap.addExp(player, 20, this);
 
 	}
 
@@ -89,7 +89,7 @@ public abstract class CureEffect extends AbilityBase {
 		for (EntityLivingBase entity : list) {
 			if (cap.hasSelectiveFocus() && (entity instanceof IMob)) continue;
 			else entity.removePotionEffect(effect);
-			cap.addExp(20, this);
+			cap.addExp(target, 20, this);
 		}
 	}
 

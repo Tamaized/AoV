@@ -56,7 +56,7 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
 		if (cap == null) return;
 		cap.addAura(createAura(ability));
-		cap.addExp(20, this);
+		cap.addExp(player, 20, this);
 	}
 
 	@Override

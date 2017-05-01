@@ -99,7 +99,7 @@ public class EntitySpellBladeBarrier extends Entity implements IEntityAdditional
 	private void doDamage(EntityLivingBase e) {
 		e.attackEntityFrom(DamageSource.causeIndirectMagicDamage(this, caster), damage);
 		if (caster.hasCapability(CapabilityList.AOV, null)) {
-			caster.getCapability(CapabilityList.AOV, null).addExp(20, AbilityBase.bladeBarrier);
+			caster.getCapability(CapabilityList.AOV, null).addExp(caster, 20, AbilityBase.bladeBarrier);
 		}
 	}
 
