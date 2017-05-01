@@ -11,7 +11,7 @@ import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.abilities.Aura;
 import Tamaized.AoV.core.skills.AoVSkill;
 import io.netty.buffer.ByteBufInputStream;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
@@ -35,7 +35,7 @@ public interface IAoVCapability {
 
 	void addAura(Aura aura);
 
-	void addExp(int amount, AbilityBase spell);
+	void addExp(Entity player, int amount, AbilityBase spell);
 
 	void addObtainedSkill(AoVSkill skill);
 

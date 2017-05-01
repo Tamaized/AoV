@@ -83,7 +83,7 @@ public class SlayLiving extends AbilityBase {
 		IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
 		if (cap != null && !target.isEntityUndead() && target.isNonBoss()) {
 			target.attackEntityFrom(AoV.damageSources.destruction, Integer.MAX_VALUE);
-			cap.addExp(20, AbilityBase.slayLiving);
+			cap.addExp(caster, 20, AbilityBase.slayLiving);
 		}
 	}
 

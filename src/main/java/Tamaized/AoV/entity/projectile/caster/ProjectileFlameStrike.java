@@ -85,7 +85,7 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 			if (attacker != null) {
 				IAoVCapability cap = attacker.getCapability(CapabilityList.AOV, null);
 				if (entity == attacker || (cap != null && cap.hasSelectiveFocus() && entity.isOnSameTeam(attacker))) continue;
-				cap.addExp(20, AbilityBase.flameStrike);
+				cap.addExp(attacker, 20, AbilityBase.flameStrike);
 			}
 			entity.setFire(15);
 			entity.attackEntityFrom(DamageSource.IN_FIRE, damage);

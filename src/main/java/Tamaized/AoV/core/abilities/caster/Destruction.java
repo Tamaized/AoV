@@ -83,7 +83,7 @@ public class Destruction extends AbilityBase {
 		IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
 		if (cap != null && target.isNonBoss()) {
 			target.attackEntityFrom(AoV.damageSources.destruction, Integer.MAX_VALUE);
-			cap.addExp(20, AbilityBase.destruction);
+			cap.addExp(caster, 20, AbilityBase.destruction);
 		}
 	}
 

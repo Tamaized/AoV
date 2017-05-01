@@ -26,7 +26,7 @@ public class DebugItem extends TamItem {
 		// if(!worldIn.isRemote) AoV.serverAoVCore.getPlayer(playerIn).addSkillPoints(1);
 		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
 		if (cap != null) {
-			cap.addExp(cap.getExpNeededToLevel(), null);
+			cap.addExp(player, cap.getExpNeededToLevel(), null);
 		}
 		// if(worldIn.isRemote) AoVOverlay.addFloatyText("test");
 		return super.onItemRightClick(stack, world, player, hand);

@@ -69,7 +69,7 @@ public class Zeal extends AbilityBase {
 		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
 		if (cap == null) return;
 		addPotionEffects(player);
-		cap.addExp(20, this);
+		cap.addExp(player, 20, this);
 	}
 
 	private void addPotionEffects(EntityLivingBase entity) {

@@ -16,12 +16,13 @@ import Tamaized.AoV.core.abilities.Aura;
 import Tamaized.AoV.core.skills.AoVSkill;
 import Tamaized.AoV.network.ClientPacketHandler;
 import Tamaized.AoV.network.ServerPacketHandler;
+import Tamaized.TamModized.helper.FloatyTextHelper;
 import Tamaized.TamModized.helper.PacketHelper;
 import Tamaized.TamModized.helper.PacketHelper.PacketWrapper;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
@@ -283,7 +284,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@Override
-	public void addExp(int amount, AbilityBase spell) {
+	public void addExp(Entity player, int amount, AbilityBase spell) {
 		if (!hasCoreSkill() || getLevel() >= getMaxLevel()) return;
 		if (spell == null) {
 
@@ -293,7 +294,10 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		} else {
 			decay.put(spell, new DecayWrapper());
 		}
+		if (player instanceof EntityPlayerMP) FloatyTextHelper.sendText((EntityPlayerMP) player, "+" + amount + " Exp");
+		int tempLevel = getLevel();
 		exp += amount;
+		if (player instanceof EntityPlayerMP) FloatyTextHelper.sendText((EntityPlayerMP) player, "Level Up! (" + (getLevel() - tempLevel) + ")");
 		dirty = true;
 	}
 

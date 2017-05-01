@@ -80,7 +80,7 @@ public class ShieldOfFaith extends AbilityBase {
 				addPotionEffects(e);
 			}
 		}
-		cap.addExp(20, this);
+		cap.addExp(player, 20, this);
 
 	}
 
@@ -95,7 +95,7 @@ public class ShieldOfFaith extends AbilityBase {
 		for (EntityLivingBase entity : list) {
 			if (cap.hasSelectiveFocus() && (entity instanceof IMob)) continue;
 			addPotionEffects(entity);
-			cap.addExp(20, this);
+			cap.addExp(target, 20, this);
 		}
 	}
 
