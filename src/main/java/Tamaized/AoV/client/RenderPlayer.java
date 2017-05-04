@@ -28,10 +28,10 @@ public class RenderPlayer {
 
 	@SubscribeEvent
 	public void render(RenderPlayerEvent.Post e) {
-		if(true) return; // This is dev stuff
+		// if (true) return; // This is dev stuff
 		EntityPlayer player = e.getEntityPlayer();
 		PotionEffect pot = player.getActivePotionEffect(AoV.potions.slowFall);
-//		if (pot == null) return;
+		if (pot == null) return;
 		GlStateManager.pushMatrix();
 		{
 			// GlStateManager.disableAlpha();
@@ -40,8 +40,8 @@ public class RenderPlayer {
 			GlStateManager.enableBlend();
 			// GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 			GlStateManager.disableCull();
-//			float perc = ((float) pot.getDuration()) / (15.0F * 20.0F);
-			float perc = 1.0F;
+			float perc = ((float) pot.getDuration()) / (15.0F * 20.0F);
+			// float perc = 1.0F;
 			GlStateManager.color(1, 1, 1, perc);
 			float scale = 1;
 			GlStateManager.scale(scale, scale, scale);
@@ -81,9 +81,13 @@ public class RenderPlayer {
 			// GlStateManager.enableDepth();
 			// GlStateManager.enableAlpha();
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			if (player.world != null && player.world.rand.nextInt(100 - ((int) (perc * 100)) + 1) == 0) {
-				double yaw = Math.toRadians(player.renderYawOffset - 50);
-				ParticleHelper.spawnParticle(new ParticleFluff(player.world, pos.addVector((player.world.rand.nextDouble() - 0.5D) -Math.cos(yaw), y2, -Math.sin(yaw)), new Vec3d(0, 0, 0), player.world.rand.nextInt(20 * 2) + 2, 0.1F, 1.0F, 0xFFFF00FF));
+			if (player.world != null && player.world.rand.nextInt(100 - ((int) (perc * 100)) + 1) <= 2) {
+				double yaw = Math.toRadians(player.renderYawOffset + 63);
+				float range = 1.0F;
+				float r = ((player.world.rand.nextFloat() * (1.0F + range)) - (0.5F + range));
+				Vec3d vec = new Vec3d(-Math.cos(yaw), y2 + 0.8F, -Math.sin(yaw)).rotateYaw(r);
+				vec = pos.add(vec);
+				ParticleHelper.spawnParticle(new ParticleFluff(player.world, vec, new Vec3d(0, 0, 0), player.world.rand.nextInt(20 * 2) + 2, 0.1F, 1.0F, 0xFFFF00FF));
 			}
 		}
 		GlStateManager.popMatrix();
