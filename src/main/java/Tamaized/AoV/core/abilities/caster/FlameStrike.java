@@ -8,11 +8,13 @@ import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.core.abilities.Ability;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.entity.projectile.caster.ProjectileFlameStrike;
+import Tamaized.AoV.sound.SoundEvents;
 import Tamaized.TamModized.helper.RayTraceHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextFormatting;
@@ -101,19 +103,20 @@ public class FlameStrike extends AbilityBase {
 			switch (result.typeOfHit) {
 				case BLOCK:
 					BlockPos pos = result.getBlockPos();
-					strike.setPosition(pos.getX(), pos.getY() + 20, pos.getZ());
+					strike.setPosition(pos.getX(), pos.getY() + 15, pos.getZ());
 					break;
 				case ENTITY:
 					pos = result.entityHit.getPosition();
-					strike.setPosition(pos.getX(), pos.getY() + 20, pos.getZ());
+					strike.setPosition(pos.getX(), pos.getY() + 15, pos.getZ());
 					break;
 				default:
 					pos = caster.getPosition();
-					strike.setPosition(pos.getX(), pos.getY() + 20, pos.getZ());
+					strike.setPosition(pos.getX(), pos.getY() + 15, pos.getZ());
 					break;
 			}
 		}
 		caster.world.spawnEntity(strike);
+		strike.world.playSound(null, strike.posX, strike.posY-20, strike.posZ, SoundEvents.firestrike, SoundCategory.NEUTRAL, 1.0F, 1.0F);
 	}
 
 }

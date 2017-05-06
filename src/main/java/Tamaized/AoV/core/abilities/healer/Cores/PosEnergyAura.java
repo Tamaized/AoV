@@ -9,6 +9,7 @@ import Tamaized.AoV.core.abilities.Ability;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.abilities.IAura;
 import Tamaized.AoV.helper.ParticleHelper;
+import Tamaized.AoV.sound.SoundEvents;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -56,6 +57,7 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
 		if (cap == null) return;
 		cap.addAura(createAura(ability));
+		SoundEvents.playMovingSoundOnServer(SoundEvents.aura, player);
 		cap.addExp(player, 20, this);
 	}
 

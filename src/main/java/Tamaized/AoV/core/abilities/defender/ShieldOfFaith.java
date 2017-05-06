@@ -8,6 +8,7 @@ import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.core.abilities.Ability;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.helper.ParticleHelper;
+import Tamaized.AoV.sound.SoundEvents;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -80,6 +81,7 @@ public class ShieldOfFaith extends AbilityBase {
 				addPotionEffects(e);
 			}
 		}
+		SoundEvents.playMovingSoundOnServer(SoundEvents.cast_2, player);
 		cap.addExp(player, 20, this);
 
 	}

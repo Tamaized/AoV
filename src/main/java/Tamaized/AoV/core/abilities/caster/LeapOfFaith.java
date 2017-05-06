@@ -1,15 +1,25 @@
 package Tamaized.AoV.core.abilities.caster;
 
+import java.io.IOException;
+import java.lang.reflect.Field;
+
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.abilities.Ability;
 import Tamaized.AoV.core.abilities.AbilityBase;
+import Tamaized.AoV.network.ClientPacketHandler;
+import Tamaized.AoV.sound.SoundEvents;
 import Tamaized.TamModized.helper.MotionHelper;
+import Tamaized.TamModized.helper.PacketHelper;
+import Tamaized.TamModized.helper.PacketHelper.PacketWrapper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 public class LeapOfFaith extends AbilityBase {
 
@@ -80,6 +90,7 @@ public class LeapOfFaith extends AbilityBase {
 		double distance = 3.5;
 		MotionHelper.addMotion(caster, vec.xCoord * distance, 1, vec.zCoord * distance);
 		caster.addPotionEffect(new PotionEffect(AoV.potions.slowFall, 20 * 15));
+		SoundEvents.playMovingSoundOnServer(SoundEvents.boost, caster);
 	}
 
 }
