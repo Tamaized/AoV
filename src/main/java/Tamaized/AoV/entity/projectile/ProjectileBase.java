@@ -158,11 +158,11 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 		buffer.writeDouble(posX);
 		buffer.writeDouble(posY);
 		buffer.writeDouble(posZ);
-		
+
 		buffer.writeDouble(damage);
 		buffer.writeFloat(range);
 		buffer.writeDouble(speed);
-		
+
 		buffer.writeInt(color);
 	}
 
@@ -246,7 +246,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 			Vec3d vec3d = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
 			HashSet<Entity> set = new HashSet<Entity>();
 			set.add(shootingEntity);
-			RayTraceResult raytraceresult = RayTraceHelper.tracePath(world, vec3d1, vec3d, 1, set);//world.rayTraceBlocks(vec3d1, vec3d, false, true, false);
+			RayTraceResult raytraceresult = RayTraceHelper.tracePath(world, vec3d1, vec3d, 1, set);// world.rayTraceBlocks(vec3d1, vec3d, false, true, false);
 			if (raytraceresult != null && raytraceresult.entityHit != null && raytraceresult.entityHit instanceof EntityPlayer) {
 				EntityPlayer entityplayer = (EntityPlayer) raytraceresult.entityHit;
 
@@ -357,7 +357,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 					}
 				}
 
-				playSound(SoundEvents.ENTITY_ARROW_HIT, 1.0F, 1.2F / (rand.nextFloat() * 0.2F + 0.9F));
+				// playSound(SoundEvents.ENTITY_ARROW_HIT, 1.0F, 1.2F / (rand.nextFloat() * 0.2F + 0.9F));
 
 				if (!(entity instanceof EntityEnderman)) {
 					setDead();
@@ -393,7 +393,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 			posX -= motionX / (double) f2 * 0.05000000074505806D;
 			posY -= motionY / (double) f2 * 0.05000000074505806D;
 			posZ -= motionZ / (double) f2 * 0.05000000074505806D;
-			playSound(SoundEvents.ENTITY_ARROW_HIT, 1.0F, 1.2F / (rand.nextFloat() * 0.2F + 0.9F));
+			// playSound(SoundEvents.ENTITY_ARROW_HIT, 1.0F, 1.2F / (rand.nextFloat() * 0.2F + 0.9F));
 			inGround = true;
 			arrowShake = 7;
 

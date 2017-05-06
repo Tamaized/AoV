@@ -7,6 +7,7 @@ import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.core.abilities.Ability;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.helper.ParticleHelper;
+import Tamaized.AoV.sound.SoundEvents;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -74,9 +75,13 @@ public abstract class CureEffect extends AbilityBase {
 		if (cap.getInvokeMass()) castAsMass(player, cap);
 		else if (e == null) {
 			player.removePotionEffect(effect);
+			SoundEvents.playMovingSoundOnServer(SoundEvents.restore, player);
 		} else {
 			if (cap.hasSelectiveFocus() && (e instanceof IMob)) return;
-			else e.removePotionEffect(effect);
+			else {
+				e.removePotionEffect(effect);
+				SoundEvents.playMovingSoundOnServer(SoundEvents.restore, e);
+			}
 		}
 		cap.addExp(player, 20, this);
 
@@ -88,8 +93,11 @@ public abstract class CureEffect extends AbilityBase {
 		List<EntityLivingBase> list = target.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(target.getPosition().add(-range, -range, -range), target.getPosition().add(range, range, range)));
 		for (EntityLivingBase entity : list) {
 			if (cap.hasSelectiveFocus() && (entity instanceof IMob)) continue;
-			else entity.removePotionEffect(effect);
-			cap.addExp(target, 20, this);
+			else {
+				entity.removePotionEffect(effect);
+				SoundEvents.playMovingSoundOnServer(SoundEvents.restore, entity);
+				cap.addExp(target, 20, this);
+			}
 		}
 	}
 

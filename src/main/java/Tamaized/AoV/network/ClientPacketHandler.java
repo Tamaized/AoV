@@ -4,11 +4,14 @@ import java.io.IOException;
 
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
-import Tamaized.TamModized.helper.MotionHelper;
+import Tamaized.AoV.sound.EntityMovingSound;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
@@ -18,7 +21,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ClientPacketHandler {
 
 	public static enum PacketType {
-		AOVDATA, PLAYER_MOTION
+		AOVDATA, MovingSound
 	}
 
 	public static int getPacketTypeID(PacketType type) {
@@ -50,10 +53,12 @@ public class ClientPacketHandler {
 		ByteBufInputStream bbis = new ByteBufInputStream(parBB);
 		int pktType = bbis.readInt();
 		switch (getPacketTypeFromID(pktType)) {
-			case PLAYER_MOTION: {
-				MotionHelper.updatePlayerMotion(bbis.readDouble(), bbis.readDouble(), bbis.readDouble());
+			case MovingSound: {
+				Entity entity = world.getEntityByID(bbis.readInt());
+				if (entity != null) Minecraft.getMinecraft().getSoundHandler().playSound(new EntityMovingSound(SoundEvent.REGISTRY.getObjectById(bbis.readInt()), SoundCategory.PLAYERS, entity, false, 0));
+
 			}
-			break;
+				break;
 			case AOVDATA: {
 				EntityPlayer player = Minecraft.getMinecraft().player;
 				if (player != null) {

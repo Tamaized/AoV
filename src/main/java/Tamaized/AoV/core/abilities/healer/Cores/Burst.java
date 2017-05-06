@@ -9,6 +9,7 @@ import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.core.abilities.Ability;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.helper.ParticleHelper;
+import Tamaized.AoV.sound.SoundEvents;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -55,6 +56,7 @@ public class Burst extends AbilityBase {
 		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
 		if (cap == null) return;
 		ParticleHelper.spawnParticleMesh(ParticleHelper.Type.BURST, player.world, player.getPositionVector(), range, 0xFFFF00FF);
+		SoundEvents.playMovingSoundOnServer(SoundEvents.burst, player);
 		int a = (int) (dmg * (1f + (cap.getSpellPower() / 100f)));
 		List<EntityLivingBase> list = player.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(player.getPosition().add(-range, -range, -range), player.getPosition().add(range, range, range)));
 		for (EntityLivingBase entity : list) {

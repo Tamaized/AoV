@@ -12,6 +12,7 @@ import Tamaized.AoV.entity.projectile.caster.ProjectileFlameStrike;
 import Tamaized.AoV.entity.projectile.caster.ProjectileNimbusRay;
 import Tamaized.AoV.events.LivingAttackEvent;
 import Tamaized.AoV.events.PlayerInteractHandler;
+import Tamaized.AoV.events.SpawnEvent;
 import Tamaized.AoV.events.TickHandler;
 import Tamaized.AoV.gui.GuiHandler;
 import Tamaized.AoV.network.ServerPacketHandler;
@@ -26,6 +27,7 @@ import Tamaized.AoV.registry.AoVMaterials;
 import Tamaized.AoV.registry.AoVPotions;
 import Tamaized.AoV.registry.AoVTabs;
 import Tamaized.AoV.registry.AoVTools;
+import Tamaized.AoV.sound.SoundEvents;
 import Tamaized.TamModized.TamModBase;
 import Tamaized.TamModized.TamModized;
 import Tamaized.TamModized.proxy.AbstractProxy;
@@ -119,6 +121,8 @@ public class AoV extends TamModBase {
 		register(biomes);
 		register(achievements);
 		register(damageSources);
+		
+		SoundEvents.register();
 
 		CapabilityManager.INSTANCE.register(IAoVCapability.class, new AoVCapabilityStorage(), AoVCapabilityHandler.class);
 		MinecraftForge.EVENT_BUS.register(new CapabilityList());
@@ -131,6 +135,7 @@ public class AoV extends TamModBase {
 		MinecraftForge.EVENT_BUS.register(new TickHandler());
 		MinecraftForge.EVENT_BUS.register(new PlayerInteractHandler());
 		MinecraftForge.EVENT_BUS.register(new LivingAttackEvent());
+		MinecraftForge.EVENT_BUS.register(new SpawnEvent());
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 

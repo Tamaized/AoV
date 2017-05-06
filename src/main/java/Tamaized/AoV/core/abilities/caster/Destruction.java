@@ -6,9 +6,11 @@ import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.core.abilities.Ability;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.entity.projectile.caster.ProjectileNimbusRay;
+import Tamaized.AoV.sound.SoundEvents;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextFormatting;
 
 public class Destruction extends AbilityBase {
@@ -83,6 +85,7 @@ public class Destruction extends AbilityBase {
 		IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
 		if (cap != null && target.isNonBoss()) {
 			target.attackEntityFrom(AoV.damageSources.destruction, Integer.MAX_VALUE);
+			target.world.playSound(null, target.posX, target.posY, target.posZ, SoundEvents.destruction, SoundCategory.NEUTRAL, 1.0F, 1.0F);
 			cap.addExp(caster, 20, AbilityBase.destruction);
 		}
 	}

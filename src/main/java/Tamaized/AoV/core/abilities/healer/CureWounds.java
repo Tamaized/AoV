@@ -7,6 +7,7 @@ import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.core.abilities.Ability;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.helper.ParticleHelper;
+import Tamaized.AoV.sound.SoundEvents;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -77,10 +78,16 @@ public abstract class CureWounds extends AbilityBase {
 		if (cap.getInvokeMass()) castAsMass(player, a, cap);
 		else if (e == null) {
 			player.heal(a);
+			SoundEvents.playMovingSoundOnServer(SoundEvents.heal, player);
 		} else {
-			if (e.isEntityUndead()) e.attackEntityFrom(DamageSource.MAGIC, a);
-			else if (cap.hasSelectiveFocus() && (e instanceof IMob)) return;
-			else e.heal(a);
+			if (e.isEntityUndead()) {
+				e.attackEntityFrom(DamageSource.MAGIC, a);
+				SoundEvents.playMovingSoundOnServer(SoundEvents.heal, e);
+			} else if (cap.hasSelectiveFocus() && (e instanceof IMob)) return;
+			else {
+				e.heal(a);
+				SoundEvents.playMovingSoundOnServer(SoundEvents.heal, e);
+			}
 		}
 		cap.addExp(player, 20, this);
 
@@ -91,9 +98,14 @@ public abstract class CureWounds extends AbilityBase {
 		ParticleHelper.spawnParticleMesh(ParticleHelper.Type.BURST, target.world, target.getPositionVector(), range, getParticleColor());
 		List<EntityLivingBase> list = target.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(target.getPosition().add(-range, -range, -range), target.getPosition().add(range, range, range)));
 		for (EntityLivingBase entity : list) {
-			if (entity.isEntityUndead()) entity.attackEntityFrom(DamageSource.MAGIC, dmg);
-			else if (cap.hasSelectiveFocus() && (entity instanceof IMob)) continue;
-			else entity.heal(dmg);
+			if (entity.isEntityUndead()) {
+				entity.attackEntityFrom(DamageSource.MAGIC, dmg);
+				SoundEvents.playMovingSoundOnServer(SoundEvents.heal, entity);
+			} else if (cap.hasSelectiveFocus() && (entity instanceof IMob)) continue;
+			else {
+				entity.heal(dmg);
+				SoundEvents.playMovingSoundOnServer(SoundEvents.heal, entity);
+			}
 			cap.addExp(target, 20, this);
 		}
 	}
