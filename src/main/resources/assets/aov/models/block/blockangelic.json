@@ -2,8 +2,8 @@
     "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
 "ambientocclusion": false,
     "textures": {
-        "particle": "aov:models/blocks/AngelicStatue",
-        "0": "aov:models/blocks/AngelicStatue"
+        "particle": "aov:models/blocks/angelicstatue",
+        "0": "aov:models/blocks/angelicstatue"
     },
     "elements": [
         {

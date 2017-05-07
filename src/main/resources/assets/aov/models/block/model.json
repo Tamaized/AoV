@@ -2,8 +2,8 @@
     "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
 "ambientocclusion": false,
     "textures": {
-        "particle": "blocks/blocks/AngelicStatue",
-        "0": "blocks/AngelicStatue"
+        "particle": "blocks/blocks/angelicstatue",
+        "0": "blocks/angelicstatue"
     },
     "elements": [
         {

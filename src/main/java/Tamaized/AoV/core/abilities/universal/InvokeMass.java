@@ -43,7 +43,7 @@ public class InvokeMass extends AbilityBase {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid, "textures/spells/InvokeMass.png");
+		return new ResourceLocation(AoV.modid, "textures/spells/invokemass.png");
 	}
 
 	@Override

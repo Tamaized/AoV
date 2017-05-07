@@ -4,7 +4,7 @@ import net.minecraft.util.ResourceLocation;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.abilities.healer.CureWounds;
 
-public class CureCriticalWounds extends CureWounds{
+public class CureCriticalWounds extends CureWounds {
 
 	public CureCriticalWounds() {
 		super(CureCriticalWounds.getStaticName(), 4, 2, 10);
@@ -16,9 +16,9 @@ public class CureCriticalWounds extends CureWounds{
 
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid+":textures/spells/curecritwounds.png");
+		return new ResourceLocation(AoV.modid, "textures/spells/curecritwounds.png");
 	}
-	
+
 	@Override
 	public int getCoolDown() {
 		return 5;

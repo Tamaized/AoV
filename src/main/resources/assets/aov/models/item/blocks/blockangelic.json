@@ -1,5 +1,5 @@
 {
-    "parent": "aov:block/blockAngelic",
+    "parent": "aov:block/blockangelic",
     "display": {
         "thirdperson": {
             "rotation": [ 10, -45, 170 ],
