@@ -11,6 +11,7 @@ import Tamaized.AoV.entity.projectile.caster.render.RenderNimbusRay;
 import Tamaized.AoV.entity.render.RenderSpellBladeBarrier;
 import Tamaized.AoV.entity.render.RenderSpellImplosion;
 import Tamaized.AoV.events.KeyHandler;
+import Tamaized.AoV.events.ClientSpawnEvent;
 import Tamaized.AoV.gui.client.AoVOverlay;
 import Tamaized.AoV.gui.client.AoVUIBar;
 import Tamaized.AoV.network.ClientPacketHandler;
@@ -79,7 +80,7 @@ public class ClientProxy extends AbstractProxy {
 
 	@Override
 	public void init() {
-
+		MinecraftForge.EVENT_BUS.register(new ClientSpawnEvent());
 	}
 
 	@Override
