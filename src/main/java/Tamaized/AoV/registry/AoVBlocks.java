@@ -18,7 +18,7 @@ public class AoVBlocks implements ITamRegistry {
 	public void preInit() {
 		modelList = new ArrayList<ITamModel>();
 
-		modelList.add(angelicBlock = new BlockAngelicBlock(AoV.tabs.tabAoV, Material.ROCK, "blockAngelic", 7.0F));
+		modelList.add(angelicBlock = new BlockAngelicBlock(AoV.tabs.tabAoV, Material.ROCK, "blockangelic", 7.0F));
 
 	}
 
