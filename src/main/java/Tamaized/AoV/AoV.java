@@ -12,7 +12,7 @@ import Tamaized.AoV.entity.projectile.caster.ProjectileFlameStrike;
 import Tamaized.AoV.entity.projectile.caster.ProjectileNimbusRay;
 import Tamaized.AoV.events.LivingAttackEvent;
 import Tamaized.AoV.events.PlayerInteractHandler;
-import Tamaized.AoV.events.SpawnEvent;
+import Tamaized.AoV.events.ClientSpawnEvent;
 import Tamaized.AoV.events.TickHandler;
 import Tamaized.AoV.gui.GuiHandler;
 import Tamaized.AoV.network.ServerPacketHandler;
@@ -135,7 +135,6 @@ public class AoV extends TamModBase {
 		MinecraftForge.EVENT_BUS.register(new TickHandler());
 		MinecraftForge.EVENT_BUS.register(new PlayerInteractHandler());
 		MinecraftForge.EVENT_BUS.register(new LivingAttackEvent());
-		MinecraftForge.EVENT_BUS.register(new SpawnEvent());
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 
