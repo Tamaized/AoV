@@ -23,12 +23,6 @@ public class AoVItems implements ITamRegistry {
 	@Override
 	public void init() {
 
-		// OreDictionary.registerOre("dustIron", ironDust);
-
-		// GameRegistry.addShapelessRecipe(new ItemStack(voidBurner), voidcrystal, new ItemStack(Items.flint_and_steel, 1, voidCraft.WILDCARD_VALUE));
-		// GameRegistry.addRecipe(new ItemStack(MoltenvoidChain), "XYX", "YXY", "XYX", 'Y', MoltenvoidChainPart, 'X', burnBone);
-
-		// GameRegistry.addSmelting(voidCraft.blocks.oreVoidcrystal, new ItemStack(voidcrystal), 0.1F);
 	}
 
 	@Override

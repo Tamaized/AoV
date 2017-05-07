@@ -15,6 +15,11 @@ public class DebugItem extends TamItem {
 	public DebugItem(String n) {
 		super(AoV.tabs.tabAoV, n, 1);
 	}
+	
+	@Override
+	public boolean hasEffect(ItemStack stack) {
+		return true;
+	}
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
