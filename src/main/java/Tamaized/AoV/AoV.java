@@ -1,18 +1,20 @@
 package Tamaized.AoV;
 
+import java.io.File;
+
 import org.apache.logging.log4j.LogManager;
 
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.AoVCapabilityHandler;
 import Tamaized.AoV.capabilities.aov.AoVCapabilityStorage;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
+import Tamaized.AoV.config.ConfigHandler;
 import Tamaized.AoV.entity.EntitySpellBladeBarrier;
 import Tamaized.AoV.entity.EntitySpellImplosion;
 import Tamaized.AoV.entity.projectile.caster.ProjectileFlameStrike;
 import Tamaized.AoV.entity.projectile.caster.ProjectileNimbusRay;
 import Tamaized.AoV.events.LivingAttackEvent;
 import Tamaized.AoV.events.PlayerInteractHandler;
-import Tamaized.AoV.events.ClientSpawnEvent;
 import Tamaized.AoV.events.TickHandler;
 import Tamaized.AoV.gui.GuiHandler;
 import Tamaized.AoV.network.ServerPacketHandler;
@@ -33,6 +35,7 @@ import Tamaized.TamModized.TamModized;
 import Tamaized.TamModized.proxy.AbstractProxy;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -43,7 +46,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.FMLEventChannel;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
-@Mod(modid = AoV.modid, name = "Angel of Vengeance", version = AoV.version, dependencies = "required-before:" + TamModized.modid + "@[${tamversion},)")
+@Mod(modid = AoV.modid, name = "Angel of Vengeance", guiFactory = "Tamaized.AoV.gui.client.GUIConfigFactory", version = AoV.version, dependencies = "required-before:" + TamModized.modid + "@[${tamversion},)")
 public class AoV extends TamModBase {
 
 	protected final static String version = "${version}";
@@ -55,6 +58,9 @@ public class AoV extends TamModBase {
 
 	@Instance(modid)
 	public static AoV instance = new AoV();
+
+	public static File configFile;
+	public static ConfigHandler config;
 
 	public static FMLEventChannel channel;
 	public static final String networkChannelName = "AoV";
@@ -108,6 +114,9 @@ public class AoV extends TamModBase {
 
 		logger.info("Starting AoV PreInit");
 
+		configFile = event.getSuggestedConfigurationFile();
+		config = new ConfigHandler(new Configuration(configFile));
+
 		channel = NetworkRegistry.INSTANCE.newEventDrivenChannel(networkChannelName);
 
 		register(materials);
@@ -121,7 +130,7 @@ public class AoV extends TamModBase {
 		register(biomes);
 		register(achievements);
 		register(damageSources);
-		
+
 		SoundEvents.register();
 
 		CapabilityManager.INSTANCE.register(IAoVCapability.class, new AoVCapabilityStorage(), AoVCapabilityHandler.class);
@@ -132,6 +141,7 @@ public class AoV extends TamModBase {
 	public void init(FMLInitializationEvent event) {
 		logger.info("Starting AoV Init");
 
+		MinecraftForge.EVENT_BUS.register(config);
 		MinecraftForge.EVENT_BUS.register(new TickHandler());
 		MinecraftForge.EVENT_BUS.register(new PlayerInteractHandler());
 		MinecraftForge.EVENT_BUS.register(new LivingAttackEvent());

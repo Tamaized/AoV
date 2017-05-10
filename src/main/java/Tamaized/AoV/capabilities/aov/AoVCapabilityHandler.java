@@ -210,7 +210,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 
 	private void updateAbilities() {
 		for (Ability ability : slots)
-			if (ability != null) ability.update();
+			if (ability != null) ability.update(this);
 	}
 
 	private void updateAuras(EntityPlayer player) {
@@ -287,7 +287,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	public void addExp(Entity player, int amount, AbilityBase spell) {
 		if (!hasCoreSkill() || getLevel() >= getMaxLevel()) return;
 		if (spell == null) {
-
+			
 		} else if (decay.containsKey(spell)) {
 			amount /= decay.get(spell).getDecay();
 			decay.get(spell).addDecay();

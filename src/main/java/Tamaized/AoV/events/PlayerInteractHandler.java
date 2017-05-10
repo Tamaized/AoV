@@ -1,5 +1,8 @@
 package Tamaized.AoV.events;
 
+import Tamaized.AoV.AoV;
+import Tamaized.AoV.blocks.BlockAngelicBlock;
+import Tamaized.AoV.capabilities.CapabilityList;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -8,11 +11,18 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.entity.player.PlayerPickupXpEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import Tamaized.AoV.AoV;
-import Tamaized.AoV.blocks.BlockAngelicBlock;
 
 public class PlayerInteractHandler {
+	
+	@SubscribeEvent
+	public void onXPGain(PlayerPickupXpEvent e){
+		EntityPlayer player = e.getEntityPlayer();
+		if(player != null && player.hasCapability(CapabilityList.AOV, null)){
+			player.getCapability(CapabilityList.AOV, null).addExp(player, e.getOrb().getXpValue(), null);
+		}
+	}
 
 	@SubscribeEvent
 	public void onInteract(PlayerInteractEvent.RightClickBlock e) {
