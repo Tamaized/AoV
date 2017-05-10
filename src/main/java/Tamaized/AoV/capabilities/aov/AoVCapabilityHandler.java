@@ -297,7 +297,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		if (player instanceof EntityPlayerMP) FloatyTextHelper.sendText((EntityPlayerMP) player, "+" + amount + " Exp");
 		int tempLevel = getLevel();
 		exp += amount;
-		if (player instanceof EntityPlayerMP) FloatyTextHelper.sendText((EntityPlayerMP) player, "Level Up! (" + (getLevel()) + ")");
+		if (player instanceof EntityPlayerMP &&  getLevel() > tempLevel) FloatyTextHelper.sendText((EntityPlayerMP) player, "Level Up! (" + (getLevel()) + ")");
 		dirty = true;
 	}
 
