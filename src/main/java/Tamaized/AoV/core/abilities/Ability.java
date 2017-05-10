@@ -4,6 +4,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.HashSet;
 
+import Tamaized.AoV.AoV;
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.TamModized.helper.RayTraceHelper;
@@ -124,10 +125,12 @@ public final class Ability {
 		return decay;
 	}
 
-	public void update() {
+	public void update(IAoVCapability cap) {
 		tick++;
 		if (cooldown > 0) cooldown--;
-		if (decay > 0 && tick % (20 * 20) == 0) decay--;
+		if (decay > 0 && tick % (20) == 0) decay--;
+		if (ability.getMaxCharges() >= 0 && AoV.config.getRechargeRate() >= 0 && charges < (ability.getMaxCharges() + cap.getExtraCharges()) && tick % AoV.config.getRechargeRate() == 0) charges++;
+
 	}
 
 	public boolean compare(Ability check) {
