@@ -36,11 +36,7 @@ public class PotionStalwartPact extends Potion {
 
 	@Override
 	public void performEffect(EntityLivingBase entityLivingBaseIn, int p_76394_2_) {
-		if (entityLivingBaseIn.getHealth() <= (entityLivingBaseIn.getMaxHealth() / 2)) {
-			entityLivingBaseIn.removeActivePotionEffect(this);
-			entityLivingBaseIn.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, (20 * (60 * 5)), 2));
-			entityLivingBaseIn.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, (20 * (10)), 2));
-		}
+		
 	}
 
 	@Override
