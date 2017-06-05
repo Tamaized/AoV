@@ -15,11 +15,13 @@ import net.minecraftforge.event.entity.player.PlayerPickupXpEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class PlayerInteractHandler {
-	
+
 	@SubscribeEvent
-	public void onXPGain(PlayerPickupXpEvent e){
+	public void onXPGain(PlayerPickupXpEvent e) {
+		if (!AoV.config.getExperience())
+			return;
 		EntityPlayer player = e.getEntityPlayer();
-		if(player != null && player.hasCapability(CapabilityList.AOV, null)){
+		if (player != null && player.hasCapability(CapabilityList.AOV, null)) {
 			player.getCapability(CapabilityList.AOV, null).addExp(player, e.getOrb().getXpValue(), null);
 		}
 	}
@@ -28,7 +30,8 @@ public class PlayerInteractHandler {
 	public void onInteract(PlayerInteractEvent.RightClickBlock e) {
 		if (e.getEntityPlayer() != null && e.getEntityPlayer().world.getBlockState(e.getPos()) == Blocks.STONE.getStateFromMeta(2)) {
 			EntityPlayer player = e.getEntityPlayer();
-			if (e.getItemStack().isEmpty()) return;
+			if (e.getItemStack().isEmpty())
+				return;
 			if (e.getItemStack().getItem() == Items.DIAMOND) {
 				if (doChecks(player.world, e.getPos(), e.getFace())) {
 					e.getItemStack().shrink(1);
