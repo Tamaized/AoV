@@ -135,16 +135,18 @@ public class AoVCapabilityHandler implements IAoVCapability {
 
 	@Override
 	public void update(EntityPlayer player) {
-		if (tick > 0 && tick % 20 == 0) updateAbilities();
+		tick++;
+		if (tick % 20 == 0) updateAbilities();
 		updateAuras(player);
 		updateDecay();
+		if(tick % (20 * 10) == 0) dirty = true;
 		if (dirty) {
 			updateValues(player);
 			if (player instanceof EntityPlayerMP) sendPacketUpdates((EntityPlayerMP) player);
 			dirty = false;
 		}
 		updateHealth(player);
-		if (tick > 0 && tick % (20 * 30) == 0 && hasSkill(AoVSkill.defender_capstone) && player != null) {
+		if (tick % (20 * 30) == 0 && hasSkill(AoVSkill.defender_capstone) && player != null) {
 			ItemStack main = player.getHeldItemMainhand();
 			ItemStack off = player.getHeldItemOffhand();
 			if (!main.isEmpty() && main.getItem() instanceof ItemShield && main.getItem().isRepairable() && main.getItemDamage() > 0) {
@@ -154,7 +156,6 @@ public class AoVCapabilityHandler implements IAoVCapability {
 				off.setItemDamage(0);
 			}
 		}
-		tick++;
 	}
 
 	private static final String defenderHealthName = "AoV Defender Health";
