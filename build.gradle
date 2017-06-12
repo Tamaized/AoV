@@ -22,9 +22,6 @@ version = "${project.minecraftVersion}-${modVersion}${modVersionValue}"
 group= "tamaized.aov"
 archivesBaseName = "AoV"
 
-version = "${modVersion}${modVersionValue}"
-group= "tamaized.voidfog"
-
 sourceCompatibility = targetCompatibility = '1.8'
 compileJava {
     sourceCompatibility = targetCompatibility = '1.8'
