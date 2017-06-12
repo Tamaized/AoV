@@ -1,14 +1,12 @@
 package Tamaized.AoV.client;
 
-import org.lwjgl.opengl.GL11;
-
 import Tamaized.AoV.AoV;
-import Tamaized.TamModized.particles.ParticleHelper;
 import Tamaized.TamModized.particles.FX.ParticleFluff;
+import Tamaized.TamModized.particles.ParticleHelper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
@@ -31,7 +29,8 @@ public class RenderPlayer {
 		// if (true) return; // This is dev stuff
 		EntityPlayer player = e.getEntityPlayer();
 		PotionEffect pot = player.getActivePotionEffect(AoV.potions.slowFall);
-		if (pot == null) return;
+		if (pot == null)
+			return;
 		GlStateManager.pushMatrix();
 		{
 			// GlStateManager.disableAlpha();
@@ -53,7 +52,7 @@ public class RenderPlayer {
 			}
 			Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 			Tessellator tess = Tessellator.getInstance();
-			VertexBuffer vertexbuffer = tess.getBuffer();
+			BufferBuilder vertexbuffer = tess.getBuffer();
 			vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 			double x1 = 0;
 			double x2 = x1 + 1;

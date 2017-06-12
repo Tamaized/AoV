@@ -7,7 +7,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
@@ -22,8 +22,13 @@ version = "${project.minecraftVersion}-${modVersion}${modVersionValue}"
 group= "tamaized.aov"
 archivesBaseName = "AoV"
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+version = "${modVersion}${modVersionValue}"
+group= "tamaized.voidfog"
+
+sourceCompatibility = targetCompatibility = '1.8'
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
+}
 
 minecraft {
     version = "${project.minecraftVersion}-${project.forgeVersion}"

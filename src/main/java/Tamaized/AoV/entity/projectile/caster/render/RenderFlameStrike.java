@@ -1,18 +1,17 @@
 package Tamaized.AoV.entity.projectile.caster.render;
 
-import java.util.Random;
-
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.entity.projectile.caster.ProjectileFlameStrike;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+
+import java.util.Random;
 
 public class RenderFlameStrike<T extends ProjectileFlameStrike> extends Render<T> {
 
@@ -41,7 +40,7 @@ public class RenderFlameStrike<T extends ProjectileFlameStrike> extends Render<T
 		GlStateManager.rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks - 90.0F, 0.0F, 1.0F, 0.0F);
 		GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, 0.0F, 0.0F, 1.0F);
 		Tessellator tessellator = Tessellator.getInstance();
-		VertexBuffer vertexbuffer = tessellator.getBuffer();
+		BufferBuilder vertexbuffer = tessellator.getBuffer();
 		int i = 0;
 		float f = 0.0F;
 		float f1 = 0.5F;

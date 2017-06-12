@@ -68,7 +68,7 @@ public class SkillButton extends GuiButton {
 	}
 
 	@Override
-	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+	public void func_191745_a(Minecraft mc, int mouseX, int mouseY, float p_191745_4_) {
 		if (visible) {
 			FontRenderer fontrenderer = mc.fontRendererObj;
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
