@@ -10,8 +10,8 @@ import Tamaized.AoV.entity.projectile.caster.render.RenderFlameStrike;
 import Tamaized.AoV.entity.projectile.caster.render.RenderNimbusRay;
 import Tamaized.AoV.entity.render.RenderSpellBladeBarrier;
 import Tamaized.AoV.entity.render.RenderSpellImplosion;
-import Tamaized.AoV.events.KeyHandler;
 import Tamaized.AoV.events.ClientSpawnEvent;
+import Tamaized.AoV.events.KeyHandler;
 import Tamaized.AoV.gui.client.AoVOverlay;
 import Tamaized.AoV.gui.client.AoVUIBar;
 import Tamaized.AoV.network.ClientPacketHandler;
@@ -44,6 +44,9 @@ public class ClientProxy extends AbstractProxy {
 	public void preInit() {
 
 		bar = new AoVUIBar();
+
+		key = new KeyBinding("key.aovbar", org.lwjgl.input.Keyboard.KEY_LMENU, "key.categories.ui"); // "key.categories.aov"); TODO when forge is fixed for this
+		ClientRegistry.registerKeyBinding(key);
 
 		MinecraftForge.EVENT_BUS.register(new AoVOverlay());
 		MinecraftForge.EVENT_BUS.register(new RenderPlayer());
@@ -85,8 +88,6 @@ public class ClientProxy extends AbstractProxy {
 
 	@Override
 	public void postInit() {
-		key = new KeyBinding("key.aovbar", org.lwjgl.input.Keyboard.KEY_LMENU, "key.categories.aov");
-		ClientRegistry.registerKeyBinding(key);
 		MinecraftForge.EVENT_BUS.register(new KeyHandler());
 		AoV.channel.register(new ClientPacketHandler());
 	}
