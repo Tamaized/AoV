@@ -1,63 +1,49 @@
 package Tamaized.AoV.registry;
 
-import java.util.ArrayList;
-
-import net.minecraft.block.material.Material;
-import Tamaized.AoV.AoV;
 import Tamaized.AoV.blocks.BlockAngelicBlock;
-import Tamaized.TamModized.registry.ITamModel;
 import Tamaized.TamModized.registry.ITamRegistry;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.item.Item;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class AoVBlocks implements ITamRegistry {
+import java.util.ArrayList;
+import java.util.List;
 
-	private static ArrayList<ITamModel> modelList;
+@Mod.EventBusSubscriber
+public class AoVBlocks {
 
 	public static BlockAngelicBlock angelicBlock;
+	private static List<ITamRegistry> modelList;
 
-	@Override
-	public void preInit() {
-		modelList = new ArrayList<ITamModel>();
+	static {
+		modelList = new ArrayList<>();
 
-		modelList.add(angelicBlock = new BlockAngelicBlock(AoV.tabs.tabAoV, Material.ROCK, "blockangelic", 7.0F));
-
+		modelList.add(angelicBlock = new BlockAngelicBlock(AoVTabs.tabAoV, Material.ROCK, "blockangelic", 7.0F));
 	}
 
-	@Override
-	public void init() {
-
+	@SubscribeEvent
+	public static void registerBlocks(RegistryEvent.Register<Block> event) {
+		for (ITamRegistry b : modelList)
+			b.registerBlock(event);
 	}
 
-	@Override
-	public void postInit() {
-
+	@SubscribeEvent
+	public static void registerItems(RegistryEvent.Register<Item> event) {
+		for (ITamRegistry b : modelList)
+			b.registerItem(event);
 	}
 
-	@Override
-	public ArrayList<ITamModel> getModelList() {
-		return modelList;
-	}
-
-	@Override
-	public String getModID() {
-		return AoV.modid;
-	}
-
-	@Override
-	public void clientPreInit() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void clientInit() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void clientPostInit() {
-		// TODO Auto-generated method stub
-		
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public static void registerModels(ModelRegistryEvent event) {
+		for (ITamRegistry model : modelList)
+			model.registerModel(event);
 	}
 
 }

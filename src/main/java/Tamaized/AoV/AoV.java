@@ -1,9 +1,5 @@
 package Tamaized.AoV;
 
-import java.io.File;
-
-import org.apache.logging.log4j.LogManager;
-
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.AoVCapabilityHandler;
 import Tamaized.AoV.capabilities.aov.AoVCapabilityStorage;
@@ -18,17 +14,7 @@ import Tamaized.AoV.events.PlayerInteractHandler;
 import Tamaized.AoV.events.TickHandler;
 import Tamaized.AoV.gui.GuiHandler;
 import Tamaized.AoV.network.ServerPacketHandler;
-import Tamaized.AoV.registry.AoVAchievements;
-import Tamaized.AoV.registry.AoVArmors;
-import Tamaized.AoV.registry.AoVBiomes;
-import Tamaized.AoV.registry.AoVBlocks;
-import Tamaized.AoV.registry.AoVDamageSource;
-import Tamaized.AoV.registry.AoVFluids;
-import Tamaized.AoV.registry.AoVItems;
-import Tamaized.AoV.registry.AoVMaterials;
-import Tamaized.AoV.registry.AoVPotions;
-import Tamaized.AoV.registry.AoVTabs;
-import Tamaized.AoV.registry.AoVTools;
+import Tamaized.AoV.registry.*;
 import Tamaized.AoV.sound.SoundEvents;
 import Tamaized.TamModized.TamModBase;
 import Tamaized.TamModized.TamModized;
@@ -45,40 +31,34 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.FMLEventChannel;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import org.apache.logging.log4j.LogManager;
+
+import java.io.File;
 
 @Mod(modid = AoV.modid, name = "Angel of Vengeance", guiFactory = "Tamaized.AoV.gui.client.GUIConfigFactory", version = AoV.version, dependencies = "required-before:" + TamModized.modid + "@[${tamversion},)")
 public class AoV extends TamModBase {
 
-	protected final static String version = "${version}";
 	public static final String modid = "aov";
+	public static final String networkChannelName = "AoV";
+	public static final AoVTabs tabs = new AoVTabs();
+	public static final AoVItems items = new AoVItems();
+	public static final AoVArmors armors = new AoVArmors();
+	public static final AoVBlocks blocks = new AoVBlocks();
+	public static final AoVPotions potions = new AoVPotions();
+	public static final AoVAchievements achievements = new AoVAchievements();
+	public static final AoVDamageSource damageSources = new AoVDamageSource();
+	protected final static String version = "${version}";
+	@Instance(modid)
+	public static AoV instance = new AoV();
+	public static File configFile;
+	public static ConfigHandler config;
+	public static FMLEventChannel channel;
+	@SidedProxy(clientSide = "Tamaized.AoV.proxy.ClientProxy", serverSide = "Tamaized.AoV.proxy.ServerProxy")
+	public static AbstractProxy proxy;
 
 	public static String getVersion() {
 		return version;
 	}
-
-	@Instance(modid)
-	public static AoV instance = new AoV();
-
-	public static File configFile;
-	public static ConfigHandler config;
-
-	public static FMLEventChannel channel;
-	public static final String networkChannelName = "AoV";
-
-	@SidedProxy(clientSide = "Tamaized.AoV.proxy.ClientProxy", serverSide = "Tamaized.AoV.proxy.ServerProxy")
-	public static AbstractProxy proxy;
-
-	public static AoVMaterials materials = new AoVMaterials();
-	public static AoVTabs tabs = new AoVTabs();
-	public static AoVTools tools = new AoVTools();
-	public static AoVItems items = new AoVItems();
-	public static AoVArmors armors = new AoVArmors();
-	public static AoVFluids fluids = new AoVFluids();
-	public static AoVBlocks blocks = new AoVBlocks();
-	public static AoVPotions potions = new AoVPotions();
-	public static AoVBiomes biomes = new AoVBiomes();
-	public static AoVAchievements achievements = new AoVAchievements();
-	public static AoVDamageSource damageSources = new AoVDamageSource();
 
 	@Override
 	protected AbstractProxy getProxy() {
@@ -118,18 +98,6 @@ public class AoV extends TamModBase {
 		config = new ConfigHandler(new Configuration(configFile));
 
 		channel = NetworkRegistry.INSTANCE.newEventDrivenChannel(networkChannelName);
-
-		register(materials);
-		register(tabs);
-		register(tools);
-		register(items);
-		register(armors);
-		register(fluids);
-		register(blocks);
-		register(potions);
-		register(biomes);
-		register(achievements);
-		register(damageSources);
 
 		SoundEvents.register();
 

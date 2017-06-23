@@ -1,61 +1,41 @@
 package Tamaized.AoV.registry;
 
-import java.util.ArrayList;
-
-import Tamaized.AoV.AoV;
 import Tamaized.AoV.items.DebugItem;
-import Tamaized.TamModized.registry.ITamModel;
 import Tamaized.TamModized.registry.ITamRegistry;
+import net.minecraft.item.Item;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class AoVItems implements ITamRegistry {
+import java.util.ArrayList;
+import java.util.List;
 
-	private static ArrayList<ITamModel> modelList;
+@Mod.EventBusSubscriber
+public class AoVItems {
 
 	public static DebugItem debugger;
+	private static List<ITamRegistry> modelList;
 
-	@Override
-	public void preInit() {
-		modelList = new ArrayList<ITamModel>();
+	static {
+		modelList = new ArrayList<>();
 
 		modelList.add(debugger = new DebugItem("debugger"));
 	}
 
-	@Override
-	public void init() {
-
+	@SubscribeEvent
+	public static void registerItems(RegistryEvent.Register<Item> event) {
+		for (ITamRegistry b : modelList)
+			b.registerItem(event);
 	}
 
-	@Override
-	public void postInit() {
-
-	}
-
-	@Override
-	public ArrayList<ITamModel> getModelList() {
-		return modelList;
-	}
-
-	@Override
-	public String getModID() {
-		return AoV.modid;
-	}
-
-	@Override
-	public void clientPreInit() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void clientInit() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void clientPostInit() {
-		// TODO Auto-generated method stub
-		
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public static void registerModels(ModelRegistryEvent event) {
+		for (ITamRegistry model : modelList)
+			model.registerModel(event);
 	}
 
 }
