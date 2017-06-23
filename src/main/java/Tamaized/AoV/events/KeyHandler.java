@@ -2,10 +2,7 @@ package Tamaized.AoV.events;
 
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
-import Tamaized.AoV.gui.client.AoVSkillsGUI;
-import Tamaized.AoV.gui.client.ResetSkillsGUI;
-import Tamaized.AoV.gui.client.ShowStatsGUI;
-import Tamaized.AoV.gui.client.SpellBookGUI;
+import Tamaized.AoV.gui.client.*;
 import Tamaized.AoV.proxy.ClientProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -31,7 +28,7 @@ public class KeyHandler {
 				KeyBinding keyBind = Minecraft.getMinecraft().gameSettings.keyBindsHotbar[i];
 				if (keyBind.isPressed()) {
 					keyBind.setKeyBindState(keyBind.getKeyCode(), false);
-					ClientProxy.bar.slotLoc = i;
+					AoVUIBar.slotLoc = i;
 					break;
 				}
 			}
@@ -46,17 +43,17 @@ public class KeyHandler {
 		if (player == null || !player.hasCapability(CapabilityList.AOV, null)) return;
 		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
 
-		if (e.getDwheel() > 0) ClientProxy.bar.slotLoc--;
-		if (e.getDwheel() < 0) ClientProxy.bar.slotLoc++;
-		if (ClientProxy.bar.slotLoc < 0) ClientProxy.bar.slotLoc = 8;
-		if (ClientProxy.bar.slotLoc > 8) ClientProxy.bar.slotLoc = 0;
+		if (e.getDwheel() > 0) AoVUIBar.slotLoc--;
+		if (e.getDwheel() < 0) AoVUIBar.slotLoc++;
+		if (AoVUIBar.slotLoc < 0) AoVUIBar.slotLoc = 8;
+		if (AoVUIBar.slotLoc > 8) AoVUIBar.slotLoc = 0;
 
 		if (e.getButton() != 0) {
 			e.setCanceled(true);
 			KeyBinding.setKeyBindState(e.getButton() - 100, false);
 		}
 		if (e.getButton() == 1 && e.isButtonstate()) {
-			cap.cast(ClientProxy.bar.slotLoc);
+			cap.cast(AoVUIBar.slotLoc);
 		}
 	}
 }

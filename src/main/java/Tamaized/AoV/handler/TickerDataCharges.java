@@ -1,5 +1,6 @@
 package Tamaized.AoV.handler;
 
+import Tamaized.AoV.gui.client.AoVUIBar;
 import Tamaized.AoV.proxy.ClientProxy;
 
 public class TickerDataCharges {
@@ -45,7 +46,7 @@ public class TickerDataCharges {
 	}
 
 	public void update() {
-		switch (ClientProxy.bar.slotLoc) {
+		switch (AoVUIBar.slotLoc) {
 			case 0:
 				if (id_0 < max) id_0++;
 				if (id_1 > 0) id_1--;

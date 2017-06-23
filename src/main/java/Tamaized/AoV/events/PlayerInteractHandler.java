@@ -3,6 +3,7 @@ package Tamaized.AoV.events;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.blocks.BlockAngelicBlock;
 import Tamaized.AoV.capabilities.CapabilityList;
+import Tamaized.AoV.config.ConfigHandler;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -18,7 +19,7 @@ public class PlayerInteractHandler {
 
 	@SubscribeEvent
 	public void onXPGain(PlayerPickupXpEvent e) {
-		if (!AoV.config.getExperience())
+		if (!ConfigHandler.experience)
 			return;
 		EntityPlayer player = e.getEntityPlayer();
 		if (player != null && player.hasCapability(CapabilityList.AOV, null)) {

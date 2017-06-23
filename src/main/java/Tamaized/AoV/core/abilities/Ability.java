@@ -7,6 +7,7 @@ import java.util.HashSet;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
+import Tamaized.AoV.config.ConfigHandler;
 import Tamaized.TamModized.helper.RayTraceHelper;
 import io.netty.buffer.ByteBufInputStream;
 import net.minecraft.entity.Entity;
@@ -129,7 +130,7 @@ public final class Ability {
 		tick++;
 		if (cooldown > 0) cooldown--;
 		if (decay > 0 && tick % (20) == 0) decay--;
-		if (ability.getMaxCharges() >= 0 && AoV.config.getRechargeRate() >= 0 && charges < (ability.getMaxCharges() + cap.getExtraCharges()) && tick % AoV.config.getRechargeRate() == 0) charges++;
+		if (ability.getMaxCharges() >= 0 && ConfigHandler.recharge >= 0 && charges < (ability.getMaxCharges() + cap.getExtraCharges()) && tick % ConfigHandler.recharge == 0) charges++;
 
 	}
 

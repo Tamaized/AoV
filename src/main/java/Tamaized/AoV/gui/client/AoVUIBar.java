@@ -1,5 +1,9 @@
 package Tamaized.AoV.gui.client;
 
+import Tamaized.AoV.config.ConfigHandler;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.opengl.GL11;
 
 import Tamaized.AoV.capabilities.CapabilityList;
@@ -15,27 +19,31 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
+@Mod.EventBusSubscriber
 public class AoVUIBar {
 
 	public static final ResourceLocation widgetsTexPath = new ResourceLocation("textures/gui/widgets.png");
-	private Minecraft mc;
-	public int slotLoc = 0;
+	private static final Minecraft mc = Minecraft.getMinecraft();
+	public static int slotLoc = 0;
 
-	public AoVUIBar() {
-		mc = Minecraft.getMinecraft();
+	@SubscribeEvent
+	public static void disableHotbar(RenderGameOverlayEvent e){
+		if(ConfigHandler.barPos == ConfigHandler.BarPos.BOTTOM && e.getType() == RenderGameOverlayEvent.ElementType.HOTBAR && ClientProxy.barToggle) e.setCanceled(true);
 	}
 
-	public void render(Gui gui, float partialTicks) {
+	public static void render(Gui gui, float partialTicks) {
+		if(ConfigHandler.barPos == ConfigHandler.BarPos.BOTTOM && !ClientProxy.barToggle) return;
 		if (mc.player == null || !mc.player.hasCapability(CapabilityList.AOV, null)) return;
 		IAoVCapability cap = mc.player.getCapability(CapabilityList.AOV, null);
 		GlStateManager.pushMatrix();
 		{
 			ScaledResolution sr = new ScaledResolution(mc);
+			if(ConfigHandler.barPos == ConfigHandler.BarPos.BOTTOM) GlStateManager.translate(0, sr.getScaledHeight() - 23, 0);
 			float alpha = 0.2f;
 			if (ClientProxy.barToggle) alpha = 1.0f;
 			GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
 			mc.getTextureManager().bindTexture(widgetsTexPath);
-			EntityPlayer entityplayer = (EntityPlayer) this.mc.getRenderViewEntity();
+			EntityPlayer entityplayer = (EntityPlayer) mc.getRenderViewEntity();
 			int i = sr.getScaledWidth() / 2;
 			gui.drawTexturedModalRect(i - 91, 1, 0, 0, 182, 22);
 			gui.drawTexturedModalRect(i - 91 - 1 + slotLoc * 20, 0, 0, 22, 24, 22);
@@ -54,7 +62,7 @@ public class AoVUIBar {
 					int l = 4;// sr.getScaledHeight() - 16 - 3;
 					GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
 					// RenderHelper.enableGUIStandardItemLighting();
-					renderHotbarIcon(gui, cap, j, k, l, partialTicks, ability.getAbility().getIcon(), (ability.getAbility() instanceof InvokeMass) ? cap.getInvokeMass() : false);
+					renderHotbarIcon(gui, cap, j, k, l, partialTicks, ability.getAbility().getIcon(), (ability.getAbility() instanceof InvokeMass) && cap.getInvokeMass());
 					// RenderHelper.disableStandardItemLighting();
 					GlStateManager.pushAttrib();
 					{

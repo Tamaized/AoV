@@ -35,7 +35,7 @@ import org.apache.logging.log4j.LogManager;
 
 import java.io.File;
 
-@Mod(modid = AoV.modid, name = "Angel of Vengeance", guiFactory = "Tamaized.AoV.gui.client.GUIConfigFactory", version = AoV.version, dependencies = "required-before:" + TamModized.modid + "@[${tamversion},)")
+@Mod(modid = AoV.modid, name = "Angel of Vengeance", version = AoV.version, dependencies = "required-before:" + TamModized.modid + "@[${tamversion},)")
 public class AoV extends TamModBase {
 
 	public static final String modid = "aov";
@@ -50,8 +50,6 @@ public class AoV extends TamModBase {
 	protected final static String version = "${version}";
 	@Instance(modid)
 	public static AoV instance = new AoV();
-	public static File configFile;
-	public static ConfigHandler config;
 	public static FMLEventChannel channel;
 	@SidedProxy(clientSide = "Tamaized.AoV.proxy.ClientProxy", serverSide = "Tamaized.AoV.proxy.ServerProxy")
 	public static AbstractProxy proxy;
@@ -94,9 +92,6 @@ public class AoV extends TamModBase {
 
 		logger.info("Starting AoV PreInit");
 
-		configFile = event.getSuggestedConfigurationFile();
-		config = new ConfigHandler(new Configuration(configFile));
-
 		channel = NetworkRegistry.INSTANCE.newEventDrivenChannel(networkChannelName);
 
 		SoundEvents.register();
@@ -109,7 +104,6 @@ public class AoV extends TamModBase {
 	public void init(FMLInitializationEvent event) {
 		logger.info("Starting AoV Init");
 
-		MinecraftForge.EVENT_BUS.register(config);
 		MinecraftForge.EVENT_BUS.register(new TickHandler());
 		MinecraftForge.EVENT_BUS.register(new PlayerInteractHandler());
 		MinecraftForge.EVENT_BUS.register(new LivingAttackEvent());

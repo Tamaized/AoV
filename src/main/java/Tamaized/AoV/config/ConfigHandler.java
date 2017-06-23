@@ -1,66 +1,34 @@
 package Tamaized.AoV.config;
 
-import java.io.IOException;
-
 import Tamaized.AoV.AoV;
-import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Config;
+import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import java.io.IOException;
+
+@Mod.EventBusSubscriber
+@Config(modid = AoV.modid)
 public class ConfigHandler {
 
-	private Configuration config;
+	@Config.Comment("Sets the recharge rate per second, -1 disables this")
+	public static int recharge = -1;
+	@Config.Comment("Determines whether or not vanilla experience contributes to AoV experience gain")
+	public static boolean experience = false;
+	@Config.Comment("Sets the Posiiton where the Spell Bar will render")
+	public static BarPos barPos = BarPos.TOP;
 
-	private int default_recharge = -1;
-	private boolean default_experience = false;
-
-	private int recharge = default_recharge;
-	private boolean experience = default_experience;
-
-	public ConfigHandler(Configuration c) {
-		config = c;
-		config.load();
-		sync(true);
-	}
-
-	public Configuration getConfig() {
-		return config;
-	}
-
-	public void sync(boolean firstLoad) {
-		try {
-			loadData(firstLoad);
-			cleanupFile();
-			config.save();
-		} catch (IOException e) {
-			e.printStackTrace();
+	@SubscribeEvent
+	public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
+		if (event.getModID().equals(AoV.modid)) {
+			ConfigManager.sync(AoV.modid, Config.Type.INSTANCE);
 		}
 	}
 
-	private void loadData(boolean firstLoad) {
-		recharge = config.get(Configuration.CATEGORY_GENERAL, "recharge", default_recharge, "Sets the recharge rate per second, -1 disables this").getInt();
-		experience = config.get(Configuration.CATEGORY_GENERAL, "experience", default_experience, "Determines whether or not vanilla experience contributes to AoV experience gain").getBoolean();
-	}
-
-	private void cleanupFile() throws IOException {
-		AoV.configFile.delete();
-		AoV.configFile.createNewFile();
-		config = new Configuration(AoV.configFile);
-		config.get(Configuration.CATEGORY_GENERAL, "recharge", default_recharge, "Sets the recharge rate per second, -1 disables this").set(recharge);
-		config.get(Configuration.CATEGORY_GENERAL, "experience", default_experience, "Determines whether or not vanilla experience contributes to AoV experience gain").set(experience);
-	}
-
-	@SubscribeEvent
-	public void configChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
-		if (event.getModID().equals(AoV.modid)) sync(false);
-	}
-
-	public int getRechargeRate() {
-		return recharge;
-	}
-
-	public boolean getExperience() {
-		return experience;
+	public static enum BarPos {
+		TOP, BOTTOM
 	}
 
 }

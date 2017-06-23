@@ -30,8 +30,6 @@ public class ClientProxy extends AbstractProxy {
 		super(Side.CLIENT);
 	}
 
-	public static AoVUIBar bar;
-
 	public static KeyBinding key;
 	public static boolean barToggle = false;
 
@@ -42,8 +40,6 @@ public class ClientProxy extends AbstractProxy {
 
 	@Override
 	public void preInit() {
-
-		bar = new AoVUIBar();
 
 		key = new KeyBinding("key.aovbar", org.lwjgl.input.Keyboard.KEY_LMENU, "key.categories.ui"); // "key.categories.aov"); TODO when forge is fixed for this
 		ClientRegistry.registerKeyBinding(key);
