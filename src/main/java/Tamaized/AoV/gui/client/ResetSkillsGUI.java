@@ -82,7 +82,7 @@ public class ResetSkillsGUI extends GuiScreenClose {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		drawDefaultBackground();
-		drawCenteredString(fontRendererObj, "Reset Angel of Vengeance Skills", width / 2, 15, 16777215);
+		drawCenteredString(fontRenderer, "Reset Angel of Vengeance Skills", width / 2, 15, 16777215);
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 

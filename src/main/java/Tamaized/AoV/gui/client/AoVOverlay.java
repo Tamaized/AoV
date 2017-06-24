@@ -33,7 +33,7 @@ public class AoVOverlay extends Gui {
 			return;
 		ClientTicker.update();
 		IAoVCapability cap = mc.player.getCapability(CapabilityList.AOV, null);
-		FontRenderer fontRender = mc.fontRendererObj;
+		FontRenderer fontRender = mc.fontRenderer;
 		ScaledResolution sr = new ScaledResolution(mc);
 		int sW = sr.getScaledWidth() / 2;
 

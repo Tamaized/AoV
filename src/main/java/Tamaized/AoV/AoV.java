@@ -94,8 +94,6 @@ public class AoV extends TamModBase {
 
 		channel = NetworkRegistry.INSTANCE.newEventDrivenChannel(networkChannelName);
 
-		SoundEvents.register();
-
 		CapabilityManager.INSTANCE.register(IAoVCapability.class, new AoVCapabilityStorage(), AoVCapabilityHandler.class);
 		MinecraftForge.EVENT_BUS.register(new CapabilityList());
 	}

@@ -25,7 +25,7 @@ public class RenderSpellImplosion<T extends EntitySpellImplosion> extends Render
 		for (int index = 0; index < 10; index++) {
 			Vec3d vec = entity.getLook(1.0F).rotatePitch(rand.nextInt(360)).rotateYaw(rand.nextInt(360));
 			float speed = 0.08F;
-			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleFluff(world, entity.getPositionVector().addVector(0, 0.65F, 0).add(vec), new Vec3d(-vec.xCoord*speed, -vec.yCoord*speed, -vec.zCoord*speed), 7, 0, rand.nextFloat() * 0.90F + 0.10F, 0x7700FFFF));
+			Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleFluff(world, entity.getPositionVector().addVector(0, 0.65F, 0).add(vec), new Vec3d(-vec.x*speed, -vec.y*speed, -vec.z*speed), 7, 0, rand.nextFloat() * 0.90F + 0.10F, 0x7700FFFF));
 		}
 	}
 

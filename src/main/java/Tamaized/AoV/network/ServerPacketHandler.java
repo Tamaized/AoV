@@ -32,7 +32,7 @@ public class ServerPacketHandler {
 
 	@SubscribeEvent
 	public void onServerPacket(ServerCustomPacketEvent event) {
-		EntityPlayerMP player = ((NetHandlerPlayServer) event.getHandler()).playerEntity;
+		EntityPlayerMP player = ((NetHandlerPlayServer) event.getHandler()).player;
 		player.getServer().addScheduledTask(new Runnable() {
 			public void run() {
 				try {

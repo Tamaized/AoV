@@ -15,11 +15,11 @@ public class BlankButton extends GuiButton {
 
 
 	@Override
-	public void func_191745_a(Minecraft mc, int mouseX, int mouseY, float p_191745_4_) {
+	public void drawButton(Minecraft mc, int mouseX, int mouseY, float p_191745_4_) {
 		if (debug) {
 			GlStateManager.pushMatrix();
 			GlStateManager.translate(0, 0, 1);
-			this.drawRect(this.xPosition, this.yPosition, xPosition + this.width, yPosition + this.height, 0xFF00AA00);
+			this.drawRect(this.x, this.y, x + this.width, y + this.height, 0xFF00AA00);
 			GlStateManager.popMatrix();
 		}
 	}

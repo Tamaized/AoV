@@ -1,7 +1,5 @@
 package Tamaized.AoV.sound;
 
-import java.io.IOException;
-
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.network.ClientPacketHandler;
 import Tamaized.TamModized.helper.PacketHelper;
@@ -9,9 +7,14 @@ import Tamaized.TamModized.helper.PacketHelper.PacketWrapper;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
+import java.io.IOException;
+
+@Mod.EventBusSubscriber
 public class SoundEvents {
 
 	public static SoundEvent aura = null;
@@ -26,24 +29,26 @@ public class SoundEvents {
 	public static SoundEvent implosion = null;
 	public static SoundEvent restore = null;
 
-	public static void register() {
-		aura = registerSound("aura");
-		bladebarrier = registerSound("bladebarrier");
-		boost = registerSound("boost");
-		burst = registerSound("burst");
-		cast = registerSound("cast");
-		cast_2 = registerSound("cast_2");
-		destruction = registerSound("destruction");
-		firestrike = registerSound("firestrike");
-		heal = registerSound("heal");
-		implosion = registerSound("implosion");
-		restore = registerSound("restore");
+	@SubscribeEvent
+	public static void registerSounds(RegistryEvent.Register<SoundEvent> event) {
+		aura = registerSound(event, "aura");
+		bladebarrier = registerSound(event, "bladebarrier");
+		boost = registerSound(event, "boost");
+		burst = registerSound(event, "burst");
+		cast = registerSound(event, "cast");
+		cast_2 = registerSound(event, "cast_2");
+		destruction = registerSound(event, "destruction");
+		firestrike = registerSound(event, "firestrike");
+		heal = registerSound(event, "heal");
+		implosion = registerSound(event, "implosion");
+		restore = registerSound(event, "restore");
 
 	}
 
-	private static SoundEvent registerSound(String soundName) {
-		ResourceLocation soundID = new ResourceLocation(AoV.modid, soundName);
-		return GameRegistry.register(new SoundEvent(soundID).setRegistryName(soundID));
+	private static SoundEvent registerSound(RegistryEvent.Register<SoundEvent> event, String soundName) {
+		SoundEvent sound = new SoundEvent(new ResourceLocation(AoV.modid, soundName)).setRegistryName(soundName);
+		event.getRegistry().register(sound);
+		return sound;
 	}
 
 	public static void playMovingSoundOnServer(SoundEvent sound, Entity entity) {

@@ -60,15 +60,15 @@ public class ShowStatsGUI extends GuiScreenClose {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
-		this.drawCenteredString(this.fontRendererObj, "Angel of Vengeance: Stats", this.width / 2, 15, 16777215);
+		this.drawCenteredString(this.fontRenderer, "Angel of Vengeance: Stats", this.width / 2, 15, 16777215);
 		IAoVCapability cap = mc == null || mc.player == null ? null : mc.player.getCapability(CapabilityList.AOV, null);
 		String s = cap == null ? "null" : cap.getLevel() >= cap.getMaxLevel() ? "Max Experience Achieved" : (cap == null ? "null" : cap.getExp()) + "/" + (cap == null ? "null" : AoVCapabilityHandler.getExpForLevel(cap.getLevel() + 1));
-		this.drawCenteredString(fontRendererObj, "Experience: " + s, width / 2, 50, 0xFFFF00);
-		this.drawCenteredString(fontRendererObj, "Level: " + (cap == null ? "null" : cap.getLevel()), width / 2, 60, 0xFFFF00);
-		this.drawCenteredString(fontRendererObj, "Extra Charges: " + (cap == null ? "null" : cap.getExtraCharges()), width / 2, 70, 0x00BBFF);
-		this.drawCenteredString(fontRendererObj, "Spell Power: " + (cap == null ? "null" : (int) cap.getSpellPower()), width / 2, 80, 0x00FF00);
-		this.drawCenteredString(fontRendererObj, "Dodge: " + (cap == null ? "null" : (int) cap.getDodge()) + "%", width / 2, 90, 0x00FF00);
-		this.drawCenteredString(fontRendererObj, "DoubleStrike: " + (cap == null ? "null" : (int) cap.getDoubleStrike()) + "%", width / 2, 100, 0x00FF00);
+		this.drawCenteredString(fontRenderer, "Experience: " + s, width / 2, 50, 0xFFFF00);
+		this.drawCenteredString(fontRenderer, "Level: " + (cap == null ? "null" : cap.getLevel()), width / 2, 60, 0xFFFF00);
+		this.drawCenteredString(fontRenderer, "Extra Charges: " + (cap == null ? "null" : cap.getExtraCharges()), width / 2, 70, 0x00BBFF);
+		this.drawCenteredString(fontRenderer, "Spell Power: " + (cap == null ? "null" : (int) cap.getSpellPower()), width / 2, 80, 0x00FF00);
+		this.drawCenteredString(fontRenderer, "Dodge: " + (cap == null ? "null" : (int) cap.getDodge()) + "%", width / 2, 90, 0x00FF00);
+		this.drawCenteredString(fontRenderer, "DoubleStrike: " + (cap == null ? "null" : (int) cap.getDoubleStrike()) + "%", width / 2, 100, 0x00FF00);
 
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}

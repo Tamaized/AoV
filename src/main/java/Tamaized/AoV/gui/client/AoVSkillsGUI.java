@@ -143,29 +143,29 @@ public class AoVSkillsGUI extends GuiScreenClose {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		drawDefaultBackground();
-		drawCenteredString(fontRendererObj, "Angel of Vengeance: Skills", width / 2, 15, 16777215);
-		drawString(fontRendererObj, "Skill Points: " + (cap == null ? "null" : cap.getSkillPoints()), 5, 5, 0xFFFFFF00);
-		drawString(fontRendererObj, "Spent: " + (cap == null ? "null" : cap.getSpentSkillPoints()) + " out of " + (cap == null ? "null" : cap.getLevel()), 5, 15, 0xFFFFFF00);
-		drawString(fontRendererObj, "Level:", width - 40, 5, 0xFFFFFF00);
-		drawString(fontRendererObj, "" + (cap == null ? "null" : cap.getLevel()), width - 40, 15, 0xFFFFFF00);
+		drawCenteredString(fontRenderer, "Angel of Vengeance: Skills", width / 2, 15, 16777215);
+		drawString(fontRenderer, "Skill Points: " + (cap == null ? "null" : cap.getSkillPoints()), 5, 5, 0xFFFFFF00);
+		drawString(fontRenderer, "Spent: " + (cap == null ? "null" : cap.getSpentSkillPoints()) + " out of " + (cap == null ? "null" : cap.getLevel()), 5, 15, 0xFFFFFF00);
+		drawString(fontRenderer, "Level:", width - 40, 5, 0xFFFFFF00);
+		drawString(fontRenderer, "" + (cap == null ? "null" : cap.getLevel()), width - 40, 15, 0xFFFFFF00);
 
-		// drawCenteredString(fontRendererObj, "Tier 4", width / 2 - 135, height - 222, 0xFFFFFF00);
-		// drawCenteredString(fontRendererObj, "Tier 3", width / 2 - 135, height - 182, 0xFFFFFF00);
-		// drawCenteredString(fontRendererObj, "Tier 2", width / 2 - 135, height - 142, 0xFFFFFF00);
-		// drawCenteredString(fontRendererObj, "Tier 1", width / 2 - 135, height - 102, 0xFFFFFF00);
-		// drawCenteredString(fontRendererObj, "Core", width / 2 - 135, height - 62, 0xFFFFFF00);
+		// drawCenteredString(fontRenderer, "Tier 4", width / 2 - 135, height - 222, 0xFFFFFF00);
+		// drawCenteredString(fontRenderer, "Tier 3", width / 2 - 135, height - 182, 0xFFFFFF00);
+		// drawCenteredString(fontRenderer, "Tier 2", width / 2 - 135, height - 142, 0xFFFFFF00);
+		// drawCenteredString(fontRenderer, "Tier 1", width / 2 - 135, height - 102, 0xFFFFFF00);
+		// drawCenteredString(fontRenderer, "Core", width / 2 - 135, height - 62, 0xFFFFFF00);
 
-		// drawCenteredString(fontRendererObj, "Tier 4", width / 2, height - 222, 0xFFFFFF00);
-		// drawCenteredString(fontRendererObj, "Tier 3", width / 2, height - 182, 0xFFFFFF00);
-		// drawCenteredString(fontRendererObj, "Tier 2", width / 2, height - 142, 0xFFFFFF00);
-		// drawCenteredString(fontRendererObj, "Tier 1", width / 2, height - 102, 0xFFFFFF00);
-		// drawCenteredString(fontRendererObj, "Core", width / 2, height - 62, 0xFFFFFF00);
+		// drawCenteredString(fontRenderer, "Tier 4", width / 2, height - 222, 0xFFFFFF00);
+		// drawCenteredString(fontRenderer, "Tier 3", width / 2, height - 182, 0xFFFFFF00);
+		// drawCenteredString(fontRenderer, "Tier 2", width / 2, height - 142, 0xFFFFFF00);
+		// drawCenteredString(fontRenderer, "Tier 1", width / 2, height - 102, 0xFFFFFF00);
+		// drawCenteredString(fontRenderer, "Core", width / 2, height - 62, 0xFFFFFF00);
 
-		// drawCenteredString(fontRendererObj, "Tier 4", width / 2 + 135, height - 222, 0xFFFFFF00);
-		// drawCenteredString(fontRendererObj, "Tier 3", width / 2 + 135, height - 182, 0xFFFFFF00);
-		// drawCenteredString(fontRendererObj, "Tier 2", width / 2 + 135, height - 142, 0xFFFFFF00);
-		// drawCenteredString(fontRendererObj, "Tier 1", width / 2 + 135, height - 102, 0xFFFFFF00);
-		// drawCenteredString(fontRendererObj, "Core", width / 2 + 135, height - 62, 0xFFFFFF00);
+		// drawCenteredString(fontRenderer, "Tier 4", width / 2 + 135, height - 222, 0xFFFFFF00);
+		// drawCenteredString(fontRenderer, "Tier 3", width / 2 + 135, height - 182, 0xFFFFFF00);
+		// drawCenteredString(fontRenderer, "Tier 2", width / 2 + 135, height - 142, 0xFFFFFF00);
+		// drawCenteredString(fontRenderer, "Tier 1", width / 2 + 135, height - 102, 0xFFFFFF00);
+		// drawCenteredString(fontRenderer, "Core", width / 2 + 135, height - 62, 0xFFFFFF00);
 
 		drawRect(width / 2 - 200, height - 215, width / 2 - 200 + 126, height - 27, 0x88000000);
 		drawRect(width / 2 - 66, height - 215, width / 2 - 66 + 126, height - 27, 0x88000000);

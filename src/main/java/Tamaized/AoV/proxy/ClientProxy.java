@@ -13,15 +13,11 @@ import Tamaized.AoV.entity.render.RenderSpellImplosion;
 import Tamaized.AoV.events.ClientSpawnEvent;
 import Tamaized.AoV.events.KeyHandler;
 import Tamaized.AoV.gui.client.AoVOverlay;
-import Tamaized.AoV.gui.client.AoVUIBar;
 import Tamaized.AoV.network.ClientPacketHandler;
 import Tamaized.TamModized.proxy.AbstractProxy;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends AbstractProxy {
@@ -41,39 +37,16 @@ public class ClientProxy extends AbstractProxy {
 	@Override
 	public void preInit() {
 
-		key = new KeyBinding("key.aovbar", org.lwjgl.input.Keyboard.KEY_LMENU, "key.categories.ui"); // "key.categories.aov"); TODO when forge is fixed for this
+		key = new KeyBinding("key.aovbar", org.lwjgl.input.Keyboard.KEY_LMENU, "key.categories.aov");
 		ClientRegistry.registerKeyBinding(key);
 
 		MinecraftForge.EVENT_BUS.register(new AoVOverlay());
 		MinecraftForge.EVENT_BUS.register(new RenderPlayer());
 
-		float shadowSize = 0.5F;
-
-		RenderingRegistry.registerEntityRenderingHandler(ProjectileNimbusRay.class, new IRenderFactory<ProjectileNimbusRay>() {
-			@Override
-			public Render<? super ProjectileNimbusRay> createRenderFor(RenderManager manager) {
-				return new RenderNimbusRay(manager);
-			}
-		});
-
-		RenderingRegistry.registerEntityRenderingHandler(ProjectileFlameStrike.class, new IRenderFactory<ProjectileFlameStrike>() {
-			@Override
-			public Render<? super ProjectileFlameStrike> createRenderFor(RenderManager manager) {
-				return new RenderFlameStrike(manager);
-			}
-		});
-		RenderingRegistry.registerEntityRenderingHandler(EntitySpellImplosion.class, new IRenderFactory<EntitySpellImplosion>() {
-			@Override
-			public Render<? super EntitySpellImplosion> createRenderFor(RenderManager manager) {
-				return new RenderSpellImplosion(manager);
-			}
-		});
-		RenderingRegistry.registerEntityRenderingHandler(EntitySpellBladeBarrier.class, new IRenderFactory<EntitySpellBladeBarrier>() {
-			@Override
-			public Render<? super EntitySpellBladeBarrier> createRenderFor(RenderManager manager) {
-				return new RenderSpellBladeBarrier(manager);
-			}
-		});
+		RenderingRegistry.registerEntityRenderingHandler(ProjectileNimbusRay.class, RenderNimbusRay::new);
+		RenderingRegistry.registerEntityRenderingHandler(ProjectileFlameStrike.class, RenderFlameStrike::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntitySpellImplosion.class, RenderSpellImplosion::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntitySpellBladeBarrier.class, RenderSpellBladeBarrier::new);
 
 	}
 

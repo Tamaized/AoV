@@ -66,7 +66,7 @@ public class AoVUIBar {
 					// RenderHelper.disableStandardItemLighting();
 					GlStateManager.pushAttrib();
 					{
-						if (ability.getCooldown() > 0) renderCooldown(gui, mc.fontRendererObj, k, l, ability.getCooldownPerc(), ability.getCooldown());
+						if (ability.getCooldown() > 0) renderCooldown(gui, mc.fontRenderer, k, l, ability.getCooldownPerc(), ability.getCooldown());
 					}
 					GlStateManager.popAttrib();
 				}

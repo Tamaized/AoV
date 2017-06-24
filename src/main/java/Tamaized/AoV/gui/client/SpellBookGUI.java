@@ -138,7 +138,7 @@ public class SpellBookGUI extends GuiScreenClose {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		drawDefaultBackground();
-		drawCenteredString(fontRendererObj, "Angel of Vengeance: SpellBook", width / 2, 15, 16777215);
+		drawCenteredString(fontRenderer, "Angel of Vengeance: SpellBook", width / 2, 15, 16777215);
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		renderBar(partialTicks);
 		for (GuiButton b : buttonList) {

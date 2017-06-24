@@ -13,7 +13,7 @@ public class ParticleHelper {
 		if (world.isRemote) return;
 		switch (type) {
 			case BURST:
-				burstParticles(world, target.xCoord, target.yCoord, target.zCoord, range, color);
+				burstParticles(world, target.x, target.y, target.z, range, color);
 				break;
 			default:
 				break;

@@ -38,7 +38,7 @@ public class LivingAttackEvent {
 
 	@SubscribeEvent
 	public void onLivingAttack(net.minecraftforge.event.entity.living.LivingAttackEvent event) {
-		Entity attacker = event.getSource().getEntity();
+		Entity attacker = event.getSource().getTrueSource();
 		EntityLivingBase entity = event.getEntityLiving();
 		if (entity.world.isRemote) return;
 
@@ -101,7 +101,7 @@ public class LivingAttackEvent {
 			damageShield(player, damage);
 			e.setCanceled(true);
 			if (!e.getSource().isProjectile()) {
-				Entity entity = e.getSource().getSourceOfDamage();
+				Entity entity = e.getSource().getImmediateSource();
 
 				if (entity instanceof EntityLivingBase) {
 					EntityLivingBase p_190629_1_ = (EntityLivingBase) entity;
@@ -141,7 +141,7 @@ public class LivingAttackEvent {
 				if (fullRadial) return true;
 				Vec3d vec3d1 = player.getLook(1.0F);
 				Vec3d vec3d2 = vec3d.subtractReverse(new Vec3d(player.posX, player.posY, player.posZ)).normalize();
-				vec3d2 = new Vec3d(vec3d2.xCoord, 0.0D, vec3d2.zCoord);
+				vec3d2 = new Vec3d(vec3d2.x, 0.0D, vec3d2.z);
 
 				if (vec3d2.dotProduct(vec3d1) < 0.0D) {
 					return true;
