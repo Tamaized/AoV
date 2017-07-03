@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import org.lwjgl.opengl.GL11;
 
-@Mod.EventBusSubscriber()
+@Mod.EventBusSubscriber(Side.CLIENT)
 public class AoVUIBar {
 
 	public static final ResourceLocation widgetsTexPath = new ResourceLocation("textures/gui/widgets.png");
