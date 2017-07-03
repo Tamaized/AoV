@@ -2,11 +2,9 @@ package Tamaized.AoV.events;
 
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
-import Tamaized.AoV.gui.client.*;
+import Tamaized.AoV.gui.client.AoVUIBar;
 import Tamaized.AoV.proxy.ClientProxy;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.MouseEvent;

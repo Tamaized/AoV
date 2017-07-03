@@ -99,7 +99,7 @@ public class RenderFlameStrike<T extends ProjectileFlameStrike> extends Render<T
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 		Vec3d vec = entity.getLook(1.0F);
 		for (int index = 0; index < 20; index++)
-			net.minecraft.client.Minecraft.getMinecraft().effectRenderer.addEffect(new Tamaized.TamModized.particles.FX.ParticleFluff(entity.world, entity.getPositionVector(), new Vec3d(-((0.015 * vec.x) + ((rand.nextFloat() * 0.5) - 0.25)), ((0.015 * vec.y) + ((rand.nextFloat() * 0.5) - 0.25)), -((0.015 * vec.z) + ((rand.nextFloat() * 0.5) - 0.25))), rand.nextInt(10) + 10, 0, (rand.nextFloat() * 0.85F) + 2.15F, color));
+			net.minecraft.client.Minecraft.getMinecraft().effectRenderer.addEffect(new tamaized.tammodized.client.particles.ParticleFluff(entity.world, entity.getPositionVector(), new Vec3d(-((0.015 * vec.x) + ((rand.nextFloat() * 0.5) - 0.25)), ((0.015 * vec.y) + ((rand.nextFloat() * 0.5) - 0.25)), -((0.015 * vec.z) + ((rand.nextFloat() * 0.5) - 0.25))), rand.nextInt(10) + 10, 0, (rand.nextFloat() * 0.85F) + 2.15F, color));
 
 	}
 

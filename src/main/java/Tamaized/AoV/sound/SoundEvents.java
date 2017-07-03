@@ -2,8 +2,6 @@ package Tamaized.AoV.sound;
 
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.network.ClientPacketHandler;
-import Tamaized.TamModized.helper.PacketHelper;
-import Tamaized.TamModized.helper.PacketHelper.PacketWrapper;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -11,6 +9,8 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
+import tamaized.tammodized.common.helper.PacketHelper;
+import tamaized.tammodized.common.helper.PacketHelper.PacketWrapper;
 
 import java.io.IOException;
 

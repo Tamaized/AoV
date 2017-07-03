@@ -1,8 +1,8 @@
 package Tamaized.AoV.core.abilities.healer.Healing;
 
-import net.minecraft.util.ResourceLocation;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.abilities.healer.CureWounds;
+import net.minecraft.util.ResourceLocation;
 
 public class CureCriticalWounds extends CureWounds {
 

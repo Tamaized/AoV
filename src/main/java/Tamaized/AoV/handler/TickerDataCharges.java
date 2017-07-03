@@ -1,7 +1,6 @@
 package Tamaized.AoV.handler;
 
 import Tamaized.AoV.gui.client.AoVUIBar;
-import Tamaized.AoV.proxy.ClientProxy;
 
 public class TickerDataCharges {
 

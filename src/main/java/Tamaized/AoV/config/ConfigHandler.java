@@ -7,8 +7,6 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.io.IOException;
-
 @Mod.EventBusSubscriber
 @Config(modid = AoV.modid)
 public class ConfigHandler {

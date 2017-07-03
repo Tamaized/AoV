@@ -1,7 +1,5 @@
 package Tamaized.AoV.core.abilities.healer.Cores;
 
-import java.util.List;
-
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
@@ -16,8 +14,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
+
+import java.util.List;
 
 public class PosEnergyAura extends AbilityBase implements IAura {
 

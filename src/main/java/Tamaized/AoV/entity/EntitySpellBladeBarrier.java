@@ -1,9 +1,5 @@
 package Tamaized.AoV.entity;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import io.netty.buffer.ByteBuf;
@@ -14,6 +10,10 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class EntitySpellBladeBarrier extends Entity implements IEntityAdditionalSpawnData {
 

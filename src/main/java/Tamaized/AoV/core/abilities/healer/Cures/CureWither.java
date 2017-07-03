@@ -3,7 +3,6 @@ package Tamaized.AoV.core.abilities.healer.Cures;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.abilities.healer.CureEffect;
 import net.minecraft.init.MobEffects;
-import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 
 public class CureWither extends CureEffect {

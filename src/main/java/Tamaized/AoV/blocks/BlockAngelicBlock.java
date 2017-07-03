@@ -1,10 +1,7 @@
 package Tamaized.AoV.blocks;
 
-import java.util.Random;
-
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.gui.GuiHandler;
-import Tamaized.TamModized.blocks.TamBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -26,6 +23,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import tamaized.tammodized.common.blocks.TamBlock;
+
+import java.util.Random;
 
 public class BlockAngelicBlock extends TamBlock {
 

@@ -1,20 +1,19 @@
 package Tamaized.AoV.core.abilities;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.util.HashSet;
-
-import Tamaized.AoV.AoV;
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.config.ConfigHandler;
-import Tamaized.TamModized.helper.RayTraceHelper;
 import io.netty.buffer.ByteBufInputStream;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.RayTraceResult;
+import tamaized.tammodized.common.helper.RayTraceHelper;
+
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.util.HashSet;
 
 public final class Ability {
 

@@ -1,7 +1,5 @@
 package Tamaized.AoV.network;
 
-import java.io.IOException;
-
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.sound.EntityMovingSound;
@@ -17,6 +15,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.io.IOException;
 
 public class ClientPacketHandler {
 

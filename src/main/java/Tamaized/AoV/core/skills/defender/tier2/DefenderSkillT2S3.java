@@ -1,14 +1,13 @@
 package Tamaized.AoV.core.skills.defender.tier2;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.skills.AoVSkill;
 import Tamaized.AoV.core.skills.SkillIcons;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DefenderSkillT2S3 extends AoVSkill {
 

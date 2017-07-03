@@ -3,12 +3,12 @@ package Tamaized.AoV.items;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
-import Tamaized.TamModized.items.TamItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
+import tamaized.tammodized.common.items.TamItem;
 
 public class DebugItem extends TamItem {
 

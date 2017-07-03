@@ -1,14 +1,13 @@
 package Tamaized.AoV.gui.client;
 
-import java.io.IOException;
-
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.AoVCapabilityHandler;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.gui.GuiHandler;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+
+import java.io.IOException;
 
 public class ShowStatsGUI extends GuiScreenClose {
 

@@ -1,14 +1,8 @@
 package Tamaized.AoV.entity.projectile;
 
-import java.util.HashSet;
-
-import javax.annotation.Nullable;
-
+import Tamaized.AoV.core.abilities.AbilityBase;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-
-import Tamaized.AoV.core.abilities.AbilityBase;
-import Tamaized.TamModized.helper.RayTraceHelper;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -20,7 +14,6 @@ import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.SPacketChangeGameState;
@@ -28,15 +21,15 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import tamaized.tammodized.common.helper.RayTraceHelper;
+
+import javax.annotation.Nullable;
+import java.util.HashSet;
 
 public abstract class ProjectileBase extends EntityArrow implements IProjectile, IEntityAdditionalSpawnData {
 

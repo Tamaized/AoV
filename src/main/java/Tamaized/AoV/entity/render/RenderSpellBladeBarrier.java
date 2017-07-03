@@ -1,16 +1,8 @@
 package Tamaized.AoV.entity.render;
 
-import java.util.Random;
-
-import org.lwjgl.opengl.GL11;
-
-import Tamaized.AoV.AoV;
 import Tamaized.AoV.entity.EntitySpellBladeBarrier;
-import Tamaized.AoV.entity.EntitySpellImplosion;
-import Tamaized.TamModized.particles.FX.ParticleFluff;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -18,7 +10,6 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class RenderSpellBladeBarrier<T extends EntitySpellBladeBarrier> extends Render<T> {

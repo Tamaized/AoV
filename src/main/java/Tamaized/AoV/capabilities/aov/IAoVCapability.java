@@ -1,9 +1,5 @@
 package Tamaized.AoV.capabilities.aov;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.capabilities.aov.AoVCapabilityHandler.DecayWrapper;
 import Tamaized.AoV.core.abilities.Ability;
@@ -14,6 +10,10 @@ import io.netty.buffer.ByteBufInputStream;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 public interface IAoVCapability {
 

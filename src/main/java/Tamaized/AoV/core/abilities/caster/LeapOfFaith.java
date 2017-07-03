@@ -1,25 +1,16 @@
 package Tamaized.AoV.core.abilities.caster;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.abilities.Ability;
 import Tamaized.AoV.core.abilities.AbilityBase;
-import Tamaized.AoV.network.ClientPacketHandler;
 import Tamaized.AoV.sound.SoundEvents;
-import Tamaized.TamModized.helper.MotionHelper;
-import Tamaized.TamModized.helper.PacketHelper;
-import Tamaized.TamModized.helper.PacketHelper.PacketWrapper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import tamaized.tammodized.common.helper.MotionHelper;
 
 public class LeapOfFaith extends AbilityBase {
 

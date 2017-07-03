@@ -1,7 +1,5 @@
 package Tamaized.AoV.core.abilities.healer;
 
-import java.util.List;
-
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.core.abilities.Ability;
@@ -14,6 +12,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextFormatting;
+
+import java.util.List;
 
 public abstract class CureEffect extends AbilityBase {
 

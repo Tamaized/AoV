@@ -1,21 +1,14 @@
 package Tamaized.AoV.core.abilities.caster;
 
-import java.util.HashSet;
-
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
 import Tamaized.AoV.core.abilities.Ability;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.entity.EntitySpellBladeBarrier;
-import Tamaized.AoV.entity.projectile.caster.ProjectileFlameStrike;
-import Tamaized.TamModized.helper.RayTraceHelper;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextFormatting;
 
 public class BladeBarrier extends AbilityBase {

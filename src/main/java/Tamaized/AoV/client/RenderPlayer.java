@@ -1,8 +1,6 @@
 package Tamaized.AoV.client;
 
 import Tamaized.AoV.AoV;
-import Tamaized.TamModized.particles.FX.ParticleFluff;
-import Tamaized.TamModized.particles.ParticleHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -14,6 +12,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import tamaized.tammodized.client.particles.ParticleFluff;
+import tamaized.tammodized.common.particles.ParticleHelper;
 
 public class RenderPlayer {
 

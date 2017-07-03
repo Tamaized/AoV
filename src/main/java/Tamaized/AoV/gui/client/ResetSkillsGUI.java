@@ -1,8 +1,5 @@
 package Tamaized.AoV.gui.client;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
@@ -11,11 +8,13 @@ import Tamaized.AoV.network.ServerPacketHandler;
 import Tamaized.AoV.proxy.ClientProxy;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
+
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 public class ResetSkillsGUI extends GuiScreenClose {
 

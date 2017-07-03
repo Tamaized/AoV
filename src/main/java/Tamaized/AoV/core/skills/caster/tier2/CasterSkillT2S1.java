@@ -1,13 +1,12 @@
 package Tamaized.AoV.core.skills.caster.tier2;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import Tamaized.AoV.AoV;
 import Tamaized.AoV.core.abilities.AbilityBase;
 import Tamaized.AoV.core.skills.AoVSkill;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CasterSkillT2S1 extends AoVSkill {
 

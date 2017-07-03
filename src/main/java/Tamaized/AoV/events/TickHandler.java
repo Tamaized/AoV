@@ -1,9 +1,5 @@
 package Tamaized.AoV.events;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;

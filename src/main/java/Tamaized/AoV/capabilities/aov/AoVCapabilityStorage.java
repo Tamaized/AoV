@@ -1,9 +1,5 @@
 package Tamaized.AoV.capabilities.aov;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import Tamaized.AoV.capabilities.aov.AoVCapabilityHandler.DecayWrapper;
 import Tamaized.AoV.core.abilities.Ability;
 import Tamaized.AoV.core.abilities.AbilityBase;
@@ -15,6 +11,10 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class AoVCapabilityStorage implements IStorage<IAoVCapability> {
 

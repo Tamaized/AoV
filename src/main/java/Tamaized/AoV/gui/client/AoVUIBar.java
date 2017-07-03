@@ -1,13 +1,8 @@
 package Tamaized.AoV.gui.client;
 
-import Tamaized.AoV.config.ConfigHandler;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.lwjgl.opengl.GL11;
-
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
+import Tamaized.AoV.config.ConfigHandler;
 import Tamaized.AoV.core.abilities.Ability;
 import Tamaized.AoV.core.abilities.universal.InvokeMass;
 import Tamaized.AoV.proxy.ClientProxy;
@@ -18,8 +13,13 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import org.lwjgl.opengl.GL11;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber()
 public class AoVUIBar {
 
 	public static final ResourceLocation widgetsTexPath = new ResourceLocation("textures/gui/widgets.png");

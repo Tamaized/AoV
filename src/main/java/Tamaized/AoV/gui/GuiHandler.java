@@ -1,14 +1,14 @@
 package Tamaized.AoV.gui;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.IGuiHandler;
-import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.gui.client.AoVSkillsGUI;
 import Tamaized.AoV.gui.client.ResetSkillsGUI;
 import Tamaized.AoV.gui.client.ShowStatsGUI;
 import Tamaized.AoV.gui.client.SpellBookGUI;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.IGuiHandler;
+import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 
 public class GuiHandler implements IGuiHandler {
 	

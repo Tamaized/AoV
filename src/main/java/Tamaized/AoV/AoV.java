@@ -4,7 +4,6 @@ import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.AoVCapabilityHandler;
 import Tamaized.AoV.capabilities.aov.AoVCapabilityStorage;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
-import Tamaized.AoV.config.ConfigHandler;
 import Tamaized.AoV.entity.EntitySpellBladeBarrier;
 import Tamaized.AoV.entity.EntitySpellImplosion;
 import Tamaized.AoV.entity.projectile.caster.ProjectileFlameStrike;
@@ -15,13 +14,8 @@ import Tamaized.AoV.events.TickHandler;
 import Tamaized.AoV.gui.GuiHandler;
 import Tamaized.AoV.network.ServerPacketHandler;
 import Tamaized.AoV.registry.*;
-import Tamaized.AoV.sound.SoundEvents;
-import Tamaized.TamModized.TamModBase;
-import Tamaized.TamModized.TamModized;
-import Tamaized.TamModized.proxy.AbstractProxy;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -32,8 +26,9 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.FMLEventChannel;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import org.apache.logging.log4j.LogManager;
-
-import java.io.File;
+import tamaized.tammodized.TamModBase;
+import tamaized.tammodized.TamModized;
+import tamaized.tammodized.proxy.AbstractProxy;
 
 @Mod(modid = AoV.modid, name = "Angel of Vengeance", version = AoV.version, dependencies = "required-before:" + TamModized.modid + "@[${tamversion},)")
 public class AoV extends TamModBase {

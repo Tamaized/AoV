@@ -1,8 +1,8 @@
 package Tamaized.AoV.gui.client;
 
-import java.io.IOException;
-
 import net.minecraft.client.gui.GuiScreen;
+
+import java.io.IOException;
 
 public class GuiScreenClose extends GuiScreen { //TODO: Put this in TamModized
 

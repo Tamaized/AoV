@@ -14,11 +14,11 @@ import Tamaized.AoV.events.ClientSpawnEvent;
 import Tamaized.AoV.events.KeyHandler;
 import Tamaized.AoV.gui.client.AoVOverlay;
 import Tamaized.AoV.network.ClientPacketHandler;
-import Tamaized.TamModized.proxy.AbstractProxy;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import tamaized.tammodized.proxy.AbstractProxy;
 
 public class ClientProxy extends AbstractProxy {
 

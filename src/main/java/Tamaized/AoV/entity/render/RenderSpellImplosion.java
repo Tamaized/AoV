@@ -1,15 +1,15 @@
 package Tamaized.AoV.entity.render;
 
-import java.util.Random;
-
 import Tamaized.AoV.entity.EntitySpellImplosion;
-import Tamaized.TamModized.particles.FX.ParticleFluff;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import tamaized.tammodized.client.particles.ParticleFluff;
+
+import java.util.Random;
 
 public class RenderSpellImplosion<T extends EntitySpellImplosion> extends Render<T> {
 

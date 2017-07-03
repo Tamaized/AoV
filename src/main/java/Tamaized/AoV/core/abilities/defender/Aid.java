@@ -1,7 +1,5 @@
 package Tamaized.AoV.core.abilities.defender;
 
-import java.util.List;
-
 import Tamaized.AoV.AoV;
 import Tamaized.AoV.capabilities.CapabilityList;
 import Tamaized.AoV.capabilities.aov.IAoVCapability;
@@ -17,6 +15,8 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextFormatting;
+
+import java.util.List;
 
 public class Aid extends AbilityBase {
 
