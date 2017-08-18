@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerPickupXpEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import tamaized.aov.registry.AoVBlocks;
 
 public class PlayerInteractHandler {
 
@@ -211,7 +212,7 @@ public class PlayerInteractHandler {
 		world.setBlockState(pos.add(2, -2, -2), Blocks.NETHERRACK.getDefaultState());
 		world.setBlockState(pos.add(-2, -2, 2), Blocks.NETHERRACK.getDefaultState());
 		world.setBlockState(pos.add(-2, -2, -2), Blocks.NETHERRACK.getDefaultState());
-		world.setBlockState(pos.add(0, -1, 0), AoV.blocks.angelicBlock.getDefaultState().withProperty(BlockAngelicBlock.AXIS, face.getAxis()));
+		world.setBlockState(pos.add(0, -1, 0), AoVBlocks.angelicBlock.getDefaultState().withProperty(BlockAngelicBlock.AXIS, face.getAxis()));
 	}
 
 }

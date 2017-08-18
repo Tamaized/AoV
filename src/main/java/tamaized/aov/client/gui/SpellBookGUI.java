@@ -1,14 +1,5 @@
 package tamaized.aov.client.gui;
 
-import tamaized.aov.AoV;
-import tamaized.aov.common.capabilities.CapabilityList;
-import tamaized.aov.common.capabilities.aov.IAoVCapability;
-import tamaized.aov.common.core.abilities.Ability;
-import tamaized.aov.common.core.abilities.universal.InvokeMass;
-import tamaized.aov.common.gui.GuiHandler;
-import tamaized.aov.client.gui.buttons.BlankButton;
-import tamaized.aov.client.gui.buttons.SpellButton;
-import tamaized.aov.network.ServerPacketHandler;
 import io.netty.buffer.ByteBufOutputStream;
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.gui.GuiButton;
@@ -18,17 +9,22 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
+import tamaized.aov.AoV;
+import tamaized.aov.client.gui.buttons.BlankButton;
+import tamaized.aov.client.gui.buttons.SpellButton;
+import tamaized.aov.common.capabilities.CapabilityList;
+import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.core.abilities.Ability;
+import tamaized.aov.common.core.abilities.universal.InvokeMass;
+import tamaized.aov.common.gui.GuiHandler;
+import tamaized.aov.network.ServerPacketHandler;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class SpellBookGUI extends GuiScreenClose {
 
-	private static final int BUTTON_CLOSE = 0;
-	private static final int BUTTON_BACK = 1;
-
 	public static final int BUTTON_SPELL = 2;
-
 	public static final int BUTTON_BAR_SLOT_0 = 3;
 	public static final int BUTTON_BAR_SLOT_1 = 4;
 	public static final int BUTTON_BAR_SLOT_2 = 5;
@@ -38,6 +34,8 @@ public class SpellBookGUI extends GuiScreenClose {
 	public static final int BUTTON_BAR_SLOT_6 = 9;
 	public static final int BUTTON_BAR_SLOT_7 = 10;
 	public static final int BUTTON_BAR_SLOT_8 = 11;
+	private static final int BUTTON_CLOSE = 0;
+	private static final int BUTTON_BACK = 1;
 
 	@Override
 	public void initGui() {
@@ -141,7 +139,7 @@ public class SpellBookGUI extends GuiScreenClose {
 		drawDefaultBackground();
 		drawCenteredString(fontRenderer, "Angel of Vengeance: SpellBook", width / 2, 15, 16777215);
 		super.drawScreen(mouseX, mouseY, partialTicks);
-		renderBar(partialTicks);
+		renderBar();
 		for (GuiButton b : buttonList) {
 			if (!b.isMouseOver())
 				continue;
@@ -153,8 +151,10 @@ public class SpellBookGUI extends GuiScreenClose {
 		}
 	}
 
-	private void renderBar(float partialTicks) {
-		IAoVCapability cap = mc == null || mc.player == null ? null : mc.player.getCapability(CapabilityList.AOV, null);
+	private void renderBar() {
+		if (mc == null)
+			return;
+		IAoVCapability cap = mc.player == null || !mc.player.hasCapability(CapabilityList.AOV, null) ? null : mc.player.getCapability(CapabilityList.AOV, null);
 		ScaledResolution sr = new ScaledResolution(mc);
 		float alpha = 1.0f;
 		GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
@@ -175,7 +175,7 @@ public class SpellBookGUI extends GuiScreenClose {
 			int k = sr.getScaledWidth() / 2 - 90 + 2;
 			int l = sr.getScaledHeight() - 47;
 			GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
-			AoVUIBar.renderHotbarIcon(this, null, j, k, l, partialTicks, cap.getSlot(j).getAbility().getIcon(), (cap.getSlot(j).getAbility() instanceof InvokeMass) ? cap.getInvokeMass() : false);
+			AoVUIBar.renderHotbarIcon(this, null, j, k, l, cap.getSlot(j).getAbility().getIcon(), (cap.getSlot(j).getAbility() instanceof InvokeMass) && cap.getInvokeMass());
 		}
 		GlStateManager.popMatrix();
 		RenderHelper.disableStandardItemLighting();
@@ -190,7 +190,7 @@ public class SpellBookGUI extends GuiScreenClose {
 			outputStream.writeInt(ServerPacketHandler.getPacketTypeID(ServerPacketHandler.PacketType.SPELLBAR_REMOVE));
 			outputStream.writeInt(slot);
 			FMLProxyPacket pkt = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
-			if (AoV.channel != null && pkt != null)
+			if (AoV.channel != null)
 				AoV.channel.sendToServer(pkt);
 			bos.close();
 		} catch (IOException e) {
@@ -206,7 +206,7 @@ public class SpellBookGUI extends GuiScreenClose {
 			outputStream.writeInt(ServerPacketHandler.getPacketTypeID(ServerPacketHandler.PacketType.SPELLBAR_ADDNEAR));
 			ability.encode(outputStream);
 			FMLProxyPacket pkt = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
-			if (AoV.channel != null && pkt != null)
+			if (AoV.channel != null)
 				AoV.channel.sendToServer(pkt);
 			bos.close();
 		} catch (IOException e) {
@@ -221,7 +221,7 @@ public class SpellBookGUI extends GuiScreenClose {
 		try {
 			outputStream.writeInt(ServerPacketHandler.getPacketTypeID(ServerPacketHandler.PacketType.CHARGES_RESET));
 			FMLProxyPacket pkt = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
-			if (AoV.channel != null && pkt != null)
+			if (AoV.channel != null)
 				AoV.channel.sendToServer(pkt);
 			bos.close();
 		} catch (IOException e) {

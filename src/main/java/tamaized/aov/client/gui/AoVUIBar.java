@@ -1,5 +1,16 @@
 package tamaized.aov.client.gui;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import org.lwjgl.opengl.GL11;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -7,19 +18,8 @@ import tamaized.aov.common.config.ConfigHandler;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.universal.InvokeMass;
 import tamaized.aov.proxy.ClientProxy;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import org.lwjgl.opengl.GL11;
 
+@SuppressWarnings("WeakerAccess")
 @Mod.EventBusSubscriber(modid = AoV.modid, value = Side.CLIENT)
 public class AoVUIBar {
 
@@ -33,7 +33,8 @@ public class AoVUIBar {
 			e.setCanceled(true);
 	}
 
-	public static void render(Gui gui, float partialTicks) {
+	@SuppressWarnings("ConstantConditions")
+	public static void render(Gui gui) {
 		if (ConfigHandler.barPos == ConfigHandler.BarPos.BOTTOM && !ClientProxy.barToggle)
 			return;
 		if (mc.player == null || !mc.player.hasCapability(CapabilityList.AOV, null))
@@ -49,13 +50,9 @@ public class AoVUIBar {
 				alpha = 1.0f;
 			GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
 			mc.getTextureManager().bindTexture(widgetsTexPath);
-			EntityPlayer entityplayer = (EntityPlayer) mc.getRenderViewEntity();
 			int i = sr.getScaledWidth() / 2;
 			gui.drawTexturedModalRect(i - 91, 1, 0, 0, 182, 22);
 			gui.drawTexturedModalRect(i - 91 - 1 + slotLoc * 20, 0, 0, 22, 24, 22);
-			// GlStateManager.enableRescaleNormal();
-			// GlStateManager.enableBlend();
-			// GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 			GlStateManager.pushMatrix();
 			{
 				GlStateManager.translate(0.01f, 0, 0);
@@ -66,11 +63,9 @@ public class AoVUIBar {
 					if (ability == null)
 						continue;
 					int k = sr.getScaledWidth() / 2 - 90 + 2;
-					int l = 4;// sr.getScaledHeight() - 16 - 3;
+					int l = 4;
 					GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
-					// RenderHelper.enableGUIStandardItemLighting();
-					renderHotbarIcon(gui, cap, j, k, l, partialTicks, ability.getAbility().getIcon(), (ability.getAbility() instanceof InvokeMass) && cap.getInvokeMass());
-					// RenderHelper.disableStandardItemLighting();
+					renderHotbarIcon(gui, cap, j, k, l, ability.getAbility().getIcon(), (ability.getAbility() instanceof InvokeMass) && cap.getInvokeMass());
 					GlStateManager.pushAttrib();
 					{
 						if (ability.getCooldown() > 0)
@@ -78,48 +73,34 @@ public class AoVUIBar {
 					}
 					GlStateManager.popAttrib();
 				}
-				// renderRadial(0, 50, 0.90f);
 			}
 			GlStateManager.popMatrix();
-			// GlStateManager.disableRescaleNormal();
-			// GlStateManager.disableBlend();
 		}
 		GlStateManager.popMatrix();
 	}
 
-	public static void renderHotbarIcon(Gui gui, IAoVCapability cap, int index, int xPos, int yPos, float partialTicks, ResourceLocation icon, boolean active) {
+	public static void renderHotbarIcon(Gui gui, IAoVCapability cap, int index, int xPos, int yPos, ResourceLocation icon, boolean active) {
 		if (icon != null) {
 			GlStateManager.pushMatrix();
 			{
 				float f1 = 1.0F / 16.0F;
 				GlStateManager.translate((float) (xPos), (float) (yPos), 0.0F);
 				GlStateManager.scale(1.0F * f1, 1.0f * f1, 1.0F);
-				// GlStateManager.translate((float)(-(xPos + 8)), (float)(-(yPos + 12)), 0.0F);
-
 				GlStateManager.pushMatrix();
 				{
-					// GlStateManager.enableRescaleNormal();
-					// GlStateManager.enableAlpha();
-					// GlStateManager.alphaFunc(516, 0.1F);
-					// GlStateManager.enableBlend();
-					// GlStateManager.blendFunc(770, 771);
 					GlStateManager.enableBlend();
 					renderIcon(gui, icon);
 					if (active)
-						gui.drawRect(0, 0, 256, 256, 0x7700FFFF);
+						Gui.drawRect(0, 0, 256, 256, 0x7700FFFF);
 					Ability ability = cap == null ? null : cap.getSlot(index);
 					if (ability != null && !ability.canUse(cap))
-						gui.drawRect(0, 0, 256, 256, 0x77FF0000);
+						Gui.drawRect(0, 0, 256, 256, 0x77FF0000);
 					GlStateManager.disableBlend();
-					// GlStateManager.disableAlpha();
-					// GlStateManager.disableRescaleNormal();
-					// GlStateManager.disableLighting();
 				}
 				GlStateManager.popMatrix();
 
 			}
 			GlStateManager.popMatrix();
-			// gui.drawCenteredString(Minecraft.getMinecraft().fontRendererObj, ""+spell, 200, 100, 0xFFFFFFFF);
 		}
 	}
 
@@ -161,6 +142,7 @@ public class AoVUIBar {
 	/**
 	 * Credit to Vazkii here, I used code from Botania :P
 	 */
+	@SuppressWarnings("SameParameterValue")
 	public static void renderRadial(int x, int y, float perc) {
 		GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
 		GL11.glEnable(GL11.GL_STENCIL_TEST);
@@ -173,7 +155,6 @@ public class AoVUIBar {
 		int r = 10;
 		int centerX = x + 8;
 		int centerY = y + 8;
-		int degs = (int) (360 * perc);
 		float a = 0.5f;
 
 		GL11.glDisable(GL11.GL_LIGHTING);
@@ -190,7 +171,6 @@ public class AoVUIBar {
 		GL11.glVertex2i(centerX, centerY);
 		GL11.glColor4f(0F, 0F, 0.0F, a);
 		int v = (int) ((405f) * perc);
-		// v = 210;
 		int v1 = v > 45 ? -45 : -v;
 		int v2 = v > 135 ? -135 : -v;
 		int v3 = v > 225 ? -225 : -v;
@@ -198,27 +178,19 @@ public class AoVUIBar {
 		int v5 = v > 405 ? -405 : -v;
 		double rad = (v1) / 180F * Math.PI;
 		GL11.glVertex2d(centerX + Math.cos((-45) / 180F * Math.PI) * r, centerY + Math.sin(rad) * r);
-		// GL11.glVertex2d(centerX + Math.cos(rad) * r, centerY + Math.sin(rad) * r);
 		rad = (v2) / 180F * Math.PI;
 		if (v > 45)
 			GL11.glVertex2d(centerX + Math.cos(rad) * r, centerY + Math.sin((-135) / 180F * Math.PI) * r);
-		// GL11.glVertex2d(centerX + Math.cos(rad) * r, centerY + Math.sin(rad) * r);
 		rad = (v3) / 180F * Math.PI;
 		if (v > 135)
 			GL11.glVertex2d(centerX + Math.cos((-225) / 180F * Math.PI) * r, centerY + Math.sin(rad) * r);
-		// GL11.glVertex2d(centerX + Math.cos(rad) * r, centerY + Math.sin(rad) * r);
 		rad = (v4) / 180F * Math.PI;
 		if (v > 225)
 			GL11.glVertex2d(centerX + Math.cos(rad) * r, centerY + Math.sin((-315) / 180F * Math.PI) * r);
-		// GL11.glVertex2d(centerX + Math.cos(rad) * r, centerY + Math.sin(rad) * r);
 		rad = (v5) / 180F * Math.PI;
 		if (v > 315)
 			GL11.glVertex2d(centerX + Math.cos((-405) / 180F * Math.PI) * r, centerY + Math.sin(rad) * r);
 
-		// for(int i = degs; i > 0; i--) {
-		// double rad = (i - 90) / 180F * Math.PI;
-		// GL11.glVertex2d(centerX + Math.cos(rad) * r, centerY + Math.sin(rad) * r);
-		// }
 		GL11.glVertex2i(centerX, centerY);
 		GL11.glEnd();
 		GL11.glDisable(GL11.GL_BLEND);

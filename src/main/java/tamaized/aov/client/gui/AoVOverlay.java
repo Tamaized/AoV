@@ -53,7 +53,7 @@ public class AoVOverlay extends Gui {
 				GlStateManager.popMatrix();
 			}
 
-			AoVUIBar.render(this, e.getPartialTicks());
+			AoVUIBar.render(this);
 		}
 		GlStateManager.pushMatrix();
 		{

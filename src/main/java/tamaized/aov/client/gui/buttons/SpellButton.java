@@ -1,11 +1,11 @@
 package tamaized.aov.client.gui.buttons;
 
-import tamaized.aov.common.core.abilities.Ability;
-import tamaized.aov.client.gui.AoVUIBar;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
+import tamaized.aov.client.gui.AoVUIBar;
+import tamaized.aov.common.core.abilities.Ability;
 
 public class SpellButton extends GuiButton {
 
@@ -43,7 +43,9 @@ public class SpellButton extends GuiButton {
 			}
 
 			drawRect(x, y, x + width, y + height, j);
-			AoVUIBar.renderHotbarIcon(this, null, 0, x + 1, y + 1, 0, spell == null ? null : spell.getAbility().getIcon(), false);
+			if (spell == null)
+				return;
+			AoVUIBar.renderHotbarIcon(this, null, 0, x + 1, y + 1, spell.getAbility().getIcon(), false);
 			GlStateManager.pushMatrix();
 			GlStateManager.scale(0.5f, 0.5f, 0.0f);
 			drawString(fontrenderer, spell.getAbility().getName(), x * 2 + 38, y * 2 + 14, 0xFFFF00);
