@@ -29,7 +29,7 @@ public class AoVOverlay extends Gui {
 
 	@SubscribeEvent
 	public void RenderAoVData(RenderGameOverlayEvent e) {
-		if (e.isCancelable() || e.getType() != e.getType().EXPERIENCE)
+		if (e.getType() != RenderGameOverlayEvent.ElementType.EXPERIENCE)
 			return;
 		ClientTicker.update();
 		IAoVCapability cap = mc.player.getCapability(CapabilityList.AOV, null);
