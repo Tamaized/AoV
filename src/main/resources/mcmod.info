@@ -4,15 +4,15 @@
   "name": "Angel of Vengeance",
   "description": "A Magic Based Minecraft Mod about being a Healer",
   "version": "${version}",
-  "mcversion": "${mcversion}",
+  "mcversion": "[1.12,)",
   "url": "",
   "updateUrl": "",
   "authorList": ["Tamaized"],
   "credits": "Tamaized",
   "logoFile": "",
   "screenshots": [],
-  "dependencies": [ "forge@[${fVersion},)", "tammodized@[${tamVersion},)" ],
-  "requiredMods": [ "forge@[${fVersion},)", "tammodized@[${tamVersion},)" ],
+  "dependencies": [ "tammodized@[${tamVersion},)" ],
+  "requiredMods": [ "tammodized@[${tamVersion},)" ],
   "useDependencyInformation": true
 }
 ]
