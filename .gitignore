@@ -8,11 +8,9 @@
 !/libs/
 !/libs/**
 !build.gradle
-!Build.jar
 !changes.txt
 !gradle.properties
 !LICENSE
 !README.md
-!build.bat
 !/run/
 !/run/eula.txt
