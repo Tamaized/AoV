@@ -64,7 +64,7 @@ public class AoVCapabilityStorage implements IStorage<IAoVCapability> {
 				instance.addObtainedSkill(AoVSkill.getSkillFromID(list.getIntAt(index)));
 			}
 		}
-		Map<AbilityBase, DecayWrapper> decay = new HashMap<AbilityBase, DecayWrapper>();
+		Map<AbilityBase, DecayWrapper> decay = new HashMap<>();
 		tag = compound.getTag("decay");
 		if (tag instanceof NBTTagList) {
 			NBTTagList list = (NBTTagList) tag;

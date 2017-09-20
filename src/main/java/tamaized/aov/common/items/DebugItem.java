@@ -28,7 +28,7 @@ public class DebugItem extends TamItem {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, @Nonnull EnumHand hand) {
 		if (world.isRemote)
-			return new ActionResult<>(EnumActionResult.PASS, player.getHeldItem(hand));
+			return super.onItemRightClick(world, player, hand);
 		if (player.hasCapability(CapabilityList.AOV, null)) {
 			IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
 			if (cap != null)

@@ -30,7 +30,7 @@ import java.util.Map;
 public class AoVCapabilityHandler implements IAoVCapability {
 
 	public static final float xpScale = 2.5F;
-	private static final String defenderHealthName = "tamaized.aov.AoV Defender Health";
+	private static final String defenderHealthName = "AoV Defender Health";
 	private static final AttributeModifier defenderHealth = new AttributeModifier(defenderHealthName, 10.0D, 0);
 	private int tick = 1;
 	private boolean dirty = false;
@@ -252,13 +252,15 @@ public class AoVCapabilityHandler implements IAoVCapability {
 
 	@Override
 	public void addExp(Entity player, int amount, AbilityBase spell) {
-		if (!hasCoreSkill() || getLevel() >= getMaxLevel() || spell == null)
+		if (!hasCoreSkill() || getLevel() >= getMaxLevel())
 			return;
-		if (decay.containsKey(spell)) {
-			amount /= decay.get(spell).getDecay();
-			decay.get(spell).addDecay();
-		} else {
-			decay.put(spell, new DecayWrapper());
+		if (spell != null) {
+			if (decay.containsKey(spell)) {
+				amount /= decay.get(spell).getDecay();
+				decay.get(spell).addDecay();
+			} else {
+				decay.put(spell, new DecayWrapper());
+			}
 		}
 		int tempLevel = getLevel();
 		exp += amount;
