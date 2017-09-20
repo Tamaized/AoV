@@ -1,14 +1,9 @@
 package tamaized.aov.client.gui;
 
-import io.netty.buffer.ByteBufOutputStream;
-import io.netty.buffer.Unpooled;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 import tamaized.aov.AoV;
 import tamaized.aov.client.gui.buttons.BlankButton;
 import tamaized.aov.client.gui.buttons.SpellButton;
@@ -17,9 +12,8 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.universal.InvokeMass;
 import tamaized.aov.common.gui.GuiHandler;
-import tamaized.aov.network.ServerPacketHandler;
+import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class SpellBookGUI extends GuiScreenClose {
@@ -66,6 +60,8 @@ public class SpellBookGUI extends GuiScreenClose {
 		if (mc == null || mc.player == null || !mc.player.hasCapability(CapabilityList.AOV, null))
 			return;
 		IAoVCapability cap = mc.player.getCapability(CapabilityList.AOV, null);
+		if (cap == null)
+			return;
 		int index = 0;
 		for (Ability ability : cap.getAbilities()) {
 			buttonList.add(new SpellButton(BUTTON_SPELL, xLoc + (100 * ((int) Math.floor(index / 6))), yLoc + (25 * (index % 6)), ability));
@@ -78,10 +74,10 @@ public class SpellBookGUI extends GuiScreenClose {
 		if (button.enabled) {
 			switch (button.id) {
 				case BUTTON_CLOSE:
-					mc.displayGuiScreen((GuiScreen) null);
+					mc.displayGuiScreen(null);
 					break;
 				case BUTTON_BACK:
-					GuiHandler.openGUI(GuiHandler.GUI_SKILLS);
+					GuiHandler.openGUI(GuiHandler.GUI_SKILLS, mc.player, mc.world);
 					break;
 				case BUTTON_SPELL:
 					if (button instanceof SpellButton)
@@ -184,48 +180,10 @@ public class SpellBookGUI extends GuiScreenClose {
 	}
 
 	private void sendPacketTypeRemoveSlot(int slot) {
-		ByteBufOutputStream bos = new ByteBufOutputStream(Unpooled.buffer());
-		DataOutputStream outputStream = new DataOutputStream(bos);
-		try {
-			outputStream.writeInt(ServerPacketHandler.getPacketTypeID(ServerPacketHandler.PacketType.SPELLBAR_REMOVE));
-			outputStream.writeInt(slot);
-			FMLProxyPacket pkt = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
-			if (AoV.channel != null)
-				AoV.channel.sendToServer(pkt);
-			bos.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		sendChargeUpdates();
+		AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.SPELLBAR_REMOVE, slot, null));
 	}
 
 	private void sendPacketTypeAddNearestSlot(Ability ability) {
-		ByteBufOutputStream bos = new ByteBufOutputStream(Unpooled.buffer());
-		DataOutputStream outputStream = new DataOutputStream(bos);
-		try {
-			outputStream.writeInt(ServerPacketHandler.getPacketTypeID(ServerPacketHandler.PacketType.SPELLBAR_ADDNEAR));
-			ability.encode(outputStream);
-			FMLProxyPacket pkt = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
-			if (AoV.channel != null)
-				AoV.channel.sendToServer(pkt);
-			bos.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		sendChargeUpdates();
-	}
-
-	private void sendChargeUpdates() {
-		ByteBufOutputStream bos = new ByteBufOutputStream(Unpooled.buffer());
-		DataOutputStream outputStream = new DataOutputStream(bos);
-		try {
-			outputStream.writeInt(ServerPacketHandler.getPacketTypeID(ServerPacketHandler.PacketType.CHARGES_RESET));
-			FMLProxyPacket pkt = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
-			if (AoV.channel != null)
-				AoV.channel.sendToServer(pkt);
-			bos.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.SPELLBAR_ADDNEAR, 0, ability));
 	}
 }

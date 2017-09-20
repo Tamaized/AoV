@@ -3,6 +3,7 @@ package tamaized.aov.common.core.abilities.caster;
 import tamaized.aov.AoV;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
+import tamaized.aov.registry.AoVPotions;
 import tamaized.aov.registry.SoundEvents;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -79,8 +80,8 @@ public class LeapOfFaith extends AbilityBase {
 	public void cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		Vec3d vec = caster.getLook(1.0F);
 		double distance = 3.5;
-		MotionHelper.addMotion(caster, vec.x * distance, 1, vec.z * distance);
-		caster.addPotionEffect(new PotionEffect(AoV.potions.slowFall, 20 * 15));
+		MotionHelper.addMotion(caster, new Vec3d(vec.x * distance, 1, vec.z * distance));
+		caster.addPotionEffect(new PotionEffect(AoVPotions.slowFall, 20 * 15));
 		SoundEvents.playMovingSoundOnServer(SoundEvents.boost, caster);
 	}
 

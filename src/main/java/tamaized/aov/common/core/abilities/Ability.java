@@ -1,5 +1,6 @@
 package tamaized.aov.common.core.abilities;
 
+import io.netty.buffer.ByteBuf;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.config.ConfigHandler;
@@ -25,16 +26,20 @@ public final class Ability {
 
 	private int tick = 0;
 
+	public Ability(AbilityBase ability){
+		this.ability = ability;
+	}
+
 	public Ability(AbilityBase ability, IAoVCapability cap) {
 		this.ability = ability;
 		reset(cap);
 	}
 
-	public static Ability construct(IAoVCapability cap, ByteBufInputStream stream) throws IOException {
+	public static Ability construct(ByteBuf stream) {
 		int id = stream.readInt();
 		if (id < 0)
 			return null;
-		Ability ability = new Ability(AbilityBase.getAbilityFromID(id), cap);
+		Ability ability = new Ability(AbilityBase.getAbilityFromID(id));
 		ability.decode(stream);
 		return ability;
 	}
@@ -48,14 +53,14 @@ public final class Ability {
 		return ability;
 	}
 
-	public void encode(DataOutputStream stream) throws IOException {
+	public void encode(ByteBuf stream) {
 		stream.writeInt(ability.getID());
 		stream.writeInt(cooldown);
 		stream.writeInt(charges);
 		stream.writeInt(decay);
 	}
 
-	public void decode(ByteBufInputStream stream) throws IOException {
+	public void decode(ByteBuf stream) {
 		cooldown = stream.readInt();
 		charges = stream.readInt();
 		decay = stream.readInt();
@@ -82,7 +87,7 @@ public final class Ability {
 	}
 
 	public final void cast(EntityPlayer caster) {
-		HashSet<Entity> set = new HashSet<Entity>();
+		HashSet<Entity> set = new HashSet<>();
 		set.add(caster);
 		RayTraceResult ray = RayTraceHelper.tracePath(caster.world, caster, (int) getAbility().getMaxDistance(), 1, set);
 		cast(caster, (ray == null || ray.entityHit == null || !(ray.entityHit instanceof EntityLivingBase)) ? null : (EntityLivingBase) ray.entityHit);

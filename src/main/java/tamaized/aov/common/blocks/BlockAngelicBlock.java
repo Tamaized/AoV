@@ -1,17 +1,14 @@
 package tamaized.aov.common.blocks;
 
-import tamaized.aov.AoV;
-import tamaized.aov.common.gui.GuiHandler;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
@@ -23,28 +20,36 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import tamaized.aov.AoV;
+import tamaized.aov.common.gui.GuiHandler;
 import tamaized.tammodized.common.blocks.TamBlock;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class BlockAngelicBlock extends TamBlock {
 
-	public static final PropertyEnum<EnumFacing.Axis> AXIS = PropertyEnum.<EnumFacing.Axis>create("axis", EnumFacing.Axis.class, new EnumFacing.Axis[]{EnumFacing.Axis.X, EnumFacing.Axis.Z});
+	public static final PropertyEnum<EnumFacing.Axis> AXIS = PropertyEnum.create("axis", EnumFacing.Axis.class, EnumFacing.Axis.X, EnumFacing.Axis.Z);
 
 	public BlockAngelicBlock(CreativeTabs tab, Material materialIn, String n, float f) {
 		super(tab, materialIn, n, f, SoundType.STONE);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(AXIS, EnumFacing.Axis.X));
-		setSoundType(Blocks.STONE.getSoundType());
 		this.useNeighborBrightness = true;
 	}
 
+	public static int getMetaForAxis(EnumFacing.Axis axis) {
+		return axis == EnumFacing.Axis.X ? 1 : (axis == EnumFacing.Axis.Z ? 2 : 0);
+	}
+
 	@Override
+	@SuppressWarnings("deprecation")
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
 	}
 
-	@SideOnly(Side.CLIENT)
+	@Nonnull
 	@Override
+	@SideOnly(Side.CLIENT)
 	public BlockRenderLayer getBlockLayer() {
 		return BlockRenderLayer.TRANSLUCENT;
 	}
@@ -52,7 +57,7 @@ public class BlockAngelicBlock extends TamBlock {
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		int l = MathHelper.floor((double) (placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-		int flag = 0;
+		int flag;
 		if (l == 0 || l == 2)
 			flag = 1;
 		else
@@ -65,12 +70,10 @@ public class BlockAngelicBlock extends TamBlock {
 		return 0;
 	}
 
-	/**
-	 * Get the Item that this Block should drop when harvested.
-	 */
+	@Nonnull
 	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-		return null;
+		return Items.AIR;
 	}
 
 	@Override
@@ -79,23 +82,22 @@ public class BlockAngelicBlock extends TamBlock {
 		return true;
 	}
 
+	@Nonnull
 	@Override
+	@SuppressWarnings("deprecation")
 	public IBlockState getStateFromMeta(int meta) {
 		return this.getDefaultState().withProperty(AXIS, (meta & 3) == 2 ? EnumFacing.Axis.Z : EnumFacing.Axis.X);
 	}
 
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return getMetaForAxis((EnumFacing.Axis) state.getValue(AXIS));
+		return getMetaForAxis(state.getValue(AXIS));
 	}
 
+	@Nonnull
 	@Override
 	public BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, new IProperty[]{AXIS});
-	}
-
-	public static int getMetaForAxis(EnumFacing.Axis axis) {
-		return axis == EnumFacing.Axis.X ? 1 : (axis == EnumFacing.Axis.Z ? 2 : 0);
+		return new BlockStateContainer(this, AXIS);
 	}
 
 }

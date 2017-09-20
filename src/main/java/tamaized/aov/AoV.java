@@ -1,5 +1,17 @@
 package tamaized.aov;
 
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import org.apache.logging.log4j.LogManager;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.AoVCapabilityHandler;
 import tamaized.aov.common.capabilities.aov.AoVCapabilityStorage;
@@ -12,20 +24,14 @@ import tamaized.aov.common.events.LivingAttackEvent;
 import tamaized.aov.common.events.PlayerInteractHandler;
 import tamaized.aov.common.events.TickHandler;
 import tamaized.aov.common.gui.GuiHandler;
-import tamaized.aov.network.ServerPacketHandler;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.Mod.Instance;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.network.FMLEventChannel;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import org.apache.logging.log4j.LogManager;
-import tamaized.aov.registry.*;
+import tamaized.aov.network.NetworkMessages;
+import tamaized.aov.registry.AoVAchievements;
+import tamaized.aov.registry.AoVArmors;
+import tamaized.aov.registry.AoVBlocks;
+import tamaized.aov.registry.AoVDamageSource;
+import tamaized.aov.registry.AoVItems;
+import tamaized.aov.registry.AoVPotions;
+import tamaized.aov.registry.AoVTabs;
 import tamaized.tammodized.TamModBase;
 import tamaized.tammodized.TamModized;
 import tamaized.tammodized.proxy.AbstractProxy;
@@ -34,20 +40,22 @@ import tamaized.tammodized.proxy.AbstractProxy;
 public class AoV extends TamModBase {
 
 	public static final String modid = "aov";
-	public static final String networkChannelName = "AoV";
-	public static final AoVTabs tabs = new AoVTabs();
-	public static final AoVItems items = new AoVItems();
-	public static final AoVArmors armors = new AoVArmors();
-	public static final AoVBlocks blocks = new AoVBlocks();
-	public static final AoVPotions potions = new AoVPotions();
-	public static final AoVAchievements achievements = new AoVAchievements();
-	public static final AoVDamageSource damageSources = new AoVDamageSource();
 	protected final static String version = "${version}";
 	@Instance(modid)
 	public static AoV instance = new AoV();
-	public static FMLEventChannel channel;
 	@SidedProxy(clientSide = "tamaized.aov.proxy.ClientProxy", serverSide = "tamaized.aov.proxy.ServerProxy")
 	public static AbstractProxy proxy;
+	public static SimpleNetworkWrapper network;
+
+	static {
+		new AoVTabs();
+		new AoVItems();
+		new AoVArmors();
+		new AoVBlocks();
+		new AoVPotions();
+		new AoVAchievements();
+		new AoVDamageSource();
+	}
 
 	public static String getVersion() {
 		return version;
@@ -87,7 +95,7 @@ public class AoV extends TamModBase {
 
 		logger.info("Starting AoV PreInit");
 
-		channel = NetworkRegistry.INSTANCE.newEventDrivenChannel(networkChannelName);
+		NetworkMessages.register(network = NetworkRegistry.INSTANCE.newSimpleChannel(modid));
 
 		CapabilityManager.INSTANCE.register(IAoVCapability.class, new AoVCapabilityStorage(), AoVCapabilityHandler.class);
 		MinecraftForge.EVENT_BUS.register(new CapabilityList());
@@ -112,9 +120,6 @@ public class AoV extends TamModBase {
 	@Override
 	public void postInit(FMLPostInitializationEvent e) {
 		logger.info("Starting AoV PostInit");
-
-		channel.register(new ServerPacketHandler());
-
 	}
 
 }

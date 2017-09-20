@@ -1,15 +1,5 @@
 package tamaized.aov.common.capabilities.aov;
 
-import tamaized.aov.AoV;
-import tamaized.aov.common.core.abilities.Ability;
-import tamaized.aov.common.core.abilities.AbilityBase;
-import tamaized.aov.common.core.abilities.Aura;
-import tamaized.aov.common.core.skills.AoVSkill;
-import tamaized.aov.network.ClientPacketHandler;
-import tamaized.aov.network.ServerPacketHandler;
-import io.netty.buffer.ByteBufInputStream;
-import io.netty.buffer.ByteBufOutputStream;
-import io.netty.buffer.Unpooled;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -18,21 +8,53 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import tamaized.aov.AoV;
+import tamaized.aov.common.core.abilities.Ability;
+import tamaized.aov.common.core.abilities.AbilityBase;
+import tamaized.aov.common.core.abilities.Aura;
+import tamaized.aov.common.core.skills.AoVSkill;
+import tamaized.aov.network.client.ClientPacketHandlerAoVData;
+import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
+import tamaized.aov.registry.AoVPotions;
 import tamaized.tammodized.common.helper.FloatyTextHelper;
-import tamaized.tammodized.common.helper.PacketHelper;
-import tamaized.tammodized.common.helper.PacketHelper.PacketWrapper;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class AoVCapabilityHandler implements IAoVCapability {
 
 	public static final float xpScale = 2.5F;
+	private static final String defenderHealthName = "tamaized.aov.AoV Defender Health";
+	private static final AttributeModifier defenderHealth = new AttributeModifier(defenderHealthName, 10.0D, 0);
+	private int tick = 1;
+	private boolean dirty = false;
+	// TODO
+	private int currentSlot = 0;
+	// Calculate and update these when 'dirty'
+	private List<AoVSkill> obtainedSkills = new ArrayList<>();
+	private int skillPoints = 1;
+	private int exp = 0;
+	private int maxLevel = 15;
+	private boolean invokeMass = false;
+	private Ability[] slots = new Ability[]{null, null, null, null, null, null, null, null, null};
+	// These can be separate
+	private List<Ability> abilities = new ArrayList<>();
+	private float spellpower = 0;
+	private int extraCharges = 0;
+	private int dodge = 0;
+	private int doublestrike = 0;
+	private boolean selectiveFocus = false;
+	private boolean hasInvoke = false;
+	// Keep this on the server
+	private List<Aura> auras = new ArrayList<>();
+	private Map<AbilityBase, DecayWrapper> decay = new HashMap<>();
+	private int lastLevel = -1;
 
 	public static int getExpForLevel(IAoVCapability cap, int level) {
 		return level > cap.getMaxLevel() ? 0 : getExpForLevel(level);
@@ -47,63 +69,6 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		double a = ((-5 * xpScale) + Math.sqrt(25 * Math.pow(xpScale, 2) - 50 * xpScale + 4 * xp + 25) + 15) / 10;
 		double b = ((-5 * xpScale) - Math.sqrt(25 * Math.pow(xpScale, 2) - 50 * xpScale + 4 * xp + 25) + 15) / 10;
 		return Math.max((int) a, (int) b);
-	}
-
-	private int tick = 1;
-	private boolean dirty = false;
-
-	// TODO
-	private int currentSlot = 0;
-
-	// Calculate and update these when 'dirty'
-	private List<AoVSkill> obtainedSkills = new ArrayList<AoVSkill>();
-	private int skillPoints = 1;
-	private int exp = 0;
-	private int maxLevel = 15;
-	private boolean invokeMass = false;
-	private Ability[] slots = new Ability[]{null, null, null, null, null, null, null, null, null};
-
-	// These can be separate
-	private List<Ability> abilities = new ArrayList<Ability>();
-	private float spellpower = 0;
-	private int extraCharges = 0;
-	private int dodge = 0;
-	private int doublestrike = 0;
-	private boolean selectiveFocus = false;
-	private boolean hasInvoke = false;
-
-	// Keep this on the server
-	private List<Aura> auras = new ArrayList<Aura>();
-	private Map<AbilityBase, DecayWrapper> decay = new HashMap<AbilityBase, DecayWrapper>();
-	private int lastLevel = -1;
-
-	protected class DecayWrapper {
-		private int amount;
-		private int tick = 0;
-		private int decayTick = 20 * 30;
-
-		public DecayWrapper(int a) {
-			amount = a;
-		}
-
-		public DecayWrapper() {
-			this(1);
-		}
-
-		public void addDecay() {
-			amount++;
-		}
-
-		public void update() {
-			tick++;
-			if (tick % decayTick == 0) {
-				amount--;
-			}
-		}
-
-		public int getDecay() {
-			return amount;
-		}
 	}
 
 	@Override
@@ -156,14 +121,12 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		}
 	}
 
-	private static final String defenderHealthName = "tamaized.aov.AoV Defender Health";
-	private static final AttributeModifier defenderHealth = new AttributeModifier(defenderHealthName, 10.0D, 0);
-
 	private void updateHealth(EntityPlayer player) {
 		if (player == null)
 			return;
 		IAttributeInstance hp = player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
 		Iterator<AttributeModifier> iter = hp.getModifiers().iterator();
+		//noinspection WhileLoopReplaceableByForEach
 		while (iter.hasNext()) {
 			AttributeModifier mod = iter.next();
 			if (mod.getName().equals(defenderHealthName)) {
@@ -188,7 +151,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		doublestrike = 0;
 		selectiveFocus = false;
 		hasInvoke = false;
-		List<AbilityBase> list = new ArrayList<AbilityBase>();
+		List<AbilityBase> list = new ArrayList<>();
 		abilities.clear();
 		for (AoVSkill skill : obtainedSkills) {
 			spellpower += skill.getBuffs().spellPower;
@@ -206,9 +169,9 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		for (AbilityBase ability : list)
 			addAbility(new Ability(ability, this));
 		if (player != null) {
-			if (player.getActivePotionEffect(AoV.potions.aid) != null)
+			if (player.getActivePotionEffect(AoVPotions.aid) != null)
 				dodge += 5;
-			if (player.getActivePotionEffect(AoV.potions.zeal) != null)
+			if (player.getActivePotionEffect(AoVPotions.zeal) != null)
 				doublestrike += 25;
 		}
 	}
@@ -282,35 +245,28 @@ public class AoVCapabilityHandler implements IAoVCapability {
 
 	@Override
 	public void addAura(Aura aura) {
-		Iterator<Aura> iter = auras.iterator();
-		while (iter.hasNext()) {
-			Aura a = iter.next();
-			if (a.equals(aura)) {
-				iter.remove();
-			}
-		}
+		auras.removeIf(a -> a.equals(aura));
 		auras.add(aura);
 		dirty = true;
 	}
 
 	@Override
 	public void addExp(Entity player, int amount, AbilityBase spell) {
-		if (!hasCoreSkill() || getLevel() >= getMaxLevel())
+		if (!hasCoreSkill() || getLevel() >= getMaxLevel() || spell == null)
 			return;
-		if (spell == null) {
-
-		} else if (decay.containsKey(spell)) {
+		if (decay.containsKey(spell)) {
 			amount /= decay.get(spell).getDecay();
 			decay.get(spell).addDecay();
 		} else {
 			decay.put(spell, new DecayWrapper());
 		}
-		if (player instanceof EntityPlayerMP)
-			FloatyTextHelper.sendText((EntityPlayerMP) player, "+" + amount + " Exp");
 		int tempLevel = getLevel();
 		exp += amount;
-		if (player instanceof EntityPlayerMP && getLevel() > tempLevel)
-			FloatyTextHelper.sendText((EntityPlayerMP) player, "Level Up! (" + (getLevel()) + ")");
+		if (player instanceof EntityPlayerMP) {
+			FloatyTextHelper.sendText((EntityPlayerMP) player, "+" + amount + " Exp");
+			if (getLevel() > tempLevel)
+				FloatyTextHelper.sendText((EntityPlayerMP) player, "Level Up! (" + (getLevel()) + ")");
+		}
 		dirty = true;
 	}
 
@@ -429,13 +385,13 @@ public class AoVCapabilityHandler implements IAoVCapability {
 
 	@Override
 	public void toggleInvokeMass(boolean b) {
-		invokeMass = hasInvoke ? b : false;
+		invokeMass = hasInvoke && b;
 		dirty = true;
 	}
 
 	@Override
 	public void toggleInvokeMass() {
-		invokeMass = hasInvoke ? !invokeMass : false;
+		invokeMass = hasInvoke && !invokeMass;
 		dirty = true;
 	}
 
@@ -452,20 +408,14 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void cast(int slotLoc) {
-		try {
-			PacketWrapper packet = PacketHelper.createPacket(AoV.channel, AoV.networkChannelName, ServerPacketHandler.getPacketTypeID(ServerPacketHandler.PacketType.CAST_SPELL));
-			packet.getStream().writeInt(slotLoc);
-			packet.sendPacketToServer();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.CAST_SPELL, slotLoc, null));
 	}
 
 	@Override
 	public void setSlot(Ability ability, int slot) {
 		boolean flag = false;
 		for (Ability check : getAbilities()) {
-			if (check.compare(ability))
+			if (ability == null || check.compare(ability))
 				flag = true;
 		}
 		if (flag && slot >= 0 && slot < slots.length)
@@ -550,68 +500,52 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@Override
+	public Map<AbilityBase, DecayWrapper> getDecayMap() {
+		return Collections.unmodifiableMap(decay);
+	}
+
+	@Override
 	public void setDecayMap(Map<AbilityBase, DecayWrapper> map) {
 		decay.clear();
 		decay.putAll(map);
 	}
 
 	@Override
-	public Map<AbilityBase, DecayWrapper> getDecayMap() {
-		return Collections.unmodifiableMap(decay);
+	public Ability[] getSlots() {
+		return slots;
 	}
 
 	private void sendPacketUpdates(EntityPlayerMP player) {
-
-		ByteBufOutputStream bos = new ByteBufOutputStream(Unpooled.buffer());
-		DataOutputStream stream = new DataOutputStream(bos);
-		try {
-			stream.writeInt(ClientPacketHandler.getPacketTypeID(ClientPacketHandler.PacketType.AOVDATA));
-			stream.writeInt(obtainedSkills.size());
-			{
-				for (AoVSkill skill : obtainedSkills)
-					stream.writeInt(skill.getID());
-			}
-			stream.writeInt(skillPoints);
-			stream.writeInt(exp);
-			stream.writeInt(maxLevel);
-			stream.writeBoolean(invokeMass);
-			for (int index = 0; index < 9; index++) {
-				Ability ability = slots[index];
-				if (ability == null) {
-					stream.writeBoolean(false);
-				} else {
-					stream.writeBoolean(true);
-					ability.encode(stream);
-				}
-			}
-			stream.writeInt(currentSlot);
-			FMLProxyPacket packet = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
-			AoV.channel.sendTo(packet, player);
-			bos.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		AoV.network.sendTo(new ClientPacketHandlerAoVData.Packet(this), player);
 	}
 
-	@Override
-	public void decodePacket(ByteBufInputStream stream) throws IOException {
-		int size = 0;
-		size = stream.readInt();
-		{
-			obtainedSkills.clear();
-			for (int index = 0; index < size; index++) {
-				obtainedSkills.add(AoVSkill.getSkillFromID(stream.readInt()));
+	protected class DecayWrapper {
+		private int amount;
+		private int tick = 0;
+		private int decayTick = 20 * 30;
+
+		public DecayWrapper(int a) {
+			amount = a;
+		}
+
+		public DecayWrapper() {
+			this(1);
+		}
+
+		public void addDecay() {
+			amount++;
+		}
+
+		public void update() {
+			tick++;
+			if (tick % decayTick == 0) {
+				amount--;
 			}
 		}
-		skillPoints = stream.readInt();
-		exp = stream.readInt();
-		maxLevel = stream.readInt();
-		invokeMass = stream.readBoolean();
-		for (int index = 0; index < 9; index++) {
-			slots[index] = stream.readBoolean() ? Ability.construct(this, stream) : null;
+
+		public int getDecay() {
+			return amount;
 		}
-		currentSlot = stream.readInt();
-		dirty = true;
 	}
 
 }

@@ -9,6 +9,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
+import tamaized.aov.registry.AoVDamageSource;
 
 public class SlayLiving extends AbilityBase {
 
@@ -82,7 +83,7 @@ public class SlayLiving extends AbilityBase {
 			return;
 		IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
 		if (cap != null && !target.isEntityUndead() && target.isNonBoss()) {
-			target.attackEntityFrom(AoV.damageSources.destruction, Integer.MAX_VALUE);
+			target.attackEntityFrom(AoVDamageSource.destruction, Integer.MAX_VALUE);
 			cap.addExp(caster, 20, AbilityBase.slayLiving);
 		}
 	}

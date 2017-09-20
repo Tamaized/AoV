@@ -1,14 +1,14 @@
 package tamaized.aov.common.entity;
 
-import tamaized.aov.AoV;
-import tamaized.aov.common.capabilities.CapabilityList;
-import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import tamaized.aov.common.capabilities.CapabilityList;
+import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.registry.AoVDamageSource;
 
 public class ProjectileNimbusRay extends ProjectileBase {
 
@@ -23,7 +23,7 @@ public class ProjectileNimbusRay extends ProjectileBase {
 
 	@Override
 	protected DamageSource getDamageSource() {
-		return AoV.damageSources.damageSource_caster_NimbusRay;
+		return AoVDamageSource.damageSource_caster_NimbusRay;
 	}
 
 	@Override

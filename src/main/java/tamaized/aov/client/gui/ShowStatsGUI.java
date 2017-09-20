@@ -1,11 +1,10 @@
 package tamaized.aov.client.gui;
 
+import net.minecraft.client.gui.GuiButton;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.AoVCapabilityHandler;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.gui.GuiHandler;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 
 import java.io.IOException;
 
@@ -31,10 +30,10 @@ public class ShowStatsGUI extends GuiScreenClose {
 		if (button.enabled) {
 			switch (button.id) {
 				case BUTTON_CLOSE:
-					mc.displayGuiScreen((GuiScreen) null);
+					mc.displayGuiScreen(null);
 					break;
 				case BUTTON_BACK:
-					GuiHandler.openGUI(GuiHandler.GUI_SKILLS);
+					GuiHandler.openGUI(GuiHandler.GUI_SKILLS, mc.player, mc.world);
 					break;
 				default:
 					break;
@@ -60,14 +59,14 @@ public class ShowStatsGUI extends GuiScreenClose {
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
 		this.drawCenteredString(this.fontRenderer, "Angel of Vengeance: Stats", this.width / 2, 15, 16777215);
-		IAoVCapability cap = mc == null || mc.player == null ? null : mc.player.getCapability(CapabilityList.AOV, null);
-		String s = cap == null ? "null" : cap.getLevel() >= cap.getMaxLevel() ? "Max Experience Achieved" : (cap == null ? "null" : cap.getExp()) + "/" + (cap == null ? "null" : AoVCapabilityHandler.getExpForLevel(cap.getLevel() + 1));
+		IAoVCapability cap = mc == null || mc.player == null ? null : mc.player.hasCapability(CapabilityList.AOV, null) ? mc.player.getCapability(CapabilityList.AOV, null) : null;
+		String s = cap == null ? "null" : cap.getLevel() >= cap.getMaxLevel() ? "Max Experience Achieved" : cap.getExp() + "/" + AoVCapabilityHandler.getExpForLevel(cap.getLevel() + 1);
 		this.drawCenteredString(fontRenderer, "Experience: " + s, width / 2, 50, 0xFFFF00);
 		this.drawCenteredString(fontRenderer, "Level: " + (cap == null ? "null" : cap.getLevel()), width / 2, 60, 0xFFFF00);
 		this.drawCenteredString(fontRenderer, "Extra Charges: " + (cap == null ? "null" : cap.getExtraCharges()), width / 2, 70, 0x00BBFF);
 		this.drawCenteredString(fontRenderer, "Spell Power: " + (cap == null ? "null" : (int) cap.getSpellPower()), width / 2, 80, 0x00FF00);
-		this.drawCenteredString(fontRenderer, "Dodge: " + (cap == null ? "null" : (int) cap.getDodge()) + "%", width / 2, 90, 0x00FF00);
-		this.drawCenteredString(fontRenderer, "DoubleStrike: " + (cap == null ? "null" : (int) cap.getDoubleStrike()) + "%", width / 2, 100, 0x00FF00);
+		this.drawCenteredString(fontRenderer, "Dodge: " + (cap == null ? "null" : cap.getDodge()) + "%", width / 2, 90, 0x00FF00);
+		this.drawCenteredString(fontRenderer, "DoubleStrike: " + (cap == null ? "null" : cap.getDoubleStrike()) + "%", width / 2, 100, 0x00FF00);
 
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}

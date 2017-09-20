@@ -1,10 +1,5 @@
 package tamaized.aov.common.events;
 
-import tamaized.aov.AoV;
-import tamaized.aov.common.capabilities.CapabilityList;
-import tamaized.aov.common.capabilities.aov.IAoVCapability;
-import tamaized.aov.common.core.abilities.AbilityBase;
-import tamaized.aov.common.core.skills.AoVSkill;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,22 +14,26 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import tamaized.aov.common.capabilities.CapabilityList;
+import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.core.abilities.AbilityBase;
+import tamaized.aov.common.core.skills.AoVSkill;
+import tamaized.aov.registry.AoVPotions;
 import tamaized.tammodized.common.helper.FloatyTextHelper;
 
 public class LivingAttackEvent {
 
 	private boolean state = true;
-	private boolean faith = true;
 
 	@SubscribeEvent
 	public void onLivingFallEvent(LivingFallEvent event) {
-		if (event.getEntityLiving() != null && event.getEntityLiving().getActivePotionEffect(AoV.potions.slowFall) != null)
+		if (event.getEntityLiving() != null && event.getEntityLiving().getActivePotionEffect(AoVPotions.slowFall) != null)
 			event.setDamageMultiplier(0);
 	}
 
 	@SubscribeEvent
 	public void onLivingHurtEvent(LivingHurtEvent event) {
-		if (event.getEntityLiving() != null && event.getEntityLiving().getActivePotionEffect(AoV.potions.shieldOfFaith) != null)
+		if (event.getEntityLiving() != null && event.getEntityLiving().getActivePotionEffect(AoVPotions.shieldOfFaith) != null)
 			event.setAmount(event.getAmount() / 2F);
 	}
 
@@ -47,9 +46,10 @@ public class LivingAttackEvent {
 
 		// DoubleStrike
 		if (attacker != null && attacker.hasCapability(CapabilityList.AOV, null)) {
-			if (state && attacker.world.rand.nextInt(attacker.getCapability(CapabilityList.AOV, null).getDoubleStrikeForRand()) == 0) {
+			IAoVCapability cap = attacker.getCapability(CapabilityList.AOV, null);
+			if (cap != null && state && attacker.world.rand.nextInt(cap.getDoubleStrikeForRand()) == 0) {
 				state = false;
-				attacker.getCapability(CapabilityList.AOV, null).addExp(attacker, 20, AbilityBase.defenderDoublestrike);
+				cap.addExp(attacker, 20, AbilityBase.defenderDoublestrike);
 				if (attacker instanceof EntityPlayer)
 					FloatyTextHelper.sendText((EntityPlayer) attacker, "Doublestrike");
 				entity.attackEntityFrom(event.getSource(), event.getAmount());
@@ -59,7 +59,7 @@ public class LivingAttackEvent {
 			EntityLivingBase attackerLiving = null;
 			if (attacker instanceof EntityLivingBase)
 				attackerLiving = (EntityLivingBase) attacker;
-			if (attacker.getCapability(CapabilityList.AOV, null).hasSkill(AoVSkill.defender_core_3) && attackerLiving != null && ((!attackerLiving.getHeldItemMainhand().isEmpty() && attackerLiving.getHeldItemMainhand().getItem() instanceof ItemShield) || (!attackerLiving.getHeldItemOffhand().isEmpty() && attackerLiving.getHeldItemOffhand().getItem() instanceof ItemShield))) {
+			if (cap != null && cap.hasSkill(AoVSkill.defender_core_3) && attackerLiving != null && ((!attackerLiving.getHeldItemMainhand().isEmpty() && attackerLiving.getHeldItemMainhand().getItem() instanceof ItemShield) || (!attackerLiving.getHeldItemOffhand().isEmpty() && attackerLiving.getHeldItemOffhand().getItem() instanceof ItemShield))) {
 				double d1 = attacker.posX - entity.posX;
 				double d0;
 				for (d0 = attacker.posZ - entity.posZ; d1 * d1 + d0 * d0 < 1.0E-4D; d0 = (Math.random() - Math.random()) * 0.01D) {
@@ -73,14 +73,14 @@ public class LivingAttackEvent {
 		if (entity.hasCapability(CapabilityList.AOV, null)) {
 			IAoVCapability cap = entity.getCapability(CapabilityList.AOV, null);
 
-			if (cap.hasSkill(AoVSkill.defender_core_1) && entity instanceof EntityPlayer) {
+			if (cap != null && cap.hasSkill(AoVSkill.defender_core_1) && entity instanceof EntityPlayer) {
 				if (canBlockDamageSource((EntityPlayer) entity, event.getSource(), false) && event.getAmount() > 0.0F) {
 					cap.addExp(entity, 20, AbilityBase.defenderBlocking);
 				}
 			}
 
 			// Dodge
-			if (isWhiteListed(event.getSource()) && cap.getDodge() > 0 && entity.world.rand.nextInt(cap.getDodgeForRand()) == 0) {
+			if (cap != null && isWhiteListed(event.getSource()) && cap.getDodge() > 0 && entity.world.rand.nextInt(cap.getDodgeForRand()) == 0) {
 				cap.addExp(entity, 20, AbilityBase.defenderDodge);
 				if (entity instanceof EntityPlayer)
 					FloatyTextHelper.sendText((EntityPlayer) entity, "Dodged");
@@ -88,7 +88,7 @@ public class LivingAttackEvent {
 				return;
 			}
 			// Full Radial Shield
-			if (cap.hasSkill(AoVSkill.defender_core_4)) {
+			if (cap != null && cap.hasSkill(AoVSkill.defender_core_4)) {
 				handleShield(event, true);
 			}
 		}
@@ -96,7 +96,6 @@ public class LivingAttackEvent {
 
 	private void handleShield(net.minecraftforge.event.entity.living.LivingAttackEvent e, boolean fullRadial) {
 		float damage = e.getAmount();
-		ItemStack activeItemStack;
 		EntityPlayer player;
 		if (!(e.getEntityLiving() instanceof EntityPlayer)) {
 			return;

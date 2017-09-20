@@ -126,6 +126,5 @@ public interface IAoVCapability {
 
 	void copyFrom(IAoVCapability cap);
 
-	void decodePacket(ByteBufInputStream stream) throws IOException;
-
+	Ability[] getSlots();
 }

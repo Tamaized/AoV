@@ -1,24 +1,18 @@
 package tamaized.aov.client.gui;
 
+import net.minecraft.client.gui.GuiButton;
 import tamaized.aov.AoV;
-import tamaized.aov.common.capabilities.CapabilityList;
-import tamaized.aov.common.capabilities.aov.IAoVCapability;
-import tamaized.aov.common.gui.GuiHandler;
-import tamaized.aov.client.gui.buttons.SkillButton;
 import tamaized.aov.client.gui.buttonlist.CasterSkillRegisterButtons;
 import tamaized.aov.client.gui.buttonlist.DefenderSkillRegisterButtons;
 import tamaized.aov.client.gui.buttonlist.HealerSkillRegisterButtons;
-import tamaized.aov.network.ServerPacketHandler;
-import io.netty.buffer.ByteBufOutputStream;
-import io.netty.buffer.Unpooled;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
+import tamaized.aov.client.gui.buttons.SkillButton;
+import tamaized.aov.common.capabilities.CapabilityList;
+import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.gui.GuiHandler;
+import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AoVSkillsGUI extends GuiScreenClose {
 
@@ -27,28 +21,25 @@ public class AoVSkillsGUI extends GuiScreenClose {
 	private static final int BUTTON_SPELLBOOK = 2;
 	private static final int BUTTON_RESET = 3;
 	private static final int BUTTON_CHECKSTATS = 4;
-
-	public static int getSkillButtonID() {
-		return BUTTON_SKILL_CHECK;
-	}
-
-	private ArrayList<SkillButton> skillButtonList = new ArrayList<SkillButton>();
-
+	private List<SkillButton> skillButtonList = new ArrayList<>();
 	private int lastMx = 0;
 	private int lastMy = 0;
-
 	private IAoVCapability cap;
 
 	public AoVSkillsGUI() {
 		super();
 	}
 
+	public static int getSkillButtonID() {
+		return BUTTON_SKILL_CHECK;
+	}
+
 	@Override
 	public void initGui() {
 		super.initGui();
 		cap = mc.player.getCapability(CapabilityList.AOV, null);
-		buttonList.add(new GuiButton(BUTTON_CLOSE, 10 + (width * 0) / 4, height - 25, 80, 20, "Close"));
-		buttonList.add(new GuiButton(BUTTON_SPELLBOOK, 10 + (width * 1) / 4, height - 25, 80, 20, "Spell Book"));
+		buttonList.add(new GuiButton(BUTTON_CLOSE, 10, height - 25, 80, 20, "Close"));
+		buttonList.add(new GuiButton(BUTTON_SPELLBOOK, 10 + (width) / 4, height - 25, 80, 20, "Spell Book"));
 		buttonList.add(new GuiButton(BUTTON_CHECKSTATS, 10 + (width * 2) / 4, height - 25, 80, 20, "Check Stats"));
 		buttonList.add(new GuiButton(BUTTON_RESET, 10 + (width * 3) / 4, height - 25, 80, 20, "Reset Skills"));
 		if (cap != null) {
@@ -57,10 +48,8 @@ public class AoVSkillsGUI extends GuiScreenClose {
 			HealerSkillRegisterButtons.register(this);
 			CasterSkillRegisterButtons.register(this);
 			DefenderSkillRegisterButtons.register(this);
-
-			sendChargeUpdates();
 		} else {
-			mc.displayGuiScreen((GuiScreen) null);
+			mc.displayGuiScreen(null);
 		}
 	}
 
@@ -74,28 +63,26 @@ public class AoVSkillsGUI extends GuiScreenClose {
 		if (button.enabled) {
 			switch (button.id) {
 				case BUTTON_CLOSE: {
-					mc.displayGuiScreen((GuiScreen) null);
+					mc.displayGuiScreen(null);
 				}
 				break;
 				case BUTTON_SKILL_CHECK: {
 					if (!(button instanceof SkillButton))
 						break;
 					SkillButton skillButton = (SkillButton) button;
-					skillButton.enabled = false;
-					if (!beginChecks(skillButton))
-						skillButton.enabled = true;
+					skillButton.enabled = !beginChecks(skillButton);
 				}
 				break;
 				case BUTTON_SPELLBOOK: {
-					GuiHandler.openGUI(GuiHandler.GUI_SPELLBOOK);
+					GuiHandler.openGUI(GuiHandler.GUI_SPELLBOOK, mc.player, mc.world);
 				}
 				break;
 				case BUTTON_RESET: {
-					GuiHandler.openGUI(GuiHandler.GUI_RESET);
+					GuiHandler.openGUI(GuiHandler.GUI_RESET, mc.player, mc.world);
 				}
 				break;
 				case BUTTON_CHECKSTATS: {
-					GuiHandler.openGUI(GuiHandler.GUI_CHECKSTATS);
+					GuiHandler.openGUI(GuiHandler.GUI_CHECKSTATS, mc.player, mc.world);
 				}
 				break;
 				default:
@@ -105,22 +92,8 @@ public class AoVSkillsGUI extends GuiScreenClose {
 	}
 
 	private boolean beginChecks(SkillButton button) {
-		if ((button.getSkill() == null || !cap.hasSkill(button.getSkill())) && button.canObtain(cap)) {
-			try {
-				int pktType = ServerPacketHandler.getPacketTypeID(ServerPacketHandler.PacketType.SKILLEDIT_CHECK_CANOBTAIN);
-				ByteBufOutputStream bos = new ByteBufOutputStream(Unpooled.buffer());
-				DataOutputStream outputStream = new DataOutputStream(bos);
-				outputStream.writeInt(pktType);
-				outputStream.writeInt(button.getSkill().getID());
-				FMLProxyPacket packet = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
-				AoV.channel.sendToServer(packet);
-				outputStream.close();
-				bos.close();
-				return true;
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+		if ((button.getSkill() == null || !cap.hasSkill(button.getSkill())) && button.canObtain(cap))
+			AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.SKILLEDIT_CHECK_CANOBTAIN, button.getSkill().getID(), null));
 		return false;
 	}
 
@@ -187,20 +160,6 @@ public class AoVSkillsGUI extends GuiScreenClose {
 				lastMy = mouseY;
 				lastMx = mouseX;
 			}
-		}
-	}
-
-	private void sendChargeUpdates() {
-		ByteBufOutputStream bos = new ByteBufOutputStream(Unpooled.buffer());
-		DataOutputStream outputStream = new DataOutputStream(bos);
-		try {
-			outputStream.writeInt(ServerPacketHandler.getPacketTypeID(ServerPacketHandler.PacketType.CHARGES_RESET));
-			FMLProxyPacket pkt = new FMLProxyPacket(new PacketBuffer(bos.buffer()), AoV.networkChannelName);
-			if (AoV.channel != null && pkt != null)
-				AoV.channel.sendToServer(pkt);
-			bos.close();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 }

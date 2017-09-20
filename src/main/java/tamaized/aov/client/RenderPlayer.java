@@ -1,6 +1,5 @@
 package tamaized.aov.client;
 
-import tamaized.aov.AoV;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -12,6 +11,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import tamaized.aov.AoV;
+import tamaized.aov.registry.AoVPotions;
 import tamaized.tammodized.client.particles.ParticleFluff;
 import tamaized.tammodized.common.particles.ParticleHelper;
 
@@ -28,7 +29,7 @@ public class RenderPlayer {
 	public void render(RenderPlayerEvent.Post e) {
 		// if (true) return; // This is dev stuff
 		EntityPlayer player = e.getEntityPlayer();
-		PotionEffect pot = player.getActivePotionEffect(AoV.potions.slowFall);
+		PotionEffect pot = player.getActivePotionEffect(AoVPotions.slowFall);
 		if (pot == null)
 			return;
 		GlStateManager.pushMatrix();

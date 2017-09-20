@@ -22,7 +22,7 @@ public class EntityMovingSound extends MovingSound {
 
 	@Override
 	public void update() {
-		if (this.entity.isDead) {
+		if (entity == null || this.entity.isDead) {
 			this.donePlaying = true;
 		} else {
 			this.xPosF = (float) this.entity.posX;

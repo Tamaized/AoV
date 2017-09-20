@@ -1,9 +1,11 @@
 package tamaized.aov.common.entity;
 
-import tamaized.aov.AoV;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import tamaized.aov.registry.AoVDamageSource;
+
+import javax.annotation.Nonnull;
 
 public class EntitySpellImplosion extends Entity {
 
@@ -27,12 +29,12 @@ public class EntitySpellImplosion extends Entity {
 	}
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound compound) {
+	protected void readEntityFromNBT(@Nonnull NBTTagCompound compound) {
 
 	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound compound) {
+	protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
 
 	}
 
@@ -47,7 +49,7 @@ public class EntitySpellImplosion extends Entity {
 		setPositionAndUpdate(target.posX, target.posY, target.posZ);
 		tick++;
 		if (tick % (20 * 5) == 0)
-			target.attackEntityFrom(AoV.damageSources.destruction, Integer.MAX_VALUE);
+			target.attackEntityFrom(AoVDamageSource.destruction, Integer.MAX_VALUE);
 	}
 
 }

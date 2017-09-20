@@ -6,6 +6,7 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.helper.ParticleHelper;
+import tamaized.aov.registry.AoVPotions;
 import tamaized.aov.registry.SoundEvents;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.IMob;
@@ -89,7 +90,7 @@ public class Aid extends AbilityBase {
 
 	private void addPotionEffects(EntityLivingBase entity) {
 		entity.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 20 * (60 * 5)));
-		entity.addPotionEffect(new PotionEffect(AoV.potions.aid, 20 * (60 * 5)));
+		entity.addPotionEffect(new PotionEffect(AoVPotions.aid, 20 * (60 * 5)));
 	}
 
 	private void castAsMass(EntityLivingBase target, IAoVCapability cap) {

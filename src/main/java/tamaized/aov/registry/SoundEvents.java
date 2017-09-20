@@ -1,7 +1,5 @@
 package tamaized.aov.registry;
 
-import tamaized.aov.AoV;
-import tamaized.aov.network.ClientPacketHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -9,10 +7,8 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
-import tamaized.tammodized.common.helper.PacketHelper;
-import tamaized.tammodized.common.helper.PacketHelper.PacketWrapper;
-
-import java.io.IOException;
+import tamaized.aov.AoV;
+import tamaized.aov.network.client.ClientPacketHandlerMovingSound;
 
 @Mod.EventBusSubscriber
 public class SoundEvents {
@@ -52,14 +48,7 @@ public class SoundEvents {
 	}
 
 	public static void playMovingSoundOnServer(SoundEvent sound, Entity entity) {
-		try {
-			PacketWrapper packet = PacketHelper.createPacket(AoV.channel, AoV.networkChannelName, ClientPacketHandler.getPacketTypeID(ClientPacketHandler.PacketType.MovingSound));
-			packet.getStream().writeInt(entity.getEntityId());
-			packet.getStream().writeInt(SoundEvent.REGISTRY.getIDForObject(sound));
-			packet.sendPacket(new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 32));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		AoV.network.sendToAllAround(new ClientPacketHandlerMovingSound.Packet(entity, SoundEvent.REGISTRY.getIDForObject(sound)), new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 32));
 	}
 
 }

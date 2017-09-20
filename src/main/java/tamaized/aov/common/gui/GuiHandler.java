@@ -1,14 +1,19 @@
 package tamaized.aov.common.gui;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.IGuiHandler;
+import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import tamaized.aov.AoV;
 import tamaized.aov.client.gui.AoVSkillsGUI;
 import tamaized.aov.client.gui.ResetSkillsGUI;
 import tamaized.aov.client.gui.ShowStatsGUI;
 import tamaized.aov.client.gui.SpellBookGUI;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.IGuiHandler;
-import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
+import tamaized.aov.common.capabilities.CapabilityList;
+import tamaized.aov.common.capabilities.aov.IAoVCapability;
+
+import javax.annotation.Nonnull;
 
 public class GuiHandler implements IGuiHandler {
 
@@ -17,12 +22,25 @@ public class GuiHandler implements IGuiHandler {
 	public final static int GUI_CHECKSTATS = 2;
 	public final static int GUI_RESET = 3;
 
+	public static void openGUI(int id, @Nonnull EntityPlayer player, @Nonnull World world) {
+		BlockPos pos = player.getPosition();
+		FMLNetworkHandler.openGui(player, AoV.instance, id, world, pos.getX(), pos.getY(), pos.getZ());
+	}
+
 	@Override
 	public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
 		switch (id) {
+			case GUI_SKILLS:
+				if (player != null && player.hasCapability(CapabilityList.AOV, null)) {
+					IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
+					if (cap != null)
+						cap.resetCharges();
+				}
+				break;
 			default:
-				return null;
+				break;
 		}
+		return null;
 	}
 
 	@Override
@@ -37,12 +55,9 @@ public class GuiHandler implements IGuiHandler {
 			case GUI_RESET:
 				return new ResetSkillsGUI();
 			default:
-				return null;
+				break;
 		}
-	}
-
-	public static void openGUI(int id) {
-		FMLNetworkHandler.openGui(null, AoV.instance, id, null, 0, 0, 0);
+		return null;
 	}
 
 }

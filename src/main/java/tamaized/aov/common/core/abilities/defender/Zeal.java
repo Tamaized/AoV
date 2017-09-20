@@ -5,6 +5,7 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
+import tamaized.aov.registry.AoVPotions;
 import tamaized.aov.registry.SoundEvents;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -70,7 +71,7 @@ public class Zeal extends AbilityBase {
 	}
 
 	private void addPotionEffects(EntityLivingBase entity) {
-		entity.addPotionEffect(new PotionEffect(AoV.potions.zeal, 20 * (int) (60F * 2.5F)));
+		entity.addPotionEffect(new PotionEffect(AoVPotions.zeal, 20 * (int) (60F * 2.5F)));
 	}
 
 	@Override

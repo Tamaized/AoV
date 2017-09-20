@@ -1,11 +1,10 @@
 package tamaized.aov.proxy;
 
-import tamaized.aov.AoV;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import tamaized.aov.client.RenderPlayer;
-import tamaized.aov.common.entity.EntitySpellBladeBarrier;
-import tamaized.aov.common.entity.EntitySpellImplosion;
-import tamaized.aov.common.entity.ProjectileFlameStrike;
-import tamaized.aov.common.entity.ProjectileNimbusRay;
 import tamaized.aov.client.entity.RenderFlameStrike;
 import tamaized.aov.client.entity.RenderNimbusRay;
 import tamaized.aov.client.entity.RenderSpellBladeBarrier;
@@ -13,21 +12,19 @@ import tamaized.aov.client.entity.RenderSpellImplosion;
 import tamaized.aov.client.events.ClientSpawnEvent;
 import tamaized.aov.client.events.KeyHandler;
 import tamaized.aov.client.gui.AoVOverlay;
-import tamaized.aov.network.ClientPacketHandler;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import tamaized.aov.common.entity.EntitySpellBladeBarrier;
+import tamaized.aov.common.entity.EntitySpellImplosion;
+import tamaized.aov.common.entity.ProjectileFlameStrike;
+import tamaized.aov.common.entity.ProjectileNimbusRay;
 import tamaized.tammodized.proxy.AbstractProxy;
 
 public class ClientProxy extends AbstractProxy {
 
+	public static KeyBinding key;
+	public static boolean barToggle = false;
 	public ClientProxy() {
 		super(Side.CLIENT);
 	}
-
-	public static KeyBinding key;
-	public static boolean barToggle = false;
 
 	@Override
 	public void preRegisters() {
@@ -58,7 +55,6 @@ public class ClientProxy extends AbstractProxy {
 	@Override
 	public void postInit() {
 		MinecraftForge.EVENT_BUS.register(new KeyHandler());
-		AoV.channel.register(new ClientPacketHandler());
 	}
 
 }
