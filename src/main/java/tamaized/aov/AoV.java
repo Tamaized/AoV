@@ -36,7 +36,7 @@ import tamaized.tammodized.TamModBase;
 import tamaized.tammodized.TamModized;
 import tamaized.tammodized.proxy.AbstractProxy;
 
-@Mod(modid = AoV.modid, name = "Angel of Vengeance", version = AoV.version, dependencies = "required-before:" + TamModized.modid + "@[${tamversion},)")
+@Mod(modid = AoV.modid, name = "Angel of Vengeance", version = AoV.version, acceptedMinecraftVersions = "[1.12,)", dependencies = "required-before:" + TamModized.modid + "@[${tamversion},)")
 public class AoV extends TamModBase {
 
 	public static final String modid = "aov";
