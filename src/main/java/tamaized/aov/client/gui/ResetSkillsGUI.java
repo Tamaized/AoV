@@ -19,17 +19,10 @@ public class ResetSkillsGUI extends GuiScreenClose {
 
 	@Override
 	public void initGui() {
-		int margin = 20;
-		int padding = 100;
-		float workW = width - padding;
-		int loc1 = (int) (workW * .0) + margin;
-		int loc2 = (int) (workW * .25) + margin * 2;
-		int loc3 = (int) (workW * .50) + margin * 3;
-		int loc4 = (int) (workW * .75) + margin * 4;
-		buttonList.add(new GuiButton(BUTTON_CLOSE, loc1, height - 25, 80, 20, "Close"));
-		buttonList.add(new GuiButton(BUTTON_BACK, loc2, height - 25, 80, 20, "Back"));
-		buttonList.add(new GuiButton(BUTTON_RESET_FULL, loc3, height - 25, 80, 20, "Full Reset"));
-		buttonList.add(new GuiButton(BUTTON_RESET_MINOR, loc4, height - 25, 80, 20, "Minor Reset"));
+		buttonList.add(new GuiButton(BUTTON_CLOSE, 10, height - 25, 80, 20, "Close"));
+		buttonList.add(new GuiButton(BUTTON_BACK, 110, height - 25, 80, 20, "Back"));
+		buttonList.add(new GuiButton(BUTTON_RESET_FULL, width - 190, height - 25, 80, 20, "Full Reset"));
+		buttonList.add(new GuiButton(BUTTON_RESET_MINOR, width - 90, height - 25, 80, 20, "Minor Reset"));
 
 	}
 

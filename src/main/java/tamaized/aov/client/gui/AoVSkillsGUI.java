@@ -1,10 +1,20 @@
 package tamaized.aov.client.gui;
 
+import com.google.common.collect.Lists;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import tamaized.aov.AoV;
 import tamaized.aov.client.gui.buttonlist.CasterSkillRegisterButtons;
 import tamaized.aov.client.gui.buttonlist.DefenderSkillRegisterButtons;
 import tamaized.aov.client.gui.buttonlist.HealerSkillRegisterButtons;
+import tamaized.aov.client.gui.buttonlist.IClassButtons;
 import tamaized.aov.client.gui.buttons.SkillButton;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -21,6 +31,18 @@ public class AoVSkillsGUI extends GuiScreenClose {
 	private static final int BUTTON_SPELLBOOK = 2;
 	private static final int BUTTON_RESET = 3;
 	private static final int BUTTON_CHECKSTATS = 4;
+	private static final int BUTTON_PAGE_PREV = 5;
+	private static final int BUTTON_PAGE_NEXT = 6;
+	private static List<IClassButtons> CLASS_BUTTON_REGISTRY = Lists.newArrayList(
+
+			new CasterSkillRegisterButtons(),
+
+			new HealerSkillRegisterButtons(),
+
+			new DefenderSkillRegisterButtons()
+
+	);
+	private int page;
 	private List<SkillButton> skillButtonList = new ArrayList<>();
 	private int lastMx = 0;
 	private int lastMy = 0;
@@ -38,19 +60,28 @@ public class AoVSkillsGUI extends GuiScreenClose {
 	public void initGui() {
 		super.initGui();
 		cap = mc.player.getCapability(CapabilityList.AOV, null);
-		buttonList.add(new GuiButton(BUTTON_CLOSE, 10, height - 25, 80, 20, "Close"));
-		buttonList.add(new GuiButton(BUTTON_SPELLBOOK, 10 + (width) / 4, height - 25, 80, 20, "Spell Book"));
-		buttonList.add(new GuiButton(BUTTON_CHECKSTATS, 10 + (width * 2) / 4, height - 25, 80, 20, "Check Stats"));
-		buttonList.add(new GuiButton(BUTTON_RESET, 10 + (width * 3) / 4, height - 25, 80, 20, "Reset Skills"));
 		if (cap != null) {
-			skillButtonList.clear();
-
-			HealerSkillRegisterButtons.register(this);
-			CasterSkillRegisterButtons.register(this);
-			DefenderSkillRegisterButtons.register(this);
+			for (IClassButtons b : CLASS_BUTTON_REGISTRY)
+				if (b.active(cap)) {
+					page = CLASS_BUTTON_REGISTRY.indexOf(b);
+					break;
+				}
+			initButtons();
 		} else {
 			mc.displayGuiScreen(null);
 		}
+	}
+
+	public void initButtons() {
+		buttonList.clear();
+		skillButtonList.clear();
+		buttonList.add(new GuiButton(BUTTON_CLOSE, 10, height - 25, 80, 20, "Close"));
+		buttonList.add(new GuiButton(BUTTON_SPELLBOOK, 110, height - 25, 80, 20, "Spell Book"));
+		buttonList.add(new GuiButton(BUTTON_CHECKSTATS, width - 190, height - 25, 80, 20, "Check Stats"));
+		buttonList.add(new GuiButton(BUTTON_RESET, width - 90, height - 25, 80, 20, "Reset Skills"));
+		buttonList.add(new ArrowButton(BUTTON_PAGE_PREV, width / 2 - 95, 39, 20, height - 70, "<"));
+		buttonList.add(new ArrowButton(BUTTON_PAGE_NEXT, width / 2 + 69, 39, 20, height - 70, ">"));
+		CLASS_BUTTON_REGISTRY.get(MathHelper.clamp(page, 0, CLASS_BUTTON_REGISTRY.size() - 1)).register(this);
 	}
 
 	public void addNewButton(SkillButton button) {
@@ -85,6 +116,18 @@ public class AoVSkillsGUI extends GuiScreenClose {
 					GuiHandler.openGUI(GuiHandler.GUI_CHECKSTATS, mc.player, mc.world);
 				}
 				break;
+				case BUTTON_PAGE_PREV: {
+					if (page > 0)
+						page--;
+					initButtons();
+				}
+				break;
+				case BUTTON_PAGE_NEXT: {
+					if (page < CLASS_BUTTON_REGISTRY.size() - 1)
+						page++;
+					initButtons();
+				}
+				break;
 				default:
 					break;
 			}
@@ -109,8 +152,13 @@ public class AoVSkillsGUI extends GuiScreenClose {
 
 	@Override
 	public void updateScreen() {
-		for (SkillButton button : skillButtonList) {
-			button.update(cap);
+		for (GuiButton button : buttonList) {
+			if (button instanceof SkillButton)
+				((SkillButton) button).update(cap);
+			if (button.id == BUTTON_PAGE_PREV)
+				button.enabled = page > 0;
+			if (button.id == BUTTON_PAGE_NEXT)
+				button.enabled = page < CLASS_BUTTON_REGISTRY.size() - 1;
 		}
 	}
 
@@ -141,9 +189,9 @@ public class AoVSkillsGUI extends GuiScreenClose {
 		// drawCenteredString(fontRenderer, "Tier 1", width / 2 + 135, height - 102, 0xFFFFFF00);
 		// drawCenteredString(fontRenderer, "Core", width / 2 + 135, height - 62, 0xFFFFFF00);
 
-		drawRect(width / 2 - 200, height - 215, width / 2 - 200 + 126, height - 27, 0x88000000);
+//		drawRect(width / 2 - 200, height - 215, width / 2 - 200 + 126, height - 27, 0x88000000);
 		drawRect(width / 2 - 66, height - 215, width / 2 - 66 + 126, height - 27, 0x88000000);
-		drawRect(width / 2 + 68, height - 215, width / 2 + 68 + 126, height - 27, 0x88000000);
+//		drawRect(width / 2 + 68, height - 215, width / 2 + 68 + 126, height - 27, 0x88000000);
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		if (mouseX != lastMx || mouseY != lastMy) {
 			boolean flag = true;
@@ -159,6 +207,56 @@ public class AoVSkillsGUI extends GuiScreenClose {
 			if (flag) {
 				lastMy = mouseY;
 				lastMx = mouseX;
+			}
+		}
+	}
+
+	static class ArrowButton extends GuiButton {
+
+		private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.modid, "textures/gui/buttons.png");
+
+		public ArrowButton(int buttonId, int x, int y, int widthIn, int heightIn, String buttonText) {
+			super(buttonId, x, y, widthIn, heightIn, buttonText);
+		}
+
+		@Override
+		public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+			if (this.visible)
+			{
+				FontRenderer fontrenderer = mc.fontRenderer;
+				mc.getTextureManager().bindTexture(TEXTURE);
+				GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+				this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
+				int i = this.getHoverState(this.hovered);
+				GlStateManager.enableBlend();
+				GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+				GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+				Tessellator tessellator = Tessellator.getInstance();
+				BufferBuilder bufferbuilder = tessellator.getBuffer();
+				bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
+				bufferbuilder.pos(x, y, 0.0D).tex(i / 3F, 0).endVertex();
+				bufferbuilder.pos(x, y + height, 0.0D).tex(i / 3F, 1).endVertex();
+				bufferbuilder.pos(x + 20, y + height, 0.0D).tex((1F + i) / 3F, 1).endVertex();
+				bufferbuilder.pos(x + 20, y, 0.0D).tex((1F + i) / 3F, 0).endVertex();
+				tessellator.draw();
+				this.mouseDragged(mc, mouseX, mouseY);
+				int j = 14737632;
+
+				if (packedFGColour != 0)
+				{
+					j = packedFGColour;
+				}
+				else
+				if (!this.enabled)
+				{
+					j = 10526880;
+				}
+				else if (this.hovered)
+				{
+					j = 16777120;
+				}
+
+				this.drawCenteredString(fontrenderer, this.displayString, this.x + this.width / 2, this.y + (this.height - 8) / 2, j);
 			}
 		}
 	}
