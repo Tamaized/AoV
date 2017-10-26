@@ -1,18 +1,10 @@
 # Angel of Vengeance (Or AoV for short)
-  The goal is to be a magic mod focused around being a healer. You have the ability to heal players, other entities and even damage undead with this power. You can also cure status effects. However, there are two other classes you can use instead. Three in total, Healer, Caster, and Defender.
+  The goal is to be a magic mod focused around being a healer. You have the ability to heal players, other entities and even damage undead with this power. You can also cure status effects. However, there are other classes you can use instead. Four in total, Healer, Caster, Defender, and Astrologian (WIP).
 
-  Healer's purpose is to well.. heal. The Caster is the offensive spell casting mage which uses light based spells to destroy undead. The Defender is your tank, they get a dodge mechanic where attacks have a chance to not land at all on them. Defenders also get benefits while having a shield equipped. 
+  Healer's purpose is to well.. heal. The Caster is the offensive spell casting mage which uses light based spells to destroy undead. The Defender is your tank, they get a dodge mechanic where attacks have a chance to not land at all on them. Defenders also get benefits while having a shield equipped. Astrologian are your buffers and side healer, they can cast very powerful yet random buffs on themselves or others using the power of the stars.
   
 ## Downloads
   [Can be found here](https://minecraft.curseforge.com/projects/angel-of-vengeance)
-
-## Classes
-  * Healer
-    * Healer, main focus is to well.. Heal.. yourself, others, and so on. Yes Zombies(Well most undead really) will take damage.
-  * Defender
-    * Main focus is to cast buffs/spells unto yourself and friends to increase your resistance and protection.
-  * Offensive Caster
-    * Main focus here is to be some sort of divine caster using light/good/lawful based spells against your foes.
 
 ## The Skill System
   * You slowly gain experience and thus points from leveling up by using your spells/abilities.
