@@ -13,9 +13,9 @@ public class ConfigHandler {
 
 	@Config.Comment("Sets the recharge rate per second, -1 disables this")
 	public static int recharge = -1;
-	@Config.Comment("Determines whether or not vanilla experience contributes to tamaized.aov.AoV experience gain")
+	@Config.Comment("Determines whether or not vanilla experience contributes to AoV experience gain")
 	public static boolean experience = false;
-	@Config.Comment("Sets the Posiiton where the Spell Bar will render")
+	@Config.Comment("Sets the position where the Spell Bar will render")
 	public static BarPos barPos = BarPos.TOP;
 
 	@SubscribeEvent
