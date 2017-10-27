@@ -1,17 +1,28 @@
 package tamaized.aov.common.core.skills.defender.cores;
 
+import com.google.common.collect.Lists;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.skills.AoVSkill;
 import tamaized.aov.common.core.skills.SkillIcons;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
+import tamaized.aov.common.core.skills.AoVSkills;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DefenderSkillCapStone extends AoVSkill {
 
-	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
+	private static final List<AbilityBase> spells = Lists.newArrayList();
+
+	private static final int COST = 1;
+	private static final int LEVEL = 15;
+	private static final int SPENT = 0;
+	private static final int CHARGES = 0;
+	private static final int SPELLPOWER = 0;
+	private static final int DODGE = 0;
+	private static final int DOUBLESTRIKE = 0;
+	private static final boolean SELECTIVE_FOCUS = false;
 
 	static {
 
@@ -20,28 +31,48 @@ public class DefenderSkillCapStone extends AoVSkill {
 	public DefenderSkillCapStone() {
 		super(spells,
 
-				TextFormatting.AQUA + "Capstone: Defender",
+				new TextComponentTranslation("aov.skill.defender.core.5.name"),
 
-				TextFormatting.RED + "Requires: Defender Core 4",
+				new TextComponentTranslation("aov.skill.defender.core.5.req"),
 
-				TextFormatting.RED + "Requires: Level 15",
+				new TextComponentTranslation("aov.skill.global.minlevel", LEVEL),
 
-				"",
+				new TextComponentTranslation(""),
 
-				TextFormatting.YELLOW + "Shields you have equiped, if damaged, are fully repaired"
+				new TextComponentTranslation("aov.skill.healer.core.5.desc")
 
 
 		);
 	}
 
-	@Override
+	@Deprecated
 	public String getName() {
 		return "DefenderSkillCapStone";
 	}
 
 	@Override
-	protected Buffs setupBuffs() {
-		return new Buffs(0, 0, 0, 0, false);
+	public int getCharges() {
+		return CHARGES;
+	}
+
+	@Override
+	public int getSpellPower() {
+		return SPELLPOWER;
+	}
+
+	@Override
+	public int getDodge() {
+		return DODGE;
+	}
+
+	@Override
+	public int getDoubleStrike() {
+		return DOUBLESTRIKE;
+	}
+
+	@Override
+	public boolean grantsSelectiveFocus() {
+		return SELECTIVE_FOCUS;
 	}
 
 	@Override
@@ -56,22 +87,22 @@ public class DefenderSkillCapStone extends AoVSkill {
 
 	@Override
 	public AoVSkill getParent() {
-		return AoVSkill.defender_core_4;
+		return AoVSkills.defender_core_4;
 	}
 
 	@Override
 	public int getCost() {
-		return 1;
+		return COST;
 	}
 
 	@Override
 	public int getLevel() {
-		return 15;
+		return LEVEL;
 	}
 
 	@Override
 	public int getSpentPoints() {
-		return 0;
+		return SPENT;
 	}
 
 }

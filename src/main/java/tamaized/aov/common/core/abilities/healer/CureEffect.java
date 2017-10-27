@@ -1,17 +1,20 @@
 package tamaized.aov.common.core.abilities.healer;
 
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.potion.Potion;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.helper.ParticleHelper;
 import tamaized.aov.registry.SoundEvents;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.potion.Potion;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.text.TextFormatting;
 
 import java.util.List;
 
@@ -25,19 +28,17 @@ public abstract class CureEffect extends AbilityBase {
 	public CureEffect(String n, int c, double r, Potion effect) {
 		super(
 
-				TextFormatting.YELLOW + n,
+				new TextComponentTranslation(n),
 
-				"",
+				new TextComponentTranslation(""),
 
-				TextFormatting.AQUA + "Charges: " + c,
+				new TextComponentTranslation("aov.spells.global.charges", c),
 
-				TextFormatting.AQUA + "Range: " + r,
+				new TextComponentTranslation("aov.spells.global.range", r),
 
-				"",
+				new TextComponentTranslation(""),
 
-				TextFormatting.DARK_PURPLE + "Heals yourself or an entity if",
-
-				TextFormatting.DARK_PURPLE + "your crosshair is over the entity."
+				new TextComponentTranslation("aov.spells.cure.desc")
 
 		);
 		name = n;
@@ -47,8 +48,9 @@ public abstract class CureEffect extends AbilityBase {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getName() {
-		return name;
+		return I18n.format(name);
 	}
 
 	@Override
@@ -95,9 +97,7 @@ public abstract class CureEffect extends AbilityBase {
 		ParticleHelper.spawnParticleMesh(ParticleHelper.Type.BURST, target.world, target.getPositionVector(), range, getParticleColor());
 		List<EntityLivingBase> list = target.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(target.getPosition().add(-range, -range, -range), target.getPosition().add(range, range, range)));
 		for (EntityLivingBase entity : list) {
-			if (cap.hasSelectiveFocus() && (entity instanceof IMob))
-				continue;
-			else {
+			if (!cap.hasSelectiveFocus() || !(entity instanceof IMob)) {
 				entity.removePotionEffect(effect);
 				SoundEvents.playMovingSoundOnServer(SoundEvents.restore, entity);
 				cap.addExp(target, 20, this);

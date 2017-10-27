@@ -1,5 +1,15 @@
 package tamaized.aov.common.core.abilities.healer.Cores;
 
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -7,16 +17,7 @@ import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.helper.ParticleHelper;
 import tamaized.aov.registry.SoundEvents;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.text.TextFormatting;
 
-import java.util.Iterator;
 import java.util.List;
 
 public class Burst extends AbilityBase {
@@ -28,27 +29,25 @@ public class Burst extends AbilityBase {
 	public Burst() {
 		super(
 
-				TextFormatting.YELLOW + getStaticName(),
+				new TextComponentTranslation(getStaticName()),
 
-				"",
+				new TextComponentTranslation(""),
 
-				TextFormatting.AQUA + "Charges: " + charges,
+				new TextComponentTranslation("aov.spells.global.charges", charges),
 
-				TextFormatting.AQUA + "Range: " + range,
+				new TextComponentTranslation("aov.spells.global.range", range),
 
-				TextFormatting.AQUA + "Base Healing: " + dmg,
+				new TextComponentTranslation("aov.spells.global.healing", dmg),
 
-				"",
+				new TextComponentTranslation(""),
 
-				TextFormatting.DARK_PURPLE + "Heals everything around you,",
-
-				TextFormatting.DARK_PURPLE + " including you, and cures",
-
-				TextFormatting.DARK_PURPLE + " all harmful effects.",
-
-				TextFormatting.DARK_PURPLE + " Deals damage to Undead."
+				new TextComponentTranslation("aov.spells.burst.desc")
 
 		);
+	}
+
+	public static String getStaticName() {
+		return "aov.spells.burst.name";
 	}
 
 	@Override
@@ -67,12 +66,7 @@ public class Burst extends AbilityBase {
 				continue;
 			else
 				entity.heal(a);
-			Iterator<PotionEffect> iter = entity.getActivePotionEffects().iterator();
-			while (iter.hasNext()) {
-				PotionEffect pot = iter.next();
-				if (pot.getPotion().isBadEffect())
-					iter.remove();
-			}
+			entity.getActivePotionEffects().removeIf(pot -> pot.getPotion().isBadEffect());
 			cap.addExp(player, 20, this);
 		}
 	}
@@ -83,12 +77,9 @@ public class Burst extends AbilityBase {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getName() {
-		return getStaticName();
-	}
-
-	public static String getStaticName() {
-		return "Positive Energy Burst";
+		return I18n.format(getStaticName());
 	}
 
 	@Override

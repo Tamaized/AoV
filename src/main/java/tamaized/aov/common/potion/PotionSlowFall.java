@@ -18,7 +18,7 @@ public class PotionSlowFall extends Potion {
 		super(false, 0xFFFFFF);
 		iconTexture = new ResourceLocation(AoV.modid, "textures/potions/" + name + ".png");
 		setRegistryName(AoV.modid, name);
-		setPotionName("effect." + getRegistryName().toString());
+		setPotionName("effect." + AoV.modid + "." + name);
 	}
 
 	@Override

@@ -1,17 +1,28 @@
 package tamaized.aov.common.core.skills.caster.tier3;
 
+import com.google.common.collect.Lists;
+import net.minecraft.util.text.TextComponentTranslation;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.skills.AoVSkill;
 import tamaized.aov.common.core.skills.SkillIcons;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
+import tamaized.aov.common.core.skills.AoVSkills;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CasterSkillT3S2 extends AoVSkill {
 
-	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
+	private static final List<AbilityBase> spells = Lists.newArrayList();
+
+	private static final int COST = 1;
+	private static final int LEVEL = 0;
+	private static final int SPENT = 8;
+	private static final int CHARGES = 1;
+	private static final int SPELLPOWER = 0;
+	private static final int DODGE = 0;
+	private static final int DOUBLESTRIKE = 0;
+	private static final boolean SELECTIVE_FOCUS = false;
 
 	static {
 
@@ -20,27 +31,47 @@ public class CasterSkillT3S2 extends AoVSkill {
 	public CasterSkillT3S2() {
 		super(spells,
 
-				TextFormatting.AQUA + "Charges II",
+				new TextComponentTranslation("aov.skill.caster.tier3.2.name"),
 
-				TextFormatting.RED + "Requires: 8 Points Spent in Tree",
+				new TextComponentTranslation("aov.skill.global.minpoint", SPENT),
 
-				TextFormatting.RED + "Requires: Charges I",
+				new TextComponentTranslation("aov.skill.caster.tier3.2.req"),
 
-				"",
+				new TextComponentTranslation(""),
 
-				TextFormatting.GREEN + "+2 Charges"
+				new TextComponentTranslation("aov.skill.global.charge", CHARGES)
 
 		);
 	}
 
-	@Override
+	@Deprecated
 	public String getName() {
 		return "CasterSkillT3S2";
 	}
 
 	@Override
-	protected Buffs setupBuffs() {
-		return new Buffs(1, 0, 0, 0, false);
+	public int getCharges() {
+		return CHARGES;
+	}
+
+	@Override
+	public int getSpellPower() {
+		return SPELLPOWER;
+	}
+
+	@Override
+	public int getDodge() {
+		return DODGE;
+	}
+
+	@Override
+	public int getDoubleStrike() {
+		return DOUBLESTRIKE;
+	}
+
+	@Override
+	public boolean grantsSelectiveFocus() {
+		return SELECTIVE_FOCUS;
 	}
 
 	@Override
@@ -55,22 +86,22 @@ public class CasterSkillT3S2 extends AoVSkill {
 
 	@Override
 	public AoVSkill getParent() {
-		return AoVSkill.caster_tier_2_2;
+		return AoVSkills.caster_tier_2_2;
 	}
 
 	@Override
 	public int getCost() {
-		return 1;
+		return COST;
 	}
 
 	@Override
 	public int getLevel() {
-		return 0;
+		return LEVEL;
 	}
 
 	@Override
 	public int getSpentPoints() {
-		return 8;
+		return SPENT;
 	}
 
 }

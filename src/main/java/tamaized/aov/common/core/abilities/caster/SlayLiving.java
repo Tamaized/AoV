@@ -1,14 +1,17 @@
 package tamaized.aov.common.core.abilities.caster;
 
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
 import tamaized.aov.registry.AoVDamageSource;
 
 public class SlayLiving extends AbilityBase {
@@ -19,23 +22,23 @@ public class SlayLiving extends AbilityBase {
 	public SlayLiving() {
 		super(
 
-				TextFormatting.YELLOW + getStaticName(),
+				new TextComponentTranslation(getStaticName()),
 
-				"",
+				new TextComponentTranslation(""),
 
-				TextFormatting.AQUA + "Charges: " + charges,
+				new TextComponentTranslation("aov.spells.global.charges", charges),
 
-				TextFormatting.AQUA + "Range: " + distance,
+				new TextComponentTranslation("aov.spells.global.range", distance),
 
-				"",
+				new TextComponentTranslation(""),
 
-				TextFormatting.DARK_PURPLE + "Destroys a living target.",
-
-				TextFormatting.DARK_PURPLE + "Does not affect Undead or",
-
-				TextFormatting.DARK_PURPLE + "bosses."
+				new TextComponentTranslation("aov.spells.slayliving.desc")
 
 		);
+	}
+
+	public static String getStaticName() {
+		return "aov.spells.slayliving.name";
 	}
 
 	@Override
@@ -44,12 +47,9 @@ public class SlayLiving extends AbilityBase {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getName() {
-		return getStaticName();
-	}
-
-	public static String getStaticName() {
-		return "Slay Living";
+		return I18n.format(getStaticName());
 	}
 
 	@Override

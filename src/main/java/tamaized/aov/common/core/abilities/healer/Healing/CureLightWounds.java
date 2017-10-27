@@ -11,7 +11,7 @@ public class CureLightWounds extends CureWounds {
 	}
 
 	public static String getStaticName() {
-		return "Cure Light Wounds";
+		return "aov.spells.curelightwounds.name";
 	}
 
 	@Override

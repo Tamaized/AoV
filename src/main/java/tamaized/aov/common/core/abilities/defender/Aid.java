@@ -1,5 +1,16 @@
 package tamaized.aov.common.core.abilities.defender;
 
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -8,44 +19,37 @@ import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.helper.ParticleHelper;
 import tamaized.aov.registry.AoVPotions;
 import tamaized.aov.registry.SoundEvents;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.text.TextFormatting;
 
 import java.util.List;
 
 public class Aid extends AbilityBase {
 
-	private final static String name = "Aid";
+	private final static String name = "aov.spells.aid.name";
 	private final static int charges = 5;
 	private final static double range = 3;
 
 	public Aid() {
 		super(
 
-				TextFormatting.YELLOW + name,
+				new TextComponentTranslation(name),
 
-				"",
+				new TextComponentTranslation(""),
 
-				TextFormatting.AQUA + "Charges: " + charges,
+				new TextComponentTranslation("aov.spells.global.charges", charges),
 
-				TextFormatting.AQUA + "Range: " + range,
+				new TextComponentTranslation("aov.spells.global.range", range),
 
-				"",
+				new TextComponentTranslation(""),
 
-				TextFormatting.DARK_PURPLE + "Grants absorption and a +5 bonus to dodge."
+				new TextComponentTranslation("aov.spells.aid.desc")
 
 		);
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getName() {
-		return name;
+		return I18n.format(name);
 	}
 
 	@Override

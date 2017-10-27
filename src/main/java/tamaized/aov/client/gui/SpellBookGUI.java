@@ -4,6 +4,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.resources.I18n;
 import tamaized.aov.AoV;
 import tamaized.aov.client.gui.buttons.BlankButton;
 import tamaized.aov.client.gui.buttons.SpellButton;
@@ -38,8 +39,8 @@ public class SpellBookGUI extends GuiScreenClose {
 		float workW = width - padding;
 		int loc1 = (int) (workW * .25) + margin;
 		int loc2 = (int) (workW * .75) + margin;
-		buttonList.add(new GuiButton(BUTTON_BACK, loc1, height - 25, 80, 20, "Back"));
-		buttonList.add(new GuiButton(BUTTON_CLOSE, loc2, height - 25, 80, 20, "Close"));
+		buttonList.add(new GuiButton(BUTTON_BACK, loc1, height - 25, 80, 20, I18n.format("aov.gui.button.back")));
+		buttonList.add(new GuiButton(BUTTON_CLOSE, loc2, height - 25, 80, 20, I18n.format("aov.gui.button.close")));
 
 		int xLoc = 50;
 		int yLoc = 50;
@@ -133,7 +134,7 @@ public class SpellBookGUI extends GuiScreenClose {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		drawDefaultBackground();
-		drawCenteredString(fontRenderer, "Angel of Vengeance: SpellBook", width / 2, 15, 16777215);
+		drawCenteredString(fontRenderer, I18n.format("aov.gui.title.spellbook"), width / 2, 15, 16777215);
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		renderBar();
 		for (GuiButton b : buttonList) {

@@ -1,16 +1,27 @@
 package tamaized.aov.common.core.skills.caster.tier4;
 
+import com.google.common.collect.Lists;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.skills.AoVSkill;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
+import tamaized.aov.common.core.skills.AoVSkills;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CasterSkillT4S1 extends AoVSkill {
 
-	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
+	private static final List<AbilityBase> spells = Lists.newArrayList();
+
+	private static final int COST = 1;
+	private static final int LEVEL = 0;
+	private static final int SPENT = 12;
+	private static final int CHARGES = 0;
+	private static final int SPELLPOWER = 0;
+	private static final int DODGE = 0;
+	private static final int DOUBLESTRIKE = 0;
+	private static final boolean SELECTIVE_FOCUS = false;
 
 	static {
 		spells.add(AbilityBase.implosion);
@@ -19,27 +30,47 @@ public class CasterSkillT4S1 extends AoVSkill {
 	public CasterSkillT4S1() {
 		super(spells,
 
-				TextFormatting.AQUA + "Implosion",
+				new TextComponentTranslation("aov.skill.caster.tier4.1.name"),
 
-				TextFormatting.RED + "Requires: 12 Points Spent in Tree",
+				new TextComponentTranslation("aov.skill.global.minpoint", SPENT),
 
-				TextFormatting.RED + "Requires: Destruction",
+				new TextComponentTranslation("aov.skill.caster.tier4.1.req"),
 
-				"",
+				new TextComponentTranslation(""),
 
-				TextFormatting.YELLOW + "Added Spell: Implosion"
+				new TextComponentTranslation("aov.skill.caster.tier4.1.desc")
 
 		);
 	}
 
-	@Override
+	@Deprecated
 	public String getName() {
 		return "CasterSkillT4S1";
 	}
 
 	@Override
-	protected Buffs setupBuffs() {
-		return new Buffs(0, 0, 0, 0, false);
+	public int getCharges() {
+		return CHARGES;
+	}
+
+	@Override
+	public int getSpellPower() {
+		return SPELLPOWER;
+	}
+
+	@Override
+	public int getDodge() {
+		return DODGE;
+	}
+
+	@Override
+	public int getDoubleStrike() {
+		return DOUBLESTRIKE;
+	}
+
+	@Override
+	public boolean grantsSelectiveFocus() {
+		return SELECTIVE_FOCUS;
 	}
 
 	@Override
@@ -54,22 +85,22 @@ public class CasterSkillT4S1 extends AoVSkill {
 
 	@Override
 	public AoVSkill getParent() {
-		return AoVSkill.caster_tier_3_1;
+		return AoVSkills.caster_tier_3_1;
 	}
 
 	@Override
 	public int getCost() {
-		return 1;
+		return COST;
 	}
 
 	@Override
 	public int getLevel() {
-		return 0;
+		return LEVEL;
 	}
 
 	@Override
 	public int getSpentPoints() {
-		return 12;
+		return SPENT;
 	}
 
 }

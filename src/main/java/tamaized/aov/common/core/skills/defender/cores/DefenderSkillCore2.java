@@ -1,17 +1,28 @@
 package tamaized.aov.common.core.skills.defender.cores;
 
+import com.google.common.collect.Lists;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.skills.AoVSkill;
 import tamaized.aov.common.core.skills.SkillIcons;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
+import tamaized.aov.common.core.skills.AoVSkills;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DefenderSkillCore2 extends AoVSkill {
 
-	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
+	private static final List<AbilityBase> spells = Lists.newArrayList();
+
+	private static final int COST = 1;
+	private static final int LEVEL = 3;
+	private static final int SPENT = 0;
+	private static final int CHARGES = 0;
+	private static final int SPELLPOWER = 0;
+	private static final int DODGE = 0;
+	private static final int DOUBLESTRIKE = 5;
+	private static final boolean SELECTIVE_FOCUS = false;
 
 	static {
 
@@ -20,27 +31,46 @@ public class DefenderSkillCore2 extends AoVSkill {
 	public DefenderSkillCore2() {
 		super(spells,
 
-				TextFormatting.AQUA + "Defender Core 2",
+				new TextComponentTranslation("aov.skill.defender.core.2.name"),
 
-				TextFormatting.RED + "Requires: Class Core Defender",
+				new TextComponentTranslation("aov.skill.defender.core.2.req"),
 
-				TextFormatting.RED + "Requires: Level 3",
+				new TextComponentTranslation("aov.skill.global.minlevel", LEVEL),
 
-				"",
+				new TextComponentTranslation(""),
 
-				TextFormatting.GREEN + "+5% Doublestrike"
+				new TextComponentTranslation("aov.skill.global.doublestrike", DOUBLESTRIKE)
 
 		);
 	}
 
-	@Override
 	public String getName() {
 		return "DefenderSkillCore2";
 	}
 
 	@Override
-	protected Buffs setupBuffs() {
-		return new Buffs(0, 0, 0, 5, false);
+	public int getCharges() {
+		return CHARGES;
+	}
+
+	@Override
+	public int getSpellPower() {
+		return SPELLPOWER;
+	}
+
+	@Override
+	public int getDodge() {
+		return DODGE;
+	}
+
+	@Override
+	public int getDoubleStrike() {
+		return DOUBLESTRIKE;
+	}
+
+	@Override
+	public boolean grantsSelectiveFocus() {
+		return SELECTIVE_FOCUS;
 	}
 
 	@Override
@@ -55,22 +85,22 @@ public class DefenderSkillCore2 extends AoVSkill {
 
 	@Override
 	public AoVSkill getParent() {
-		return AoVSkill.defender_core_1;
+		return AoVSkills.defender_core_1;
 	}
 
 	@Override
 	public int getCost() {
-		return 1;
+		return COST;
 	}
 
 	@Override
 	public int getLevel() {
-		return 3;
+		return LEVEL;
 	}
 
 	@Override
 	public int getSpentPoints() {
-		return 0;
+		return SPENT;
 	}
 
 }

@@ -1,5 +1,15 @@
 package tamaized.aov.common.core.abilities.healer.Cores;
 
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -8,13 +18,6 @@ import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.abilities.IAura;
 import tamaized.aov.common.helper.ParticleHelper;
 import tamaized.aov.registry.SoundEvents;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.text.TextFormatting;
 
 import java.util.List;
 
@@ -28,27 +31,27 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 	public PosEnergyAura() {
 		super(
 
-				TextFormatting.YELLOW + getStaticName(),
+				new TextComponentTranslation(getStaticName()),
 
-				"",
+				new TextComponentTranslation(""),
 
-				TextFormatting.AQUA + "Charges: " + charges,
+				new TextComponentTranslation("aov.spells.global.charges", charges),
 
-				TextFormatting.AQUA + "Range: " + range,
+				new TextComponentTranslation("aov.spells.global.range", range),
 
-				TextFormatting.AQUA + "Base Healing: " + dmg,
+				new TextComponentTranslation("aov.spells.global.healing", dmg),
 
-				TextFormatting.AQUA + "Lasts: " + life + " Seconds",
+				new TextComponentTranslation("aov.spells.global.length", life),
 
-				"",
+				new TextComponentTranslation(""),
 
-				TextFormatting.DARK_PURPLE + "Creates an aura around yourself",
-
-				TextFormatting.DARK_PURPLE + "to heal you and everything",
-
-				TextFormatting.DARK_PURPLE + "around you for a period of time."
+				new TextComponentTranslation("aov.spells.posaura.desc")
 
 		);
+	}
+
+	public static String getStaticName() {
+		return "aov.spells.posaura.name";
 	}
 
 	@Override
@@ -63,7 +66,7 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 
 	@Override
 	public void castAsAura(EntityPlayer caster, IAoVCapability cap, int life) {
-		int tick = (this.life * 20) - life;
+		int tick = (PosEnergyAura.life * 20) - life;
 		if (tick > 0 && tick % 20 == 0) {
 			ParticleHelper.spawnParticleMesh(ParticleHelper.Type.BURST, caster.world, caster.getPositionVector(), range, 0xFFFF00FF);
 			int a = (int) (dmg * (1f + (cap.getSpellPower() / 100f)));
@@ -71,9 +74,7 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 			for (EntityLivingBase entity : list) {
 				if (entity.isEntityUndead())
 					entity.attackEntityFrom(DamageSource.MAGIC, a);
-				else if (cap.hasSelectiveFocus() && (entity instanceof IMob))
-					continue;
-				else
+				else if (!cap.hasSelectiveFocus() || !(entity instanceof IMob))
 					entity.heal(a);
 			}
 		}
@@ -90,12 +91,9 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getName() {
-		return getStaticName();
-	}
-
-	public static String getStaticName() {
-		return "Positive Energy Aura";
+		return I18n.format(getStaticName());
 	}
 
 	@Override

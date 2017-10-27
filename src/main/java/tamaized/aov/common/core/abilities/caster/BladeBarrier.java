@@ -1,17 +1,22 @@
 package tamaized.aov.common.core.abilities.caster;
 
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.entity.EntitySpellBladeBarrier;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
 
 public class BladeBarrier extends AbilityBase {
+
+	private static final ResourceLocation icon = new ResourceLocation(AoV.modid, "textures/spells/bladebarrier.png");
 
 	private static final int damage = 5;
 	private static final int charges = 5;
@@ -20,41 +25,36 @@ public class BladeBarrier extends AbilityBase {
 	public BladeBarrier() {
 		super(
 
-				TextFormatting.YELLOW + getStaticName(),
+				new TextComponentTranslation(getStaticName()),
 
-				"",
+				new TextComponentTranslation(""),
 
-				TextFormatting.AQUA + "Charges: " + charges,
+				new TextComponentTranslation("aov.spells.global.charges", charges),
 
-				TextFormatting.AQUA + "Range: " + distance,
+				new TextComponentTranslation("aov.spells.global.range", distance),
 
-				TextFormatting.AQUA + "Base Damage: " + damage,
+				new TextComponentTranslation("aov.spells.global.damage", damage),
 
-				"",
+				new TextComponentTranslation(""),
 
-				TextFormatting.DARK_PURPLE + "Summons a ring of spinning",
-
-				TextFormatting.DARK_PURPLE + " blades to deal damage to",
-
-				TextFormatting.DARK_PURPLE + " entities that enter or",
-
-				TextFormatting.DARK_PURPLE + " exit the ring."
+				new TextComponentTranslation("aov.spells.bladebarrier.desc")
 
 		);
 	}
 
+	public static String getStaticName() {
+		return "aov.spells.bladebarrier.name";
+	}
+
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid, "textures/spells/bladebarrier.png");
+		return icon;
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getName() {
-		return getStaticName();
-	}
-
-	public static String getStaticName() {
-		return "Blade Barrier";
+		return I18n.format(getStaticName());
 	}
 
 	@Override

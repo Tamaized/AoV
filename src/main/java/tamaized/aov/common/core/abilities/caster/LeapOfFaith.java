@@ -1,16 +1,19 @@
 package tamaized.aov.common.core.abilities.caster;
 
-import tamaized.aov.AoV;
-import tamaized.aov.common.core.abilities.Ability;
-import tamaized.aov.common.core.abilities.AbilityBase;
-import tamaized.aov.registry.AoVPotions;
-import tamaized.aov.registry.SoundEvents;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import tamaized.aov.AoV;
+import tamaized.aov.common.core.abilities.Ability;
+import tamaized.aov.common.core.abilities.AbilityBase;
+import tamaized.aov.registry.AoVPotions;
+import tamaized.aov.registry.SoundEvents;
 import tamaized.tammodized.common.helper.MotionHelper;
 
 public class LeapOfFaith extends AbilityBase {
@@ -18,23 +21,21 @@ public class LeapOfFaith extends AbilityBase {
 	public LeapOfFaith() {
 		super(
 
-				TextFormatting.YELLOW + getStaticName(),
+				new TextComponentTranslation(getStaticName()),
 
-				"",
+				new TextComponentTranslation(""),
 
-				TextFormatting.AQUA + "Charges: Infinite",
+				new TextComponentTranslation("aov.spells.global.charges", "∞"),
 
-				"",
+				new TextComponentTranslation(""),
 
-				TextFormatting.DARK_PURPLE + "You are able to leap through",
-
-				TextFormatting.DARK_PURPLE + " the air to bring the fight",
-
-				TextFormatting.DARK_PURPLE + " to your enemies",
-
-				TextFormatting.DARK_PURPLE + " or traverse chasms."
+				new TextComponentTranslation("aov.spells.leapoffaith.desc")
 
 		);
+	}
+
+	public static String getStaticName() {
+		return "aov.spells.leapoffaith.name";
 	}
 
 	@Override
@@ -43,12 +44,9 @@ public class LeapOfFaith extends AbilityBase {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getName() {
-		return getStaticName();
-	}
-
-	public static String getStaticName() {
-		return "Leap of Faith";
+		return I18n.format(getStaticName());
 	}
 
 	@Override

@@ -15,6 +15,7 @@ import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.abilities.Aura;
 import tamaized.aov.common.core.skills.AoVSkill;
+import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.network.client.ClientPacketHandlerAoVData;
 import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
 import tamaized.aov.registry.AoVPotions;
@@ -109,7 +110,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			dirty = false;
 		}
 		updateHealth(player);
-		if (tick % (20 * 30) == 0 && hasSkill(AoVSkill.defender_capstone) && player != null) {
+		if (tick % (20 * 30) == 0 && hasSkill(AoVSkills.defender_capstone) && player != null) {
 			ItemStack main = player.getHeldItemMainhand();
 			ItemStack off = player.getHeldItemOffhand();
 			if (!main.isEmpty() && main.getItem() instanceof ItemShield && main.getItem().isRepairable() && main.getItemDamage() > 0) {
@@ -133,7 +134,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 				hp.removeModifier(mod);
 			}
 		}
-		if (hasSkill(AoVSkill.defender_tier_4_2) && !hp.hasModifier(defenderHealth)) {
+		if (hasSkill(AoVSkills.defender_tier_4_2) && !hp.hasModifier(defenderHealth)) {
 			hp.applyModifier(defenderHealth);
 		}
 	}
@@ -154,11 +155,13 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		List<AbilityBase> list = new ArrayList<>();
 		abilities.clear();
 		for (AoVSkill skill : obtainedSkills) {
-			spellpower += skill.getBuffs().spellPower;
-			extraCharges += skill.getBuffs().charges;
-			dodge += skill.getBuffs().dodge;
-			doublestrike += skill.getBuffs().doublestrike;
-			if (skill.getBuffs().selectiveFocus)
+			if (skill == null)
+				continue;
+			spellpower += skill.getSpellPower();
+			extraCharges += skill.getCharges();
+			dodge += skill.getDodge();
+			doublestrike += skill.getDoubleStrike();
+			if (skill.grantsSelectiveFocus())
 				selectiveFocus = true;
 			for (AbilityBase ability : skill.getAbilities()) {
 				if (ability == AbilityBase.invokeMass)
@@ -274,7 +277,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 
 	@Override
 	public void addObtainedSkill(AoVSkill skill) {
-		if (!obtainedSkills.contains(skill)) {
+		if (!obtainedSkills.contains(skill) && skill != null) {
 			obtainedSkills.add(skill);
 			dirty = true;
 		}

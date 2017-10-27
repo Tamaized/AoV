@@ -1,5 +1,13 @@
 package tamaized.aov.common.core.abilities.defender;
 
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -7,38 +15,32 @@ import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.registry.AoVPotions;
 import tamaized.aov.registry.SoundEvents;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
 
 public class Zeal extends AbilityBase {
 
-	private final static String name = "Zeal";
+	private final static String name = "aov.spells.zeal.name";
 	private final static int charges = 5;
 
 	public Zeal() {
 		super(
 
-				TextFormatting.YELLOW + name,
+				new TextComponentTranslation(name),
 
-				"",
+				new TextComponentTranslation(""),
 
-				TextFormatting.AQUA + "Charges: " + charges,
+				new TextComponentTranslation("aov.spells.global.charges", charges),
 
-				"",
+				new TextComponentTranslation(""),
 
-				TextFormatting.DARK_PURPLE + "Grants +25 DoubleStrike",
-
-				TextFormatting.DARK_PURPLE + " of yourself only."
+				new TextComponentTranslation("aov.spells.zeal.desc")
 
 		);
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getName() {
-		return name;
+		return I18n.format(name);
 	}
 
 	@Override

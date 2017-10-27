@@ -1,6 +1,7 @@
 package tamaized.aov.client.gui;
 
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.resources.I18n;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -19,10 +20,10 @@ public class ResetSkillsGUI extends GuiScreenClose {
 
 	@Override
 	public void initGui() {
-		buttonList.add(new GuiButton(BUTTON_CLOSE, 10, height - 25, 80, 20, "Close"));
-		buttonList.add(new GuiButton(BUTTON_BACK, 110, height - 25, 80, 20, "Back"));
-		buttonList.add(new GuiButton(BUTTON_RESET_FULL, width - 190, height - 25, 80, 20, "Full Reset"));
-		buttonList.add(new GuiButton(BUTTON_RESET_MINOR, width - 90, height - 25, 80, 20, "Minor Reset"));
+		buttonList.add(new GuiButton(BUTTON_CLOSE, 10, height - 25, 80, 20, I18n.format("aov.gui.button.close")));
+		buttonList.add(new GuiButton(BUTTON_BACK, 110, height - 25, 80, 20, I18n.format("aov.gui.button.back")));
+		buttonList.add(new GuiButton(BUTTON_RESET_FULL, width - 190, height - 25, 80, 20, I18n.format("aov.gui.button.fullreset")));
+		buttonList.add(new GuiButton(BUTTON_RESET_MINOR, width - 90, height - 25, 80, 20, I18n.format("aov.gui.button.minorreset")));
 
 	}
 
@@ -46,8 +47,7 @@ public class ResetSkillsGUI extends GuiScreenClose {
 						AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.RESETSKILLS_MINOR, 0, null));
 					break;
 				case BUTTON_RESET_FULL:
-					if (cap.hasCoreSkill())
-						AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.RESETSKILLS_FULL, 0, null));
+					AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.RESETSKILLS_FULL, 0, null));
 					ClientProxy.barToggle = false;
 					break;
 				default:
@@ -73,7 +73,9 @@ public class ResetSkillsGUI extends GuiScreenClose {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		drawDefaultBackground();
-		drawCenteredString(fontRenderer, "Reset Angel of Vengeance Skills", width / 2, 15, 16777215);
+		drawCenteredString(fontRenderer, I18n.format("aov.gui.title.reset"), width / 2, 15, 16777215);
+		fontRenderer.drawSplitString(I18n.format("aov.gui.reset.full"), 40, 40, width - 80, 0x00FFFF);
+		fontRenderer.drawSplitString(I18n.format("aov.gui.reset.minor"), 40, 125, width - 80, 0xFFFF00);
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 }

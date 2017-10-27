@@ -1,5 +1,10 @@
 package tamaized.aov.common.core.abilities.caster;
 
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.text.TextComponentTranslation;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -7,13 +12,10 @@ import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.registry.AoVDamageSource;
 import tamaized.aov.registry.SoundEvents;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.text.TextFormatting;
 
 public class Destruction extends AbilityBase {
+
+	private static final ResourceLocation icon = new ResourceLocation(AoV.modid, "textures/spells/destruction.png");
 
 	private static final int charges = 2;
 	private static final int distance = 20;
@@ -21,37 +23,33 @@ public class Destruction extends AbilityBase {
 	public Destruction() {
 		super(
 
-				TextFormatting.YELLOW + getStaticName(),
+				new TextComponentTranslation(getStaticName()),
 
-				"",
+				new TextComponentTranslation(""),
 
-				TextFormatting.AQUA + "Charges: " + charges,
+				new TextComponentTranslation("aov.spells.global.charges", charges),
 
-				TextFormatting.AQUA + "Range: " + distance,
+				new TextComponentTranslation("aov.spells.global.range", distance),
 
-				"",
+				new TextComponentTranslation(""),
 
-				TextFormatting.DARK_PURPLE + "Destroys a target.",
-
-				TextFormatting.DARK_PURPLE + "Works on Undead",
-
-				TextFormatting.DARK_PURPLE + "but not bosses."
+				new TextComponentTranslation("aov.spells.destruction.desc")
 
 		);
 	}
 
+	public static String getStaticName() {
+		return "aov.spells.destruction.name";
+	}
+
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid, "textures/spells/destruction.png");
+		return icon;
 	}
 
 	@Override
 	public String getName() {
 		return getStaticName();
-	}
-
-	public static String getStaticName() {
-		return "Destruction";
 	}
 
 	@Override

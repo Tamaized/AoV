@@ -1,15 +1,18 @@
 package tamaized.aov.common.core.abilities.caster;
 
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.entity.ProjectileNimbusRay;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
 
 public class SearingLight extends AbilityBase {
 
@@ -20,27 +23,25 @@ public class SearingLight extends AbilityBase {
 	public SearingLight() {
 		super(
 
-				TextFormatting.YELLOW + getStaticName(),
+				new TextComponentTranslation(getStaticName()),
 
-				"",
+				new TextComponentTranslation(""),
 
-				TextFormatting.AQUA + "Charges: " + charges,
+				new TextComponentTranslation("aov.spells.global.charges", charges),
 
-				TextFormatting.AQUA + "Range: " + distance,
+				new TextComponentTranslation("aov.spells.global.range", distance),
 
-				TextFormatting.AQUA + "Base Damage: " + damage,
+				new TextComponentTranslation("aov.spells.global.damage", damage),
 
-				"",
+				new TextComponentTranslation(""),
 
-				TextFormatting.DARK_PURPLE + "Shoots a ray searing of light",
-
-				TextFormatting.DARK_PURPLE + "to deal damage.",
-
-				TextFormatting.DARK_PURPLE + "This damage is doubled on",
-
-				TextFormatting.DARK_PURPLE + "Undead targets."
+				new TextComponentTranslation("aov.spells.searing.desc")
 
 		);
+	}
+
+	public static String getStaticName() {
+		return "aov.spells.searing.name";
 	}
 
 	@Override
@@ -49,12 +50,9 @@ public class SearingLight extends AbilityBase {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getName() {
-		return getStaticName();
-	}
-
-	public static String getStaticName() {
-		return "Searing Light";
+		return I18n.format(getStaticName());
 	}
 
 	@Override

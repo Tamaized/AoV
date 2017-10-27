@@ -1,17 +1,28 @@
 package tamaized.aov.common.core.skills.defender.tier4;
 
+import com.google.common.collect.Lists;
+import net.minecraft.util.text.TextComponentTranslation;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.skills.AoVSkill;
 import tamaized.aov.common.core.skills.SkillIcons;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
+import tamaized.aov.common.core.skills.AoVSkills;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DefenderSkillT4S5 extends AoVSkill {
 
-	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
+	private static final List<AbilityBase> spells = Lists.newArrayList();
+
+	private static final int COST = 1;
+	private static final int LEVEL = 0;
+	private static final int SPENT = 12;
+	private static final int CHARGES = 0;
+	private static final int SPELLPOWER = 0;
+	private static final int DODGE = 0;
+	private static final int DOUBLESTRIKE = 0;
+	private static final boolean SELECTIVE_FOCUS = true;
 
 	static {
 
@@ -20,33 +31,44 @@ public class DefenderSkillT4S5 extends AoVSkill {
 	public DefenderSkillT4S5() {
 		super(spells,
 
-				TextFormatting.AQUA + "Selective Focus",
+				new TextComponentTranslation("aov.skill.global.selective.name"),
 
-				TextFormatting.RED + "Requires: 12 Points Spent in Tree",
+				new TextComponentTranslation("aov.skill.global.minpoint", SPENT),
 
-				"",
+				new TextComponentTranslation(""),
 
-				TextFormatting.DARK_PURPLE + "Your Spells no longer",
-
-				TextFormatting.DARK_PURPLE + "affect Monsters if they",
-
-				TextFormatting.DARK_PURPLE + "benefit from the Spell",
-
-				TextFormatting.DARK_PURPLE + "or Friendly Players/Creatures",
-
-				TextFormatting.DARK_PURPLE + "if they would be harmed by the spell."
+				new TextComponentTranslation("aov.skill.global.selective.desc")
 
 		);
 	}
 
-	@Override
 	public String getName() {
 		return "DefenderSkillT4S5";
 	}
 
 	@Override
-	protected Buffs setupBuffs() {
-		return new Buffs(0, 0, 0, 0, true);
+	public int getCharges() {
+		return CHARGES;
+	}
+
+	@Override
+	public int getSpellPower() {
+		return SPELLPOWER;
+	}
+
+	@Override
+	public int getDodge() {
+		return DODGE;
+	}
+
+	@Override
+	public int getDoubleStrike() {
+		return DOUBLESTRIKE;
+	}
+
+	@Override
+	public boolean grantsSelectiveFocus() {
+		return SELECTIVE_FOCUS;
 	}
 
 	@Override
@@ -61,22 +83,22 @@ public class DefenderSkillT4S5 extends AoVSkill {
 
 	@Override
 	public AoVSkill getParent() {
-		return AoVSkill.defender_core_1;
+		return AoVSkills.defender_core_1;
 	}
 
 	@Override
 	public int getCost() {
-		return 1;
+		return COST;
 	}
 
 	@Override
 	public int getLevel() {
-		return 0;
+		return LEVEL;
 	}
 
 	@Override
 	public int getSpentPoints() {
-		return 12;
+		return SPENT;
 	}
 
 }

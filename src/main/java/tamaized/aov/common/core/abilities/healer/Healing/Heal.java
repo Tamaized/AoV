@@ -1,8 +1,8 @@
 package tamaized.aov.common.core.abilities.healer.Healing;
 
+import net.minecraft.util.ResourceLocation;
 import tamaized.aov.AoV;
 import tamaized.aov.common.core.abilities.healer.CureWounds;
-import net.minecraft.util.ResourceLocation;
 
 public class Heal extends CureWounds {
 
@@ -11,7 +11,7 @@ public class Heal extends CureWounds {
 	}
 
 	public static String getStaticName() {
-		return "Heal";
+		return "aov.spells.heal.name";
 	}
 
 	@Override

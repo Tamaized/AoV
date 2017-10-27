@@ -6,6 +6,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
+import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.registry.AoVTabs;
@@ -17,6 +18,7 @@ public class DebugItem extends TamItem {
 
 	public DebugItem(String n) {
 		super(AoVTabs.tabAoV, n, 1);
+		setUnlocalizedName(AoV.modid + "." + n); // TODO: TamModized this
 	}
 
 	@Override

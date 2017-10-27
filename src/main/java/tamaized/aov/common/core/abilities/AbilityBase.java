@@ -1,5 +1,10 @@
 package tamaized.aov.common.core.abilities;
 
+import com.google.common.collect.Lists;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.caster.*;
 import tamaized.aov.common.core.abilities.defender.Aid;
@@ -18,6 +23,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class AbilityBase {
@@ -120,19 +126,24 @@ public abstract class AbilityBase {
 
 	}
 
-	private final List<String> description;
+	private final List<TextComponentTranslation> description;
 
-	public AbilityBase(String... desc) {
-		description = new ArrayList<String>();
-		for (String s : desc)
-			description.add(s);
+	public AbilityBase(TextComponentTranslation... desc) {
+		description = Lists.newArrayList();
+		description.addAll(Arrays.asList(desc));
 		registry.add(this);
 	}
 
+	@SideOnly(Side.CLIENT)
 	public final List<String> getDescription() {
-		return description;
+		List<String> list = Lists.newArrayList();
+		for (TextComponentTranslation s : description) {
+			list.add(I18n.format(s.getKey(), s.getFormatArgs()));
+		}
+		return list;
 	}
 
+	@SideOnly(Side.CLIENT)
 	public abstract String getName();
 
 	public abstract int getMaxCharges();

@@ -1,16 +1,27 @@
 package tamaized.aov.common.core.skills.caster.cores;
 
+import com.google.common.collect.Lists;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.skills.AoVSkill;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CasterSkillCore1 extends AoVSkill {
 
-	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
+	private static final List<AbilityBase> spells = Lists.newArrayList();
+
+	private static final int COST = 1;
+	private static final int LEVEL = 0;
+	private static final int SPENT = 0;
+	private static final int CHARGES = 1;
+	private static final int SPELLPOWER = 10;
+	private static final int DODGE = 0;
+	private static final int DOUBLESTRIKE = 0;
+	private static final boolean SELECTIVE_FOCUS = false;
+
 
 	static {
 		spells.add(AbilityBase.nimbusRay);
@@ -19,30 +30,46 @@ public class CasterSkillCore1 extends AoVSkill {
 	public CasterSkillCore1() {
 		super(spells,
 
-				TextFormatting.AQUA + "Class Core: Offensive Caster",
+				new TextComponentTranslation("aov.skill.caster.core.1.name"),
 
-				TextFormatting.RED + "Obtaining this Skill",
+				new TextComponentTranslation("aov.skill.global.core"),
 
-				TextFormatting.RED + "prevents you from taking",
+				new TextComponentTranslation(""),
 
-				TextFormatting.RED + "skills from any other class!",
+				new TextComponentTranslation("aov.skill.global.charge", CHARGES),
 
-				"",
+				new TextComponentTranslation("aov.skill.global.spellpower", SPELLPOWER),
 
-				TextFormatting.GREEN + "+1 Charge",
+				new TextComponentTranslation(""),
 
-				TextFormatting.GREEN + "+10 Spell Power",
-
-				"",
-
-				TextFormatting.YELLOW + "Added Spell: Nimbus Ray"
+				new TextComponentTranslation("aov.skill.caster.core.1.desc")
 
 		);
 	}
 
 	@Override
-	protected Buffs setupBuffs() {
-		return new Buffs(1, 10, 0, 0, false);
+	public int getCharges() {
+		return CHARGES;
+	}
+
+	@Override
+	public int getSpellPower() {
+		return SPELLPOWER;
+	}
+
+	@Override
+	public int getDodge() {
+		return DODGE;
+	}
+
+	@Override
+	public int getDoubleStrike() {
+		return DOUBLESTRIKE;
+	}
+
+	@Override
+	public boolean grantsSelectiveFocus() {
+		return SELECTIVE_FOCUS;
 	}
 
 	@Override
@@ -55,7 +82,7 @@ public class CasterSkillCore1 extends AoVSkill {
 		return true;
 	}
 
-	@Override
+	@Deprecated
 	public String getName() {
 		return "CasterSkillCore1";
 	}
@@ -67,17 +94,17 @@ public class CasterSkillCore1 extends AoVSkill {
 
 	@Override
 	public int getCost() {
-		return 1;
+		return COST;
 	}
 
 	@Override
 	public int getLevel() {
-		return 0;
+		return LEVEL;
 	}
 
 	@Override
 	public int getSpentPoints() {
-		return 0;
+		return SPENT;
 	}
 
 }

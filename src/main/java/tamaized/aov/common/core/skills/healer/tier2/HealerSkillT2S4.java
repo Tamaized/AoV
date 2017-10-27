@@ -1,16 +1,27 @@
 package tamaized.aov.common.core.skills.healer.tier2;
 
+import com.google.common.collect.Lists;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.skills.AoVSkill;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
+import tamaized.aov.common.core.skills.AoVSkills;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HealerSkillT2S4 extends AoVSkill {
 
-	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
+	private static final List<AbilityBase> spells = Lists.newArrayList();
+
+	private static final int COST = 1;
+	private static final int LEVEL = 0;
+	private static final int SPENT = 4;
+	private static final int CHARGES = 0;
+	private static final int SPELLPOWER = 0;
+	private static final int DODGE = 0;
+	private static final int DOUBLESTRIKE = 0;
+	private static final boolean SELECTIVE_FOCUS = false;
 
 	static {
 		spells.add(AbilityBase.cureBlind);
@@ -19,25 +30,44 @@ public class HealerSkillT2S4 extends AoVSkill {
 	public HealerSkillT2S4() {
 		super(spells,
 
-				TextFormatting.AQUA + "Cure Blind",
+				new TextComponentTranslation("aov.skill.healer.tier2.4.name"),
 
-				TextFormatting.RED + "Requires: 4 Points Spent in Tree",
+				new TextComponentTranslation("aov.skill.global.minpoint", SPENT),
 
-				"",
+				new TextComponentTranslation(""),
 
-				TextFormatting.YELLOW + "Added Spell: Cure Blind"
+				new TextComponentTranslation("aov.skill.healer.tier2.4.desc")
 
 		);
 	}
 
-	@Override
 	public String getName() {
 		return "HealerSkillT2S4";
 	}
 
 	@Override
-	protected Buffs setupBuffs() {
-		return new Buffs(0, 0, 0, 0, false);
+	public int getCharges() {
+		return CHARGES;
+	}
+
+	@Override
+	public int getSpellPower() {
+		return SPELLPOWER;
+	}
+
+	@Override
+	public int getDodge() {
+		return DODGE;
+	}
+
+	@Override
+	public int getDoubleStrike() {
+		return DOUBLESTRIKE;
+	}
+
+	@Override
+	public boolean grantsSelectiveFocus() {
+		return SELECTIVE_FOCUS;
 	}
 
 	@Override
@@ -52,22 +82,22 @@ public class HealerSkillT2S4 extends AoVSkill {
 
 	@Override
 	public AoVSkill getParent() {
-		return AoVSkill.healer_core_1;
+		return AoVSkills.healer_core_1;
 	}
 
 	@Override
 	public int getCost() {
-		return 1;
+		return COST;
 	}
 
 	@Override
 	public int getLevel() {
-		return 0;
+		return LEVEL;
 	}
 
 	@Override
 	public int getSpentPoints() {
-		return 4;
+		return SPENT;
 	}
 
 }

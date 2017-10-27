@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import tamaized.aov.AoV;
@@ -75,10 +76,10 @@ public class AoVSkillsGUI extends GuiScreenClose {
 	public void initButtons() {
 		buttonList.clear();
 		skillButtonList.clear();
-		buttonList.add(new GuiButton(BUTTON_CLOSE, 10, height - 25, 80, 20, "Close"));
-		buttonList.add(new GuiButton(BUTTON_SPELLBOOK, 110, height - 25, 80, 20, "Spell Book"));
-		buttonList.add(new GuiButton(BUTTON_CHECKSTATS, width - 190, height - 25, 80, 20, "Check Stats"));
-		buttonList.add(new GuiButton(BUTTON_RESET, width - 90, height - 25, 80, 20, "Reset Skills"));
+		buttonList.add(new GuiButton(BUTTON_CLOSE, 10, height - 25, 80, 20, I18n.format("aov.gui.button.close")));
+		buttonList.add(new GuiButton(BUTTON_SPELLBOOK, 110, height - 25, 80, 20, I18n.format("aov.gui.button.spellbook")));
+		buttonList.add(new GuiButton(BUTTON_CHECKSTATS, width - 190, height - 25, 80, 20, I18n.format("aov.gui.button.stats")));
+		buttonList.add(new GuiButton(BUTTON_RESET, width - 90, height - 25, 80, 20, I18n.format("aov.gui.button.reset")));
 		buttonList.add(new ArrowButton(BUTTON_PAGE_PREV, width / 2 - 95, 39, 20, height - 70, "<"));
 		buttonList.add(new ArrowButton(BUTTON_PAGE_NEXT, width / 2 + 69, 39, 20, height - 70, ">"));
 		CLASS_BUTTON_REGISTRY.get(MathHelper.clamp(page, 0, CLASS_BUTTON_REGISTRY.size() - 1)).register(this);
@@ -165,10 +166,10 @@ public class AoVSkillsGUI extends GuiScreenClose {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		drawDefaultBackground();
-		drawCenteredString(fontRenderer, "Angel of Vengeance: Skills", width / 2, 15, 16777215);
-		drawString(fontRenderer, "Skill Points: " + (cap == null ? "null" : cap.getSkillPoints()), 5, 5, 0xFFFFFF00);
-		drawString(fontRenderer, "Spent: " + (cap == null ? "null" : cap.getSpentSkillPoints()) + " out of " + (cap == null ? "null" : cap.getLevel()), 5, 15, 0xFFFFFF00);
-		drawString(fontRenderer, "Level:", width - 40, 5, 0xFFFFFF00);
+		drawCenteredString(fontRenderer, I18n.format("aov.gui.title.skills"), width / 2, 15, 16777215);
+		drawString(fontRenderer, I18n.format("aov.gui.skills.points", cap == null ? "null" : cap.getSkillPoints()), 5, 5, 0xFFFFFF00);
+		drawString(fontRenderer, I18n.format("aov.gui.skills.spent", cap == null ? "null" : cap.getSpentSkillPoints(), cap == null ? "null" : cap.getLevel()), 5, 15, 0xFFFFFF00);
+		drawString(fontRenderer, I18n.format("aov.gui.skills.level"), width - 40, 5, 0xFFFFFF00);
 		drawString(fontRenderer, "" + (cap == null ? "null" : cap.getLevel()), width - 40, 15, 0xFFFFFF00);
 
 		// drawCenteredString(fontRenderer, "Tier 4", width / 2 - 135, height - 222, 0xFFFFFF00);

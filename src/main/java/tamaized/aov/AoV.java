@@ -16,6 +16,7 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.AoVCapabilityHandler;
 import tamaized.aov.common.capabilities.aov.AoVCapabilityStorage;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.common.entity.EntitySpellBladeBarrier;
 import tamaized.aov.common.entity.EntitySpellImplosion;
 import tamaized.aov.common.entity.ProjectileFlameStrike;
@@ -120,6 +121,7 @@ public class AoV extends TamModBase {
 	@Override
 	public void postInit(FMLPostInitializationEvent e) {
 		logger.info("Starting AoV PostInit");
+		AoVSkills.register();
 	}
 
 }

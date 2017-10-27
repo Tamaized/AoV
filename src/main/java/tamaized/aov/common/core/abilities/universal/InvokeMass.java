@@ -1,14 +1,17 @@
 package tamaized.aov.common.core.abilities.universal;
 
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
 
 public class InvokeMass extends AbilityBase {
 
@@ -17,21 +20,19 @@ public class InvokeMass extends AbilityBase {
 	public InvokeMass() {
 		super(
 
-				TextFormatting.YELLOW + getStaticName(),
+				new TextComponentTranslation(getStaticName()),
 
-				"",
+				new TextComponentTranslation(""),
 
-				TextFormatting.DARK_PURPLE + "While Active, certain spells",
+				new TextComponentTranslation("aov.spells.invokemass.desc"),
 
-				TextFormatting.DARK_PURPLE + "and abilities have double",
-
-				TextFormatting.DARK_PURPLE + "range and are cast as",
-
-				TextFormatting.DARK_PURPLE + "an AoE (Area of Effect).",
-
-				TextFormatting.RED + "This also doubles the cost and cooldown."
+				new TextComponentTranslation("aov.spells.global.double")
 
 		);
+	}
+
+	public static String getStaticName() {
+		return "aov.spells.invokemass.name";
 	}
 
 	@Override
@@ -48,12 +49,9 @@ public class InvokeMass extends AbilityBase {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getName() {
-		return getStaticName();
-	}
-
-	public static String getStaticName() {
-		return "Invoke Mass";
+		return I18n.format(getStaticName());
 	}
 
 	@Override

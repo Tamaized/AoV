@@ -1,14 +1,14 @@
 package tamaized.aov.common.core.abilities.healer.Cures;
 
-import tamaized.aov.AoV;
-import tamaized.aov.common.core.abilities.healer.CureEffect;
 import net.minecraft.init.MobEffects;
 import net.minecraft.util.ResourceLocation;
+import tamaized.aov.AoV;
+import tamaized.aov.common.core.abilities.healer.CureEffect;
 
 public class CureWither extends CureEffect {
 
 	public CureWither() {
-		super("Cure Wither", 6, 2, MobEffects.WITHER);
+		super("aov.spells.curewither.name", 6, 2, MobEffects.WITHER);
 	}
 
 	@Override

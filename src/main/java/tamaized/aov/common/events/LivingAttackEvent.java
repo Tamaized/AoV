@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.AbilityBase;
-import tamaized.aov.common.core.skills.AoVSkill;
+import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.registry.AoVPotions;
 import tamaized.tammodized.common.helper.FloatyTextHelper;
 
@@ -59,7 +59,7 @@ public class LivingAttackEvent {
 			EntityLivingBase attackerLiving = null;
 			if (attacker instanceof EntityLivingBase)
 				attackerLiving = (EntityLivingBase) attacker;
-			if (cap != null && cap.hasSkill(AoVSkill.defender_core_3) && attackerLiving != null && ((!attackerLiving.getHeldItemMainhand().isEmpty() && attackerLiving.getHeldItemMainhand().getItem() instanceof ItemShield) || (!attackerLiving.getHeldItemOffhand().isEmpty() && attackerLiving.getHeldItemOffhand().getItem() instanceof ItemShield))) {
+			if (cap != null && cap.hasSkill(AoVSkills.defender_core_3) && attackerLiving != null && ((!attackerLiving.getHeldItemMainhand().isEmpty() && attackerLiving.getHeldItemMainhand().getItem() instanceof ItemShield) || (!attackerLiving.getHeldItemOffhand().isEmpty() && attackerLiving.getHeldItemOffhand().getItem() instanceof ItemShield))) {
 				double d1 = attacker.posX - entity.posX;
 				double d0;
 				for (d0 = attacker.posZ - entity.posZ; d1 * d1 + d0 * d0 < 1.0E-4D; d0 = (Math.random() - Math.random()) * 0.01D) {
@@ -73,7 +73,7 @@ public class LivingAttackEvent {
 		if (entity.hasCapability(CapabilityList.AOV, null)) {
 			IAoVCapability cap = entity.getCapability(CapabilityList.AOV, null);
 
-			if (cap != null && cap.hasSkill(AoVSkill.defender_core_1) && entity instanceof EntityPlayer) {
+			if (cap != null && cap.hasSkill(AoVSkills.defender_core_1) && entity instanceof EntityPlayer) {
 				if (canBlockDamageSource((EntityPlayer) entity, event.getSource(), false) && event.getAmount() > 0.0F) {
 					cap.addExp(entity, 20, AbilityBase.defenderBlocking);
 				}
@@ -88,7 +88,7 @@ public class LivingAttackEvent {
 				return;
 			}
 			// Full Radial Shield
-			if (cap != null && cap.hasSkill(AoVSkill.defender_core_4)) {
+			if (cap != null && cap.hasSkill(AoVSkills.defender_core_4)) {
 				handleShield(event, true);
 			}
 		}

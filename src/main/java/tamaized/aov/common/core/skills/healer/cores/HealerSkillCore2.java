@@ -1,17 +1,28 @@
 package tamaized.aov.common.core.skills.healer.cores;
 
+import com.google.common.collect.Lists;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.skills.AoVSkill;
 import tamaized.aov.common.core.skills.SkillIcons;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
+import tamaized.aov.common.core.skills.AoVSkills;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HealerSkillCore2 extends AoVSkill {
 
-	private static final List<AbilityBase> spells = new ArrayList<AbilityBase>();
+	private static final List<AbilityBase> spells = Lists.newArrayList();
+
+	private static final int COST = 1;
+	private static final int LEVEL = 3;
+	private static final int SPENT = 0;
+	private static final int CHARGES = 0;
+	private static final int SPELLPOWER = 10;
+	private static final int DODGE = 0;
+	private static final int DOUBLESTRIKE = 0;
+	private static final boolean SELECTIVE_FOCUS = false;
 
 	static {
 
@@ -20,27 +31,46 @@ public class HealerSkillCore2 extends AoVSkill {
 	public HealerSkillCore2() {
 		super(spells,
 
-				TextFormatting.AQUA + "Healer Core 2",
+				new TextComponentTranslation("aov.skill.healer.core.2.name"),
 
-				TextFormatting.RED + "Requires: Class Core Healer",
+				new TextComponentTranslation("aov.skill.healer.core.2.req"),
 
-				TextFormatting.RED + "Requires: Level 3",
+				new TextComponentTranslation("aov.skill.global.minlevel", LEVEL),
 
-				"",
+				new TextComponentTranslation(""),
 
-				TextFormatting.GREEN + "+10 Spell Power"
+				new TextComponentTranslation("aov.skill.global.spellpower", SPELLPOWER)
 
 		);
 	}
 
-	@Override
 	public String getName() {
 		return "HealerSkillCore2";
 	}
 
 	@Override
-	protected Buffs setupBuffs() {
-		return new Buffs(0, 10, 0, 0, false);
+	public int getCharges() {
+		return CHARGES;
+	}
+
+	@Override
+	public int getSpellPower() {
+		return SPELLPOWER;
+	}
+
+	@Override
+	public int getDodge() {
+		return DODGE;
+	}
+
+	@Override
+	public int getDoubleStrike() {
+		return DOUBLESTRIKE;
+	}
+
+	@Override
+	public boolean grantsSelectiveFocus() {
+		return SELECTIVE_FOCUS;
 	}
 
 	@Override
@@ -55,22 +85,22 @@ public class HealerSkillCore2 extends AoVSkill {
 
 	@Override
 	public AoVSkill getParent() {
-		return AoVSkill.healer_core_1;
+		return AoVSkills.healer_core_1;
 	}
 
 	@Override
 	public int getCost() {
-		return 1;
+		return COST;
 	}
 
 	@Override
 	public int getLevel() {
-		return 3;
+		return LEVEL;
 	}
 
 	@Override
 	public int getSpentPoints() {
-		return 0;
+		return SPENT;
 	}
 
 }
