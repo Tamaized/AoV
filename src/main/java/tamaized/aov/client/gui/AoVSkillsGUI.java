@@ -12,6 +12,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import tamaized.aov.AoV;
+import tamaized.aov.client.gui.buttonlist.AstroSkillRegisterButtons;
 import tamaized.aov.client.gui.buttonlist.CasterSkillRegisterButtons;
 import tamaized.aov.client.gui.buttonlist.DefenderSkillRegisterButtons;
 import tamaized.aov.client.gui.buttonlist.HealerSkillRegisterButtons;
@@ -40,7 +41,9 @@ public class AoVSkillsGUI extends GuiScreenClose {
 
 			new HealerSkillRegisterButtons(),
 
-			new DefenderSkillRegisterButtons()
+			new DefenderSkillRegisterButtons(),
+
+			new AstroSkillRegisterButtons()
 
 	);
 	private int page;

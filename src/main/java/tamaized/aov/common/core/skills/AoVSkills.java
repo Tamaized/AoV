@@ -1,5 +1,8 @@
 package tamaized.aov.common.core.skills;
 
+import tamaized.aov.common.core.skills.astro.cores.AstroSkillCore1;
+import tamaized.aov.common.core.skills.astro.cores.AstroSkillCore2;
+import tamaized.aov.common.core.skills.astro.cores.AstroSkillCore3;
 import tamaized.aov.common.core.skills.caster.cores.CasterSkillCapStone;
 import tamaized.aov.common.core.skills.caster.cores.CasterSkillCore1;
 import tamaized.aov.common.core.skills.caster.cores.CasterSkillCore2;
@@ -152,6 +155,11 @@ public class AoVSkills {
 	public static AoVSkill defender_tier_4_4;
 	public static AoVSkill defender_tier_4_5;
 
+	/* Astro */
+	public static AoVSkill astro_core_1;
+	public static AoVSkill astro_core_2;
+	public static AoVSkill astro_core_3;
+
 	public static void register() {
 		/* Healer */
 		healer_core_1 = new HealerSkillCore1();
@@ -245,5 +253,10 @@ public class AoVSkills {
 		defender_tier_4_3 = new DefenderSkillT4S3();
 		defender_tier_4_4 = new NullSkill();
 		defender_tier_4_5 = new DefenderSkillT4S5();
+
+		/* Astro */
+		astro_core_1 = new AstroSkillCore1();
+		astro_core_2 = new AstroSkillCore2();
+		astro_core_3 = new AstroSkillCore3();
 	}
 }

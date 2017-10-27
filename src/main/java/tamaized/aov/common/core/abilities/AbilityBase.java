@@ -6,6 +6,9 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.core.abilities.astro.Draw;
+import tamaized.aov.common.core.abilities.astro.RoyalRoad;
+import tamaized.aov.common.core.abilities.astro.Spread;
 import tamaized.aov.common.core.abilities.caster.*;
 import tamaized.aov.common.core.abilities.defender.Aid;
 import tamaized.aov.common.core.abilities.defender.ShieldOfFaith;
@@ -75,6 +78,11 @@ public abstract class AbilityBase {
 	public static final AbilityBase defenderBlocking = new NullAbility("DefenderBlocking");
 	public static final AbilityBase defenderDodge = new NullAbility("DefenderDodge");
 	public static final AbilityBase defenderDoublestrike = new NullAbility("DefenderDoublestrike");
+
+	// Astro
+	public static final AbilityBase draw = new Draw();
+	public static final AbilityBase royalroad = new RoyalRoad();
+	public static final AbilityBase spread = new Spread();
 
 	private static final class NullAbility extends AbilityBase {
 
