@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 import tamaized.aov.AoV;
 import tamaized.aov.network.client.ClientPacketHandlerMovingSound;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = AoV.modid)
 public class SoundEvents {
 
 	public static SoundEvent aura = null;
@@ -24,6 +24,12 @@ public class SoundEvents {
 	public static SoundEvent heal = null;
 	public static SoundEvent implosion = null;
 	public static SoundEvent restore = null;
+
+	public static SoundEvent activate = null;
+	public static SoundEvent burn = null;
+	public static SoundEvent draw1 = null;
+	public static SoundEvent draw2 = null;
+	public static SoundEvent spread = null;
 
 	@SubscribeEvent
 	public static void registerSounds(RegistryEvent.Register<SoundEvent> event) {
@@ -39,6 +45,11 @@ public class SoundEvents {
 		implosion = registerSound(event, "implosion");
 		restore = registerSound(event, "restore");
 
+		activate = registerSound(event, "activate");
+		burn = registerSound(event, "burn");
+		draw1 = registerSound(event, "draw1");
+		draw2 = registerSound(event, "draw2");
+		spread = registerSound(event, "spread");
 	}
 
 	private static SoundEvent registerSound(RegistryEvent.Register<SoundEvent> event, String soundName) {

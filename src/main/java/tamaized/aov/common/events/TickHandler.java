@@ -8,6 +8,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.capabilities.astro.IAstroCapability;
 import tamaized.aov.registry.AoVPotions;
 
 public class TickHandler {
@@ -22,9 +23,16 @@ public class TickHandler {
 			player.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, (20 * (60 * 5)), 2));
 			player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, (20 * (10)), 2));
 		}
-		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
-		if (cap != null)
-			cap.update(player);
+		if (player.hasCapability(CapabilityList.AOV, null)) {
+			IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
+			if (cap != null)
+				cap.update(player);
+		}
+		if (player.hasCapability(CapabilityList.ASTRO, null)) {
+			IAstroCapability cap = player.getCapability(CapabilityList.ASTRO, null);
+			if (cap != null)
+				cap.update(player);
+		}
 	}
 
 }

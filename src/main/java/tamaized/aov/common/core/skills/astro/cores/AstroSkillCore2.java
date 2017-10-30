@@ -5,6 +5,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentTranslation;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.skills.AoVSkill;
+import tamaized.aov.common.core.skills.AoVSkills;
 
 import java.util.List;
 
@@ -74,12 +75,12 @@ public class AstroSkillCore2 extends AoVSkill {
 
 	@Override
 	public boolean isClassCore() {
-		return true;
+		return false;
 	}
 
 	@Override
 	public AoVSkill getParent() {
-		return null;
+		return AoVSkills.astro_core_1;
 	}
 
 	@Override

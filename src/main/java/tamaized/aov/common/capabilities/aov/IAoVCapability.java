@@ -17,13 +17,17 @@ import java.util.Map;
 
 public interface IAoVCapability {
 
-	public static final ResourceLocation ID = new ResourceLocation(AoV.modid, "AoVCapabilityHandler");
+	ResourceLocation ID = new ResourceLocation(AoV.modid, "AoVCapabilityHandler");
+
+	void markDirty();
 
 	void reset(boolean b);
 
 	void update(EntityPlayer player);
 
 	void resetCharges();
+
+	void restoreCharges(int amount);
 
 	List<Ability> getAbilities();
 

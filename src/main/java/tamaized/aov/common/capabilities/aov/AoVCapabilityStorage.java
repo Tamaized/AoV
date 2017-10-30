@@ -88,6 +88,7 @@ public class AoVCapabilityStorage implements IStorage<IAoVCapability> {
 			}
 		}
 		instance.setCurrentSlot(compound.getInteger("currentSlot"));
+		instance.markDirty();
 	}
 
 }

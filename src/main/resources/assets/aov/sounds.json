@@ -9,5 +9,11 @@
   "firestrike": {"category": "neutral", "sounds": [{"name": "aov:firestrike", "stream": false}]},
   "heal": {"category": "neutral", "sounds": [{"name": "aov:heal", "stream": false}]},
   "implosion": {"category": "neutral", "sounds": [{"name": "aov:implosion", "stream": false}]},
-  "restore": {"category": "neutral", "sounds": [{"name": "aov:restore", "stream": false}]}
+  "restore": {"category": "neutral", "sounds": [{"name": "aov:restore", "stream": false}]},
+  
+  "activate": {"category": "neutral", "sounds": [{"name": "aov:activate", "stream": false}]},
+  "burn": {"category": "neutral", "sounds": [{"name": "aov:burn", "stream": false}]},
+  "draw1": {"category": "neutral", "sounds": [{"name": "aov:draw1", "stream": false}]},
+  "draw2": {"category": "neutral", "sounds": [{"name": "aov:draw2", "stream": false}]},
+  "spread": {"category": "neutral", "sounds": [{"name": "aov:spread", "stream": false}]}
 }

@@ -38,6 +38,13 @@ minecraft {
 	replace '${tamversion}', "${project.tammodizedVersion}"
 }
 
+jar {
+    classifier = 'universal'
+    manifest {
+        attributes 'FMLAT': 'aov_at.cfg'
+    }
+}
+
 dependencies {
 	deobfCompile "mezz.jei:${project.jeiVersion}:api"
 	runtime "mezz.jei:${project.jeiVersion}"

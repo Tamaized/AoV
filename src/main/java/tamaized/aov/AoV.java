@@ -16,6 +16,9 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.AoVCapabilityHandler;
 import tamaized.aov.common.capabilities.aov.AoVCapabilityStorage;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.capabilities.astro.AstroCapabilityHandler;
+import tamaized.aov.common.capabilities.astro.AstroCapabilityStorage;
+import tamaized.aov.common.capabilities.astro.IAstroCapability;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.common.entity.EntitySpellBladeBarrier;
 import tamaized.aov.common.entity.EntitySpellImplosion;
@@ -99,6 +102,7 @@ public class AoV extends TamModBase {
 		NetworkMessages.register(network = NetworkRegistry.INSTANCE.newSimpleChannel(modid));
 
 		CapabilityManager.INSTANCE.register(IAoVCapability.class, new AoVCapabilityStorage(), AoVCapabilityHandler.class);
+		CapabilityManager.INSTANCE.register(IAstroCapability.class, new AstroCapabilityStorage(), AstroCapabilityHandler.class);
 		MinecraftForge.EVENT_BUS.register(new CapabilityList());
 	}
 

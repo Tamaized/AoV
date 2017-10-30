@@ -72,8 +72,7 @@ public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketH
 
 		@Override
 		public void fromBytes(ByteBuf stream) {
-			int size;
-			size = stream.readInt();
+			int size = stream.readInt();
 			obtainedSkills.clear();
 			for (int index = 0; index < size; index++) {
 				obtainedSkills.add(AoVSkill.getSkillFromID(stream.readInt()));

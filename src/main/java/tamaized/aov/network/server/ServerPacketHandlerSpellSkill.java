@@ -56,7 +56,7 @@ public class ServerPacketHandlerSpellSkill implements IMessageHandler<ServerPack
 			}
 			break;
 			case SPELLBAR_ADDNEAR: {
-				cap.addToNearestSlot(message.ability);
+				cap.addToNearestSlot(message.ability); // TODO: THIS IS BAD HOLY HELL
 				cap.resetCharges();
 			}
 			break;

@@ -73,6 +73,11 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@Override
+	public void markDirty() {
+		dirty = true;
+	}
+
+	@Override
 	public void reset(boolean b) {
 		if (b) {
 			obtainedSkills.clear();
@@ -210,6 +215,14 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		for (Ability ability : slots)
 			if (ability != null)
 				ability.reset(this);
+		dirty = true;
+	}
+
+	@Override
+	public void restoreCharges(int amount) {
+		for (Ability ability : slots)
+			if (ability != null)
+				ability.restoreCharge(this, amount);
 		dirty = true;
 	}
 
