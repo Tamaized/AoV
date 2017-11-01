@@ -24,9 +24,9 @@ public interface IAstroCapability {
 
 	void drawCard(EntityLivingBase entity);
 
-	void burnCard();
+	void burnCard(EntityLivingBase entity);
 
-	void spreadCard();
+	void spreadCard(EntityLivingBase entity);
 
 	int getDrawTime();
 

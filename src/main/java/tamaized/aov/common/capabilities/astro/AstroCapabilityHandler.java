@@ -13,7 +13,7 @@ import javax.annotation.Nullable;
 public class AstroCapabilityHandler implements IAstroCapability {
 
 	private int tick;
-	private float[] frameData = {0, 0, 0, 0};
+	private float[] frameData = {0, 0, 0, 0, 0, 0};
 	private IAnimation animation;
 	private ICard draw;
 	private int drawTime;
@@ -41,7 +41,9 @@ public class AstroCapabilityHandler implements IAstroCapability {
 				frameData[0] = 80;
 				frameData[1] = 80;
 				frameData[2] = 180;
-				frameData[3] = 200;
+				frameData[3] = 100;
+				frameData[4] = 0;
+				frameData[5] = 0;
 				if (!entity.world.isRemote)
 					SoundEvents.playMovingSoundOnServer(SoundEvents.draw1, entity);
 				break;
@@ -50,18 +52,26 @@ public class AstroCapabilityHandler implements IAstroCapability {
 				frameData[1] = 0;
 				frameData[2] = 0;
 				frameData[3] = 0;
+				frameData[4] = 0;
+				frameData[5] = 0;
 				break;
 			case Spread:
-				frameData[0] = 0;
-				frameData[1] = 0;
-				frameData[2] = 0;
-				frameData[3] = 0;
+				frameData[0] = 80;
+				frameData[1] = 80;
+				frameData[2] = 180;
+				frameData[3] = 100;
+				frameData[4] = 0;
+				frameData[5] = 0;
+				if (!entity.world.isRemote)
+					SoundEvents.playMovingSoundOnServer(SoundEvents.spread, entity);
 				break;
 			case Activate:
 				frameData[0] = 0;
 				frameData[1] = 0;
 				frameData[2] = 0;
 				frameData[3] = 0;
+				frameData[4] = 0;
+				frameData[5] = 0;
 				break;
 		}
 	}
@@ -86,18 +96,22 @@ public class AstroCapabilityHandler implements IAstroCapability {
 	}
 
 	@Override
-	public void burnCard() {
+	public void burnCard(EntityLivingBase entity) {
 		if (getDraw() != null) {
 			burn = getDraw();
 			draw = null;
+			drawTime = 0;
+			setAnimation(entity, IAnimation.Burn);
 		}
 	}
 
 	@Override
-	public void spreadCard() {
+	public void spreadCard(EntityLivingBase entity) {
 		if (getDraw() != null) {
 			spread = getDraw();
 			draw = null;
+			drawTime = 0;
+			setAnimation(entity, IAnimation.Spread);
 		}
 	}
 
@@ -163,10 +177,13 @@ public class AstroCapabilityHandler implements IAstroCapability {
 	public void update(EntityLivingBase entity) {
 		if (frameData[3] > 0)
 			frameData[3]--;
+		else if (animation != null)
+			animation = null;
 		if (animation != null)
 			switch (animation) {
+				case Spread:
 				case Draw:
-					if (frameData[3] < 190 && frameData[1] > 0)
+					if (frameData[3] < 90 && frameData[1] > 0)
 						for (int i = 0; i < 15; i++)
 							spawnParticle(entity,
 
@@ -175,26 +192,24 @@ public class AstroCapabilityHandler implements IAstroCapability {
 									entity.posY + 2.7D + entity.getRNG().nextGaussian() * 0.25D,
 
 									entity.posZ + (entity.getRNG().nextDouble() * 0.75D) - 0.375D);
-					if (frameData[0] > 0 && frameData[3] < 125)
+					if (frameData[0] > 0 && frameData[3] < 25)
 						for (int x = 0; x < 7; x++)
 							for (int z = 0; z < 7; z++)
-							spawnParticle(entity,
+								spawnParticle(entity,
 
-									entity.posX - 0.375D + 0.13 * x,
+										entity.posX - 0.375D + 0.13 * x,
 
-									entity.posY + 2.95D - (0.75D * ((80F - frameData[0]) / 80F)),
+										entity.posY + 2.95D - (0.75D * ((80F - frameData[0]) / 80F)),
 
-									entity.posZ - 0.375D + 0.13 * z);
+										entity.posZ - 0.375D + 0.13 * z);
+					if (frameData[3] == 60 && !entity.world.isRemote)
+						SoundEvents.playMovingSoundOnServer(SoundEvents.draw2, entity);
 					break;
 				case Burn:
-					break;
-				case Spread:
 					break;
 				case Activate:
 					break;
 			}
-		if (animation == IAnimation.Draw && frameData[3] == 160 && !entity.world.isRemote)
-			SoundEvents.playMovingSoundOnServer(SoundEvents.draw2, entity);
 		if (++tick % 20 == 0) {
 			if (drawTime > 0) {
 				drawTime--;

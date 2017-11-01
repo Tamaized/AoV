@@ -106,7 +106,7 @@ public class AoVOverlay extends Gui {
 			}
 
 			if (cap.getSpread() != null)
-				renderAstroIcon(IAstroCapability.ICard.getCardID(cap.getSpread()), buffer, x + 14F, y + 12.5F, scale * 0.8F);
+				renderAstroIcon(IAstroCapability.ICard.getCardID(cap.getSpread()), buffer, x + 14F, y + 20F, scale * 0.8F);
 
 			tess.draw();
 		}

@@ -89,8 +89,14 @@ public class Spread extends AbilityBase {
 		if (astro == null || aov == null)
 			return;
 		if (astro.getSpread() == null) {
-			astro.spreadCard();
 			ability.setNextCooldown(1);
+			if (astro.getDraw() != null) {
+				astro.spreadCard(caster);
+				for (Ability a : aov.getSlots()) {
+					if (a != null && a.getAbility() == AbilityBase.draw)
+						a.setTimer(0);
+				}
+			}
 		} else {
 			IAstroCapability.ICard card = astro.getSpread();
 			astro.useSpread(caster);
