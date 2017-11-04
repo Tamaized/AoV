@@ -1,3 +1,6 @@
+# Tab
+itemGroup.aov=Angel of Vengeance
+
 # Death
 death.attack.aov.destruction=%s has been destroyed
 death.attack.aov.nimbusRay=%s has been irradiated

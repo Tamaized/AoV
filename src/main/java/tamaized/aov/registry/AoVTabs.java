@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 
 public class AoVTabs {
 
-	public static CreativeTabs tabAoV = new CreativeTabs("tabAoV") {
+	public static final CreativeTabs tabAoV = new CreativeTabs("aov") {
 		@Override
 		public ItemStack getTabIconItem() {
 			return new ItemStack(Items.BLAZE_POWDER);
