@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -94,8 +95,8 @@ public class AoVOverlay extends Gui {
 
 			float scale = 0.35F;
 			buffer.pos(x, y + 143F * scale, 0).tex(0, 0.5F).endVertex();
-			buffer.pos(x + 235F * scale, y + 143F * scale, 0).tex(1, 0.5F).endVertex();
-			buffer.pos(x + 235F * scale, y, 0).tex(1, 0).endVertex();
+			buffer.pos(x + 235F * scale, y + 143F * scale, 0).tex(0.5F, 0.5F).endVertex();
+			buffer.pos(x + 235F * scale, y, 0).tex(0.5F, 0).endVertex();
 			buffer.pos(x, y, 0).tex(0, 0).endVertex();
 
 			if (cap.getDraw() != null) {
@@ -108,6 +109,9 @@ public class AoVOverlay extends Gui {
 			if (cap.getSpread() != null)
 				renderAstroIcon(IAstroCapability.ICard.getCardID(cap.getSpread()), buffer, x + 14F, y + 20F, scale * 0.8F);
 
+			if (cap.getBurn() != null)
+				renderAstroRoyalRoadIcon((int) Math.floor(IAstroCapability.ICard.getCardID(cap.getBurn()) / 2), buffer, x + 56.5F, y - 2.5F, scale);
+
 			tess.draw();
 		}
 		GlStateManager.popMatrix();
@@ -117,10 +121,26 @@ public class AoVOverlay extends Gui {
 		scale = scale / 4F;
 		float xOffset = 0.25F * (index % 4);
 		float yOffset = 0.25F * (float) Math.floor(index / 4);
-		buffer.pos(x, y + 286F * scale, 0).tex(xOffset, 0.75F + yOffset).endVertex();
-		buffer.pos(x + 235F * scale, y + 286F * scale, 0).tex(0.25F + xOffset, 0.75F + yOffset).endVertex();
-		buffer.pos(x + 235F * scale, y, 0).tex(0.25F + xOffset, 0.5F + yOffset).endVertex();
-		buffer.pos(x, y, 0).tex(xOffset, 0.5F + yOffset).endVertex();
+		buffer.pos(x, y + 286F * scale, 0).tex(0.5F * xOffset, 0.75F + yOffset).endVertex();
+		buffer.pos(x + 235F * scale, y + 286F * scale, 0).tex(0.5F * (0.25F + xOffset), 0.75F + yOffset).endVertex();
+		buffer.pos(x + 235F * scale, y, 0).tex(0.5F * (0.25F + xOffset), 0.5F + yOffset).endVertex();
+		buffer.pos(x, y, 0).tex(0.5F * xOffset, 0.5F + yOffset).endVertex();
+	}
+
+	private void renderAstroRoyalRoadIcon(int index, BufferBuilder buffer, float x, float y, float scale) {
+		scale *= 0.60F;
+		float xOffset = 0.15F + (0.084F * index);
+		float yOffset = 0;//0.25F * (float) Math.floor(index / 4);
+		buffer.pos(x, y + 286F * scale, 0).tex(0.5F + xOffset, 0 + yOffset).endVertex();
+		buffer.pos(x + 80F * scale, y + 286F * scale, 0).tex(0.5F + (0.08F + xOffset), 0 + yOffset).endVertex();
+		buffer.pos(x + 80F * scale, y, 0).tex(0.5F + (0.08F + xOffset), 0.5F + yOffset).endVertex();
+		buffer.pos(x, y, 0).tex(0.5F + xOffset, 0.5F + yOffset).endVertex();
+		GlStateManager.pushMatrix();
+		GlStateManager.scale(scale * 3, scale * 3, scale * 3);
+		drawCenteredString(mc.fontRenderer, I18n.format("aov.astro.burn." + index), (int) x + 165, (int) y + 24, index == 0 ? 0x00AAFF : index == 1 ? 0x00FFAA : 0xFFDD88);
+		GlStateManager.popMatrix();
+		mc.getTextureManager().bindTexture(TEXTURE_ASTRO);
+		GlStateManager.color(1, 1, 1, 1);
 	}
 
 }

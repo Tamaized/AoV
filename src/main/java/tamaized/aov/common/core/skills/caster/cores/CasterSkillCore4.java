@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
+import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.skills.AoVSkill;
 import tamaized.aov.common.core.skills.AoVSkills;
@@ -24,7 +25,7 @@ public class CasterSkillCore4 extends AoVSkill {
 	private static final boolean SELECTIVE_FOCUS = false;
 
 	static {
-		spells.add(AbilityBase.bladeBarrier);
+		spells.add(Abilities.bladeBarrier);
 	}
 
 	public CasterSkillCore4() {
@@ -51,7 +52,7 @@ public class CasterSkillCore4 extends AoVSkill {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return AbilityBase.bladeBarrier.getIcon();
+		return Abilities.bladeBarrier.getIcon();
 	}
 
 	@Override

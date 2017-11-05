@@ -58,6 +58,8 @@ public class Draw extends AbilityBase {
 				case Balance:
 				case Bole:
 					potency *= 2.5F;
+					if (potency <= 0)
+						potency = 2;
 					break;
 				case Spear:
 				case Arrow:
@@ -67,6 +69,8 @@ public class Draw extends AbilityBase {
 				case Spire:
 					aoe = true;
 					potency *= 1.5F;
+					if (potency <= 0)
+						potency = 1;
 					break;
 			}
 		if (aoe) {
@@ -161,11 +165,10 @@ public class Draw extends AbilityBase {
 			ability.setTimer(30);
 		} else {
 			IAstroCapability.ICard card = astro.getDraw();
-			astro.useDraw(caster);
 			EntityLivingBase entity = target == null ? caster : target;
 			int potency = (int) Math.floor(aov.getSpellPower() / 10F);
 			IAstroCapability.ICard burn = astro.getBurn();
-			astro.setBurn(null);
+			astro.useDraw(caster);
 			doDrawEffects(entity, card, potency, burn);
 			aov.addExp(caster, 15, this);
 		}

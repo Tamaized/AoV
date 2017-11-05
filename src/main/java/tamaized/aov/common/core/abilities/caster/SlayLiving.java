@@ -10,6 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.registry.AoVDamageSource;
@@ -84,7 +85,7 @@ public class SlayLiving extends AbilityBase {
 		IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
 		if (cap != null && !target.isEntityUndead() && target.isNonBoss()) {
 			target.attackEntityFrom(AoVDamageSource.destruction, Integer.MAX_VALUE);
-			cap.addExp(caster, 20, AbilityBase.slayLiving);
+			cap.addExp(caster, 20, Abilities.slayLiving);
 		}
 	}
 

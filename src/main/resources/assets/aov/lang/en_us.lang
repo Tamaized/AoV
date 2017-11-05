@@ -23,6 +23,9 @@ aov.gui.title.skills=Angel of Vengeance: Skills
 aov.gui.skills.points=Skill Points: %s
 aov.gui.skills.spent=Spent: %s out of %s
 aov.gui.skills.level=Level:
+aov.astro.burn.0=150%% Potency
+aov.astro.burn.1=200%% Duration
+aov.astro.burn.2=50%% Potency + AoE
 
 aov.gui.title.stats=Angel of Vengeance: Stats
 aov.gui.stats.max=Max Experience Achieved

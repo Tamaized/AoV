@@ -1,6 +1,7 @@
 package tamaized.aov.common.entity;
 
 import tamaized.aov.common.capabilities.CapabilityList;
+import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
@@ -100,7 +101,7 @@ public class EntitySpellBladeBarrier extends Entity implements IEntityAdditional
 	private void doDamage(EntityLivingBase e) {
 		e.attackEntityFrom(DamageSource.causeIndirectMagicDamage(this, caster), damage);
 		if (caster.hasCapability(CapabilityList.AOV, null)) {
-			caster.getCapability(CapabilityList.AOV, null).addExp(caster, 20, AbilityBase.bladeBarrier);
+			caster.getCapability(CapabilityList.AOV, null).addExp(caster, 20, Abilities.bladeBarrier);
 		}
 	}
 

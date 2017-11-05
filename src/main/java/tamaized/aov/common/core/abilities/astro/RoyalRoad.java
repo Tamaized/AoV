@@ -11,8 +11,11 @@ import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
+import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
+
+import javax.annotation.Nullable;
 
 public class RoyalRoad extends AbilityBase {
 
@@ -78,6 +81,11 @@ public class RoyalRoad extends AbilityBase {
 	}
 
 	@Override
+	public boolean shouldDisable(IAoVCapability cap, @Nullable IAstroCapability astro) {
+		return astro != null && astro.getBurn() != null;
+	}
+
+	@Override
 	public void cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		if (!caster.hasCapability(CapabilityList.ASTRO, null) || !caster.hasCapability(CapabilityList.AOV, null))
 			return;
@@ -88,10 +96,10 @@ public class RoyalRoad extends AbilityBase {
 		if (astro.getDraw() != null && astro.getBurn() == null) {
 			astro.burnCard(caster);
 			for (Ability a : aov.getSlots()) {
-				if (a != null && a.getAbility() == AbilityBase.draw)
+				if (a != null && a.getAbility() == Abilities.draw)
 					a.setTimer(0);
 			}
-			ability.setNextCooldown(1);
+			ability.setDisabled();
 			aov.addExp(caster, 15, this);
 		}
 		ability.setNextCooldown(1);

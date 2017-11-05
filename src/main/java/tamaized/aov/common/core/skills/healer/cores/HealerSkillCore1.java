@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
+import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.skills.AoVSkill;
 
@@ -23,7 +24,7 @@ public class HealerSkillCore1 extends AoVSkill {
 	private static final boolean SELECTIVE_FOCUS = false;
 
 	static {
-		spells.add(AbilityBase.cureLightWounds);
+		spells.add(Abilities.cureLightWounds);
 	}
 
 	public HealerSkillCore1() {
@@ -75,7 +76,7 @@ public class HealerSkillCore1 extends AoVSkill {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return AbilityBase.cureLightWounds.getIcon();
+		return Abilities.cureLightWounds.getIcon();
 	}
 
 	@Override

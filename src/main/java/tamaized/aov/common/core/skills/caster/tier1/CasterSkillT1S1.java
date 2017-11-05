@@ -2,6 +2,7 @@ package tamaized.aov.common.core.skills.caster.tier1;
 
 import com.google.common.collect.Lists;
 import net.minecraft.util.text.TextComponentTranslation;
+import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.skills.AoVSkill;
 import net.minecraft.util.ResourceLocation;
@@ -24,7 +25,7 @@ public class CasterSkillT1S1 extends AoVSkill {
 	private static final boolean SELECTIVE_FOCUS = false;
 
 	static {
-		spells.add(AbilityBase.searingLight);
+		spells.add(Abilities.searingLight);
 	}
 
 	public CasterSkillT1S1() {
@@ -68,7 +69,7 @@ public class CasterSkillT1S1 extends AoVSkill {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return AbilityBase.searingLight.getIcon();
+		return Abilities.searingLight.getIcon();
 	}
 
 	public String getName() {

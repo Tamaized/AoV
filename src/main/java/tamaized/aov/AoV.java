@@ -19,6 +19,7 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.astro.AstroCapabilityHandler;
 import tamaized.aov.common.capabilities.astro.AstroCapabilityStorage;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
+import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.common.entity.EntitySpellBladeBarrier;
 import tamaized.aov.common.entity.EntitySpellImplosion;
@@ -125,6 +126,7 @@ public class AoV extends TamModBase {
 	@Override
 	public void postInit(FMLPostInitializationEvent e) {
 		logger.info("Starting AoV PostInit");
+		Abilities.register();
 		AoVSkills.register();
 	}
 

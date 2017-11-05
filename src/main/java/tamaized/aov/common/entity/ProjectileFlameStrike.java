@@ -2,6 +2,7 @@ package tamaized.aov.common.entity;
 
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.helper.ParticleHelper;
 import tamaized.aov.common.helper.ParticleHelper.Type;
@@ -86,7 +87,7 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 				IAoVCapability cap = attacker.getCapability(CapabilityList.AOV, null);
 				if (entity == attacker || (cap != null && cap.hasSelectiveFocus() && entity.isOnSameTeam(attacker)))
 					continue;
-				cap.addExp(attacker, 20, AbilityBase.flameStrike);
+				cap.addExp(attacker, 20, Abilities.flameStrike);
 			}
 			entity.setFire(15);
 			entity.attackEntityFrom(DamageSource.IN_FIRE, damage);

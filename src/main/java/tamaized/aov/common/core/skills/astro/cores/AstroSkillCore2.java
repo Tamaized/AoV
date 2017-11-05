@@ -3,6 +3,7 @@ package tamaized.aov.common.core.skills.astro.cores;
 import com.google.common.collect.Lists;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentTranslation;
+import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.skills.AoVSkill;
 import tamaized.aov.common.core.skills.AoVSkills;
@@ -24,7 +25,7 @@ public class AstroSkillCore2 extends AoVSkill {
 
 
 	static {
-		spells.add(AbilityBase.royalroad);
+		spells.add(Abilities.royalroad);
 	}
 
 	public AstroSkillCore2() {
@@ -70,7 +71,7 @@ public class AstroSkillCore2 extends AoVSkill {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return AbilityBase.royalroad.getIcon();
+		return Abilities.royalroad.getIcon();
 	}
 
 	@Override

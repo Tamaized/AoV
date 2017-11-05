@@ -8,6 +8,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.registry.AoVDamageSource;
@@ -85,7 +86,7 @@ public class Destruction extends AbilityBase {
 		if (cap != null && target.isNonBoss()) {
 			target.attackEntityFrom(AoVDamageSource.destruction, Integer.MAX_VALUE);
 			target.world.playSound(null, target.posX, target.posY, target.posZ, SoundEvents.destruction, SoundCategory.NEUTRAL, 1.0F, 1.0F);
-			cap.addExp(caster, 20, AbilityBase.destruction);
+			cap.addExp(caster, 20, Abilities.destruction);
 		}
 	}
 

@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
+import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.skills.AoVSkill;
 
@@ -24,7 +25,7 @@ public class CasterSkillCore1 extends AoVSkill {
 
 
 	static {
-		spells.add(AbilityBase.nimbusRay);
+		spells.add(Abilities.nimbusRay);
 	}
 
 	public CasterSkillCore1() {
@@ -74,7 +75,7 @@ public class CasterSkillCore1 extends AoVSkill {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return AbilityBase.nimbusRay.getIcon();
+		return Abilities.nimbusRay.getIcon();
 	}
 
 	@Override

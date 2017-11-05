@@ -25,7 +25,7 @@ public interface IAoVCapability {
 
 	void update(EntityPlayer player);
 
-	void resetCharges();
+	void resetCharges(EntityPlayer player);
 
 	void restoreCharges(int amount);
 

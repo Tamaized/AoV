@@ -6,12 +6,13 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.text.TextComponentString;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.capabilities.astro.IAstroCapability;
 import tamaized.aov.common.config.ConfigHandler;
 import tamaized.tammodized.common.helper.RayTraceHelper;
 
+import javax.annotation.Nullable;
 import java.util.HashSet;
 
 public final class Ability {
@@ -23,6 +24,7 @@ public final class Ability {
 	private int charges;
 	private int decay;
 	private int timer = -1;
+	private boolean disabled = false;
 
 	private int tick = 0;
 
@@ -30,9 +32,9 @@ public final class Ability {
 		this.ability = ability;
 	}
 
-	public Ability(AbilityBase ability, IAoVCapability cap) {
+	public Ability(AbilityBase ability, IAoVCapability cap, @Nullable IAstroCapability astro) {
 		this.ability = ability;
-		reset(cap);
+		reset(cap, astro);
 	}
 
 	public static Ability construct(ByteBuf stream) {
@@ -44,11 +46,11 @@ public final class Ability {
 		return ability;
 	}
 
-	public static Ability construct(IAoVCapability cap, NBTTagCompound nbt) {
+	public static Ability construct(IAoVCapability cap, @Nullable IAstroCapability astro, NBTTagCompound nbt) {
 		int id = nbt.getInteger("id");
 		if (id < 0)
 			return null;
-		Ability ability = new Ability(AbilityBase.getAbilityFromID(id), cap);
+		Ability ability = new Ability(AbilityBase.getAbilityFromID(id), cap, astro);
 		ability.decode(nbt);
 		return ability;
 	}
@@ -59,6 +61,7 @@ public final class Ability {
 		stream.writeInt(charges);
 		stream.writeInt(decay);
 		stream.writeInt(timer);
+		stream.writeBoolean(disabled);
 	}
 
 	public void decode(ByteBuf stream) {
@@ -66,6 +69,7 @@ public final class Ability {
 		charges = stream.readInt();
 		decay = stream.readInt();
 		timer = stream.readInt();
+		disabled = stream.readBoolean();
 	}
 
 	public NBTTagCompound encode(NBTTagCompound nbt) {
@@ -74,6 +78,7 @@ public final class Ability {
 		nbt.setInteger("charges", charges);
 		nbt.setInteger("decay", decay);
 		nbt.setInteger("timer", timer);
+		nbt.setBoolean("disabled", disabled);
 		return nbt;
 	}
 
@@ -82,14 +87,16 @@ public final class Ability {
 		charges = nbt.getInteger("charges");
 		decay = nbt.getInteger("decay");
 		timer = nbt.getInteger("timer");
+		disabled = nbt.getBoolean("disabled");
 	}
 
-	public void reset(IAoVCapability cap) {
+	public void reset(IAoVCapability cap, @Nullable IAstroCapability astro) {
 		cooldown = 0;
 		nextCooldown = -1;
 		charges = ability.getMaxCharges() < 0 ? -1 : ability.getMaxCharges() + cap.getExtraCharges();
 		decay = 0;
 		timer = -1;
+		disabled = getAbility().shouldDisable(cap, astro);
 	}
 
 	public void restoreCharge(IAoVCapability cap, int amount) {
@@ -104,7 +111,17 @@ public final class Ability {
 		timer = t;
 	}
 
+	public void setDisabled() {
+		disabled = true;
+	}
+
+	public void setEnabled() {
+		disabled = false;
+	}
+
 	public final void cast(EntityPlayer caster) {
+		if (disabled)
+			return;
 		HashSet<Entity> set = new HashSet<>();
 		set.add(caster);
 		RayTraceResult ray = RayTraceHelper.tracePath(caster.world, caster, (int) getAbility().getMaxDistance(), 1, set);
@@ -112,6 +129,8 @@ public final class Ability {
 	}
 
 	public void cast(EntityPlayer caster, EntityLivingBase target) {
+		if (disabled)
+			return;
 		IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
 		if (cap != null) {
 			if (cap.canUseAbility(this)) {
@@ -124,12 +143,12 @@ public final class Ability {
 	}
 
 	public void castAsAura(EntityPlayer caster, IAoVCapability cap, int life) {
-		if (ability instanceof IAura)
+		if (!disabled && ability instanceof IAura)
 			((IAura) ability).castAsAura(caster, cap, life);
 	}
 
 	public boolean canUse(IAoVCapability cap) {
-		return cooldown <= 0 && (charges == -1 || charges >= ability.getCost(cap)) && cap.slotsContain(this);
+		return !disabled && cooldown <= 0 && (charges == -1 || charges >= ability.getCost(cap)) && cap.slotsContain(this);
 	}
 
 	public AbilityBase getAbility() {

@@ -11,6 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.entity.EntitySpellImplosion;
@@ -87,7 +88,7 @@ public class Implosion extends AbilityBase {
 			if (entity == caster || cap == null || (cap.hasSelectiveFocus() && entity.isOnSameTeam(caster)))
 				continue;
 			caster.world.spawnEntity(new EntitySpellImplosion(caster.world, entity));
-			cap.addExp(caster, 20, AbilityBase.implosion);
+			cap.addExp(caster, 20, Abilities.implosion);
 		}
 	}
 

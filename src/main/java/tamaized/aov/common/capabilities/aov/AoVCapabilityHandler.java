@@ -11,6 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.AoV;
+import tamaized.aov.common.capabilities.CapabilityList;
+import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.abilities.Aura;
@@ -169,13 +171,13 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			if (skill.grantsSelectiveFocus())
 				selectiveFocus = true;
 			for (AbilityBase ability : skill.getAbilities()) {
-				if (ability == AbilityBase.invokeMass)
+				if (ability == Abilities.invokeMass)
 					hasInvoke = true;
 				list.add(ability);
 			}
 		}
 		for (AbilityBase ability : list)
-			addAbility(new Ability(ability, this));
+			addAbility(new Ability(ability, this, player.hasCapability(CapabilityList.ASTRO, null) ? player.getCapability(CapabilityList.ASTRO, null) : null));
 		if (player != null) {
 			if (player.getActivePotionEffect(AoVPotions.aid) != null)
 				dodge += 5;
@@ -211,10 +213,10 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@Override
-	public void resetCharges() {
+	public void resetCharges(EntityPlayer player) {
 		for (Ability ability : slots)
 			if (ability != null)
-				ability.reset(this);
+				ability.reset(this, player.hasCapability(CapabilityList.ASTRO, null) ? player.getCapability(CapabilityList.ASTRO, null) : null);
 		dirty = true;
 	}
 

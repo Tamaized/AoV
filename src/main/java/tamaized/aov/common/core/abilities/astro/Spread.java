@@ -11,6 +11,7 @@ import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
+import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 
@@ -90,17 +91,16 @@ public class Spread extends AbilityBase {
 			if (astro.getDraw() != null) {
 				astro.spreadCard(caster);
 				for (Ability a : aov.getSlots()) {
-					if (a != null && a.getAbility() == AbilityBase.draw)
+					if (a != null && a.getAbility() == Abilities.draw)
 						a.setTimer(0);
 				}
 			}
 		} else {
 			IAstroCapability.ICard card = astro.getSpread();
-			astro.useSpread(caster);
 			EntityLivingBase entity = target == null ? caster : target;
 			int potency = (int) Math.floor(aov.getSpellPower() / 10F);
 			IAstroCapability.ICard burn = astro.getBurn();
-			astro.setBurn(null);
+			astro.useSpread(caster);
 			Draw.doDrawEffects(entity, card, potency, burn);
 			aov.addExp(caster, 15, this);
 		}

@@ -6,6 +6,11 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import tamaized.aov.AoV;
+import tamaized.aov.common.capabilities.CapabilityList;
+import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.core.abilities.Abilities;
+import tamaized.aov.common.core.abilities.Ability;
+import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.network.client.ClientPacketHandlerAstroAnimation;
 import tamaized.aov.network.client.ClientPacketHandlerAstroData;
 import tamaized.aov.registry.SoundEvents;
@@ -58,7 +63,7 @@ public class AstroCapabilityHandler implements IAstroCapability {
 				frameData[1][0] = 0;
 				frameData[1][1] = 0;
 				frameData[1][2] = 0;
-				frameData[1][3] = 55;
+				frameData[1][3] = 35;
 				frameData[1][4] = 0;
 				frameData[1][5] = 0;
 				break;
@@ -174,6 +179,14 @@ public class AstroCapabilityHandler implements IAstroCapability {
 		playAnimation(entity, IAnimation.Activate);
 		draw = null;
 		burn = null;
+		if (entity.hasCapability(CapabilityList.AOV, null)) {
+			IAoVCapability cap = entity.getCapability(CapabilityList.AOV, null);
+			if (cap != null)
+				for (Ability a : cap.getSlots()) {
+					if (a != null && a.getAbility() == Abilities.royalroad)
+						a.setEnabled();
+				}
+		}
 		drawTime = 0;
 	}
 
@@ -182,6 +195,14 @@ public class AstroCapabilityHandler implements IAstroCapability {
 		playAnimation(entity, IAnimation.Activate);
 		spread = null;
 		burn = null;
+		if (entity.hasCapability(CapabilityList.AOV, null)) {
+			IAoVCapability cap = entity.getCapability(CapabilityList.AOV, null);
+			if (cap != null)
+				for (Ability a : cap.getSlots()) {
+					if (a != null && a.getAbility() == Abilities.royalroad)
+						a.setEnabled();
+				}
+		}
 	}
 
 	@Override

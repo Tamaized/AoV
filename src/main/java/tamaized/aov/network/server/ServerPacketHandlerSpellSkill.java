@@ -52,12 +52,12 @@ public class ServerPacketHandlerSpellSkill implements IMessageHandler<ServerPack
 			break;
 			case SPELLBAR_REMOVE: {
 				cap.removeSlot(message.object);
-				cap.resetCharges();
+				cap.resetCharges(player);
 			}
 			break;
 			case SPELLBAR_ADDNEAR: {
 				cap.addToNearestSlot(message.ability); // TODO: THIS IS BAD HOLY HELL
-				cap.resetCharges();
+				cap.resetCharges(player);
 			}
 			break;
 			default:

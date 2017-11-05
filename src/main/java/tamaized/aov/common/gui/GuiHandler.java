@@ -34,7 +34,7 @@ public class GuiHandler implements IGuiHandler {
 				if (player != null && player.hasCapability(CapabilityList.AOV, null)) {
 					IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
 					if (cap != null)
-						cap.resetCharges();
+						cap.resetCharges(player);
 				}
 				break;
 			default:
