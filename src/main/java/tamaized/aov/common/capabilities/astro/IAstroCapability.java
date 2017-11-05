@@ -3,7 +3,6 @@ package tamaized.aov.common.capabilities.astro;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
 import tamaized.aov.AoV;
 
 import javax.annotation.Nullable;
@@ -13,14 +12,13 @@ public interface IAstroCapability {
 
 	ResourceLocation ID = new ResourceLocation(AoV.modid, "AstroCapabilityHandler");
 
-	@Nullable
-	IAnimation getAnimation();
+	IAnimation[] getAnimations();
 
-	void setAnimation(EntityLivingBase entity, IAnimation animation);
+	void playAnimation(EntityLivingBase entity, IAnimation animation);
 
-	void updateFrameData(float[] data);
+	void updateFrameData(float[][] data);
 
-	float[] getFrameData();
+	float[][] getFrameData();
 
 	void drawCard(EntityLivingBase entity);
 
@@ -32,20 +30,20 @@ public interface IAstroCapability {
 
 	void setDrawTime(int time);
 
-	void setDraw(ICard card);
-
-	void setBurn(ICard card);
-
-	void setSpread(ICard card);
-
 	@Nullable
 	ICard getDraw();
+
+	void setDraw(ICard card);
 
 	@Nullable
 	ICard getBurn();
 
+	void setBurn(ICard card);
+
 	@Nullable
 	ICard getSpread();
+
+	void setSpread(ICard card);
 
 	void useDraw(EntityLivingBase entity);
 
@@ -56,17 +54,21 @@ public interface IAstroCapability {
 	void sendPacketUpdates(EntityPlayer player);
 
 	enum IAnimation {
+
 		Draw, Burn, Spread, Activate;
 
-		public static final IAnimation[] animations = IAnimation.values();
+		public static final IAnimation[] values = IAnimation.values();
+
+		public static IAnimation getAnimationFromID(int id) {
+			if (id >= 0 && id < values.length)
+				return values()[id];
+			return null;
+		}
 
 		public static int getAnimationID(IAnimation animation) {
 			return animation == null ? -1 : animation.ordinal();
 		}
 
-		public static IAnimation getAnimationFromID(int id) {
-			return id < 0 || id >= animations.length ? null : animations[id];
-		}
 	}
 
 	enum ICard {

@@ -8,6 +8,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -91,6 +92,13 @@ public class CapabilityList {
 		IAoVCapability cap = newPlayer.hasCapability(CapabilityList.AOV, null) ? newPlayer.getCapability(CapabilityList.AOV, null) : null;
 		if (cap != null)
 			cap.copyFrom(oldPlayer.getCapability(CapabilityList.AOV, null));
+	}
+
+	@SubscribeEvent
+	public void onJoin(EntityJoinWorldEvent e) {
+		IAoVCapability cap = e.getEntity().hasCapability(CapabilityList.AOV, null) ? e.getEntity().getCapability(CapabilityList.AOV, null) : null;
+		if (cap != null)
+			cap.markDirty();
 	}
 
 }

@@ -1,5 +1,6 @@
 package tamaized.aov.proxy;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -55,6 +56,8 @@ public class ClientProxy extends AbstractProxy {
 	@Override
 	public void postInit() {
 		MinecraftForge.EVENT_BUS.register(new KeyHandler());
+
+		net.minecraft.client.renderer.entity.RenderPlayer playerRenderer = (Minecraft.getMinecraft().getRenderManager().getSkinMap().get("default"));
 	}
 
 }

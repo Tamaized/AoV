@@ -6,6 +6,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 import tamaized.aov.network.client.ClientPacketHandlerAoVData;
 import tamaized.aov.network.client.ClientPacketHandlerAstroAnimation;
+import tamaized.aov.network.client.ClientPacketHandlerAstroData;
 import tamaized.aov.network.client.ClientPacketHandlerMovingSound;
 import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
 
@@ -17,6 +18,7 @@ public class NetworkMessages {
 		registerMessage(network, ServerPacketHandlerSpellSkill.class, ServerPacketHandlerSpellSkill.Packet.class, Side.SERVER);
 
 		registerMessage(network, ClientPacketHandlerAoVData.class, ClientPacketHandlerAoVData.Packet.class, Side.CLIENT);
+		registerMessage(network, ClientPacketHandlerAstroData.class, ClientPacketHandlerAstroData.Packet.class, Side.CLIENT);
 		registerMessage(network, ClientPacketHandlerAstroAnimation.class, ClientPacketHandlerAstroAnimation.Packet.class, Side.CLIENT);
 		registerMessage(network, ClientPacketHandlerMovingSound.class, ClientPacketHandlerMovingSound.Packet.class, Side.CLIENT);
 	}

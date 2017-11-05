@@ -2,10 +2,12 @@ package tamaized.aov.common.core.abilities.astro;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.IEntityOwnable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -16,6 +18,9 @@ import tamaized.aov.common.capabilities.astro.IAstroCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.registry.AoVPotions;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class Draw extends AbilityBase {
 
@@ -42,6 +47,68 @@ public class Draw extends AbilityBase {
 
 	public static String getStaticName() {
 		return "aov.spells.draw.name";
+	}
+
+	public static void doDrawEffects(EntityLivingBase entity, @Nonnull IAstroCapability.ICard card, int potency, @Nullable IAstroCapability.ICard burn) {
+		int ticks = 300;
+		boolean aoe = false;
+		if (burn != null)
+			switch (burn) {
+				default:
+				case Balance:
+				case Bole:
+					potency *= 2.5F;
+					break;
+				case Spear:
+				case Arrow:
+					ticks *= 3;
+					break;
+				case Ewer:
+				case Spire:
+					aoe = true;
+					potency *= 1.5F;
+					break;
+			}
+		if (aoe) {
+			IAoVCapability cap = entity.hasCapability(CapabilityList.AOV, null) ? entity.getCapability(CapabilityList.AOV, null) : null;
+			int range = 16;
+			for (EntityLivingBase e : entity.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(entity.posX - range, entity.posY - range, entity.posZ - range, entity.posX + range, entity.posY + range, entity.posZ + range))) {
+				if (cap != null && cap.hasSelectiveFocus()) {
+					if (entity.getTeam() == null) {
+						if (e instanceof EntityPlayer || (e instanceof IEntityOwnable && ((IEntityOwnable) e).getOwner() == entity))
+							doDrawEffects(e, card, potency, null);
+					} else {
+						if (entity.isOnSameTeam(e) || (e instanceof IEntityOwnable && ((IEntityOwnable) e).getOwner() == entity))
+							doDrawEffects(e, card, potency, null);
+					}
+				} else {
+					doDrawEffects(e, card, potency, null);
+				}
+			}
+			return;
+		}
+		switch (card) {
+			default:
+			case Balance:
+				entity.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, ticks, potency));
+				break;
+			case Bole:
+				entity.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, ticks, potency));
+				break;
+			case Spear:
+				entity.addPotionEffect(new PotionEffect(AoVPotions.spear, ticks, 0));
+				break;
+			case Arrow:
+				entity.addPotionEffect(new PotionEffect(MobEffects.HASTE, ticks, potency));
+				break;
+			case Ewer:
+				entity.addPotionEffect(new PotionEffect(AoVPotions.ewer, ticks, 0));
+				break;
+			case Spire:
+				entity.addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, ticks, potency));
+				entity.addPotionEffect(new PotionEffect(MobEffects.SATURATION, ticks, potency));
+				break;
+		}
 	}
 
 	@Override
@@ -97,28 +164,9 @@ public class Draw extends AbilityBase {
 			astro.useDraw(caster);
 			EntityLivingBase entity = target == null ? caster : target;
 			int potency = (int) Math.floor(aov.getSpellPower() / 10F);
-			switch (card) {
-				default:
-				case Balance:
-					entity.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 600, potency));
-					break;
-				case Bole:
-					entity.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 600, potency));
-					break;
-				case Spear:
-					entity.addPotionEffect(new PotionEffect(AoVPotions.spear, 600, 0));
-					break;
-				case Arrow:
-					entity.addPotionEffect(new PotionEffect(MobEffects.HASTE, 600, potency));
-					break;
-				case Ewer:
-					entity.addPotionEffect(new PotionEffect(AoVPotions.ewer, 600, 0));
-					break;
-				case Spire:
-					entity.addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, 600, potency));
-					entity.addPotionEffect(new PotionEffect(MobEffects.SATURATION, 600, potency));
-					break;
-			}
+			IAstroCapability.ICard burn = astro.getBurn();
+			astro.setBurn(null);
+			doDrawEffects(entity, card, potency, burn);
 			aov.addExp(caster, 15, this);
 		}
 		astro.sendPacketUpdates(caster);

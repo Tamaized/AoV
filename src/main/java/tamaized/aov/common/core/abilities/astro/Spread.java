@@ -3,8 +3,6 @@ package tamaized.aov.common.core.abilities.astro;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -15,7 +13,6 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
-import tamaized.aov.registry.AoVPotions;
 
 public class Spread extends AbilityBase {
 
@@ -102,28 +99,9 @@ public class Spread extends AbilityBase {
 			astro.useSpread(caster);
 			EntityLivingBase entity = target == null ? caster : target;
 			int potency = (int) Math.floor(aov.getSpellPower() / 10F);
-			switch (card) {
-				default:
-				case Balance:
-					entity.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 600, potency));
-					break;
-				case Bole:
-					entity.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 600, potency));
-					break;
-				case Spear:
-					entity.addPotionEffect(new PotionEffect(AoVPotions.spear, 600, 0));
-					break;
-				case Arrow:
-					entity.addPotionEffect(new PotionEffect(MobEffects.HASTE, 600, potency));
-					break;
-				case Ewer:
-					entity.addPotionEffect(new PotionEffect(AoVPotions.ewer, 600, 0));
-					break;
-				case Spire:
-					entity.addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, 600, potency));
-					entity.addPotionEffect(new PotionEffect(MobEffects.SATURATION, 600, potency));
-					break;
-			}
+			IAstroCapability.ICard burn = astro.getBurn();
+			astro.setBurn(null);
+			Draw.doDrawEffects(entity, card, potency, burn);
 			aov.addExp(caster, 15, this);
 		}
 		astro.sendPacketUpdates(caster);

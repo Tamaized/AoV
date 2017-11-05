@@ -8,6 +8,9 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.AoV;
+import tamaized.aov.common.capabilities.CapabilityList;
+import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.capabilities.astro.IAstroCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 
@@ -76,6 +79,23 @@ public class RoyalRoad extends AbilityBase {
 
 	@Override
 	public void cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
+		if (!caster.hasCapability(CapabilityList.ASTRO, null) || !caster.hasCapability(CapabilityList.AOV, null))
+			return;
+		IAstroCapability astro = caster.getCapability(CapabilityList.ASTRO, null);
+		IAoVCapability aov = caster.getCapability(CapabilityList.AOV, null);
+		if (astro == null || aov == null)
+			return;
+		if (astro.getDraw() != null && astro.getBurn() == null) {
+			astro.burnCard(caster);
+			for (Ability a : aov.getSlots()) {
+				if (a != null && a.getAbility() == AbilityBase.draw)
+					a.setTimer(0);
+			}
+			ability.setNextCooldown(1);
+			aov.addExp(caster, 15, this);
+		}
+		ability.setNextCooldown(1);
+		astro.sendPacketUpdates(caster);
 	}
 
 }

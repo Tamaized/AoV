@@ -34,7 +34,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	private static final String defenderHealthName = "AoV Defender Health";
 	private static final AttributeModifier defenderHealth = new AttributeModifier(defenderHealthName, 10.0D, 0);
 	private int tick = 1;
-	private boolean dirty = false;
+	private boolean dirty = true;
 	// TODO
 	private int currentSlot = 0;
 	// Calculate and update these when 'dirty'
