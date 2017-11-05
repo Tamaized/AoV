@@ -33,6 +33,33 @@ public class RenderAstro {
 		IAstroCapability cap = player.getCapability(CapabilityList.ASTRO, null);
 		AstroCapabilityHandler handler = cap instanceof AstroCapabilityHandler ? (AstroCapabilityHandler) cap : null;
 
+		/*GlStateManager.pushMatrix();
+		GlStateManager.disableCull();
+		GlStateManager.disableLighting();
+		GlStateManager.enableBlend();
+		GlStateManager.rotate(180F - e.getRenderer().getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
+
+		GlStateManager.translate(-0.125F, 0.5F + MathHelper.cos((float) Math.toRadians(0)), -0.125F);
+
+		float f = 1.5F;//ftimer > 0 ? ((ftimer / 80f) * 1.5F) : 0F;
+		float scale = 0.25F;
+
+		e.getRenderer().bindTexture(TEXTURE_CARDS);
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder vertexbuffer = tessellator.getBuffer();
+		vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
+
+		vertexbuffer.pos(1F * scale, 1F, 0).tex(0, 0.5).endVertex();
+		vertexbuffer.pos(1F * scale, 1F + (f*scale), 0).tex(0, 0.5F - (0.5F * (f / 1.5F))).endVertex();
+		vertexbuffer.pos(0, 1F + (f * scale), 0).tex(0.25, 0.5F - (0.5F * (f / 1.5F))).endVertex();
+		vertexbuffer.pos(0, 1F, 0).tex(0.25, 0.5).endVertex();
+
+		tessellator.draw();
+		GlStateManager.disableBlend();
+		GlStateManager.enableLighting();
+		GlStateManager.enableCull();
+		GlStateManager.popMatrix();*/
+
 		if (cap != null) {
 			for (IAstroCapability.IAnimation animation : cap.getAnimations())
 				if (animation != null)
@@ -40,11 +67,11 @@ public class RenderAstro {
 						case Draw:
 							renderDraw(0, e, cap, handler != null ? handler.lastDraw : cap.getDraw());
 							break;
-						case Burn:
-							renderBurn(1, e);
-							break;
 						case Spread:
 							renderSpread(2, e, cap, handler != null ? handler.lastSpread : cap.getSpread());
+							break;
+						case Burn:
+							renderBurn(1, e, cap);
 							break;
 						default:
 							break;
@@ -54,8 +81,40 @@ public class RenderAstro {
 		GlStateManager.popMatrix();
 	}
 
-	private static void renderBurn(int index, RenderPlayerEvent.Post e) {
+	private static void renderBurn(int index, RenderPlayerEvent.Post e, IAstroCapability cap) {
+		float timer = cap.getFrameData()[index][3];
+		if (timer > 0) {
+			GlStateManager.pushMatrix();
+			GlStateManager.disableCull();
+			GlStateManager.disableLighting();
+			GlStateManager.enableBlend();
+			GlStateManager.rotate(180F - e.getRenderer().getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
 
+			GlStateManager.translate(-0.125F, 0.5F + MathHelper.cos((float) Math.toRadians(cap.getFrameData()[index][1])), -0.125F);
+			cap.getFrameData()[index][1] = Math.max(0, cap.getFrameData()[index][1] - ((240F * (cap.getFrameData()[index][1] / 90F)) / (float) Minecraft.getDebugFPS()));
+
+			float ftimer = cap.getFrameData()[index][0];
+			if (cap.getFrameData()[index][0] > 0 && !Minecraft.getMinecraft().isGamePaused() && timer < 20)
+				cap.getFrameData()[index][0] = Math.max(0, cap.getFrameData()[index][0] - (240F / (float) Minecraft.getDebugFPS()));
+			float f = ftimer > 0 ? ((ftimer / 80f) * 1.5F) : 0F;
+			float scale = 0.25F;
+
+			e.getRenderer().bindTexture(TEXTURE_CARDS);
+			Tessellator tessellator = Tessellator.getInstance();
+			BufferBuilder vertexbuffer = tessellator.getBuffer();
+			vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
+
+			vertexbuffer.pos(1F * scale, 1F, 0.0001).tex(0, 0.5).endVertex();
+			vertexbuffer.pos(1F * scale, 1F + (f*scale), 0.0001).tex(0, 0.5F - (0.5F * (f / 1.5F))).endVertex();
+			vertexbuffer.pos(0, 1F + (f * scale), 0.0001).tex(0.25, 0.5F - (0.5F * (f / 1.5F))).endVertex();
+			vertexbuffer.pos(0, 1F, 0.0001).tex(0.25, 0.5).endVertex();
+
+			tessellator.draw();
+			GlStateManager.disableBlend();
+			GlStateManager.enableLighting();
+			GlStateManager.enableCull();
+			GlStateManager.popMatrix();
+		}
 	}
 
 	private static void renderDraw(int index, RenderPlayerEvent.Post e, IAstroCapability cap, IAstroCapability.ICard card) {
@@ -69,7 +128,7 @@ public class RenderAstro {
 			if (timer < 60 && !Minecraft.getMinecraft().isGamePaused() && cap.getFrameData()[index][2] > 0) {
 				cap.getFrameData()[index][2] = Math.max(0, cap.getFrameData()[index][2] - (240F / (float) Minecraft.getDebugFPS()));
 			}
-			GlStateManager.translate(-0.5F, 1.0F, 0.0F);
+			GlStateManager.translate(-0.5F, 1.0F, 0);
 			if (timer < 90 && !Minecraft.getMinecraft().isGamePaused() && cap.getFrameData()[index][1] > 0) {
 				cap.getFrameData()[index][1] = Math.max(0, cap.getFrameData()[index][1] - (160F / (float) Minecraft.getDebugFPS()));
 			}

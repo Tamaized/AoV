@@ -10,7 +10,6 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.Ability;
-import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.network.client.ClientPacketHandlerAstroAnimation;
 import tamaized.aov.network.client.ClientPacketHandlerAstroData;
 import tamaized.aov.registry.SoundEvents;
@@ -60,12 +59,14 @@ public class AstroCapabilityHandler implements IAstroCapability {
 				break;
 			case Burn:
 				animations[1] = animation;
-				frameData[1][0] = 0;
-				frameData[1][1] = 0;
+				frameData[1][0] = 80;
+				frameData[1][1] = 90;
 				frameData[1][2] = 0;
 				frameData[1][3] = 35;
 				frameData[1][4] = 0;
 				frameData[1][5] = 0;
+				if (!entity.world.isRemote)
+					SoundEvents.playMovingSoundOnServer(SoundEvents.burn, entity);
 				break;
 			case Spread:
 				animations[2] = animation;
@@ -248,6 +249,8 @@ public class AstroCapabilityHandler implements IAstroCapability {
 						float theta = (float) Math.toRadians(dat[3] * 16);
 						entity.world.spawnParticle(EnumParticleTypes.FLAME, entity.posX + MathHelper.cos(theta), entity.posY + 2F + MathHelper.sin(theta), entity.posZ + MathHelper.sin(theta), 0.0D, 0.0D, 0.0D);
 						entity.world.spawnParticle(EnumParticleTypes.FLAME, entity.posX + MathHelper.sin(theta), entity.posY + 2F + MathHelper.sin(theta), entity.posZ + MathHelper.cos(theta), 0.0D, 0.0D, 0.0D);
+						if (dat[3] <= 20 && dat[3] > 0)
+							entity.world.spawnParticle(EnumParticleTypes.FLAME, entity.posX + entity.getRNG().nextDouble() * 0.125D - 0.0625D, entity.posY + 2.9F - (0.125D * ((80F - dat[0]) / 80F)), entity.posZ + entity.getRNG().nextDouble() * 0.125D - 0.0625D, 0.0D, 0.0D, 0.0D);
 						break;
 					case Activate:
 						break;

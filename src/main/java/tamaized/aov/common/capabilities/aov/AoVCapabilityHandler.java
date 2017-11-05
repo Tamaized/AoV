@@ -177,7 +177,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			}
 		}
 		for (AbilityBase ability : list)
-			addAbility(new Ability(ability, this, player.hasCapability(CapabilityList.ASTRO, null) ? player.getCapability(CapabilityList.ASTRO, null) : null));
+			addAbility(new Ability(ability, this, player != null && player.hasCapability(CapabilityList.ASTRO, null) ? player.getCapability(CapabilityList.ASTRO, null) : null));
 		if (player != null) {
 			if (player.getActivePotionEffect(AoVPotions.aid) != null)
 				dodge += 5;
