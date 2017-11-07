@@ -11,6 +11,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
@@ -81,6 +82,39 @@ public class RenderAstro {
 		GlStateManager.popMatrix();
 	}
 
+	@SubscribeEvent
+	public static void tick(TickEvent.RenderTickEvent e) { // Lets tick our frame data while in first person
+		if (e.phase == TickEvent.Phase.START)
+			return;
+		Minecraft mc = Minecraft.getMinecraft();
+		if (mc.gameSettings.thirdPersonView != 0 || mc.player == null || !mc.player.hasCapability(CapabilityList.ASTRO, null))
+			return;
+		IAstroCapability cap = mc.player.getCapability(CapabilityList.ASTRO, null);
+		if (cap == null)
+			return;
+
+		// Burn
+		float timer = cap.getFrameData()[1][3];
+		cap.getFrameData()[1][1] = Math.max(0, cap.getFrameData()[1][1] - ((240F * (cap.getFrameData()[1][1] / 90F)) / (float) Minecraft.getDebugFPS()));
+		if (cap.getFrameData()[1][0] > 0 && !Minecraft.getMinecraft().isGamePaused() && timer < 20)
+			cap.getFrameData()[1][0] = Math.max(0, cap.getFrameData()[1][0] - (240F / (float) Minecraft.getDebugFPS()));
+		// Spread
+		if (!Minecraft.getMinecraft().isGamePaused()) {
+			cap.getFrameData()[2][4] += (240F / (float) Minecraft.getDebugFPS()) % 360;
+			cap.getFrameData()[2][5] += (cap.getFrameData()[2][5] >= 90 && cap.getFrameData()[2][3] > 35 ? 0 : 60F) / (float) Minecraft.getDebugFPS();
+		}
+		// Draw
+		for (int index = 0; index <= 2; index += 2) {
+			timer = cap.getFrameData()[index][3];
+			if (timer < 60 && !Minecraft.getMinecraft().isGamePaused() && cap.getFrameData()[index][2] > 0)
+				cap.getFrameData()[index][2] = Math.max(0, cap.getFrameData()[index][2] - (240F / (float) Minecraft.getDebugFPS()));
+			if (timer < 90 && !Minecraft.getMinecraft().isGamePaused() && cap.getFrameData()[index][1] > 0)
+				cap.getFrameData()[index][1] = Math.max(0, cap.getFrameData()[index][1] - (160F / (float) Minecraft.getDebugFPS()));
+			if (cap.getFrameData()[index][0] > 0 && !Minecraft.getMinecraft().isGamePaused() && timer < 25)
+				cap.getFrameData()[index][0] = Math.max(0, cap.getFrameData()[index][0] - (240F / (float) Minecraft.getDebugFPS()));
+		}
+	}
+
 	private static void renderBurn(int index, RenderPlayerEvent.Post e, IAstroCapability cap) {
 		float timer = cap.getFrameData()[index][3];
 		if (timer > 0) {
@@ -105,7 +139,7 @@ public class RenderAstro {
 			vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 
 			vertexbuffer.pos(1F * scale, 1F, 0.0001).tex(0, 0.5).endVertex();
-			vertexbuffer.pos(1F * scale, 1F + (f*scale), 0.0001).tex(0, 0.5F - (0.5F * (f / 1.5F))).endVertex();
+			vertexbuffer.pos(1F * scale, 1F + (f * scale), 0.0001).tex(0, 0.5F - (0.5F * (f / 1.5F))).endVertex();
 			vertexbuffer.pos(0, 1F + (f * scale), 0.0001).tex(0.25, 0.5F - (0.5F * (f / 1.5F))).endVertex();
 			vertexbuffer.pos(0, 1F, 0.0001).tex(0.25, 0.5).endVertex();
 

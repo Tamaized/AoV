@@ -81,11 +81,6 @@ public class RoyalRoad extends AbilityBase {
 	}
 
 	@Override
-	public boolean shouldDisable(IAoVCapability cap, @Nullable IAstroCapability astro) {
-		return astro != null && astro.getBurn() != null;
-	}
-
-	@Override
 	public void cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		if (!caster.hasCapability(CapabilityList.ASTRO, null) || !caster.hasCapability(CapabilityList.AOV, null))
 			return;
@@ -93,16 +88,15 @@ public class RoyalRoad extends AbilityBase {
 		IAoVCapability aov = caster.getCapability(CapabilityList.AOV, null);
 		if (astro == null || aov == null)
 			return;
-		if (astro.getDraw() != null && astro.getBurn() == null) {
+		if (astro.getDraw() != null) {
 			astro.burnCard(caster);
 			for (Ability a : aov.getSlots()) {
 				if (a != null && a.getAbility() == Abilities.draw)
 					a.setTimer(0);
 			}
-			ability.setDisabled();
 			aov.addExp(caster, 15, this);
-		}
-		ability.setNextCooldown(1);
+		} else
+			ability.setNextCooldown(1);
 		astro.sendPacketUpdates(caster);
 	}
 

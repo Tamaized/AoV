@@ -172,6 +172,7 @@ public class Draw extends AbilityBase {
 			astro.useDraw(caster);
 			doDrawEffects(entity, card, potency, burn);
 			aov.addExp(caster, 15, this);
+			ability.setTimer(-1);
 		}
 		astro.sendPacketUpdates(caster);
 	}
