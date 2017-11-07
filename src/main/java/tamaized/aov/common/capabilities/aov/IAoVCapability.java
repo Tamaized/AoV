@@ -19,7 +19,7 @@ public interface IAoVCapability {
 
 	ResourceLocation ID = new ResourceLocation(AoV.modid, "AoVCapabilityHandler");
 
-	public static boolean selectiveTarget(IAoVCapability cap, EntityLivingBase entity) {
+	static boolean selectiveTarget(IAoVCapability cap, EntityLivingBase entity) {
 		return (!cap.hasSelectiveFocus() || (entity.getTeam() == null && (entity instanceof EntityPlayer || (entity instanceof IEntityOwnable && ((IEntityOwnable) entity).getOwner() == entity))) || (entity.isOnSameTeam(entity) || (entity instanceof IEntityOwnable && ((IEntityOwnable) entity).getOwner() == entity)));
 	}
 
