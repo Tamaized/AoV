@@ -23,6 +23,7 @@ public class AoVPotions {
 	public static Potion slowFall;
 	public static Potion spear;
 	public static Potion ewer;
+	public static Potion spire;
 	private static List<Potion> potionList;
 
 	static {
@@ -37,6 +38,7 @@ public class AoVPotions {
 
 		potionList.add(spear = new PotionSpear("spear"));
 		potionList.add(ewer = new PotionEwer("ewer"));
+		potionList.add(spire = new PotionEwer("spire"));
 	}
 
 	@SubscribeEvent

@@ -98,9 +98,11 @@ public class Draw extends AbilityBase {
 				break;
 			case Bole:
 				entity.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, ticks, potency));
+				entity.addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, ticks, (int) Math.floor(potency / 2F)));
+				entity.addPotionEffect(new PotionEffect(MobEffects.SATURATION, ticks, (int) Math.floor(potency / 2F)));
 				break;
 			case Spear:
-				entity.addPotionEffect(new PotionEffect(AoVPotions.spear, ticks, 0));
+				entity.addPotionEffect(new PotionEffect(AoVPotions.spear, ticks, potency));
 				break;
 			case Arrow:
 				entity.addPotionEffect(new PotionEffect(MobEffects.HASTE, ticks, potency));
@@ -109,8 +111,7 @@ public class Draw extends AbilityBase {
 				entity.addPotionEffect(new PotionEffect(AoVPotions.ewer, ticks, 0));
 				break;
 			case Spire:
-				entity.addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, ticks, potency));
-				entity.addPotionEffect(new PotionEffect(MobEffects.SATURATION, ticks, potency));
+				entity.addPotionEffect(new PotionEffect(AoVPotions.spire, ticks, potency));
 				break;
 		}
 	}

@@ -3,6 +3,21 @@ package tamaized.aov.common.core.skills;
 import tamaized.aov.common.core.skills.astro.cores.AstroSkillCore1;
 import tamaized.aov.common.core.skills.astro.cores.AstroSkillCore2;
 import tamaized.aov.common.core.skills.astro.cores.AstroSkillCore3;
+import tamaized.aov.common.core.skills.astro.tier1.AstroSkillT1S1;
+import tamaized.aov.common.core.skills.astro.tier1.AstroSkillT1S3;
+import tamaized.aov.common.core.skills.astro.tier1.AstroSkillT1S5;
+import tamaized.aov.common.core.skills.astro.tier2.AstroSkillT2S1;
+import tamaized.aov.common.core.skills.astro.tier2.AstroSkillT2S3;
+import tamaized.aov.common.core.skills.astro.tier2.AstroSkillT2S5;
+import tamaized.aov.common.core.skills.astro.tier3.AstroSkillT3S1;
+import tamaized.aov.common.core.skills.astro.tier3.AstroSkillT3S2;
+import tamaized.aov.common.core.skills.astro.tier3.AstroSkillT3S3;
+import tamaized.aov.common.core.skills.astro.tier3.AstroSkillT3S5;
+import tamaized.aov.common.core.skills.astro.tier4.AstroSkillT4S1;
+import tamaized.aov.common.core.skills.astro.tier4.AstroSkillT4S2;
+import tamaized.aov.common.core.skills.astro.tier4.AstroSkillT4S3;
+import tamaized.aov.common.core.skills.astro.tier4.AstroSkillT4S4;
+import tamaized.aov.common.core.skills.astro.tier4.AstroSkillT4S5;
 import tamaized.aov.common.core.skills.caster.cores.CasterSkillCapStone;
 import tamaized.aov.common.core.skills.caster.cores.CasterSkillCore1;
 import tamaized.aov.common.core.skills.caster.cores.CasterSkillCore2;
@@ -159,6 +174,32 @@ public class AoVSkills {
 	public static AoVSkill astro_core_1;
 	public static AoVSkill astro_core_2;
 	public static AoVSkill astro_core_3;
+	public static AoVSkill astro_core_4;
+	public static AoVSkill astro_capstone;
+
+	public static AoVSkill astro_tier_1_1;
+	public static AoVSkill astro_tier_1_2;
+	public static AoVSkill astro_tier_1_3;
+	public static AoVSkill astro_tier_1_4;
+	public static AoVSkill astro_tier_1_5;
+
+	public static AoVSkill astro_tier_2_1;
+	public static AoVSkill astro_tier_2_2;
+	public static AoVSkill astro_tier_2_3;
+	public static AoVSkill astro_tier_2_4;
+	public static AoVSkill astro_tier_2_5;
+
+	public static AoVSkill astro_tier_3_1;
+	public static AoVSkill astro_tier_3_2;
+	public static AoVSkill astro_tier_3_3;
+	public static AoVSkill astro_tier_3_4;
+	public static AoVSkill astro_tier_3_5;
+
+	public static AoVSkill astro_tier_4_1;
+	public static AoVSkill astro_tier_4_2;
+	public static AoVSkill astro_tier_4_3;
+	public static AoVSkill astro_tier_4_4;
+	public static AoVSkill astro_tier_4_5;
 
 	public static void register() {
 		/* Healer */
@@ -258,5 +299,31 @@ public class AoVSkills {
 		astro_core_1 = new AstroSkillCore1();
 		astro_core_2 = new AstroSkillCore2();
 		astro_core_3 = new AstroSkillCore3();
+		astro_core_4 = new NullSkill();
+		astro_capstone = new NullSkill();
+
+		astro_tier_1_1 = new AstroSkillT1S1();
+		astro_tier_1_2 = new NullSkill();
+		astro_tier_1_3 = new AstroSkillT1S3();
+		astro_tier_1_4 = new NullSkill();
+		astro_tier_1_5 = new AstroSkillT1S5();
+
+		astro_tier_2_1 = new AstroSkillT2S1();
+		astro_tier_2_2 = new NullSkill();
+		astro_tier_2_3 = new AstroSkillT2S3();
+		astro_tier_2_4 = new NullSkill();
+		astro_tier_2_5 = new AstroSkillT2S5();
+
+		astro_tier_3_1 = new AstroSkillT3S1();
+		astro_tier_3_2 = new AstroSkillT3S2();
+		astro_tier_3_3 = new AstroSkillT3S3();
+		astro_tier_3_4 = new NullSkill();
+		astro_tier_3_5 = new AstroSkillT3S5();
+
+		astro_tier_4_1 = new AstroSkillT4S1();
+		astro_tier_4_2 = new AstroSkillT4S2();
+		astro_tier_4_3 = new AstroSkillT4S3();
+		astro_tier_4_4 = new AstroSkillT4S4();
+		astro_tier_4_5 = new AstroSkillT4S5();
 	}
 }

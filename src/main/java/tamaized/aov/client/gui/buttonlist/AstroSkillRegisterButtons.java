@@ -16,58 +16,58 @@ public class AstroSkillRegisterButtons implements IClassButtons {
 		instance.addNewButton(sbI);
 		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 13, instance.height - 48, AoVSkills.astro_core_3);
 		instance.addNewButton(sbI);
-//		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 12, instance.height - 48, AoVSkills.caster_core_4);
-//		instance.addNewButton(sbI);
-//		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 37, instance.height - 48, AoVSkills.caster_capstone);
-//		instance.addNewButton(sbI);
+		//		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 12, instance.height - 48, AoVSkills.astro_core_4);
+		//		instance.addNewButton(sbI);
+		//		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 37, instance.height - 48, AoVSkills.astro_capstone);
+		//		instance.addNewButton(sbI);
 
 		/* Tier 1 */
-//		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 63, instance.height - 88, AoVSkills.caster_tier_1_1);
-//		instance.addNewButton(sbI);
-		// sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width/2 - 38, instance.height-88, AoVSkills.caster_tier_1_2);
+		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 63, instance.height - 88, AoVSkills.astro_tier_1_1);
+		instance.addNewButton(sbI);
+		// sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width/2 - 38, instance.height-88, AoVSkills.astro_tier_1_2);
 		// instance.addNewButton(sbI);
-//		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 13, instance.height - 88, AoVSkills.caster_tier_1_3);
-//		instance.addNewButton(sbI);
-		// sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width/2 + 12, instance.height-88, AoVSkills.caster_tier_1_4);
+		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 13, instance.height - 88, AoVSkills.astro_tier_1_3);
+		instance.addNewButton(sbI);
+		// sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width/2 + 12, instance.height-88, AoVSkills.astro_tier_1_4);
 		// instance.addNewButton(sbI);
-		// sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width/2 + 37, instance.height-88, AoVSkills.caster_tier_1_5);
-		// instance.addNewButton(sbI);
+		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 37, instance.height - 88, AoVSkills.astro_tier_1_5);
+		instance.addNewButton(sbI);
 
 		/* Tier 2 */
-//		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 63, instance.height - 128, AoVSkills.caster_tier_2_1);
-//		instance.addNewButton(sbI);
-//		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 38, instance.height - 128, AoVSkills.caster_tier_2_2);
-//		instance.addNewButton(sbI);
-//		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 13, instance.height - 128, AoVSkills.caster_tier_2_3);
-//		instance.addNewButton(sbI);
-		// sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width/2 + 12, instance.height-128, AoVSkills.caster_tier_2_4);
+		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 63, instance.height - 128, AoVSkills.astro_tier_2_1);
+		instance.addNewButton(sbI);
+		//		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 38, instance.height - 128, AoVSkills.astro_tier_2_2);
+		//		instance.addNewButton(sbI);
+		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 13, instance.height - 128, AoVSkills.astro_tier_2_3);
+		instance.addNewButton(sbI);
+		// sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width/2 + 12, instance.height-128, AoVSkills.astro_tier_2_4);
 		// instance.addNewButton(sbI);
-		// sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width/2 + 37, instance.height-128, AoVSkills.caster_tier_2_5);
-		// instance.addNewButton(sbI);
+		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 37, instance.height - 128, AoVSkills.astro_tier_2_5);
+		instance.addNewButton(sbI);
 
 		/* Tier 3 */
-//		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 63, instance.height - 168, AoVSkills.caster_tier_3_1);
-//		instance.addNewButton(sbI);
-//		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 38, instance.height - 168, AoVSkills.caster_tier_3_2);
-//		instance.addNewButton(sbI);
-//		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 13, instance.height - 168, AoVSkills.caster_tier_3_3);
-//		instance.addNewButton(sbI);
-		// sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width/2 + 12, instance.height-168, AoVSkills.caster_tier_3_4);
+		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 63, instance.height - 168, AoVSkills.astro_tier_3_1);
+		instance.addNewButton(sbI);
+		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 38, instance.height - 168, AoVSkills.astro_tier_3_2);
+		instance.addNewButton(sbI);
+		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 13, instance.height - 168, AoVSkills.astro_tier_3_3);
+		instance.addNewButton(sbI);
+		// sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width/2 + 12, instance.height-168, AoVSkills.astro_tier_3_4);
 		// instance.addNewButton(sbI);
-		// sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 37, instance.height - 168, AoVSkills.caster_tier_3_5);
-		// instance.addNewButton(sbI);
+		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 37, instance.height - 168, AoVSkills.astro_tier_3_5);
+		instance.addNewButton(sbI);
 
 		/* Tier 4 */
-//		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 63, instance.height - 208, AoVSkills.caster_tier_4_1);
-//		instance.addNewButton(sbI);
-		// sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 38, instance.height - 208, AoVSkills.caster_tier_4_2);
-		// instance.addNewButton(sbI);
-//		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 13, instance.height - 208, AoVSkills.caster_tier_4_3);
-//		instance.addNewButton(sbI);
-//		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 12, instance.height - 208, AoVSkills.caster_tier_4_4);
-//		instance.addNewButton(sbI);
-//		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 37, instance.height - 208, AoVSkills.caster_tier_4_5);
-//		instance.addNewButton(sbI);
+		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 63, instance.height - 208, AoVSkills.astro_tier_4_1);
+		instance.addNewButton(sbI);
+		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 38, instance.height - 208, AoVSkills.astro_tier_4_2);
+		instance.addNewButton(sbI);
+		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 13, instance.height - 208, AoVSkills.astro_tier_4_3);
+		instance.addNewButton(sbI);
+		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 12, instance.height - 208, AoVSkills.astro_tier_4_4);
+		instance.addNewButton(sbI);
+		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 37, instance.height - 208, AoVSkills.astro_tier_4_5);
+		instance.addNewButton(sbI);
 
 	}
 
