@@ -2,7 +2,6 @@ package tamaized.aov.common.core.abilities.healer;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -74,7 +73,7 @@ public abstract class CureWounds extends AbilityBase {
 
 	@Override
 	public void cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
-		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
+		IAoVCapability cap = player.hasCapability(CapabilityList.AOV, null) ? player.getCapability(CapabilityList.AOV, null) : null;
 		if (cap == null)
 			return;
 		int a = (int) (damage * (1f + (cap.getSpellPower() / 100f)));
@@ -87,9 +86,7 @@ public abstract class CureWounds extends AbilityBase {
 			if (e.isEntityUndead()) {
 				e.attackEntityFrom(DamageSource.MAGIC, a);
 				SoundEvents.playMovingSoundOnServer(SoundEvents.heal, e);
-			} else if (cap.hasSelectiveFocus() && (e instanceof IMob))
-				return;
-			else {
+			} else if (IAoVCapability.selectiveTarget(cap, e)) {
 				e.heal(a);
 				SoundEvents.playMovingSoundOnServer(SoundEvents.heal, e);
 			}
@@ -106,9 +103,7 @@ public abstract class CureWounds extends AbilityBase {
 			if (entity.isEntityUndead()) {
 				entity.attackEntityFrom(DamageSource.MAGIC, dmg);
 				SoundEvents.playMovingSoundOnServer(SoundEvents.heal, entity);
-			} else if (cap.hasSelectiveFocus() && (entity instanceof IMob))
-				continue;
-			else {
+			} else if (IAoVCapability.selectiveTarget(cap, entity)) {
 				entity.heal(dmg);
 				SoundEvents.playMovingSoundOnServer(SoundEvents.heal, entity);
 			}

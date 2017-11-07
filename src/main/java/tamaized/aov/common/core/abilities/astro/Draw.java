@@ -2,7 +2,6 @@ package tamaized.aov.common.core.abilities.astro;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityOwnable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
@@ -77,17 +76,8 @@ public class Draw extends AbilityBase {
 			IAoVCapability cap = entity.hasCapability(CapabilityList.AOV, null) ? entity.getCapability(CapabilityList.AOV, null) : null;
 			int range = 16;
 			for (EntityLivingBase e : entity.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(entity.posX - range, entity.posY - range, entity.posZ - range, entity.posX + range, entity.posY + range, entity.posZ + range))) {
-				if (cap != null && cap.hasSelectiveFocus()) {
-					if (entity.getTeam() == null) {
-						if (e instanceof EntityPlayer || (e instanceof IEntityOwnable && ((IEntityOwnable) e).getOwner() == entity))
-							doDrawEffects(e, card, potency, null);
-					} else {
-						if (entity.isOnSameTeam(e) || (e instanceof IEntityOwnable && ((IEntityOwnable) e).getOwner() == entity))
-							doDrawEffects(e, card, potency, null);
-					}
-				} else {
+				if (IAoVCapability.selectiveTarget(cap, e))
 					doDrawEffects(e, card, potency, null);
-				}
 			}
 			return;
 		}

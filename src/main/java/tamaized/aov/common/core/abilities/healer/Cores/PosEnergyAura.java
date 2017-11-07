@@ -2,7 +2,6 @@ package tamaized.aov.common.core.abilities.healer.Cores;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -74,7 +73,7 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 			for (EntityLivingBase entity : list) {
 				if (entity.isEntityUndead())
 					entity.attackEntityFrom(DamageSource.MAGIC, a);
-				else if (!cap.hasSelectiveFocus() || !(entity instanceof IMob))
+				else if (IAoVCapability.selectiveTarget(cap, entity))
 					entity.heal(a);
 			}
 		}

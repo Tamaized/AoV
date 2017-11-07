@@ -2,7 +2,6 @@ package tamaized.aov.common.core.abilities.healer.Cores;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -52,7 +51,7 @@ public class Burst extends AbilityBase {
 
 	@Override
 	public void cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
-		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
+		IAoVCapability cap = player.hasCapability(CapabilityList.AOV, null) ? player.getCapability(CapabilityList.AOV, null) : null;
 		if (cap == null)
 			return;
 		ParticleHelper.spawnParticleMesh(ParticleHelper.Type.BURST, player.world, player.getPositionVector(), range, 0xFFFF00FF);
@@ -62,12 +61,11 @@ public class Burst extends AbilityBase {
 		for (EntityLivingBase entity : list) {
 			if (entity.isEntityUndead())
 				entity.attackEntityFrom(DamageSource.MAGIC, a);
-			else if (cap.hasSelectiveFocus() && (entity instanceof IMob))
-				continue;
-			else
+			else if (IAoVCapability.selectiveTarget(cap, entity)) {
 				entity.heal(a);
-			entity.getActivePotionEffects().removeIf(pot -> pot.getPotion().isBadEffect());
-			cap.addExp(player, 20, this);
+				entity.getActivePotionEffects().removeIf(pot -> pot.getPotion().isBadEffect());
+				cap.addExp(player, 20, this);
+			}
 		}
 	}
 

@@ -1,23 +1,27 @@
 package tamaized.aov.common.capabilities.aov;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.IEntityOwnable;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.aov.AoVCapabilityHandler.DecayWrapper;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.abilities.Aura;
 import tamaized.aov.common.core.skills.AoVSkill;
-import io.netty.buffer.ByteBufInputStream;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ResourceLocation;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 public interface IAoVCapability {
 
 	ResourceLocation ID = new ResourceLocation(AoV.modid, "AoVCapabilityHandler");
+
+	public static boolean selectiveTarget(IAoVCapability cap, EntityLivingBase entity) {
+		return (!cap.hasSelectiveFocus() || (entity.getTeam() == null && (entity instanceof EntityPlayer || (entity instanceof IEntityOwnable && ((IEntityOwnable) entity).getOwner() == entity))) || (entity.isOnSameTeam(entity) || (entity instanceof IEntityOwnable && ((IEntityOwnable) entity).getOwner() == entity)));
+	}
 
 	void markDirty();
 
@@ -124,9 +128,9 @@ public interface IAoVCapability {
 
 	void clearAllSlots();
 
-	void setDecayMap(Map<AbilityBase, DecayWrapper> map);
-
 	Map<AbilityBase, DecayWrapper> getDecayMap();
+
+	void setDecayMap(Map<AbilityBase, DecayWrapper> map);
 
 	void copyFrom(IAoVCapability cap);
 

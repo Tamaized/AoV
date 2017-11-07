@@ -2,7 +2,6 @@ package tamaized.aov.common.core.abilities.defender;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
@@ -72,7 +71,7 @@ public class StalwartPact extends AbilityBase {
 
 	@Override
 	public void cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
-		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
+		IAoVCapability cap = player.hasCapability(CapabilityList.AOV, null) ? player.getCapability(CapabilityList.AOV, null) : null;
 		if (cap == null)
 			return;
 		if (cap.getInvokeMass())
@@ -80,11 +79,8 @@ public class StalwartPact extends AbilityBase {
 		else if (e == null) {
 			addPotionEffects(player);
 		} else {
-			if (cap.hasSelectiveFocus() && (e instanceof IMob))
-				return;
-			else {
+			if (IAoVCapability.selectiveTarget(cap, e))
 				addPotionEffects(e);
-			}
 		}
 		SoundEvents.playMovingSoundOnServer(SoundEvents.cast_2, player);
 		cap.addExp(player, 20, this);
@@ -99,10 +95,10 @@ public class StalwartPact extends AbilityBase {
 		ParticleHelper.spawnParticleMesh(ParticleHelper.Type.BURST, target.world, target.getPositionVector(), range, getParticleColor());
 		List<EntityLivingBase> list = target.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(target.getPosition().add(-range, -range, -range), target.getPosition().add(range, range, range)));
 		for (EntityLivingBase entity : list) {
-			if (cap.hasSelectiveFocus() && (entity instanceof IMob))
-				continue;
-			addPotionEffects(entity);
-			cap.addExp(target, 20, this);
+			if (IAoVCapability.selectiveTarget(cap, entity)) {
+				addPotionEffects(entity);
+				cap.addExp(target, 20, this);
+			}
 		}
 	}
 

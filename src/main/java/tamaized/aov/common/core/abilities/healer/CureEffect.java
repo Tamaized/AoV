@@ -2,7 +2,6 @@ package tamaized.aov.common.core.abilities.healer;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -72,7 +71,7 @@ public abstract class CureEffect extends AbilityBase {
 
 	@Override
 	public void cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
-		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
+		IAoVCapability cap = player.hasCapability(CapabilityList.AOV, null) ? player.getCapability(CapabilityList.AOV, null) : null;
 		if (cap == null)
 			return;
 		if (cap.getInvokeMass())
@@ -81,9 +80,7 @@ public abstract class CureEffect extends AbilityBase {
 			player.removePotionEffect(effect);
 			SoundEvents.playMovingSoundOnServer(SoundEvents.restore, player);
 		} else {
-			if (cap.hasSelectiveFocus() && (e instanceof IMob))
-				return;
-			else {
+			if (IAoVCapability.selectiveTarget(cap, e)) {
 				e.removePotionEffect(effect);
 				SoundEvents.playMovingSoundOnServer(SoundEvents.restore, e);
 			}
@@ -97,7 +94,7 @@ public abstract class CureEffect extends AbilityBase {
 		ParticleHelper.spawnParticleMesh(ParticleHelper.Type.BURST, target.world, target.getPositionVector(), range, getParticleColor());
 		List<EntityLivingBase> list = target.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(target.getPosition().add(-range, -range, -range), target.getPosition().add(range, range, range)));
 		for (EntityLivingBase entity : list) {
-			if (!cap.hasSelectiveFocus() || !(entity instanceof IMob)) {
+			if (IAoVCapability.selectiveTarget(cap, entity)) {
 				entity.removePotionEffect(effect);
 				SoundEvents.playMovingSoundOnServer(SoundEvents.restore, entity);
 				cap.addExp(target, 20, this);

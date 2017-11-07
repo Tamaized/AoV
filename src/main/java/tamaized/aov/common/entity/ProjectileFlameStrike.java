@@ -1,11 +1,5 @@
 package tamaized.aov.common.entity;
 
-import tamaized.aov.common.capabilities.CapabilityList;
-import tamaized.aov.common.capabilities.aov.IAoVCapability;
-import tamaized.aov.common.core.abilities.Abilities;
-import tamaized.aov.common.core.abilities.AbilityBase;
-import tamaized.aov.common.helper.ParticleHelper;
-import tamaized.aov.common.helper.ParticleHelper.Type;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,6 +12,13 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
+import tamaized.aov.common.capabilities.CapabilityList;
+import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.core.abilities.Abilities;
+import tamaized.aov.common.helper.ParticleHelper;
+import tamaized.aov.common.helper.ParticleHelper.Type;
+
+import javax.annotation.Nonnull;
 
 public class ProjectileFlameStrike extends Entity implements IProjectile, IEntityAdditionalSpawnData {
 
@@ -84,10 +85,11 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 		setDead();
 		for (EntityLivingBase entity : world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(getPosition().add(-10, -1, -10), getPosition().add(10, 5, 10)))) {
 			if (attacker != null) {
-				IAoVCapability cap = attacker.getCapability(CapabilityList.AOV, null);
-				if (entity == attacker || (cap != null && cap.hasSelectiveFocus() && entity.isOnSameTeam(attacker)))
+				IAoVCapability cap = attacker.hasCapability(CapabilityList.AOV, null) ? attacker.getCapability(CapabilityList.AOV, null) : null;
+				if (entity == attacker || (cap != null && !IAoVCapability.selectiveTarget(cap, entity)))
 					continue;
-				cap.addExp(attacker, 20, Abilities.flameStrike);
+				if (cap != null)
+					cap.addExp(attacker, 20, Abilities.flameStrike);
 			}
 			entity.setFire(15);
 			entity.attackEntityFrom(DamageSource.IN_FIRE, damage);
@@ -124,12 +126,12 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 	}
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound compound) {
+	protected void readEntityFromNBT(@Nonnull NBTTagCompound compound) {
 
 	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound compound) {
+	protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
 
 	}
 
