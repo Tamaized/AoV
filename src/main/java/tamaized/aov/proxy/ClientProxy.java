@@ -9,12 +9,13 @@ import tamaized.aov.client.RenderPlayer;
 import tamaized.aov.client.entity.RenderFlameStrike;
 import tamaized.aov.client.entity.RenderNimbusRay;
 import tamaized.aov.client.entity.RenderSpellBladeBarrier;
-import tamaized.aov.client.entity.RenderSpellImplosion;
+import tamaized.aov.client.entity.RenderSpellEntity;
 import tamaized.aov.client.events.ClientSpawnEvent;
 import tamaized.aov.client.events.KeyHandler;
 import tamaized.aov.client.gui.AoVOverlay;
 import tamaized.aov.common.entity.EntitySpellBladeBarrier;
 import tamaized.aov.common.entity.EntitySpellImplosion;
+import tamaized.aov.common.entity.EntitySpellParticles;
 import tamaized.aov.common.entity.ProjectileFlameStrike;
 import tamaized.aov.common.entity.ProjectileNimbusRay;
 import tamaized.tammodized.proxy.AbstractProxy;
@@ -23,6 +24,7 @@ public class ClientProxy extends AbstractProxy {
 
 	public static KeyBinding key;
 	public static boolean barToggle = false;
+
 	public ClientProxy() {
 		super(Side.CLIENT);
 	}
@@ -43,8 +45,9 @@ public class ClientProxy extends AbstractProxy {
 
 		RenderingRegistry.registerEntityRenderingHandler(ProjectileNimbusRay.class, RenderNimbusRay::new);
 		RenderingRegistry.registerEntityRenderingHandler(ProjectileFlameStrike.class, RenderFlameStrike::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntitySpellImplosion.class, RenderSpellImplosion::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntitySpellImplosion.class, RenderSpellEntity::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntitySpellBladeBarrier.class, RenderSpellBladeBarrier::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntitySpellParticles.class, RenderSpellEntity::new);
 
 	}
 
@@ -56,8 +59,6 @@ public class ClientProxy extends AbstractProxy {
 	@Override
 	public void postInit() {
 		MinecraftForge.EVENT_BUS.register(new KeyHandler());
-
-		net.minecraft.client.renderer.entity.RenderPlayer playerRenderer = (Minecraft.getMinecraft().getRenderManager().getSkinMap().get("default"));
 	}
 
 }

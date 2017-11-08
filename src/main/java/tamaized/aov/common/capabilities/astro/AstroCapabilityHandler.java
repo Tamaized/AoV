@@ -77,12 +77,14 @@ public class AstroCapabilityHandler implements IAstroCapability {
 				break;
 			case Activate:
 				animations[3] = animation;
-				frameData[3][0] = 0;
-				frameData[3][1] = 0;
+				frameData[3][0] = 80;
+				frameData[3][1] = 90;
 				frameData[3][2] = 0;
-				frameData[3][3] = 0;
+				frameData[3][3] = 35;
 				frameData[3][4] = 0;
 				frameData[3][5] = 0;
+				if (!entity.world.isRemote)
+					SoundEvents.playMovingSoundOnServer(SoundEvents.activate, entity);
 				break;
 		}
 		if (!entity.world.isRemote)
@@ -198,7 +200,7 @@ public class AstroCapabilityHandler implements IAstroCapability {
 			if (dat[3] > 0)
 				frameData[index][3]--;
 			else if (animation != null)
-				animation = null;
+				animation = animations[index] = null;
 			if (animation != null)
 				switch (animation) {
 					case Spread:
@@ -233,6 +235,8 @@ public class AstroCapabilityHandler implements IAstroCapability {
 							entity.world.spawnParticle(EnumParticleTypes.FLAME, entity.posX + entity.getRNG().nextDouble() * 0.125D - 0.0625D, entity.posY + 2.9F - (0.125D * ((80F - dat[0]) / 80F)), entity.posZ + entity.getRNG().nextDouble() * 0.125D - 0.0625D, 0.0D, 0.0D, 0.0D);
 						break;
 					case Activate:
+						if (dat[3] <= 20 && dat[3] > 0)
+							spawnParticle(entity, entity.posX + entity.getRNG().nextDouble() * 0.125D - 0.0625D, entity.posY + 2.7F - (0.125D * ((80F - dat[0]) / 80F)), entity.posZ + entity.getRNG().nextDouble() * 0.125D - 0.0625D);
 						break;
 				}
 			index++;

@@ -23,6 +23,7 @@ import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.common.entity.EntitySpellBladeBarrier;
 import tamaized.aov.common.entity.EntitySpellImplosion;
+import tamaized.aov.common.entity.EntitySpellParticles;
 import tamaized.aov.common.entity.ProjectileFlameStrike;
 import tamaized.aov.common.entity.ProjectileNimbusRay;
 import tamaized.aov.common.events.LivingAttackEvent;
@@ -117,10 +118,11 @@ public class AoV extends TamModBase {
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 
-		registerEntity(ProjectileNimbusRay.class, "ProjectileNimbusRay", this, modid, 128, 1, true);
-		registerEntity(ProjectileFlameStrike.class, "ProjectileFlameStrike", this, modid, 128, 1, true);
-		registerEntity(EntitySpellImplosion.class, "EntitySpellImplosion", this, modid, 64, 1, true);
-		registerEntity(EntitySpellBladeBarrier.class, "EntitySpellBladeBarrier", this, modid, 64, 1, true);
+		registerEntity(ProjectileNimbusRay.class, "ProjectileNimbusRay", this, modid, 256, 1, true);
+		registerEntity(ProjectileFlameStrike.class, "ProjectileFlameStrike", this, modid, 256, 1, true);
+		registerEntity(EntitySpellImplosion.class, "EntitySpellImplosion", this, modid, 256, 1, true);
+		registerEntity(EntitySpellBladeBarrier.class, "EntitySpellBladeBarrier", this, modid, 256, 1, true);
+		registerEntity(EntitySpellParticles.class, "EntitySpellParticles", this, modid, 256, 1, true);
 	}
 
 	@Override

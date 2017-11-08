@@ -5,6 +5,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -16,6 +17,7 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
+import tamaized.aov.common.entity.EntitySpellParticles;
 import tamaized.aov.registry.AoVPotions;
 
 import javax.annotation.Nonnull;
@@ -104,6 +106,7 @@ public class Draw extends AbilityBase {
 				entity.addPotionEffect(new PotionEffect(AoVPotions.spire, ticks, potency));
 				break;
 		}
+		entity.world.spawnEntity(new EntitySpellParticles(entity.world, entity, EnumParticleTypes.CRIT_MAGIC));
 	}
 
 	@Override

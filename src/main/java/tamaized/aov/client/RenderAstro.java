@@ -74,6 +74,9 @@ public class RenderAstro {
 						case Burn:
 							renderBurn(1, e, cap);
 							break;
+						case Activate:
+							renderBurn(3, e, cap);
+							break;
 						default:
 							break;
 					}
@@ -93,11 +96,14 @@ public class RenderAstro {
 		if (cap == null)
 			return;
 
-		// Burn
-		float timer = cap.getFrameData()[1][3];
-		cap.getFrameData()[1][1] = Math.max(0, cap.getFrameData()[1][1] - ((240F * (cap.getFrameData()[1][1] / 90F)) / (float) Minecraft.getDebugFPS()));
-		if (cap.getFrameData()[1][0] > 0 && !Minecraft.getMinecraft().isGamePaused() && timer < 20)
-			cap.getFrameData()[1][0] = Math.max(0, cap.getFrameData()[1][0] - (240F / (float) Minecraft.getDebugFPS()));
+		// Burn and Activate
+		float timer;
+		for (int index = 1; index <= 3; index += 2) {
+			timer = cap.getFrameData()[index][3];
+			cap.getFrameData()[index][1] = Math.max(0, cap.getFrameData()[index][1] - ((240F * (cap.getFrameData()[1][1] / 90F)) / (float) Minecraft.getDebugFPS()));
+			if (cap.getFrameData()[index][0] > 0 && !Minecraft.getMinecraft().isGamePaused() && timer < 20)
+				cap.getFrameData()[index][0] = Math.max(0, cap.getFrameData()[index][0] - (240F / (float) Minecraft.getDebugFPS()));
+		}
 		// Spread
 		if (!Minecraft.getMinecraft().isGamePaused()) {
 			cap.getFrameData()[2][4] += (240F / (float) Minecraft.getDebugFPS()) % 360;

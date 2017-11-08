@@ -61,7 +61,7 @@ public class KeyHandler {
 		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
 		if (cap == null)
 			return;
-		if (e.getButton() - 100 == itemUse.getKeyCode()) {
+		if (e.getButton() - 100 == itemUse.getKeyCode() && e.isButtonstate()) {
 			cap.cast(AoVUIBar.slotLoc);
 			KeyBinding.setKeyBindState(itemUse.getKeyCode(), false);
 			e.setCanceled(true);
