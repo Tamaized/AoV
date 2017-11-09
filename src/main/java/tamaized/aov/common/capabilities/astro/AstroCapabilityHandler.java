@@ -17,8 +17,8 @@ public class AstroCapabilityHandler implements IAstroCapability {
 	public ICard lastDraw;
 	public ICard lastSpread;
 	private int tick;
-	private float[][] frameData = new float[4][6];
-	private IAnimation[] animations = new IAnimation[4];
+	private float[][] frameData = new float[IAnimation.values.length][6];
+	private IAnimation[] animations = new IAnimation[IAnimation.values.length];
 	private ICard draw;
 	private int drawTime;
 	private ICard burn;
@@ -86,6 +86,24 @@ public class AstroCapabilityHandler implements IAstroCapability {
 				if (!entity.world.isRemote)
 					SoundEvents.playMovingSoundOnServer(SoundEvents.activate, entity);
 				break;
+			case Redraw:
+				animations[4] = animation;
+				frameData[4][0] = 400;
+				frameData[4][1] = 80;
+				frameData[4][2] = 200;
+				frameData[4][3] = 100;
+				frameData[4][4] = 110;
+				frameData[4][5] = 0;
+				animations[0] = IAnimation.Draw;
+				frameData[0][0] = 80;
+				frameData[0][1] = 80;
+				frameData[0][2] = 180;
+				frameData[0][3] = 100;
+				frameData[0][4] = 0;
+				frameData[0][5] = 0;
+				if (!entity.world.isRemote)
+					SoundEvents.playMovingSoundOnServer(SoundEvents.redraw, entity);
+				break;
 		}
 		if (!entity.world.isRemote)
 			AoV.network.sendToAllAround(new ClientPacketHandlerAstroAnimation.Packet(entity, animation), new NetworkRegistry.TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 128));
@@ -107,6 +125,15 @@ public class AstroCapabilityHandler implements IAstroCapability {
 			draw = ICard.getRandomCard();
 			drawTime = 30;
 			playAnimation(entity, IAnimation.Draw);
+		}
+	}
+
+	@Override
+	public void redrawCard(EntityLivingBase entity) {
+		if (getDraw() != null) {
+			draw = ICard.getRandomCard();
+			playAnimation(entity, IAnimation.Redraw);
+			drawTime = 30;
 		}
 	}
 

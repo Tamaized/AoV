@@ -24,6 +24,8 @@ public class RenderAstro {
 	private static final ResourceLocation TEXTURE_CARDS = new ResourceLocation(AoV.modid, "textures/entity/cards.png");
 	private static final ResourceLocation TEXTURE_RUNE = new ResourceLocation(AoV.modid, "textures/entity/rune.png");
 
+	public static float testVarPleaseIgnore = 0F;
+
 	@SubscribeEvent
 	public static void render(RenderPlayerEvent.Post e) {
 		EntityPlayer player = e.getEntityPlayer();
@@ -38,24 +40,38 @@ public class RenderAstro {
 		GlStateManager.disableCull();
 		GlStateManager.disableLighting();
 		GlStateManager.enableBlend();
-		GlStateManager.rotate(180F - e.getRenderer().getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
+		GlStateManager.rotate(-player.renderYawOffset, 0, 1, 0);
 
-		GlStateManager.translate(-0.125F, 0.5F + MathHelper.cos((float) Math.toRadians(0)), -0.125F);
-
+		GlStateManager.translate(0F, 1.5F, 1F);
+		GlStateManager.rotate((testVarPleaseIgnore += (240F / (float) Minecraft.getDebugFPS())) % 360, 0, 0, 1);
+		if (testVarPleaseIgnore > 0)
+			testVarPleaseIgnore -= (120F / (float) Minecraft.getDebugFPS());
+		float s = (80F - testVarPleaseIgnore) / 80F;
+		GlStateManager.scale(s, s, s);
 		float f = 1.5F;//ftimer > 0 ? ((ftimer / 80f) * 1.5F) : 0F;
-		float scale = 0.25F;
+		float scale = 0.3F;
 
 		e.getRenderer().bindTexture(TEXTURE_CARDS);
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder vertexbuffer = tessellator.getBuffer();
-		vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 
-		vertexbuffer.pos(1F * scale, 1F, 0).tex(0, 0.5).endVertex();
-		vertexbuffer.pos(1F * scale, 1F + (f*scale), 0).tex(0, 0.5F - (0.5F * (f / 1.5F))).endVertex();
-		vertexbuffer.pos(0, 1F + (f * scale), 0).tex(0.25, 0.5F - (0.5F * (f / 1.5F))).endVertex();
-		vertexbuffer.pos(0, 1F, 0).tex(0.25, 0.5).endVertex();
-
-		tessellator.draw();
+		GlStateManager.pushMatrix();
+		for (int i = 0; i <= 12; i++) {
+			vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
+			if (i > 0)
+				GlStateManager.rotate(30, 0, 0, 1);
+			float xpos = -0.15F;
+			float ypos = -0.435F;
+			testVarPleaseIgnore -= (180F / (float) Minecraft.getDebugFPS());
+			float uScale = 200F;
+			float u = testVarPleaseIgnore > (i - 1) * uScale ? (Math.max(0, ((i) * uScale) - testVarPleaseIgnore)) / uScale : 1F;
+			vertexbuffer.pos(xpos + scale, ypos + 1F, 0).tex(0, 0.5).endVertex();
+			vertexbuffer.pos(xpos + scale, ypos + 1F + (f * scale), 0).tex(0, 0.5F - (0.5F * (f / 1.5F))).endVertex();
+			vertexbuffer.pos(xpos + (scale * u), ypos + 1F + (f * scale), 0).tex(0.25 * (1F - u), 0.5F - (0.5F * (f / 1.5F))).endVertex();
+			vertexbuffer.pos(xpos + (scale * u), ypos + 1F, 0).tex(0.25 * (1F - u), 0.5).endVertex();
+			tessellator.draw();
+		}
+		GlStateManager.popMatrix();
 		GlStateManager.disableBlend();
 		GlStateManager.enableLighting();
 		GlStateManager.enableCull();
@@ -76,6 +92,9 @@ public class RenderAstro {
 							break;
 						case Activate:
 							renderBurn(3, e, cap);
+							break;
+						case Redraw:
+							renderRedraw(4, e, cap);
 							break;
 						default:
 							break;
@@ -118,6 +137,68 @@ public class RenderAstro {
 				cap.getFrameData()[index][1] = Math.max(0, cap.getFrameData()[index][1] - (160F / (float) Minecraft.getDebugFPS()));
 			if (cap.getFrameData()[index][0] > 0 && !Minecraft.getMinecraft().isGamePaused() && timer < 25)
 				cap.getFrameData()[index][0] = Math.max(0, cap.getFrameData()[index][0] - (240F / (float) Minecraft.getDebugFPS()));
+		}
+		// Redraw
+		if (!Minecraft.getMinecraft().isGamePaused() && cap.getFrameData()[4][0] > 0)
+			cap.getFrameData()[4][0] -= (240F / (float) Minecraft.getDebugFPS());
+		GlStateManager.rotate(cap.getFrameData()[4][0] % 360, 0, 0, 1);
+		if (!Minecraft.getMinecraft().isGamePaused() && cap.getFrameData()[4][1] > 0)
+			cap.getFrameData()[4][1] -= (120F / (float) Minecraft.getDebugFPS());
+		if (!Minecraft.getMinecraft().isGamePaused() && cap.getFrameData()[4][0] <= 0)
+			cap.getFrameData()[4][4] -= (60F / (float) Minecraft.getDebugFPS());
+		if (!Minecraft.getMinecraft().isGamePaused() && cap.getFrameData()[4][4] <= 0)
+			cap.getFrameData()[4][2] -= (300F / (float) Minecraft.getDebugFPS());
+	}
+
+	private static void renderRedraw(int index, RenderPlayerEvent.Post e, IAstroCapability cap) {
+		float timer = cap.getFrameData()[index][3];
+		if (timer > 0) {
+			GlStateManager.pushMatrix();
+			GlStateManager.disableCull();
+			GlStateManager.disableLighting();
+			GlStateManager.enableBlend();
+			GlStateManager.rotate(-e.getEntityPlayer().renderYawOffset, 0, 1, 0);
+
+			GlStateManager.color(1, 1, 1, 1);
+			GlStateManager.translate(0F, 1.5F, 1F);
+			if (!Minecraft.getMinecraft().isGamePaused() && cap.getFrameData()[index][0] > 0)
+				cap.getFrameData()[index][0] -= (240F / (float) Minecraft.getDebugFPS());
+			GlStateManager.rotate(cap.getFrameData()[index][0] % 360, 0, 0, 1);
+			if (!Minecraft.getMinecraft().isGamePaused() && cap.getFrameData()[index][1] > 0)
+				cap.getFrameData()[index][1] -= (120F / (float) Minecraft.getDebugFPS());
+			float s = (80F - cap.getFrameData()[index][1]) / 80F;
+			GlStateManager.scale(s, s, s);
+			float f = 1.5F;//ftimer > 0 ? ((ftimer / 80f) * 1.5F) : 0F;
+			float scale = 0.3F;
+
+			e.getRenderer().bindTexture(TEXTURE_CARDS);
+			Tessellator tessellator = Tessellator.getInstance();
+			BufferBuilder vertexbuffer = tessellator.getBuffer();
+
+			GlStateManager.pushMatrix();
+			if (!Minecraft.getMinecraft().isGamePaused() && cap.getFrameData()[index][0] <= 0)
+				cap.getFrameData()[index][4] -= (60F / (float) Minecraft.getDebugFPS());
+			if (!Minecraft.getMinecraft().isGamePaused() && cap.getFrameData()[index][4] <= 0)
+				cap.getFrameData()[index][2] -= (300F / (float) Minecraft.getDebugFPS());
+			for (int i = 0; i <= 12; i++) {
+				vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
+				if (i > 0)
+					GlStateManager.rotate(30, 0, 0, 1);
+				float xpos = -0.15F;
+				float ypos = -0.435F;
+				float uScale = 125F / 12F;
+				float u = cap.getFrameData()[index][2] > (i - 1) * uScale ? (Math.max(0, ((i) * uScale) - cap.getFrameData()[index][2])) / uScale : 1F;
+				vertexbuffer.pos(xpos + scale, ypos + 1F, 0).tex(0, 0.5).endVertex();
+				vertexbuffer.pos(xpos + scale, ypos + 1F + (f * scale), 0).tex(0, 0.5F - (0.5F * (f / 1.5F))).endVertex();
+				vertexbuffer.pos(xpos + (scale * u), ypos + 1F + (f * scale), 0).tex(0.25 * (1F - u), 0.5F - (0.5F * (f / 1.5F))).endVertex();
+				vertexbuffer.pos(xpos + (scale * u), ypos + 1F, 0).tex(0.25 * (1F - u), 0.5).endVertex();
+				tessellator.draw();
+			}
+			GlStateManager.popMatrix();
+			GlStateManager.disableBlend();
+			GlStateManager.enableLighting();
+			GlStateManager.enableCull();
+			GlStateManager.popMatrix();
 		}
 	}
 

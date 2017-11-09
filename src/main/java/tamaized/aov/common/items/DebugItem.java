@@ -29,8 +29,10 @@ public class DebugItem extends TamItem {
 	@Nonnull
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, @Nonnull EnumHand hand) {
-		if (world.isRemote)
+		if (world.isRemote) {
+//			tamaized.aov.client.RenderAstro.testVarPleaseIgnore = 12 * 200;
 			return super.onItemRightClick(world, player, hand);
+		}
 		if (player.hasCapability(CapabilityList.AOV, null)) {
 			IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
 			if (cap != null)

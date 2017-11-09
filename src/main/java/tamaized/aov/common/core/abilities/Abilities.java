@@ -1,6 +1,7 @@
 package tamaized.aov.common.core.abilities;
 
 import tamaized.aov.common.core.abilities.astro.Draw;
+import tamaized.aov.common.core.abilities.astro.Redraw;
 import tamaized.aov.common.core.abilities.astro.RoyalRoad;
 import tamaized.aov.common.core.abilities.astro.Spread;
 import tamaized.aov.common.core.abilities.caster.BladeBarrier;
@@ -67,6 +68,7 @@ public class Abilities {
 	public static AbilityBase draw;
 	public static AbilityBase royalroad;
 	public static AbilityBase spread;
+	public static AbilityBase redraw;
 
 	public static void register() {
 
@@ -108,6 +110,7 @@ public class Abilities {
 		draw = new Draw();
 		royalroad = new RoyalRoad();
 		spread = new Spread();
+		redraw = new Redraw();
 	}
 
 }

@@ -30,6 +30,7 @@ public class SoundEvents {
 	public static SoundEvent draw1 = null;
 	public static SoundEvent draw2 = null;
 	public static SoundEvent spread = null;
+	public static SoundEvent redraw = null;
 
 	@SubscribeEvent
 	public static void registerSounds(RegistryEvent.Register<SoundEvent> event) {
@@ -50,6 +51,7 @@ public class SoundEvents {
 		draw1 = registerSound(event, "draw1");
 		draw2 = registerSound(event, "draw2");
 		spread = registerSound(event, "spread");
+		redraw = registerSound(event, "redraw");
 	}
 
 	private static SoundEvent registerSound(RegistryEvent.Register<SoundEvent> event, String soundName) {

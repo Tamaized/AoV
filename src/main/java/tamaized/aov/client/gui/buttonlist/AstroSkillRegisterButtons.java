@@ -16,8 +16,8 @@ public class AstroSkillRegisterButtons implements IClassButtons {
 		instance.addNewButton(sbI);
 		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 13, instance.height - 48, AoVSkills.astro_core_3);
 		instance.addNewButton(sbI);
-		//		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 12, instance.height - 48, AoVSkills.astro_core_4);
-		//		instance.addNewButton(sbI);
+		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 12, instance.height - 48, AoVSkills.astro_core_4);
+		instance.addNewButton(sbI);
 		//		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 37, instance.height - 48, AoVSkills.astro_capstone);
 		//		instance.addNewButton(sbI);
 

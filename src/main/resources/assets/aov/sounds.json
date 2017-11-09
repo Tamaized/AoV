@@ -15,5 +15,6 @@
   "burn": {"category": "neutral", "sounds": [{"name": "aov:burn", "stream": false}]},
   "draw1": {"category": "neutral", "sounds": [{"name": "aov:draw1", "stream": false}]},
   "draw2": {"category": "neutral", "sounds": [{"name": "aov:draw2", "stream": false}]},
-  "spread": {"category": "neutral", "sounds": [{"name": "aov:spread", "stream": false}]}
+  "spread": {"category": "neutral", "sounds": [{"name": "aov:spread", "stream": false}]},
+  "redraw": {"category": "neutral", "sounds": [{"name": "aov:redraw", "stream": false}]}
 }

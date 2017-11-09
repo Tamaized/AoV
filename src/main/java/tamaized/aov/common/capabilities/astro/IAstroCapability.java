@@ -22,6 +22,8 @@ public interface IAstroCapability {
 
 	void drawCard(EntityLivingBase entity);
 
+	void redrawCard(EntityLivingBase entity);
+
 	void burnCard(EntityLivingBase entity);
 
 	void spreadCard(EntityLivingBase entity);
@@ -55,7 +57,7 @@ public interface IAstroCapability {
 
 	enum IAnimation {
 
-		Draw, Burn, Spread, Activate;
+		Draw, Burn, Spread, Activate, Redraw;
 
 		public static final IAnimation[] values = IAnimation.values();
 
