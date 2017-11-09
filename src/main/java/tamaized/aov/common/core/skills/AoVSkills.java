@@ -1,5 +1,6 @@
 package tamaized.aov.common.core.skills;
 
+import tamaized.aov.common.core.skills.astro.cores.AstroSkillCapStone;
 import tamaized.aov.common.core.skills.astro.cores.AstroSkillCore1;
 import tamaized.aov.common.core.skills.astro.cores.AstroSkillCore2;
 import tamaized.aov.common.core.skills.astro.cores.AstroSkillCore3;
@@ -301,7 +302,7 @@ public class AoVSkills {
 		astro_core_2 = new AstroSkillCore2();
 		astro_core_3 = new AstroSkillCore3();
 		astro_core_4 = new AstroSkillCore4();
-		astro_capstone = new NullSkill();
+		astro_capstone = new AstroSkillCapStone();
 
 		astro_tier_1_1 = new AstroSkillT1S1();
 		astro_tier_1_2 = new NullSkill();

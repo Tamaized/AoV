@@ -31,6 +31,7 @@ public class SoundEvents {
 	public static SoundEvent draw2 = null;
 	public static SoundEvent spread = null;
 	public static SoundEvent redraw = null;
+	public static SoundEvent timedilation = null;
 
 	@SubscribeEvent
 	public static void registerSounds(RegistryEvent.Register<SoundEvent> event) {
@@ -52,6 +53,7 @@ public class SoundEvents {
 		draw2 = registerSound(event, "draw2");
 		spread = registerSound(event, "spread");
 		redraw = registerSound(event, "redraw");
+		timedilation = registerSound(event, "timedilation");
 	}
 
 	private static SoundEvent registerSound(RegistryEvent.Register<SoundEvent> event, String soundName) {

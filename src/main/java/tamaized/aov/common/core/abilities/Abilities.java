@@ -4,6 +4,7 @@ import tamaized.aov.common.core.abilities.astro.Draw;
 import tamaized.aov.common.core.abilities.astro.Redraw;
 import tamaized.aov.common.core.abilities.astro.RoyalRoad;
 import tamaized.aov.common.core.abilities.astro.Spread;
+import tamaized.aov.common.core.abilities.astro.TimeDilation;
 import tamaized.aov.common.core.abilities.caster.BladeBarrier;
 import tamaized.aov.common.core.abilities.caster.Destruction;
 import tamaized.aov.common.core.abilities.caster.FlameStrike;
@@ -69,6 +70,7 @@ public class Abilities {
 	public static AbilityBase royalroad;
 	public static AbilityBase spread;
 	public static AbilityBase redraw;
+	public static AbilityBase timedilation;
 
 	public static void register() {
 
@@ -111,6 +113,7 @@ public class Abilities {
 		royalroad = new RoyalRoad();
 		spread = new Spread();
 		redraw = new Redraw();
+		timedilation = new TimeDilation();
 	}
 
 }
