@@ -70,10 +70,10 @@ public abstract class CureEffect extends AbilityBase {
 	protected abstract int getParticleColor();
 
 	@Override
-	public void cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
+	public boolean cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
 		IAoVCapability cap = player.hasCapability(CapabilityList.AOV, null) ? player.getCapability(CapabilityList.AOV, null) : null;
 		if (cap == null)
-			return;
+			return false;
 		if (cap.getInvokeMass())
 			castAsMass(player, cap);
 		else if (e == null) {
@@ -86,7 +86,7 @@ public abstract class CureEffect extends AbilityBase {
 			}
 		}
 		cap.addExp(player, 20, this);
-
+		return true;
 	}
 
 	private void castAsMass(EntityLivingBase target, IAoVCapability cap) {

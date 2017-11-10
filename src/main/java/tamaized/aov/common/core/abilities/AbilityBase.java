@@ -39,6 +39,7 @@ public abstract class AbilityBase {
 		return getID(this);
 	}
 
+	@SuppressWarnings("unused")
 	public boolean shouldDisable(IAoVCapability cap, @Nullable IAstroCapability astro) {
 		return false;
 	}
@@ -69,7 +70,10 @@ public abstract class AbilityBase {
 		return (usesInvoke() && cap.getInvokeMass()) ? (getChargeCost() * 2) : getChargeCost();
 	}
 
-	public abstract void cast(Ability ability, EntityPlayer caster, EntityLivingBase target);
+	/**
+	 * @return false to not use a charge
+	 */
+	public abstract boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target);
 
 	public abstract ResourceLocation getIcon();
 
@@ -112,8 +116,8 @@ public abstract class AbilityBase {
 		}
 
 		@Override
-		public void cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
-
+		public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
+			return false;
 		}
 
 		@Override

@@ -80,13 +80,13 @@ public class Redraw extends AbilityBase {
 	}
 
 	@Override
-	public void cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
+	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		if (!caster.hasCapability(CapabilityList.ASTRO, null) || !caster.hasCapability(CapabilityList.AOV, null))
-			return;
+			return false;
 		IAstroCapability astro = caster.getCapability(CapabilityList.ASTRO, null);
 		IAoVCapability aov = caster.getCapability(CapabilityList.AOV, null);
 		if (astro == null || aov == null)
-			return;
+			return false;
 		if (astro.getDraw() != null) {
 			astro.redrawCard(caster);
 			for (Ability a : aov.getSlots())
@@ -95,6 +95,7 @@ public class Redraw extends AbilityBase {
 		} else
 			ability.setNextCooldown(1);
 		astro.sendPacketUpdates(caster);
+		return true;
 	}
 
 }

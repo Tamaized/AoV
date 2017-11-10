@@ -63,13 +63,14 @@ public class Zeal extends AbilityBase {
 	}
 
 	@Override
-	public void cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
+	public boolean cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
 		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
 		if (cap == null)
-			return;
+			return false;
 		addPotionEffects(player);
 		SoundEvents.playMovingSoundOnServer(SoundEvents.cast_2, player);
 		cap.addExp(player, 20, this);
+		return true;
 	}
 
 	private void addPotionEffects(EntityLivingBase entity) {

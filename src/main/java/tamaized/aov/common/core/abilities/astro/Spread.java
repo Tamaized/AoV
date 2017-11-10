@@ -79,13 +79,13 @@ public class Spread extends AbilityBase {
 	}
 
 	@Override
-	public void cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
+	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		if (!caster.hasCapability(CapabilityList.ASTRO, null) || !caster.hasCapability(CapabilityList.AOV, null))
-			return;
+			return false;
 		IAstroCapability astro = caster.getCapability(CapabilityList.ASTRO, null);
 		IAoVCapability aov = caster.getCapability(CapabilityList.AOV, null);
 		if (astro == null || aov == null)
-			return;
+			return false;
 		if (astro.getSpread() == null) {
 			ability.setNextCooldown(1);
 			if (astro.getDraw() != null) {
@@ -105,6 +105,7 @@ public class Spread extends AbilityBase {
 			aov.addExp(caster, 15, this);
 		}
 		astro.sendPacketUpdates(caster);
+		return false;
 	}
 
 }

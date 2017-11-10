@@ -50,10 +50,10 @@ public class Burst extends AbilityBase {
 	}
 
 	@Override
-	public void cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
+	public boolean cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
 		IAoVCapability cap = player.hasCapability(CapabilityList.AOV, null) ? player.getCapability(CapabilityList.AOV, null) : null;
 		if (cap == null)
-			return;
+			return false;
 		ParticleHelper.spawnParticleMesh(ParticleHelper.Type.BURST, player.world, player.getPositionVector(), range, 0xFFFF00FF);
 		SoundEvents.playMovingSoundOnServer(SoundEvents.burst, player);
 		int a = (int) (dmg * (1f + (cap.getSpellPower() / 100f)));
@@ -67,6 +67,7 @@ public class Burst extends AbilityBase {
 				cap.addExp(player, 20, this);
 			}
 		}
+		return true;
 	}
 
 	@Override

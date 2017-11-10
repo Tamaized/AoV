@@ -83,12 +83,13 @@ public class BladeBarrier extends AbilityBase {
 	}
 
 	@Override
-	public void cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
+	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
 		if (cap == null)
-			return;
+			return false;
 		int a = (int) (damage * (1f + (cap.getSpellPower() / 100f)));
 		caster.world.spawnEntity(new EntitySpellBladeBarrier(caster.world, caster, a, distance));
+		return true;
 	}
 
 }

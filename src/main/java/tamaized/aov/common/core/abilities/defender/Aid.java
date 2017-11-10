@@ -71,10 +71,10 @@ public class Aid extends AbilityBase {
 	}
 
 	@Override
-	public void cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
+	public boolean cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
 		IAoVCapability cap = player.hasCapability(CapabilityList.AOV, null) ? player.getCapability(CapabilityList.AOV, null) : null;
 		if (cap == null)
-			return;
+			return false;
 		if (cap.getInvokeMass())
 			castAsMass(player, cap);
 		else if (e == null) {
@@ -85,7 +85,7 @@ public class Aid extends AbilityBase {
 		}
 		SoundEvents.playMovingSoundOnServer(SoundEvents.cast_2, player);
 		cap.addExp(player, 20, this);
-
+		return true;
 	}
 
 	private void addPotionEffects(EntityLivingBase entity) {

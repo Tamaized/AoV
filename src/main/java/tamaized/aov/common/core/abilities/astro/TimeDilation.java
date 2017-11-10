@@ -81,9 +81,9 @@ public class TimeDilation extends AbilityBase {
 	}
 
 	@Override
-	public void cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
+	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		if (!caster.hasCapability(CapabilityList.AOV, null))
-			return;
+			return true;
 		IAoVCapability aov = caster.getCapability(CapabilityList.AOV, null);
 		EntityLivingBase entity = target != null && aov != null && IAoVCapability.selectiveTarget(aov, target) ? target : caster;
 		for (PotionEffect effect : entity.getActivePotionEffects())
@@ -93,6 +93,7 @@ public class TimeDilation extends AbilityBase {
 			SoundEvents.playMovingSoundOnServer(SoundEvents.timedilation, entity);
 			entity.world.spawnEntity(new EntitySpellParticles(entity.world, entity, EnumParticleTypes.VILLAGER_HAPPY));
 		}
+		return true;
 	}
 
 }

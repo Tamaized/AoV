@@ -79,15 +79,17 @@ public class Destruction extends AbilityBase {
 	}
 
 	@Override
-	public void cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
+	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		if (target == null)
-			return;
+			return false;
 		IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
 		if (cap != null && target.isNonBoss()) {
 			target.attackEntityFrom(AoVDamageSource.destruction, Integer.MAX_VALUE);
 			target.world.playSound(null, target.posX, target.posY, target.posZ, SoundEvents.destruction, SoundCategory.NEUTRAL, 1.0F, 1.0F);
 			cap.addExp(caster, 20, Abilities.destruction);
+			return true;
 		}
+		return false;
 	}
 
 }

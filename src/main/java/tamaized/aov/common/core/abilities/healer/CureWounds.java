@@ -72,10 +72,10 @@ public abstract class CureWounds extends AbilityBase {
 	protected abstract int getParticleColor();
 
 	@Override
-	public void cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
+	public boolean cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
 		IAoVCapability cap = player.hasCapability(CapabilityList.AOV, null) ? player.getCapability(CapabilityList.AOV, null) : null;
 		if (cap == null)
-			return;
+			return false;
 		int a = (int) (damage * (1f + (cap.getSpellPower() / 100f)));
 		if (cap.getInvokeMass())
 			castAsMass(player, a, cap);
@@ -92,7 +92,7 @@ public abstract class CureWounds extends AbilityBase {
 			}
 		}
 		cap.addExp(player, 20, this);
-
+		return true;
 	}
 
 	private void castAsMass(EntityLivingBase target, int dmg, IAoVCapability cap) {

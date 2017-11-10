@@ -72,6 +72,7 @@ public final class Ability {
 		disabled = stream.readBoolean();
 	}
 
+	@SuppressWarnings("UnusedReturnValue")
 	public NBTTagCompound encode(NBTTagCompound nbt) {
 		nbt.setInteger("id", ability.getID());
 		nbt.setInteger("cooldown", cooldown);
@@ -111,10 +112,12 @@ public final class Ability {
 		timer = t;
 	}
 
+	@SuppressWarnings("unused")
 	public void setDisabled() {
 		disabled = true;
 	}
 
+	@SuppressWarnings("unused")
 	public void setEnabled() {
 		disabled = false;
 	}
@@ -134,8 +137,8 @@ public final class Ability {
 		IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
 		if (cap != null) {
 			if (cap.canUseAbility(this)) {
-				ability.cast(this, caster, target);
-				charges -= ability.getCost(cap);
+				if (ability.cast(this, caster, target))
+					charges -= ability.getCost(cap);
 				cooldown = (nextCooldown < 0 ? ability.getCoolDown() : nextCooldown) * ((ability.usesInvoke() && cap.getInvokeMass()) ? 2 : 1);
 				nextCooldown = -1;
 			}
@@ -167,6 +170,7 @@ public final class Ability {
 		return charges;
 	}
 
+	@SuppressWarnings("unused")
 	public int getDecay() {
 		return decay;
 	}

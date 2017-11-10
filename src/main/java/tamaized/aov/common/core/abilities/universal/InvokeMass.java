@@ -36,11 +36,12 @@ public class InvokeMass extends AbilityBase {
 	}
 
 	@Override
-	public void cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
+	public boolean cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
 		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
 		if (cap == null)
-			return;
+			return false;
 		cap.toggleInvokeMass();
+		return false;
 	}
 
 	@Override

@@ -91,10 +91,10 @@ public class FlameStrike extends AbilityBase {
 	}
 
 	@Override
-	public void cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
+	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
 		if (cap == null)
-			return;
+			return false;
 		int a = (int) (damage * (1f + (cap.getSpellPower() / 100f)));
 		ProjectileFlameStrike strike = new ProjectileFlameStrike(caster.world, caster, a);
 		HashSet<Entity> exclude = new HashSet<>();
@@ -118,6 +118,7 @@ public class FlameStrike extends AbilityBase {
 		}
 		caster.world.spawnEntity(strike);
 		strike.world.playSound(null, strike.posX, strike.posY - 20, strike.posZ, SoundEvents.firestrike, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+		return true;
 	}
 
 }

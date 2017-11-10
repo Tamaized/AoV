@@ -54,13 +54,14 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 	}
 
 	@Override
-	public void cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
+	public boolean cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
 		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
 		if (cap == null)
-			return;
+			return false;
 		cap.addAura(createAura(ability));
 		SoundEvents.playMovingSoundOnServer(SoundEvents.aura, player);
 		cap.addExp(player, 20, this);
+		return true;
 	}
 
 	@Override

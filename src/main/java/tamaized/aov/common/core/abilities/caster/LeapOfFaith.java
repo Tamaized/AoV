@@ -75,12 +75,13 @@ public class LeapOfFaith extends AbilityBase {
 	}
 
 	@Override
-	public void cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
+	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		Vec3d vec = caster.getLook(1.0F);
 		double distance = 3.5;
 		MotionHelper.addMotion(caster, new Vec3d(vec.x * distance, 1, vec.z * distance));
 		caster.addPotionEffect(new PotionEffect(AoVPotions.slowFall, 20 * 15));
 		SoundEvents.playMovingSoundOnServer(SoundEvents.boost, caster);
+		return false;
 	}
 
 }
