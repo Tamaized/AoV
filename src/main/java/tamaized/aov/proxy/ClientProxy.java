@@ -22,7 +22,6 @@ import tamaized.tammodized.proxy.AbstractProxy;
 
 public class ClientProxy extends AbstractProxy {
 
-	public static KeyBinding key;
 	public static boolean barToggle = false;
 
 	public ClientProxy() {
@@ -37,8 +36,7 @@ public class ClientProxy extends AbstractProxy {
 	@Override
 	public void preInit() {
 
-		key = new KeyBinding("key.aovbar", org.lwjgl.input.Keyboard.KEY_LMENU, "key.categories.aov");
-		ClientRegistry.registerKeyBinding(key);
+		KeyHandler.register();
 
 		MinecraftForge.EVENT_BUS.register(new AoVOverlay());
 		MinecraftForge.EVENT_BUS.register(new RenderPlayer());
@@ -58,7 +56,7 @@ public class ClientProxy extends AbstractProxy {
 
 	@Override
 	public void postInit() {
-		MinecraftForge.EVENT_BUS.register(new KeyHandler());
+
 	}
 
 }
