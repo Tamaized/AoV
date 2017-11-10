@@ -19,7 +19,7 @@ public class PotionEwer extends Potion {
 	private final ResourceLocation iconTexture;
 
 	public PotionEwer(String name) {
-		super(false, 0xFFFFFF);
+		super(false, 0x00FFFF);
 		iconTexture = new ResourceLocation(AoV.modid, "textures/potions/" + name + ".png");
 		setRegistryName(AoV.modid, name);
 		setPotionName("effect." + AoV.modid + "." + name);

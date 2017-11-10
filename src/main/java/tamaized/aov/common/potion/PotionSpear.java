@@ -17,7 +17,7 @@ public class PotionSpear extends Potion {
 	private final ResourceLocation iconTexture;
 
 	public PotionSpear(String name) {
-		super(false, 0xFFFFFF);
+		super(false, 0x0000FF);
 		iconTexture = new ResourceLocation(AoV.modid, "textures/potions/" + name + ".png");
 		setRegistryName(AoV.modid, name);
 		setPotionName("effect." + AoV.modid + "." + name);

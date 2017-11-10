@@ -8,6 +8,7 @@ import tamaized.aov.common.potion.PotionAid;
 import tamaized.aov.common.potion.PotionEwer;
 import tamaized.aov.common.potion.PotionSlowFall;
 import tamaized.aov.common.potion.PotionSpear;
+import tamaized.aov.common.potion.PotionSpire;
 import tamaized.aov.common.potion.PotionStalwartPact;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class AoVPotions {
 
 		potionList.add(spear = new PotionSpear("spear"));
 		potionList.add(ewer = new PotionEwer("ewer"));
-		potionList.add(spire = new PotionEwer("spire"));
+		potionList.add(spire = new PotionSpire("spire"));
 	}
 
 	@SubscribeEvent
