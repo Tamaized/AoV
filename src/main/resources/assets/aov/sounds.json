@@ -17,5 +17,10 @@
   "draw2": {"category": "neutral", "sounds": [{"name": "aov:draw2", "stream": false}]},
   "spread": {"category": "neutral", "sounds": [{"name": "aov:spread", "stream": false}]},
   "redraw": {"category": "neutral", "sounds": [{"name": "aov:redraw", "stream": false}]},
-  "timedilation": {"category": "neutral", "sounds": [{"name": "aov:timedilation", "stream": false}]}
+  "timedilation": {"category": "neutral", "sounds": [{"name": "aov:timedilation", "stream": false}]},
+  "aspectedbenefic": {"category": "neutral", "sounds": [{"name": "aov:aspectedbenefic", "stream": false}]},
+  "aspectedhelios": {"category": "neutral", "sounds": [{"name": "aov:aspectedhelios", "stream": false}]},
+  "benefic": {"category": "neutral", "sounds": [{"name": "aov:benefic", "stream": false}]},
+  "essentialdignity": {"category": "neutral", "sounds": [{"name": "aov:essentialdignity", "stream": false}]},
+  "helios": {"category": "neutral", "sounds": [{"name": "aov:helios", "stream": false}]}
 }

@@ -1,6 +1,11 @@
 package tamaized.aov.common.core.abilities;
 
+import tamaized.aov.common.core.abilities.astro.AspectedBenefic;
+import tamaized.aov.common.core.abilities.astro.AspectedHelios;
+import tamaized.aov.common.core.abilities.astro.Benefic;
 import tamaized.aov.common.core.abilities.astro.Draw;
+import tamaized.aov.common.core.abilities.astro.EssentialDignity;
+import tamaized.aov.common.core.abilities.astro.Helios;
 import tamaized.aov.common.core.abilities.astro.Redraw;
 import tamaized.aov.common.core.abilities.astro.RoyalRoad;
 import tamaized.aov.common.core.abilities.astro.Spread;
@@ -71,6 +76,11 @@ public class Abilities {
 	public static AbilityBase spread;
 	public static AbilityBase redraw;
 	public static AbilityBase timedilation;
+	public static AbilityBase benefic;
+	public static AbilityBase helios;
+	public static AbilityBase essentialdignity;
+	public static AbilityBase aspectedbenefic;
+	public static AbilityBase aspectedhelios;
 
 	public static void register() {
 
@@ -114,6 +124,11 @@ public class Abilities {
 		spread = new Spread();
 		redraw = new Redraw();
 		timedilation = new TimeDilation();
+		benefic = new Benefic();
+		helios = new Helios();
+		essentialdignity = new EssentialDignity();
+		aspectedbenefic = new AspectedBenefic();
+		aspectedhelios = new AspectedHelios();
 	}
 
 }

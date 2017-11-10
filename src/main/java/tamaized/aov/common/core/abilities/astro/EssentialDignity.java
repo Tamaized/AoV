@@ -3,7 +3,6 @@ package tamaized.aov.common.core.abilities.astro;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -17,31 +16,33 @@ import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.entity.EntitySpellParticles;
 import tamaized.aov.registry.SoundEvents;
 
-public class TimeDilation extends AbilityBase {
+public class EssentialDignity extends AbilityBase {
 
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid, "textures/spells/timedilation.png");
+	private static final ResourceLocation icon = new ResourceLocation(AoV.modid, "textures/spells/essentialdignity.png");
 
 	private static final int charges = -1;
 	private static final int distance = 10;
 
-	public TimeDilation() {
+	public EssentialDignity() {
 		super(
 
 				new TextComponentTranslation(getStaticName()),
 
 				new TextComponentTranslation(""),
 
+				new TextComponentTranslation("aov.spells.global.charges", "∞"),
+
 				new TextComponentTranslation("aov.spells.global.range", distance),
 
 				new TextComponentTranslation(""),
 
-				new TextComponentTranslation("aov.spells.timedilation.desc")
+				new TextComponentTranslation("aov.spells.essentialdignity.desc")
 
 		);
 	}
 
 	public static String getStaticName() {
-		return "aov.spells.timedilation.name";
+		return "aov.spells.essentialdignity.name";
 	}
 
 	@Override
@@ -57,7 +58,7 @@ public class TimeDilation extends AbilityBase {
 
 	@Override
 	public int getCoolDown() {
-		return 90;
+		return 40;
 	}
 
 	@Override
@@ -82,20 +83,15 @@ public class TimeDilation extends AbilityBase {
 
 	@Override
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
-		if (!caster.hasCapability(CapabilityList.AOV, null))
-			return true;
-		IAoVCapability aov = caster.getCapability(CapabilityList.AOV, null);
-		EntityLivingBase entity = target != null && aov != null && IAoVCapability.selectiveTarget(aov, target) ? target : caster;
-		for (PotionEffect effect : entity.getActivePotionEffects())
-			if (!effect.getPotion().isBadEffect())
-				entity.addPotionEffect(new PotionEffect(effect.getPotion(), effect.getDuration() * 2, effect.getAmplifier(), effect.getIsAmbient(), effect.doesShowParticles()));
-		if (!entity.world.isRemote) {
-			SoundEvents.playMovingSoundOnServer(SoundEvents.timedilation, entity);
-			entity.world.spawnEntity(new EntitySpellParticles(entity.world, entity, EnumParticleTypes.VILLAGER_HAPPY));
-			if (aov != null)
-				aov.addExp(caster, 20, ability.getAbility());
-		}
-		return true;
+		IAoVCapability cap = caster.hasCapability(CapabilityList.AOV, null) ? caster.getCapability(CapabilityList.AOV, null) : null;
+		if (cap == null)
+			return false;
+		EntityLivingBase entity = target != null && IAoVCapability.selectiveTarget(cap, target) ? target : caster;
+		entity.heal(entity.getMaxHealth());
+		SoundEvents.playMovingSoundOnServer(SoundEvents.essentialdignity, entity);
+		entity.world.spawnEntity(new EntitySpellParticles(entity.world, entity, EnumParticleTypes.END_ROD));
+		cap.addExp(caster, 12, this);
+		return false;
 	}
 
 }

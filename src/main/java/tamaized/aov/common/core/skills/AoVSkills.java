@@ -10,6 +10,7 @@ import tamaized.aov.common.core.skills.astro.tier1.AstroSkillT1S3;
 import tamaized.aov.common.core.skills.astro.tier1.AstroSkillT1S5;
 import tamaized.aov.common.core.skills.astro.tier2.AstroSkillT2S1;
 import tamaized.aov.common.core.skills.astro.tier2.AstroSkillT2S3;
+import tamaized.aov.common.core.skills.astro.tier2.AstroSkillT2S4;
 import tamaized.aov.common.core.skills.astro.tier2.AstroSkillT2S5;
 import tamaized.aov.common.core.skills.astro.tier3.AstroSkillT3S1;
 import tamaized.aov.common.core.skills.astro.tier3.AstroSkillT3S2;
@@ -313,7 +314,7 @@ public class AoVSkills {
 		astro_tier_2_1 = new AstroSkillT2S1();
 		astro_tier_2_2 = new NullSkill();
 		astro_tier_2_3 = new AstroSkillT2S3();
-		astro_tier_2_4 = new NullSkill();
+		astro_tier_2_4 = new AstroSkillT2S4();
 		astro_tier_2_5 = new AstroSkillT2S5();
 
 		astro_tier_3_1 = new AstroSkillT3S1();

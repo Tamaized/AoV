@@ -3,9 +3,9 @@ package tamaized.aov.common.core.abilities.astro;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -17,31 +17,38 @@ import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.entity.EntitySpellParticles;
 import tamaized.aov.registry.SoundEvents;
 
-public class TimeDilation extends AbilityBase {
+import java.util.List;
 
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid, "textures/spells/timedilation.png");
+public class Helios extends AbilityBase {
 
-	private static final int charges = -1;
-	private static final int distance = 10;
+	private static final ResourceLocation icon = new ResourceLocation(AoV.modid, "textures/spells/helios.png");
 
-	public TimeDilation() {
+	private static final int charges = 4;
+	private static final int distance = 20;
+	private static final int heal = 2;
+
+	public Helios() {
 		super(
 
 				new TextComponentTranslation(getStaticName()),
 
 				new TextComponentTranslation(""),
 
+				new TextComponentTranslation("aov.spells.global.charges", charges),
+
 				new TextComponentTranslation("aov.spells.global.range", distance),
+
+				new TextComponentTranslation("aov.spells.global.healing", heal),
 
 				new TextComponentTranslation(""),
 
-				new TextComponentTranslation("aov.spells.timedilation.desc")
+				new TextComponentTranslation("aov.spells.helios.desc")
 
 		);
 	}
 
 	public static String getStaticName() {
-		return "aov.spells.timedilation.name";
+		return "aov.spells.helios.name";
 	}
 
 	@Override
@@ -57,7 +64,7 @@ public class TimeDilation extends AbilityBase {
 
 	@Override
 	public int getCoolDown() {
-		return 90;
+		return 4;
 	}
 
 	@Override
@@ -67,7 +74,7 @@ public class TimeDilation extends AbilityBase {
 
 	@Override
 	public int getChargeCost() {
-		return 0;
+		return 1;
 	}
 
 	@Override
@@ -82,19 +89,19 @@ public class TimeDilation extends AbilityBase {
 
 	@Override
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
-		if (!caster.hasCapability(CapabilityList.AOV, null))
-			return true;
-		IAoVCapability aov = caster.getCapability(CapabilityList.AOV, null);
-		EntityLivingBase entity = target != null && aov != null && IAoVCapability.selectiveTarget(aov, target) ? target : caster;
-		for (PotionEffect effect : entity.getActivePotionEffects())
-			if (!effect.getPotion().isBadEffect())
-				entity.addPotionEffect(new PotionEffect(effect.getPotion(), effect.getDuration() * 2, effect.getAmplifier(), effect.getIsAmbient(), effect.doesShowParticles()));
-		if (!entity.world.isRemote) {
-			SoundEvents.playMovingSoundOnServer(SoundEvents.timedilation, entity);
-			entity.world.spawnEntity(new EntitySpellParticles(entity.world, entity, EnumParticleTypes.VILLAGER_HAPPY));
-			if (aov != null)
-				aov.addExp(caster, 20, ability.getAbility());
+		IAoVCapability cap = caster.hasCapability(CapabilityList.AOV, null) ? caster.getCapability(CapabilityList.AOV, null) : null;
+		if (cap == null)
+			return false;
+		EntityLivingBase e = target != null && IAoVCapability.selectiveTarget(cap, target) ? target : caster;
+		List<EntityLivingBase> list = e.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(e.getPosition().add(-distance, -distance, -distance), e.getPosition().add(distance, distance, distance)));
+		for (EntityLivingBase entity : list) {
+			if (entity == caster || IAoVCapability.selectiveTarget(cap, entity)) {
+				entity.heal(heal);
+				entity.world.spawnEntity(new EntitySpellParticles(entity.world, entity, EnumParticleTypes.HEART));
+			}
+			cap.addExp(caster, 12, this);
 		}
+		SoundEvents.playMovingSoundOnServer(SoundEvents.helios, e);
 		return true;
 	}
 

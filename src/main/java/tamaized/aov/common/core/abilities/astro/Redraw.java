@@ -92,6 +92,7 @@ public class Redraw extends AbilityBase {
 			for (Ability a : aov.getSlots())
 				if (a != null && a.getAbility() == Abilities.draw)
 					a.setTimer(30);
+			aov.addExp(caster, 8, ability.getAbility());
 		} else
 			ability.setNextCooldown(1);
 		astro.sendPacketUpdates(caster);

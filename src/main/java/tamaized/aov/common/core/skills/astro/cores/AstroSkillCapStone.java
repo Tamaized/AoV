@@ -18,7 +18,7 @@ public class AstroSkillCapStone extends AoVSkill {
 	private static final int COST = 1;
 	private static final int LEVEL = 15;
 	private static final int SPENT = 0;
-	private static final int CHARGES = -1;
+	private static final int CHARGES = 0;
 	private static final int SPELLPOWER = 0;
 	private static final int DODGE = 0;
 	private static final int DOUBLESTRIKE = 0;
@@ -71,7 +71,7 @@ public class AstroSkillCapStone extends AoVSkill {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return SkillIcons.charges;
+		return Abilities.timedilation.getIcon();
 	}
 
 	@Override

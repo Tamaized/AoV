@@ -10,7 +10,7 @@ import tamaized.aov.common.core.skills.AoVSkills;
 
 import java.util.List;
 
-public class AstroSkillT2S5 extends AoVSkill {
+public class AstroSkillT2S4 extends AoVSkill {
 
 	private static final List<AbilityBase> spells = Lists.newArrayList();
 
@@ -24,19 +24,19 @@ public class AstroSkillT2S5 extends AoVSkill {
 	private static final boolean SELECTIVE_FOCUS = false;
 
 	static {
-		spells.add(Abilities.helios);
+		spells.add(Abilities.essentialdignity);
 	}
 
-	public AstroSkillT2S5() {
+	public AstroSkillT2S4() {
 		super(spells,
 
-				new TextComponentTranslation("aov.skill.astro.tier2.5.name"),
+				new TextComponentTranslation("aov.skill.astro.tier2.4.name"),
 
 				new TextComponentTranslation("aov.skill.global.minpoint", SPENT),
 
 				new TextComponentTranslation(""),
 
-				new TextComponentTranslation("aov.skill.astro.tier2.5.desc")
+				new TextComponentTranslation("aov.skill.astro.tier2.4.desc")
 
 		);
 	}
@@ -68,7 +68,7 @@ public class AstroSkillT2S5 extends AoVSkill {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return Abilities.helios.getIcon();
+		return Abilities.essentialdignity.getIcon();
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class AstroSkillT2S5 extends AoVSkill {
 
 	@Override
 	public AoVSkill getParent() {
-		return AoVSkills.astro_tier_1_5;
+		return AoVSkills.astro_core_1;
 	}
 
 	@Override

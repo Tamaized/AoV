@@ -32,6 +32,11 @@ public class SoundEvents {
 	public static SoundEvent spread = null;
 	public static SoundEvent redraw = null;
 	public static SoundEvent timedilation = null;
+	public static SoundEvent aspectedbenefic = null;
+	public static SoundEvent aspectedhelios = null;
+	public static SoundEvent benefic = null;
+	public static SoundEvent essentialdignity = null;
+	public static SoundEvent helios = null;
 
 	@SubscribeEvent
 	public static void registerSounds(RegistryEvent.Register<SoundEvent> event) {
@@ -54,6 +59,11 @@ public class SoundEvents {
 		spread = registerSound(event, "spread");
 		redraw = registerSound(event, "redraw");
 		timedilation = registerSound(event, "timedilation");
+		aspectedbenefic = registerSound(event, "aspectedbenefic");
+		aspectedhelios = registerSound(event, "aspectedhelios");
+		benefic = registerSound(event, "benefic");
+		essentialdignity = registerSound(event, "essentialdignity");
+		helios = registerSound(event, "helios");
 	}
 
 	private static SoundEvent registerSound(RegistryEvent.Register<SoundEvent> event, String soundName) {
