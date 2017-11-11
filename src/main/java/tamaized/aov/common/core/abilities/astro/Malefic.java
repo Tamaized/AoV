@@ -86,7 +86,7 @@ public class Malefic extends AbilityBase {
 	@Override
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		if (!caster.hasCapability(CapabilityList.AOV, null))
-			return true;
+			return false;
 		IAoVCapability aov = caster.getCapability(CapabilityList.AOV, null);
 		if (!caster.world.isRemote && aov != null) {
 			EntityMalefic spell = new EntityMalefic(caster.world, caster);
