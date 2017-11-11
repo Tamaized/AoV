@@ -1,8 +1,6 @@
 package tamaized.aov.common.entity;
 
-import tamaized.aov.common.core.abilities.AbilityBase;
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
+import com.google.common.collect.Sets;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -18,33 +16,25 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.SPacketChangeGameState;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.tammodized.common.helper.RayTraceHelper;
 
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 import java.util.HashSet;
 
 public abstract class ProjectileBase extends EntityArrow implements IProjectile, IEntityAdditionalSpawnData {
 
-	private static final Predicate<Entity> ARROW_TARGETS = Predicates.and(new Predicate[]{EntitySelectors.NOT_SPECTATING, EntitySelectors.IS_ALIVE, new Predicate<Entity>() {
-		public boolean apply(@Nullable Entity p_apply_1_) {
-			return p_apply_1_.canBeCollidedWith();
-		}
-	}});
-	private int xTile;
-	private int yTile;
-	private int zTile;
-	private Block inTile;
-	private int inData;
-	protected boolean inGround;
-	protected int timeInGround;
 	/**
 	 * Seems to be some sort of timer for animating an arrow.
 	 */
@@ -53,13 +43,16 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 	 * The owner of this arrow.
 	 */
 	public Entity shootingEntity;
+	protected boolean inGround;
+	protected int timeInGround;
+	private int xTile;
+	private int yTile;
+	private int zTile;
+	private Block inTile;
+	private int inData;
 	private int ticksInGround;
 	private int ticksInAir;
 	private double damage;
-	/**
-	 * The amount of knockback an arrow applies when it hits a mob.
-	 */
-	private int knockbackStrength;
 
 	private double speed = 0.5D;
 	private float range = 0.0F;
@@ -87,6 +80,10 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 		startingPoint = getPositionVector();
 	}
 
+	public ProjectileBase(World worldIn, EntityLivingBase shooter) {
+		this(worldIn, shooter, shooter.posX, shooter.posY, shooter.posZ);
+	}
+
 	public ProjectileBase(World worldIn, EntityLivingBase shooter, double x, double y, double z) {
 		this(worldIn);
 		shootingEntity = shooter;
@@ -96,6 +93,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 		setTheVelocity(vec.x, vec.y, vec.z);
 	}
 
+	@SuppressWarnings("unused")
 	public ProjectileBase(World worldIn, EntityLivingBase shooter, EntityLivingBase target, float dmg) {
 		this(worldIn, shooter.posX, shooter.posY + (double) shooter.getEyeHeight() - 0.10000000149011612D, shooter.posZ);
 		shootingEntity = shooter;
@@ -103,16 +101,15 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 		double d0 = target.posX - posX;
 		double d1 = target.getEntityBoundingBox().minY + (double) (target.height / 2.0F) - posY;
 		double d2 = target.posZ - posZ;
-		double d3 = (double) MathHelper.sqrt(d0 * d0 + d2 * d2);
 		setThrowableHeading(d0, d1/* + d3 * 0.20000000298023224D */, d2, 1.6F, (float) (14 - world.getDifficulty().getDifficultyId() * 4));
-	}
-
-	public void setColor(int c) {
-		color = c;
 	}
 
 	public int getColor() {
 		return color;
+	}
+
+	public void setColor(int c) {
+		color = c;
 	}
 
 	public void setTheVelocity(double x, double y, double z) {
@@ -131,20 +128,32 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 		}
 	}
 
-	public void setSpell(AbilityBase ability) {
-		parentSpell = ability;
-	}
-
 	public AbilityBase getSpell() {
 		return parentSpell;
+	}
+
+	public void setSpell(AbilityBase ability) {
+		parentSpell = ability;
 	}
 
 	public void setMaxRange(int range) {
 		maxRange = range;
 	}
 
+	public float getRange() {
+		return range;
+	}
+
+	public double getSpeed() {
+		return speed;
+	}
+
 	public void setSpeed(int s) {
 		speed = s;
+	}
+
+	public double getDamage() {
+		return damage;
 	}
 
 	@Override
@@ -178,13 +187,13 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 	}
 
 	@Override
-	public void setIsCritical(boolean critical) {
-
+	public boolean getIsCritical() {
+		return false;
 	}
 
 	@Override
-	public boolean getIsCritical() {
-		return false;
+	public void setIsCritical(boolean critical) {
+
 	}
 
 	/**
@@ -207,7 +216,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 
 		if (iblockstate.getMaterial() != Material.AIR) {// check if hit block
 			AxisAlignedBB axisalignedbb = iblockstate.getCollisionBoundingBox(world, blockpos);
-			if (axisalignedbb != Block.NULL_AABB && axisalignedbb.offset(blockpos).contains(new Vec3d(posX, posY, posZ))) {
+			if (axisalignedbb != Block.NULL_AABB && (axisalignedbb != null && axisalignedbb.offset(blockpos).contains(new Vec3d(posX, posY, posZ)))) {
 				inGround = true;
 			}
 		}
@@ -245,7 +254,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 				setDead();
 			Vec3d vec3d1 = new Vec3d(posX - motionX, posY - motionY, posZ - motionZ);
 			Vec3d vec3d = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
-			HashSet<Entity> set = new HashSet<Entity>();
+			HashSet<Entity> set = Sets.newHashSet();
 			set.add(shootingEntity);
 			RayTraceResult raytraceresult = RayTraceHelper.tracePath(world, vec3d1, vec3d, 1, set);// world.rayTraceBlocks(vec3d1, vec3d, false, true, false);
 			if (raytraceresult != null && raytraceresult.entityHit != null && raytraceresult.entityHit instanceof EntityPlayer) {
@@ -266,8 +275,9 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 			float f4 = MathHelper.sqrt(motionX * motionX + motionZ * motionZ);
 			rotationYaw = (float) (Math.atan2(motionX, motionZ) * (180.0D / Math.PI));
 
-			for (rotationPitch = (float) (MathHelper.atan2(motionY, (double) f4) * (180D / Math.PI)); rotationPitch - prevRotationPitch < -180.0F; prevRotationPitch -= 360.0F) {
-				;
+			rotationPitch = (float) (MathHelper.atan2(motionY, (double) f4) * (180D / Math.PI));
+			while (rotationPitch - prevRotationPitch < -180.0F) {
+				prevRotationPitch -= 360.0F;
 			}
 
 			while (rotationPitch - prevRotationPitch >= 180.0F) {
@@ -336,23 +346,6 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 				if (entity instanceof EntityLivingBase) {
 					EntityLivingBase entitylivingbase = (EntityLivingBase) entity;
 
-					if (!world.isRemote) {
-						// entitylivingbase.setArrowCountInEntity(entitylivingbase.getArrowCountInEntity() + 1);
-					}
-
-					if (knockbackStrength > 0) {
-						float f1 = MathHelper.sqrt(motionX * motionX + motionZ * motionZ);
-
-						if (f1 > 0.0F) {
-							entitylivingbase.addVelocity(motionX * (double) knockbackStrength * 0.6000000238418579D / (double) f1, 0.1D, motionZ * (double) knockbackStrength * 0.6000000238418579D / (double) f1);
-						}
-					}
-
-					if (shootingEntity instanceof EntityLivingBase) {
-						// EnchantmentHelper.applyThornEnchantments(entitylivingbase, shootingEntity);
-						// EnchantmentHelper.applyArthropodEnchantments((EntityLivingBase)shootingEntity, entitylivingbase);
-					}
-
 					arrowHit(entitylivingbase);
 
 					if (shootingEntity != null && entitylivingbase != shootingEntity && entitylivingbase instanceof EntityPlayer && shootingEntity instanceof EntityPlayerMP) {
@@ -399,7 +392,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 			// playSound(SoundEvents.ENTITY_ARROW_HIT, 1.0F, 1.2F / (rand.nextFloat() * 0.2F + 0.9F));
 			inGround = true;
 			arrowShake = 7;
-
+			blockHit(iblockstate, blockpos);
 			if (iblockstate.getMaterial() != Material.AIR) {
 				inTile.onEntityCollidedWithBlock(world, blockpos, iblockstate, this);
 			}
@@ -409,6 +402,8 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 	@Override
 	protected abstract void arrowHit(EntityLivingBase entity);
 
+	protected abstract void blockHit(IBlockState state, BlockPos pos);
+
 	@SideOnly(Side.CLIENT)
 	private void particles() {
 	}
@@ -417,12 +412,14 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 	 * (abstract) Protected helper method to write subclass entity data to NBT.
 	 */
 	@Override
+	@SuppressWarnings("ConstantConditions")
+	// the "nonnull" RL is being retarded and being null, EntityArrow does the same thing so whatever
 	public void writeEntityToNBT(NBTTagCompound compound) {
 		compound.setInteger("xTile", xTile);
 		compound.setInteger("yTile", yTile);
 		compound.setInteger("zTile", zTile);
 		compound.setShort("life", (short) ticksInGround);
-		ResourceLocation resourcelocation = (ResourceLocation) Block.REGISTRY.getNameForObject(inTile);
+		ResourceLocation resourcelocation = Block.REGISTRY.getNameForObject(this.inTile);
 		compound.setString("inTile", resourcelocation == null ? "" : resourcelocation.toString());
 		compound.setByte("inData", (byte) inData);
 		compound.setByte("shake", (byte) arrowShake);
@@ -466,7 +463,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 	 * Called by a player entity when they collide with an entity
 	 */
 	@Override
-	public void onCollideWithPlayer(EntityPlayer p_70100_1_) {
+	public void onCollideWithPlayer(@Nonnull EntityPlayer p_70100_1_) {
 
 	}
 
@@ -476,6 +473,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 		speed = s;
 	}
 
+	@Nonnull
 	@Override
 	protected ItemStack getArrowStack() {
 		return ItemStack.EMPTY;

@@ -22,5 +22,9 @@
   "aspectedhelios": {"category": "neutral", "sounds": [{"name": "aov:aspectedhelios", "stream": false}]},
   "benefic": {"category": "neutral", "sounds": [{"name": "aov:benefic", "stream": false}]},
   "essentialdignity": {"category": "neutral", "sounds": [{"name": "aov:essentialdignity", "stream": false}]},
-  "helios": {"category": "neutral", "sounds": [{"name": "aov:helios", "stream": false}]}
+  "helios": {"category": "neutral", "sounds": [{"name": "aov:helios", "stream": false}]},
+  "malefic_cast": {"category": "neutral", "sounds": [{"name": "aov:malefic_cast", "stream": false}]},
+  "malefic_hit": {"category": "neutral", "sounds": [{"name": "aov:malefic_hit", "stream": false}]},
+  "gravity": {"category": "neutral", "sounds": [{"name": "aov:gravity", "stream": false}]},
+  "celestialopposition": {"category": "neutral", "sounds": [{"name": "aov:celestialopposition", "stream": false}]}
 }

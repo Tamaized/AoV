@@ -7,12 +7,14 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import tamaized.aov.client.RenderPlayer;
 import tamaized.aov.client.entity.RenderFlameStrike;
+import tamaized.aov.client.entity.RenderMalefic;
 import tamaized.aov.client.entity.RenderNimbusRay;
 import tamaized.aov.client.entity.RenderSpellBladeBarrier;
 import tamaized.aov.client.entity.RenderSpellEntity;
 import tamaized.aov.client.events.ClientSpawnEvent;
 import tamaized.aov.client.events.KeyHandler;
 import tamaized.aov.client.gui.AoVOverlay;
+import tamaized.aov.common.entity.EntityMalefic;
 import tamaized.aov.common.entity.EntitySpellBladeBarrier;
 import tamaized.aov.common.entity.EntitySpellImplosion;
 import tamaized.aov.common.entity.EntitySpellParticles;
@@ -46,6 +48,7 @@ public class ClientProxy extends AbstractProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntitySpellImplosion.class, RenderSpellEntity::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntitySpellBladeBarrier.class, RenderSpellBladeBarrier::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntitySpellParticles.class, RenderSpellEntity::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityMalefic.class, RenderMalefic::new);
 
 	}
 

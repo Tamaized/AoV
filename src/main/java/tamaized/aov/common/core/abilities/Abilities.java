@@ -6,6 +6,7 @@ import tamaized.aov.common.core.abilities.astro.Benefic;
 import tamaized.aov.common.core.abilities.astro.Draw;
 import tamaized.aov.common.core.abilities.astro.EssentialDignity;
 import tamaized.aov.common.core.abilities.astro.Helios;
+import tamaized.aov.common.core.abilities.astro.Malefic;
 import tamaized.aov.common.core.abilities.astro.Redraw;
 import tamaized.aov.common.core.abilities.astro.RoyalRoad;
 import tamaized.aov.common.core.abilities.astro.Spread;
@@ -81,6 +82,7 @@ public class Abilities {
 	public static AbilityBase essentialdignity;
 	public static AbilityBase aspectedbenefic;
 	public static AbilityBase aspectedhelios;
+	public static AbilityBase malefic;
 
 	public static void register() {
 
@@ -129,6 +131,7 @@ public class Abilities {
 		essentialdignity = new EssentialDignity();
 		aspectedbenefic = new AspectedBenefic();
 		aspectedhelios = new AspectedHelios();
+		malefic = new Malefic();
 	}
 
 }

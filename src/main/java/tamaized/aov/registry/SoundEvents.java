@@ -37,6 +37,10 @@ public class SoundEvents {
 	public static SoundEvent benefic = null;
 	public static SoundEvent essentialdignity = null;
 	public static SoundEvent helios = null;
+	public static SoundEvent malefic_cast = null;
+	public static SoundEvent malefic_hit = null;
+	public static SoundEvent gravity = null;
+	public static SoundEvent celestialopposition = null;
 
 	@SubscribeEvent
 	public static void registerSounds(RegistryEvent.Register<SoundEvent> event) {
@@ -64,6 +68,10 @@ public class SoundEvents {
 		benefic = registerSound(event, "benefic");
 		essentialdignity = registerSound(event, "essentialdignity");
 		helios = registerSound(event, "helios");
+		malefic_cast = registerSound(event, "malefic_cast");
+		malefic_hit = registerSound(event, "malefic_hit");
+		gravity = registerSound(event, "gravity");
+		celestialopposition = registerSound(event, "celestialopposition");
 	}
 
 	private static SoundEvent registerSound(RegistryEvent.Register<SoundEvent> event, String soundName) {

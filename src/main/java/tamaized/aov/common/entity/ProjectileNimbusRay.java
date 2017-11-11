@@ -1,10 +1,12 @@
 package tamaized.aov.common.entity;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -23,7 +25,7 @@ public class ProjectileNimbusRay extends ProjectileBase {
 
 	@Override
 	protected DamageSource getDamageSource() {
-		return AoVDamageSource.damageSource_caster_NimbusRay;
+		return AoVDamageSource.nimbus;
 	}
 
 	@Override
@@ -43,6 +45,11 @@ public class ProjectileNimbusRay extends ProjectileBase {
 			if (cap != null)
 				cap.addExp(shootingEntity, 20, getSpell());
 		}
+	}
+
+	@Override
+	protected void blockHit(IBlockState state, BlockPos pos) {
+
 	}
 
 }
