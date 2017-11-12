@@ -24,7 +24,7 @@ public class AstroSkillT2S1 extends AoVSkill {
 	private static final boolean SELECTIVE_FOCUS = false;
 
 	static {
-
+		spells.add(Abilities.combust);
 	}
 
 	public AstroSkillT2S1() {
@@ -70,7 +70,7 @@ public class AstroSkillT2S1 extends AoVSkill {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return null;
+		return Abilities.combust.getIcon();
 	}
 
 	@Override
