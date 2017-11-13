@@ -29,13 +29,11 @@ public class RenderGravity<T extends EntityGravity> extends Render<T> {
 		super(renderManager);
 	}
 
-	private static void renderSphere(float radius) {
+	public static void renderSphere(float radius) {
 		sphere.setDrawStyle(GLU.GLU_FILL);
 		sphere.setNormals(GLU.GLU_SMOOTH);
 		sphere.setOrientation(GLU.GLU_OUTSIDE);
 		sphere.draw(radius, 32, 32);
-		//		sphere.setOrientation(GLU.GLU_INSIDE);
-		//		sphere.draw(radius, 32, 32);
 	}
 
 	public static void drawBoltSegment(Tessellator tessellator, Vec3d p1, Vec3d p2, float scale, int color) {

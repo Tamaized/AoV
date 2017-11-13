@@ -25,7 +25,6 @@ public class EntityGravity extends Entity {
 	public float spinnyBoi;
 	private Entity caster;
 	private float damage = 1;
-	private int range = 4;
 	private float damageMod = 1F;
 
 	public EntityGravity(World worldIn) {
@@ -70,6 +69,7 @@ public class EntityGravity extends Entity {
 			setDead();
 			return;
 		}
+		int range = 4;
 		for (EntityLivingBase e : world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(getPosition().add(-range, -2, -range), getPosition().add(range, 2, range)))) {
 			if (alreadyHit.contains(e))
 				continue;
