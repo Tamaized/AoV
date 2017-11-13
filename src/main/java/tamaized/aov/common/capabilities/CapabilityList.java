@@ -1,6 +1,7 @@
 package tamaized.aov.common.capabilities;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -13,6 +14,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
+import tamaized.aov.common.capabilities.stun.IStunCapability;
 
 import javax.annotation.Nonnull;
 
@@ -22,11 +24,14 @@ public class CapabilityList {
 	public static final Capability<IAoVCapability> AOV;
 	@CapabilityInject(IAstroCapability.class)
 	public static final Capability<IAstroCapability> ASTRO;
+	@CapabilityInject(IStunCapability.class)
+	public static final Capability<IStunCapability> STUN;
 
 	// Tricks Intellij
 	static {
 		AOV = null;
 		ASTRO = null;
+		STUN = null;
 	}
 
 	@SubscribeEvent
@@ -79,6 +84,33 @@ public class CapabilityList {
 				@Override
 				public void deserializeNBT(NBTTagCompound nbt) {
 					CapabilityList.ASTRO.getStorage().readNBT(CapabilityList.ASTRO, inst, null, nbt);
+				}
+
+			});
+		}
+		if (e.getObject() instanceof EntityLivingBase) {
+			e.addCapability(IStunCapability.ID, new ICapabilitySerializable<NBTTagCompound>() {
+
+				IStunCapability inst = CapabilityList.STUN.getDefaultInstance();
+
+				@Override
+				public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing facing) {
+					return capability == CapabilityList.STUN;
+				}
+
+				@Override
+				public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
+					return capability == CapabilityList.STUN ? CapabilityList.STUN.<T>cast(inst) : null;
+				}
+
+				@Override
+				public NBTTagCompound serializeNBT() {
+					return (NBTTagCompound) CapabilityList.STUN.getStorage().writeNBT(CapabilityList.STUN, inst, null);
+				}
+
+				@Override
+				public void deserializeNBT(NBTTagCompound nbt) {
+					CapabilityList.STUN.getStorage().readNBT(CapabilityList.STUN, inst, null, nbt);
 				}
 
 			});

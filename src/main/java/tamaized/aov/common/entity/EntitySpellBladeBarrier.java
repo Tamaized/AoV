@@ -1,8 +1,6 @@
 package tamaized.aov.common.entity;
 
-import tamaized.aov.common.capabilities.CapabilityList;
-import tamaized.aov.common.core.abilities.Abilities;
-import tamaized.aov.common.core.abilities.AbilityBase;
+import com.google.common.collect.Lists;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -11,8 +9,11 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
+import tamaized.aov.common.capabilities.CapabilityList;
+import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.core.abilities.Abilities;
 
-import java.util.ArrayList;
+import javax.annotation.Nonnull;
 import java.util.Iterator;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class EntitySpellBladeBarrier extends Entity implements IEntityAdditional
 	private float damage = 1;
 	private int range = 10;
 
-	private List<EntityLivingBase> entityList = new ArrayList<EntityLivingBase>();
+	private List<EntityLivingBase> entityList = Lists.newArrayList();
 
 	public EntitySpellBladeBarrier(World worldIn) {
 		super(worldIn);
@@ -63,12 +64,12 @@ public class EntitySpellBladeBarrier extends Entity implements IEntityAdditional
 	}
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound compound) {
+	protected void readEntityFromNBT(@Nonnull NBTTagCompound compound) {
 
 	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound compound) {
+	protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
 
 	}
 
@@ -100,9 +101,9 @@ public class EntitySpellBladeBarrier extends Entity implements IEntityAdditional
 
 	private void doDamage(EntityLivingBase e) {
 		e.attackEntityFrom(DamageSource.causeIndirectMagicDamage(this, caster), damage);
-		if (caster.hasCapability(CapabilityList.AOV, null)) {
-			caster.getCapability(CapabilityList.AOV, null).addExp(caster, 20, Abilities.bladeBarrier);
-		}
+		IAoVCapability cap = caster.hasCapability(CapabilityList.AOV, null) ? caster.getCapability(CapabilityList.AOV, null) : null;
+		if (cap != null)
+			cap.addExp(caster, 20, Abilities.bladeBarrier);
 	}
 
 }

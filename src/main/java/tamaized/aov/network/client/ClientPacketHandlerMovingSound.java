@@ -43,12 +43,12 @@ public class ClientPacketHandlerMovingSound implements IMessageHandler<ClientPac
 		}
 
 		public Packet(Entity entity, int sound) {
-			e = entity.getEntityId();
-			soundID = sound;
+			this(entity, sound, 1, 1);
 		}
 
 		public Packet(Entity entity, int sound, float v, float p){
-			this(entity, sound);
+			e = entity.getEntityId();
+			soundID = sound;
 			volume = v;
 			pitch = p;
 		}

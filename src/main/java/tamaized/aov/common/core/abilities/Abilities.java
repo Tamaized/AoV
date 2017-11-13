@@ -3,6 +3,7 @@ package tamaized.aov.common.core.abilities;
 import tamaized.aov.common.core.abilities.astro.AspectedBenefic;
 import tamaized.aov.common.core.abilities.astro.AspectedHelios;
 import tamaized.aov.common.core.abilities.astro.Benefic;
+import tamaized.aov.common.core.abilities.astro.CelestialOpposition;
 import tamaized.aov.common.core.abilities.astro.Combust;
 import tamaized.aov.common.core.abilities.astro.Draw;
 import tamaized.aov.common.core.abilities.astro.EssentialDignity;
@@ -87,6 +88,7 @@ public class Abilities {
 	public static AbilityBase malefic;
 	public static AbilityBase combust;
 	public static AbilityBase gravity;
+	public static AbilityBase celestialopposition;
 
 	public static void register() {
 
@@ -138,6 +140,7 @@ public class Abilities {
 		malefic = new Malefic();
 		combust = new Combust();
 		gravity = new Gravity();
+		celestialopposition = new CelestialOpposition();
 	}
 
 }

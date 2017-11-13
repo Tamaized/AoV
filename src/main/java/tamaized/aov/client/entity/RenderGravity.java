@@ -23,17 +23,17 @@ import java.util.Random;
 public class RenderGravity<T extends EntityGravity> extends Render<T> {
 
 	private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.modid, "textures/entity/gravity.png");
-	private static final Sphere sphere = new Sphere();
+	public static final Sphere SPHERE = new Sphere();
 
 	public RenderGravity(RenderManager renderManager) {
 		super(renderManager);
 	}
 
 	public static void renderSphere(float radius) {
-		sphere.setDrawStyle(GLU.GLU_FILL);
-		sphere.setNormals(GLU.GLU_SMOOTH);
-		sphere.setOrientation(GLU.GLU_OUTSIDE);
-		sphere.draw(radius, 32, 32);
+		SPHERE.setDrawStyle(GLU.GLU_FILL);
+		SPHERE.setNormals(GLU.GLU_SMOOTH);
+		SPHERE.setOrientation(GLU.GLU_OUTSIDE);
+		SPHERE.draw(radius, 32, 32);
 	}
 
 	public static void drawBoltSegment(Tessellator tessellator, Vec3d p1, Vec3d p2, float scale, int color) {
@@ -137,7 +137,7 @@ public class RenderGravity<T extends EntityGravity> extends Render<T> {
 
 		GlStateManager.pushMatrix();
 		bindTexture(TEXTURE);
-		sphere.setTextureFlag(true);
+		SPHERE.setTextureFlag(true);
 		GlStateManager.rotate((entity.spinnyBoi += (360F / (float) Minecraft.getDebugFPS())) % 360, 0, 0, 1);
 		renderSphere(4F);
 		GlStateManager.color(0.5F, 0.75F, 0.75F, 1F - alpha);
@@ -149,6 +149,7 @@ public class RenderGravity<T extends EntityGravity> extends Render<T> {
 			rot.addVector(((float) i / 4F) - 1F, 0, ((float) i / 4F) - 1F);
 			renderBoltBetween(rot, new Vec3d(-rot.x * scale, -rot.y * scale, -rot.z * scale), 0.015f, 0.5f, 6, 0x77AAFF20);
 		}
+		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 		GlStateManager.popMatrix();
 		GlStateManager.color(1, 1, 1, 1);
 		GlStateManager.enableDepth();
@@ -156,7 +157,6 @@ public class RenderGravity<T extends EntityGravity> extends Render<T> {
 		GlStateManager.enableLighting();
 		GlStateManager.enableCull();
 		GlStateManager.popMatrix();
-
 	}
 
 	@Override

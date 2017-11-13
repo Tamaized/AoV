@@ -15,6 +15,8 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import org.lwjgl.opengl.GL11;
 import tamaized.aov.AoV;
+import tamaized.aov.client.entity.RenderCombust;
+import tamaized.aov.client.entity.RenderGravity;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.astro.AstroCapabilityHandler;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
@@ -37,33 +39,34 @@ public class RenderAstro {
 		IAstroCapability cap = player.getCapability(CapabilityList.ASTRO, null);
 		AstroCapabilityHandler handler = cap instanceof AstroCapabilityHandler ? (AstroCapabilityHandler) cap : null;
 
-		/*Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder vertexbuffer = tessellator.getBuffer();
 
-		GlStateManager.pushMatrix();
-		GlStateManager.disableCull();
+		/*GlStateManager.pushMatrix();
 		GlStateManager.disableLighting();
 		GlStateManager.enableBlend();
+		GlStateManager.disableCull();
+		GlStateManager.color(0, 0.6F, 1, 1.0F);
+		GlStateManager.rotate(90F, 1.0F, 0.0F, 0.0F);
+		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.SRC_ALPHA);
 
-		vertexbuffer.begin(GL11.GL_TRIANGLE_FAN, DefaultVertexFormats.POSITION);
-		float drho = (float) (Math.PI / 1F);
-		float radius = 6.0F;
-		int slices = 12;
-		double dtheta = 2.0f * Math.PI / slices;
-		vertexbuffer.pos(0, 0, radius);
-		for (int j = 0; j <= slices; j++) {
-			float theta = (j == slices) ? 0.0f : (float) (j * dtheta);
-			float x = -MathHelper.sin(theta) * MathHelper.sin(drho);
-			float y = MathHelper.cos(theta) * MathHelper.sin(drho);
-			float z = MathHelper.cos(drho);
-			vertexbuffer.pos(x * radius, y * radius, z * radius);
-		}
-		tessellator.draw();
+		e.getRenderer().bindTexture(RenderCombust.RING);
+		Tessellator tess = Tessellator.getInstance();
+		BufferBuilder buf = tess.getBuffer();
+		buf.begin(7, DefaultVertexFormats.POSITION_TEX);
 
-		GlStateManager.popMatrix();
+		buf.pos(1, 1, 0).tex(1, 1).endVertex();
+		buf.pos(1, 0, 0).tex(1, 0).endVertex();
+		buf.pos(0, 0, 0).tex(0, 0).endVertex();
+		buf.pos(0, 1, 0).tex(0, 1).endVertex();
+
+		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+		GlStateManager.disableDepth();
+		tess.draw();
+		GlStateManager.enableDepth();
+
+		GlStateManager.color(1, 1, 1, 1);
+		GlStateManager.enableCull();
 		GlStateManager.disableBlend();
 		GlStateManager.enableLighting();
-		GlStateManager.enableCull();
 		GlStateManager.popMatrix();*/
 
 		if (cap != null) {

@@ -19,8 +19,12 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.astro.AstroCapabilityHandler;
 import tamaized.aov.common.capabilities.astro.AstroCapabilityStorage;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
+import tamaized.aov.common.capabilities.stun.IStunCapability;
+import tamaized.aov.common.capabilities.stun.StunCapabilityHandler;
+import tamaized.aov.common.capabilities.stun.StunCapabilityStorage;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.skills.AoVSkills;
+import tamaized.aov.common.entity.EntityCelestialOpposition;
 import tamaized.aov.common.entity.EntityCombust;
 import tamaized.aov.common.entity.EntityGravity;
 import tamaized.aov.common.entity.EntityMalefic;
@@ -108,6 +112,7 @@ public class AoV extends TamModBase {
 
 		CapabilityManager.INSTANCE.register(IAoVCapability.class, new AoVCapabilityStorage(), AoVCapabilityHandler.class);
 		CapabilityManager.INSTANCE.register(IAstroCapability.class, new AstroCapabilityStorage(), AstroCapabilityHandler.class);
+		CapabilityManager.INSTANCE.register(IStunCapability.class, new StunCapabilityStorage(), StunCapabilityHandler.class);
 		MinecraftForge.EVENT_BUS.register(new CapabilityList());
 	}
 
@@ -129,6 +134,7 @@ public class AoV extends TamModBase {
 		registerEntity(EntityMalefic.class, "EntityMalefic", this, modid, 256, 1, true);
 		registerEntity(EntityCombust.class, "EntityCombust", this, modid, 256, 1, true);
 		registerEntity(EntityGravity.class, "EntityGravity", this, modid, 256, 1, true);
+		registerEntity(EntityCelestialOpposition.class, "EntityCelestialOpposition", this, modid, 256, 1, true);
 	}
 
 	@Override

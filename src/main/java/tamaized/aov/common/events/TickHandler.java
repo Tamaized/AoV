@@ -1,5 +1,7 @@
 package tamaized.aov.common.events;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
@@ -9,6 +11,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
+import tamaized.aov.common.capabilities.stun.IStunCapability;
 import tamaized.aov.registry.AoVPotions;
 
 public class TickHandler {
@@ -32,6 +35,19 @@ public class TickHandler {
 			IAstroCapability cap = player.getCapability(CapabilityList.ASTRO, null);
 			if (cap != null)
 				cap.update(player);
+		}
+	}
+
+	@SubscribeEvent
+	public void updateEntity(TickEvent.WorldTickEvent e) {
+		if (e.phase == TickEvent.Phase.START)
+			return;
+		for (Entity entity : e.world.loadedEntityList) {
+			if (!(entity instanceof EntityLivingBase))
+				continue;
+			IStunCapability cap = entity.hasCapability(CapabilityList.STUN, null) ? entity.getCapability(CapabilityList.STUN, null) : null;
+			if (cap != null)
+				cap.update((EntityLivingBase) entity);
 		}
 	}
 
