@@ -34,6 +34,8 @@ public class AstroSkillT2S5 extends AoVSkill {
 
 				new TextComponentTranslation("aov.skill.global.minpoint", SPENT),
 
+				new TextComponentTranslation("aov.skill.astro.tier2.5.req"),
+
 				new TextComponentTranslation(""),
 
 				new TextComponentTranslation("aov.skill.astro.tier2.5.desc")

@@ -20,16 +20,11 @@ public class Redraw extends AbilityBase {
 	private static final ResourceLocation icon = new ResourceLocation(AoV.modid, "textures/spells/redraw.png");
 
 	private static final int charges = -1;
-	private static final int distance = 10;
 
 	public Redraw() {
 		super(
 
 				new TextComponentTranslation(getStaticName()),
-
-				new TextComponentTranslation(""),
-
-				new TextComponentTranslation("aov.spells.global.range", distance),
 
 				new TextComponentTranslation(""),
 
@@ -71,7 +66,7 @@ public class Redraw extends AbilityBase {
 
 	@Override
 	public double getMaxDistance() {
-		return distance;
+		return 0;
 	}
 
 	@Override

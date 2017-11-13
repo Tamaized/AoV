@@ -112,6 +112,34 @@ aov.spells.curelightwounds.name=§eCure Light Wounds
 aov.spells.curemodwounds.name=§eCure Moderate Wounds
 aov.spells.cureseriouswounds.name=§eCure Serious Wounds
 aov.spells.heal.name=§eHeal
+aov.spells.aspectedbenefic.name=§eAspected Benefic
+aov.spells.aspectedbenefic.desc=§5A single target heal that also grants regeneration.
+aov.spells.aspectedhelios.name=§eAspected Helios
+aov.spells.aspectedhelios.desc=§5An AoE heal that also grants regeneration.
+aov.spells.benefic.name=§eBenefic
+aov.spells.benefic.desc=§5A single target heal.
+aov.spells.celestialopposition.name=§eCelestial Opposition
+aov.spells.celestialopposition.desc=§5An AoE stun that also grants nearby allies an additional 20 seconds on all of their beneficial effects.
+aov.spells.combust.name=§eCombust
+aov.spells.combust.desc=§5A single target dot (damage over time), this spell does not deal initial damage.
+aov.spells.draw.name=§eDraw
+aov.spells.draw.desc=§5Draws one of six random cards, use this ability again to activate your currently drawn card.
+aov.spells.essentialdignity.name=§eEssential Dignity
+aov.spells.essentialdignity.desc=§5A quick single target burst heal with a long cooldown.
+aov.spells.gravity.name=§eGravity
+aov.spells.gravity.desc=§5An AoE (Area of Effect) damage spell that deals 10%% less for each target hit. (Does not go lower than 50%%)
+aov.spells.helios.name=§eHelios
+aov.spells.helios.desc=§5An AoE (Area of Effect) heal.
+aov.spells.malefic.name=§eMalefic
+aov.spells.malefic.desc=§5A low damage attack that'll seek out targets.
+aov.spells.redraw.name=§eRedraw
+aov.spells.redraw.desc=§5Discards your currently drawn card and draws again.
+aov.spells.royalroad.name=§eRoyal Road
+aov.spells.royalroad.desc=§5Burns your currently drawn card to empower the next.
+aov.spells.spread.name=§eSpread
+aov.spells.spread.desc=§5Moves your currently drawn card into your spread which you can use at a later time.
+aov.spells.timedilation.name=§eTime Dilation
+aov.spells.timedilation.desc=§5A single target ability that doubles the duration of all beneficial effects.
 
 # Skills
 aov.skill.global.core=§cObtaining this skill prevents you from taking skills from any other class!
@@ -259,3 +287,56 @@ aov.skill.defender.tier4.3.name=§bDodge IV
 aov.skill.defender.tier4.3.req=§cRequires: Dodge III
 
 ## Astro
+### Core
+aov.skill.astro.core.1.name=§bClass Core: Astro
+aov.skill.astro.core.1.desc=§eAdded Ability: Draw
+aov.skill.astro.core.2.name=§bAstro Core 2
+aov.skill.astro.core.2.req=§cRequires: Class Core Astro
+aov.skill.astro.core.2.desc=§eAdded Ability: Royal Road
+aov.skill.astro.core.3.name=§bAstro Core 3
+aov.skill.astro.core.3.req=§cRequires: Astro Core 2
+aov.skill.astro.core.3.desc=§eAdded Ability: Spread
+aov.skill.astro.core.4.name=§bAstro Core 4
+aov.skill.astro.core.4.req=§cRequires: Astro Core 3
+aov.skill.astro.core.4.desc=§eAdded Ability: Redraw
+aov.skill.astro.core.5.name=§bCapstone: Astro
+aov.skill.astro.core.5.req=§cRequires: Astro Core 4
+aov.skill.astro.core.5.desc=§eAdded Ability: Time Dilation
+### T1
+aov.skill.astro.tier1.1.name=§bMalefic
+aov.skill.astro.tier1.1.desc=§eAdded Spell: Malefic
+aov.skill.astro.tier1.3.name=§bSpell Power I
+aov.skill.astro.tier1.5.name=§bBenefic
+aov.skill.astro.tier1.5.desc=§eAdded Spell: Benefic
+### T2
+aov.skill.astro.tier2.1.name=§bCombust
+aov.skill.astro.tier2.1.req=§cRequires: Malefic
+aov.skill.astro.tier2.1.desc=§eAdded Spell: Combust
+aov.skill.astro.tier2.3.name=§bSpell Power II
+aov.skill.astro.tier2.3.req=§cRequires: Spell Power I
+aov.skill.astro.tier2.4.name=§bEssential Dignity
+aov.skill.astro.tier2.4.desc=§eAdded Spell: Essential Dignity
+aov.skill.astro.tier2.5.name=§bHelios
+aov.skill.astro.tier2.5.req=§cRequires: Benefic
+aov.skill.astro.tier2.5.desc=§eAdded Spell: Helios
+### T3
+aov.skill.astro.tier3.1.name=§bGravity
+aov.skill.astro.tier3.1.req=§cRequires: Combust
+aov.skill.astro.tier3.1.desc=§eAdded Spell: Gravity
+aov.skill.astro.tier3.2.name=§bCharges I
+aov.skill.astro.tier3.3.name=§bSpell Power III
+aov.skill.astro.tier3.3.req=§cRequires: Spell Power II
+aov.skill.astro.tier3.5.name=§bAspected Benefic
+aov.skill.astro.tier3.5.req=§cRequires: Helios
+aov.skill.astro.tier3.5.desc=§eAdded Spell: Aspected Benefic
+### T4
+aov.skill.astro.tier4.1.name=§bCelestial Opposition
+aov.skill.astro.tier4.1.req=§cRequires: Gravity
+aov.skill.astro.tier4.1.desc=§eAdded Spell: Celestial Opposition
+aov.skill.astro.tier4.2.name=§bCharges II
+aov.skill.astro.tier4.2.req=§cRequires: Charges I
+aov.skill.astro.tier4.3.name=§bSpell Power IV
+aov.skill.astro.tier4.3.req=§cRequires: Spell Power III
+aov.skill.astro.tier4.5.name=§bAspected Helios
+aov.skill.astro.tier4.5.req=§cRequires: Aspected Benefic
+aov.skill.astro.tier4.5.desc=§eAdded Spell: Aspected Helios
