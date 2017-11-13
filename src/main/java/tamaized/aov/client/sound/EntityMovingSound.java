@@ -6,6 +6,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import tamaized.aov.registry.SoundEvents;
 
 @SideOnly(Side.CLIENT)
 public class EntityMovingSound extends MovingSound {
@@ -13,11 +14,13 @@ public class EntityMovingSound extends MovingSound {
 	private final Entity entity;
 	private float distance = 0.0F;
 
-	public EntityMovingSound(SoundEvent sound, SoundCategory category, Entity e, boolean loop, int delay) {
+	public EntityMovingSound(SoundEvent sound, SoundCategory category, Entity e, boolean loop, int delay, float volume, float pitch) {
 		super(sound, category);
 		entity = e;
 		repeat = loop;
 		repeatDelay = delay;
+		this.volume = volume;
+		this.pitch = pitch;
 	}
 
 	@Override

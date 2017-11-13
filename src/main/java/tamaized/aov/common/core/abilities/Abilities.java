@@ -6,6 +6,7 @@ import tamaized.aov.common.core.abilities.astro.Benefic;
 import tamaized.aov.common.core.abilities.astro.Combust;
 import tamaized.aov.common.core.abilities.astro.Draw;
 import tamaized.aov.common.core.abilities.astro.EssentialDignity;
+import tamaized.aov.common.core.abilities.astro.Gravity;
 import tamaized.aov.common.core.abilities.astro.Helios;
 import tamaized.aov.common.core.abilities.astro.Malefic;
 import tamaized.aov.common.core.abilities.astro.Redraw;
@@ -85,6 +86,7 @@ public class Abilities {
 	public static AbilityBase aspectedhelios;
 	public static AbilityBase malefic;
 	public static AbilityBase combust;
+	public static AbilityBase gravity;
 
 	public static void register() {
 
@@ -135,6 +137,7 @@ public class Abilities {
 		aspectedhelios = new AspectedHelios();
 		malefic = new Malefic();
 		combust = new Combust();
+		gravity = new Gravity();
 	}
 
 }

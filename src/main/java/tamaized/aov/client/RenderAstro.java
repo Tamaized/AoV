@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
+import org.lwjgl.opengl.GL11;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.astro.AstroCapabilityHandler;
@@ -36,41 +37,29 @@ public class RenderAstro {
 		IAstroCapability cap = player.getCapability(CapabilityList.ASTRO, null);
 		AstroCapabilityHandler handler = cap instanceof AstroCapabilityHandler ? (AstroCapabilityHandler) cap : null;
 
-		/*GlStateManager.pushMatrix();
-		GlStateManager.disableCull();
-		GlStateManager.disableLighting();
-		GlStateManager.enableBlend();
-		GlStateManager.rotate(-player.renderYawOffset, 0, 1, 0);
-
-		GlStateManager.translate(0F, 1.5F, 1F);
-		GlStateManager.rotate((testVarPleaseIgnore += (240F / (float) Minecraft.getDebugFPS())) % 360, 0, 0, 1);
-		if (testVarPleaseIgnore > 0)
-			testVarPleaseIgnore -= (120F / (float) Minecraft.getDebugFPS());
-		float s = (80F - testVarPleaseIgnore) / 80F;
-		GlStateManager.scale(s, s, s);
-		float f = 1.5F;//ftimer > 0 ? ((ftimer / 80f) * 1.5F) : 0F;
-		float scale = 0.3F;
-
-		e.getRenderer().bindTexture(TEXTURE_CARDS);
-		Tessellator tessellator = Tessellator.getInstance();
+		/*Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder vertexbuffer = tessellator.getBuffer();
 
 		GlStateManager.pushMatrix();
-		for (int i = 0; i <= 12; i++) {
-			vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
-			if (i > 0)
-				GlStateManager.rotate(30, 0, 0, 1);
-			float xpos = -0.15F;
-			float ypos = -0.435F;
-			testVarPleaseIgnore -= (180F / (float) Minecraft.getDebugFPS());
-			float uScale = 200F;
-			float u = testVarPleaseIgnore > (i - 1) * uScale ? (Math.max(0, ((i) * uScale) - testVarPleaseIgnore)) / uScale : 1F;
-			vertexbuffer.pos(xpos + scale, ypos + 1F, 0).tex(0, 0.5).endVertex();
-			vertexbuffer.pos(xpos + scale, ypos + 1F + (f * scale), 0).tex(0, 0.5F - (0.5F * (f / 1.5F))).endVertex();
-			vertexbuffer.pos(xpos + (scale * u), ypos + 1F + (f * scale), 0).tex(0.25 * (1F - u), 0.5F - (0.5F * (f / 1.5F))).endVertex();
-			vertexbuffer.pos(xpos + (scale * u), ypos + 1F, 0).tex(0.25 * (1F - u), 0.5).endVertex();
-			tessellator.draw();
+		GlStateManager.disableCull();
+		GlStateManager.disableLighting();
+		GlStateManager.enableBlend();
+
+		vertexbuffer.begin(GL11.GL_TRIANGLE_FAN, DefaultVertexFormats.POSITION);
+		float drho = (float) (Math.PI / 1F);
+		float radius = 6.0F;
+		int slices = 12;
+		double dtheta = 2.0f * Math.PI / slices;
+		vertexbuffer.pos(0, 0, radius);
+		for (int j = 0; j <= slices; j++) {
+			float theta = (j == slices) ? 0.0f : (float) (j * dtheta);
+			float x = -MathHelper.sin(theta) * MathHelper.sin(drho);
+			float y = MathHelper.cos(theta) * MathHelper.sin(drho);
+			float z = MathHelper.cos(drho);
+			vertexbuffer.pos(x * radius, y * radius, z * radius);
 		}
+		tessellator.draw();
+
 		GlStateManager.popMatrix();
 		GlStateManager.disableBlend();
 		GlStateManager.enableLighting();

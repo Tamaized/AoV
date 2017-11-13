@@ -22,6 +22,7 @@ import tamaized.aov.common.capabilities.astro.IAstroCapability;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.common.entity.EntityCombust;
+import tamaized.aov.common.entity.EntityGravity;
 import tamaized.aov.common.entity.EntityMalefic;
 import tamaized.aov.common.entity.EntitySpellBladeBarrier;
 import tamaized.aov.common.entity.EntitySpellImplosion;
@@ -127,6 +128,7 @@ public class AoV extends TamModBase {
 		registerEntity(EntitySpellParticles.class, "EntitySpellParticles", this, modid, 256, 1, true);
 		registerEntity(EntityMalefic.class, "EntityMalefic", this, modid, 256, 1, true);
 		registerEntity(EntityCombust.class, "EntityCombust", this, modid, 256, 1, true);
+		registerEntity(EntityGravity.class, "EntityGravity", this, modid, 256, 1, true);
 	}
 
 	@Override

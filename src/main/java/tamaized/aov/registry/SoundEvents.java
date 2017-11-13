@@ -84,4 +84,8 @@ public class SoundEvents {
 		AoV.network.sendToAllAround(new ClientPacketHandlerMovingSound.Packet(entity, SoundEvent.REGISTRY.getIDForObject(sound)), new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 32));
 	}
 
+	public static void playMovingSoundOnServer(SoundEvent sound, Entity entity, float volume, float pitch) {
+		AoV.network.sendToAllAround(new ClientPacketHandlerMovingSound.Packet(entity, SoundEvent.REGISTRY.getIDForObject(sound), volume, pitch), new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 32));
+	}
+
 }

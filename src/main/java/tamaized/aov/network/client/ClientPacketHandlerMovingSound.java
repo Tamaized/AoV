@@ -20,7 +20,7 @@ public class ClientPacketHandlerMovingSound implements IMessageHandler<ClientPac
 
 	@SideOnly(Side.CLIENT)
 	private static void processPacket(ClientPacketHandlerMovingSound.Packet message, @SuppressWarnings("unused") EntityPlayer player, World world) {
-		Minecraft.getMinecraft().getSoundHandler().playSound(new EntityMovingSound(SoundEvent.REGISTRY.getObjectById(message.soundID), SoundCategory.PLAYERS, world.getEntityByID(message.e), false, 0));
+		Minecraft.getMinecraft().getSoundHandler().playSound(new EntityMovingSound(SoundEvent.REGISTRY.getObjectById(message.soundID), SoundCategory.PLAYERS, world.getEntityByID(message.e), false, 0, message.volume, message.pitch));
 	}
 
 	@Override
@@ -34,6 +34,8 @@ public class ClientPacketHandlerMovingSound implements IMessageHandler<ClientPac
 
 		private int e;
 		private int soundID;
+		private float volume;
+		private float pitch;
 
 		@SuppressWarnings("unused")
 		public Packet() {
@@ -45,16 +47,26 @@ public class ClientPacketHandlerMovingSound implements IMessageHandler<ClientPac
 			soundID = sound;
 		}
 
+		public Packet(Entity entity, int sound, float v, float p){
+			this(entity, sound);
+			volume = v;
+			pitch = p;
+		}
+
 		@Override
 		public void fromBytes(ByteBuf buf) {
 			e = buf.readInt();
 			soundID = buf.readInt();
+			volume = buf.readFloat();
+			pitch = buf.readFloat();
 		}
 
 		@Override
 		public void toBytes(ByteBuf buf) {
 			buf.writeInt(e);
 			buf.writeInt(soundID);
+			buf.writeFloat(volume);
+			buf.writeFloat(pitch);
 		}
 	}
 }

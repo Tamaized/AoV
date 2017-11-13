@@ -12,15 +12,16 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ClientSpawnEvent {
 
+	@Deprecated
 	@SubscribeEvent
 	public void spawn(EntityJoinWorldEvent e) {
 		if (e.getWorld().isRemote) {
 			if (e.getEntity() instanceof EntitySpellBladeBarrier) {
-				Minecraft.getMinecraft().getSoundHandler().playSound(new EntityMovingSound(SoundEvents.bladebarrier, SoundCategory.NEUTRAL, e.getEntity(), true, 0));
+				Minecraft.getMinecraft().getSoundHandler().playSound(new EntityMovingSound(SoundEvents.bladebarrier, SoundCategory.NEUTRAL, e.getEntity(), true, 0, 1, 1));
 			} else if (e.getEntity() instanceof EntitySpellImplosion) {
-				Minecraft.getMinecraft().getSoundHandler().playSound(new EntityMovingSound(SoundEvents.implosion, SoundCategory.NEUTRAL, e.getEntity(), false, 0));
+				Minecraft.getMinecraft().getSoundHandler().playSound(new EntityMovingSound(SoundEvents.implosion, SoundCategory.NEUTRAL, e.getEntity(), false, 0, 1, 1));
 			} else if (e.getEntity() instanceof ProjectileNimbusRay) {
-				Minecraft.getMinecraft().getSoundHandler().playSound(new EntityMovingSound(SoundEvents.cast, SoundCategory.NEUTRAL, e.getEntity(), false, 0));
+				Minecraft.getMinecraft().getSoundHandler().playSound(new EntityMovingSound(SoundEvents.cast, SoundCategory.NEUTRAL, e.getEntity(), false, 0, 1, 1));
 			}
 		}
 	}
