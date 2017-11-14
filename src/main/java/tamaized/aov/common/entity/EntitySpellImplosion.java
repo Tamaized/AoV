@@ -4,8 +4,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import tamaized.aov.AoV;
 import tamaized.aov.registry.AoVDamageSource;
-import tamaized.tammodized.client.particles.ParticleFluff;
 
 import javax.annotation.Nonnull;
 
@@ -46,7 +46,7 @@ public class EntitySpellImplosion extends Entity {
 			for (int index = 0; index < 10; index++) {
 				Vec3d vec = getLook(1.0F).rotatePitch(rand.nextInt(360)).rotateYaw(rand.nextInt(360));
 				float speed = 0.08F;
-				net.minecraft.client.Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleFluff(world, getPositionVector().addVector(0, 0.65F, 0).add(vec), new Vec3d(-vec.x * speed, -vec.y * speed, -vec.z * speed), 7, 0, rand.nextFloat() * 0.90F + 0.10F, 0x7700FFFF));
+				AoV.proxy.spawnFluffParticle(world, getPositionVector().addVector(0, 0.65F, 0).add(vec), new Vec3d(-vec.x * speed, -vec.y * speed, -vec.z * speed), 7, 0, rand.nextFloat() * 0.90F + 0.10F, 0x7700FFFF);
 			}
 			return;
 		}

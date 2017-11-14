@@ -1,5 +1,8 @@
 package tamaized.aov.proxy;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import tamaized.aov.client.RenderPlayer;
@@ -23,9 +26,9 @@ import tamaized.aov.common.entity.EntitySpellImplosion;
 import tamaized.aov.common.entity.EntitySpellParticles;
 import tamaized.aov.common.entity.ProjectileFlameStrike;
 import tamaized.aov.common.entity.ProjectileNimbusRay;
-import tamaized.tammodized.proxy.AbstractProxy;
+import tamaized.tammodized.client.particles.ParticleFluff;
 
-public class ClientProxy extends AbstractProxy {
+public class ClientProxy extends CommonProxy {
 
 	public static boolean barToggle = false;
 
@@ -68,4 +71,8 @@ public class ClientProxy extends AbstractProxy {
 
 	}
 
+	@Override
+	public void spawnFluffParticle(World world, Vec3d pos, Vec3d target, int life, float gravity, float scale, int color) {
+		Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleFluff(world, pos, target, life, gravity, scale, color));
+	}
 }

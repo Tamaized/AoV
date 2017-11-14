@@ -1,8 +1,6 @@
 package tamaized.aov.proxy;
 
-import tamaized.tammodized.proxy.AbstractProxy;
-
-public class ServerProxy extends AbstractProxy {
+public class ServerProxy extends CommonProxy {
 
 	public ServerProxy() {
 		super(Side.SERVER);

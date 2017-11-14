@@ -117,7 +117,8 @@ public class AoVCapabilityHandler implements IAoVCapability {
 				sendPacketUpdates((EntityPlayerMP) player);
 			dirty = false;
 		}
-		updateHealth(player);
+		if (tick % 10 == 0)
+			updateHealth(player);
 		if (tick % (20 * 30) == 0 && hasSkill(AoVSkills.defender_capstone) && player != null) {
 			ItemStack main = player.getHeldItemMainhand();
 			ItemStack off = player.getHeldItemOffhand();
@@ -131,14 +132,14 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	private void updateHealth(EntityPlayer player) {
-		if (player == null)
+		if (player == null || player.world == null || player.world.isRemote)
 			return;
 		IAttributeInstance hp = player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
 		Iterator<AttributeModifier> iter = hp.getModifiers().iterator();
 		//noinspection WhileLoopReplaceableByForEach
 		while (iter.hasNext()) {
 			AttributeModifier mod = iter.next();
-			if (mod.getName().equals(defenderHealthName)) {
+			if (mod.getName().equals(defenderHealthName) && !hasSkill(AoVSkills.defender_tier_4_2)) {
 				hp.removeModifier(mod);
 			}
 		}

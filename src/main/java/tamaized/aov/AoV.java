@@ -38,6 +38,7 @@ import tamaized.aov.common.events.PlayerInteractHandler;
 import tamaized.aov.common.events.TickHandler;
 import tamaized.aov.common.gui.GuiHandler;
 import tamaized.aov.network.NetworkMessages;
+import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.AoVAchievements;
 import tamaized.aov.registry.AoVArmors;
 import tamaized.aov.registry.AoVBlocks;
@@ -57,7 +58,7 @@ public class AoV extends TamModBase {
 	@Instance(modid)
 	public static AoV instance = new AoV();
 	@SidedProxy(clientSide = "tamaized.aov.proxy.ClientProxy", serverSide = "tamaized.aov.proxy.ServerProxy")
-	public static AbstractProxy proxy;
+	public static CommonProxy proxy;
 	public static SimpleNetworkWrapper network;
 
 	static {
