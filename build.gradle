@@ -39,7 +39,6 @@ minecraft {
 }
 
 jar {
-    classifier = 'universal'
     manifest {
         attributes 'FMLAT': 'aov_at.cfg'
     }
