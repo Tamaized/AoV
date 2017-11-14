@@ -12,6 +12,9 @@ effect.aov.aid=Aid
 effect.aov.faith=Shield of Faith
 effect.aov.zeal=Zeal
 effect.aov.stalwart=Stalwart Pact
+effect.aov.ewer=Ewer
+effect.aov.spear=Spear
+effect.aov.spire=Spire
 
 # Item
 item.aov.debugger.name=Debugger

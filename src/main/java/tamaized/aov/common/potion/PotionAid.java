@@ -10,6 +10,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.AoV;
 
+import javax.annotation.Nonnull;
+
 public class PotionAid extends Potion {
 
 	private final ResourceLocation iconTexture;
@@ -19,6 +21,7 @@ public class PotionAid extends Potion {
 		iconTexture = new ResourceLocation(AoV.modid, "textures/potions/" + name + ".png");
 		setRegistryName(AoV.modid, name);
 		setPotionName("effect." + AoV.modid + "." + name);
+		setBeneficial();
 	}
 
 	@Override
@@ -32,7 +35,7 @@ public class PotionAid extends Potion {
 	}
 
 	@Override
-	public void performEffect(EntityLivingBase entityLivingBaseIn, int p_76394_2_) {
+	public void performEffect(@Nonnull EntityLivingBase entityLivingBaseIn, int p_76394_2_) {
 	}
 
 	@Override

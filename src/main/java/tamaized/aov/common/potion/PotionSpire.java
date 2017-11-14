@@ -20,6 +20,7 @@ public class PotionSpire extends Potion {
 		iconTexture = new ResourceLocation(AoV.modid, "textures/potions/" + name + ".png");
 		setRegistryName(AoV.modid, name);
 		setPotionName("effect." + AoV.modid + "." + name);
+		setBeneficial();
 	}
 
 	@Override
@@ -42,7 +43,9 @@ public class PotionSpire extends Potion {
 	public void renderInventoryEffect(int x, int y, PotionEffect effect, net.minecraft.client.Minecraft mc) {
 		mc.getTextureManager().bindTexture(iconTexture);
 		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+		GlStateManager.enableBlend();
 		net.minecraft.client.gui.Gui.drawModalRectWithCustomSizedTexture(x + 7, y + 8, 0, 0, 16, 16, 16, 16);
+		GlStateManager.disableBlend();
 		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
@@ -50,7 +53,9 @@ public class PotionSpire extends Potion {
 	@Override
 	public void renderHUDEffect(int x, int y, PotionEffect effect, net.minecraft.client.Minecraft mc, float alpha) {
 		mc.getTextureManager().bindTexture(iconTexture);
+		GlStateManager.enableBlend();
 		net.minecraft.client.gui.Gui.drawModalRectWithCustomSizedTexture(x + 4, y + 4, 0, 0, 16, 16, 16, 16);
+		GlStateManager.disableBlend();
 		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
