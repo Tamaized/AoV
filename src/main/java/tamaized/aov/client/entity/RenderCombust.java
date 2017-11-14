@@ -76,9 +76,9 @@ public class RenderCombust<T extends EntityCombust> extends Render<T> {
 		GlStateManager.enableCull();
 		GlStateManager.popMatrix();
 
-		if (entity.initalScale < 270F)
+		if (!Minecraft.getMinecraft().isGamePaused() && entity.initalScale < 270F)
 			entity.initalScale += (120F / (float) Minecraft.getDebugFPS());
-		if (entity.scale < 90F)
+		if (!Minecraft.getMinecraft().isGamePaused() && entity.scale < 90F)
 			entity.scale += (120F / (float) Minecraft.getDebugFPS());
 		if (entity.ticksExisted % 40 == 0)
 			entity.scale = 0;

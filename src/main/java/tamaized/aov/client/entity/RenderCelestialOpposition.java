@@ -32,7 +32,7 @@ public class RenderCelestialOpposition<T extends EntityCelestialOpposition> exte
 		GlStateManager.disableCull();
 		GlStateManager.color(0, 0.6F, 1, 1.0F);
 		GlStateManager.translate(x, y, z);
-		float scale = (entity.tickBoi += ((entity.tickBoi < 280F ? 360F : 30F) / (float) Minecraft.getDebugFPS())) / 80F;
+		float scale = (entity.tickBoi += Minecraft.getMinecraft().isGamePaused() ? 0 : ((entity.tickBoi < 280F ? 360F : 30F) / (float) Minecraft.getDebugFPS())) / 80F;
 		GlStateManager.scale(scale, scale, scale);
 		GlStateManager.rotate(90F, 1.0F, 0.0F, 0.0F);
 		GlStateManager.rotate((entity.tickBoi * 0.25F) % 360, 0, 0, 1);
