@@ -71,6 +71,23 @@ public class KeyHandler {
 	}
 
 	@SubscribeEvent
+	public static void handle(TickEvent.ClientTickEvent e) {
+		if (e.phase == TickEvent.Phase.START)
+			return;
+		EntityPlayer player = Minecraft.getMinecraft().player;
+		if (player == null || !player.hasCapability(CapabilityList.AOV, null))
+			return;
+		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
+		if (cap == null)
+			return;
+		if (key_bar.isPressed())
+			ClientProxy.barToggle = cap.hasCoreSkill() && !ClientProxy.barToggle;
+		for (KeyBinding slotKey : SLOT_KEYS)
+			if (slotKey.isPressed())
+				cap.cast(SLOT_KEYS.indexOf(slotKey));
+	}
+
+	@SubscribeEvent
 	public static void handleKeys(InputEvent.KeyInputEvent e) {
 		EntityPlayer player = Minecraft.getMinecraft().player;
 		if (player == null || !player.hasCapability(CapabilityList.AOV, null))
@@ -78,9 +95,7 @@ public class KeyHandler {
 		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
 		if (cap == null)
 			return;
-		if (key_bar.isPressed()) {
-			ClientProxy.barToggle = cap.hasCoreSkill() && !ClientProxy.barToggle;
-		} else if (ClientProxy.barToggle) {
+		if (ClientProxy.barToggle) {
 			for (int i = 0; i <= 8; i++) {
 				KeyBinding keyBind = Minecraft.getMinecraft().gameSettings.keyBindsHotbar[i];
 				if (keyBind.isPressed()) {
@@ -95,9 +110,6 @@ public class KeyHandler {
 				KeyBinding.setKeyBindState(itemUse.getKeyCode(), false);
 			}
 		}
-		for (KeyBinding slotKey : SLOT_KEYS)
-			if (slotKey.isPressed())
-				cap.cast(SLOT_KEYS.indexOf(slotKey));
 	}
 
 	@SubscribeEvent
