@@ -1,5 +1,5 @@
 # Angel of Vengeance (Or AoV for short)
-  The goal is to be a magic mod focused around being a healer. You have the ability to heal players, other entities and even damage undead with this power. You can also cure status effects. However, there are other classes you can use instead. Four in total, Healer, Caster, Defender, and Astrologian (WIP).
+  The goal is to be a magic mod focused around being a healer. You have the ability to heal players, other entities and even damage undead with this power. You can also cure status effects. However, there are other classes you can use instead. Four in total, Healer, Caster, Defender, and Astrologian.
 
   Healer's purpose is to well.. heal. The Caster is the offensive spell casting mage which uses light based spells to destroy undead. The Defender is your tank, they get a dodge mechanic where attacks have a chance to not land at all on them. Defenders also get benefits while having a shield equipped. Astrologian are your buffers and side healer, they can cast very powerful yet random buffs on themselves or others using the power of the stars.
   
