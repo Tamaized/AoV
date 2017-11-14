@@ -1,0 +1,25 @@
+{
+  "result": {
+	"item": "aov:blockangelic"
+  },
+  "pattern": [
+	"D D",
+	" G ",
+	"AAA"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+	"D": {
+	  "item": "minecraft:stone",
+	  "data": 4
+	},
+	"G": {
+	  "item": "minecraft:stone",
+	  "data": 2
+	},
+	"A": {
+	  "item": "minecraft:stone",
+	  "data": 6
+	}
+  }
+}

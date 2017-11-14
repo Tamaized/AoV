@@ -67,17 +67,6 @@ public class BlockAngelicBlock extends TamBlock {
 	}
 
 	@Override
-	public int quantityDropped(Random random) {
-		return 0;
-	}
-
-	@Nonnull
-	@Override
-	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-		return Items.AIR;
-	}
-
-	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		FMLNetworkHandler.openGui(playerIn, AoV.instance, GuiHandler.GUI_SKILLS, worldIn, pos.getX(), pos.getY(), pos.getZ());
 		return true;
