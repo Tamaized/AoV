@@ -1,9 +1,5 @@
 package tamaized.aov.common.capabilities.aov;
 
-import tamaized.aov.common.capabilities.aov.AoVCapabilityHandler.DecayWrapper;
-import tamaized.aov.common.core.abilities.Ability;
-import tamaized.aov.common.core.abilities.AbilityBase;
-import tamaized.aov.common.core.skills.AoVSkill;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagInt;
@@ -11,6 +7,10 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
+import tamaized.aov.common.capabilities.aov.AoVCapabilityHandler.DecayWrapper;
+import tamaized.aov.common.core.abilities.Ability;
+import tamaized.aov.common.core.abilities.AbilityBase;
+import tamaized.aov.common.core.skills.AoVSkill;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,23 +33,24 @@ public class AoVCapabilityStorage implements IStorage<IAoVCapability> {
 			list.appendTag(comp);
 		}
 		nbt.setTag("decay", list);
-		// TODO: figure out auras
 		nbt.setInteger("skillPoints", instance.getSkillPoints());
 		nbt.setInteger("exp", instance.getExp());
 		nbt.setInteger("maxLevel", instance.getMaxLevel());
 		nbt.setBoolean("invokeMass", instance.getInvokeMass());
 		list = new NBTTagList();
 		for (int index = 0; index < 9; index++) {
-			Ability ability = instance.getSlot(index);
 			NBTTagCompound ct = new NBTTagCompound();
-			if (ability == null) {
-				ct.setInteger("id", -1);
-			} else {
-				ability.encode(ct);
-			}
+			Ability ability = instance.getSlot(index);
+			ct.setInteger("slot", index);
+			ct.setInteger("id", ability == null ? -1 : ability.getAbility().getID());
 			list.appendTag(ct);
 		}
 		nbt.setTag("slots", list);
+		list = new NBTTagList();
+		for (Ability ability : instance.getAbilities())
+			list.appendTag(ability.encode(new NBTTagCompound()));
+
+		nbt.setTag("abilities", list);
 		nbt.setInteger("currentSlot", instance.getCurrentSlot());
 		return nbt;
 	}
@@ -80,15 +81,26 @@ public class AoVCapabilityStorage implements IStorage<IAoVCapability> {
 		instance.setMaxLevel(compound.getInteger("maxLevel"));
 		instance.toggleInvokeMass(compound.getBoolean("invokeMass"));
 		instance.update(null);
+		tag = compound.getTag("abilities");
+		if (tag instanceof NBTTagList) {
+			for (NBTBase nt : (NBTTagList) tag) {
+				if (nt instanceof NBTTagCompound) {
+					instance.addAbility(Ability.construct(instance, null, (NBTTagCompound) nt));
+				}
+			}
+		}
 		tag = compound.getTag("slots");
 		if (tag instanceof NBTTagList) {
-			NBTTagList list = (NBTTagList) tag;
-			for (int index = 0; index < 9; index++) {
-				instance.setSlot(Ability.construct(instance, null, list.getCompoundTagAt(index)), index);
+			for (NBTBase nt : (NBTTagList) tag) {
+				if (nt instanceof NBTTagCompound) {
+					NBTTagCompound ct = ((NBTTagCompound) nt);
+					instance.setSlot(new Ability(AbilityBase.getAbilityFromID(ct.getInteger("id"))), ct.getInteger("slot"), false);
+				}
 			}
 		}
 		instance.setCurrentSlot(compound.getInteger("currentSlot"));
 		instance.markDirty();
+		instance.setLoaded();
 	}
 
 }

@@ -11,6 +11,7 @@ import tamaized.aov.client.gui.buttons.SpellButton;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
+import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.abilities.universal.InvokeMass;
 import tamaized.aov.common.gui.GuiHandler;
 import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
@@ -65,7 +66,7 @@ public class SpellBookGUI extends GuiScreenClose {
 			return;
 		int index = 0;
 		for (Ability ability : cap.getAbilities()) {
-			buttonList.add(new SpellButton(BUTTON_SPELL, xLoc + (100 * ((int) Math.floor(index / 6))), yLoc + (25 * (index % 6)), ability));
+			buttonList.add(new SpellButton(BUTTON_SPELL, xLoc + (100 * ((int) Math.floor(index / 6))), yLoc + (25 * (index % 6)), ability.getAbility()));
 			index++;
 		}
 	}
@@ -142,8 +143,8 @@ public class SpellBookGUI extends GuiScreenClose {
 				continue;
 			if (b instanceof SpellButton) {
 				SpellButton sb = (SpellButton) b;
-				if (sb.getSpell() != null && sb.getSpell().getAbility() != null && sb.getSpell().getAbility().getDescription() != null)
-					drawHoveringText(sb.getSpell().getAbility().getDescription(), mouseX, mouseY);
+				if (sb.getSpell() != null && sb.getSpell() != null && sb.getSpell().getDescription() != null)
+					drawHoveringText(sb.getSpell().getDescription(), mouseX, mouseY);
 			}
 		}
 	}
@@ -184,7 +185,7 @@ public class SpellBookGUI extends GuiScreenClose {
 		AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.SPELLBAR_REMOVE, slot, null));
 	}
 
-	private void sendPacketTypeAddNearestSlot(Ability ability) {
+	private void sendPacketTypeAddNearestSlot(AbilityBase ability) {
 		AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.SPELLBAR_ADDNEAR, 0, ability));
 	}
 }

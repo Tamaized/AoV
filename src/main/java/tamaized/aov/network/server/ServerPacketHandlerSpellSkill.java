@@ -9,7 +9,9 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.Ability;
+import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.skills.AoVSkill;
 
 import javax.annotation.Nullable;
@@ -52,12 +54,10 @@ public class ServerPacketHandlerSpellSkill implements IMessageHandler<ServerPack
 			break;
 			case SPELLBAR_REMOVE: {
 				cap.removeSlot(message.object);
-				cap.resetCharges(player);
 			}
 			break;
 			case SPELLBAR_ADDNEAR: {
-				cap.addToNearestSlot(message.ability); // TODO: THIS IS BAD HOLY HELL
-				cap.resetCharges(player);
+				cap.addToNearestSlot(message.ability);
 			}
 			break;
 			default:
@@ -78,14 +78,14 @@ public class ServerPacketHandlerSpellSkill implements IMessageHandler<ServerPack
 
 		public PacketType id;
 		public int object;
-		public Ability ability;
+		public AbilityBase ability;
 
 		@SuppressWarnings("unused")
 		public Packet() {
 
 		}
 
-		public Packet(PacketType type, int data, @Nullable Ability ability) {
+		public Packet(PacketType type, int data, @Nullable AbilityBase ability) {
 			id = type;
 			object = data;
 			this.ability = ability;
@@ -97,18 +97,14 @@ public class ServerPacketHandlerSpellSkill implements IMessageHandler<ServerPack
 			int i = buf.readInt();
 			id = i >= types.length ? null : types[i];
 			object = buf.readInt();
-			if (buf.readBoolean())
-				ability = Ability.construct(buf);
+			ability = AbilityBase.getAbilityFromID(buf.readInt());
 		}
 
 		@Override
 		public void toBytes(ByteBuf buf) {
 			buf.writeInt(id.ordinal());
 			buf.writeInt(object);
-			boolean flag = ability != null;
-			buf.writeBoolean(flag);
-			if (flag)
-				ability.encode(buf);
+			buf.writeInt(AbilityBase.getID(ability));
 		}
 
 		public enum PacketType {

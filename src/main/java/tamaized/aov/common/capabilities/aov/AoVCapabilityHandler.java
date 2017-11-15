@@ -13,6 +13,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
+import tamaized.aov.common.capabilities.astro.IAstroCapability;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
@@ -38,6 +39,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	private static final AttributeModifier defenderHealth = new AttributeModifier(defenderHealthName, 10.0D, 0);
 	private int tick = 1;
 	private boolean dirty = true;
+	private boolean hasLoaded = false;
 	// TODO
 	private int currentSlot = 0;
 	// Calculate and update these when 'dirty'
@@ -81,6 +83,11 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@Override
+	public void setLoaded() {
+		hasLoaded = true;
+	}
+
+	@Override
 	public void reset(boolean b) {
 		if (b) {
 			obtainedSkills.clear();
@@ -104,6 +111,8 @@ public class AoVCapabilityHandler implements IAoVCapability {
 
 	@Override
 	public void update(EntityPlayer player) {
+		if (!hasLoaded)
+			return;
 		tick++;
 		if (tick % 20 == 0)
 			updateAbilities();
@@ -149,6 +158,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	private void updateValues(EntityPlayer player) {
+		IAstroCapability astro = player != null && player.hasCapability(CapabilityList.ASTRO, null) ? player.getCapability(CapabilityList.ASTRO, null) : null;
 		if (lastLevel < 0)
 			lastLevel = getLevel();
 		if (lastLevel < getLevel()) {
@@ -162,7 +172,6 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		selectiveFocus = false;
 		hasInvoke = false;
 		List<AbilityBase> list = new ArrayList<>();
-		abilities.clear();
 		for (AoVSkill skill : obtainedSkills) {
 			if (skill == null)
 				continue;
@@ -178,8 +187,37 @@ public class AoVCapabilityHandler implements IAoVCapability {
 				list.add(ability);
 			}
 		}
-		for (AbilityBase ability : list)
-			addAbility(new Ability(ability, this, player != null && player.hasCapability(CapabilityList.ASTRO, null) ? player.getCapability(CapabilityList.ASTRO, null) : null));
+		Iterator<Ability> iter = abilities.iterator();
+		main:
+		while (iter.hasNext()) {
+			Ability check = iter.next();
+			for (AbilityBase ability : list)
+				if (check.getAbility() == ability)
+					continue main;
+			iter.remove();
+		}
+		for (AbilityBase ability : list) {
+			boolean flag = true;
+			for (Ability check : abilities)
+				if (check.getAbility() == ability)
+					flag = false;
+			if (flag)
+				addAbility(new Ability(ability, this, astro));
+		}
+		if (player != null && player.world != null && !player.world.isRemote)
+			for (int index = 0; index < 9; index++) {
+				if (slots[index] != null) {
+					boolean flag = true;
+					for (Ability check : abilities)
+						if (check.getAbility() == slots[index].getAbility()) {
+							slots[index] = check;
+							flag = false;
+							break;
+						}
+					if (flag)
+						slots[index] = null;
+				}
+			}
 		if (player != null) {
 			if (player.getActivePotionEffect(AoVPotions.aid) != null)
 				dodge += 5;
@@ -440,14 +478,19 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@Override
-	public void setSlot(Ability ability, int slot) {
-		boolean flag = false;
+	public void setSlot(Ability ability, int slot, boolean force) {
+		if (force) {
+			slots[slot] = ability;
+			dirty = true;
+			return;
+		}
 		for (Ability check : getAbilities()) {
 			if (ability == null || check.compare(ability))
-				flag = true;
+				if (slot >= 0 && slot < slots.length) {
+					slots[slot] = ability == null ? null : check;
+					break;
+				}
 		}
-		if (flag && slot >= 0 && slot < slots.length)
-			slots[slot] = ability;
 		dirty = true;
 	}
 
@@ -457,10 +500,10 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@Override
-	public int getSlotFromAbility(Ability ability) {
+	public int getSlotFromAbility(AbilityBase ability) {
 		int index = 0;
 		for (Ability a : slots) {
-			if (a != null && ability.compare(a))
+			if (a != null && ability == a.getAbility())
 				return index;
 			index++;
 		}
@@ -479,20 +522,27 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@Override
-	public boolean slotsContain(Ability ability) {
+	public boolean slotsContain(AbilityBase ability) {
 		for (Ability a : slots)
-			if (a != null && ability.compare(a))
+			if (a != null && ability == a.getAbility())
 				return true;
 		return false;
 	}
 
 	@Override
-	public void addToNearestSlot(Ability ability) {
+	public void addToNearestSlot(AbilityBase ability) {
 		if (slotsContain(ability))
 			return;
+		Ability a = null;
+		if (ability != null)
+			for (Ability check : abilities)
+				if (check.getAbility() == ability) {
+					a = check;
+					break;
+				}
 		for (int i = 0; i < slots.length; i++) {
 			if (slots[i] == null) {
-				setSlot(ability, i);
+				setSlot(a, i, false);
 				break;
 			}
 		}

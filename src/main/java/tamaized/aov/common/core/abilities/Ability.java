@@ -151,7 +151,7 @@ public final class Ability {
 	}
 
 	public boolean canUse(IAoVCapability cap) {
-		return !disabled && cooldown <= 0 && (charges == -1 || charges >= ability.getCost(cap)) && cap.slotsContain(this);
+		return !disabled && cooldown <= 0 && (charges == -1 || charges >= ability.getCost(cap)) && cap.slotsContain(getAbility());
 	}
 
 	public AbilityBase getAbility() {

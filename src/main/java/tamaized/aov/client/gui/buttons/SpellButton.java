@@ -5,18 +5,18 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import tamaized.aov.client.gui.AoVUIBar;
-import tamaized.aov.common.core.abilities.Ability;
+import tamaized.aov.common.core.abilities.AbilityBase;
 
 public class SpellButton extends GuiButton {
 
-	private final Ability spell;
+	private final AbilityBase spell;
 
-	public SpellButton(int buttonId, int x, int y, Ability theSpell) {
+	public SpellButton(int buttonId, int x, int y, AbilityBase theSpell) {
 		super(buttonId, x, y, 80, 18, "");
 		spell = theSpell;
 	}
 
-	public Ability getSpell() {
+	public AbilityBase getSpell() {
 		return spell;
 	}
 
@@ -45,10 +45,10 @@ public class SpellButton extends GuiButton {
 			drawRect(x, y, x + width, y + height, j);
 			if (spell == null)
 				return;
-			AoVUIBar.renderHotbarIcon(this, null, 0, x + 1, y + 1, spell.getAbility().getIcon(), false);
+			AoVUIBar.renderHotbarIcon(this, null, 0, x + 1, y + 1, spell.getIcon(), false);
 			GlStateManager.pushMatrix();
 			GlStateManager.scale(0.5f, 0.5f, 0.0f);
-			drawString(fontrenderer, spell.getAbility().getName(), x * 2 + 38, y * 2 + 14, 0xFFFF00);
+			drawString(fontrenderer, spell.getName(), x * 2 + 38, y * 2 + 14, 0xFFFF00);
 			GlStateManager.popMatrix();
 		}
 	}

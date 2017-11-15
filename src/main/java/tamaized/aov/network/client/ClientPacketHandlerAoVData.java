@@ -1,9 +1,9 @@
 package tamaized.aov.network.client;
 
+import com.google.common.collect.Lists;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -20,7 +20,7 @@ import java.util.List;
 public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketHandlerAoVData.Packet, IMessage> {
 
 	@SideOnly(Side.CLIENT)
-	private static void processPacket(ClientPacketHandlerAoVData.Packet message, EntityPlayer player, World world) {
+	private static void processPacket(ClientPacketHandlerAoVData.Packet message, EntityPlayer player) {
 		if (player.hasCapability(CapabilityList.AOV, null)) {
 			IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
 			if (cap != null) {
@@ -32,8 +32,10 @@ public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketH
 				cap.setMaxLevel(message.maxLevel);
 				cap.toggleInvokeMass(message.invokeMass);
 				for (int index = 0; index < 9; index++)
-					cap.setSlot(message.slots[index], index);
+					cap.setSlot(message.slots[index], index, true);
 				cap.setCurrentSlot(message.currentSlot);
+				cap.markDirty();
+				cap.setLoaded();
 			}
 		}
 	}
@@ -41,7 +43,7 @@ public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketH
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IMessage onMessage(ClientPacketHandlerAoVData.Packet message, MessageContext ctx) {
-		Minecraft.getMinecraft().addScheduledTask(() -> processPacket(message, Minecraft.getMinecraft().player, Minecraft.getMinecraft().world));
+		Minecraft.getMinecraft().addScheduledTask(() -> processPacket(message, Minecraft.getMinecraft().player));
 		return null;
 	}
 

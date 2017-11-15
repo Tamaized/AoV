@@ -28,6 +28,8 @@ public interface IAoVCapability {
 
 	void markDirty();
 
+	void setLoaded();
+
 	void reset(boolean b);
 
 	void update(EntityPlayer player);
@@ -106,16 +108,16 @@ public interface IAoVCapability {
 
 	void cast(int slotLoc);
 
-	void setSlot(Ability ability, int slot);
+	void setSlot(Ability ability, int slot, boolean force);
 
 	Ability getSlot(int slot);
 
 	/**
 	 * Returns -1 if slots dont contain ability
 	 */
-	int getSlotFromAbility(Ability ability);
+	int getSlotFromAbility(AbilityBase ability);
 
-	default Ability getAbilityFromSlots(Ability ability) {
+	default Ability getAbilityFromSlots(AbilityBase ability) {
 		return getSlot(getSlotFromAbility(ability));
 	}
 
@@ -123,9 +125,9 @@ public interface IAoVCapability {
 
 	void setCurrentSlot(int index);
 
-	boolean slotsContain(Ability ability);
+	boolean slotsContain(AbilityBase ability);
 
-	void addToNearestSlot(Ability ability);
+	void addToNearestSlot(AbilityBase ability);
 
 	void removeSlot(int slot);
 

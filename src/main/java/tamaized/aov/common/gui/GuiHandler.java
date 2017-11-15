@@ -10,8 +10,6 @@ import tamaized.aov.client.gui.AoVSkillsGUI;
 import tamaized.aov.client.gui.ResetSkillsGUI;
 import tamaized.aov.client.gui.ShowStatsGUI;
 import tamaized.aov.client.gui.SpellBookGUI;
-import tamaized.aov.common.capabilities.CapabilityList;
-import tamaized.aov.common.capabilities.aov.IAoVCapability;
 
 import javax.annotation.Nonnull;
 
@@ -30,13 +28,6 @@ public class GuiHandler implements IGuiHandler {
 	@Override
 	public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
 		switch (id) {
-			case GUI_SKILLS:
-				if (player != null && player.hasCapability(CapabilityList.AOV, null)) {
-					IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
-					if (cap != null)
-						cap.resetCharges(player);
-				}
-				break;
 			default:
 				break;
 		}
