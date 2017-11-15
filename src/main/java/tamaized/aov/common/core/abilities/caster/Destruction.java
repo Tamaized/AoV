@@ -1,10 +1,13 @@
 package tamaized.aov.common.core.abilities.caster;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -49,8 +52,9 @@ public class Destruction extends AbilityBase {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getName() {
-		return getStaticName();
+		return I18n.format(getStaticName());
 	}
 
 	@Override
