@@ -69,7 +69,7 @@ public class Zeal extends AbilityBase {
 			return false;
 		addPotionEffects(player);
 		SoundEvents.playMovingSoundOnServer(SoundEvents.cast_2, player);
-		cap.addExp(player, 20, this);
+		cap.addExp(player, 8, this);
 		return true;
 	}
 

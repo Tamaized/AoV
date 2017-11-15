@@ -85,7 +85,7 @@ public abstract class CureEffect extends AbilityBase {
 				SoundEvents.playMovingSoundOnServer(SoundEvents.restore, e);
 			}
 		}
-		cap.addExp(player, 20, this);
+		cap.addExp(player, 12, this);
 		return true;
 	}
 
@@ -97,7 +97,7 @@ public abstract class CureEffect extends AbilityBase {
 			if (IAoVCapability.selectiveTarget(cap, entity)) {
 				entity.removePotionEffect(effect);
 				SoundEvents.playMovingSoundOnServer(SoundEvents.restore, entity);
-				cap.addExp(target, 20, this);
+				cap.addExp(target, 12, this);
 			}
 		}
 	}

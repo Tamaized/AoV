@@ -91,7 +91,7 @@ public abstract class CureWounds extends AbilityBase {
 				SoundEvents.playMovingSoundOnServer(SoundEvents.heal, e);
 			}
 		}
-		cap.addExp(player, 20, this);
+		cap.addExp(player, 24, this);
 		return true;
 	}
 
@@ -107,7 +107,7 @@ public abstract class CureWounds extends AbilityBase {
 				entity.heal(dmg);
 				SoundEvents.playMovingSoundOnServer(SoundEvents.heal, entity);
 			}
-			cap.addExp(target, 20, this);
+			cap.addExp(target, 24, this);
 		}
 	}
 

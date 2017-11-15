@@ -84,7 +84,7 @@ public class Aid extends AbilityBase {
 				addPotionEffects(e);
 		}
 		SoundEvents.playMovingSoundOnServer(SoundEvents.cast_2, player);
-		cap.addExp(player, 20, this);
+		cap.addExp(player, 12, this);
 		return true;
 	}
 
@@ -100,7 +100,7 @@ public class Aid extends AbilityBase {
 		for (EntityLivingBase entity : list) {
 			if (IAoVCapability.selectiveTarget(cap, entity)) {
 				addPotionEffects(entity);
-				cap.addExp(target, 20, this);
+				cap.addExp(target, 12, this);
 			}
 		}
 	}

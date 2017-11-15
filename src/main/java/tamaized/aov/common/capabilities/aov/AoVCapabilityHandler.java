@@ -148,11 +148,11 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		//noinspection WhileLoopReplaceableByForEach
 		while (iter.hasNext()) {
 			AttributeModifier mod = iter.next();
-			if (mod.getName().equals(defenderHealthName) && !hasSkill(AoVSkills.defender_tier_4_2)) {
+			if (mod.getName().equals(defenderHealthName) && (!hasSkill(AoVSkills.defender_tier_4_2) || !(player.getHeldItemOffhand().getItem() instanceof ItemShield))) {
 				hp.removeModifier(mod);
 			}
 		}
-		if (hasSkill(AoVSkills.defender_tier_4_2) && !hp.hasModifier(defenderHealth)) {
+		if (hasSkill(AoVSkills.defender_tier_4_2) && !hp.hasModifier(defenderHealth) && player.getHeldItemOffhand().getItem() instanceof ItemShield) {
 			hp.applyModifier(defenderHealth);
 		}
 	}

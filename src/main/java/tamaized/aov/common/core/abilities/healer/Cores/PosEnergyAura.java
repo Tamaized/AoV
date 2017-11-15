@@ -60,7 +60,7 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 			return false;
 		cap.addAura(createAura(ability));
 		SoundEvents.playMovingSoundOnServer(SoundEvents.aura, player);
-		cap.addExp(player, 20, this);
+		cap.addExp(player, 30, this);
 		return true;
 	}
 

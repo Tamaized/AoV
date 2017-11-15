@@ -88,8 +88,7 @@ public class Implosion extends AbilityBase {
 			IAoVCapability cap = caster.hasCapability(CapabilityList.AOV, null) ? caster.getCapability(CapabilityList.AOV, null) : null;
 			if (entity == caster || cap == null || (cap.hasSelectiveFocus() && IAoVCapability.selectiveTarget(cap, entity)))
 				continue;
-			caster.world.spawnEntity(new EntitySpellImplosion(caster.world, entity));
-			cap.addExp(caster, 20, Abilities.implosion);
+			caster.world.spawnEntity(new EntitySpellImplosion(caster.world, caster, entity));
 			flag = true;
 		}
 		return flag;
