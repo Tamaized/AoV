@@ -39,7 +39,7 @@ public class DefenderSkillCapStone extends AoVSkill {
 
 				new TextComponentTranslation(""),
 
-				new TextComponentTranslation("aov.skill.healer.core.5.desc")
+				new TextComponentTranslation("aov.skill.defender.core.5.desc")
 
 
 		);

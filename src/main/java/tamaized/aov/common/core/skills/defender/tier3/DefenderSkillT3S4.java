@@ -39,7 +39,7 @@ public class DefenderSkillT3S4 extends AoVSkill {
 
 				new TextComponentTranslation(""),
 
-				new TextComponentTranslation("aov.skill.global.doublestrike", DODGE)
+				new TextComponentTranslation("aov.skill.global.doublestrike", DOUBLESTRIKE)
 
 		);
 	}
