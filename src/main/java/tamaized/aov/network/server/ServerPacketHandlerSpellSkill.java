@@ -9,7 +9,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
-import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.skills.AoVSkill;
@@ -38,8 +37,12 @@ public class ServerPacketHandlerSpellSkill implements IMessageHandler<ServerPack
 					break;
 				if (skillToCheck.getParent() == null || cap.hasSkill(skillToCheck.getParent())) {
 					if (cap.getSkillPoints() >= skillToCheck.getCost() && cap.getLevel() >= skillToCheck.getLevel() && cap.getSpentSkillPoints() >= skillToCheck.getSpentPoints()) {
-						cap.addObtainedSkill(skillToCheck);
-						cap.setSkillPoints(cap.getSkillPoints() - skillToCheck.getCost());
+						if (!(skillToCheck.isClassCore() && cap.hasCoreSkill())) {
+							if (skillToCheck.getParent() == null || cap.hasSkill(skillToCheck.getParent())) {
+								cap.addObtainedSkill(skillToCheck);
+								cap.setSkillPoints(cap.getSkillPoints() - skillToCheck.getCost());
+							}
+						}
 					}
 				}
 			}

@@ -60,7 +60,6 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	// Keep this on the server
 	private List<Aura> auras = new ArrayList<>();
 	private Map<AbilityBase, DecayWrapper> decay = new HashMap<>();
-	private int lastLevel = -1;
 
 	public static int getExpForLevel(IAoVCapability cap, int level) {
 		return level > cap.getMaxLevel() ? 0 : getExpForLevel(level);
@@ -94,7 +93,6 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			skillPoints = 1;
 			exp = 0;
 			maxLevel = 15;
-			lastLevel = -1;
 		} else {
 			AoVSkill core = getCoreSkill();
 			obtainedSkills.clear();
@@ -159,12 +157,9 @@ public class AoVCapabilityHandler implements IAoVCapability {
 
 	private void updateValues(EntityPlayer player) {
 		IAstroCapability astro = player != null && player.hasCapability(CapabilityList.ASTRO, null) ? player.getCapability(CapabilityList.ASTRO, null) : null;
-		if (lastLevel < 0)
-			lastLevel = getLevel();
-		if (lastLevel < getLevel()) {
-			skillPoints += (getLevel() - lastLevel);
-			lastLevel = getLevel();
-		}
+		skillPoints = getLevel();
+		for (AoVSkill s : obtainedSkills)
+			skillPoints -= s.getCost();
 		spellpower = 0;
 		extraCharges = 0;
 		dodge = 0;
@@ -338,7 +333,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 
 	@Override
 	public void addObtainedSkill(AoVSkill skill) {
-		if (!obtainedSkills.contains(skill) && skill != null) {
+		if (skill != null && !obtainedSkills.contains(skill) && !(skill.isClassCore() && hasCoreSkill())) {
 			obtainedSkills.add(skill);
 			dirty = true;
 		}
@@ -569,6 +564,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		exp = cap.getExp();
 		maxLevel = cap.getMaxLevel();
 		invokeMass = cap.getInvokeMass();
+		abilities = cap.getAbilities();
 		for (int index = 0; index < 9; index++) {
 			slots[index] = cap.getSlot(index);
 		}

@@ -121,9 +121,10 @@ public class CapabilityList {
 	public void updateClone(PlayerEvent.Clone e) {
 		EntityPlayer oldPlayer = e.getOriginal();
 		EntityPlayer newPlayer = e.getEntityPlayer();
-		IAoVCapability cap = newPlayer.hasCapability(CapabilityList.AOV, null) ? newPlayer.getCapability(CapabilityList.AOV, null) : null;
-		if (cap != null)
-			cap.copyFrom(oldPlayer.getCapability(CapabilityList.AOV, null));
+		IAoVCapability newcap = newPlayer.hasCapability(CapabilityList.AOV, null) ? newPlayer.getCapability(CapabilityList.AOV, null) : null;
+		IAoVCapability oldcap = oldPlayer.hasCapability(CapabilityList.AOV, null) ? oldPlayer.getCapability(CapabilityList.AOV, null) : null;
+		if (newcap != null && oldcap != null)
+			newcap.copyFrom(oldcap);
 	}
 
 	@SubscribeEvent
