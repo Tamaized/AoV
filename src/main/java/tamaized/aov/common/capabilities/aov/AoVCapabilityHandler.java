@@ -570,6 +570,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		}
 		currentSlot = cap.getCurrentSlot();
 		setDecayMap(cap.getDecayMap());
+		hasLoaded = true;
 		dirty = true;
 	}
 
