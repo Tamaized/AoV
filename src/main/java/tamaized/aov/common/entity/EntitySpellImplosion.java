@@ -5,6 +5,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -44,6 +46,12 @@ public class EntitySpellImplosion extends Entity {
 	@Override
 	protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
 
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getBrightnessForRender() {
+		return 0xF000F0;
 	}
 
 	@Override

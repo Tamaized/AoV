@@ -11,6 +11,8 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
@@ -43,6 +45,12 @@ public class EntityGravity extends Entity {
 				setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
 			}
 		}
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getBrightnessForRender() {
+		return 0xF000F0;
 	}
 
 	@Override

@@ -8,6 +8,8 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 
@@ -28,6 +30,12 @@ public class EntitySpellParticles extends Entity {
 		setPositionAndUpdate(target.posX, target.posY, target.posZ);
 		tick = rand.nextInt(30) + 20;
 		setParticle(particle);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getBrightnessForRender() {
+		return 0xF000F0;
 	}
 
 	@Override

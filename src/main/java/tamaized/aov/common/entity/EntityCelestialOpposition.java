@@ -3,6 +3,8 @@ package tamaized.aov.common.entity;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 
@@ -28,6 +30,12 @@ public class EntityCelestialOpposition extends Entity {
 	@Override
 	protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
 
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getBrightnessForRender() {
+		return 0xF000F0;
 	}
 
 	@Override

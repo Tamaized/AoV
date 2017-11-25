@@ -104,6 +104,12 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 		setThrowableHeading(d0, d1/* + d3 * 0.20000000298023224D */, d2, 1.6F, (float) (14 - world.getDifficulty().getDifficultyId() * 4));
 	}
 
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getBrightnessForRender() {
+		return 0xF000F0;
+	}
+
 	public int getColor() {
 		return color;
 	}

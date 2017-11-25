@@ -35,8 +35,10 @@ public class DebugItem extends TamItem {
 		}
 		if (player.hasCapability(CapabilityList.AOV, null)) {
 			IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
-			if (cap != null)
+			if (cap != null) {
+				cap.resetCharges(player);
 				cap.addExp(player, cap.getExpNeededToLevel(), null);
+			}
 		}
 		return new ActionResult<>(EnumActionResult.SUCCESS, player.getHeldItem(hand));
 	}

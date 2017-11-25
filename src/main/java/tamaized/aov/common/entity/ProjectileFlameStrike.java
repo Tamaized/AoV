@@ -12,6 +12,8 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
@@ -42,6 +44,12 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 	public ProjectileFlameStrike(World world, Entity attacker, float dmg) {
 		this(world, attacker);
 		damage = dmg;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getBrightnessForRender() {
+		return 0xF000F0;
 	}
 
 	public void setDamage(float d) {
