@@ -220,7 +220,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 				doublestrike += 25;
 			PotionEffect spire = player.getActivePotionEffect(AoVPotions.spire);
 			if (spire != null)
-				doublestrike += 10 * spire.getAmplifier();
+				dodge += 10 * spire.getAmplifier();
 			PotionEffect spear = player.getActivePotionEffect(AoVPotions.spear);
 			if (spear != null)
 				doublestrike += 10 * spear.getAmplifier();
