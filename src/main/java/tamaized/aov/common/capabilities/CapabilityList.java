@@ -130,8 +130,10 @@ public class CapabilityList {
 	@SubscribeEvent
 	public void onJoin(EntityJoinWorldEvent e) {
 		IAoVCapability cap = e.getEntity().hasCapability(CapabilityList.AOV, null) ? e.getEntity().getCapability(CapabilityList.AOV, null) : null;
-		if (cap != null)
+		if (cap != null) {
 			cap.markDirty();
+			cap.setLoaded();
+		}
 	}
 
 }
