@@ -79,7 +79,7 @@ public class EntityGravity extends Entity {
 		}
 		int range = 4;
 		for (EntityLivingBase e : world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(getPosition().add(-range, -2, -range), getPosition().add(range, 2, range)))) {
-			if (alreadyHit.contains(e))
+			if (e == caster || alreadyHit.contains(e))
 				continue;
 			doDamage(e);
 			alreadyHit.add(e);
