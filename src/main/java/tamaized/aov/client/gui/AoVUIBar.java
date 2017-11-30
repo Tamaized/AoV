@@ -17,6 +17,7 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.config.ConfigHandler;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.universal.InvokeMass;
+import tamaized.aov.common.gui.GuiHandler;
 import tamaized.aov.proxy.ClientProxy;
 
 @Mod.EventBusSubscriber(modid = AoV.modid, value = Side.CLIENT)
@@ -28,12 +29,12 @@ public class AoVUIBar {
 
 	@SubscribeEvent
 	public static void disableHotbar(RenderGameOverlayEvent e) {
-		if (ConfigHandler.barPos == ConfigHandler.BarPos.BOTTOM && e.getType() == RenderGameOverlayEvent.ElementType.HOTBAR && ClientProxy.barToggle)
+		if (ConfigHandler.renderBarOverHotbar && e.getType() == RenderGameOverlayEvent.ElementType.HOTBAR && ClientProxy.barToggle)
 			e.setCanceled(true);
 	}
 
-	public static void render(Gui gui) {
-		if (ConfigHandler.barPos == ConfigHandler.BarPos.BOTTOM && !ClientProxy.barToggle)
+	public static void render(Gui gui, int xpos, int ypos) {
+		if (ConfigHandler.renderBarOverHotbar && !ClientProxy.barToggle)
 			return;
 		if (mc.player == null || !mc.player.hasCapability(CapabilityList.AOV, null))
 			return;
@@ -43,7 +44,7 @@ public class AoVUIBar {
 		GlStateManager.pushMatrix();
 		{
 			ScaledResolution sr = new ScaledResolution(mc);
-			if (ConfigHandler.barPos == ConfigHandler.BarPos.BOTTOM)
+			if (ConfigHandler.renderBarOverHotbar)
 				GlStateManager.translate(0, sr.getScaledHeight() - 23, 0);
 			float alpha = 0.2f;
 			if (ClientProxy.barToggle)
@@ -51,8 +52,8 @@ public class AoVUIBar {
 			GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
 			mc.getTextureManager().bindTexture(widgetsTexPath);
 			int i = sr.getScaledWidth() / 2;
-			gui.drawTexturedModalRect(i - 91, 1, 0, 0, 182, 22);
-			gui.drawTexturedModalRect(i - 91 - 1 + slotLoc * 20, 0, 0, 22, 24, 22);
+			gui.drawTexturedModalRect(xpos + i - 91, ypos + 1, 0, 0, 182, 22);
+			gui.drawTexturedModalRect(xpos + i - 91 - 1 + slotLoc * 20, ypos, 0, 22, 24, 22);
 			GlStateManager.pushMatrix();
 			{
 				GlStateManager.translate(0.01f, 0, 0);
@@ -65,9 +66,9 @@ public class AoVUIBar {
 					int k = sr.getScaledWidth() / 2 - 90 + 2;
 					int l = 4;
 					GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
-					renderHotbarIcon(gui, cap, j, k, l, ability.getAbility().getIcon(), (ability.getAbility() instanceof InvokeMass) && cap.getInvokeMass());
+					renderHotbarIcon(gui, cap, j, xpos + k, ypos + l, ability.getAbility().getIcon(), (ability.getAbility() instanceof InvokeMass) && cap.getInvokeMass());
 					if (ability.getCooldown() > 0)
-						renderCooldown(gui, mc.fontRenderer, k, l, ability.getCooldownPerc(), ability.getCooldown());
+						renderCooldown(gui, mc.fontRenderer, xpos + k, ypos + l, ability.getCooldownPerc(), ability.getCooldown());
 				}
 			}
 			GlStateManager.popMatrix();

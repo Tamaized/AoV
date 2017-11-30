@@ -67,6 +67,10 @@ aov.gui.button.reset=Reset Skills
 aov.gui.button.fullreset=Full Reset
 aov.gui.button.minorreset=Minor Reset
 
+aov.config.repositionelements.name=Reposition Elements by Hand
+aov.config.repositionelements.tooltip=Reposition the onscreen Spellbar and Astro elements via mouse click n' drag
+aov.repositionelements.exit=Press %s or %s to save and exit
+
 # Spells
 aov.spells.global.charges=§bCharges: %s
 aov.spells.global.range=§bRange: %s

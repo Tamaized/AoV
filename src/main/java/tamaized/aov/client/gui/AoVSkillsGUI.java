@@ -23,6 +23,7 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.gui.GuiHandler;
 import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -193,9 +194,9 @@ public class AoVSkillsGUI extends GuiScreenClose {
 		// drawCenteredString(fontRenderer, "Tier 1", width / 2 + 135, height - 102, 0xFFFFFF00);
 		// drawCenteredString(fontRenderer, "Core", width / 2 + 135, height - 62, 0xFFFFFF00);
 
-//		drawRect(width / 2 - 200, height - 215, width / 2 - 200 + 126, height - 27, 0x88000000);
+		//		drawRect(width / 2 - 200, height - 215, width / 2 - 200 + 126, height - 27, 0x88000000);
 		drawRect(width / 2 - 66, height - 215, width / 2 - 66 + 126, height - 27, 0x88000000);
-//		drawRect(width / 2 + 68, height - 215, width / 2 + 68 + 126, height - 27, 0x88000000);
+		//		drawRect(width / 2 + 68, height - 215, width / 2 + 68 + 126, height - 27, 0x88000000);
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		if (mouseX != lastMx || mouseY != lastMy) {
 			boolean flag = true;
@@ -224,9 +225,8 @@ public class AoVSkillsGUI extends GuiScreenClose {
 		}
 
 		@Override
-		public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-			if (this.visible)
-			{
+		public void drawButton(@Nonnull Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+			if (this.visible) {
 				FontRenderer fontrenderer = mc.fontRenderer;
 				mc.getTextureManager().bindTexture(TEXTURE);
 				GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -246,17 +246,11 @@ public class AoVSkillsGUI extends GuiScreenClose {
 				this.mouseDragged(mc, mouseX, mouseY);
 				int j = 14737632;
 
-				if (packedFGColour != 0)
-				{
+				if (packedFGColour != 0) {
 					j = packedFGColour;
-				}
-				else
-				if (!this.enabled)
-				{
+				} else if (!this.enabled) {
 					j = 10526880;
-				}
-				else if (this.hovered)
-				{
+				} else if (this.hovered) {
 					j = 16777120;
 				}
 

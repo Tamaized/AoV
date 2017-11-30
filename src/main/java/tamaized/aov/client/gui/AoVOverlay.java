@@ -42,18 +42,18 @@ public class AoVOverlay extends Gui {
 			if (ClientProxy.barToggle) {
 				GlStateManager.pushMatrix();
 				{
-					if (ConfigHandler.barPos == ConfigHandler.BarPos.BOTTOM)
+					if (ConfigHandler.renderBarOverHotbar)
 						GlStateManager.translate(0, sr.getScaledHeight() - 23, 0);
 					for (int i = 0; i < 9; i++) {
 						int x = sW - 90 + (20 * i);
-						int y = ConfigHandler.barPos == ConfigHandler.BarPos.BOTTOM ? 1 - ClientTicker.charges.getValue(i) : 1 + ClientTicker.charges.getValue(i);
+						int y = ConfigHandler.renderBarOverHotbar ? 1 - ClientTicker.charges.getValue(i) : 1 + ClientTicker.charges.getValue(i);
 						renderCharges(x, y, fontRender, cap, i);
 					}
 				}
 				GlStateManager.popMatrix();
 			}
 
-			AoVUIBar.render(this);
+			AoVUIBar.render(this, ConfigHandler.elementPositions.spellbar_x, ConfigHandler.elementPositions.spellbar_y);
 			if (cap.getCoreSkill() == AoVSkills.astro_core_1)
 				renderAstro(mc.player, sr);
 		}
@@ -67,7 +67,7 @@ public class AoVOverlay extends Gui {
 		int w = 20;
 		int h = 20;
 		drawRect(x, y, x + w, y + h, !cap.canUseAbility(ability) ? 0x77FF0000 : 0x7700BBFF);
-		drawCenteredStringNoShadow(fontRender, String.valueOf(val), x + 10, y + (ConfigHandler.barPos == ConfigHandler.BarPos.BOTTOM ? 3 : 10), 0x000000);
+		drawCenteredStringNoShadow(fontRender, String.valueOf(val), x + 10, y + (ConfigHandler.renderBarOverHotbar ? 3 : 10), 0x000000);
 	}
 
 	private void drawCenteredStringNoShadow(FontRenderer fontRendererIn, String text, int x, int y, int color) {
@@ -79,6 +79,8 @@ public class AoVOverlay extends Gui {
 			return;
 		IAstroCapability cap = player.getCapability(CapabilityList.ASTRO, null);
 		if (cap == null)
+			return;
+		if (!ConfigHandler.renderAstro && cap.getDraw() == null && cap.getBurn() == null && cap.getSpread() == null)
 			return;
 		GlStateManager.pushMatrix();
 		{
@@ -92,6 +94,9 @@ public class AoVOverlay extends Gui {
 
 			float x = sr.getScaledWidth() * 2 / 3;
 			float y = sr.getScaledHeight() / 5;
+
+			x += ConfigHandler.elementPositions.astro_x;
+			y += ConfigHandler.elementPositions.astro_y;
 
 			float scale = 0.35F;
 			buffer.pos(x, y + 143F * scale, 0).tex(0, 0.5F).endVertex();
@@ -135,11 +140,12 @@ public class AoVOverlay extends Gui {
 		buffer.pos(x + 80F * scale, y + 286F * scale, 0).tex(0.5F + (0.08F + xOffset), 0 + yOffset).endVertex();
 		buffer.pos(x + 80F * scale, y, 0).tex(0.5F + (0.08F + xOffset), 0.5F + yOffset).endVertex();
 		buffer.pos(x, y, 0).tex(0.5F + xOffset, 0.5F + yOffset).endVertex();
-		GlStateManager.pushMatrix();
-		GlStateManager.scale(scale * 3, scale * 3, scale * 3);
-		drawCenteredString(mc.fontRenderer, I18n.format("aov.astro.burn." + index), (int) x + 165, (int) y + 24, index == 0 ? 0x00AAFF : index == 1 ? 0x00FFAA : 0xFFDD88);
-		GlStateManager.popMatrix();
-		mc.getTextureManager().bindTexture(TEXTURE_ASTRO);
+		if (ConfigHandler.renderRoyalRoad) {
+			GlStateManager.pushMatrix();
+			drawCenteredString(mc.fontRenderer, I18n.format("aov.astro.burn." + index), (int) x - 16, (int) y - 4, index == 0 ? 0x00AAFF : index == 1 ? 0x00FFAA : 0xFFDD88);
+			GlStateManager.popMatrix();
+			mc.getTextureManager().bindTexture(TEXTURE_ASTRO);
+		}
 		GlStateManager.color(1, 1, 1, 1);
 	}
 
