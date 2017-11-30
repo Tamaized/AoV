@@ -12,6 +12,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import tamaized.aov.AoV;
 import tamaized.aov.client.handler.ClientTicker;
@@ -46,8 +47,8 @@ public class AoVOverlay extends Gui {
 						GlStateManager.translate(0, sr.getScaledHeight() - 23, 0);
 					for (int i = 0; i < 9; i++) {
 						int x = sW - 90 + (20 * i);
-						int y = ConfigHandler.renderBarOverHotbar ? 1 - ClientTicker.charges.getValue(i) : 1 + ClientTicker.charges.getValue(i);
-						renderCharges(x, y, fontRender, cap, i);
+						int y = ConfigHandler.renderBarOverHotbar || ConfigHandler.renderChargesAboveSpellbar ? 1 - ClientTicker.charges.getValue(i) : 1 + ClientTicker.charges.getValue(i);
+						renderCharges(x + ConfigHandler.elementPositions.spellbar_x, y + ConfigHandler.elementPositions.spellbar_y, fontRender, cap, i);
 					}
 				}
 				GlStateManager.popMatrix();
@@ -67,7 +68,7 @@ public class AoVOverlay extends Gui {
 		int w = 20;
 		int h = 20;
 		drawRect(x, y, x + w, y + h, !cap.canUseAbility(ability) ? 0x77FF0000 : 0x7700BBFF);
-		drawCenteredStringNoShadow(fontRender, String.valueOf(val), x + 10, y + (ConfigHandler.renderBarOverHotbar ? 3 : 10), 0x000000);
+		drawCenteredStringNoShadow(fontRender, String.valueOf(val), x + 10, y + (ConfigHandler.renderBarOverHotbar || ConfigHandler.renderChargesAboveSpellbar ? 3 : 10), 0x000000);
 	}
 
 	private void drawCenteredStringNoShadow(FontRenderer fontRendererIn, String text, int x, int y, int color) {

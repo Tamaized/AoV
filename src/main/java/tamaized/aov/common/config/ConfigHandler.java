@@ -24,6 +24,9 @@ public class ConfigHandler {
 	@Config.Name("Render SpellBar Over HotBar")
 	@Config.Comment("Sets the Spellbar to render in place of the hotbar while active.")
 	public static boolean renderBarOverHotbar = false;
+	@Config.Name("Render Charges Above SpellBar")
+	@Config.Comment("Renders the Charges left to be above the Spellbar instead of below. This setting has no impact if Render SpellBar Over HotBar is enabled.")
+	public static boolean renderChargesAboveSpellbar = false;
 	@Config.Name("Render Astro UI while Empty")
 	@Config.Comment("If false, the Astro UI will no longer render while not holding any card, spread, or royal road buff.")
 	public static boolean renderAstro = true;
