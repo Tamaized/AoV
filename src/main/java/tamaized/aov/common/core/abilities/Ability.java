@@ -177,13 +177,13 @@ public final class Ability {
 
 	public void update(IAoVCapability cap) {
 		tick++;
-		if (cooldown > 0)
+		if (tick % 20 == 0 && cooldown > 0)
 			cooldown--;
-		if (decay > 0 && tick % (20) == 0)
+		if (decay > 0 && tick % (20 * 20) == 0)
 			decay--;
 		if (ability.getMaxCharges() >= 0 && ConfigHandler.recharge >= 0 && charges < (ability.getMaxCharges() + cap.getExtraCharges()) && tick % ConfigHandler.recharge == 0)
 			charges++;
-		if (timer > 0)
+		if (tick % 20 == 0 && timer > 0)
 			timer--;
 		else if (timer == 0) {
 			timer--;

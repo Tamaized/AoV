@@ -112,8 +112,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		if (!hasLoaded)
 			return;
 		tick++;
-		if (tick % 20 == 0)
-			updateAbilities();
+		updateAbilities();
 		updateAuras(player);
 		updateDecay();
 		if (tick % (20 * 10) == 0)

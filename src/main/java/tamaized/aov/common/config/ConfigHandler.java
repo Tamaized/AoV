@@ -16,7 +16,7 @@ public class ConfigHandler {
 	public static ElementPositions elementPositions = new ElementPositions();
 
 	@Config.Name("Recharge Delay")
-	@Config.Comment("Sets the recharge rate per second, -1 disables this")
+	@Config.Comment("Sets the recharge rate per tick, -1 disables this")
 	public static int recharge = -1;
 	@Config.Name("Enable Vanilla Experience gain")
 	@Config.Comment("Determines whether or not vanilla experience contributes to AoV experience gain")
