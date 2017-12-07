@@ -71,11 +71,6 @@ public class EntityMalefic extends ProjectileBase {
 	}
 
 	@Override
-	protected boolean canHitEntity(Entity entity) {
-		return true;
-	}
-
-	@Override
 	protected float getDamageAmp(double damage, Entity shooter, Entity target) {
 		return 1F;
 	}

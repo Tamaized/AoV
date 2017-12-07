@@ -1,6 +1,5 @@
 package tamaized.aov.common.entity;
 
-import com.google.common.collect.Sets;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -17,7 +16,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.SPacketChangeGameState;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -27,30 +25,18 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import tamaized.aov.common.capabilities.CapabilityList;
+import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.AbilityBase;
-import tamaized.tammodized.common.helper.RayTraceHelper;
 
 import javax.annotation.Nonnull;
-import java.util.HashSet;
 
 public abstract class ProjectileBase extends EntityArrow implements IProjectile, IEntityAdditionalSpawnData {
 
 	/**
-	 * Seems to be some sort of timer for animating an arrow.
-	 */
-	public int arrowShake;
-	/**
 	 * The owner of this arrow.
 	 */
 	public Entity shootingEntity;
-	protected boolean inGround;
-	protected int timeInGround;
-	private int xTile;
-	private int yTile;
-	private int zTile;
-	private Block inTile;
-	private int inData;
-	private int ticksInGround;
 	private int ticksInAir;
 	private double damage;
 
@@ -65,9 +51,6 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 	public ProjectileBase(World worldIn) {
 		super(worldIn);
 		startingPoint = getPositionVector();
-		xTile = -1;
-		yTile = -1;
-		zTile = -1;
 		pickupStatus = EntityArrow.PickupStatus.DISALLOWED;
 		damage = 2.0D;
 		setSize(0.5F, 0.5F);
@@ -130,7 +113,6 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 			this.prevRotationPitch = this.rotationPitch;
 			this.prevRotationYaw = this.rotationYaw;
 			this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
-			this.ticksInGround = 0;
 		}
 	}
 
@@ -202,9 +184,6 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 
 	}
 
-	/**
-	 * Called to update the entity's position/logic.
-	 */
 	@Override
 	public void onUpdate() {
 		// super.onUpdate();
@@ -216,119 +195,84 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 			prevRotationPitch = rotationPitch = (float) (Math.atan2(motionY, (double) f) * (180.0D / Math.PI));
 		}
 
-		BlockPos blockpos = new BlockPos(xTile, yTile, zTile);
+		BlockPos blockpos = new BlockPos(posX, posY, posZ);
 		IBlockState iblockstate = world.getBlockState(blockpos);
-		Block block = iblockstate.getBlock();
 
 		if (iblockstate.getMaterial() != Material.AIR) {// check if hit block
 			AxisAlignedBB axisalignedbb = iblockstate.getCollisionBoundingBox(world, blockpos);
 			if (axisalignedbb != Block.NULL_AABB && (axisalignedbb != null && axisalignedbb.offset(blockpos).contains(new Vec3d(posX, posY, posZ)))) {
-				inGround = true;
+				blockHit(iblockstate, blockpos);
+				setDead();
+				return;
 			}
 		}
 
-		if (arrowShake > 0) {
-			--arrowShake;
+		// Traveling
+		++ticksInAir;
+		if (maxRange >= 0) {
+			if (startingPoint.distanceTo(getPositionVector()) >= maxRange)
+				setDead();
+		} else if (ticksInAir > 20 * 10)
+			setDead();
+
+		for (Entity e : world.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().grow(0.5F))) {
+			if (e == this || e == shootingEntity || !canHitEntity(e))
+				continue;
+			onHit(e);
 		}
 
-		if (inGround) {// inGround stuff, kills the entity here
-			int j = block.getMetaFromState(iblockstate);
+		posX += motionX * speed;
+		posY += motionY * speed;
+		posZ += motionZ * speed;
+		float f4 = MathHelper.sqrt(motionX * motionX + motionZ * motionZ);
+		rotationYaw = (float) (Math.atan2(motionX, motionZ) * (180.0D / Math.PI));
 
-			if (block == inTile && j == inData) {
-				++ticksInGround;
-
-				// if (ticksInGround == 1200) {
-				setDead();
-				// }
-			} else {
-				inGround = false;
-				motionX *= (double) (rand.nextFloat() * 0.2F);
-				motionY *= (double) (rand.nextFloat() * 0.2F);
-				motionZ *= (double) (rand.nextFloat() * 0.2F);
-				ticksInGround = 0;
-				ticksInAir = 0;
-			}
-			++timeInGround;
-			// setDead();
-		} else { // Traveling
-			timeInGround = 0;
-			++ticksInAir;
-			if (maxRange >= 0) {
-				if (startingPoint.distanceTo(getPositionVector()) >= maxRange)
-					setDead();
-			} else if (ticksInAir > 20 * 10)
-				setDead();
-			Vec3d vec3d1 = new Vec3d(posX - motionX, posY - motionY, posZ - motionZ);
-			Vec3d vec3d = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
-			HashSet<Entity> set = Sets.newHashSet();
-			set.add(shootingEntity);
-			RayTraceResult raytraceresult = RayTraceHelper.tracePath(world, vec3d1, vec3d, 1, set);// world.rayTraceBlocks(vec3d1, vec3d, false, true, false);
-			if (raytraceresult != null && raytraceresult.entityHit != null && raytraceresult.entityHit instanceof EntityPlayer) {
-				EntityPlayer entityplayer = (EntityPlayer) raytraceresult.entityHit;
-
-				if (shootingEntity instanceof EntityPlayer && !((EntityPlayer) shootingEntity).canAttackPlayer(entityplayer)) {
-					raytraceresult = null;
-				}
-			}
-
-			if (raytraceresult != null) {
-				onHit(raytraceresult);
-			}
-
-			posX += motionX * speed;
-			posY += motionY * speed;
-			posZ += motionZ * speed;
-			float f4 = MathHelper.sqrt(motionX * motionX + motionZ * motionZ);
-			rotationYaw = (float) (Math.atan2(motionX, motionZ) * (180.0D / Math.PI));
-
-			rotationPitch = (float) (MathHelper.atan2(motionY, (double) f4) * (180D / Math.PI));
-			while (rotationPitch - prevRotationPitch < -180.0F) {
-				prevRotationPitch -= 360.0F;
-			}
-
-			while (rotationPitch - prevRotationPitch >= 180.0F) {
-				prevRotationPitch += 360.0F;
-			}
-
-			while (rotationYaw - prevRotationYaw < -180.0F) {
-				prevRotationYaw -= 360.0F;
-			}
-
-			while (rotationYaw - prevRotationYaw >= 180.0F) {
-				prevRotationYaw += 360.0F;
-			}
-
-			rotationPitch = prevRotationPitch + (rotationPitch - prevRotationPitch) * 0.2F;
-			rotationYaw = prevRotationYaw + (rotationYaw - prevRotationYaw) * 0.2F;
-			float f1 = 0.99F;
-			float f2 = range;
-
-			if (isInWater()) {
-				setDead();
-				for (int l = 0; l < 4; ++l) {
-					f4 = 0.25F;
-					world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, posX - motionX * (double) f4, posY - motionY * (double) f4, posZ - motionZ * (double) f4, motionX, motionY, motionZ);
-				}
-				f1 = 0.6F;
-			}
-
-			if (isWet()) {
-				extinguish();
-			}
-
-			motionX *= (double) f1;
-			motionY *= (double) f1;
-			motionZ *= (double) f1;
-			motionY -= (double) f2;
-			setPosition(posX, posY, posZ);
-			doBlockCollisions();
+		rotationPitch = (float) (MathHelper.atan2(motionY, (double) f4) * (180D / Math.PI));
+		while (rotationPitch - prevRotationPitch < -180.0F) {
+			prevRotationPitch -= 360.0F;
 		}
 
-		if (world.isRemote)
-			particles();
+		while (rotationPitch - prevRotationPitch >= 180.0F) {
+			prevRotationPitch += 360.0F;
+		}
+
+		while (rotationYaw - prevRotationYaw < -180.0F) {
+			prevRotationYaw -= 360.0F;
+		}
+
+		while (rotationYaw - prevRotationYaw >= 180.0F) {
+			prevRotationYaw += 360.0F;
+		}
+
+		rotationPitch = prevRotationPitch + (rotationPitch - prevRotationPitch) * 0.2F;
+		rotationYaw = prevRotationYaw + (rotationYaw - prevRotationYaw) * 0.2F;
+		float f1 = 0.99F;
+		float f2 = range;
+
+		if (isInWater()) {
+			setDead();
+			for (int l = 0; l < 4; ++l) {
+				f4 = 0.25F;
+				world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, posX - motionX * (double) f4, posY - motionY * (double) f4, posZ - motionZ * (double) f4, motionX, motionY, motionZ);
+			}
+			f1 = 0.6F;
+		}
+
+		if (isWet())
+			extinguish();
+
+		motionX *= (double) f1;
+		motionY *= (double) f1;
+		motionZ *= (double) f1;
+		motionY -= (double) f2;
+		setPosition(posX, posY, posZ);
+		doBlockCollisions();
 	}
 
-	protected abstract boolean canHitEntity(Entity entity);
+	protected boolean canHitEntity(Entity entity) {
+		IAoVCapability cap = entity.hasCapability(CapabilityList.AOV, null) ? entity.getCapability(CapabilityList.AOV, null) : null;
+		return entity instanceof EntityLivingBase && (cap == null || IAoVCapability.selectiveTarget(cap, (EntityLivingBase) entity));
+	}
 
 	protected abstract DamageSource getDamageSource();
 
@@ -336,71 +280,44 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 
 	@Override
 	protected void onHit(RayTraceResult raytraceResultIn) {
-		Entity entity = raytraceResultIn.entityHit;
+		// NO-OP
+	}
 
-		if (entity != null) {
-			if (entity == shootingEntity || !canHitEntity(entity))
-				return;
+	protected void onHit(Entity entity) {
+		DamageSource damagesource = getDamageSource();
 
-			DamageSource damagesource = getDamageSource();
+		if (isBurning() && !(entity instanceof EntityEnderman)) {
+			entity.setFire(5);
+		}
 
-			if (isBurning() && !(entity instanceof EntityEnderman)) {
-				entity.setFire(5);
+		if (entity.attackEntityFrom(damagesource, getDamageAmp(damage, shootingEntity, entity))) {
+			if (entity instanceof EntityLivingBase) {
+				EntityLivingBase entitylivingbase = (EntityLivingBase) entity;
+
+				arrowHit(entitylivingbase);
+
+				if (shootingEntity != null && entitylivingbase != shootingEntity && entitylivingbase instanceof EntityPlayer && shootingEntity instanceof EntityPlayerMP) {
+					((EntityPlayerMP) shootingEntity).connection.sendPacket(new SPacketChangeGameState(6, 0.0F));
+				}
 			}
 
-			if (entity.attackEntityFrom(damagesource, getDamageAmp(damage, shootingEntity, entity))) {
-				if (entity instanceof EntityLivingBase) {
-					EntityLivingBase entitylivingbase = (EntityLivingBase) entity;
-
-					arrowHit(entitylivingbase);
-
-					if (shootingEntity != null && entitylivingbase != shootingEntity && entitylivingbase instanceof EntityPlayer && shootingEntity instanceof EntityPlayerMP) {
-						((EntityPlayerMP) shootingEntity).connection.sendPacket(new SPacketChangeGameState(6, 0.0F));
-					}
-				}
-
-				// playSound(SoundEvents.ENTITY_ARROW_HIT, 1.0F, 1.2F / (rand.nextFloat() * 0.2F + 0.9F));
-
-				if (!(entity instanceof EntityEnderman)) {
-					setDead();
-				}
-			} else {
-				motionX *= -0.10000000149011612D;
-				motionY *= -0.10000000149011612D;
-				motionZ *= -0.10000000149011612D;
-				rotationYaw += 180.0F;
-				prevRotationYaw += 180.0F;
-				ticksInAir = 0;
-
-				if (!world.isRemote && motionX * motionX + motionY * motionY + motionZ * motionZ < 0.0010000000474974513D) {
-					if (pickupStatus == EntityArrow.PickupStatus.ALLOWED) {
-						entityDropItem(getArrowStack(), 0.1F);
-					}
-
-					setDead();
-				}
+			if (!(entity instanceof EntityEnderman)) {
+				setDead();
 			}
 		} else {
-			BlockPos blockpos = raytraceResultIn.getBlockPos();
-			xTile = blockpos.getX();
-			yTile = blockpos.getY();
-			zTile = blockpos.getZ();
-			IBlockState iblockstate = world.getBlockState(blockpos);
-			inTile = iblockstate.getBlock();
-			inData = inTile.getMetaFromState(iblockstate);
-			motionX = (double) ((float) (raytraceResultIn.hitVec.x - posX));
-			motionY = (double) ((float) (raytraceResultIn.hitVec.y - posY));
-			motionZ = (double) ((float) (raytraceResultIn.hitVec.z - posZ));
-			float f2 = MathHelper.sqrt(motionX * motionX + motionY * motionY + motionZ * motionZ);
-			posX -= motionX / (double) f2 * 0.05000000074505806D;
-			posY -= motionY / (double) f2 * 0.05000000074505806D;
-			posZ -= motionZ / (double) f2 * 0.05000000074505806D;
-			// playSound(SoundEvents.ENTITY_ARROW_HIT, 1.0F, 1.2F / (rand.nextFloat() * 0.2F + 0.9F));
-			inGround = true;
-			arrowShake = 7;
-			blockHit(iblockstate, blockpos);
-			if (iblockstate.getMaterial() != Material.AIR) {
-				inTile.onEntityCollidedWithBlock(world, blockpos, iblockstate, this);
+			motionX *= -0.10000000149011612D;
+			motionY *= -0.10000000149011612D;
+			motionZ *= -0.10000000149011612D;
+			rotationYaw += 180.0F;
+			prevRotationYaw += 180.0F;
+			ticksInAir = 0;
+
+			if (!world.isRemote && motionX * motionX + motionY * motionY + motionZ * motionZ < 0.0010000000474974513D) {
+				if (pickupStatus == EntityArrow.PickupStatus.ALLOWED) {
+					entityDropItem(getArrowStack(), 0.1F);
+				}
+
+				setDead();
 			}
 		}
 	}
@@ -410,59 +327,20 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 
 	protected abstract void blockHit(IBlockState state, BlockPos pos);
 
-	@SideOnly(Side.CLIENT)
-	private void particles() {
+	@Override
+	public void writeEntityToNBT(NBTTagCompound nbt) {
+		nbt.setDouble("damage", damage);
+		nbt.setFloat("range", range);
+		nbt.setDouble("speed", speed);
+		nbt.setInteger("maxRange", maxRange);
 	}
 
-	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
-	 */
 	@Override
-	@SuppressWarnings("ConstantConditions")
-	// the "nonnull" RL is being retarded and being null, EntityArrow does the same thing so whatever
-	public void writeEntityToNBT(NBTTagCompound compound) {
-		compound.setInteger("xTile", xTile);
-		compound.setInteger("yTile", yTile);
-		compound.setInteger("zTile", zTile);
-		compound.setShort("life", (short) ticksInGround);
-		ResourceLocation resourcelocation = Block.REGISTRY.getNameForObject(this.inTile);
-		compound.setString("inTile", resourcelocation == null ? "" : resourcelocation.toString());
-		compound.setByte("inData", (byte) inData);
-		compound.setByte("shake", (byte) arrowShake);
-		compound.setByte("inGround", (byte) (inGround ? 1 : 0));
-		compound.setByte("pickup", (byte) pickupStatus.ordinal());
-		compound.setDouble("damage", damage);
-	}
-
-	/**
-	 * (abstract) Protected helper method to read subclass entity data from NBT.
-	 */
-	@Override
-	public void readEntityFromNBT(NBTTagCompound compound) {
-		xTile = compound.getInteger("xTile");
-		yTile = compound.getInteger("yTile");
-		zTile = compound.getInteger("zTile");
-		ticksInGround = compound.getShort("life");
-
-		if (compound.hasKey("inTile", 8)) {
-			inTile = Block.getBlockFromName(compound.getString("inTile"));
-		} else {
-			inTile = Block.getBlockById(compound.getByte("inTile") & 255);
-		}
-
-		inData = compound.getByte("inData") & 255;
-		arrowShake = compound.getByte("shake") & 255;
-		inGround = compound.getByte("inGround") == 1;
-
-		if (compound.hasKey("damage", 99)) {
-			damage = compound.getDouble("damage");
-		}
-
-		if (compound.hasKey("pickup", 99)) {
-			pickupStatus = EntityArrow.PickupStatus.getByOrdinal(compound.getByte("pickup"));
-		} else if (compound.hasKey("player", 99)) {
-			pickupStatus = compound.getBoolean("player") ? EntityArrow.PickupStatus.ALLOWED : EntityArrow.PickupStatus.DISALLOWED;
-		}
+	public void readEntityFromNBT(NBTTagCompound nbt) {
+		damage = nbt.getDouble("damage");
+		range = nbt.getFloat("range");
+		speed = nbt.getDouble("speed");
+		maxRange = nbt.getInteger("maxRange");
 	}
 
 	/**

@@ -37,11 +37,6 @@ public class ProjectileNimbusRay extends ProjectileBase {
 	}
 
 	@Override
-	protected boolean canHitEntity(Entity entity) {
-		return true;
-	}
-
-	@Override
 	protected float getDamageAmp(double damage, Entity shooter, Entity target) {
 		return (float) (damage * (target instanceof EntityMob && ((EntityMob) target).isEntityUndead() ? 2 : 1));
 	}

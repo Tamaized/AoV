@@ -1,7 +1,6 @@
 package tamaized.aov.client.entity;
 
-import tamaized.aov.AoV;
-import tamaized.aov.common.entity.ProjectileBase;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -11,6 +10,8 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import tamaized.aov.AoV;
+import tamaized.aov.common.entity.ProjectileBase;
 
 import java.util.Random;
 
@@ -42,16 +43,6 @@ public class RenderNimbusRay<T extends ProjectileBase> extends Render<T> {
 		GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, 0.0F, 0.0F, 1.0F);
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder vertexbuffer = tessellator.getBuffer();
-		int i = 0;
-		float f = 0.0F;
-		float f1 = 0.5F;
-		float f2 = 0.0F;
-		float f3 = 0.15625F;
-		float f4 = 0.0F;
-		float f5 = 0.15625F;
-		float f6 = 0.15625F;
-		float f7 = 0.3125F;
-		float f8 = 0.05625F;
 		GlStateManager.enableRescaleNormal();
 		float f9 = (float) entity.arrowShake - partialTicks;
 
@@ -105,8 +96,9 @@ public class RenderNimbusRay<T extends ProjectileBase> extends Render<T> {
 		GlStateManager.popMatrix();
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 		Vec3d vec = entity.getLook(1.0F);
-		for (int index = 0; index < 20; index++)
-			net.minecraft.client.Minecraft.getMinecraft().effectRenderer.addEffect(new tamaized.tammodized.client.particles.ParticleFluff(entity.world, entity.getPositionVector(), new Vec3d(-((0.015 * vec.x) + ((rand.nextFloat() * 0.125) - 0.0625)), ((0.015 * vec.y) + ((rand.nextFloat() * 0.125) - 0.0625)), -((0.015 * vec.z) + ((rand.nextFloat() * 0.125) - 0.0625))), rand.nextInt(10), 0, (rand.nextFloat() * 0.85F) + 0.15F, color));
+		if (!Minecraft.getMinecraft().isGamePaused())
+			for (int index = 0; index < 20; index++)
+				net.minecraft.client.Minecraft.getMinecraft().effectRenderer.addEffect(new tamaized.tammodized.client.particles.ParticleFluff(entity.world, entity.getPositionVector(), new Vec3d(-((0.015 * vec.x) + ((rand.nextFloat() * 0.125) - 0.0625)), ((0.015 * vec.y) + ((rand.nextFloat() * 0.125) - 0.0625)), -((0.015 * vec.z) + ((rand.nextFloat() * 0.125) - 0.0625))), rand.nextInt(10), 0, (rand.nextFloat() * 0.85F) + 0.15F, color));
 
 	}
 
