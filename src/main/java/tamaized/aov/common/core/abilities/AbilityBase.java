@@ -48,7 +48,10 @@ public abstract class AbilityBase {
 	public final List<String> getDescription() {
 		List<String> list = Lists.newArrayList();
 		for (TextComponentTranslation s : description) {
-			list.add(I18n.format(s.getKey(), s.getFormatArgs()));
+			Object[] args = new Object[s.getFormatArgs().length];
+			for (int index = 0; index < s.getFormatArgs().length; index++)
+				args[index] = I18n.format(s.getFormatArgs()[index].toString());
+			list.add(I18n.format(s.getKey(), args));
 		}
 		return list;
 	}

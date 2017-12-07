@@ -36,6 +36,7 @@ key.aov.bar.7=Activate Spell Slot 8
 key.aov.bar.8=Activate Spell Slot 9
 
 # GUI
+aov.gui.infinite=Infinite
 aov.gui.title.skills=Angel of Vengeance: Skills
 aov.gui.skills.points=Skill Points: %s
 aov.gui.skills.spent=Spent: %s out of %s
