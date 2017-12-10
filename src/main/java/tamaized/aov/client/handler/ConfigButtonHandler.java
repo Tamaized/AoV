@@ -8,6 +8,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.config.DummyConfigElement;
 import net.minecraftforge.fml.client.config.GuiConfig;
 import net.minecraftforge.fml.client.config.GuiConfigEntries;
+import net.minecraftforge.fml.client.config.IConfigElement;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -20,11 +21,15 @@ import tamaized.aov.client.gui.AdjustElementsGUI;
 @Mod.EventBusSubscriber(value = Side.CLIENT, modid = AoV.modid)
 public class ConfigButtonHandler {
 
+	private static final IConfigElement CONFIG_ELEMENT = new DummyConfigElement.DummyCategoryElement(I18n.format("aov.config.repositionelements.name"), "aov.config.repositionelements", Lists.newArrayList());
+
 	@SubscribeEvent
 	public static void hook(GuiScreenEvent.InitGuiEvent.Post e) {
 		if (e.getGui() instanceof GuiConfig && ((GuiConfig) e.getGui()).modID.equalsIgnoreCase(AoV.modid)) {
 			GuiConfig gui = (GuiConfig) e.getGui();
-			gui.entryList.listEntries.add(0, new GuiConfigEntries.CategoryEntry(gui, gui.entryList, new DummyConfigElement.DummyCategoryElement(I18n.format("aov.config.repositionelements.name"), "aov.config.repositionelements", Lists.newArrayList())) {
+			if (gui.parentScreen instanceof GuiConfig || (gui.entryList.listEntries.size() > 0 && gui.entryList.listEntries.get(0).getConfigElement() == CONFIG_ELEMENT))
+				return;
+			gui.entryList.listEntries.add(0, new GuiConfigEntries.CategoryEntry(gui, gui.entryList, CONFIG_ELEMENT) {
 				@Override
 				public boolean mousePressed(int index, int x, int y, int mouseEvent, int relativeX, int relativeY) {
 					boolean requiresMcRestart = gui.entryList.saveConfigElements();
