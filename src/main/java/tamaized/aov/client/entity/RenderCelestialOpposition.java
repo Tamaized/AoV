@@ -22,9 +22,7 @@ public class RenderCelestialOpposition<T extends EntityCelestialOpposition> exte
 		super(renderManager);
 	}
 
-	/**
-	 * Renders the desired {@code T} type Entity.
-	 */
+	@Override
 	public void doRender(@Nonnull T entity, double x, double y, double z, float entityYaw, float partialTicks) {
 		GlStateManager.pushMatrix();
 		GlStateManager.disableLighting();

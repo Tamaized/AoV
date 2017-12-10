@@ -16,7 +16,9 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
-import tamaized.aov.common.entity.EntitySpellParticles;
+import tamaized.aov.common.entity.EntitySpellAoVParticles;
+import tamaized.aov.common.entity.EntitySpellVanillaParticles;
+import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.SoundEvents;
 
 import java.util.List;
@@ -99,7 +101,7 @@ public class AspectedHelios extends AbilityBase {
 		for (EntityLivingBase entity : list) {
 			if (entity == caster || IAoVCapability.selectiveTarget(cap, entity)) {
 				entity.heal(heal);
-				entity.world.spawnEntity(new EntitySpellParticles(entity.world, entity, EnumParticleTypes.HEART));
+				entity.world.spawnEntity(new EntitySpellAoVParticles(entity.world, entity, CommonProxy.ParticleType.Heart, 0x00FF87FF, 5));
 				entity.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 600));
 			}
 			cap.addExp(caster, 15, this);

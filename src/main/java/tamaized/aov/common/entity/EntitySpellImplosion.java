@@ -11,6 +11,7 @@ import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
+import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.AoVDamageSource;
 
 import javax.annotation.Nonnull;
@@ -60,7 +61,7 @@ public class EntitySpellImplosion extends Entity {
 			for (int index = 0; index < 10; index++) {
 				Vec3d vec = getLook(1.0F).rotatePitch(rand.nextInt(360)).rotateYaw(rand.nextInt(360));
 				float speed = 0.08F;
-				AoV.proxy.spawnFluffParticle(world, getPositionVector().addVector(0, 0.65F, 0).add(vec), new Vec3d(-vec.x * speed, -vec.y * speed, -vec.z * speed), 7, 0, rand.nextFloat() * 0.90F + 0.10F, 0x7700FFFF);
+				AoV.proxy.spawnParticle(CommonProxy.ParticleType.Fluff, world, getPositionVector().addVector(0, 0.65F, 0).add(vec), new Vec3d(-vec.x * speed, -vec.y * speed, -vec.z * speed), 7, 0, rand.nextFloat() * 0.90F + 0.10F, 0x7700FFFF);
 			}
 			return;
 		}

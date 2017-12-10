@@ -14,7 +14,7 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
-import tamaized.aov.common.entity.EntitySpellParticles;
+import tamaized.aov.common.entity.EntitySpellVanillaParticles;
 import tamaized.aov.registry.SoundEvents;
 
 public class TimeDilation extends AbilityBase {
@@ -91,7 +91,7 @@ public class TimeDilation extends AbilityBase {
 				entity.addPotionEffect(new PotionEffect(effect.getPotion(), effect.getDuration() * 2, effect.getAmplifier(), effect.getIsAmbient(), effect.doesShowParticles()));
 		if (!entity.world.isRemote) {
 			SoundEvents.playMovingSoundOnServer(SoundEvents.timedilation, entity);
-			entity.world.spawnEntity(new EntitySpellParticles(entity.world, entity, EnumParticleTypes.VILLAGER_HAPPY));
+			entity.world.spawnEntity(new EntitySpellVanillaParticles(entity.world, entity, EnumParticleTypes.VILLAGER_HAPPY, 3));
 			if (aov != null)
 				aov.addExp(caster, 20, ability.getAbility());
 		}

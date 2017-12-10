@@ -25,9 +25,7 @@ public class RenderNimbusRay<T extends ProjectileBase> extends Render<T> {
 		super(renderManager);
 	}
 
-	/**
-	 * Renders the desired {@code T} type Entity.
-	 */
+	@Override
 	public void doRender(T entity, double x, double y, double z, float entityYaw, float partialTicks) {
 		this.bindEntityTexture(entity);
 		int color = entity.getColor();

@@ -17,7 +17,7 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
-import tamaized.aov.common.entity.EntitySpellParticles;
+import tamaized.aov.common.entity.EntitySpellVanillaParticles;
 import tamaized.aov.registry.AoVPotions;
 
 import javax.annotation.Nonnull;
@@ -106,7 +106,7 @@ public class Draw extends AbilityBase {
 				entity.addPotionEffect(new PotionEffect(AoVPotions.spire, ticks, potency));
 				break;
 		}
-		entity.world.spawnEntity(new EntitySpellParticles(entity.world, entity, EnumParticleTypes.CRIT_MAGIC));
+		entity.world.spawnEntity(new EntitySpellVanillaParticles(entity.world, entity, EnumParticleTypes.CRIT_MAGIC, 5));
 	}
 
 	@Override

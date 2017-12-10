@@ -20,9 +20,7 @@ public class RenderMalefic<T extends EntityMalefic> extends Render<T> {
 		super(renderManager);
 	}
 
-	/**
-	 * Renders the desired {@code T} type Entity.
-	 */
+	@Override
 	public void doRender(@Nonnull T entity, double x, double y, double z, float entityYaw, float partialTicks) {
 		bindEntityTexture(entity);
 		GlStateManager.pushMatrix();

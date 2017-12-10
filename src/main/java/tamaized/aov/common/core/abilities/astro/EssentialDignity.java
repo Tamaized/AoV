@@ -13,7 +13,7 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
-import tamaized.aov.common.entity.EntitySpellParticles;
+import tamaized.aov.common.entity.EntitySpellVanillaParticles;
 import tamaized.aov.registry.SoundEvents;
 
 public class EssentialDignity extends AbilityBase {
@@ -89,7 +89,7 @@ public class EssentialDignity extends AbilityBase {
 		EntityLivingBase entity = target != null && IAoVCapability.selectiveTarget(cap, target) ? target : caster;
 		entity.heal(entity.getMaxHealth());
 		SoundEvents.playMovingSoundOnServer(SoundEvents.essentialdignity, entity);
-		entity.world.spawnEntity(new EntitySpellParticles(entity.world, entity, EnumParticleTypes.END_ROD));
+		entity.world.spawnEntity(new EntitySpellVanillaParticles(entity.world, entity, EnumParticleTypes.END_ROD, 10));
 		cap.addExp(caster, 12, this);
 		return false;
 	}

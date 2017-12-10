@@ -1,6 +1,7 @@
 package tamaized.aov.proxy;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -17,13 +18,15 @@ import tamaized.aov.client.entity.RenderSpellEntity;
 import tamaized.aov.client.events.ClientSpawnEvent;
 import tamaized.aov.client.events.KeyHandler;
 import tamaized.aov.client.gui.AoVOverlay;
+import tamaized.aov.client.particle.ParticleHeartColor;
 import tamaized.aov.common.entity.EntityCelestialOpposition;
 import tamaized.aov.common.entity.EntityCombust;
 import tamaized.aov.common.entity.EntityGravity;
 import tamaized.aov.common.entity.EntityMalefic;
+import tamaized.aov.common.entity.EntitySpellAoVParticles;
 import tamaized.aov.common.entity.EntitySpellBladeBarrier;
 import tamaized.aov.common.entity.EntitySpellImplosion;
-import tamaized.aov.common.entity.EntitySpellParticles;
+import tamaized.aov.common.entity.EntitySpellVanillaParticles;
 import tamaized.aov.common.entity.ProjectileFlameStrike;
 import tamaized.aov.common.entity.ProjectileNimbusRay;
 import tamaized.tammodized.client.particles.ParticleFluff;
@@ -53,7 +56,8 @@ public class ClientProxy extends CommonProxy {
 		RenderingRegistry.registerEntityRenderingHandler(ProjectileFlameStrike.class, RenderFlameStrike::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntitySpellImplosion.class, RenderSpellEntity::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntitySpellBladeBarrier.class, RenderSpellBladeBarrier::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntitySpellParticles.class, RenderSpellEntity::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntitySpellAoVParticles.class, RenderSpellEntity::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntitySpellVanillaParticles.class, RenderSpellEntity::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityMalefic.class, RenderMalefic::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityCombust.class, RenderCombust::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityGravity.class, RenderGravity::new);
@@ -72,7 +76,18 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	@Override
-	public void spawnFluffParticle(World world, Vec3d pos, Vec3d target, int life, float gravity, float scale, int color) {
-		Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleFluff(world, pos, target, life, gravity, scale, color));
+	public void spawnParticle(ParticleType type, World world, Vec3d pos, Vec3d target, int life, float gravity, float scale, int color) {
+		Particle particle = null;
+		switch (type) {
+			case Fluff:
+				particle = new ParticleFluff(world, pos, target, life, gravity, scale, color);
+				break;
+			case Heart:
+				particle = new ParticleHeartColor(world, pos.x, pos.y, pos.z, 1, color);
+				break;
+		}
+		//noinspection ConstantConditions
+		if (particle != null)
+			Minecraft.getMinecraft().effectRenderer.addEffect(particle);
 	}
 }
