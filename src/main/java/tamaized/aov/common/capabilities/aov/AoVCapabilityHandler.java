@@ -285,6 +285,9 @@ public class AoVCapabilityHandler implements IAoVCapability {
 
 	@Override
 	public void addAbility(Ability ability) {
+		for (Ability check : abilities)
+			if (check.getAbility() == ability.getAbility())
+				return;
 		abilities.add(ability);
 		dirty = true;
 	}
