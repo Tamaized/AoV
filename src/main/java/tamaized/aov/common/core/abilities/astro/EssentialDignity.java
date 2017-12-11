@@ -30,7 +30,7 @@ public class EssentialDignity extends AbilityBase {
 
 				new TextComponentTranslation(""),
 
-				new TextComponentTranslation("aov.spells.global.charges", "∞"),
+				new TextComponentTranslation("aov.spells.global.charges", "aov.gui.infinite"),
 
 				new TextComponentTranslation("aov.spells.global.range", distance),
 
