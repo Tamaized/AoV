@@ -5,6 +5,7 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import tamaized.aov.client.events.TextureStitch;
 
@@ -12,16 +13,16 @@ public class ParticleHeartColor extends Particle {
 
 	float particleScaleOverTime;
 
-	public ParticleHeartColor(World worldIn, double posXIn, double posYIn, double posZIn, float scale, int color) {
-		super(worldIn, posXIn, posYIn, posZIn, 0.0D, 0.0D, 0.0D);
-		motionX *= 0.009999999776482582D;
-		motionY *= 0.009999999776482582D;
-		motionZ *= 0.009999999776482582D;
-		motionY += 0.1D;
+	public ParticleHeartColor(World world, Vec3d pos, Vec3d target, int life, float gravity, float scale, int color) {
+		super(world, pos.x, pos.y, pos.z, 0.0D, 0.0D, 0.0D);
+		motionX = target.x;
+		motionY = target.y;
+		motionZ = target.z;
 		particleScale *= 0.75F;
 		particleScale *= scale;
+		particleGravity = gravity;
+		particleMaxAge = life;
 		particleScaleOverTime = particleScale;
-		particleMaxAge = 16;
 		particleRed = (float) (color >> 24 & 255) / 255.0F;
 		particleGreen = (float) (color >> 16 & 255) / 255.0F;
 		particleBlue = (float) (color >> 8 & 255) / 255.0F;
@@ -44,6 +45,10 @@ public class ParticleHeartColor extends Particle {
 
 	@Override
 	public void onUpdate() {
+		if(true){
+			super.onUpdate();
+			return;
+		}
 		this.prevPosX = this.posX;
 		this.prevPosY = this.posY;
 		this.prevPosZ = this.posZ;

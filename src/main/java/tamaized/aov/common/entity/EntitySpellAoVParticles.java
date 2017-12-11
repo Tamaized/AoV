@@ -31,7 +31,7 @@ public class EntitySpellAoVParticles extends Entity {
 		this(world);
 		target = entity;
 		setPositionAndUpdate(target.posX, target.posY, target.posZ);
-		tick = rand.nextInt(30) + 20;
+		tick = rand.nextInt(10) + 20;
 		setParticle(particle);
 		setColor(color);
 		dataManager.set(RATE, rate);
@@ -83,7 +83,7 @@ public class EntitySpellAoVParticles extends Entity {
 			for (int index = 0; index < dataManager.get(RATE); index++) {
 				Vec3d vec = getLook(1.0F).rotatePitch(rand.nextInt(360)).rotateYaw(rand.nextInt(360));
 				Vec3d pos = getPositionVector().addVector(0, 0.65F, 0).add(vec);
-				AoV.proxy.spawnParticle(getParticle(), world, pos, new Vec3d(0, 0.25F, 0), 20, 0, 1, getColor());
+				AoV.proxy.spawnParticle(getParticle(), world, pos, new Vec3d(0, 0.0625F, 0), 16, 0, 1, getColor());
 			}
 			return;
 		}

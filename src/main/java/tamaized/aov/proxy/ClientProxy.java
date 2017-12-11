@@ -83,7 +83,7 @@ public class ClientProxy extends CommonProxy {
 				particle = new ParticleFluff(world, pos, target, life, gravity, scale, color);
 				break;
 			case Heart:
-				particle = new ParticleHeartColor(world, pos.x, pos.y, pos.z, 1, color);
+				particle = new ParticleHeartColor(world, pos, target, life, gravity, scale, color);
 				break;
 		}
 		//noinspection ConstantConditions

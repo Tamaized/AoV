@@ -8,6 +8,7 @@ import tamaized.aov.network.client.ClientPacketHandlerAoVData;
 import tamaized.aov.network.client.ClientPacketHandlerAstroAnimation;
 import tamaized.aov.network.client.ClientPacketHandlerAstroData;
 import tamaized.aov.network.client.ClientPacketHandlerMovingSound;
+import tamaized.aov.network.client.ClientPacketHandlerParticleMesh;
 import tamaized.aov.network.client.ClientPacketHandlerStunned;
 import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
 
@@ -23,6 +24,7 @@ public class NetworkMessages {
 		registerMessage(network, ClientPacketHandlerAstroAnimation.class, ClientPacketHandlerAstroAnimation.Packet.class, Side.CLIENT);
 		registerMessage(network, ClientPacketHandlerMovingSound.class, ClientPacketHandlerMovingSound.Packet.class, Side.CLIENT);
 		registerMessage(network, ClientPacketHandlerStunned.class, ClientPacketHandlerStunned.Packet.class, Side.CLIENT);
+		registerMessage(network, ClientPacketHandlerParticleMesh.class, ClientPacketHandlerParticleMesh.Packet.class, Side.CLIENT);
 	}
 
 	private static <REQ extends IMessage, REPLY extends IMessage> void registerMessage(SimpleNetworkWrapper network, Class<? extends IMessageHandler<REQ, REPLY>> messageHandler, Class<REQ> requestMessageType, Side side) {

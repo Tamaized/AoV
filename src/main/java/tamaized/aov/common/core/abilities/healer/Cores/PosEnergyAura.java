@@ -16,6 +16,7 @@ import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.abilities.IAura;
 import tamaized.aov.common.helper.ParticleHelper;
+import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.SoundEvents;
 
 import java.util.List;
@@ -68,7 +69,7 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 	public void castAsAura(EntityPlayer caster, IAoVCapability cap, int life) {
 		int tick = (PosEnergyAura.life * 20) - life;
 		if (tick > 0 && tick % 20 == 0) {
-			ParticleHelper.spawnParticleMesh(ParticleHelper.Type.BURST, caster.world, caster.getPositionVector(), range, 0xFFFF00FF);
+			ParticleHelper.spawnParticleMesh(ParticleHelper.MeshType.BURST, CommonProxy.ParticleType.Heart, caster.world, caster.getPositionVector(), range, 0xFFFF00FF);
 			int a = (int) (dmg * (1f + (cap.getSpellPower() / 100f)));
 			List<EntityLivingBase> list = caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-range, -range, -range), caster.getPosition().add(range, range, range)));
 			for (EntityLivingBase entity : list) {

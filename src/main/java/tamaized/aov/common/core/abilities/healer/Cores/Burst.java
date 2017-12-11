@@ -15,6 +15,7 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.helper.ParticleHelper;
+import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.SoundEvents;
 
 import java.util.List;
@@ -54,7 +55,7 @@ public class Burst extends AbilityBase {
 		IAoVCapability cap = player.hasCapability(CapabilityList.AOV, null) ? player.getCapability(CapabilityList.AOV, null) : null;
 		if (cap == null)
 			return false;
-		ParticleHelper.spawnParticleMesh(ParticleHelper.Type.BURST, player.world, player.getPositionVector(), range, 0xFFFF00FF);
+		ParticleHelper.spawnParticleMesh(ParticleHelper.MeshType.BURST, CommonProxy.ParticleType.Heart, player.world, player.getPositionVector(), range, 0xFFFF00FF);
 		SoundEvents.playMovingSoundOnServer(SoundEvents.burst, player);
 		int a = (int) (dmg * (1f + (cap.getSpellPower() / 100f)));
 		List<EntityLivingBase> list = player.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(player.getPosition().add(-range, -range, -range), player.getPosition().add(range, range, range)));
