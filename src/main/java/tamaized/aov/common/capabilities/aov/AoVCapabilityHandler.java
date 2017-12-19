@@ -6,7 +6,6 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.fml.relauncher.Side;
@@ -128,10 +127,10 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		if (tick % (20 * 30) == 0 && hasSkill(AoVSkills.defender_capstone) && player != null) {
 			ItemStack main = player.getHeldItemMainhand();
 			ItemStack off = player.getHeldItemOffhand();
-			if (!main.isEmpty() && main.getItem() instanceof ItemShield && main.getItem().isRepairable() && main.getItemDamage() > 0) {
+			if (!main.isEmpty() && main.getItem().isShield(main, player) && main.getItem().isRepairable() && main.getItemDamage() > 0) {
 				main.setItemDamage(0);
 			}
-			if (!off.isEmpty() && off.getItem() instanceof ItemShield && off.getItem().isRepairable() && off.getItemDamage() > 0) {
+			if (!off.isEmpty() && off.getItem().isShield(off, player) && off.getItem().isRepairable() && off.getItemDamage() > 0) {
 				off.setItemDamage(0);
 			}
 		}
@@ -149,7 +148,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 				hp.removeModifier(mod);
 			}
 		}
-		if (hasSkill(AoVSkills.defender_tier_4_2) && !hp.hasModifier(defenderHealth) && player.getHeldItemOffhand().getItem() instanceof ItemShield) {
+		if (hasSkill(AoVSkills.defender_tier_4_2) && !hp.hasModifier(defenderHealth) && player.getHeldItemOffhand().getItem().isShield(player.getHeldItemOffhand(), player)) {
 			hp.applyModifier(defenderHealth);
 		}
 	}
