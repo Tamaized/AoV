@@ -8,14 +8,11 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.relauncher.Side;
@@ -25,7 +22,6 @@ import tamaized.aov.common.gui.GuiHandler;
 import tamaized.tammodized.common.blocks.TamBlock;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 
 public class BlockAngelicBlock extends TamBlock {
 
@@ -39,7 +35,17 @@ public class BlockAngelicBlock extends TamBlock {
 	}
 
 	public static int getMetaForAxis(EnumFacing.Axis axis) {
-		return axis == EnumFacing.Axis.X ? 1 : (axis == EnumFacing.Axis.Z ? 2 : 0);
+		if (axis == EnumFacing.Axis.X)
+			return 1;
+		else
+			return axis == EnumFacing.Axis.Z ? 2 : 0;
+
+	}
+
+	@Nonnull
+	@Override
+	public IBlockState getStateForPlacement(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ, int meta, @Nonnull EntityLivingBase placer, EnumHand hand) {
+		return super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer, hand).withProperty(AXIS, placer.getHorizontalFacing().rotateY().getAxis());
 	}
 
 	@Override
@@ -53,17 +59,6 @@ public class BlockAngelicBlock extends TamBlock {
 	@SideOnly(Side.CLIENT)
 	public BlockRenderLayer getBlockLayer() {
 		return BlockRenderLayer.TRANSLUCENT;
-	}
-
-	@Override
-	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-		int l = MathHelper.floor((double) (placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-		int flag;
-		if (l == 0 || l == 2)
-			flag = 1;
-		else
-			flag = 2;
-		world.setBlockState(pos, this.getStateFromMeta(flag), 2);
 	}
 
 	@Override
@@ -88,6 +83,28 @@ public class BlockAngelicBlock extends TamBlock {
 	@Override
 	public BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, AXIS);
+	}
+
+	@Nonnull
+	@Override
+	@SuppressWarnings("deprecation")
+	public IBlockState withRotation(@Nonnull IBlockState state, Rotation rot) {
+		switch (rot) {
+			case COUNTERCLOCKWISE_90:
+			case CLOCKWISE_90:
+
+				switch (state.getValue(AXIS)) {
+					case X:
+						return state.withProperty(AXIS, EnumFacing.Axis.Z);
+					case Z:
+						return state.withProperty(AXIS, EnumFacing.Axis.X);
+					default:
+						return state;
+				}
+
+			default:
+				return state;
+		}
 	}
 
 }
