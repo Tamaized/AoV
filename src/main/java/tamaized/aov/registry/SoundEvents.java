@@ -50,7 +50,7 @@ public class SoundEvents {
 		burst = registerSound(event, "burst");
 		cast = registerSound(event, "cast");
 		cast_2 = registerSound(event, "cast_2");
-		destruction = registerSound(event, "DESTRUCTION");
+		destruction = registerSound(event, "destruction");
 		firestrike = registerSound(event, "firestrike");
 		heal = registerSound(event, "heal");
 		implosion = registerSound(event, "implosion");

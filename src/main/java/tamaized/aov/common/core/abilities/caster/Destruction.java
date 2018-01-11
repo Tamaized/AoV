@@ -19,7 +19,7 @@ import tamaized.aov.registry.SoundEvents;
 
 public class Destruction extends AbilityBase {
 
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid, "textures/spells/DESTRUCTION.png");
+	private static final ResourceLocation icon = new ResourceLocation(AoV.modid, "textures/spells/destruction.png");
 
 	private static final int charges = 2;
 	private static final int distance = 20;
@@ -37,13 +37,13 @@ public class Destruction extends AbilityBase {
 
 				new TextComponentTranslation(""),
 
-				new TextComponentTranslation("aov.spells.DESTRUCTION.desc")
+				new TextComponentTranslation("aov.spells.destruction.desc")
 
 		);
 	}
 
 	public static String getStaticName() {
-		return "aov.spells.DESTRUCTION.name";
+		return "aov.spells.destruction.name";
 	}
 
 	@Override
