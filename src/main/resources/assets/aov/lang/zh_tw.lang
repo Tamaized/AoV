@@ -1,4 +1,4 @@
-﻿# Tab
+# Tab
 itemGroup.aov=復仇的天使
 
 # Death
@@ -24,18 +24,19 @@ tile.aov.blockangelic.name=天使雕像
 
 # KeyBinds
 key.categories.aov=復仇的天使
-key.aov.bartoggle=切換拼寫條
-key.aov.bar.0=激活法術槽1
-key.aov.bar.1=激活法術槽2
-key.aov.bar.2=激活法術槽3
-key.aov.bar.3=激活法術槽4
-key.aov.bar.4=激活法術槽5
-key.aov.bar.5=激活法術槽6
-key.aov.bar.6=激活法術槽7
-key.aov.bar.7=激活法術槽8
-key.aov.bar.8=激活法術槽9
+key.aov.bartoggle=切換法術欄
+key.aov.bar.0=激活法術欄1
+key.aov.bar.1=激活法術欄2
+key.aov.bar.2=激活法術欄3
+key.aov.bar.3=激活法術欄4
+key.aov.bar.4=激活法術欄5
+key.aov.bar.5=激活法術欄6
+key.aov.bar.6=激活法術欄7
+key.aov.bar.7=激活法術欄8
+key.aov.bar.8=激活法術欄9
 
 # GUI
+aov.gui.infinite=無窮
 aov.gui.title.skills=復仇的天使：技能
 aov.gui.skills.points=技能點：%s
 aov.gui.skills.spent=花費：%s/%s
@@ -66,6 +67,10 @@ aov.gui.button.stats=檢查統計
 aov.gui.button.reset=重置技能
 aov.gui.button.fullreset=完全重置
 aov.gui.button.minorreset=輕微重置
+
+aov.config.repositionelements.name=用手重新定位界面
+aov.config.repositionelements.tooltip=通過鼠標點擊拖動來重新調整屏幕上的法術欄和占星師界面的位置
+aov.repositionelements.exit=點擊%s或%s以儲存並退出
 
 # Spells
 aov.spells.global.charges=§b收費：%s
