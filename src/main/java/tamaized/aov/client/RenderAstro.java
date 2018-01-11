@@ -133,7 +133,6 @@ public class RenderAstro {
 		// Redraw
 		if (!Minecraft.getMinecraft().isGamePaused() && cap.getFrameData()[4][0] > 0)
 			cap.getFrameData()[4][0] -= (240F / (float) Minecraft.getDebugFPS());
-		GlStateManager.rotate(cap.getFrameData()[4][0] % 360, 0, 0, 1);
 		if (!Minecraft.getMinecraft().isGamePaused() && cap.getFrameData()[4][1] > 0)
 			cap.getFrameData()[4][1] -= (120F / (float) Minecraft.getDebugFPS());
 		if (!Minecraft.getMinecraft().isGamePaused() && cap.getFrameData()[4][0] <= 0)

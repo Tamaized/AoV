@@ -1,5 +1,6 @@
 package tamaized.aov.registry;
 
+import tamaized.aov.AoV;
 import tamaized.aov.common.blocks.BlockAngelicBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -15,7 +16,7 @@ import tamaized.tammodized.registry.ITamRegistry;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = AoV.modid)
 public class AoVBlocks {
 
 	public static BlockAngelicBlock angelicBlock;
