@@ -76,7 +76,7 @@ public class EntitySpellImplosion extends Entity {
 			IAoVCapability cap = caster != null && caster.hasCapability(CapabilityList.AOV, null) ? caster.getCapability(CapabilityList.AOV, null) : null;
 			if (cap != null)
 				damage *= (1f + (cap.getSpellPower() / 100f));
-			target.attackEntityFrom(AoVDamageSource.destruction, damage);
+			target.attackEntityFrom(AoVDamageSource.createEntityDamageSource(AoVDamageSource.DESTRUCTION, caster), damage);
 			if (cap != null)
 				cap.addExp(caster, 25, Abilities.implosion);
 			setDead();

@@ -1,6 +1,7 @@
 package tamaized.aov.common.core.abilities.healer;
 
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
@@ -8,12 +9,14 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.helper.ParticleHelper;
 import tamaized.aov.proxy.CommonProxy;
+import tamaized.aov.registry.AoVDamageSource;
 import tamaized.aov.registry.SoundEvents;
 
 import java.util.List;
@@ -85,7 +88,7 @@ public abstract class CureWounds extends AbilityBase {
 			SoundEvents.playMovingSoundOnServer(SoundEvents.heal, player);
 		} else {
 			if (e.isEntityUndead()) {
-				e.attackEntityFrom(DamageSource.MAGIC, a);
+				e.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, player), a);
 				SoundEvents.playMovingSoundOnServer(SoundEvents.heal, e);
 			} else if (IAoVCapability.selectiveTarget(cap, e)) {
 				e.heal(a);
@@ -102,7 +105,7 @@ public abstract class CureWounds extends AbilityBase {
 		List<EntityLivingBase> list = target.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(target.getPosition().add(-range, -range, -range), target.getPosition().add(range, range, range)));
 		for (EntityLivingBase entity : list) {
 			if (entity.isEntityUndead()) {
-				entity.attackEntityFrom(DamageSource.MAGIC, dmg);
+				entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, target), dmg);
 				SoundEvents.playMovingSoundOnServer(SoundEvents.heal, entity);
 			} else if (IAoVCapability.selectiveTarget(cap, entity)) {
 				entity.heal(dmg);

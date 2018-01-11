@@ -33,7 +33,7 @@ public class ProjectileNimbusRay extends ProjectileBase {
 
 	@Override
 	protected DamageSource getDamageSource() {
-		return AoVDamageSource.nimbus;
+		return AoVDamageSource.createEntityDamageSource(AoVDamageSource.NIMBUS, shootingEntity);
 	}
 
 	@Override

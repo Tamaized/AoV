@@ -20,6 +20,7 @@ import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.helper.ParticleHelper;
 import tamaized.aov.common.helper.ParticleHelper.MeshType;
 import tamaized.aov.proxy.CommonProxy;
+import tamaized.aov.registry.AoVDamageSource;
 
 import javax.annotation.Nonnull;
 
@@ -101,7 +102,7 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 					cap.addExp(attacker, 20, Abilities.flameStrike);
 			}
 			entity.setFire(15);
-			entity.attackEntityFrom(DamageSource.IN_FIRE, damage);
+			entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.IN_FIRE, attacker), damage);
 		}
 		for (int i = 0; i < 2; i++)
 			ParticleHelper.spawnParticleMesh(MeshType.BURST, CommonProxy.ParticleType.Fluff, world, new Vec3d(posX, posY, posZ), 10, 0xFF4801FF);

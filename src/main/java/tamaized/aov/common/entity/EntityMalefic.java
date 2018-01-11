@@ -67,7 +67,7 @@ public class EntityMalefic extends ProjectileBase {
 
 	@Override
 	protected DamageSource getDamageSource() {
-		return AoVDamageSource.cosmic;
+		return AoVDamageSource.createEntityDamageSource(AoVDamageSource.COSMIC, shootingEntity);
 	}
 
 	@Override

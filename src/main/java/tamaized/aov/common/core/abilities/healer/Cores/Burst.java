@@ -16,6 +16,7 @@ import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.helper.ParticleHelper;
 import tamaized.aov.proxy.CommonProxy;
+import tamaized.aov.registry.AoVDamageSource;
 import tamaized.aov.registry.SoundEvents;
 
 import java.util.List;
@@ -61,7 +62,7 @@ public class Burst extends AbilityBase {
 		List<EntityLivingBase> list = player.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(player.getPosition().add(-range, -range, -range), player.getPosition().add(range, range, range)));
 		for (EntityLivingBase entity : list) {
 			if (entity.isEntityUndead())
-				entity.attackEntityFrom(DamageSource.MAGIC, a);
+				entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, player), a);
 			else if (IAoVCapability.selectiveTarget(cap, entity)) {
 				entity.heal(a);
 				entity.getActivePotionEffects().removeIf(pot -> pot.getPotion().isBadEffect());

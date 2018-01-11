@@ -19,7 +19,7 @@ import tamaized.aov.registry.SoundEvents;
 
 public class Destruction extends AbilityBase {
 
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid, "textures/spells/destruction.png");
+	private static final ResourceLocation icon = new ResourceLocation(AoV.modid, "textures/spells/DESTRUCTION.png");
 
 	private static final int charges = 2;
 	private static final int distance = 20;
@@ -37,13 +37,13 @@ public class Destruction extends AbilityBase {
 
 				new TextComponentTranslation(""),
 
-				new TextComponentTranslation("aov.spells.destruction.desc")
+				new TextComponentTranslation("aov.spells.DESTRUCTION.desc")
 
 		);
 	}
 
 	public static String getStaticName() {
-		return "aov.spells.destruction.name";
+		return "aov.spells.DESTRUCTION.name";
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public class Destruction extends AbilityBase {
 		if (cap != null && target.isNonBoss()) {
 			float damage = target.getRNG().nextInt((int) Math.floor(target.getHealth())) <= 8 ? target.getMaxHealth() : target.getMaxHealth() / 2F;
 			damage *= (1f + (cap.getSpellPower() / 100f));
-			target.attackEntityFrom(AoVDamageSource.destruction, damage);
+			target.attackEntityFrom(AoVDamageSource.createEntityDamageSource(AoVDamageSource.DESTRUCTION, caster), damage);
 			target.world.playSound(null, target.posX, target.posY, target.posZ, SoundEvents.destruction, SoundCategory.NEUTRAL, 1.0F, 1.0F);
 			cap.addExp(caster, 20, Abilities.destruction);
 			return true;

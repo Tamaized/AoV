@@ -35,18 +35,18 @@ public class NimbusRay extends AbilityBase {
 
 				new TextComponentTranslation(""),
 
-				new TextComponentTranslation("aov.spells.nimbus.desc")
+				new TextComponentTranslation("aov.spells.NIMBUS.desc")
 
 		);
 	}
 
 	public static String getStaticName() {
-		return "aov.spells.nimbus.name";
+		return "aov.spells.NIMBUS.name";
 	}
 
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid, "textures/spells/nimbus.png");
+		return new ResourceLocation(AoV.modid, "textures/spells/NIMBUS.png");
 	}
 
 	@Override

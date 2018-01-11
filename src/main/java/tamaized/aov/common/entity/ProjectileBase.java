@@ -140,6 +140,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 		speed = s;
 	}
 
+	@Override
 	public double getDamage() {
 		return damage;
 	}

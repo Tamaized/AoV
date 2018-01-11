@@ -15,6 +15,7 @@ public class EntityCombust extends Entity {
 
 	public float scale;
 	public float initalScale = 135F;
+	private Entity caster;
 	private Entity target;
 	private float damage = 2F;
 
@@ -22,9 +23,10 @@ public class EntityCombust extends Entity {
 		super(worldIn);
 	}
 
-	public EntityCombust(World world, Entity entity, float dmg) {
+	public EntityCombust(World world, Entity caster, Entity target, float dmg) {
 		this(world);
-		target = entity;
+		this.caster = caster;
+		this.target = target;
 		damage = dmg;
 		setPositionAndUpdate(target.posX, target.posY, target.posZ);
 	}
@@ -52,7 +54,7 @@ public class EntityCombust extends Entity {
 			setDead();
 			return;
 		} else if (ticksExisted % 40 == 0)
-			target.attackEntityFrom(AoVDamageSource.cosmic, damage);
+			target.attackEntityFrom(AoVDamageSource.createEntityDamageSource(AoVDamageSource.COSMIC, caster), damage);
 		setPositionAndUpdate(target.posX, target.posY, target.posZ);
 	}
 

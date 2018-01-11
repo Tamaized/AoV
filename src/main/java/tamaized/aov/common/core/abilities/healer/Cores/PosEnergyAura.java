@@ -17,6 +17,7 @@ import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.abilities.IAura;
 import tamaized.aov.common.helper.ParticleHelper;
 import tamaized.aov.proxy.CommonProxy;
+import tamaized.aov.registry.AoVDamageSource;
 import tamaized.aov.registry.SoundEvents;
 
 import java.util.List;
@@ -74,7 +75,7 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 			List<EntityLivingBase> list = caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-range, -range, -range), caster.getPosition().add(range, range, range)));
 			for (EntityLivingBase entity : list) {
 				if (entity.isEntityUndead())
-					entity.attackEntityFrom(DamageSource.MAGIC, a);
+					entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, caster), a);
 				else if (IAoVCapability.selectiveTarget(cap, entity))
 					entity.heal(a);
 			}
