@@ -36,6 +36,7 @@ public class RenderAstro {
 			return;
 
 		GlStateManager.pushMatrix();
+		GlStateManager.translate(e.getX(), e.getY(), e.getZ());
 		IAstroCapability cap = player.getCapability(CapabilityList.ASTRO, null);
 		AstroCapabilityHandler handler = cap instanceof AstroCapabilityHandler ? (AstroCapabilityHandler) cap : null;
 
