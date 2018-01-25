@@ -14,6 +14,8 @@ import tamaized.aov.common.capabilities.astro.IAstroCapability;
 import tamaized.aov.common.capabilities.stun.IStunCapability;
 import tamaized.aov.registry.AoVPotions;
 
+import java.util.Iterator;
+
 public class TickHandler {
 
 	@SubscribeEvent
@@ -39,10 +41,12 @@ public class TickHandler {
 	}
 
 	@SubscribeEvent
+	@SuppressWarnings("ForLoopReplaceableByForEach")
 	public void updateEntity(TickEvent.WorldTickEvent e) {
 		if (e.phase == TickEvent.Phase.START)
 			return;
-		for (Entity entity : e.world.loadedEntityList) {
+		for (Iterator<Entity> iter = e.world.loadedEntityList.iterator(); iter.hasNext();) {
+			Entity entity = iter.next();
 			if (!(entity instanceof EntityLivingBase))
 				continue;
 			IStunCapability cap = entity.hasCapability(CapabilityList.STUN, null) ? entity.getCapability(CapabilityList.STUN, null) : null;
