@@ -1,10 +1,10 @@
 package tamaized.aov.common.events;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
@@ -39,16 +39,11 @@ public class TickHandler {
 	}
 
 	@SubscribeEvent
-	public void updateEntity(TickEvent.WorldTickEvent e) {
-		if (e.phase == TickEvent.Phase.START)
-			return;
-		for (Entity entity : e.world.loadedEntityList) {
-			if (!(entity instanceof EntityLivingBase))
-				continue;
-			IStunCapability cap = entity.hasCapability(CapabilityList.STUN, null) ? entity.getCapability(CapabilityList.STUN, null) : null;
-			if (cap != null)
-				cap.update((EntityLivingBase) entity);
-		}
+	public void updateEntity(LivingEvent.LivingUpdateEvent e) {
+		EntityLivingBase entity = e.getEntityLiving();
+		IStunCapability cap = entity.hasCapability(CapabilityList.STUN, null) ? entity.getCapability(CapabilityList.STUN, null) : null;
+		if (cap != null)
+			cap.update(entity);
 	}
 
 }
