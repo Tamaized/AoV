@@ -10,11 +10,11 @@ death.attack.aov.cosmic=%s 已经陨落
 effect.aov.slowfall=落羽
 effect.aov.aid=援助
 effect.aov.faith=信仰之盾
-effect.aov.zeal=Zeal
+effect.aov.zeal=热血
 effect.aov.stalwart=信仰契合
 effect.aov.ewer=壶
-effect.aov.spear=Spear
-effect.aov.spire=Spire
+effect.aov.spear=翎毛
+effect.aov.spire=锐化
 
 # Item
 item.aov.debugger.name=调试器
