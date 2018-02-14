@@ -8,7 +8,6 @@
 !/libs/
 !/libs/**
 !build.gradle
-!changes.txt
 !gradle.properties
 !LICENSE
 !README.md
