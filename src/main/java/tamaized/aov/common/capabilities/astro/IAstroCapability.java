@@ -12,6 +12,8 @@ public interface IAstroCapability {
 
 	ResourceLocation ID = new ResourceLocation(AoV.modid, "AstroCapabilityHandler");
 
+	void markDirty();
+
 	IAnimation[] getAnimations();
 
 	void playAnimation(EntityLivingBase entity, IAnimation animation);

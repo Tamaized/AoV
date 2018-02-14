@@ -2,6 +2,7 @@ package tamaized.aov.common.capabilities.astro;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -23,9 +24,15 @@ public class AstroCapabilityHandler implements IAstroCapability {
 	private int drawTime;
 	private ICard burn;
 	private ICard spread;
+	private boolean dirty = true;
 
 	private static void spawnParticle(EntityLivingBase entity, double x, double y, double z) {
 		entity.world.spawnParticle(EnumParticleTypes.SPELL_WITCH, x, y, z, 0.0D, 0.0D, 0.0D);
+	}
+
+	@Override
+	public void markDirty() {
+		dirty = true;
 	}
 
 	@Override
@@ -269,12 +276,18 @@ public class AstroCapabilityHandler implements IAstroCapability {
 			index++;
 		}
 		if (++tick % 20 == 0) {
+			dirty = true;
 			if (drawTime > 0) {
 				drawTime--;
 			} else if (getDraw() != null) {
 				draw = null;
 			}
 			tick = 0;
+		}
+		if (dirty) {
+			if (entity instanceof EntityPlayerMP)
+				sendPacketUpdates((EntityPlayerMP) entity);
+			dirty = false;
 		}
 	}
 

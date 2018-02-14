@@ -134,6 +134,9 @@ public class CapabilityList {
 			cap.markDirty();
 			cap.setLoaded();
 		}
+		IAstroCapability astro = e.getEntity().hasCapability(CapabilityList.ASTRO, null) ? e.getEntity().getCapability(CapabilityList.ASTRO, null) : null;
+		if (astro != null)
+			astro.markDirty();
 	}
 
 }
