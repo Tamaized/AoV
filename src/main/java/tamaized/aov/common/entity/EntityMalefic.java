@@ -72,7 +72,7 @@ public class EntityMalefic extends ProjectileBase {
 
 	@Override
 	protected float getDamageAmp(double damage, Entity shooter, Entity target) {
-		return 1F;
+		return (float) damage;
 	}
 
 	@Override
