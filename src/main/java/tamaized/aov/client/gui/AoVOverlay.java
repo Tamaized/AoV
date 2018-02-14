@@ -116,7 +116,7 @@ public class AoVOverlay extends Gui {
 				renderAstroIcon(IAstroCapability.ICard.getCardID(cap.getSpread()), buffer, x + 14F, y + 20F, scale * 0.8F);
 
 			if (cap.getBurn() != null)
-				renderAstroRoyalRoadIcon((int) Math.floor(IAstroCapability.ICard.getCardID(cap.getBurn()) / 2), buffer, x + 56.5F, y - 2.5F, scale);
+				renderAstroRoyalRoadIcon((int) Math.floor(IAstroCapability.ICard.getCardID(cap.getBurn()) / 2), buffer, x + 55F, y - 7.5F, scale);
 
 			tess.draw();
 		}
@@ -137,13 +137,13 @@ public class AoVOverlay extends Gui {
 		scale *= 0.60F;
 		float xOffset = 0.15F + (0.084F * index);
 		float yOffset = 0;//0.25F * (float) Math.floor(index / 4);
-		buffer.pos(x, y + 286F * scale, 0).tex(0.5F + xOffset, 0 + yOffset).endVertex();
-		buffer.pos(x + 80F * scale, y + 286F * scale, 0).tex(0.5F + (0.08F + xOffset), 0 + yOffset).endVertex();
-		buffer.pos(x + 80F * scale, y, 0).tex(0.5F + (0.08F + xOffset), 0.5F + yOffset).endVertex();
-		buffer.pos(x, y, 0).tex(0.5F + xOffset, 0.5F + yOffset).endVertex();
+		buffer.pos(x + 80F * scale, y, 0).tex(0.5F + xOffset, 0 + yOffset).endVertex();
+		buffer.pos(x, y, 0).tex(0.5F + (0.08F + xOffset), 0 + yOffset).endVertex();
+		buffer.pos(x, y + 286F * scale, 0).tex(0.5F + (0.08F + xOffset), 0.5F + yOffset).endVertex();
+		buffer.pos(x + 80F * scale, y + 286F * scale, 0).tex(0.5F + xOffset, 0.5F + yOffset).endVertex();
 		if (ConfigHandler.renderRoyalRoad) {
 			GlStateManager.pushMatrix();
-			drawCenteredString(mc.fontRenderer, I18n.format("aov.astro.burn." + index), (int) x - 16, (int) y - 4, index == 0 ? 0x00AAFF : index == 1 ? 0x00FFAA : 0xFFDD88);
+			drawCenteredString(mc.fontRenderer, I18n.format("aov.astro.burn." + index), (int) x - 16, (int) y, index == 0 ? 0x00AAFF : index == 1 ? 0x00FFAA : 0xFFDD88);
 			GlStateManager.popMatrix();
 			mc.getTextureManager().bindTexture(TEXTURE_ASTRO);
 		}
