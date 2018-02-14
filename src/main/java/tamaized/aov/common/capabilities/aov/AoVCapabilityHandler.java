@@ -59,6 +59,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	// Keep this on the server
 	private List<Aura> auras = new ArrayList<>();
 	private Map<AbilityBase, DecayWrapper> decay = new HashMap<>();
+	private Map<AbilityBase, Integer> cooldowns = new HashMap<>();
 
 	public static int getExpForLevel(IAoVCapability cap, int level) {
 		return level > cap.getMaxLevel() ? 0 : getExpForLevel(level);
@@ -229,6 +230,13 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		for (Ability ability : slots)
 			if (ability != null)
 				ability.update(this);
+		if (tick % 20 == 0)
+			for (Iterator<Map.Entry<AbilityBase, Integer>> iter = cooldowns.entrySet().iterator(); iter.hasNext(); ) {
+				Map.Entry<AbilityBase, Integer> entry = iter.next();
+				entry.setValue(entry.getValue() - 1);
+				if (entry.getValue() <= 0)
+					iter.remove();
+			}
 	}
 
 	private void updateAuras(EntityPlayer player) {
@@ -249,6 +257,16 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			if (wrapper.getDecay() <= 0)
 				iter.remove();
 		}
+	}
+
+	@Override
+	public void setCooldown(AbilityBase ability, int cd) {
+		cooldowns.put(ability, cd);
+	}
+
+	@Override
+	public int getCooldown(AbilityBase ability) {
+		return cooldowns.getOrDefault(ability, 0);
 	}
 
 	@Override

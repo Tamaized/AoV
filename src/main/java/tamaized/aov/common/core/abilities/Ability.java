@@ -51,7 +51,7 @@ public final class Ability {
 		if (id < 0)
 			return null;
 		Ability ability = new Ability(AbilityBase.getAbilityFromID(id), cap, astro);
-		ability.decode(nbt);
+		ability.decode(nbt, cap);
 		return ability;
 	}
 
@@ -73,9 +73,10 @@ public final class Ability {
 	}
 
 	@SuppressWarnings("UnusedReturnValue")
-	public NBTTagCompound encode(NBTTagCompound nbt) {
+	public NBTTagCompound encode(NBTTagCompound nbt, IAoVCapability cap) {
 		nbt.setInteger("id", ability.getID());
 		nbt.setInteger("cooldown", cooldown);
+		nbt.setInteger("cooldownfailsafe", cap.getCooldown(ability));
 		nbt.setInteger("charges", charges);
 		nbt.setInteger("decay", decay);
 		nbt.setInteger("timer", timer);
@@ -83,8 +84,11 @@ public final class Ability {
 		return nbt;
 	}
 
-	public void decode(NBTTagCompound nbt) {
+	public void decode(NBTTagCompound nbt, IAoVCapability cap) {
 		cooldown = nbt.getInteger("cooldown");
+		int cooldownfailsafe = nbt.getInteger("cooldownfailsafe");
+		if (cooldownfailsafe > 0)
+			cap.setCooldown(ability, cooldownfailsafe);
 		charges = nbt.getInteger("charges");
 		decay = nbt.getInteger("decay");
 		timer = nbt.getInteger("timer");
@@ -92,7 +96,7 @@ public final class Ability {
 	}
 
 	public void reset(IAoVCapability cap, @Nullable IAstroCapability astro) {
-		cooldown = 0;
+		cooldown = cap.getCooldown(ability);
 		nextCooldown = -1;
 		charges = ability.getMaxCharges() < 0 ? -1 : ability.getMaxCharges() + cap.getExtraCharges();
 		decay = 0;
@@ -140,6 +144,7 @@ public final class Ability {
 				if (ability.cast(this, caster, target))
 					charges -= ability.getCost(cap);
 				cooldown = (nextCooldown < 0 ? ability.getCoolDown() : nextCooldown) * ((ability.usesInvoke() && cap.getInvokeMass()) ? 2 : 1);
+				cap.setCooldown(ability, cooldown);
 				nextCooldown = -1;
 			}
 		}
@@ -151,7 +156,7 @@ public final class Ability {
 	}
 
 	public boolean canUse(IAoVCapability cap) {
-		return !disabled && cooldown <= 0 && (charges == -1 || charges >= ability.getCost(cap)) && cap.slotsContain(getAbility());
+		return !disabled && cooldown <= 0 && cap.getCooldown(ability) <= 0 && (charges == -1 || charges >= ability.getCost(cap)) && cap.slotsContain(getAbility());
 	}
 
 	public AbilityBase getAbility() {

@@ -34,6 +34,10 @@ public interface IAoVCapability {
 
 	void update(EntityPlayer player);
 
+	void setCooldown(AbilityBase ability, int cd);
+
+	int getCooldown(AbilityBase ability);
+
 	void resetCharges(EntityPlayer player);
 
 	void restoreCharges(int amount);

@@ -48,8 +48,7 @@ public class AoVCapabilityStorage implements IStorage<IAoVCapability> {
 		nbt.setTag("slots", list);
 		list = new NBTTagList();
 		for (Ability ability : instance.getAbilities())
-			list.appendTag(ability.encode(new NBTTagCompound()));
-
+			list.appendTag(ability.encode(new NBTTagCompound(), instance));
 		nbt.setTag("abilities", list);
 		nbt.setInteger("currentSlot", instance.getCurrentSlot());
 		return nbt;
