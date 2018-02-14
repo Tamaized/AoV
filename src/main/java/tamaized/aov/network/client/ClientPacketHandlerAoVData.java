@@ -93,7 +93,7 @@ public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketH
 		public void toBytes(ByteBuf stream) {
 			stream.writeInt(obtainedSkills.size());
 			for (AoVSkill skill : obtainedSkills)
-				stream.writeInt(skill.getID());
+				stream.writeInt(skill == null ? -1 : skill.getID());
 			stream.writeInt(skillPoints);
 			stream.writeInt(exp);
 			stream.writeInt(maxLevel);

@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import org.apache.logging.log4j.LogManager;
@@ -22,6 +23,7 @@ import tamaized.aov.common.capabilities.astro.IAstroCapability;
 import tamaized.aov.common.capabilities.stun.IStunCapability;
 import tamaized.aov.common.capabilities.stun.StunCapabilityHandler;
 import tamaized.aov.common.capabilities.stun.StunCapabilityStorage;
+import tamaized.aov.common.commands.CommandAoV;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.common.entity.EntityCelestialOpposition;
@@ -141,10 +143,15 @@ public class AoV extends TamModBase {
 	}
 
 	@Override
-	public void postInit(FMLPostInitializationEvent e) {
+	public void postInit(FMLPostInitializationEvent event) {
 		logger.info("Starting AoV PostInit");
 		Abilities.register();
 		AoVSkills.register();
+	}
+
+	@EventHandler
+	public void startServer(FMLServerStartingEvent event) {
+		event.registerServerCommand(new CommandAoV());
 	}
 
 }

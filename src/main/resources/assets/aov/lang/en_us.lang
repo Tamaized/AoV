@@ -1,6 +1,14 @@
 # Tab
 itemGroup.aov=Angel of Vengeance
 
+# Commands
+commands.aov.usage=/aov [open | setlevel [level] <player> | reset [minor | full] <player>]
+commands.aov.error.level=Level must be a number
+commands.aov.usage.setlevel=/aov setlevel [level] <player>
+commands.aov.usage.reset=/aov reset [minor | full] <player>
+commands.aov.success.level=%s's level was set to %s
+commands.aov.success.reset=Reset Success
+
 # Death
 death.attack.aov.destruction=%s has been destroyed
 death.attack.aov.nimbusRay=%s has been irradiated

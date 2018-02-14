@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class AoVCapabilityHandler implements IAoVCapability {
 
@@ -157,8 +158,6 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	private void updateValues(EntityPlayer player) {
 		IAstroCapability astro = player != null && player.hasCapability(CapabilityList.ASTRO, null) ? player.getCapability(CapabilityList.ASTRO, null) : null;
 		skillPoints = getLevel();
-		for (AoVSkill s : obtainedSkills)
-			skillPoints -= s.getCost();
 		spellpower = 0;
 		extraCharges = 0;
 		dodge = 0;
@@ -166,9 +165,11 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		selectiveFocus = false;
 		hasInvoke = false;
 		List<AbilityBase> list = new ArrayList<>();
+		obtainedSkills.removeIf(Objects::isNull);
 		for (AoVSkill skill : obtainedSkills) {
 			if (skill == null)
 				continue;
+			skillPoints -= skill.getCost();
 			spellpower += skill.getSpellPower();
 			extraCharges += skill.getCharges();
 			dodge += skill.getDodge();

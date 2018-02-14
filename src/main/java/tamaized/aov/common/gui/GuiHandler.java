@@ -1,6 +1,7 @@
 package tamaized.aov.common.gui;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
@@ -28,6 +29,8 @@ public class GuiHandler implements IGuiHandler {
 	@Override
 	public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
 		switch (id) {
+			case GUI_SKILLS:
+				return new FakeContainer();
 			default:
 				break;
 		}
@@ -49,6 +52,14 @@ public class GuiHandler implements IGuiHandler {
 				break;
 		}
 		return null;
+	}
+
+	static class FakeContainer extends Container {
+
+		@Override
+		public boolean canInteractWith(@Nonnull EntityPlayer playerIn) {
+			return true;
+		}
 	}
 
 }
