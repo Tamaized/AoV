@@ -1,6 +1,14 @@
 # Tab
 itemGroup.aov=复仇天使
 
+# Commands
+commands.aov.usage=/aov [open | setlevel [level] <player> | reset [minor | full] <player>]
+commands.aov.error.level=等级必须是一个数字
+commands.aov.usage.setlevel=/aov setlevel [level] <player>
+commands.aov.usage.reset=/aov reset [minor | full] <player>
+commands.aov.success.level=%s's 级别设置为 %s
+commands.aov.success.reset=重置成功
+
 # Death
 death.attack.aov.destruction=%s 已被摧毁
 death.attack.aov.nimbusRay=%s 已被照耀
