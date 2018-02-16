@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import tamaized.aov.AoV;
@@ -47,6 +48,7 @@ public class AoVSkillsGUI extends GuiScreenClose {
 			new AstroSkillRegisterButtons()
 
 	);
+	private final Container inventory;
 	private int page;
 	private List<SkillButton> skillButtonList = new ArrayList<>();
 	private int lastMx = 0;
@@ -54,7 +56,7 @@ public class AoVSkillsGUI extends GuiScreenClose {
 	private IAoVCapability cap;
 
 	public AoVSkillsGUI() {
-		super();
+		inventory = new GuiHandler.FakeContainer();
 	}
 
 	public static int getSkillButtonID() {
@@ -64,6 +66,7 @@ public class AoVSkillsGUI extends GuiScreenClose {
 	@Override
 	public void initGui() {
 		super.initGui();
+		mc.player.openContainer = inventory;
 		cap = mc.player.getCapability(CapabilityList.AOV, null);
 		if (cap != null) {
 			for (IClassButtons b : CLASS_BUTTON_REGISTRY)
@@ -73,7 +76,7 @@ public class AoVSkillsGUI extends GuiScreenClose {
 				}
 			initButtons();
 		} else {
-			mc.displayGuiScreen(null);
+			mc.player.closeScreen();
 		}
 	}
 
@@ -99,7 +102,7 @@ public class AoVSkillsGUI extends GuiScreenClose {
 		if (button.enabled) {
 			switch (button.id) {
 				case BUTTON_CLOSE: {
-					mc.displayGuiScreen(null);
+					mc.player.closeScreen();
 				}
 				break;
 				case BUTTON_SKILL_CHECK: {
@@ -146,17 +149,23 @@ public class AoVSkillsGUI extends GuiScreenClose {
 	}
 
 	@Override
+	protected void keyTyped(char typedChar, int keyCode) {
+		if (keyCode == 1 || this.mc.gameSettings.keyBindInventory.isActiveAndMatches(keyCode)) {
+			if (mc.player == null)
+				Minecraft.getMinecraft().displayGuiScreen(null);
+			else
+				this.mc.player.closeScreen();
+		}
+	}
+
+	@Override
 	public boolean doesGuiPauseGame() {
 		return false;
 	}
 
 	@Override
-	public void onGuiClosed() {
-
-	}
-
-	@Override
 	public void updateScreen() {
+		super.updateScreen();
 		for (GuiButton button : buttonList) {
 			if (button instanceof SkillButton)
 				((SkillButton) button).update(cap);
@@ -164,6 +173,9 @@ public class AoVSkillsGUI extends GuiScreenClose {
 				button.enabled = page > 0;
 			if (button.id == BUTTON_PAGE_NEXT)
 				button.enabled = page < CLASS_BUTTON_REGISTRY.size() - 1;
+		}
+		if (!this.mc.player.isEntityAlive() || this.mc.player.isDead) {
+			this.mc.player.closeScreen();
 		}
 	}
 
@@ -213,6 +225,14 @@ public class AoVSkillsGUI extends GuiScreenClose {
 				lastMy = mouseY;
 				lastMx = mouseX;
 			}
+		}
+	}
+
+	@Override
+	public void onGuiClosed() {
+		super.onGuiClosed();
+		if (this.mc.player != null) {
+			this.inventory.onContainerClosed(this.mc.player);
 		}
 	}
 

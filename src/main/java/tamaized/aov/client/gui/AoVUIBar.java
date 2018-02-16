@@ -17,7 +17,6 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.config.ConfigHandler;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.universal.InvokeMass;
-import tamaized.aov.common.gui.GuiHandler;
 import tamaized.aov.proxy.ClientProxy;
 
 @Mod.EventBusSubscriber(modid = AoV.modid, value = Side.CLIENT)

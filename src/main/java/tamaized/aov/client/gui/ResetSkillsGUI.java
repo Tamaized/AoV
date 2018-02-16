@@ -9,8 +9,6 @@ import tamaized.aov.common.gui.GuiHandler;
 import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
 import tamaized.aov.proxy.ClientProxy;
 
-import java.io.IOException;
-
 public class ResetSkillsGUI extends GuiScreenClose {
 
 	private static final int BUTTON_CLOSE = 0;
@@ -28,7 +26,7 @@ public class ResetSkillsGUI extends GuiScreenClose {
 	}
 
 	@Override
-	protected void actionPerformed(GuiButton button) throws IOException {
+	protected void actionPerformed(GuiButton button) {
 		if (button.enabled) {
 			if (mc == null || mc.player == null || !mc.player.hasCapability(CapabilityList.AOV, null))
 				return;
@@ -37,7 +35,7 @@ public class ResetSkillsGUI extends GuiScreenClose {
 				return;
 			switch (button.id) {
 				case BUTTON_CLOSE:
-					mc.displayGuiScreen(null);
+					mc.player.closeScreen();
 					break;
 				case BUTTON_BACK:
 					GuiHandler.openGUI(GuiHandler.GUI_SKILLS, mc.player, mc.world);

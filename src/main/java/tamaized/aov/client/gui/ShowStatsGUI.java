@@ -7,8 +7,6 @@ import tamaized.aov.common.capabilities.aov.AoVCapabilityHandler;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.gui.GuiHandler;
 
-import java.io.IOException;
-
 public class ShowStatsGUI extends GuiScreenClose {
 
 	private static final int BUTTON_CLOSE = 0;
@@ -27,11 +25,11 @@ public class ShowStatsGUI extends GuiScreenClose {
 	}
 
 	@Override
-	protected void actionPerformed(GuiButton button) throws IOException {
+	protected void actionPerformed(GuiButton button) {
 		if (button.enabled) {
 			switch (button.id) {
 				case BUTTON_CLOSE:
-					mc.displayGuiScreen(null);
+					mc.player.closeScreen();
 					break;
 				case BUTTON_BACK:
 					GuiHandler.openGUI(GuiHandler.GUI_SKILLS, mc.player, mc.world);

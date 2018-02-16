@@ -54,7 +54,7 @@ public class GuiHandler implements IGuiHandler {
 		return null;
 	}
 
-	static class FakeContainer extends Container {
+	public static class FakeContainer extends Container {
 
 		@Override
 		public boolean canInteractWith(@Nonnull EntityPlayer playerIn) {

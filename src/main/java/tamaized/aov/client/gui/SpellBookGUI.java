@@ -16,8 +16,6 @@ import tamaized.aov.common.core.abilities.universal.InvokeMass;
 import tamaized.aov.common.gui.GuiHandler;
 import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
 
-import java.io.IOException;
-
 public class SpellBookGUI extends GuiScreenClose {
 
 	public static final int BUTTON_SPELL = 2;
@@ -72,11 +70,11 @@ public class SpellBookGUI extends GuiScreenClose {
 	}
 
 	@Override
-	protected void actionPerformed(GuiButton button) throws IOException {
+	protected void actionPerformed(GuiButton button) {
 		if (button.enabled) {
 			switch (button.id) {
 				case BUTTON_CLOSE:
-					mc.displayGuiScreen(null);
+					mc.player.closeScreen();
 					break;
 				case BUTTON_BACK:
 					GuiHandler.openGUI(GuiHandler.GUI_SKILLS, mc.player, mc.world);
