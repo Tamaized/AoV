@@ -18,6 +18,7 @@ import tamaized.aov.client.entity.RenderSpellEntity;
 import tamaized.aov.client.events.ClientSpawnEvent;
 import tamaized.aov.client.events.KeyHandler;
 import tamaized.aov.client.gui.AoVOverlay;
+import tamaized.aov.client.particle.ParticleFeather;
 import tamaized.aov.client.particle.ParticleHeartColor;
 import tamaized.aov.common.entity.EntityCelestialOpposition;
 import tamaized.aov.common.entity.EntityCombust;
@@ -84,6 +85,9 @@ public class ClientProxy extends CommonProxy {
 				break;
 			case Heart:
 				particle = new ParticleHeartColor(world, pos, target, life, gravity, scale, color);
+				break;
+			case Feather:
+				particle = new ParticleFeather(world, pos, target, life, gravity, scale, color);
 				break;
 		}
 		//noinspection ConstantConditions

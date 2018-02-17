@@ -46,7 +46,6 @@ public class RenderPlayer {
 			float scale = 1;
 			GlStateManager.scale(scale, scale, scale);
 			GlStateManager.rotate(-player.renderYawOffset, 0, 1, 0);
-			Vec3d pos = player.getPositionVector();
 			// GlStateManager.translate(-1, -2.0, -0.25);
 			if (player.isSneaking()) {
 				GlStateManager.translate(0.0F, -0.2F, 0.0F);
@@ -81,14 +80,6 @@ public class RenderPlayer {
 			// GlStateManager.enableDepth();
 			// GlStateManager.enableAlpha();
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			if (player.world != null && player.world.rand.nextInt(100 - ((int) (perc * 100)) + 1) <= 2) {
-				double yaw = Math.toRadians(player.renderYawOffset + 63);
-				float range = 1.0F;
-				float r = ((player.world.rand.nextFloat() * (1.0F + range)) - (0.5F + range));
-				Vec3d vec = new Vec3d(-Math.cos(yaw), y2 + 0.8F, -Math.sin(yaw)).rotateYaw(r);
-				vec = pos.add(vec);
-				ParticleHelper.spawnParticle(new ParticleFluff(player.world, vec, new Vec3d(0, 0, 0), player.world.rand.nextInt(20 * 2) + 2, 0.1F, 1.0F, 0xFFFF00FF));
-			}
 		}
 		GlStateManager.popMatrix();
 	}

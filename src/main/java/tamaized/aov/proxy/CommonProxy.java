@@ -7,7 +7,7 @@ import tamaized.tammodized.proxy.AbstractProxy;
 public abstract class CommonProxy extends AbstractProxy {
 
 	public enum ParticleType {
-		Fluff, Heart
+		Fluff, Heart, Feather
 	}
 
 	public CommonProxy(Side side) {
