@@ -13,6 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
+import tamaized.aov.common.config.ConfigHandler;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
@@ -47,7 +48,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	private List<AoVSkill> obtainedSkills = new ArrayList<>();
 	private int skillPoints = 1;
 	private int exp = 0;
-	private int maxLevel = 15;
+	private int maxLevel = ConfigHandler.maxlevel;
 	private boolean invokeMass = false;
 	private Ability[] slots = new Ability[]{null, null, null, null, null, null, null, null, null};
 	// These can be separate
@@ -101,7 +102,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			obtainedSkills.clear();
 			skillPoints = 1;
 			exp = 0;
-			maxLevel = 15;
+			maxLevel = ConfigHandler.maxlevel;
 		} else {
 			AoVSkill core = getCoreSkill();
 			obtainedSkills.clear();
@@ -186,6 +187,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 
 	private void updateValues(@Nullable EntityPlayer player) {
 		IAstroCapability astro = player != null && player.hasCapability(CapabilityList.ASTRO, null) ? player.getCapability(CapabilityList.ASTRO, null) : null;
+		maxLevel = ConfigHandler.maxlevel;
 		skillPoints = getLevel();
 		spellpower = 0;
 		extraCharges = 0;

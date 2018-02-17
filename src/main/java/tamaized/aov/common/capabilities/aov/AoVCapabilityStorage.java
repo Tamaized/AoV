@@ -8,6 +8,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 import tamaized.aov.common.capabilities.aov.AoVCapabilityHandler.DecayWrapper;
+import tamaized.aov.common.config.ConfigHandler;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.skills.AoVSkill;
@@ -77,7 +78,7 @@ public class AoVCapabilityStorage implements IStorage<IAoVCapability> {
 			instance.setDecayMap(decay);
 		instance.setSkillPoints(compound.getInteger("skillPoints"));
 		instance.setExp(compound.getInteger("exp"));
-		instance.setMaxLevel(compound.getInteger("maxLevel"));
+		instance.setMaxLevel(ConfigHandler.maxlevel);//compound.getInteger("maxLevel")); TODO
 		instance.toggleInvokeMass(compound.getBoolean("invokeMass"));
 		instance.update(null);
 		tag = compound.getTag("abilities");
