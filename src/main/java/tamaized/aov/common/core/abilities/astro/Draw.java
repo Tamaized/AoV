@@ -86,7 +86,7 @@ public class Draw extends AbilityBase {
 		switch (card) {
 			default:
 			case Balance:
-				entity.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, ticks, potency));
+				entity.addPotionEffect(new PotionEffect(AoVPotions.balance, ticks, potency));
 				break;
 			case Bole:
 				entity.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, ticks, potency));

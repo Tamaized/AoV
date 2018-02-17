@@ -24,6 +24,7 @@ import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
 import tamaized.aov.registry.AoVPotions;
 import tamaized.tammodized.common.helper.FloatyTextHelper;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -61,6 +62,13 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	private List<Aura> auras = new ArrayList<>();
 	private Map<AbilityBase, DecayWrapper> decay = new HashMap<>();
 	private Map<AbilityBase, Integer> cooldowns = new HashMap<>();
+
+	private boolean hasAid = false;
+	private boolean hasZeal = false;
+	private boolean hasEwer = false;
+	private boolean hasBalance = false;
+	private boolean hasSpire = false;
+	private boolean hasSpear = false;
 
 	public static int getExpForLevel(IAoVCapability cap, int level) {
 		return level > cap.getMaxLevel() ? 0 : getExpForLevel(level);
@@ -109,10 +117,11 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@Override
-	public void update(EntityPlayer player) {
+	public void update(@Nullable EntityPlayer player) {
 		if (!hasLoaded)
 			return;
 		tick++;
+		checkState(player);
 		updateAbilities();
 		updateAuras(player);
 		updateDecay();
@@ -126,7 +135,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		}
 		if (tick % 10 == 0)
 			updateHealth(player);
-		if (tick % (20 * 30) == 0 && hasSkill(AoVSkills.defender_capstone) && player != null) {
+		if (tick % (20 * 30) == 0 && hasSkill(AoVSkills.defender_capstone) && player != null && !player.isDead) {
 			ItemStack main = player.getHeldItemMainhand();
 			ItemStack off = player.getHeldItemOffhand();
 			if (!main.isEmpty() && main.getItem().isShield(main, player) && main.getItem().isRepairable() && main.getItemDamage() > 0) {
@@ -138,7 +147,27 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		}
 	}
 
-	private void updateHealth(EntityPlayer player) {
+	private void checkState(@Nullable EntityPlayer player) {
+		if (player == null || player.isDead || !(player instanceof EntityPlayerMP))
+			return;
+		final boolean aid = player.getActivePotionEffect(AoVPotions.aid) != null;
+		final boolean zeal = player.getActivePotionEffect(AoVPotions.zeal) != null;
+		final boolean ewer = player.getActivePotionEffect(AoVPotions.ewer) != null;
+		final boolean balance = player.getActivePotionEffect(AoVPotions.balance) != null;
+		final boolean spire = player.getActivePotionEffect(AoVPotions.spire) != null;
+		final boolean spear = player.getActivePotionEffect(AoVPotions.spear) != null;
+		if (hasAid != aid || hasZeal != zeal || hasEwer != ewer || hasBalance != balance || hasSpire != spire || hasSpear != spear) {
+			hasAid = aid;
+			hasZeal = zeal;
+			hasEwer = ewer;
+			hasBalance = balance;
+			hasSpire = spire;
+			hasSpear = spear;
+			markDirty();
+		}
+	}
+
+	private void updateHealth(@Nullable EntityPlayer player) {
 		if (player == null || player.world == null || player.world.isRemote)
 			return;
 		IAttributeInstance hp = player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
@@ -155,7 +184,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		}
 	}
 
-	private void updateValues(EntityPlayer player) {
+	private void updateValues(@Nullable EntityPlayer player) {
 		IAstroCapability astro = player != null && player.hasCapability(CapabilityList.ASTRO, null) ? player.getCapability(CapabilityList.ASTRO, null) : null;
 		skillPoints = getLevel();
 		spellpower = 0;
@@ -220,10 +249,13 @@ public class AoVCapabilityHandler implements IAoVCapability {
 				doublestrike += 25;
 			PotionEffect spire = player.getActivePotionEffect(AoVPotions.spire);
 			if (spire != null)
-				dodge += 10 * spire.getAmplifier();
+				dodge += 10 * (spire.getAmplifier() + 1);
 			PotionEffect spear = player.getActivePotionEffect(AoVPotions.spear);
 			if (spear != null)
-				doublestrike += 10 * spear.getAmplifier();
+				doublestrike += 10 * (spear.getAmplifier() + 1);
+			PotionEffect balance = player.getActivePotionEffect(AoVPotions.balance);
+			if (balance != null)
+				spellpower += 20 * (balance.getAmplifier() + 1);
 		}
 	}
 
@@ -240,7 +272,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			}
 	}
 
-	private void updateAuras(EntityPlayer player) {
+	private void updateAuras(@Nullable EntityPlayer player) {
 		Iterator<Aura> iter = auras.iterator();
 		while (iter.hasNext()) {
 			Aura aura = iter.next();

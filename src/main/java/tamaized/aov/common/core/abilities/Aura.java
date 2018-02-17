@@ -3,6 +3,8 @@ package tamaized.aov.common.core.abilities;
 import tamaized.aov.common.capabilities.CapabilityList;
 import net.minecraft.entity.player.EntityPlayer;
 
+import javax.annotation.Nullable;
+
 public final class Aura {
 
 	private final Ability spell;
@@ -16,7 +18,7 @@ public final class Aura {
 	/**
 	 * If the caster dies or is null or does not have the AOV capability, the aura dies.
 	 */
-	public final void update(EntityPlayer caster) {
+	public final void update(@Nullable EntityPlayer caster) {
 		if (caster == null || caster.isDead || !caster.hasCapability(CapabilityList.AOV, null))
 			life = 0;
 		if (life > 0) {
