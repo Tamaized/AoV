@@ -81,7 +81,7 @@ public class LeapOfFaith extends AbilityBase {
 		MotionHelper.addMotion(caster, new Vec3d(vec.x * distance, 1, vec.z * distance));
 		caster.addPotionEffect(new PotionEffect(AoVPotions.slowFall, 20 * 15));
 		SoundEvents.playMovingSoundOnServer(SoundEvents.boost, caster);
-		return false;
+		return true;
 	}
 
 }

@@ -91,7 +91,7 @@ public class EssentialDignity extends AbilityBase {
 		SoundEvents.playMovingSoundOnServer(SoundEvents.essentialdignity, entity);
 		entity.world.spawnEntity(new EntitySpellVanillaParticles(entity.world, entity, EnumParticleTypes.END_ROD, 10));
 		cap.addExp(caster, 12, this);
-		return false;
+		return true;
 	}
 
 }

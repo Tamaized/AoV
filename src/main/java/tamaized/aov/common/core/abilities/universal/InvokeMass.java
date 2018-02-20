@@ -41,7 +41,7 @@ public class InvokeMass extends AbilityBase {
 		if (cap == null)
 			return false;
 		cap.toggleInvokeMass();
-		return false;
+		return true;
 	}
 
 	@Override

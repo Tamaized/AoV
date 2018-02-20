@@ -141,9 +141,11 @@ public final class Ability {
 		IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
 		if (cap != null) {
 			if (cap.canUseAbility(this)) {
-				if (ability.cast(this, caster, target))
+				if (ability.cast(this, caster, target)) {
 					charges -= ability.getCost(cap);
-				cooldown = (nextCooldown < 0 ? ability.getCoolDown() : nextCooldown) * ((ability.usesInvoke() && cap.getInvokeMass()) ? 2 : 1);
+					cooldown = (nextCooldown < 0 ? ability.getCoolDown() : nextCooldown) * ((ability.usesInvoke() && cap.getInvokeMass()) ? 2 : 1);
+				} else
+					cooldown = 1;
 				cap.setCooldown(ability, cooldown);
 				nextCooldown = -1;
 			}
