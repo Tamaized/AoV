@@ -80,7 +80,7 @@ public class ShieldOfFaith extends AbilityBase {
 		else if (e == null) {
 			addPotionEffects(player);
 		} else {
-			if (IAoVCapability.selectiveTarget(cap, e))
+			if (!IAoVCapability.selectiveTarget(player, cap, e))
 				addPotionEffects(e);
 		}
 		SoundEvents.playMovingSoundOnServer(SoundEvents.cast_2, player);
@@ -92,14 +92,14 @@ public class ShieldOfFaith extends AbilityBase {
 		entity.addPotionEffect(new PotionEffect(AoVPotions.shieldOfFaith, 20 * (60 * 5)));
 	}
 
-	private void castAsMass(EntityLivingBase target, IAoVCapability cap) {
+	private void castAsMass(EntityLivingBase caster, IAoVCapability cap) {
 		int range = (int) (getMaxDistance() * 2);
-		ParticleHelper.spawnParticleMesh(ParticleHelper.MeshType.BURST, CommonProxy.ParticleType.Fluff, target.world, target.getPositionVector(), range, getParticleColor());
-		List<EntityLivingBase> list = target.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(target.getPosition().add(-range, -range, -range), target.getPosition().add(range, range, range)));
+		ParticleHelper.spawnParticleMesh(ParticleHelper.MeshType.BURST, CommonProxy.ParticleType.Fluff, caster.world, caster.getPositionVector(), range, getParticleColor());
+		List<EntityLivingBase> list = caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-range, -range, -range), caster.getPosition().add(range, range, range)));
 		for (EntityLivingBase entity : list) {
-			if (IAoVCapability.selectiveTarget(cap, entity)) {
+			if (!IAoVCapability.selectiveTarget(caster, cap, entity)) {
 				addPotionEffects(entity);
-				cap.addExp(target, 16, this);
+				cap.addExp(caster, 16, this);
 			}
 		}
 	}

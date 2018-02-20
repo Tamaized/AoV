@@ -96,7 +96,7 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 		for (EntityLivingBase entity : world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(getPosition().add(-10, -1, -10), getPosition().add(10, 5, 10)))) {
 			if (attacker != null) {
 				IAoVCapability cap = attacker.hasCapability(CapabilityList.AOV, null) ? attacker.getCapability(CapabilityList.AOV, null) : null;
-				if (entity == attacker || (cap != null && !IAoVCapability.selectiveTarget(cap, entity)))
+				if (entity == attacker || (cap != null && !IAoVCapability.selectiveTarget(attacker, cap, entity)))
 					continue;
 				if (cap != null)
 					cap.addExp(attacker, 20, Abilities.flameStrike);

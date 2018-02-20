@@ -86,7 +86,7 @@ public class EssentialDignity extends AbilityBase {
 		IAoVCapability cap = caster.hasCapability(CapabilityList.AOV, null) ? caster.getCapability(CapabilityList.AOV, null) : null;
 		if (cap == null)
 			return false;
-		EntityLivingBase entity = target != null && IAoVCapability.selectiveTarget(cap, target) ? target : caster;
+		EntityLivingBase entity = target != null && !IAoVCapability.selectiveTarget(caster, cap, target) ? target : caster;
 		entity.heal(entity.getMaxHealth());
 		SoundEvents.playMovingSoundOnServer(SoundEvents.essentialdignity, entity);
 		entity.world.spawnEntity(new EntitySpellVanillaParticles(entity.world, entity, EnumParticleTypes.END_ROD, 10));

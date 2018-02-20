@@ -85,7 +85,7 @@ public class TimeDilation extends AbilityBase {
 		if (!caster.hasCapability(CapabilityList.AOV, null))
 			return true;
 		IAoVCapability aov = caster.getCapability(CapabilityList.AOV, null);
-		EntityLivingBase entity = target != null && aov != null && IAoVCapability.selectiveTarget(aov, target) ? target : caster;
+		EntityLivingBase entity = target != null && aov != null && !IAoVCapability.selectiveTarget(caster, aov, target) ? target : caster;
 		for (PotionEffect effect : entity.getActivePotionEffects())
 			if (!effect.getPotion().isBadEffect())
 				entity.addPotionEffect(new PotionEffect(effect.getPotion(), effect.getDuration() * 2, effect.getAmplifier(), effect.getIsAmbient(), effect.doesShowParticles()));

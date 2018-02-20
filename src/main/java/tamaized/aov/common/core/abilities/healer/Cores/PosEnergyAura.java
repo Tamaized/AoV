@@ -76,7 +76,7 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 			for (EntityLivingBase entity : list) {
 				if (entity.isEntityUndead())
 					entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, caster), a);
-				else if (IAoVCapability.selectiveTarget(cap, entity))
+				else if (!IAoVCapability.selectiveTarget(caster, cap, entity))
 					entity.heal(a);
 			}
 		}

@@ -50,7 +50,7 @@ public class Draw extends AbilityBase {
 		return "aov.spells.draw.name";
 	}
 
-	public static void doDrawEffects(EntityLivingBase entity, @Nonnull IAstroCapability.ICard card, int potency, @Nullable IAstroCapability.ICard burn) {
+	public static void doDrawEffects(EntityLivingBase caster, @Nonnull IAstroCapability.ICard card, int potency, @Nullable IAstroCapability.ICard burn) {
 		int ticks = 300;
 		boolean aoe = false;
 		if (burn != null)
@@ -75,10 +75,10 @@ public class Draw extends AbilityBase {
 					break;
 			}
 		if (aoe) {
-			IAoVCapability cap = entity.hasCapability(CapabilityList.AOV, null) ? entity.getCapability(CapabilityList.AOV, null) : null;
+			IAoVCapability cap = caster.hasCapability(CapabilityList.AOV, null) ? caster.getCapability(CapabilityList.AOV, null) : null;
 			int range = 16;
-			for (EntityLivingBase e : entity.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(entity.posX - range, entity.posY - range, entity.posZ - range, entity.posX + range, entity.posY + range, entity.posZ + range))) {
-				if (IAoVCapability.selectiveTarget(cap, e))
+			for (EntityLivingBase e : caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.posX - range, caster.posY - range, caster.posZ - range, caster.posX + range, caster.posY + range, caster.posZ + range))) {
+				if (cap == null || !IAoVCapability.selectiveTarget(caster, cap, e))
 					doDrawEffects(e, card, potency, null);
 			}
 			return;
@@ -86,27 +86,27 @@ public class Draw extends AbilityBase {
 		switch (card) {
 			default:
 			case Balance:
-				entity.addPotionEffect(new PotionEffect(AoVPotions.balance, ticks, potency));
+				caster.addPotionEffect(new PotionEffect(AoVPotions.balance, ticks, potency));
 				break;
 			case Bole:
-				entity.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, ticks, potency));
-				entity.addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, ticks, (int) Math.floor(potency / 2F)));
-				entity.addPotionEffect(new PotionEffect(MobEffects.SATURATION, 20 * 3, (int) Math.floor(potency / 2F)));
+				caster.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, ticks, potency));
+				caster.addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, ticks, (int) Math.floor(potency / 2F)));
+				caster.addPotionEffect(new PotionEffect(MobEffects.SATURATION, 20 * 3, (int) Math.floor(potency / 2F)));
 				break;
 			case Spear:
-				entity.addPotionEffect(new PotionEffect(AoVPotions.spear, ticks, potency));
+				caster.addPotionEffect(new PotionEffect(AoVPotions.spear, ticks, potency));
 				break;
 			case Arrow:
-				entity.addPotionEffect(new PotionEffect(MobEffects.HASTE, ticks, potency));
+				caster.addPotionEffect(new PotionEffect(MobEffects.HASTE, ticks, potency));
 				break;
 			case Ewer:
-				entity.addPotionEffect(new PotionEffect(AoVPotions.ewer, ticks, 0));
+				caster.addPotionEffect(new PotionEffect(AoVPotions.ewer, ticks, 0));
 				break;
 			case Spire:
-				entity.addPotionEffect(new PotionEffect(AoVPotions.spire, ticks, potency));
+				caster.addPotionEffect(new PotionEffect(AoVPotions.spire, ticks, potency));
 				break;
 		}
-		entity.world.spawnEntity(new EntitySpellVanillaParticles(entity.world, entity, EnumParticleTypes.CRIT_MAGIC, 5));
+		caster.world.spawnEntity(new EntitySpellVanillaParticles(caster.world, caster, EnumParticleTypes.CRIT_MAGIC, 5));
 	}
 
 	@Override

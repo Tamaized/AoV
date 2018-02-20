@@ -20,10 +20,17 @@ public interface IAoVCapability {
 	ResourceLocation ID = new ResourceLocation(AoV.modid, "AoVCapabilityHandler");
 
 	/**
-	 * @return true if friendly
+	 * @return true if can damage
 	 */
-	static boolean selectiveTarget(IAoVCapability cap, EntityLivingBase entity) {
-		return (!cap.hasSelectiveFocus() || (entity.getTeam() == null && (entity instanceof EntityPlayer || (entity instanceof IEntityOwnable && ((IEntityOwnable) entity).getOwner() == entity))) || (entity.isOnSameTeam(entity) || (entity instanceof IEntityOwnable && ((IEntityOwnable) entity).getOwner() == entity)));
+	static boolean selectiveTarget(Entity caster, IAoVCapability cap, EntityLivingBase entity) {
+		return (!cap.hasSelectiveFocus() || // We don't have selective focus, just return true
+				caster == null || // Caster is null, what's the point, return true
+				(caster.getTeam() != null && // We are on a team
+						!caster.isOnSameTeam(entity)) || // Not the same team, return true
+				(!(entity instanceof IEntityOwnable && // Target is a possible pet
+						((IEntityOwnable) entity).getOwner() == caster) && // If this is our pet, dont do the final player check, let it return false
+				!(entity instanceof EntityPlayer))); // Wasn't our pet, we're not on a team, is target a player? if not return true
+		// If all the above fails, it'll return false.
 	}
 
 	void markDirty();

@@ -52,21 +52,21 @@ public class Burst extends AbilityBase {
 	}
 
 	@Override
-	public boolean cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
-		IAoVCapability cap = player.hasCapability(CapabilityList.AOV, null) ? player.getCapability(CapabilityList.AOV, null) : null;
+	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase e) {
+		IAoVCapability cap = caster.hasCapability(CapabilityList.AOV, null) ? caster.getCapability(CapabilityList.AOV, null) : null;
 		if (cap == null)
 			return false;
-		ParticleHelper.spawnParticleMesh(ParticleHelper.MeshType.BURST, CommonProxy.ParticleType.Heart, player.world, player.getPositionVector(), range, 0xFFFF00FF);
-		SoundEvents.playMovingSoundOnServer(SoundEvents.burst, player);
+		ParticleHelper.spawnParticleMesh(ParticleHelper.MeshType.BURST, CommonProxy.ParticleType.Heart, caster.world, caster.getPositionVector(), range, 0xFFFF00FF);
+		SoundEvents.playMovingSoundOnServer(SoundEvents.burst, caster);
 		int a = (int) (dmg * (1f + (cap.getSpellPower() / 100f)));
-		List<EntityLivingBase> list = player.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(player.getPosition().add(-range, -range, -range), player.getPosition().add(range, range, range)));
+		List<EntityLivingBase> list = caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-range, -range, -range), caster.getPosition().add(range, range, range)));
 		for (EntityLivingBase entity : list) {
 			if (entity.isEntityUndead())
-				entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, player), a);
-			else if (IAoVCapability.selectiveTarget(cap, entity)) {
+				entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, caster), a);
+			else if (!IAoVCapability.selectiveTarget(caster, cap, entity)) {
 				entity.heal(a);
 				entity.getActivePotionEffects().removeIf(pot -> pot.getPotion().isBadEffect());
-				cap.addExp(player, 20, this);
+				cap.addExp(caster, 20, this);
 			}
 		}
 		return true;

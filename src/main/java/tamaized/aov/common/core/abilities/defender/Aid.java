@@ -72,20 +72,20 @@ public class Aid extends AbilityBase {
 	}
 
 	@Override
-	public boolean cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
-		IAoVCapability cap = player.hasCapability(CapabilityList.AOV, null) ? player.getCapability(CapabilityList.AOV, null) : null;
+	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase e) {
+		IAoVCapability cap = caster.hasCapability(CapabilityList.AOV, null) ? caster.getCapability(CapabilityList.AOV, null) : null;
 		if (cap == null)
 			return false;
 		if (cap.getInvokeMass())
-			castAsMass(player, cap);
+			castAsMass(caster, cap);
 		else if (e == null) {
-			addPotionEffects(player);
+			addPotionEffects(caster);
 		} else {
-			if (IAoVCapability.selectiveTarget(cap, e))
+			if (!IAoVCapability.selectiveTarget(caster, cap, e))
 				addPotionEffects(e);
 		}
-		SoundEvents.playMovingSoundOnServer(SoundEvents.cast_2, player);
-		cap.addExp(player, 12, this);
+		SoundEvents.playMovingSoundOnServer(SoundEvents.cast_2, caster);
+		cap.addExp(caster, 12, this);
 		return true;
 	}
 
@@ -94,14 +94,14 @@ public class Aid extends AbilityBase {
 		entity.addPotionEffect(new PotionEffect(AoVPotions.aid, 20 * (60 * 5)));
 	}
 
-	private void castAsMass(EntityLivingBase target, IAoVCapability cap) {
+	private void castAsMass(EntityLivingBase caster, IAoVCapability cap) {
 		int range = (int) (getMaxDistance() * 2);
-		ParticleHelper.spawnParticleMesh(ParticleHelper.MeshType.BURST, CommonProxy.ParticleType.Fluff, target.world, target.getPositionVector(), range, getParticleColor());
-		List<EntityLivingBase> list = target.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(target.getPosition().add(-range, -range, -range), target.getPosition().add(range, range, range)));
+		ParticleHelper.spawnParticleMesh(ParticleHelper.MeshType.BURST, CommonProxy.ParticleType.Fluff, caster.world, caster.getPositionVector(), range, getParticleColor());
+		List<EntityLivingBase> list = caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-range, -range, -range), caster.getPosition().add(range, range, range)));
 		for (EntityLivingBase entity : list) {
-			if (IAoVCapability.selectiveTarget(cap, entity)) {
+			if (!IAoVCapability.selectiveTarget(caster, cap, entity)) {
 				addPotionEffects(entity);
-				cap.addExp(target, 12, this);
+				cap.addExp(caster, 12, this);
 			}
 		}
 	}

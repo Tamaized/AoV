@@ -49,7 +49,7 @@ public class EntityMalefic extends ProjectileBase {
 				IAoVCapability cap = shootingEntity.hasCapability(CapabilityList.AOV, null) ? shootingEntity.getCapability(CapabilityList.AOV, null) : null;
 				for (EntityLivingBase e : world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(posX - radius, posY - radius, posZ - radius, posX + radius, posY + radius, posZ + radius)))
 					if (shootingEntity != e)
-						if (cap == null || !cap.hasSelectiveFocus() || !IAoVCapability.selectiveTarget(cap, e))
+						if (cap == null || !cap.hasSelectiveFocus() || IAoVCapability.selectiveTarget(shootingEntity, cap, e))
 							if (closest == null || getDistanceToEntity(closest) > getDistanceToEntity(e))
 								closest = e;
 				target = closest;

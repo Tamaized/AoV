@@ -90,14 +90,14 @@ public class CelestialOpposition extends AbilityBase {
 		IAoVCapability aov = caster.getCapability(CapabilityList.AOV, null);
 		if (!caster.world.isRemote && aov != null) {
 			for (EntityLivingBase e : caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.posX - distance, caster.posY - distance, caster.posY - distance, caster.posX + distance, caster.posY + distance, caster.posZ + distance))) {
-				if (e != caster && (!aov.hasSelectiveFocus() || !IAoVCapability.selectiveTarget(aov, e))) {
+				if (e != caster && (!aov.hasSelectiveFocus() || IAoVCapability.selectiveTarget(caster, aov, e))) {
 					IStunCapability stun = e.hasCapability(CapabilityList.STUN, null) ? e.getCapability(CapabilityList.STUN, null) : null;
 					if (stun != null) {
 						stun.setStunTicks(20 * 8);
 						aov.addExp(caster, 25, ability.getAbility());
 					}
 				}
-				if(e == caster || IAoVCapability.selectiveTarget(aov, e)){
+				if(e == caster || !IAoVCapability.selectiveTarget(caster, aov, e)){
 					for (PotionEffect effect : e.getActivePotionEffects())
 						if (!effect.getPotion().isBadEffect())
 							e.addPotionEffect(new PotionEffect(effect.getPotion(), effect.getDuration() + 400, effect.getAmplifier(), effect.getIsAmbient(), effect.doesShowParticles()));
