@@ -93,7 +93,7 @@ public class AspectedBenefic extends AbilityBase {
 		IAoVCapability cap = caster.hasCapability(CapabilityList.AOV, null) ? caster.getCapability(CapabilityList.AOV, null) : null;
 		if (cap == null)
 			return false;
-		EntityLivingBase entity = target != null && !IAoVCapability.selectiveTarget(caster, cap, target) ? target : caster;
+		EntityLivingBase entity = target != null && IAoVCapability.canBenefit(caster, cap, target) ? target : caster;
 		int a = (int) (heal * (1f + (cap.getSpellPower() / 100f)));
 		entity.heal(a);
 		SoundEvents.playMovingSoundOnServer(SoundEvents.aspectedbenefic, entity);

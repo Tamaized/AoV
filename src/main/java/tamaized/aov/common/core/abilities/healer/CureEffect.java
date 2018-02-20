@@ -81,7 +81,7 @@ public abstract class CureEffect extends AbilityBase {
 			caster.removePotionEffect(effect);
 			SoundEvents.playMovingSoundOnServer(SoundEvents.restore, caster);
 		} else {
-			if (!IAoVCapability.selectiveTarget(caster, cap, e)) {
+			if (IAoVCapability.canBenefit(caster, cap, e)) {
 				e.removePotionEffect(effect);
 				SoundEvents.playMovingSoundOnServer(SoundEvents.restore, e);
 			}
@@ -95,7 +95,7 @@ public abstract class CureEffect extends AbilityBase {
 		ParticleHelper.spawnParticleMesh(ParticleHelper.MeshType.BURST, CommonProxy.ParticleType.Heart, caster.world, caster.getPositionVector(), range, getParticleColor());
 		List<EntityLivingBase> list = caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-range, -range, -range), caster.getPosition().add(range, range, range)));
 		for (EntityLivingBase entity : list) {
-			if (!IAoVCapability.selectiveTarget(caster, cap, entity)) {
+			if (IAoVCapability.canBenefit(caster, cap, entity)) {
 				entity.removePotionEffect(effect);
 				SoundEvents.playMovingSoundOnServer(SoundEvents.restore, entity);
 				cap.addExp(caster, 12, this);

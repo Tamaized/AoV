@@ -78,7 +78,7 @@ public class Draw extends AbilityBase {
 			IAoVCapability cap = caster.hasCapability(CapabilityList.AOV, null) ? caster.getCapability(CapabilityList.AOV, null) : null;
 			int range = 16;
 			for (EntityLivingBase e : caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.posX - range, caster.posY - range, caster.posZ - range, caster.posX + range, caster.posY + range, caster.posZ + range))) {
-				if (cap == null || !IAoVCapability.selectiveTarget(caster, cap, e))
+				if (cap == null || IAoVCapability.canBenefit(caster, cap, e))
 					doDrawEffects(e, card, potency, null);
 			}
 			return;

@@ -63,7 +63,7 @@ public class Burst extends AbilityBase {
 		for (EntityLivingBase entity : list) {
 			if (entity.isEntityUndead())
 				entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, caster), a);
-			else if (!IAoVCapability.selectiveTarget(caster, cap, entity)) {
+			else if (IAoVCapability.canBenefit(caster, cap, entity)) {
 				entity.heal(a);
 				entity.getActivePotionEffects().removeIf(pot -> pot.getPotion().isBadEffect());
 				cap.addExp(caster, 20, this);

@@ -33,6 +33,10 @@ public interface IAoVCapability {
 		// If all the above fails, it'll return false.
 	}
 
+	static boolean canBenefit(Entity caster, IAoVCapability cap, EntityLivingBase entity){
+		return !cap.hasSelectiveFocus() || !selectiveTarget(caster, cap, entity);
+	}
+
 	void markDirty();
 
 	void setLoaded();

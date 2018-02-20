@@ -96,10 +96,10 @@ public class AspectedHelios extends AbilityBase {
 		IAoVCapability cap = caster.hasCapability(CapabilityList.AOV, null) ? caster.getCapability(CapabilityList.AOV, null) : null;
 		if (cap == null)
 			return false;
-		EntityLivingBase e = target != null && !IAoVCapability.selectiveTarget(caster, cap, target) ? target : caster;
+		EntityLivingBase e = target != null && IAoVCapability.canBenefit(caster, cap, target) ? target : caster;
 		List<EntityLivingBase> list = e.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(e.getPosition().add(-distance, -distance, -distance), e.getPosition().add(distance, distance, distance)));
 		for (EntityLivingBase entity : list) {
-			if (entity == caster || !IAoVCapability.selectiveTarget(caster, cap, entity)) {
+			if (entity == caster || IAoVCapability.canBenefit(caster, cap, entity)) {
 				entity.heal(heal);
 				entity.world.spawnEntity(new EntitySpellAoVParticles(entity.world, entity, CommonProxy.ParticleType.Heart, 0x00FF87FF, 5));
 				entity.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 600));

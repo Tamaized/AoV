@@ -86,7 +86,7 @@ public class Implosion extends AbilityBase {
 		boolean flag = false;
 		for (EntityLivingBase entity : caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-distance, -1, -distance), caster.getPosition().add(distance, 5, distance)))) {
 			IAoVCapability cap = caster.hasCapability(CapabilityList.AOV, null) ? caster.getCapability(CapabilityList.AOV, null) : null;
-			if (entity == caster || cap == null || !IAoVCapability.selectiveTarget(caster, cap, entity))
+			if (entity == caster || (cap != null && !IAoVCapability.selectiveTarget(caster, cap, entity)))
 				continue;
 			caster.world.spawnEntity(new EntitySpellImplosion(caster.world, caster, entity));
 			flag = true;

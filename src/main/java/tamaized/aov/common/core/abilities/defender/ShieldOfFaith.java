@@ -80,7 +80,7 @@ public class ShieldOfFaith extends AbilityBase {
 		else if (e == null) {
 			addPotionEffects(player);
 		} else {
-			if (!IAoVCapability.selectiveTarget(player, cap, e))
+			if (IAoVCapability.canBenefit(player, cap, e))
 				addPotionEffects(e);
 		}
 		SoundEvents.playMovingSoundOnServer(SoundEvents.cast_2, player);
@@ -97,7 +97,7 @@ public class ShieldOfFaith extends AbilityBase {
 		ParticleHelper.spawnParticleMesh(ParticleHelper.MeshType.BURST, CommonProxy.ParticleType.Fluff, caster.world, caster.getPositionVector(), range, getParticleColor());
 		List<EntityLivingBase> list = caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-range, -range, -range), caster.getPosition().add(range, range, range)));
 		for (EntityLivingBase entity : list) {
-			if (!IAoVCapability.selectiveTarget(caster, cap, entity)) {
+			if (IAoVCapability.canBenefit(caster, cap, entity)) {
 				addPotionEffects(entity);
 				cap.addExp(caster, 16, this);
 			}

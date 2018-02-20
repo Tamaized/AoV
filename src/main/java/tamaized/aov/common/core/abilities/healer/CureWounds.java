@@ -90,7 +90,7 @@ public abstract class CureWounds extends AbilityBase {
 			if (e.isEntityUndead()) {
 				e.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, caster), a);
 				SoundEvents.playMovingSoundOnServer(SoundEvents.heal, e);
-			} else if (!IAoVCapability.selectiveTarget(caster, cap, e)) {
+			} else if (IAoVCapability.canBenefit(caster, cap, e)) {
 				e.heal(a);
 				SoundEvents.playMovingSoundOnServer(SoundEvents.heal, e);
 			}
@@ -107,7 +107,7 @@ public abstract class CureWounds extends AbilityBase {
 			if (entity.isEntityUndead()) {
 				entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, caster), dmg);
 				SoundEvents.playMovingSoundOnServer(SoundEvents.heal, entity);
-			} else if (!IAoVCapability.selectiveTarget(caster, cap, entity)) {
+			} else if (IAoVCapability.canBenefit(caster, cap, entity)) {
 				entity.heal(dmg);
 				SoundEvents.playMovingSoundOnServer(SoundEvents.heal, entity);
 			}
