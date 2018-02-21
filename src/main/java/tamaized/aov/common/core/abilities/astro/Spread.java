@@ -105,7 +105,7 @@ public class Spread extends AbilityBase {
 			aov.addExp(caster, 15, this);
 		}
 		astro.sendPacketUpdates(caster);
-		return false;
+		return true;
 	}
 
 }

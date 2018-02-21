@@ -74,7 +74,7 @@ public abstract class AbilityBase {
 	}
 
 	/**
-	 * @return false to not use a charge
+	 * @return false to not use a charge or set the cooldown
 	 */
 	public abstract boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target);
 
