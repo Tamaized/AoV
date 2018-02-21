@@ -15,6 +15,7 @@ import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
+import tamaized.aov.common.capabilities.leap.ILeapCapability;
 import tamaized.aov.common.capabilities.stun.IStunCapability;
 import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.AoVPotions;
@@ -24,10 +25,10 @@ import java.util.Iterator;
 public class TickHandler {
 
 	private static void spawnSlowfallParticles(EntityLivingBase living) {
-		PotionEffect pot = living.getActivePotionEffect(AoVPotions.slowFall);
-		if (pot == null)
+		ILeapCapability cap = living.hasCapability(CapabilityList.LEAP, null) ? living.getCapability(CapabilityList.LEAP, null) : null;
+		if (cap == null || cap.getLeapDuration() <= 0)
 			return;
-		final float perc = MathHelper.clamp(((float) pot.getDuration()) / (15.0F * 20.0F), 0, 1);
+		final float perc = MathHelper.clamp((float) cap.getLeapDuration() / (float) cap.getMaxLeapDuration(), 0, 1);
 		final int bound = 100 - ((int) (perc * 100)) + 1;
 		Vec3d pos = living.getPositionVector();
 		for (int i = 0; i < 3; i++)
@@ -36,7 +37,7 @@ public class TickHandler {
 				float range = 1.0F;
 				float r = ((living.world.rand.nextFloat() * (1.0F + range)) - (0.5F + range));
 				Vec3d vec = new Vec3d(-Math.cos(yaw), 1.7F, -Math.sin(yaw)).rotateYaw(r);
-				vec = pos.add(vec).addVector(0, living.world.rand.nextFloat() * 0.25F - 0.125F, 0);
+				vec = pos.add(vec).addVector(0, living.world.rand.nextFloat() * 0.5F - 0.5F, 0);
 				AoV.proxy.spawnParticle(CommonProxy.ParticleType.Feather, living.world, vec, new Vec3d(0, 0, 0), 55, 0.1F, 1.5F, 0xFFFF00FF);
 			}
 	}
@@ -61,12 +62,26 @@ public class TickHandler {
 			if (cap != null)
 				cap.update(player);
 		}
+		if (player.hasCapability(CapabilityList.LEAP, null)) {
+			ILeapCapability cap = player.getCapability(CapabilityList.LEAP, null);
+			if (cap != null)
+				cap.update(player);
+		}
 	}
 
 	@SubscribeEvent
-	public void updateLiving(LivingEvent.LivingUpdateEvent e){
-		if (e.getEntityLiving().world.isRemote)
-			spawnSlowfallParticles(e.getEntityLiving());
+	public void updateLiving(LivingEvent.LivingUpdateEvent e) {
+		EntityLivingBase living = e.getEntityLiving();
+		if (living.world.isRemote)
+			spawnSlowfallParticles(living);
+		else {
+			ILeapCapability cap = living.hasCapability(CapabilityList.LEAP, null) ? living.getCapability(CapabilityList.LEAP, null) : null;
+			PotionEffect pot = living.getActivePotionEffect(AoVPotions.slowFall);
+			if (pot == null || cap == null)
+				return;
+			if (living.ticksExisted % 20 == 0)
+				cap.setLeapDuration(pot.getDuration());
+		}
 	}
 
 	@SubscribeEvent

@@ -14,6 +14,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
+import tamaized.aov.common.capabilities.leap.ILeapCapability;
 import tamaized.aov.common.capabilities.stun.IStunCapability;
 
 import javax.annotation.Nonnull;
@@ -26,12 +27,15 @@ public class CapabilityList {
 	public static final Capability<IAstroCapability> ASTRO;
 	@CapabilityInject(IStunCapability.class)
 	public static final Capability<IStunCapability> STUN;
+	@CapabilityInject(ILeapCapability.class)
+	public static final Capability<ILeapCapability> LEAP;
 
 	// Tricks Intellij
 	static {
 		AOV = null;
 		ASTRO = null;
 		STUN = null;
+		LEAP = null;
 	}
 
 	@SubscribeEvent
@@ -111,6 +115,33 @@ public class CapabilityList {
 				@Override
 				public void deserializeNBT(NBTTagCompound nbt) {
 					CapabilityList.STUN.getStorage().readNBT(CapabilityList.STUN, inst, null, nbt);
+				}
+
+			});
+		}
+		if (e.getObject() instanceof EntityLivingBase) {
+			e.addCapability(ILeapCapability.ID, new ICapabilitySerializable<NBTTagCompound>() {
+
+				ILeapCapability inst = CapabilityList.LEAP.getDefaultInstance();
+
+				@Override
+				public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing facing) {
+					return capability == CapabilityList.LEAP;
+				}
+
+				@Override
+				public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
+					return capability == CapabilityList.LEAP ? CapabilityList.LEAP.<T>cast(inst) : null;
+				}
+
+				@Override
+				public NBTTagCompound serializeNBT() {
+					return (NBTTagCompound) CapabilityList.LEAP.getStorage().writeNBT(CapabilityList.LEAP, inst, null);
+				}
+
+				@Override
+				public void deserializeNBT(NBTTagCompound nbt) {
+					CapabilityList.LEAP.getStorage().readNBT(CapabilityList.LEAP, inst, null, nbt);
 				}
 
 			});

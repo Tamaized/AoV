@@ -10,6 +10,9 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.AoV;
+import tamaized.aov.common.capabilities.CapabilityList;
+import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.capabilities.leap.ILeapCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.registry.AoVPotions;
@@ -79,7 +82,10 @@ public class LeapOfFaith extends AbilityBase {
 		Vec3d vec = caster.getLook(1.0F);
 		double distance = 3.5;
 		MotionHelper.addMotion(caster, new Vec3d(vec.x * distance, 1, vec.z * distance));
-		caster.addPotionEffect(new PotionEffect(AoVPotions.slowFall, 20 * 15));
+		caster.addPotionEffect(new PotionEffect(AoVPotions.slowFall, 300));
+		ILeapCapability cap = caster.hasCapability(CapabilityList.LEAP, null) ? caster.getCapability(CapabilityList.LEAP, null) : null;
+		if (cap != null)
+			cap.setLeapDuration(300);
 		SoundEvents.playMovingSoundOnServer(SoundEvents.boost, caster);
 		return true;
 	}

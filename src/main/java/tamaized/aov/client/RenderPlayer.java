@@ -6,15 +6,13 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import tamaized.aov.AoV;
-import tamaized.aov.registry.AoVPotions;
-import tamaized.tammodized.client.particles.ParticleFluff;
-import tamaized.tammodized.common.particles.ParticleHelper;
+import tamaized.aov.common.capabilities.CapabilityList;
+import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.capabilities.leap.ILeapCapability;
 
 public class RenderPlayer {
 
@@ -27,26 +25,20 @@ public class RenderPlayer {
 
 	@SubscribeEvent
 	public void render(RenderPlayerEvent.Post e) {
-		// if (true) return; // This is dev stuff
 		EntityPlayer player = e.getEntityPlayer();
-		PotionEffect pot = player.getActivePotionEffect(AoVPotions.slowFall);
-		if (pot == null)
+		ILeapCapability cap = player.hasCapability(CapabilityList.LEAP, null) ? player.getCapability(CapabilityList.LEAP, null) : null;
+		if (cap == null || cap.getLeapDuration() <= 0)
 			return;
 		GlStateManager.pushMatrix();
 		{
-			// GlStateManager.disableAlpha();
-			// GlStateManager.disableDepth();
-			// GlStateManager.depthMask(false);
 			GlStateManager.enableBlend();
-			// GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 			GlStateManager.disableCull();
-			float perc = ((float) pot.getDuration()) / (15.0F * 20.0F);
-			// float perc = 1.0F;
+			float perc = (float) cap.getLeapDuration() / (float) cap.getMaxLeapDuration();
 			GlStateManager.color(1, 1, 1, perc);
 			float scale = 1;
+			GlStateManager.translate(e.getX(), e.getY(), e.getZ());
 			GlStateManager.scale(scale, scale, scale);
 			GlStateManager.rotate(-player.renderYawOffset, 0, 1, 0);
-			// GlStateManager.translate(-1, -2.0, -0.25);
 			if (player.isSneaking()) {
 				GlStateManager.translate(0.0F, -0.2F, 0.0F);
 			}
@@ -76,9 +68,6 @@ public class RenderPlayer {
 			tess.draw();
 			GlStateManager.enableCull();
 			GlStateManager.disableBlend();
-			// GlStateManager.depthMask(true);
-			// GlStateManager.enableDepth();
-			// GlStateManager.enableAlpha();
 			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		}
 		GlStateManager.popMatrix();

@@ -20,6 +20,9 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.astro.AstroCapabilityHandler;
 import tamaized.aov.common.capabilities.astro.AstroCapabilityStorage;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
+import tamaized.aov.common.capabilities.leap.ILeapCapability;
+import tamaized.aov.common.capabilities.leap.LeapCapabilityHandler;
+import tamaized.aov.common.capabilities.leap.LeapCapabilityStorage;
 import tamaized.aov.common.capabilities.stun.IStunCapability;
 import tamaized.aov.common.capabilities.stun.StunCapabilityHandler;
 import tamaized.aov.common.capabilities.stun.StunCapabilityStorage;
@@ -117,6 +120,7 @@ public class AoV extends TamModBase {
 		CapabilityManager.INSTANCE.register(IAoVCapability.class, new AoVCapabilityStorage(), AoVCapabilityHandler.class);
 		CapabilityManager.INSTANCE.register(IAstroCapability.class, new AstroCapabilityStorage(), AstroCapabilityHandler.class);
 		CapabilityManager.INSTANCE.register(IStunCapability.class, new StunCapabilityStorage(), StunCapabilityHandler.class);
+		CapabilityManager.INSTANCE.register(ILeapCapability.class, new LeapCapabilityStorage(), LeapCapabilityHandler.class);
 		MinecraftForge.EVENT_BUS.register(new CapabilityList());
 	}
 
