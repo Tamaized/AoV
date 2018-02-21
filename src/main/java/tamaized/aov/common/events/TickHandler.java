@@ -5,7 +5,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
@@ -21,20 +23,21 @@ import java.util.Iterator;
 
 public class TickHandler {
 
-	private static void spawnSlowfallParticles(EntityPlayer player) {
-		PotionEffect pot = player.getActivePotionEffect(AoVPotions.slowFall);
+	private static void spawnSlowfallParticles(EntityLivingBase living) {
+		PotionEffect pot = living.getActivePotionEffect(AoVPotions.slowFall);
 		if (pot == null)
 			return;
-		float perc = ((float) pot.getDuration()) / (15.0F * 20.0F);
-		Vec3d pos = player.getPositionVector();
+		final float perc = MathHelper.clamp(((float) pot.getDuration()) / (15.0F * 20.0F), 0, 1);
+		final int bound = 100 - ((int) (perc * 100)) + 1;
+		Vec3d pos = living.getPositionVector();
 		for (int i = 0; i < 3; i++)
-			if (player.world.rand.nextInt(100 - ((int) (perc * 100)) + 1) <= 2) {
-				double yaw = Math.toRadians(player.renderYawOffset + 63);
+			if (living.world.rand.nextInt(bound > 0 ? bound : 1) <= 2) {
+				double yaw = Math.toRadians(living.renderYawOffset + 63);
 				float range = 1.0F;
-				float r = ((player.world.rand.nextFloat() * (1.0F + range)) - (0.5F + range));
+				float r = ((living.world.rand.nextFloat() * (1.0F + range)) - (0.5F + range));
 				Vec3d vec = new Vec3d(-Math.cos(yaw), 1.7F, -Math.sin(yaw)).rotateYaw(r);
-				vec = pos.add(vec);
-				AoV.proxy.spawnParticle(CommonProxy.ParticleType.Feather, player.world, vec, new Vec3d(0, 0, 0), 55, 0.1F, 1.5F, 0xFFFF00FF);
+				vec = pos.add(vec).addVector(0, living.world.rand.nextFloat() * 0.25F - 0.125F, 0);
+				AoV.proxy.spawnParticle(CommonProxy.ParticleType.Feather, living.world, vec, new Vec3d(0, 0, 0), 55, 0.1F, 1.5F, 0xFFFF00FF);
 			}
 	}
 
@@ -58,8 +61,12 @@ public class TickHandler {
 			if (cap != null)
 				cap.update(player);
 		}
-		if (player.world.isRemote)
-			spawnSlowfallParticles(player);
+	}
+
+	@SubscribeEvent
+	public void updateLiving(LivingEvent.LivingUpdateEvent e){
+		if (e.getEntityLiving().world.isRemote)
+			spawnSlowfallParticles(e.getEntityLiving());
 	}
 
 	@SubscribeEvent
