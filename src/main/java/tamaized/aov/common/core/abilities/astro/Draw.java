@@ -168,7 +168,7 @@ public class Draw extends AbilityBase {
 			ability.setTimer(-1);
 		}
 		astro.sendPacketUpdates(caster);
-		return false;
+		return true;
 	}
 
 }
