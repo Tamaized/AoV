@@ -370,7 +370,9 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			return;
 		if (spell != null) {
 			if (decay.containsKey(spell)) {
-				amount /= decay.get(spell).getDecay();
+				int dec = decay.get(spell).getDecay();
+				if (dec > 0)
+					amount /= dec;
 				decay.get(spell).addDecay();
 			} else {
 				decay.put(spell, new DecayWrapper());
