@@ -100,7 +100,7 @@ public class EntitySpellBladeBarrier extends Entity implements IEntityAdditional
 	}
 
 	private void doDamage(EntityLivingBase e) {
-		IAoVCapability cap = caster.hasCapability(CapabilityList.AOV, null) ? caster.getCapability(CapabilityList.AOV, null) : null;
+		IAoVCapability cap = caster != null && caster.hasCapability(CapabilityList.AOV, null) ? caster.getCapability(CapabilityList.AOV, null) : null;
 		if (cap != null) {
 			if (IAoVCapability.selectiveTarget(caster, cap, e)) {
 				e.attackEntityFrom(DamageSource.causeIndirectMagicDamage(this, caster), damage);
