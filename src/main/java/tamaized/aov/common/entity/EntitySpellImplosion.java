@@ -72,7 +72,8 @@ public class EntitySpellImplosion extends Entity {
 		setPositionAndUpdate(target.posX, target.posY, target.posZ);
 		tick++;
 		if (tick % (20 * 5) == 0) {
-			float damage = target.getRNG().nextInt((int) Math.floor(target.getHealth())) <= 14 ? target.getMaxHealth() : target.getMaxHealth() / 2F;
+			int hp = (int) Math.floor(target.getHealth());
+			float damage = hp < 1 ? hp : target.getRNG().nextInt(hp) <= 14 ? target.getMaxHealth() : target.getMaxHealth() / 2F;
 			IAoVCapability cap = caster != null && caster.hasCapability(CapabilityList.AOV, null) ? caster.getCapability(CapabilityList.AOV, null) : null;
 			if (cap != null)
 				damage *= (1f + (cap.getSpellPower() / 100f));
