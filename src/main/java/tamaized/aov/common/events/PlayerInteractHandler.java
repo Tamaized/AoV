@@ -25,7 +25,7 @@ public class PlayerInteractHandler {
 	@SubscribeEvent
 	public void onWakeUp(PlayerWakeUpEvent e){
 		EntityPlayer player = e.getEntityPlayer();
-		if (player != null) {
+		if (player != null && e.shouldSetSpawn()) {
 			IAoVCapability cap = player.hasCapability(CapabilityList.AOV, null) ? player.getCapability(CapabilityList.AOV, null) : null;
 			if (cap != null)
 				cap.resetCharges(player);
