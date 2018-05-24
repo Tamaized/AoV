@@ -20,7 +20,8 @@ import tamaized.aov.common.capabilities.stun.IStunCapability;
 import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.AoVPotions;
 
-import java.util.Iterator;
+import java.util.List;
+import com.google.common.collect.Lists;
 
 public class TickHandler {
 
@@ -85,13 +86,14 @@ public class TickHandler {
 	}
 
 	@SubscribeEvent
-	@SuppressWarnings("ForLoopReplaceableByForEach")
 	public void updateEntity(TickEvent.WorldTickEvent e) {
 		if (e.phase == TickEvent.Phase.START)
 			return;
-		for (Iterator<Entity> iter = e.world.loadedEntityList.iterator(); iter.hasNext(); ) {
-			Entity entity = iter.next();
+		List<Entity> list = Lists.newArrayList(e.world.loadedEntityList);
+		for (Entity entity : list) {
 			if (!(entity instanceof EntityLivingBase))
+				continue;
+			if(entity.isDead)
 				continue;
 			IStunCapability cap = entity.hasCapability(CapabilityList.STUN, null) ? entity.getCapability(CapabilityList.STUN, null) : null;
 			if (cap != null)
