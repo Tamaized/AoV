@@ -10,6 +10,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -45,6 +46,13 @@ public class EntityGravity extends Entity {
 				setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
 			}
 		}
+	}
+
+	public EntityGravity(World world, Entity entity, float dmg, Vec3d pos) {
+		this(world);
+		caster = entity;
+		damage = dmg;
+		setPositionAndUpdate(pos.x, pos.y, pos.z);
 	}
 
 	@Override

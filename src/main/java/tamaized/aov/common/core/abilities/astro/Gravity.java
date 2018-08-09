@@ -89,7 +89,8 @@ public class Gravity extends AbilityBase {
 			return false;
 		IAoVCapability aov = caster.getCapability(CapabilityList.AOV, null);
 		if (!caster.world.isRemote && aov != null && (target == null || IAoVCapability.selectiveTarget(caster, aov, target))) {
-			EntityGravity spell = new EntityGravity(caster.world, caster, (int) (damage * (1f + (aov.getSpellPower() / 100f))), distance);
+			int dmg = (int) (damage * (1f + (aov.getSpellPower() / 100f)));
+			EntityGravity spell = target == null ? new EntityGravity(caster.world, caster, dmg, distance) : new EntityGravity(caster.world, caster, dmg, target.getPositionVector());
 			caster.world.spawnEntity(spell);
 			SoundEvents.playMovingSoundOnServer(SoundEvents.gravity, spell, 2F, 1F);
 			return true;
