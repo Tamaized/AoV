@@ -216,11 +216,12 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 		} else if (ticksInAir > 20 * 10)
 			setDead();
 
-		for (Entity e : world.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().grow(0.5F))) {
-			if (e == this || e == shootingEntity || !canHitEntity(e))
-				continue;
-			onHit(e);
-		}
+		if (!world.isRemote)
+			for (Entity e : world.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().grow(0.5F))) {
+				if (e == this || e == shootingEntity || !canHitEntity(e))
+					continue;
+				onHit(e);
+			}
 
 		posX += motionX * speed;
 		posY += motionY * speed;
@@ -271,7 +272,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 	}
 
 	protected boolean canHitEntity(Entity entity) {
-		IAoVCapability cap = entity.hasCapability(CapabilityList.AOV, null) ? entity.getCapability(CapabilityList.AOV, null) : null;
+		IAoVCapability cap = shootingEntity.hasCapability(CapabilityList.AOV, null) ? shootingEntity.getCapability(CapabilityList.AOV, null) : null;
 		return entity instanceof EntityLivingBase && (cap == null || IAoVCapability.selectiveTarget(shootingEntity, cap, (EntityLivingBase) entity));
 	}
 

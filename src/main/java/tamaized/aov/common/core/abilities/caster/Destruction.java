@@ -87,7 +87,7 @@ public class Destruction extends AbilityBase {
 		if (target == null)
 			return false;
 		IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
-		if (cap != null && target.isNonBoss()) {
+		if (cap != null && target.isNonBoss() && IAoVCapability.selectiveTarget(caster, cap, target)) {
 			float damage = target.getRNG().nextInt((int) Math.floor(target.getHealth())) <= 8 ? target.getMaxHealth() : target.getMaxHealth() / 2F;
 			damage *= (1f + (cap.getSpellPower() / 100f));
 			target.attackEntityFrom(AoVDamageSource.createEntityDamageSource(AoVDamageSource.DESTRUCTION, caster), damage);
