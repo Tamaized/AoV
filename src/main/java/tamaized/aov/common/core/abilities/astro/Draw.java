@@ -50,14 +50,16 @@ public class Draw extends AbilityBase {
 		return "aov.spells.draw.name";
 	}
 
-	public static void doDrawEffects(EntityLivingBase caster, @Nonnull IAstroCapability.ICard card, int potency, @Nullable IAstroCapability.ICard burn) {
+	public static void doDrawEffects(EntityLivingBase caster, @Nonnull IAstroCapability.ICard card, int potency, @Nullable IAstroCapability.ICard burn, boolean fromAoe) {
 		int ticks = 300;
+		int hardcodedBalancePotency = fromAoe ? potency : 0;
 		boolean aoe = false;
 		if (burn != null)
 			switch (burn) {
 				default:
 				case Balance:
 				case Bole:
+					hardcodedBalancePotency = 2;
 					potency *= 2.5F;
 					if (potency <= 0)
 						potency = 2;
@@ -69,6 +71,7 @@ public class Draw extends AbilityBase {
 				case Ewer:
 				case Spire:
 					aoe = true;
+					hardcodedBalancePotency = 1;
 					potency *= 1.5F;
 					if (potency <= 0)
 						potency = 1;
@@ -79,14 +82,14 @@ public class Draw extends AbilityBase {
 			int range = 16;
 			for (EntityLivingBase e : caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.posX - range, caster.posY - range, caster.posZ - range, caster.posX + range, caster.posY + range, caster.posZ + range))) {
 				if (cap == null || IAoVCapability.canBenefit(caster, cap, e))
-					doDrawEffects(e, card, potency, null);
+					doDrawEffects(e, card, potency, null, true);
 			}
 			return;
 		}
 		switch (card) {
 			default:
 			case Balance:
-				caster.addPotionEffect(new PotionEffect(AoVPotions.balance, ticks, potency));
+				caster.addPotionEffect(new PotionEffect(AoVPotions.balance, ticks, hardcodedBalancePotency));
 				break;
 			case Bole:
 				caster.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, ticks, potency));
@@ -168,7 +171,7 @@ public class Draw extends AbilityBase {
 			int potency = (int) Math.floor(aov.getSpellPower() / 10F);
 			IAstroCapability.ICard burn = astro.getBurn();
 			astro.useDraw(caster);
-			doDrawEffects(entity, card, potency, burn);
+			doDrawEffects(entity, card, potency, burn, false);
 			aov.addExp(caster, 15, this);
 			ability.setTimer(-1);
 		}

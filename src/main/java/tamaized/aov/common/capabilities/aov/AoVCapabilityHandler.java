@@ -258,7 +258,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 				doublestrike += 10 * (spear.getAmplifier() + 1);
 			PotionEffect balance = player.getActivePotionEffect(AoVPotions.balance);
 			if (balance != null)
-				spellpower += 20 * (balance.getAmplifier() + 1);
+				spellpower += 50 * (balance.getAmplifier() + 1);
 		}
 	}
 

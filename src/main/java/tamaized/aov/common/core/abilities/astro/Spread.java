@@ -106,7 +106,7 @@ public class Spread extends AbilityBase {
 			int potency = (int) Math.floor(aov.getSpellPower() / 10F);
 			IAstroCapability.ICard burn = astro.getBurn();
 			astro.useSpread(caster);
-			Draw.doDrawEffects(entity, card, potency, burn);
+			Draw.doDrawEffects(entity, card, potency, burn, false);
 			aov.addExp(caster, 15, this);
 		}
 		astro.sendPacketUpdates(caster);
