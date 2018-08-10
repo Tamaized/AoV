@@ -84,6 +84,11 @@ public class CelestialOpposition extends AbilityBase {
 	}
 
 	@Override
+	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+		return false;
+	}
+
+	@Override
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		if (!caster.hasCapability(CapabilityList.AOV, null))
 			return false;

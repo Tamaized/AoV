@@ -73,6 +73,11 @@ public abstract class CureWounds extends AbilityBase {
 		return true;
 	}
 
+	@Override
+	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+		return IAoVCapability.canBenefit(caster, cap, target);
+	}
+
 	protected abstract int getParticleColor();
 
 	@Override

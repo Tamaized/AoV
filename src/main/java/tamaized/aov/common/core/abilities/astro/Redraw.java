@@ -75,6 +75,11 @@ public class Redraw extends AbilityBase {
 	}
 
 	@Override
+	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+		return false;
+	}
+
+	@Override
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		if (!caster.hasCapability(CapabilityList.ASTRO, null) || !caster.hasCapability(CapabilityList.AOV, null))
 			return false;

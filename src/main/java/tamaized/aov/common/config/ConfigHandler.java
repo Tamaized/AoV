@@ -36,6 +36,13 @@ public class ConfigHandler {
 	@Config.Name("Render Royal Road Text")
 	@Config.Comment("Enables the text render for the Astro UI Royal Road. If disabled, only the icon will render.")
 	public static boolean renderRoyalRoad = true;
+	@Config.Name("Render Target UI")
+	@Config.Comment("Enables the targetting UI renderer.")
+	public static boolean renderTarget = true;
+	@Config.Name("Target UI Opcaity")
+	@Config.Comment("How transparent the target ui is.")
+	@Config.RangeDouble(min = 0, max = 1)
+	public static float targetOpacity = 0.25F;
 
 	@SubscribeEvent
 	public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
@@ -55,6 +62,11 @@ public class ConfigHandler {
 		public int astro_x = 0;
 		@Config.Name("Astro Y")
 		public int astro_y = 0;
+
+		@Config.Name("Target X")
+		public int target_x = 0;
+		@Config.Name("Target Y")
+		public int target_y = 0;
 
 	}
 

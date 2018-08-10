@@ -78,6 +78,11 @@ public class LeapOfFaith extends AbilityBase {
 	}
 
 	@Override
+	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+		return false;
+	}
+
+	@Override
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		Vec3d vec = caster.getLook(1.0F);
 		double distance = 3.5;

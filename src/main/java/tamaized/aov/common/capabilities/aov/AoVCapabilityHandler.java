@@ -22,6 +22,7 @@ import tamaized.aov.common.core.skills.AoVSkill;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.network.client.ClientPacketHandlerAoVData;
 import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
+import tamaized.aov.proxy.ClientProxy;
 import tamaized.aov.registry.AoVPotions;
 import tamaized.tammodized.common.helper.FloatyTextHelper;
 
@@ -526,7 +527,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void cast(int slotLoc) {
-		AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.CAST_SPELL, slotLoc, null));
+		AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.CAST_SPELL, null, ClientProxy.getTarget() != null ? new int[]{slotLoc, ClientProxy.getTarget().getEntityId()} : new int[]{slotLoc}));
 	}
 
 	@Override

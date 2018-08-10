@@ -69,6 +69,8 @@ public abstract class AbilityBase {
 
 	public abstract boolean usesInvoke();
 
+	public abstract boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target);
+
 	public int getCost(IAoVCapability cap) {
 		return (usesInvoke() && cap.getInvokeMass()) ? (getChargeCost() * 2) : getChargeCost();
 	}
@@ -115,6 +117,11 @@ public abstract class AbilityBase {
 
 		@Override
 		public boolean usesInvoke() {
+			return false;
+		}
+
+		@Override
+		public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
 			return false;
 		}
 

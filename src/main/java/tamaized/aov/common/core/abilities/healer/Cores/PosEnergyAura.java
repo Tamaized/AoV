@@ -123,4 +123,9 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 		return false;
 	}
 
+	@Override
+	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+		return false;
+	}
+
 }

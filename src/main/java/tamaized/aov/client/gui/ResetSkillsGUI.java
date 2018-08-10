@@ -42,10 +42,10 @@ public class ResetSkillsGUI extends GuiScreenClose {
 					break;
 				case BUTTON_RESET_MINOR:
 					if (cap.getObtainedSkills().size() > 1)
-						AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.RESETSKILLS_MINOR, 0, null));
+						AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.RESETSKILLS_MINOR, null, 0));
 					break;
 				case BUTTON_RESET_FULL:
-					AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.RESETSKILLS_FULL, 0, null));
+					AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.RESETSKILLS_FULL, null, 0));
 					ClientProxy.barToggle = false;
 					break;
 				default:

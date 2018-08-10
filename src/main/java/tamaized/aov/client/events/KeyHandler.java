@@ -6,7 +6,6 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.MouseEvent;
-import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -30,6 +29,7 @@ public class KeyHandler {
 
 	public static final String CATEGORY_AOV = "key.categories.aov";
 	public static final List<KeyBinding> SLOT_KEYS = Lists.newArrayList();
+	public static KeyBinding key_target;
 	public static KeyBinding key_bar;
 	public static KeyBinding key_bar_slot_0;
 	public static KeyBinding key_bar_slot_1;
@@ -44,6 +44,7 @@ public class KeyHandler {
 	private static int mx, my;
 
 	public static void register() {
+		key_target = new KeyBinding("key.aov.target", Keyboard.KEY_Z, CATEGORY_AOV);
 		key_bar = new KeyBinding("key.aov.bartoggle", Keyboard.KEY_LMENU, CATEGORY_AOV);
 		key_bar_slot_0 = new KeyBinding("key.aov.bar.0", Keyboard.KEY_NONE, CATEGORY_AOV);
 		key_bar_slot_1 = new KeyBinding("key.aov.bar.1", Keyboard.KEY_NONE, CATEGORY_AOV);
@@ -55,6 +56,7 @@ public class KeyHandler {
 		key_bar_slot_7 = new KeyBinding("key.aov.bar.7", Keyboard.KEY_NONE, CATEGORY_AOV);
 		key_bar_slot_8 = new KeyBinding("key.aov.bar.8", Keyboard.KEY_NONE, CATEGORY_AOV);
 
+		ClientRegistry.registerKeyBinding(key_target);
 		ClientRegistry.registerKeyBinding(key_bar);
 		ClientRegistry.registerKeyBinding(key_bar_slot_0);
 		ClientRegistry.registerKeyBinding(key_bar_slot_1);
@@ -82,13 +84,17 @@ public class KeyHandler {
 		if (e.phase == TickEvent.Phase.START)
 			return;
 		EntityPlayer player = Minecraft.getMinecraft().player;
-		if (player == null || !player.hasCapability(CapabilityList.AOV, null))
+		if (player == null || !player.hasCapability(CapabilityList.AOV, null)) {
+			ClientProxy.setTarget(null);
 			return;
+		}
 		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
 		if (cap == null)
 			return;
 		if (key_bar.isPressed())
 			ClientProxy.barToggle = cap.hasCoreSkill() && !ClientProxy.barToggle;
+		if (key_target.isPressed())
+			ClientProxy.setTarget();
 		for (KeyBinding slotKey : SLOT_KEYS)
 			if (slotKey.isPressed())
 				cap.cast(SLOT_KEYS.indexOf(slotKey));
@@ -152,8 +158,8 @@ public class KeyHandler {
 	}
 
 	@SubscribeEvent
-	public static void handleUpdate(LivingEvent.LivingUpdateEvent e){
-		if(e.getEntity().updateBlocked)
+	public static void handleUpdate(LivingEvent.LivingUpdateEvent e) {
+		if (e.getEntity().updateBlocked)
 			e.setCanceled(true);
 	}
 

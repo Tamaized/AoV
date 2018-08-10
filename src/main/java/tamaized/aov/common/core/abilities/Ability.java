@@ -140,7 +140,7 @@ public final class Ability {
 			return;
 		IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
 		if (cap != null) {
-			if (cap.canUseAbility(this)) {
+			if (cap.canUseAbility(this) && ((ability.usesInvoke() && cap.getInvokeMass()) || target == null || !ability.isCastOnTarget(caster, cap, target) || ability.getMaxDistance() >= caster.getDistanceToEntity(target))) {
 				if (ability.cast(this, caster, target)) {
 					charges -= ability.getCost(cap);
 					cooldown = (nextCooldown < 0 ? ability.getCoolDown() : nextCooldown) * ((ability.usesInvoke() && cap.getInvokeMass()) ? 2 : 1);

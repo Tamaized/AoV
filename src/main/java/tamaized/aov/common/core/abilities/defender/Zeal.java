@@ -58,6 +58,11 @@ public class Zeal extends AbilityBase {
 		return false;
 	}
 
+	@Override
+	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+		return false;
+	}
+
 	protected int getParticleColor() {
 		return 0xFFFFFFFF;
 	}

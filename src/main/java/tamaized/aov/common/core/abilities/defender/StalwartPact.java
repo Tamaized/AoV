@@ -66,6 +66,11 @@ public class StalwartPact extends AbilityBase {
 		return true;
 	}
 
+	@Override
+	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+		return IAoVCapability.canBenefit(caster, cap, target);
+	}
+
 	protected int getParticleColor() {
 		return 0xFFFFFFFF;
 	}

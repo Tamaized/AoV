@@ -81,6 +81,11 @@ public class SearingLight extends AbilityBase {
 	}
 
 	@Override
+	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+		return false;
+	}
+
+	@Override
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
 		if (cap == null)

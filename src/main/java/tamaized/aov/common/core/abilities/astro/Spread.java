@@ -79,6 +79,11 @@ public class Spread extends AbilityBase {
 	}
 
 	@Override
+	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+		return false;
+	}
+
+	@Override
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		if (!caster.hasCapability(CapabilityList.ASTRO, null) || !caster.hasCapability(CapabilityList.AOV, null))
 			return false;
@@ -97,7 +102,7 @@ public class Spread extends AbilityBase {
 			}
 		} else {
 			IAstroCapability.ICard card = astro.getSpread();
-			EntityLivingBase entity = target == null ? caster : target;
+			EntityLivingBase entity = target == null || caster.getDistanceToEntity(target) < getMaxDistance() ? caster : target;
 			int potency = (int) Math.floor(aov.getSpellPower() / 10F);
 			IAstroCapability.ICard burn = astro.getBurn();
 			astro.useSpread(caster);

@@ -2,11 +2,17 @@ package tamaized.aov.proxy;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.resources.IReloadableResourceManager;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import tamaized.aov.client.Helpers;
 import tamaized.aov.client.RenderPlayer;
+import tamaized.aov.client.SizedFontRenderer;
 import tamaized.aov.client.entity.RenderCelestialOpposition;
 import tamaized.aov.client.entity.RenderCombust;
 import tamaized.aov.client.entity.RenderFlameStrike;
@@ -32,12 +38,36 @@ import tamaized.aov.common.entity.ProjectileFlameStrike;
 import tamaized.aov.common.entity.ProjectileNimbusRay;
 import tamaized.tammodized.client.particles.ParticleFluff;
 
+import javax.annotation.Nullable;
+
 public class ClientProxy extends CommonProxy {
 
 	public static boolean barToggle = false;
+	private static EntityLivingBase target;
+	private static SizedFontRenderer FONT_RENDERER;
 
 	public ClientProxy() {
 		super(Side.CLIENT);
+	}
+
+	public static void setTarget(@Nullable EntityLivingBase entity) {
+		target = entity;
+	}
+
+	public static void setTarget() {
+		Entity ent = Helpers.getTargetOverMouse(Minecraft.getMinecraft(), 128);
+		if (ent instanceof EntityLivingBase && target != ent)
+			target = (EntityLivingBase) ent;
+		else
+			target = null;
+	}
+
+	public static EntityLivingBase getTarget() {
+		return target;
+	}
+
+	public static SizedFontRenderer getFontRenderer() {
+		return FONT_RENDERER;
 	}
 
 	@Override
@@ -73,7 +103,13 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void postInit() {
-
+		FONT_RENDERER = new SizedFontRenderer();
+		if (Minecraft.getMinecraft().gameSettings.language != null) {
+			FONT_RENDERER.setUnicodeFlag(Minecraft.getMinecraft().isUnicode());
+			FONT_RENDERER.setBidiFlag(Minecraft.getMinecraft().getLanguageManager().isCurrentLanguageBidirectional());
+		}
+		if (IReloadableResourceManager.class.isAssignableFrom(Minecraft.getMinecraft().getResourceManager().getClass()))
+			IReloadableResourceManager.class.cast(Minecraft.getMinecraft().getResourceManager()).registerReloadListener(FONT_RENDERER);
 	}
 
 	@Override

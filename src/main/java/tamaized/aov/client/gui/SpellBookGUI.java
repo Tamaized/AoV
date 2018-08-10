@@ -180,10 +180,10 @@ public class SpellBookGUI extends GuiScreenClose {
 	}
 
 	private void sendPacketTypeRemoveSlot(int slot) {
-		AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.SPELLBAR_REMOVE, slot, null));
+		AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.SPELLBAR_REMOVE, null, slot));
 	}
 
 	private void sendPacketTypeAddNearestSlot(AbilityBase ability) {
-		AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.SPELLBAR_ADDNEAR, 0, ability));
+		AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.SPELLBAR_ADDNEAR, ability, 0));
 	}
 }

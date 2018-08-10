@@ -1,6 +1,8 @@
 package tamaized.aov.network.server;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
@@ -25,14 +27,25 @@ public class ServerPacketHandlerSpellSkill implements IMessageHandler<ServerPack
 			return;
 		switch (message.id) {
 			case CAST_SPELL: {
-				Ability ability = cap.getSlot(message.object);
+				if (message.data.length <= 0)
+					break;
+				Ability ability = cap.getSlot(message.data[0]);
 				if (ability == null)
 					break;
+				if (message.data.length > 1) {
+					Entity e = world.getEntityByID(message.data[1]);
+					if (e instanceof EntityLivingBase) {
+						ability.cast(player, (EntityLivingBase) e);
+						break;
+					}
+				}
 				ability.cast(player);
 			}
 			break;
 			case SKILLEDIT_CHECK_CANOBTAIN: {
-				AoVSkill skillToCheck = AoVSkill.getSkillFromID(message.object);
+				if (message.data.length <= 0)
+					break;
+				AoVSkill skillToCheck = AoVSkill.getSkillFromID(message.data[0]);
 				if (skillToCheck == null)
 					break;
 				if (skillToCheck.getParent() == null || cap.hasSkill(skillToCheck.getParent())) {
@@ -56,7 +69,8 @@ public class ServerPacketHandlerSpellSkill implements IMessageHandler<ServerPack
 			}
 			break;
 			case SPELLBAR_REMOVE: {
-				cap.removeSlot(message.object);
+				if (message.data.length > 0)
+					cap.removeSlot(message.data[0]);
 			}
 			break;
 			case SPELLBAR_ADDNEAR: {
@@ -80,7 +94,7 @@ public class ServerPacketHandlerSpellSkill implements IMessageHandler<ServerPack
 	public static class Packet implements IMessage {
 
 		public PacketType id;
-		public int object;
+		public int[] data = {};
 		public AbilityBase ability;
 
 		@SuppressWarnings("unused")
@@ -88,9 +102,9 @@ public class ServerPacketHandlerSpellSkill implements IMessageHandler<ServerPack
 
 		}
 
-		public Packet(PacketType type, int data, @Nullable AbilityBase ability) {
+		public Packet(PacketType type, @Nullable AbilityBase ability, int... data) {
 			id = type;
-			object = data;
+			this.data = data;
 			this.ability = ability;
 		}
 
@@ -99,14 +113,19 @@ public class ServerPacketHandlerSpellSkill implements IMessageHandler<ServerPack
 			PacketType[] types = PacketType.values();
 			int i = buf.readInt();
 			id = i >= types.length ? null : types[i];
-			object = buf.readInt();
+			int size = buf.readInt();
+			data = new int[size];
+			for (int index = 0; index < size; index++)
+				data[index] = buf.readInt();
 			ability = AbilityBase.getAbilityFromID(buf.readInt());
 		}
 
 		@Override
 		public void toBytes(ByteBuf buf) {
 			buf.writeInt(id.ordinal());
-			buf.writeInt(object);
+			buf.writeInt(data.length);
+			for (int dat : data)
+				buf.writeInt(dat);
 			buf.writeInt(AbilityBase.getID(ability));
 		}
 

@@ -108,4 +108,9 @@ public class Burst extends AbilityBase {
 		return false;
 	}
 
+	@Override
+	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+		return false;
+	}
+
 }

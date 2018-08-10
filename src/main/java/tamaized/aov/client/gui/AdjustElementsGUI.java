@@ -26,10 +26,10 @@ import static tamaized.aov.client.gui.AoVUIBar.slotLoc;
 public class AdjustElementsGUI extends GuiScreenClose {
 
 	public static final ResourceLocation TEXTURE_SPELLBAR = new ResourceLocation("textures/gui/widgets.png");
-	private static final ResourceLocation TEXTURE_ASTRO = new ResourceLocation(AoV.modid, "textures/gui/astro.png");
 
 	private static final int ELEMENT_SPELLBAR = 0;
 	private static final int ELEMENT_ASTRO = 1;
+	private static final int ELEMENT_TARGET = 2;
 
 	private Element heldElement = null;
 	private int oldMouseX;
@@ -43,6 +43,7 @@ public class AdjustElementsGUI extends GuiScreenClose {
 		ScaledResolution sr = new ScaledResolution(mc);
 		addButton(new Element(ELEMENT_SPELLBAR, (sr.getScaledWidth() / 2) - 91, 1, ConfigHandler.elementPositions.spellbar_x, ConfigHandler.elementPositions.spellbar_y, 182, 22, 0x00FFFF, ""));
 		addButton(new Element(ELEMENT_ASTRO, sr.getScaledWidth() * 2 / 3, sr.getScaledHeight() / 5 - 8, ConfigHandler.elementPositions.astro_x, ConfigHandler.elementPositions.astro_y, (int) (235F * 0.35F), (int) (143F * 0.35F) + 8, 0x00FFFF, ""));
+		addButton(new Element(ELEMENT_TARGET, 10, 150, ConfigHandler.elementPositions.target_x, ConfigHandler.elementPositions.target_y, 100, 41, 0x00FFFF, ""));
 	}
 
 	@Override
@@ -87,6 +88,10 @@ public class AdjustElementsGUI extends GuiScreenClose {
 				ConfigHandler.elementPositions.astro_x = element.x;
 				ConfigHandler.elementPositions.astro_y = element.y;
 				break;
+			case ELEMENT_TARGET:
+				ConfigHandler.elementPositions.target_x = element.x;
+				ConfigHandler.elementPositions.target_y = element.y;
+				break;
 		}
 	}
 
@@ -101,6 +106,7 @@ public class AdjustElementsGUI extends GuiScreenClose {
 			drawDefaultBackground();
 			renderSpellBar();
 			renderAstro();
+			renderFocus();
 		}
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		drawString(mc.fontRenderer, I18n.format("aov.repositionelements.exit", Keyboard.getKeyName(mc.gameSettings.keyBindInventory.getKeyCode()), Keyboard.getKeyName(Keyboard.KEY_ESCAPE)), 5, 5, 0xFFFF00);
@@ -130,7 +136,7 @@ public class AdjustElementsGUI extends GuiScreenClose {
 		GlStateManager.pushMatrix();
 		{
 			GlStateManager.color(1, 1, 1, 1);
-			mc.getTextureManager().bindTexture(TEXTURE_ASTRO);
+			mc.getTextureManager().bindTexture(AoVOverlay.TEXTURE_ASTRO);
 			GlStateManager.enableAlpha();
 			GlStateManager.enableBlend();
 			Tessellator tess = Tessellator.getInstance();
@@ -150,6 +156,38 @@ public class AdjustElementsGUI extends GuiScreenClose {
 			buffer.pos(x + 235F * scale, y, 0).tex(0.5F, 0).endVertex();
 			buffer.pos(x, y, 0).tex(0, 0).endVertex();
 			tess.draw();
+		}
+		GlStateManager.popMatrix();
+	}
+
+	private void renderFocus() {
+		GlStateManager.pushMatrix();
+		{
+			double x = 10 + ConfigHandler.elementPositions.target_x;
+			double y = 150 + ConfigHandler.elementPositions.target_y;
+			double w = 100;
+			double h = 41;
+
+			Tessellator tess = Tessellator.getInstance();
+			BufferBuilder buffer = tess.getBuffer();
+			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
+			GlStateManager.color(1F, 1F, 1F, 1F);
+			GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+			{
+
+				float r = 1F;
+				float g = 1F;
+				float b = 1F;
+				float a = 1F;
+
+				buffer.pos(x + w, y, 0).tex(1, 0).color(r, g, b, a).endVertex();
+				buffer.pos(x, y, 0).tex(0, 0).color(r, g, b, a).endVertex();
+				buffer.pos(x, y + h, 0).tex(0, 1).color(r, g, b, a).endVertex();
+				buffer.pos(x + w, y + h, 0).tex(1, 1).color(r, g, b, a).endVertex();
+
+				Minecraft.getMinecraft().renderEngine.bindTexture(AoVOverlay.TEXTURE_FOCUS);
+				tess.draw();
+			}
 		}
 		GlStateManager.popMatrix();
 	}

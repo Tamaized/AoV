@@ -91,30 +91,39 @@ public class FlameStrike extends AbilityBase {
 	}
 
 	@Override
+	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+		return IAoVCapability.selectiveTarget(caster, cap, target);
+	}
+
+	@Override
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
 		if (cap == null)
 			return false;
 		int a = (int) (damage * (1f + (cap.getSpellPower() / 100f)));
 		ProjectileFlameStrike strike = new ProjectileFlameStrike(caster.world, caster, a);
-		HashSet<Entity> exclude = new HashSet<>();
-		exclude.add(caster);
-		RayTraceResult result = RayTraceHelper.tracePath(caster.world, caster, distance, 1, exclude);
-		if (result != null && result.typeOfHit != null) {
-			switch (result.typeOfHit) {
-				case BLOCK:
-					BlockPos pos = result.getBlockPos();
-					strike.setPosition(pos.getX(), pos.getY() + 15, pos.getZ());
-					break;
-				case ENTITY:
-					pos = result.entityHit.getPosition();
-					strike.setPosition(pos.getX(), pos.getY() + 15, pos.getZ());
-					break;
-				default:
-					pos = caster.getPosition();
-					strike.setPosition(pos.getX(), pos.getY() + 15, pos.getZ());
-					break;
+		if(target == null) {
+			HashSet<Entity> exclude = new HashSet<>();
+			exclude.add(caster);
+			RayTraceResult result = RayTraceHelper.tracePath(caster.world, caster, distance, 1, exclude);
+			if (result != null && result.typeOfHit != null) {
+				switch (result.typeOfHit) {
+					case BLOCK:
+						BlockPos pos = result.getBlockPos();
+						strike.setPosition(pos.getX(), pos.getY() + 15, pos.getZ());
+						break;
+					case ENTITY:
+						pos = result.entityHit.getPosition();
+						strike.setPosition(pos.getX(), pos.getY() + 15, pos.getZ());
+						break;
+					default:
+						pos = caster.getPosition();
+						strike.setPosition(pos.getX(), pos.getY() + 15, pos.getZ());
+						break;
+				}
 			}
+		} else {
+			strike.setPosition(target.posX, target.posY + 15, target.posZ);
 		}
 		caster.world.spawnEntity(strike);
 		strike.world.playSound(null, strike.posX, strike.posY - 20, strike.posZ, SoundEvents.firestrike, SoundCategory.NEUTRAL, 1.0F, 1.0F);

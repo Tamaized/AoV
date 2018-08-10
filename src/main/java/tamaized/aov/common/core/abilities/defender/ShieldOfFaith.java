@@ -66,6 +66,11 @@ public class ShieldOfFaith extends AbilityBase {
 		return true;
 	}
 
+	@Override
+	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+		return IAoVCapability.selectiveTarget(caster, cap, target);
+	}
+
 	protected int getParticleColor() {
 		return 0xFFFFFFFF;
 	}

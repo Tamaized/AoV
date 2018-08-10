@@ -144,7 +144,7 @@ public class AoVSkillsGUI extends GuiScreenClose {
 
 	private boolean beginChecks(SkillButton button) {
 		if ((button.getSkill() == null || !cap.hasSkill(button.getSkill())) && button.canObtain(cap))
-			AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.SKILLEDIT_CHECK_CANOBTAIN, button.getSkill().getID(), null));
+			AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.SKILLEDIT_CHECK_CANOBTAIN, null, button.getSkill().getID()));
 		return false;
 	}
 
