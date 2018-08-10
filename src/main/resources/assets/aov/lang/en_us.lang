@@ -11,7 +11,7 @@ commands.aov.success.reset=Reset Success
 
 # Death
 death.attack.aov.destruction=%s has been destroyed
-death.attack.aov.nimbusRay=%s has been irradiated
+death.attack.aov.nimbusray=%s has been irradiated
 death.attack.aov.cosmic=%s has fallen fate to the stars
 
 # Potion
