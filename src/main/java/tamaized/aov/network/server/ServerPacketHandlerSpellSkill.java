@@ -14,6 +14,7 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.skills.AoVSkill;
+import tamaized.aov.common.core.skills.AoVSkills;
 
 import javax.annotation.Nullable;
 
@@ -45,7 +46,7 @@ public class ServerPacketHandlerSpellSkill implements IMessageHandler<ServerPack
 			case SKILLEDIT_CHECK_CANOBTAIN: {
 				if (message.data.length <= 0)
 					break;
-				AoVSkill skillToCheck = AoVSkill.getSkillFromID(message.data[0]);
+				AoVSkill skillToCheck = AoVSkills.getSkillFromID(message.data[0]);
 				if (skillToCheck == null)
 					break;
 				if (skillToCheck.getParent() == null || cap.hasSkill(skillToCheck.getParent())) {

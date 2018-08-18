@@ -12,6 +12,7 @@ import tamaized.aov.common.config.ConfigHandler;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.skills.AoVSkill;
+import tamaized.aov.common.core.skills.AoVSkills;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -62,7 +63,7 @@ public class AoVCapabilityStorage implements IStorage<IAoVCapability> {
 		if (tag instanceof NBTTagList) {
 			NBTTagList list = (NBTTagList) tag;
 			for (int index = 0; index < list.tagCount(); index++) {
-				instance.addObtainedSkill(AoVSkill.getSkillFromID(list.getIntAt(index)));
+				instance.addObtainedSkill(AoVSkills.getSkillFromID(list.getIntAt(index)));
 			}
 		}
 		Map<AbilityBase, DecayWrapper> decay = new HashMap<>();

@@ -90,6 +90,21 @@ public class Abilities {
 	public static AbilityBase gravity;
 	public static AbilityBase celestialopposition;
 
+	//Druid
+	public static AbilityBase wildshapeWolf;
+	public static AbilityBase furiousClaw;
+	public static AbilityBase druidicRegenerate;
+	public static AbilityBase litStrike;
+	public static AbilityBase furiousFang;
+	public static AbilityBase naturesBounty;
+	public static AbilityBase earthquake;
+	public static AbilityBase furiousHowl;
+	public static AbilityBase wildshapeWaterElemental;
+	public static AbilityBase lightningStorm;
+	public static AbilityBase formPack;
+	public static AbilityBase wildshapeFireElemental;
+	public static AbilityBase elementalEmpowerment;
+
 	public static void register() {
 
 		// Universal

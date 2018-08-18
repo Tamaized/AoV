@@ -12,6 +12,7 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.skills.AoVSkill;
+import tamaized.aov.common.core.skills.AoVSkills;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +77,7 @@ public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketH
 			int size = stream.readInt();
 			obtainedSkills.clear();
 			for (int index = 0; index < size; index++) {
-				obtainedSkills.add(AoVSkill.getSkillFromID(stream.readInt()));
+				obtainedSkills.add(AoVSkills.getSkillFromID(stream.readInt()));
 			}
 			skillPoints = stream.readInt();
 			exp = stream.readInt();

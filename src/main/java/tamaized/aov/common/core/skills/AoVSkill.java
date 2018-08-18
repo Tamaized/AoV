@@ -8,65 +8,141 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.common.core.abilities.AbilityBase;
 
-import java.util.Arrays;
 import java.util.List;
 
-public abstract class AoVSkill {
+public class AoVSkill {
 
-	private static final List<AoVSkill> registry = Lists.newArrayList();
 	private final List<AbilityBase> abilities;
 	private final List<TextComponentTranslation> description = Lists.newArrayList();
 
-	public AoVSkill(List<AbilityBase> spells, TextComponentTranslation... desc) {
-		description.clear();
-		description.addAll(Arrays.asList(desc));
+	private final TextComponentTranslation name;
+	private final ResourceLocation icon;
+	private final int level;
+	private final int spentpoints;
+	private final int charges;
+	private final int cost;
+	private final int spellpower;
+	private final int dodge;
+	private final int doublestrike;
+	@Deprecated
+	private final boolean selective;
+	private final boolean core;
+	private final AoVSkill parent;
+
+	public AoVSkill(TextComponentTranslation name, ResourceLocation icon, int level, int spentpoints, int charges, int cost, int spellpower, int dodge, int doublestrike, boolean selective, boolean core, AoVSkill parent, List<AbilityBase> spells, TextComponentTranslation... desc) {
+		this.name = name;
+		this.icon = icon;
+		this.level = level;
+		this.spentpoints = spentpoints;
+		this.charges = charges;
+		this.cost = cost;
+		this.spellpower = spellpower;
+		this.dodge = dodge;
+		this.doublestrike = doublestrike;
+		this.selective = selective;
+		this.core = core;
+		this.parent = parent;
 		abilities = spells;
-		registry.add(this);
 	}
 
-	public static int getID(AoVSkill skill) {
-		return registry.contains(skill) ? registry.indexOf(skill) : -1;
-	}
+	public AoVSkill setupTooltip(TextComponentTranslation desc) {
+		description.clear();
+		description.add(name);
+		if (isClassCore()) {
+			description.add(new TextComponentTranslation("aov.skill.global.core"));
+			description.add(new TextComponentTranslation(""));
+		}
+		if (getCharges() > 0)
+			description.add(new TextComponentTranslation("aov.skill.global.charge", getCharges()));
+		if (spellpower > 0)
+			description.add(new TextComponentTranslation("aov.skill.global.spellpower", spellpower));
+		if (dodge > 0)
+			description.add(new TextComponentTranslation("aov.skill.global.dodge", dodge));
+		if (doublestrike > 0)
+			description.add(new TextComponentTranslation("aov.skill.global.doublestrike", doublestrike));
 
-	public static AoVSkill getSkillFromID(int id) {
-		return id >= 0 && id < registry.size() ? registry.get(id) : null;
+		if (!isClassCore()) {
+			description.add(new TextComponentTranslation(""));
+			if (level > 0)
+				description.add(new TextComponentTranslation("aov.skill.global.minlevel", level));
+			if (spentpoints > 0)
+				description.add(new TextComponentTranslation("aov.skill.global.minpoint", spentpoints));
+			if (parent != null)
+				description.add(new TextComponentTranslation("aov.skill.global.parent", parent.getName().getKey()));
+		}
+
+		if (desc != null) {
+			description.add(new TextComponentTranslation(""));
+			description.add(desc);
+		}
+		return this;
 	}
 
 	public final int getID() {
-		return getID(this);
+		return AoVSkills.getID(this);
+	}
+
+	public TextComponentTranslation getName() {
+		return name;
 	}
 
 	public final List<AbilityBase> getAbilities() {
 		return abilities;
 	}
 
-	public abstract int getCharges();
+	public int getCharges() {
+		return charges;
+	}
 
-	public abstract int getSpellPower();
+	public int getSpellPower() {
+		return spellpower;
+	}
 
-	public abstract int getDodge();
+	public int getDodge() {
+		return dodge;
+	}
 
-	public abstract int getDoubleStrike();
+	public int getDoubleStrike() {
+		return doublestrike;
+	}
 
-	public abstract boolean grantsSelectiveFocus();
+	@Deprecated
+	public boolean grantsSelectiveFocus() {
+		return selective;
+	}
 
-	public abstract boolean isClassCore();
+	public boolean isClassCore() {
+		return core;
+	}
 
-	public abstract AoVSkill getParent();
+	public AoVSkill getParent() {
+		return parent;
+	}
 
-	public abstract int getCost();
+	public int getCost() {
+		return cost;
+	}
 
-	public abstract int getLevel();
+	public int getLevel() {
+		return level;
+	}
 
-	public abstract int getSpentPoints();
+	public int getSpentPoints() {
+		return spentpoints;
+	}
 
-	public abstract ResourceLocation getIcon();
+	public ResourceLocation getIcon() {
+		return icon;
+	}
 
 	@SideOnly(Side.CLIENT)
 	public final List<String> getDescription() {
 		List<String> list = Lists.newArrayList();
 		for (TextComponentTranslation s : description) {
-			list.add(I18n.format(s.getKey(), s.getFormatArgs()));
+			Object[] args = new Object[s.getFormatArgs().length];
+			for (int index = 0; index < args.length; index++)
+				args[index] = I18n.format(String.valueOf(s.getFormatArgs()[index]));
+			list.add(I18n.format(s.getKey(), args));
 		}
 		return list;
 	}

@@ -1,3 +1,4 @@
+#PARSE_ESCAPES
 # Tab
 itemGroup.aov=Angel of Vengeance
 
@@ -163,6 +164,7 @@ aov.spells.timedilation.desc=§5A single target ability that doubles the duratio
 aov.skill.global.core=§cObtaining this skill prevents you from taking skills from any other class!
 aov.skill.global.minlevel=§cRequires: Level %s
 aov.skill.global.minpoint=§cRequires: %s Point(s) Spent in Tree
+aov.skill.global.parent=§cRequires: %s
 aov.skill.global.charge=§a+%s Charge
 aov.skill.global.spellpower=§a+%s Spell Power
 aov.skill.global.dodge=§a+%s Dodge
@@ -170,7 +172,7 @@ aov.skill.global.doublestrike=§a+%s Doublestrike
 aov.skill.global.selective.name=§bSelective Focus
 aov.skill.global.selective.desc=§5Your Spells no longer affect Monsters if they benefit from the Spell or Friendly Players/Creatures if they would be harmed by the spell.
 aov.skill.global.invoke.name=§bInvoke Mass
-aov.skill.global.invoke.desc=§eAdded Ability: Invoke Mass While this toggle is active your spells cost double but can be cast as an AoE (Area of Effect)
+aov.skill.global.invoke.desc=§eAdded Ability: Invoke Mass\nWhile this toggle is active your spells cost double but can be cast as an AoE (Area of Effect)
 
 ## Caster
 ### Core
