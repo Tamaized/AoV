@@ -34,7 +34,7 @@ tile.aov.blockangelic.name=Angelic Statue
 
 # KeyBinds
 key.categories.aov=Angel of Vengeance
-key.aov.target=Lock-On Targetting
+key.aov.target=Lock-On Targeting
 key.aov.bartoggle=Toggle Spell Bar
 key.aov.bar.0=Activate Spell Slot 1
 key.aov.bar.1=Activate Spell Slot 2
