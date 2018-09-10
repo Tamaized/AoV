@@ -23,6 +23,9 @@ import tamaized.aov.common.capabilities.astro.IAstroCapability;
 import tamaized.aov.common.capabilities.leap.ILeapCapability;
 import tamaized.aov.common.capabilities.leap.LeapCapabilityHandler;
 import tamaized.aov.common.capabilities.leap.LeapCapabilityStorage;
+import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
+import tamaized.aov.common.capabilities.polymorph.PolymorphCapabilityHandler;
+import tamaized.aov.common.capabilities.polymorph.PolymorphCapabilityStorage;
 import tamaized.aov.common.capabilities.stun.IStunCapability;
 import tamaized.aov.common.capabilities.stun.StunCapabilityHandler;
 import tamaized.aov.common.capabilities.stun.StunCapabilityStorage;
@@ -39,7 +42,7 @@ import tamaized.aov.common.entity.EntitySpellImplosion;
 import tamaized.aov.common.entity.EntitySpellVanillaParticles;
 import tamaized.aov.common.entity.ProjectileFlameStrike;
 import tamaized.aov.common.entity.ProjectileNimbusRay;
-import tamaized.aov.common.events.LivingAttackEvent;
+import tamaized.aov.common.events.AttackHandler;
 import tamaized.aov.common.events.PlayerInteractHandler;
 import tamaized.aov.common.events.TickHandler;
 import tamaized.aov.common.gui.GuiHandler;
@@ -121,6 +124,7 @@ public class AoV extends TamModBase {
 		CapabilityManager.INSTANCE.register(IAstroCapability.class, new AstroCapabilityStorage(), AstroCapabilityHandler::new);
 		CapabilityManager.INSTANCE.register(IStunCapability.class, new StunCapabilityStorage(), StunCapabilityHandler::new);
 		CapabilityManager.INSTANCE.register(ILeapCapability.class, new LeapCapabilityStorage(), LeapCapabilityHandler::new);
+		CapabilityManager.INSTANCE.register(IPolymorphCapability.class, new PolymorphCapabilityStorage(), PolymorphCapabilityHandler::new);
 		MinecraftForge.EVENT_BUS.register(new CapabilityList());
 	}
 
@@ -130,7 +134,7 @@ public class AoV extends TamModBase {
 
 		MinecraftForge.EVENT_BUS.register(new TickHandler());
 		MinecraftForge.EVENT_BUS.register(new PlayerInteractHandler());
-		MinecraftForge.EVENT_BUS.register(new LivingAttackEvent());
+		MinecraftForge.EVENT_BUS.register(new AttackHandler());
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 

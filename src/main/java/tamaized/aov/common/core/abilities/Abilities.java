@@ -1,5 +1,6 @@
 package tamaized.aov.common.core.abilities;
 
+import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.core.abilities.astro.AspectedBenefic;
 import tamaized.aov.common.core.abilities.astro.AspectedHelios;
 import tamaized.aov.common.core.abilities.astro.Benefic;
@@ -26,6 +27,7 @@ import tamaized.aov.common.core.abilities.defender.Aid;
 import tamaized.aov.common.core.abilities.defender.ShieldOfFaith;
 import tamaized.aov.common.core.abilities.defender.StalwartPact;
 import tamaized.aov.common.core.abilities.defender.Zeal;
+import tamaized.aov.common.core.abilities.druid.Polymorph;
 import tamaized.aov.common.core.abilities.healer.Cores.Burst;
 import tamaized.aov.common.core.abilities.healer.Cores.PosEnergyAura;
 import tamaized.aov.common.core.abilities.healer.Cures.CureBlind;
@@ -156,6 +158,10 @@ public class Abilities {
 		combust = new Combust();
 		gravity = new Gravity();
 		celestialopposition = new CelestialOpposition();
+
+		wildshapeWolf = new Polymorph("wolf", IPolymorphCapability.Morph.Wolf);
+		wildshapeWaterElemental = new Polymorph("water", IPolymorphCapability.Morph.WaterElemental);
+		wildshapeFireElemental = new Polymorph("fire", IPolymorphCapability.Morph.FireElemental);
 	}
 
 }

@@ -10,19 +10,24 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.registry.AoVPotions;
 import tamaized.tammodized.common.helper.FloatyTextHelper;
 
-public class LivingAttackEvent {
+public class AttackHandler {
 
-	private boolean state = true;
+	private boolean livingAttackState = true;
+	private boolean attackEntityState = true;
 
 	@SubscribeEvent
 	public void onLivingFallEvent(LivingFallEvent event) {
@@ -36,8 +41,21 @@ public class LivingAttackEvent {
 			event.setAmount(event.getAmount() / 2F);
 	}
 
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
+	public void onPlayerMeleeAttack(AttackEntityEvent e) {
+		EntityPlayer player = e.getEntityPlayer();
+		IPolymorphCapability poly = player.hasCapability(CapabilityList.POLYMORPH, null) ? player.getCapability(CapabilityList.POLYMORPH, null) : null;
+		if (poly != null && poly.getMorph() == IPolymorphCapability.Morph.Wolf && attackEntityState) {
+			IAoVCapability cap = player.hasCapability(CapabilityList.AOV, null) ? player.getCapability(CapabilityList.AOV, null) : null;
+			attackEntityState = false;
+			e.getTarget().attackEntityFrom(DamageSource.causePlayerDamage(e.getEntityPlayer()), 4.0F * (1.0F + (cap == null ? 0F : cap.getSpellPower())));
+			attackEntityState = true;
+			e.setCanceled(true);
+		}
+	}
+
 	@SubscribeEvent
-	public void onLivingAttack(net.minecraftforge.event.entity.living.LivingAttackEvent event) {
+	public void onLivingAttack(LivingAttackEvent event) {
 		Entity attacker = event.getSource().getTrueSource();
 		EntityLivingBase entity = event.getEntityLiving();
 		if (entity.world.isRemote)
@@ -46,14 +64,14 @@ public class LivingAttackEvent {
 		// DoubleStrike
 		if (attacker != null && attacker.hasCapability(CapabilityList.AOV, null)) {
 			IAoVCapability cap = attacker.getCapability(CapabilityList.AOV, null);
-			if (cap != null && state && attacker.world.rand.nextInt(cap.getDoubleStrikeForRand()) == 0) {
-				state = false;
+			if (cap != null && livingAttackState && attacker.world.rand.nextInt(cap.getDoubleStrikeForRand()) == 0) {
+				livingAttackState = false;
 				cap.addExp(attacker, 20, Abilities.defenderDoublestrike);
 				if (attacker instanceof EntityPlayer)
 					FloatyTextHelper.sendText((EntityPlayer) attacker, "Doublestrike");
 				entity.attackEntityFrom(event.getSource(), event.getAmount());
 				entity.hurtResistantTime = 0;
-				state = true;
+				livingAttackState = true;
 			}
 			EntityLivingBase attackerLiving = null;
 			if (attacker instanceof EntityLivingBase)
@@ -93,7 +111,7 @@ public class LivingAttackEvent {
 		}
 	}
 
-	private void handleShield(net.minecraftforge.event.entity.living.LivingAttackEvent e, boolean fullRadial) {
+	private void handleShield(LivingAttackEvent e, boolean fullRadial) {
 		float damage = e.getAmount();
 		EntityPlayer player;
 		if (!(e.getEntityLiving() instanceof EntityPlayer)) {

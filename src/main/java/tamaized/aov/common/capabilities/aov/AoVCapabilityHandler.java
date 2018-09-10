@@ -13,6 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
+import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.config.ConfigHandler;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.Ability;
@@ -649,7 +650,9 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	private void sendPacketUpdates(EntityPlayerMP player) {
-		AoV.network.sendTo(new ClientPacketHandlerAoVData.Packet(this), player);
+		IPolymorphCapability poly = player.hasCapability(CapabilityList.POLYMORPH, null) ? player.getCapability(CapabilityList.POLYMORPH, null) : null;
+		if (poly != null)
+			AoV.network.sendTo(new ClientPacketHandlerAoVData.Packet(this, poly), player);
 	}
 
 	protected class DecayWrapper {

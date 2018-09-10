@@ -20,6 +20,7 @@ import tamaized.aov.AoV;
 import tamaized.aov.client.gui.AoVUIBar;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.proxy.ClientProxy;
 
 import java.util.List;
@@ -121,9 +122,6 @@ public class KeyHandler {
 			}
 			return;
 		}
-		IAoVCapability cap = player.hasCapability(CapabilityList.AOV, null) ? player.getCapability(CapabilityList.AOV, null) : null;
-		if (cap == null)
-			return;
 		if (ClientProxy.barToggle) {
 			for (int i = 0; i <= 8; i++) {
 				KeyBinding keyBind = Minecraft.getMinecraft().gameSettings.keyBindsHotbar[i];
@@ -133,10 +131,21 @@ public class KeyHandler {
 					break;
 				}
 			}
-			KeyBinding itemUse = Minecraft.getMinecraft().gameSettings.keyBindUseItem;
-			if (itemUse.isPressed()) {
-				cap.cast(AoVUIBar.slotLoc);
-				KeyBinding.setKeyBindState(itemUse.getKeyCode(), false);
+		}
+		KeyBinding itemUse = Minecraft.getMinecraft().gameSettings.keyBindUseItem;
+		if (itemUse.isPressed()) {
+			if (ClientProxy.barToggle) {
+				IAoVCapability cap = player.hasCapability(CapabilityList.AOV, null) ? player.getCapability(CapabilityList.AOV, null) : null;
+				if (cap != null) {
+					cap.cast(AoVUIBar.slotLoc);
+					KeyBinding.setKeyBindState(itemUse.getKeyCode(), false);
+				}
+			} else {
+				IPolymorphCapability cap = player.hasCapability(CapabilityList.POLYMORPH, null) ? player.getCapability(CapabilityList.POLYMORPH, null) : null;
+				if (cap != null) {
+					cap.doAttack(player, false);
+					KeyBinding.setKeyBindState(itemUse.getKeyCode(), false);
+				}
 			}
 		}
 	}
@@ -197,29 +206,32 @@ public class KeyHandler {
 		}
 		mx = Mouse.getX();
 		my = Mouse.getY();
-		if (!ClientProxy.barToggle)
-			return;
-		KeyBinding itemUse = Minecraft.getMinecraft().gameSettings.keyBindUseItem;
-		if (e.getDwheel() > 0)
-			AoVUIBar.slotLoc--;
-		if (e.getDwheel() < 0)
-			AoVUIBar.slotLoc++;
-		if (AoVUIBar.slotLoc < 0)
-			AoVUIBar.slotLoc = 8;
-		if (AoVUIBar.slotLoc > 8)
-			AoVUIBar.slotLoc = 0;
-		if (e.getDwheel() != 0)
-			e.setCanceled(true);
-		if (!player.hasCapability(CapabilityList.AOV, null))
-			return;
-		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
-		if (cap == null)
-			return;
-		if (e.getButton() - 100 == itemUse.getKeyCode() && e.isButtonstate()) {
-			// Cancel item use on the main hotbar if we're a mouse button
-			cap.cast(AoVUIBar.slotLoc);
-			KeyBinding.setKeyBindState(itemUse.getKeyCode(), false);
-			e.setCanceled(true);
+		IPolymorphCapability poly = player.hasCapability(CapabilityList.POLYMORPH, null) ? player.getCapability(CapabilityList.POLYMORPH, null) : null;
+		if (ClientProxy.barToggle) {
+			if (e.getDwheel() > 0)
+				AoVUIBar.slotLoc--;
+			if (e.getDwheel() < 0)
+				AoVUIBar.slotLoc++;
+			if (AoVUIBar.slotLoc < 0)
+				AoVUIBar.slotLoc = 8;
+			if (AoVUIBar.slotLoc > 8)
+				AoVUIBar.slotLoc = 0;
+		}
+		if (ClientProxy.barToggle || (poly != null && poly.getMorph() == IPolymorphCapability.Morph.Wolf)) {
+			if (e.getDwheel() != 0)
+				e.setCanceled(true);
+			KeyBinding itemUse = Minecraft.getMinecraft().gameSettings.keyBindUseItem;
+			IAoVCapability cap = player.hasCapability(CapabilityList.AOV, null) ? player.getCapability(CapabilityList.AOV, null) : null;
+			if (e.getButton() - 100 == itemUse.getKeyCode() && e.isButtonstate()) {
+				// Cancel item use on the main hotbar if we're a mouse button
+				if (ClientProxy.barToggle && cap != null)
+					cap.cast(AoVUIBar.slotLoc);
+				if (!ClientProxy.barToggle && poly != null && poly.getMorph() == IPolymorphCapability.Morph.Wolf) {
+					poly.doAttack(player, false);
+				}
+				KeyBinding.setKeyBindState(itemUse.getKeyCode(), false);
+				e.setCanceled(true);
+			}
 		}
 	}
 }

@@ -10,6 +10,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.skills.AoVSkill;
 import tamaized.aov.common.core.skills.AoVSkills;
@@ -21,22 +22,24 @@ public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketH
 
 	@SideOnly(Side.CLIENT)
 	private static void processPacket(ClientPacketHandlerAoVData.Packet message, EntityPlayer player) {
-		if (player.hasCapability(CapabilityList.AOV, null)) {
-			IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
-			if (cap != null) {
-				cap.getObtainedSkills().clear();
-				for (AoVSkill skill : message.obtainedSkills)
-					cap.addObtainedSkill(skill);
-				cap.setSkillPoints(message.skillPoints);
-				cap.setExp(message.exp);
-				cap.setMaxLevel(message.maxLevel);
-				cap.toggleInvokeMass(message.invokeMass);
-				for (int index = 0; index < 9; index++)
-					cap.setSlot(message.slots[index], index, true);
-				cap.setCurrentSlot(message.currentSlot);
-				cap.markDirty();
-				cap.setLoaded();
-			}
+		IAoVCapability cap = player.hasCapability(CapabilityList.AOV, null) ? player.getCapability(CapabilityList.AOV, null) : null;
+		if (cap != null) {
+			cap.getObtainedSkills().clear();
+			for (AoVSkill skill : message.obtainedSkills)
+				cap.addObtainedSkill(skill);
+			cap.setSkillPoints(message.skillPoints);
+			cap.setExp(message.exp);
+			cap.setMaxLevel(message.maxLevel);
+			cap.toggleInvokeMass(message.invokeMass);
+			for (int index = 0; index < 9; index++)
+				cap.setSlot(message.slots[index], index, true);
+			cap.setCurrentSlot(message.currentSlot);
+			cap.markDirty();
+			cap.setLoaded();
+		}
+		IPolymorphCapability poly = player.hasCapability(CapabilityList.POLYMORPH, null) ? player.getCapability(CapabilityList.POLYMORPH, null) : null;
+		if (poly != null) {
+			poly.morph(message.polymorph);
 		}
 	}
 
@@ -56,13 +59,14 @@ public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketH
 		private boolean invokeMass;
 		private Ability[] slots = new Ability[]{null, null, null, null, null, null, null, null, null};
 		private int currentSlot;
+		private IPolymorphCapability.Morph polymorph;
 
 		@SuppressWarnings("unused")
 		public Packet() {
 
 		}
 
-		public Packet(IAoVCapability cap) {
+		public Packet(IAoVCapability cap, IPolymorphCapability poly) {
 			obtainedSkills = cap.getObtainedSkills();
 			skillPoints = cap.getSkillPoints();
 			exp = cap.getExp();
@@ -70,6 +74,7 @@ public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketH
 			invokeMass = cap.getInvokeMass();
 			slots = cap.getSlots();
 			currentSlot = cap.getCurrentSlot();
+			polymorph = poly.getMorph();
 		}
 
 		@Override
@@ -87,6 +92,7 @@ public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketH
 				slots[index] = stream.readBoolean() ? Ability.construct(stream) : null;
 			}
 			currentSlot = stream.readInt();
+			polymorph = IPolymorphCapability.Morph.getMorph(stream.readInt());
 		}
 
 		@Override
@@ -108,6 +114,7 @@ public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketH
 				}
 			}
 			stream.writeInt(currentSlot);
+			stream.writeInt(polymorph == null ? -1 : polymorph.ordinal());
 		}
 	}
 }

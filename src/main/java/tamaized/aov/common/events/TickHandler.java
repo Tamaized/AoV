@@ -1,5 +1,6 @@
 package tamaized.aov.common.events;
 
+import com.google.common.collect.Lists;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,12 +17,13 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
 import tamaized.aov.common.capabilities.leap.ILeapCapability;
+import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.capabilities.stun.IStunCapability;
+import tamaized.aov.common.helper.UtilHelper;
 import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.AoVPotions;
 
 import java.util.List;
-import com.google.common.collect.Lists;
 
 public class TickHandler {
 
@@ -68,6 +70,10 @@ public class TickHandler {
 			if (cap != null)
 				cap.update(player);
 		}
+		IPolymorphCapability cap = player.hasCapability(CapabilityList.POLYMORPH, null) ? player.getCapability(CapabilityList.POLYMORPH, null) : null;
+		if (cap != null) {
+			cap.update(player);
+		}
 	}
 
 	@SubscribeEvent
@@ -93,7 +99,7 @@ public class TickHandler {
 		for (Entity entity : list) {
 			if (!(entity instanceof EntityLivingBase))
 				continue;
-			if(entity.isDead)
+			if (entity.isDead)
 				continue;
 			IStunCapability cap = entity.hasCapability(CapabilityList.STUN, null) ? entity.getCapability(CapabilityList.STUN, null) : null;
 			if (cap != null)

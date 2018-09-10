@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
 import tamaized.aov.common.capabilities.leap.ILeapCapability;
+import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.capabilities.stun.IStunCapability;
 
 import javax.annotation.Nonnull;
@@ -29,6 +30,8 @@ public class CapabilityList {
 	public static final Capability<IStunCapability> STUN;
 	@CapabilityInject(ILeapCapability.class)
 	public static final Capability<ILeapCapability> LEAP;
+	@CapabilityInject(IPolymorphCapability.class)
+	public static final Capability<IPolymorphCapability> POLYMORPH;
 
 	// Tricks Intellij
 	static {
@@ -36,6 +39,7 @@ public class CapabilityList {
 		ASTRO = null;
 		STUN = null;
 		LEAP = null;
+		POLYMORPH = null;
 	}
 
 	@SubscribeEvent
@@ -43,51 +47,76 @@ public class CapabilityList {
 		if (e.getObject() instanceof EntityPlayer) {
 			e.addCapability(IAoVCapability.ID, new ICapabilitySerializable<NBTTagCompound>() {
 
-				IAoVCapability inst = CapabilityList.AOV.getDefaultInstance();
+				IAoVCapability inst = AOV.getDefaultInstance();
 
 				@Override
 				public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing facing) {
-					return capability == CapabilityList.AOV;
+					return capability == AOV;
 				}
 
 				@Override
 				public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
-					return capability == CapabilityList.AOV ? CapabilityList.AOV.<T>cast(inst) : null;
+					return capability == AOV ? AOV.<T>cast(inst) : null;
 				}
 
 				@Override
 				public NBTTagCompound serializeNBT() {
-					return (NBTTagCompound) CapabilityList.AOV.getStorage().writeNBT(CapabilityList.AOV, inst, null);
+					return (NBTTagCompound) AOV.getStorage().writeNBT(AOV, inst, null);
 				}
 
 				@Override
 				public void deserializeNBT(NBTTagCompound nbt) {
-					CapabilityList.AOV.getStorage().readNBT(CapabilityList.AOV, inst, null, nbt);
+					AOV.getStorage().readNBT(AOV, inst, null, nbt);
 				}
 
 			});
 			e.addCapability(IAstroCapability.ID, new ICapabilitySerializable<NBTTagCompound>() {
 
-				IAstroCapability inst = CapabilityList.ASTRO.getDefaultInstance();
+				IAstroCapability inst = ASTRO.getDefaultInstance();
 
 				@Override
 				public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing facing) {
-					return capability == CapabilityList.ASTRO;
+					return capability == ASTRO;
 				}
 
 				@Override
 				public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
-					return capability == CapabilityList.ASTRO ? CapabilityList.ASTRO.<T>cast(inst) : null;
+					return capability == ASTRO ? ASTRO.<T>cast(inst) : null;
 				}
 
 				@Override
 				public NBTTagCompound serializeNBT() {
-					return (NBTTagCompound) CapabilityList.ASTRO.getStorage().writeNBT(CapabilityList.ASTRO, inst, null);
+					return (NBTTagCompound) ASTRO.getStorage().writeNBT(ASTRO, inst, null);
 				}
 
 				@Override
 				public void deserializeNBT(NBTTagCompound nbt) {
-					CapabilityList.ASTRO.getStorage().readNBT(CapabilityList.ASTRO, inst, null, nbt);
+					ASTRO.getStorage().readNBT(ASTRO, inst, null, nbt);
+				}
+
+			});
+			e.addCapability(IPolymorphCapability.ID, new ICapabilitySerializable<NBTTagCompound>() {
+
+				IPolymorphCapability inst = POLYMORPH.getDefaultInstance();
+
+				@Override
+				public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing facing) {
+					return capability == POLYMORPH;
+				}
+
+				@Override
+				public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
+					return capability == POLYMORPH ? POLYMORPH.<T>cast(inst) : null;
+				}
+
+				@Override
+				public NBTTagCompound serializeNBT() {
+					return (NBTTagCompound) POLYMORPH.getStorage().writeNBT(POLYMORPH, inst, null);
+				}
+
+				@Override
+				public void deserializeNBT(NBTTagCompound nbt) {
+					POLYMORPH.getStorage().readNBT(POLYMORPH, inst, null, nbt);
 				}
 
 			});
@@ -95,53 +124,51 @@ public class CapabilityList {
 		if (e.getObject() instanceof EntityLivingBase) {
 			e.addCapability(IStunCapability.ID, new ICapabilitySerializable<NBTTagCompound>() {
 
-				IStunCapability inst = CapabilityList.STUN.getDefaultInstance();
+				IStunCapability inst = STUN.getDefaultInstance();
 
 				@Override
 				public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing facing) {
-					return capability == CapabilityList.STUN;
+					return capability == STUN;
 				}
 
 				@Override
 				public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
-					return capability == CapabilityList.STUN ? CapabilityList.STUN.<T>cast(inst) : null;
+					return capability == STUN ? STUN.<T>cast(inst) : null;
 				}
 
 				@Override
 				public NBTTagCompound serializeNBT() {
-					return (NBTTagCompound) CapabilityList.STUN.getStorage().writeNBT(CapabilityList.STUN, inst, null);
+					return (NBTTagCompound) STUN.getStorage().writeNBT(STUN, inst, null);
 				}
 
 				@Override
 				public void deserializeNBT(NBTTagCompound nbt) {
-					CapabilityList.STUN.getStorage().readNBT(CapabilityList.STUN, inst, null, nbt);
+					STUN.getStorage().readNBT(STUN, inst, null, nbt);
 				}
 
 			});
-		}
-		if (e.getObject() instanceof EntityLivingBase) {
 			e.addCapability(ILeapCapability.ID, new ICapabilitySerializable<NBTTagCompound>() {
 
-				ILeapCapability inst = CapabilityList.LEAP.getDefaultInstance();
+				ILeapCapability inst = LEAP.getDefaultInstance();
 
 				@Override
 				public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing facing) {
-					return capability == CapabilityList.LEAP;
+					return capability == LEAP;
 				}
 
 				@Override
 				public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
-					return capability == CapabilityList.LEAP ? CapabilityList.LEAP.<T>cast(inst) : null;
+					return capability == LEAP ? LEAP.<T>cast(inst) : null;
 				}
 
 				@Override
 				public NBTTagCompound serializeNBT() {
-					return (NBTTagCompound) CapabilityList.LEAP.getStorage().writeNBT(CapabilityList.LEAP, inst, null);
+					return (NBTTagCompound) LEAP.getStorage().writeNBT(LEAP, inst, null);
 				}
 
 				@Override
 				public void deserializeNBT(NBTTagCompound nbt) {
-					CapabilityList.LEAP.getStorage().readNBT(CapabilityList.LEAP, inst, null, nbt);
+					LEAP.getStorage().readNBT(LEAP, inst, null, nbt);
 				}
 
 			});
@@ -152,20 +179,20 @@ public class CapabilityList {
 	public void updateClone(PlayerEvent.Clone e) {
 		EntityPlayer oldPlayer = e.getOriginal();
 		EntityPlayer newPlayer = e.getEntityPlayer();
-		IAoVCapability newcap = newPlayer.hasCapability(CapabilityList.AOV, null) ? newPlayer.getCapability(CapabilityList.AOV, null) : null;
-		IAoVCapability oldcap = oldPlayer.hasCapability(CapabilityList.AOV, null) ? oldPlayer.getCapability(CapabilityList.AOV, null) : null;
+		IAoVCapability newcap = newPlayer.hasCapability(AOV, null) ? newPlayer.getCapability(AOV, null) : null;
+		IAoVCapability oldcap = oldPlayer.hasCapability(AOV, null) ? oldPlayer.getCapability(AOV, null) : null;
 		if (newcap != null && oldcap != null)
 			newcap.copyFrom(oldcap);
 	}
 
 	@SubscribeEvent
 	public void onJoin(EntityJoinWorldEvent e) {
-		IAoVCapability cap = e.getEntity().hasCapability(CapabilityList.AOV, null) ? e.getEntity().getCapability(CapabilityList.AOV, null) : null;
+		IAoVCapability cap = e.getEntity().hasCapability(AOV, null) ? e.getEntity().getCapability(AOV, null) : null;
 		if (cap != null) {
 			cap.markDirty();
 			cap.setLoaded();
 		}
-		IAstroCapability astro = e.getEntity().hasCapability(CapabilityList.ASTRO, null) ? e.getEntity().getCapability(CapabilityList.ASTRO, null) : null;
+		IAstroCapability astro = e.getEntity().hasCapability(ASTRO, null) ? e.getEntity().getCapability(ASTRO, null) : null;
 		if (astro != null)
 			astro.markDirty();
 	}

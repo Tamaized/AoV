@@ -16,6 +16,7 @@ import tamaized.aov.AoV;
 import tamaized.aov.client.gui.buttonlist.AstroSkillRegisterButtons;
 import tamaized.aov.client.gui.buttonlist.CasterSkillRegisterButtons;
 import tamaized.aov.client.gui.buttonlist.DefenderSkillRegisterButtons;
+import tamaized.aov.client.gui.buttonlist.DruidSkillRegisterButtons;
 import tamaized.aov.client.gui.buttonlist.HealerSkillRegisterButtons;
 import tamaized.aov.client.gui.buttonlist.IClassButtons;
 import tamaized.aov.client.gui.buttons.SkillButton;
@@ -45,7 +46,9 @@ public class AoVSkillsGUI extends GuiScreenClose {
 
 			new DefenderSkillRegisterButtons(),
 
-			new AstroSkillRegisterButtons()
+			new AstroSkillRegisterButtons(),
+
+			new DruidSkillRegisterButtons()
 
 	);
 	private final Container inventory;

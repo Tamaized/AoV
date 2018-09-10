@@ -110,6 +110,36 @@ public class AoVSkills {
 	public static AoVSkill astro_tier_4_4;
 	public static AoVSkill astro_tier_4_5;
 
+	/* Druid */
+	public static AoVSkill druid_core_1;
+	public static AoVSkill druid_core_2;
+	public static AoVSkill druid_core_3;
+	public static AoVSkill druid_core_4;
+	public static AoVSkill druid_capstone;
+
+	public static AoVSkill druid_tier_1_1;
+	public static AoVSkill druid_tier_1_2;
+	public static AoVSkill druid_tier_1_3;
+	public static AoVSkill druid_tier_1_4;
+	public static AoVSkill druid_tier_1_5;
+
+	public static AoVSkill druid_tier_2_2;
+	public static AoVSkill druid_tier_2_3;
+	public static AoVSkill druid_tier_2_4;
+	public static AoVSkill druid_tier_2_5;
+
+	public static AoVSkill druid_tier_3_1;
+	public static AoVSkill druid_tier_3_2;
+	public static AoVSkill druid_tier_3_3;
+	public static AoVSkill druid_tier_3_4;
+	public static AoVSkill druid_tier_3_5;
+
+	public static AoVSkill druid_tier_4_1;
+	public static AoVSkill druid_tier_4_2;
+	public static AoVSkill druid_tier_4_3;
+	public static AoVSkill druid_tier_4_4;
+	public static AoVSkill druid_tier_4_5;
+
 	public static void register() { // TODO: use IForgeRegistry
 		registry.clear();
 
@@ -212,6 +242,9 @@ public class AoVSkills {
 		astro_tier_4_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.astro.tier4.3.name"), SkillIcons.spellpower, 0, 12, 0, 1, 20, 0, 0, false, false, astro_tier_3_3, Lists.newArrayList()).setupTooltip(null));
 		astro_tier_4_4 = register(new AoVSkill(new TextComponentTranslation("aov.skill.global.selective.name"), SkillIcons.selectiveFocus, 0, 12, 0, 1, 0, 0, 0, true, false, astro_core_1, Lists.newArrayList()).setupTooltip(new TextComponentTranslation("aov.skill.global.selective.desc")));
 		astro_tier_4_5 = register(new AoVSkill(new TextComponentTranslation("aov.skill.astro.tier4.5.name"), Abilities.aspectedhelios.getIcon(), 0, 12, 0, 1, 0, 0, 0, false, false, astro_tier_3_5, Lists.newArrayList(Abilities.aspectedhelios)).setupTooltip(new TextComponentTranslation("aov.skill.astro.tier4.5.desc")));
+
+		/* Druid */
+		druid_core_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.druid.core.1.name"), SkillIcons.vitality, 0, 0, 0, 1, 0, 0, 0, false, true, null, Lists.newArrayList(Abilities.wildshapeWolf, Abilities.wildshapeWaterElemental, Abilities.wildshapeFireElemental)).setupTooltip(new TextComponentTranslation("aov.skill.druid.core.1.desc")));
 	}
 
 	public static AoVSkill register(AoVSkill skill) {

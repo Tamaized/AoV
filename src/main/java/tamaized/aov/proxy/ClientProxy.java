@@ -5,7 +5,6 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -50,10 +49,6 @@ public class ClientProxy extends CommonProxy {
 		super(Side.CLIENT);
 	}
 
-	public static void setTarget(@Nullable EntityLivingBase entity) {
-		target = entity;
-	}
-
 	public static void setTarget() {
 		Entity ent = Helpers.getTargetOverMouse(Minecraft.getMinecraft(), 128);
 		if (ent instanceof EntityLivingBase && target != ent)
@@ -64,6 +59,10 @@ public class ClientProxy extends CommonProxy {
 
 	public static EntityLivingBase getTarget() {
 		return target;
+	}
+
+	public static void setTarget(@Nullable EntityLivingBase entity) {
+		target = entity;
 	}
 
 	public static SizedFontRenderer getFontRenderer() {
@@ -77,6 +76,8 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void preInit() {
+		if (!Minecraft.getMinecraft().getFramebuffer().isStencilEnabled())
+			Minecraft.getMinecraft().getFramebuffer().enableStencil();
 
 		KeyHandler.register();
 
