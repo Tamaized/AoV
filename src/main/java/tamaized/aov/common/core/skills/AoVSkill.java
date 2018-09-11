@@ -24,12 +24,10 @@ public class AoVSkill {
 	private final int spellpower;
 	private final int dodge;
 	private final int doublestrike;
-	@Deprecated
-	private final boolean selective;
 	private final boolean core;
 	private final AoVSkill parent;
 
-	public AoVSkill(TextComponentTranslation name, ResourceLocation icon, int level, int spentpoints, int charges, int cost, int spellpower, int dodge, int doublestrike, boolean selective, boolean core, AoVSkill parent, List<AbilityBase> spells, TextComponentTranslation... desc) {
+	public AoVSkill(TextComponentTranslation name, ResourceLocation icon, int level, int spentpoints, int charges, int cost, int spellpower, int dodge, int doublestrike, boolean core, AoVSkill parent, List<AbilityBase> spells, TextComponentTranslation... desc) {
 		this.name = name;
 		this.icon = icon;
 		this.level = level;
@@ -39,7 +37,6 @@ public class AoVSkill {
 		this.spellpower = spellpower;
 		this.dodge = dodge;
 		this.doublestrike = doublestrike;
-		this.selective = selective;
 		this.core = core;
 		this.parent = parent;
 		abilities = spells;
@@ -104,11 +101,6 @@ public class AoVSkill {
 
 	public int getDoubleStrike() {
 		return doublestrike;
-	}
-
-	@Deprecated
-	public boolean grantsSelectiveFocus() {
-		return selective;
 	}
 
 	public boolean isClassCore() {

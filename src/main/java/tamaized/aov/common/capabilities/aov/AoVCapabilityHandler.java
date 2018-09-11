@@ -207,7 +207,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			extraCharges += skill.getCharges();
 			dodge += skill.getDodge();
 			doublestrike += skill.getDoubleStrike();
-			if (skill.grantsSelectiveFocus())
+			if (AoVSkills.isSelectiveFocusSkill(skill))
 				selectiveFocus = true;
 			for (AbilityBase ability : skill.getAbilities()) {
 				if (ability == Abilities.invokeMass)
