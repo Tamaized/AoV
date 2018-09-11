@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.skills.AoVSkill;
@@ -24,6 +25,7 @@ public class ServerPacketHandlerSpellSkill implements IMessageHandler<ServerPack
 		if (!player.hasCapability(CapabilityList.AOV, null))
 			return;
 		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
+		IPolymorphCapability poly = player.hasCapability(CapabilityList.POLYMORPH, null) ? player.getCapability(CapabilityList.POLYMORPH, null) : null;
 		if (cap == null)
 			return;
 		switch (message.id) {
@@ -63,10 +65,14 @@ public class ServerPacketHandlerSpellSkill implements IMessageHandler<ServerPack
 			break;
 			case RESETSKILLS_FULL: {
 				cap.reset(true);
+				if (poly != null)
+					poly.morph(null);
 			}
 			break;
 			case RESETSKILLS_MINOR: {
 				cap.reset(false);
+				if (poly != null)
+					poly.morph(null);
 			}
 			break;
 			case SPELLBAR_REMOVE: {
