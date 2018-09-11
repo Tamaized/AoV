@@ -16,6 +16,10 @@ repositories {
 	maven {
 		url = "http://dvs1.progwml6.com/files/maven"
 	}
+    maven {
+        name 'jitpack'
+        url 'https://jitpack.io'
+    }
 }
 
 version = "1.12-${modVersion}${modVersionValue}"
@@ -47,6 +51,7 @@ jar {
 dependencies {
 	deobfCompile "mezz.jei:${project.jeiVersion}:api"
 	runtime "mezz.jei:${project.jeiVersion}"
+    implementation 'com.github.Tamaized:TamModized:1.12-SNAPSHOT'
 }
 
 processResources {
