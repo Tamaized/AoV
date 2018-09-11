@@ -21,7 +21,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.opengl.GL11;
 import tamaized.aov.AoV;
-import tamaized.aov.client.Helpers;
+import tamaized.aov.client.ClientHelpers;
 import tamaized.aov.client.handler.ClientTicker;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -111,7 +111,7 @@ public class AoVOverlay extends Gui {
 			AoVUIBar.render(this, ConfigHandler.elementPositions.spellbar_x, ConfigHandler.elementPositions.spellbar_y);
 			if (cap.getCoreSkill() == AoVSkills.astro_core_1)
 				renderAstro(mc.player, sr);
-			Entity target = ClientProxy.getTarget() != null ? ClientProxy.getTarget() : Helpers.getTargetOverMouse(mc, 128);
+			Entity target = ClientProxy.getTarget() != null ? ClientProxy.getTarget() : ClientHelpers.getTargetOverMouse(mc, 128);
 			if (ConfigHandler.renderTarget && target instanceof EntityLivingBase)
 				renderTarget((EntityLivingBase) target);
 		}

@@ -9,7 +9,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import tamaized.aov.client.Helpers;
+import tamaized.aov.client.ClientHelpers;
 import tamaized.aov.client.RenderPlayer;
 import tamaized.aov.client.SizedFontRenderer;
 import tamaized.aov.client.entity.RenderCelestialOpposition;
@@ -50,7 +50,7 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	public static void setTarget() {
-		Entity ent = Helpers.getTargetOverMouse(Minecraft.getMinecraft(), 128);
+		Entity ent = ClientHelpers.getTargetOverMouse(Minecraft.getMinecraft(), 128);
 		if (ent instanceof EntityLivingBase && target != ent)
 			target = (EntityLivingBase) ent;
 		else
