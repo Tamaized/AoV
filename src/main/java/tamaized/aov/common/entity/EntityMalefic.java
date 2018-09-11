@@ -50,14 +50,14 @@ public class EntityMalefic extends ProjectileBase {
 				for (EntityLivingBase e : world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(posX - radius, posY - radius, posZ - radius, posX + radius, posY + radius, posZ + radius)))
 					if (shootingEntity != e)
 						if (cap == null || !cap.hasSelectiveFocus() || IAoVCapability.selectiveTarget(shootingEntity, cap, e))
-							if (closest == null || getDistanceToEntity(closest) > getDistanceToEntity(e))
+							if (closest == null || getDistance(closest) > getDistance(e))
 								closest = e;
 				target = closest;
 			} else if (ticksExisted % 8 == 0) {
 				double d0 = target.posX - posX;
 				double d1 = target.getEntityBoundingBox().minY + (double) (target.height / 2.0F) - posY;
 				double d2 = target.posZ - posZ;
-				setThrowableHeading(d0, d1, d2, (float) getSpeed(), (float) (14 - world.getDifficulty().getDifficultyId() * 4));
+				shoot(d0, d1, d2, (float) getSpeed(), (float) (14 - world.getDifficulty().getId() * 4));
 			}
 		} else
 			for (int i = 0; i < 5; i++)

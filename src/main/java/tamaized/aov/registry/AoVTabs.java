@@ -8,7 +8,7 @@ public class AoVTabs {
 
 	public static final CreativeTabs tabAoV = new CreativeTabs("aov") {
 		@Override
-		public ItemStack getTabIconItem() {
+		public ItemStack createIcon() {
 			return new ItemStack(Items.BLAZE_POWDER);
 		}
 	};

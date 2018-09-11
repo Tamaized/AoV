@@ -109,7 +109,7 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 	}
 
 	@Override
-	public void setThrowableHeading(double x, double y, double z, float velocity, float inaccuracy) {
+	public void shoot(double x, double y, double z, float velocity, float inaccuracy) {
 		float f = MathHelper.sqrt(x * x + y * y + z * z);
 		x = x / (double) f;
 		y = y / (double) f;

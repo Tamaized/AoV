@@ -70,7 +70,7 @@ public class EntitySpellVanillaParticles extends Entity {
 		if (world.isRemote) {
 			for (int index = 0; index < dataManager.get(RATE); index++) {
 				Vec3d vec = getLook(1.0F).rotatePitch(rand.nextInt(360)).rotateYaw(rand.nextInt(360));
-				Vec3d pos = getPositionVector().addVector(0, 0.65F, 0).add(vec);
+				Vec3d pos = getPositionVector().add(0, 0.65F, 0).add(vec);
 				world.spawnParticle(getParticle(), pos.x, pos.y, pos.z, 0, 0.25F, 0);
 			}
 			return;

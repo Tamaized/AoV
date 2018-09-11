@@ -84,7 +84,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 		double d0 = target.posX - posX;
 		double d1 = target.getEntityBoundingBox().minY + (double) (target.height / 2.0F) - posY;
 		double d2 = target.posZ - posZ;
-		setThrowableHeading(d0, d1/* + d3 * 0.20000000298023224D */, d2, 1.6F, (float) (14 - world.getDifficulty().getDifficultyId() * 4));
+		shoot(d0, d1/* + d3 * 0.20000000298023224D */, d2, 1.6F, (float) (14 - world.getDifficulty().getId() * 4));
 	}
 
 	@Override

@@ -102,7 +102,7 @@ public class Spread extends AbilityBase {
 			}
 		} else {
 			IAstroCapability.ICard card = astro.getSpread();
-			EntityLivingBase entity = target == null || caster.getDistanceToEntity(target) < getMaxDistance() ? caster : target;
+			EntityLivingBase entity = target == null || caster.getDistance(target) < getMaxDistance() ? caster : target;
 			int potency = (int) Math.floor(aov.getSpellPower() / 10F);
 			IAstroCapability.ICard burn = astro.getBurn();
 			astro.useSpread(caster);

@@ -40,7 +40,7 @@ public class TickHandler {
 				float range = 1.0F;
 				float r = ((living.world.rand.nextFloat() * (1.0F + range)) - (0.5F + range));
 				Vec3d vec = new Vec3d(-Math.cos(yaw), 1.7F, -Math.sin(yaw)).rotateYaw(r);
-				vec = pos.add(vec).addVector(0, living.world.rand.nextFloat() * 0.5F - 0.5F, 0);
+				vec = pos.add(vec).add(0, living.world.rand.nextFloat() * 0.5F - 0.5F, 0);
 				AoV.proxy.spawnParticle(CommonProxy.ParticleType.Feather, living.world, vec, new Vec3d(0, 0, 0), 55, 0.1F, 1.5F, 0xFFFF00FF);
 			}
 	}

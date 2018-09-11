@@ -103,7 +103,7 @@ public class RenderGravity<T extends EntityGravity> extends Render<T> {
 			double randY = (-0.5 + random.nextDouble()) * maxDeflection * invDir.y;
 			double randZ = (-0.5 + random.nextDouble()) * maxDeflection * invDir.z;
 
-			point = point.addVector(randX, randY, randZ);
+			point = point.add(randX, randY, randZ);
 
 			vectors[i] = point;
 		}
@@ -144,7 +144,7 @@ public class RenderGravity<T extends EntityGravity> extends Render<T> {
 		float scale = 0.25F;
 		for (int i = 0; i <= 8; i++) {
 			Vec3d rot = new Vec3d(0.75F, 2.35F, 0).rotatePitch(((i * 30F)) % 360).rotateYaw(((i * 30F)) % 360);
-			rot.addVector(((float) i / 4F) - 1F, 0, ((float) i / 4F) - 1F);
+			rot.add(((float) i / 4F) - 1F, 0, ((float) i / 4F) - 1F);
 			renderBoltBetween(rot, new Vec3d(-rot.x * scale, -rot.y * scale, -rot.z * scale), 0.015f, 0.5f, 6, 0x77AAFF20);
 		}
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);

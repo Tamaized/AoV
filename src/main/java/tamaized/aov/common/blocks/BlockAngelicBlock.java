@@ -29,7 +29,6 @@ public class BlockAngelicBlock extends TamBlock {
 
 	public BlockAngelicBlock(CreativeTabs tab, Material materialIn, String n, float f) {
 		super(tab, materialIn, n, f, SoundType.STONE);
-		setUnlocalizedName(AoV.modid + "." + n); // TODO: TamModized this
 		this.setDefaultState(this.blockState.getBaseState().withProperty(AXIS, EnumFacing.Axis.X));
 		this.useNeighborBrightness = true;
 	}
@@ -57,7 +56,7 @@ public class BlockAngelicBlock extends TamBlock {
 	@Nonnull
 	@Override
 	@SideOnly(Side.CLIENT)
-	public BlockRenderLayer getBlockLayer() {
+	public BlockRenderLayer getRenderLayer() {
 		return BlockRenderLayer.TRANSLUCENT;
 	}
 

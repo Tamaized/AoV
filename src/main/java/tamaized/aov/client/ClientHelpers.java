@@ -4,7 +4,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.RayTraceResult;
-import tamaized.aov.common.helper.RayTraceHelper;
+import tamaized.tammodized.common.helper.RayTraceHelper;
 
 import java.util.HashSet;
 

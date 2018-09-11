@@ -82,7 +82,7 @@ public class EntitySpellAoVParticles extends Entity {
 		if (world.isRemote) {
 			for (int index = 0; index < dataManager.get(RATE); index++) {
 				Vec3d vec = getLook(1.0F).rotatePitch(rand.nextInt(360)).rotateYaw(rand.nextInt(360));
-				Vec3d pos = getPositionVector().addVector(0, 0.65F, 0).add(vec);
+				Vec3d pos = getPositionVector().add(0, 0.65F, 0).add(vec);
 				AoV.proxy.spawnParticle(getParticle(), world, pos, new Vec3d(0, 0.0625F, 0), 16, 0, 1, getColor());
 			}
 			return;

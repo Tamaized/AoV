@@ -132,7 +132,7 @@ public final class Ability {
 		HashSet<Entity> set = new HashSet<>();
 		set.add(caster);
 		RayTraceResult ray = RayTraceHelper.tracePath(caster.world, caster, (int) getAbility().getMaxDistance(), 1, set);
-		cast(caster, (ray == null || ray.entityHit == null || !(ray.entityHit instanceof EntityLivingBase)) ? null : (EntityLivingBase) ray.entityHit);
+		cast(caster, (ray == null || !(ray.entityHit instanceof EntityLivingBase)) ? null : (EntityLivingBase) ray.entityHit);
 	}
 
 	public void cast(EntityPlayer caster, EntityLivingBase target) {
@@ -140,7 +140,7 @@ public final class Ability {
 			return;
 		IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
 		if (cap != null) {
-			if (cap.canUseAbility(this) && ((ability.usesInvoke() && cap.getInvokeMass()) || target == null || !ability.isCastOnTarget(caster, cap, target) || ability.getMaxDistance() >= caster.getDistanceToEntity(target))) {
+			if (cap.canUseAbility(this) && ((ability.usesInvoke() && cap.getInvokeMass()) || target == null || !ability.isCastOnTarget(caster, cap, target) || ability.getMaxDistance() >= caster.getDistance(target))) {
 				if (ability.cast(this, caster, target)) {
 					charges -= ability.getCost(cap);
 					cooldown = (nextCooldown < 0 ? ability.getCoolDown() : nextCooldown) * ((ability.usesInvoke() && cap.getInvokeMass()) ? 2 : 1);

@@ -18,7 +18,6 @@ public class DebugItem extends TamItem {
 
 	public DebugItem(String n) {
 		super(AoVTabs.tabAoV, n, 1);
-		setUnlocalizedName(AoV.modid + "." + n); // TODO: TamModized this
 	}
 
 	@Override

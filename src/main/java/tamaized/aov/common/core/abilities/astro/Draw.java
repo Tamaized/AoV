@@ -167,7 +167,7 @@ public class Draw extends AbilityBase {
 			ability.setTimer(30);
 		} else {
 			IAstroCapability.ICard card = astro.getDraw();
-			EntityLivingBase entity = target == null || caster.getDistanceToEntity(target) < getMaxDistance() ? caster : target;
+			EntityLivingBase entity = target == null || caster.getDistance(target) < getMaxDistance() ? caster : target;
 			int potency = (int) Math.floor(aov.getSpellPower() / 10F);
 			IAstroCapability.ICard burn = astro.getBurn();
 			astro.useDraw(caster);
