@@ -114,7 +114,7 @@ public class RenderPlayer {
 
 	@SubscribeEvent
 	public void renderLiving(RenderLivingEvent.Pre<EntityPlayer> e) {
-		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_COLOR);
+		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		if (!(e.getEntity() instanceof EntityPlayer))
 			return;
 		EntityPlayer player = (EntityPlayer) e.getEntity();
@@ -142,7 +142,7 @@ public class RenderPlayer {
 				//				GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, ClientProxy.FRAME_BUFFER);
 				GL11.glStencilMask(0x00);
 				GL11.glDisable(GL11.GL_STENCIL_TEST);
-				GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_COLOR);
+				GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 				GlStateManager.disableBlend();
 			}
 		}
@@ -168,7 +168,7 @@ public class RenderPlayer {
 					mc.entityRenderer.itemRenderer.renderItemInFirstPerson(e.getPartialTicks());
 					GL11.glStencilMask(0x00);
 					GL11.glDisable(GL11.GL_STENCIL_TEST);
-					GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_COLOR);
+					GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 					GlStateManager.disableBlend();
 					mc.entityRenderer.disableLightmap();
 				}
