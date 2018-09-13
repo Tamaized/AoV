@@ -13,6 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.registry.AoVDamageSource;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class ProjectileNimbusRay extends ProjectileBase {
 
@@ -44,7 +45,7 @@ public class ProjectileNimbusRay extends ProjectileBase {
 	@Override
 	protected void arrowHit(EntityLivingBase entity) {
 		if (shootingEntity != null) {
-			IAoVCapability cap = shootingEntity.getCapability(CapabilityList.AOV, null);
+			IAoVCapability cap = CapabilityHelper.getCap(shootingEntity, CapabilityList.AOV, null);
 			if (cap != null)
 				cap.addExp(shootingEntity, 20, getSpell());
 		}

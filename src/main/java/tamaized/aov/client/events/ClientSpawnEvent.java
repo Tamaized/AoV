@@ -14,6 +14,7 @@ import tamaized.aov.common.entity.EntitySpellBladeBarrier;
 import tamaized.aov.common.entity.EntitySpellImplosion;
 import tamaized.aov.common.entity.ProjectileNimbusRay;
 import tamaized.aov.registry.SoundEvents;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class ClientSpawnEvent {
 
@@ -38,7 +39,7 @@ public class ClientSpawnEvent {
 		for (Entity entity : Minecraft.getMinecraft().world.loadedEntityList) {
 			if (!(entity instanceof EntityLivingBase))
 				continue;
-			IStunCapability cap = entity.hasCapability(CapabilityList.STUN, null) ? entity.getCapability(CapabilityList.STUN, null) : null;
+			IStunCapability cap = CapabilityHelper.getCap(entity, CapabilityList.STUN, null);
 			if (cap != null)
 				cap.update((EntityLivingBase) entity);
 		}

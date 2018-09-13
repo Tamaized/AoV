@@ -18,6 +18,7 @@ import tamaized.aov.common.helper.ParticleHelper;
 import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.AoVPotions;
 import tamaized.aov.registry.SoundEvents;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import java.util.List;
 
@@ -77,7 +78,7 @@ public class ShieldOfFaith extends AbilityBase {
 
 	@Override
 	public boolean cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
-		IAoVCapability cap = player.hasCapability(CapabilityList.AOV, null) ? player.getCapability(CapabilityList.AOV, null) : null;
+		IAoVCapability cap = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
 		if (cap == null)
 			return false;
 		if (cap.getInvokeMass())

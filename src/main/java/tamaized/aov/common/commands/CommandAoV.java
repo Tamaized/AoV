@@ -13,13 +13,14 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.AoVCapabilityHandler;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.gui.GuiHandler;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import javax.annotation.Nonnull;
 
 public class CommandAoV extends CommandBase {
 
 	private static IAoVCapability getCap(Entity e) {
-		return e != null && e.hasCapability(CapabilityList.AOV, null) ? e.getCapability(CapabilityList.AOV, null) : null;
+		return CapabilityHelper.getCap(e, CapabilityList.AOV, null);
 	}
 
 	@Nonnull

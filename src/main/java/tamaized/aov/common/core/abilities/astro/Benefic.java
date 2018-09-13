@@ -17,6 +17,7 @@ import tamaized.aov.common.entity.EntitySpellAoVParticles;
 import tamaized.aov.common.entity.EntitySpellVanillaParticles;
 import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.SoundEvents;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class Benefic extends AbilityBase {
 
@@ -93,7 +94,7 @@ public class Benefic extends AbilityBase {
 
 	@Override
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
-		IAoVCapability cap = caster.hasCapability(CapabilityList.AOV, null) ? caster.getCapability(CapabilityList.AOV, null) : null;
+		IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
 		if (cap == null)
 			return false;
 		EntityLivingBase entity = target != null && IAoVCapability.canBenefit(caster, cap, target) ? target : caster;

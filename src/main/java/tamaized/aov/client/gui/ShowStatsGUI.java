@@ -6,6 +6,7 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.AoVCapabilityHandler;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.gui.GuiHandler;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class ShowStatsGUI extends GuiScreenClose {
 
@@ -58,7 +59,7 @@ public class ShowStatsGUI extends GuiScreenClose {
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
 		this.drawCenteredString(this.fontRenderer, I18n.format("aov.gui.title.stats"), this.width / 2, 15, 16777215);
-		IAoVCapability cap = mc == null || mc.player == null ? null : mc.player.hasCapability(CapabilityList.AOV, null) ? mc.player.getCapability(CapabilityList.AOV, null) : null;
+		IAoVCapability cap = mc == null ? null : CapabilityHelper.getCap(mc.player, CapabilityList.AOV, null);
 		String s = cap == null ? "null" : cap.getLevel() >= cap.getMaxLevel() ? I18n.format("aov.gui.stats.max") : cap.getExp() + "/" + AoVCapabilityHandler.getExpForLevel(cap.getLevel() + 1);
 		this.drawCenteredString(fontRenderer, I18n.format("aov.gui.stats.experience", s), width / 2, 50, 0xFFFF00);
 		this.drawCenteredString(fontRenderer, I18n.format("aov.gui.stats.level", cap == null ? "null" : cap.getLevel()), width / 2, 60, 0xFFFF00);

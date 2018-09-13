@@ -22,6 +22,7 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.proxy.ClientProxy;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import java.util.List;
 
@@ -135,13 +136,13 @@ public class KeyHandler {
 		KeyBinding itemUse = Minecraft.getMinecraft().gameSettings.keyBindUseItem;
 		if (itemUse.isPressed()) {
 			if (ClientProxy.barToggle) {
-				IAoVCapability cap = player.hasCapability(CapabilityList.AOV, null) ? player.getCapability(CapabilityList.AOV, null) : null;
+				IAoVCapability cap = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
 				if (cap != null) {
 					cap.cast(AoVUIBar.slotLoc);
 					KeyBinding.setKeyBindState(itemUse.getKeyCode(), false);
 				}
 			} else {
-				IPolymorphCapability cap = player.hasCapability(CapabilityList.POLYMORPH, null) ? player.getCapability(CapabilityList.POLYMORPH, null) : null;
+				IPolymorphCapability cap = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
 				if (cap != null) {
 					cap.doAttack(player, false);
 					KeyBinding.setKeyBindState(itemUse.getKeyCode(), false);
@@ -206,7 +207,7 @@ public class KeyHandler {
 		}
 		mx = Mouse.getX();
 		my = Mouse.getY();
-		IPolymorphCapability poly = player.hasCapability(CapabilityList.POLYMORPH, null) ? player.getCapability(CapabilityList.POLYMORPH, null) : null;
+		IPolymorphCapability poly = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
 		if (ClientProxy.barToggle) {
 			if (e.getDwheel() > 0)
 				AoVUIBar.slotLoc--;
@@ -221,7 +222,7 @@ public class KeyHandler {
 			if (e.getDwheel() != 0)
 				e.setCanceled(true);
 			KeyBinding itemUse = Minecraft.getMinecraft().gameSettings.keyBindUseItem;
-			IAoVCapability cap = player.hasCapability(CapabilityList.AOV, null) ? player.getCapability(CapabilityList.AOV, null) : null;
+			IAoVCapability cap = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
 			if (e.getButton() - 100 == itemUse.getKeyCode() && e.isButtonstate()) {
 				// Cancel item use on the main hotbar if we're a mouse button
 				if (ClientProxy.barToggle && cap != null)

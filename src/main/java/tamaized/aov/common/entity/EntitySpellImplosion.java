@@ -13,6 +13,7 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.AoVDamageSource;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import javax.annotation.Nonnull;
 
@@ -74,7 +75,7 @@ public class EntitySpellImplosion extends Entity {
 		if (tick % (20 * 5) == 0) {
 			int hp = (int) Math.floor(target.getHealth());
 			float damage = hp < 1 ? hp : target.getRNG().nextInt(hp) <= 14 ? target.getMaxHealth() : target.getMaxHealth() / 2F;
-			IAoVCapability cap = caster != null && caster.hasCapability(CapabilityList.AOV, null) ? caster.getCapability(CapabilityList.AOV, null) : null;
+			IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
 			if (cap != null)
 				damage *= (1f + (cap.getSpellPower() / 100f));
 			target.attackEntityFrom(AoVDamageSource.createEntityDamageSource(AoVDamageSource.DESTRUCTION, caster), damage);

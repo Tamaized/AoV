@@ -26,6 +26,7 @@ import tamaized.aov.client.gui.AoVOverlay;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.leap.ILeapCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class RenderPlayer {
 
@@ -37,7 +38,7 @@ public class RenderPlayer {
 	@SubscribeEvent
 	public void render(RenderPlayerEvent.Pre e) {
 		EntityPlayer player = e.getEntityPlayer();
-		IPolymorphCapability cap = player.hasCapability(CapabilityList.POLYMORPH, null) ? player.getCapability(CapabilityList.POLYMORPH, null) : null;
+		IPolymorphCapability cap = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
 		if (cap != null) {
 			if (cap.getMorph() == IPolymorphCapability.Morph.Wolf) {
 				GlStateManager.pushMatrix();
@@ -65,7 +66,7 @@ public class RenderPlayer {
 	@SubscribeEvent
 	public void render(RenderPlayerEvent.Post e) {
 		EntityPlayer player = e.getEntityPlayer();
-		ILeapCapability cap = player.hasCapability(CapabilityList.LEAP, null) ? player.getCapability(CapabilityList.LEAP, null) : null;
+		ILeapCapability cap = CapabilityHelper.getCap(player, CapabilityList.LEAP, null);
 		if (cap == null || cap.getLeapDuration() <= 0)
 			return;
 		GlStateManager.pushMatrix();
@@ -118,7 +119,7 @@ public class RenderPlayer {
 		if (!(e.getEntity() instanceof EntityPlayer))
 			return;
 		EntityPlayer player = (EntityPlayer) e.getEntity();
-		IPolymorphCapability cap = player.hasCapability(CapabilityList.POLYMORPH, null) ? player.getCapability(CapabilityList.POLYMORPH, null) : null;
+		IPolymorphCapability cap = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
 		if (cap != null) {
 			if (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental || cap.getMorph() == IPolymorphCapability.Morph.FireElemental) {
 				GlStateManager.enableBlend();
@@ -136,7 +137,7 @@ public class RenderPlayer {
 		if (!(e.getEntity() instanceof EntityPlayer))
 			return;
 		EntityPlayer player = (EntityPlayer) e.getEntity();
-		IPolymorphCapability cap = player.hasCapability(CapabilityList.POLYMORPH, null) ? player.getCapability(CapabilityList.POLYMORPH, null) : null;
+		IPolymorphCapability cap = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
 		if (cap != null) {
 			if (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental || cap.getMorph() == IPolymorphCapability.Morph.FireElemental) {
 				//				GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, ClientProxy.FRAME_BUFFER);
@@ -151,7 +152,7 @@ public class RenderPlayer {
 	@SubscribeEvent
 	public void render(RenderHandEvent e) {
 		EntityPlayer player = Minecraft.getMinecraft().player;
-		IPolymorphCapability cap = player.hasCapability(CapabilityList.POLYMORPH, null) ? player.getCapability(CapabilityList.POLYMORPH, null) : null;
+		IPolymorphCapability cap = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
 		if (cap != null) {
 			if (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental || cap.getMorph() == IPolymorphCapability.Morph.FireElemental) {
 				e.setCanceled(true);
@@ -179,7 +180,7 @@ public class RenderPlayer {
 	@SubscribeEvent
 	public void render(RenderSpecificHandEvent e) {
 		EntityPlayer player = Minecraft.getMinecraft().player;
-		IPolymorphCapability cap = player.hasCapability(CapabilityList.POLYMORPH, null) ? player.getCapability(CapabilityList.POLYMORPH, null) : null;
+		IPolymorphCapability cap = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
 		if (cap != null && cap.getMorph() == IPolymorphCapability.Morph.Wolf) {
 			e.setCanceled(true);
 			boolean flag = (e.getHand() == EnumHand.MAIN_HAND ? player.getPrimaryHand() : player.getPrimaryHand().opposite()) != EnumHandSide.LEFT;

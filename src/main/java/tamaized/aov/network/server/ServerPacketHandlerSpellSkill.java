@@ -16,6 +16,7 @@ import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.skills.AoVSkill;
 import tamaized.aov.common.core.skills.AoVSkills;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import javax.annotation.Nullable;
 
@@ -25,7 +26,7 @@ public class ServerPacketHandlerSpellSkill implements IMessageHandler<ServerPack
 		if (!player.hasCapability(CapabilityList.AOV, null))
 			return;
 		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
-		IPolymorphCapability poly = player.hasCapability(CapabilityList.POLYMORPH, null) ? player.getCapability(CapabilityList.POLYMORPH, null) : null;
+		IPolymorphCapability poly = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
 		if (cap == null)
 			return;
 		switch (message.id) {

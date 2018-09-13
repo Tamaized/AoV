@@ -19,6 +19,7 @@ import tamaized.aov.common.helper.ParticleHelper;
 import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.AoVDamageSource;
 import tamaized.aov.registry.SoundEvents;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import java.util.List;
 
@@ -57,7 +58,7 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 
 	@Override
 	public boolean cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
-		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
+		IAoVCapability cap = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
 		if (cap == null)
 			return false;
 		cap.addAura(createAura(ability));

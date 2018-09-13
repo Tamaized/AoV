@@ -19,6 +19,7 @@ import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.entity.EntitySpellVanillaParticles;
 import tamaized.aov.registry.AoVPotions;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -78,7 +79,7 @@ public class Draw extends AbilityBase {
 					break;
 			}
 		if (aoe) {
-			IAoVCapability cap = caster.hasCapability(CapabilityList.AOV, null) ? caster.getCapability(CapabilityList.AOV, null) : null;
+			IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
 			int range = 16;
 			for (EntityLivingBase e : caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.posX - range, caster.posY - range, caster.posZ - range, caster.posX + range, caster.posY + range, caster.posZ + range))) {
 				if (cap == null || IAoVCapability.canBenefit(caster, cap, e))

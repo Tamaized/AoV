@@ -15,6 +15,7 @@ import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.entity.EntitySpellImplosion;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class Implosion extends AbilityBase {
 
@@ -90,7 +91,7 @@ public class Implosion extends AbilityBase {
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		boolean flag = false;
 		for (EntityLivingBase entity : caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-distance, -1, -distance), caster.getPosition().add(distance, 5, distance)))) {
-			IAoVCapability cap = caster.hasCapability(CapabilityList.AOV, null) ? caster.getCapability(CapabilityList.AOV, null) : null;
+			IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
 			if (entity == caster || (cap != null && !IAoVCapability.selectiveTarget(caster, cap, entity)))
 				continue;
 			caster.world.spawnEntity(new EntitySpellImplosion(caster.world, caster, entity));

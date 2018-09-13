@@ -18,6 +18,7 @@ import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.entity.ProjectileFlameStrike;
 import tamaized.aov.registry.SoundEvents;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 import tamaized.tammodized.common.helper.RayTraceHelper;
 
 import java.util.HashSet;
@@ -97,7 +98,7 @@ public class FlameStrike extends AbilityBase {
 
 	@Override
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
-		IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
+		IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
 		if (cap == null)
 			return false;
 		int a = (int) (damage * (1f + (cap.getSpellPower() / 100f)));

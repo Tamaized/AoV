@@ -25,6 +25,7 @@ import tamaized.aov.network.client.ClientPacketHandlerAoVData;
 import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
 import tamaized.aov.proxy.ClientProxy;
 import tamaized.aov.registry.AoVPotions;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 import tamaized.tammodized.common.helper.FloatyTextHelper;
 
 import javax.annotation.Nullable;
@@ -188,7 +189,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	private void updateValues(@Nullable EntityPlayer player) {
-		IAstroCapability astro = player != null && player.hasCapability(CapabilityList.ASTRO, null) ? player.getCapability(CapabilityList.ASTRO, null) : null;
+		IAstroCapability astro = CapabilityHelper.getCap(player, CapabilityList.ASTRO, null);
 		maxLevel = ConfigHandler.maxlevel;
 		skillPoints = getLevel();
 		spellpower = 0;
@@ -311,7 +312,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		cooldowns.clear();
 		for (Ability ability : slots)
 			if (ability != null)
-				ability.reset(this, player.hasCapability(CapabilityList.ASTRO, null) ? player.getCapability(CapabilityList.ASTRO, null) : null);
+				ability.reset(this, CapabilityHelper.getCap(player, CapabilityList.ASTRO, null));
 		dirty = true;
 	}
 
@@ -650,7 +651,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	private void sendPacketUpdates(EntityPlayerMP player) {
-		IPolymorphCapability poly = player.hasCapability(CapabilityList.POLYMORPH, null) ? player.getCapability(CapabilityList.POLYMORPH, null) : null;
+		IPolymorphCapability poly = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
 		if (poly != null)
 			AoV.network.sendTo(new ClientPacketHandlerAoVData.Packet(this, poly), player);
 	}

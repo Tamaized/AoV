@@ -16,6 +16,7 @@ import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.registry.AoVDamageSource;
 import tamaized.aov.registry.SoundEvents;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class Destruction extends AbilityBase {
 
@@ -91,7 +92,7 @@ public class Destruction extends AbilityBase {
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		if (target == null)
 			return false;
-		IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
+		IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
 		if (cap != null && target.isNonBoss() && IAoVCapability.selectiveTarget(caster, cap, target)) {
 			float damage = target.getRNG().nextInt((int) Math.floor(target.getHealth())) <= 8 ? target.getMaxHealth() : target.getMaxHealth() / 2F;
 			damage *= (1f + (cap.getSpellPower() / 100f));

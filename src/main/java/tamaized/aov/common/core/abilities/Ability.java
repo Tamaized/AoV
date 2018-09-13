@@ -10,6 +10,7 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
 import tamaized.aov.common.config.ConfigHandler;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 import tamaized.tammodized.common.helper.RayTraceHelper;
 
 import javax.annotation.Nullable;
@@ -138,7 +139,7 @@ public final class Ability {
 	public void cast(EntityPlayer caster, EntityLivingBase target) {
 		if (disabled)
 			return;
-		IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
+		IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
 		if (cap != null) {
 			if (cap.canUseAbility(this) && ((ability.usesInvoke() && cap.getInvokeMass()) || target == null || !ability.isCastOnTarget(caster, cap, target) || ability.getMaxDistance() >= caster.getDistance(target))) {
 				if (ability.cast(this, caster, target)) {

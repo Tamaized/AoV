@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.config.ConfigHandler;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class PlayerInteractHandler {
 
@@ -16,7 +17,7 @@ public class PlayerInteractHandler {
 			return;
 		EntityPlayer player = e.getEntityPlayer();
 		if (player != null) {
-			IAoVCapability cap = player.hasCapability(CapabilityList.AOV, null) ? player.getCapability(CapabilityList.AOV, null) : null;
+			IAoVCapability cap = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
 			if (cap != null)
 				cap.addExp(player, e.getOrb().getXpValue(), null);
 		}
@@ -26,7 +27,7 @@ public class PlayerInteractHandler {
 	public void onWakeUp(PlayerWakeUpEvent e){
 		EntityPlayer player = e.getEntityPlayer();
 		if (player != null && e.shouldSetSpawn()) {
-			IAoVCapability cap = player.hasCapability(CapabilityList.AOV, null) ? player.getCapability(CapabilityList.AOV, null) : null;
+			IAoVCapability cap = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
 			if (cap != null)
 				cap.resetCharges(player);
 		}

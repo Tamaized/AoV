@@ -13,6 +13,7 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.entity.ProjectileNimbusRay;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class NimbusRay extends AbilityBase {
 
@@ -87,7 +88,7 @@ public class NimbusRay extends AbilityBase {
 
 	@Override
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
-		IAoVCapability cap = caster.getCapability(CapabilityList.AOV, null);
+		IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
 		if (cap == null)
 			return false;
 		int a = (int) (damage * (1f + (cap.getSpellPower() / 100f)));

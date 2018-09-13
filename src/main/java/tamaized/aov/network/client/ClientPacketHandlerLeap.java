@@ -11,6 +11,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.leap.ILeapCapability;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class ClientPacketHandlerLeap implements IMessageHandler<ClientPacketHandlerLeap.Packet, IMessage> {
 
@@ -18,7 +19,7 @@ public class ClientPacketHandlerLeap implements IMessageHandler<ClientPacketHand
 	private static void processPacket(ClientPacketHandlerLeap.Packet message, World world) {
 		Entity e = world.getEntityByID(message.entityID);
 		if (e != null) {
-			ILeapCapability cap = e.hasCapability(CapabilityList.LEAP, null) ? e.getCapability(CapabilityList.LEAP, null) : null;
+			ILeapCapability cap = CapabilityHelper.getCap(e, CapabilityList.LEAP, null);
 			if (cap != null)
 				cap.setLeapDuration(message.duration);
 		}

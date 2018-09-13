@@ -11,6 +11,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.stun.IStunCapability;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class ClientPacketHandlerStunned implements IMessageHandler<ClientPacketHandlerStunned.Packet, IMessage> {
 
@@ -18,7 +19,7 @@ public class ClientPacketHandlerStunned implements IMessageHandler<ClientPacketH
 	private static void processPacket(ClientPacketHandlerStunned.Packet message, World world) {
 		Entity e = world.getEntityByID(message.entityID);
 		if (e != null) {
-			IStunCapability cap = e.hasCapability(CapabilityList.STUN, null) ? e.getCapability(CapabilityList.STUN, null) : null;
+			IStunCapability cap = CapabilityHelper.getCap(e, CapabilityList.STUN, null);
 			if (cap != null)
 				cap.setStunTicks(message.stun);
 		}

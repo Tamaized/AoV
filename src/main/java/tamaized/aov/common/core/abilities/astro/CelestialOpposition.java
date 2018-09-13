@@ -17,6 +17,7 @@ import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.entity.EntityCelestialOpposition;
 import tamaized.aov.registry.SoundEvents;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class CelestialOpposition extends AbilityBase {
 
@@ -96,7 +97,7 @@ public class CelestialOpposition extends AbilityBase {
 		if (!caster.world.isRemote && aov != null) {
 			for (EntityLivingBase e : caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.posX - distance, caster.posY - distance, caster.posY - distance, caster.posX + distance, caster.posY + distance, caster.posZ + distance))) {
 				if (e != caster && IAoVCapability.selectiveTarget(caster, aov, e)) {
-					IStunCapability stun = e.hasCapability(CapabilityList.STUN, null) ? e.getCapability(CapabilityList.STUN, null) : null;
+					IStunCapability stun = CapabilityHelper.getCap(e, CapabilityList.STUN, null);
 					if (stun != null) {
 						stun.setStunTicks(20 * 8);
 						aov.addExp(caster, 25, ability.getAbility());

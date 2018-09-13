@@ -93,7 +93,7 @@ public class AoVOverlay extends Gui {
 		if (e.getType() != RenderGameOverlayEvent.ElementType.EXPERIENCE) // TODO: ??? shouldnt this be hotbar? recheck it later.
 			return;
 		ClientTicker.update();
-		IAoVCapability cap = mc.player.getCapability(CapabilityList.AOV, null);
+		IAoVCapability cap = CapabilityHelper.getCap(mc.player, CapabilityList.AOV, null);
 		FontRenderer fontRender = mc.fontRenderer;
 		ScaledResolution sr = new ScaledResolution(mc);
 		int sW = sr.getScaledWidth() / 2;

@@ -21,6 +21,7 @@ import tamaized.aov.common.helper.ParticleHelper;
 import tamaized.aov.common.helper.ParticleHelper.MeshType;
 import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.AoVDamageSource;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import javax.annotation.Nonnull;
 
@@ -95,7 +96,7 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 		setDead();
 		for (EntityLivingBase entity : world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(getPosition().add(-10, -1, -10), getPosition().add(10, 5, 10)))) {
 			if (attacker != null) {
-				IAoVCapability cap = attacker.hasCapability(CapabilityList.AOV, null) ? attacker.getCapability(CapabilityList.AOV, null) : null;
+				IAoVCapability cap = CapabilityHelper.getCap(attacker, CapabilityList.AOV, null);
 				if (entity == attacker || (cap != null && !IAoVCapability.selectiveTarget(attacker, cap, entity)))
 					continue;
 				if (cap != null)

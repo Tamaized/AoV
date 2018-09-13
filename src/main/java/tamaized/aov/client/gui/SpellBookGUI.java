@@ -15,6 +15,7 @@ import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.abilities.universal.InvokeMass;
 import tamaized.aov.common.gui.GuiHandler;
 import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class SpellBookGUI extends GuiScreenClose {
 
@@ -150,7 +151,7 @@ public class SpellBookGUI extends GuiScreenClose {
 	private void renderBar() {
 		if (mc == null)
 			return;
-		IAoVCapability cap = mc.player == null || !mc.player.hasCapability(CapabilityList.AOV, null) ? null : mc.player.getCapability(CapabilityList.AOV, null);
+		IAoVCapability cap = CapabilityHelper.getCap(mc.player, CapabilityList.AOV, null);
 		ScaledResolution sr = new ScaledResolution(mc);
 		float alpha = 1.0f;
 		GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);

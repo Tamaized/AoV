@@ -22,13 +22,14 @@ import tamaized.aov.common.capabilities.stun.IStunCapability;
 import tamaized.aov.common.helper.UtilHelper;
 import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.AoVPotions;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import java.util.List;
 
 public class TickHandler {
 
 	private static void spawnSlowfallParticles(EntityLivingBase living) {
-		ILeapCapability cap = living.hasCapability(CapabilityList.LEAP, null) ? living.getCapability(CapabilityList.LEAP, null) : null;
+		ILeapCapability cap = CapabilityHelper.getCap(living, CapabilityList.LEAP, null);
 		if (cap == null || cap.getLeapDuration() <= 0)
 			return;
 		final float perc = MathHelper.clamp((float) cap.getLeapDuration() / (float) cap.getMaxLeapDuration(), 0, 1);
@@ -70,7 +71,7 @@ public class TickHandler {
 			if (cap != null)
 				cap.update(player);
 		}
-		IPolymorphCapability cap = player.hasCapability(CapabilityList.POLYMORPH, null) ? player.getCapability(CapabilityList.POLYMORPH, null) : null;
+		IPolymorphCapability cap = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
 		if (cap != null) {
 			cap.update(player);
 		}
@@ -82,7 +83,7 @@ public class TickHandler {
 		if (living.world.isRemote)
 			spawnSlowfallParticles(living);
 		else {
-			ILeapCapability cap = living.hasCapability(CapabilityList.LEAP, null) ? living.getCapability(CapabilityList.LEAP, null) : null;
+			ILeapCapability cap = CapabilityHelper.getCap(living, CapabilityList.LEAP, null);
 			PotionEffect pot = living.getActivePotionEffect(AoVPotions.slowFall);
 			if (pot == null || cap == null)
 				return;
@@ -101,7 +102,7 @@ public class TickHandler {
 				continue;
 			if (entity.isDead)
 				continue;
-			IStunCapability cap = entity.hasCapability(CapabilityList.STUN, null) ? entity.getCapability(CapabilityList.STUN, null) : null;
+			IStunCapability cap = CapabilityHelper.getCap(entity, CapabilityList.STUN, null);
 			if (cap != null)
 				cap.update((EntityLivingBase) entity);
 		}

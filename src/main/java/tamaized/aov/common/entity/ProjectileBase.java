@@ -28,6 +28,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.AbilityBase;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import javax.annotation.Nonnull;
 
@@ -272,7 +273,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 	}
 
 	protected boolean canHitEntity(Entity entity) {
-		IAoVCapability cap = shootingEntity.hasCapability(CapabilityList.AOV, null) ? shootingEntity.getCapability(CapabilityList.AOV, null) : null;
+		IAoVCapability cap = CapabilityHelper.getCap(shootingEntity, CapabilityList.AOV, null);
 		return entity instanceof EntityLivingBase && (cap == null || IAoVCapability.selectiveTarget(shootingEntity, cap, (EntityLivingBase) entity));
 	}
 

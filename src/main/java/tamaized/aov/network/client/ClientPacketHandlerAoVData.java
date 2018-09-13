@@ -14,6 +14,7 @@ import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.skills.AoVSkill;
 import tamaized.aov.common.core.skills.AoVSkills;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketH
 
 	@SideOnly(Side.CLIENT)
 	private static void processPacket(ClientPacketHandlerAoVData.Packet message, EntityPlayer player) {
-		IAoVCapability cap = player.hasCapability(CapabilityList.AOV, null) ? player.getCapability(CapabilityList.AOV, null) : null;
+		IAoVCapability cap = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
 		if (cap != null) {
 			cap.getObtainedSkills().clear();
 			for (AoVSkill skill : message.obtainedSkills)
@@ -37,7 +38,7 @@ public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketH
 			cap.markDirty();
 			cap.setLoaded();
 		}
-		IPolymorphCapability poly = player.hasCapability(CapabilityList.POLYMORPH, null) ? player.getCapability(CapabilityList.POLYMORPH, null) : null;
+		IPolymorphCapability poly = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
 		if (poly != null) {
 			poly.morph(message.polymorph);
 		}

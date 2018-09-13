@@ -17,6 +17,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 import tamaized.tammodized.common.helper.RayTraceHelper;
 
 import javax.annotation.Nonnull;
@@ -95,7 +96,7 @@ public class EntityGravity extends Entity {
 	}
 
 	private void doDamage(EntityLivingBase e) {
-		IAoVCapability cap = caster != null && caster.hasCapability(CapabilityList.AOV, null) ? caster.getCapability(CapabilityList.AOV, null) : null;
+		IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
 		if (cap != null) {
 			if (IAoVCapability.selectiveTarget(caster, cap, e)) {
 				e.attackEntityFrom(DamageSource.causeIndirectMagicDamage(this, caster), damage * damageMod);

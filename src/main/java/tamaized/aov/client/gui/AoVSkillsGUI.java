@@ -24,6 +24,7 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.gui.GuiHandler;
 import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public class AoVSkillsGUI extends GuiScreenClose {
 	public void initGui() {
 		super.initGui();
 		mc.player.openContainer = inventory;
-		cap = mc.player.getCapability(CapabilityList.AOV, null);
+		cap = CapabilityHelper.getCap(mc.player, CapabilityList.AOV, null);
 		if (cap != null) {
 			for (IClassButtons b : CLASS_BUTTON_REGISTRY)
 				if (b.active(cap)) {

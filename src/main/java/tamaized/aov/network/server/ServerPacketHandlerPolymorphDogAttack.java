@@ -8,11 +8,12 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class ServerPacketHandlerPolymorphDogAttack implements IMessageHandler<ServerPacketHandlerPolymorphDogAttack.Packet, IMessage> {
 
 	private static void processPacket(EntityPlayerMP player) {
-		IPolymorphCapability cap = player.hasCapability(CapabilityList.POLYMORPH, null) ? player.getCapability(CapabilityList.POLYMORPH, null) : null;
+		IPolymorphCapability cap = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
 		if (cap != null)
 			cap.doAttack(player, false);
 	}

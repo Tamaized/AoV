@@ -17,6 +17,7 @@ import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.registry.AoVPotions;
 import tamaized.aov.registry.SoundEvents;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 import tamaized.tammodized.common.helper.MotionHelper;
 
 public class LeapOfFaith extends AbilityBase {
@@ -88,7 +89,7 @@ public class LeapOfFaith extends AbilityBase {
 		double distance = 3.5;
 		MotionHelper.addMotion(caster, new Vec3d(vec.x * distance, 1, vec.z * distance));
 		caster.addPotionEffect(new PotionEffect(AoVPotions.slowFall, 300));
-		ILeapCapability cap = caster.hasCapability(CapabilityList.LEAP, null) ? caster.getCapability(CapabilityList.LEAP, null) : null;
+		ILeapCapability cap = CapabilityHelper.getCap(caster, CapabilityList.LEAP, null);
 		if (cap != null)
 			cap.setLeapDuration(300);
 		SoundEvents.playMovingSoundOnServer(SoundEvents.boost, caster);
