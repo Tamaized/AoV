@@ -1,11 +1,14 @@
 package tamaized.aov.common.events;
 
+import com.google.common.collect.ImmutableSet;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.MathHelper;
@@ -22,12 +25,30 @@ import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.registry.AoVPotions;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 import tamaized.tammodized.common.helper.FloatyTextHelper;
+
+import java.util.Set;
 
 public class AttackHandler {
 
-	private boolean livingAttackState = true;
-	private boolean attackEntityState = true;
+	private static Set<DamageSource> WATER_SOURCES = ImmutableSet.of(DamageSource.DROWN);
+	private static Set<DamageSource> FIRE_SOURCES = ImmutableSet.of(
+
+			DamageSource.FIREWORKS,
+
+			DamageSource.IN_FIRE,
+
+			DamageSource.ON_FIRE,
+
+			DamageSource.LAVA,
+
+			DamageSource.LIGHTNING_BOLT,
+
+			DamageSource.HOT_FLOOR
+
+	);
+	private static boolean livingAttackState = true;
 
 	@SubscribeEvent
 	public void onLivingFallEvent(LivingFallEvent event) {
@@ -44,12 +65,10 @@ public class AttackHandler {
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onPlayerMeleeAttack(AttackEntityEvent e) {
 		EntityPlayer player = e.getEntityPlayer();
-		IPolymorphCapability poly = player.hasCapability(CapabilityList.POLYMORPH, null) ? player.getCapability(CapabilityList.POLYMORPH, null) : null;
-		if (poly != null && poly.getMorph() == IPolymorphCapability.Morph.Wolf && attackEntityState) {
-			IAoVCapability cap = player.hasCapability(CapabilityList.AOV, null) ? player.getCapability(CapabilityList.AOV, null) : null;
-			attackEntityState = false;
+		IPolymorphCapability poly = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
+		if (poly != null && poly.getMorph() == IPolymorphCapability.Morph.Wolf) {
+			IAoVCapability cap = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
 			e.getTarget().attackEntityFrom(DamageSource.causePlayerDamage(e.getEntityPlayer()), 4.0F * (1.0F + (cap == null ? 0F : cap.getSpellPower())));
-			attackEntityState = true;
 			e.setCanceled(true);
 		}
 	}
@@ -60,6 +79,18 @@ public class AttackHandler {
 		EntityLivingBase entity = event.getEntityLiving();
 		if (entity.world.isRemote)
 			return;
+
+		IPolymorphCapability poly = CapabilityHelper.getCap(entity, CapabilityList.POLYMORPH, null);
+		if (poly != null) {
+			if ((poly.getMorph() == IPolymorphCapability.Morph.WaterElemental && WATER_SOURCES.contains(event.getSource())) || (poly.getMorph() == IPolymorphCapability.Morph.FireElemental && FIRE_SOURCES.contains(event.getSource()))) {
+				if (entity.hurtResistantTime <= 0) {
+					entity.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 100));
+					entity.hurtResistantTime = 60;
+				}
+				event.setCanceled(true);
+				return;
+			}
+		}
 
 		// DoubleStrike
 		if (attacker != null && attacker.hasCapability(CapabilityList.AOV, null)) {
@@ -166,9 +197,7 @@ public class AttackHandler {
 				Vec3d vec3d2 = vec3d.subtractReverse(new Vec3d(player.posX, player.posY, player.posZ)).normalize();
 				vec3d2 = new Vec3d(vec3d2.x, 0.0D, vec3d2.z);
 
-				if (vec3d2.dotProduct(vec3d1) < 0.0D) {
-					return true;
-				}
+				return vec3d2.dotProduct(vec3d1) < 0.0D;
 			}
 		}
 

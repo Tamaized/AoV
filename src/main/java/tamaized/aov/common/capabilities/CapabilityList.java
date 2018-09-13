@@ -17,6 +17,7 @@ import tamaized.aov.common.capabilities.astro.IAstroCapability;
 import tamaized.aov.common.capabilities.leap.ILeapCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.capabilities.stun.IStunCapability;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import javax.annotation.Nonnull;
 
@@ -177,22 +178,20 @@ public class CapabilityList {
 
 	@SubscribeEvent
 	public void updateClone(PlayerEvent.Clone e) {
-		EntityPlayer oldPlayer = e.getOriginal();
-		EntityPlayer newPlayer = e.getEntityPlayer();
-		IAoVCapability newcap = newPlayer.hasCapability(AOV, null) ? newPlayer.getCapability(AOV, null) : null;
-		IAoVCapability oldcap = oldPlayer.hasCapability(AOV, null) ? oldPlayer.getCapability(AOV, null) : null;
+		IAoVCapability newcap = CapabilityHelper.getCap(e.getEntityPlayer(), AOV, null);
+		IAoVCapability oldcap = CapabilityHelper.getCap(e.getOriginal(), AOV, null);
 		if (newcap != null && oldcap != null)
 			newcap.copyFrom(oldcap);
 	}
 
 	@SubscribeEvent
 	public void onJoin(EntityJoinWorldEvent e) {
-		IAoVCapability cap = e.getEntity().hasCapability(AOV, null) ? e.getEntity().getCapability(AOV, null) : null;
+		IAoVCapability cap = CapabilityHelper.getCap(e.getEntity(), AOV, null);
 		if (cap != null) {
 			cap.markDirty();
 			cap.setLoaded();
 		}
-		IAstroCapability astro = e.getEntity().hasCapability(ASTRO, null) ? e.getEntity().getCapability(ASTRO, null) : null;
+		IAstroCapability astro = CapabilityHelper.getCap(e.getEntity(), ASTRO, null);
 		if (astro != null)
 			astro.markDirty();
 	}

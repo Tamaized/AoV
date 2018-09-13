@@ -31,6 +31,7 @@ import tamaized.aov.common.config.ConfigHandler;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.proxy.ClientProxy;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -49,7 +50,7 @@ public class AoVOverlay extends Gui {
 	@SubscribeEvent
 	public void renderOverlayPre(RenderGameOverlayEvent.Pre e) {
 		if (e.getType() == RenderGameOverlayEvent.ElementType.HOTBAR) {
-			IPolymorphCapability poly = mc.player.hasCapability(CapabilityList.POLYMORPH, null) ? mc.player.getCapability(CapabilityList.POLYMORPH, null) : null;
+			IPolymorphCapability poly = CapabilityHelper.getCap(mc.player, CapabilityList.POLYMORPH, null);
 			if (poly != null) {
 				if (poly.getMorph() == IPolymorphCapability.Morph.Wolf) {
 					e.setCanceled(true);
@@ -80,6 +81,10 @@ public class AoVOverlay extends Gui {
 					}
 				}
 			}
+		} else if (e.getType() == RenderGameOverlayEvent.ElementType.AIR) {
+			IPolymorphCapability poly = CapabilityHelper.getCap(mc.player, CapabilityList.POLYMORPH, null);
+			if (poly != null && poly.getMorph() == IPolymorphCapability.Morph.WaterElemental)
+				e.setCanceled(true);
 		}
 	}
 
