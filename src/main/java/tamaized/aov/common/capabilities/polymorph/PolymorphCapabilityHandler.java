@@ -15,6 +15,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -23,6 +24,7 @@ import tamaized.aov.network.client.ClientPacketHandlerPolymorphDogAttack;
 import tamaized.aov.network.server.ServerPacketHandlerPolymorphDogAttack;
 import tamaized.tammodized.common.helper.CapabilityHelper;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Set;
 
@@ -38,6 +40,8 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 			new StateWrapper(Blocks.FIRE, true), new StateWrapper(Blocks.LAVA, true), new StateWrapper(Blocks.FLOWING_LAVA, true)
 
 	);
+	private static Field ENTITY_isImmuneToFire;
+	private boolean unsetter_ENTITY_isImmuneToFire = false;
 	private Morph morph;
 	private boolean morphSize = false;
 	private int attackCooldown;
@@ -105,6 +109,8 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 
 	@Override
 	public void update(EntityPlayer player) {
+		if (ENTITY_isImmuneToFire == null)
+			ENTITY_isImmuneToFire = ReflectionHelper.findField(Entity.class, "field_70178_ae", "isImmuneToFire");
 		if (attackCooldown > 0)
 			attackCooldown--;
 		if (attacking && attackCooldown < attackCooldownMax - 10 && (attackCooldown <= 0 || player.onGround))
@@ -161,6 +167,17 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 					player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 100));
 				}
 			}
+		}
+		try {
+			if (getMorph() == Morph.FireElemental && !player.isImmuneToFire()) {
+				ENTITY_isImmuneToFire.setBoolean(player, true);
+				unsetter_ENTITY_isImmuneToFire = true;
+			} else if (getMorph() != Morph.FireElemental && player.isImmuneToFire() && unsetter_ENTITY_isImmuneToFire) {
+				ENTITY_isImmuneToFire.setBoolean(player, false);
+				unsetter_ENTITY_isImmuneToFire = false;
+			}
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
 		}
 	}
 
