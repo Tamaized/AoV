@@ -248,6 +248,13 @@ public class AoVCapabilityHandler implements IAoVCapability {
 				}
 			}
 		if (player != null) {
+			IPolymorphCapability poly = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
+			if (poly != null) {
+				if (player.world.getWorldTime() % 24000 < 12000 && poly.getMorph() == IPolymorphCapability.Morph.FireElemental) // Day (6 AM)
+					spellpower += 20;
+				else if (poly.getMorph() == IPolymorphCapability.Morph.WaterElemental) // Night (6 PM)
+					spellpower += 20;
+			}
 			if (player.getActivePotionEffect(AoVPotions.aid) != null)
 				dodge += 5;
 			if (player.getActivePotionEffect(AoVPotions.zeal) != null)
