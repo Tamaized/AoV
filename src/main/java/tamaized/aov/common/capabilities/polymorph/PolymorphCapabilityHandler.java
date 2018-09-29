@@ -166,6 +166,27 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 				if (flag && (player.getActivePotionEffect(MobEffects.REGENERATION) == null || player.ticksExisted % 60 == 0)) {
 					player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 100));
 				}
+				if ((player.ticksExisted % (20 * 6)) == 0) {
+					byte mask = 0b00; // 1X = heal; X1 = damage
+					float temp = player.world.getBiome(player.getPosition()).getTemperature(player.getPosition());
+					if (temp <= 0.2F) { // Cold
+						if (getMorph() == Morph.WaterElemental)
+							mask |= 0b10;
+						if (getMorph() == Morph.FireElemental)
+							mask |= 0b01;
+					} else if (temp >= 1.0F) { // Hot
+						if (getMorph() == Morph.WaterElemental)
+							mask |= 0b01;
+						if (getMorph() == Morph.FireElemental)
+							mask |= 0b10;
+					}
+					if ((mask & 0b01) == 0b01) {
+						player.attackEntityFrom(DamageSource.STARVE, 1F);
+					}
+					if ((mask & 0b10) == 0b10) {
+						player.heal(1F);
+					}
+				}
 			}
 		}
 		try {
