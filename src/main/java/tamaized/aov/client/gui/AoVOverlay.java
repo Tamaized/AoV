@@ -14,6 +14,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -41,7 +42,8 @@ public class AoVOverlay extends Gui {
 	public static final ResourceLocation TEXTURE_ASTRO = new ResourceLocation(AoV.modid, "textures/gui/astro.png");
 	public static final ResourceLocation TEXTURE_FOCUS = new ResourceLocation(AoV.modid, "textures/gui/focus.png");
 	public static final ResourceLocation TEXTURE_DOGGO = new ResourceLocation(AoV.modid, "textures/gui/doggo.png");
-	private static final ResourceLocation ELEMENTAL_TEXTURES = new ResourceLocation(AoV.modid, "textures/entity/fluid.png");
+	private static final ResourceLocation TEXTURE_ELEMENTALS = new ResourceLocation(AoV.modid, "textures/entity/fluid.png");
+	private static final ResourceLocation TEXTURE_DANGERBIOME = new ResourceLocation(AoV.modid, "textures/gui/dangerbiome.png");
 	private static final Minecraft mc = Minecraft.getMinecraft();
 	public static boolean hackyshit = false;
 	private static EntityLivingBase cacheEntity;
@@ -85,6 +87,30 @@ public class AoVOverlay extends Gui {
 			IPolymorphCapability poly = CapabilityHelper.getCap(mc.player, CapabilityList.POLYMORPH, null);
 			if (poly != null && poly.getMorph() == IPolymorphCapability.Morph.WaterElemental)
 				e.setCanceled(true);
+		} else if(e.getType() == RenderGameOverlayEvent.ElementType.ALL){
+			IPolymorphCapability poly = CapabilityHelper.getCap(mc.player, CapabilityList.POLYMORPH, null);
+			if (poly != null) {
+				ClientTicker.dangerBiomeTicksFlag = (poly.getRenderBits() & 0b0001) == 0b0001;
+				if (ClientTicker.dangerBiomeTicks > 0) {
+					mc.renderEngine.bindTexture(TEXTURE_DANGERBIOME);
+					boolean isWater = (poly.getRenderBits() & 0b0010) == 0b0000;
+					float r = isWater ? 1F : 0F;
+					float g = isWater ? 0.15F : 0.6F;
+					float b = isWater ? 0F : 1F;
+					float a = MathHelper.clamp(((float) ClientTicker.dangerBiomeTicks + e.getPartialTicks()) / (float) ClientTicker.dangerBiomeMaxTick, 0F, 1F);
+					ScaledResolution resolution = new ScaledResolution(mc);
+					Tessellator tessellator = Tessellator.getInstance();
+					BufferBuilder buffer = tessellator.getBuffer();
+					buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
+					buffer.pos(0, resolution.getScaledHeight(), 0).tex(0, 1).color(r, g, b, a).endVertex();
+					buffer.pos(resolution.getScaledWidth(), resolution.getScaledHeight(), 0).tex(1, 1).color(r, g, b, a).endVertex();
+					buffer.pos(resolution.getScaledWidth(), 0, 0).tex(1, 0).color(r, g, b, a).endVertex();
+					buffer.pos(0, 0, 0).tex(0, 0).color(r, g, b, a).endVertex();
+					GlStateManager.enableBlend();
+					tessellator.draw();
+					GlStateManager.disableBlend();
+				}
+			}
 		}
 	}
 
@@ -138,7 +164,7 @@ public class AoVOverlay extends Gui {
 
 	private void renderStencils() {
 		if (mc.world != null) {
-			Minecraft.getMinecraft().renderEngine.bindTexture(ELEMENTAL_TEXTURES);
+			Minecraft.getMinecraft().renderEngine.bindTexture(TEXTURE_ELEMENTALS);
 			Tessellator tess = Tessellator.getInstance();
 			BufferBuilder buffer = tess.getBuffer();
 			ScaledResolution resolution = new ScaledResolution(mc);

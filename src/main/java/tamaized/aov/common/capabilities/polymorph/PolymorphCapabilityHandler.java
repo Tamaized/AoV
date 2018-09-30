@@ -49,6 +49,12 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 	private int attackCooldownMax = 20 * 5;
 	private boolean attacking = false;
 
+	// 1XXX - unused
+	// X1XX - unused
+	// XX1X - Dangerous Biome Elemental (0 = Water; 1 = Fire)
+	// XXX1 - Dangerous Biome Temperature
+	private byte renderBits = 0b0000;
+
 	@Override
 	public Morph getMorph() {
 		return morph;
@@ -180,8 +186,21 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 						if (getMorph() == Morph.FireElemental)
 							mask |= 0b10;
 					}
+					byte oldBits = renderBits;
 					if ((mask & 0b01) == 0b01) {
 						player.attackEntityFrom(DamageSource.STARVE, 1F);
+						renderBits |= 0b0001;
+						if (getMorph() == Morph.WaterElemental)
+							renderBits &= 0b1101;
+						else if (getMorph() == Morph.FireElemental)
+							renderBits |= 0b0010;
+					} else {
+						renderBits &= 0b1110;
+					}
+					if (oldBits != renderBits) {
+						IAoVCapability aov = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
+						if (aov != null)
+							aov.markDirty();
 					}
 					if ((mask & 0b10) == 0b10) {
 						player.heal(1F);
@@ -200,6 +219,16 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public byte getRenderBits() {
+		return renderBits;
+	}
+
+	@Override
+	public void setRenderBits(byte bits) {
+		renderBits = bits;
 	}
 
 	private static class StateWrapper {

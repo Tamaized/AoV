@@ -28,6 +28,10 @@ public interface IPolymorphCapability {
 
 	void update(EntityPlayer player);
 
+	void setRenderBits(byte bits);
+
+	byte getRenderBits();
+
 	enum Morph {
 
 		Wolf, FireElemental, WaterElemental;

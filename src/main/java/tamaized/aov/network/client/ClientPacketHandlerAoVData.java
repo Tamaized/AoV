@@ -41,6 +41,7 @@ public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketH
 		IPolymorphCapability poly = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
 		if (poly != null) {
 			poly.morph(message.polymorph);
+			poly.setRenderBits(message.renderBits);
 		}
 	}
 
@@ -61,6 +62,7 @@ public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketH
 		private Ability[] slots = new Ability[]{null, null, null, null, null, null, null, null, null};
 		private int currentSlot;
 		private IPolymorphCapability.Morph polymorph;
+		private byte renderBits;
 
 		@SuppressWarnings("unused")
 		public Packet() {
@@ -76,6 +78,7 @@ public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketH
 			slots = cap.getSlots();
 			currentSlot = cap.getCurrentSlot();
 			polymorph = poly.getMorph();
+			renderBits = poly.getRenderBits();
 		}
 
 		@Override
@@ -94,6 +97,7 @@ public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketH
 			}
 			currentSlot = stream.readInt();
 			polymorph = IPolymorphCapability.Morph.getMorph(stream.readInt());
+			renderBits = stream.readByte();
 		}
 
 		@Override
@@ -116,6 +120,7 @@ public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketH
 			}
 			stream.writeInt(currentSlot);
 			stream.writeInt(polymorph == null ? -1 : polymorph.ordinal());
+			stream.writeByte(renderBits);
 		}
 	}
 }
