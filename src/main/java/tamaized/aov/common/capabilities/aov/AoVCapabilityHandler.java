@@ -252,7 +252,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			if (poly != null) {
 				if (player.world.getWorldTime() % 24000 < 12000 && poly.getMorph() == IPolymorphCapability.Morph.FireElemental) // Day (6 AM)
 					spellpower += 20;
-				else if (poly.getMorph() == IPolymorphCapability.Morph.WaterElemental) // Night (6 PM)
+				else if (player.world.getWorldTime() % 24000 >= 12000 && poly.getMorph() == IPolymorphCapability.Morph.WaterElemental) // Night (6 PM)
 					spellpower += 20;
 			}
 			if (player.getActivePotionEffect(AoVPotions.aid) != null)
