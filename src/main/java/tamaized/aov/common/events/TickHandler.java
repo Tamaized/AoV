@@ -5,6 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -80,6 +81,10 @@ public class TickHandler {
 	@SubscribeEvent
 	public void updateLiving(LivingEvent.LivingUpdateEvent e) {
 		EntityLivingBase living = e.getEntityLiving();
+		IPolymorphCapability poly = CapabilityHelper.getCap(living, CapabilityList.POLYMORPH, null);
+		if(poly != null && (poly.getMorph() == IPolymorphCapability.Morph.WaterElemental || poly.getMorph() == IPolymorphCapability.Morph.FireElemental))
+			for (Potion potion : IPolymorphCapability.ELEMENTAL_IMMUNITY_EFFECTS)
+				living.removePotionEffect(potion);
 		if (living.world.isRemote)
 			spawnSlowfallParticles(living);
 		else {

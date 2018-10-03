@@ -29,15 +29,14 @@ import java.util.List;
 import java.util.Set;
 
 public class PolymorphCapabilityHandler implements IPolymorphCapability {
-
 	private static final Set<StateWrapper> WATER_ELEMENTAL_STATES = ImmutableSet.of(
 
-			new StateWrapper(Blocks.WATER, true), new StateWrapper(Blocks.FLOWING_WATER, true)
+			new StateWrapper(Blocks.WATER).matchAnyState().dealsDamage(), new StateWrapper(Blocks.FLOWING_WATER).matchAnyState().dealsDamage()
 
 	);
 	private static final Set<StateWrapper> FIRE_ELEMENTAL_STATES = ImmutableSet.of(
 
-			new StateWrapper(Blocks.FIRE, true), new StateWrapper(Blocks.LAVA, true), new StateWrapper(Blocks.FLOWING_LAVA, true)
+			new StateWrapper(Blocks.FIRE).matchAnyState(), new StateWrapper(Blocks.LAVA).matchAnyState(), new StateWrapper(Blocks.FLOWING_LAVA).matchAnyState()
 
 	);
 	private static Field ENTITY_isImmuneToFire;
@@ -48,7 +47,6 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 	private int initalAttackCooldown;
 	private int attackCooldownMax = 20 * 5;
 	private boolean attacking = false;
-
 	// 1XXX - unused
 	// X1XX - unused
 	// XX1X - Dangerous Biome Elemental (0 = Water; 1 = Fire)
@@ -138,8 +136,8 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 			player.eyeHeight = player.getDefaultEyeHeight();
 			setLocalMorphSize(false);
 		}
-		if (!player.world.isRemote) {
-			if (getMorph() == Morph.WaterElemental || getMorph() == Morph.FireElemental) {
+		if (getMorph() == Morph.WaterElemental || getMorph() == Morph.FireElemental) {
+			if (!player.world.isRemote) {
 				List<IBlockState> states = Lists.newArrayList();
 				AxisAlignedBB bounding = player.getEntityBoundingBox();
 				double x, y, z;
@@ -153,17 +151,17 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 				boolean flag = false;
 				for (IBlockState state : states) {
 					if (getMorph() == Morph.WaterElemental) {
-						if (StateWrapper.compare(FIRE_ELEMENTAL_STATES, state))
-							player.attackEntityFrom(DamageSource.STARVE, 8F);
-						if (StateWrapper.compare(WATER_ELEMENTAL_STATES, state)) {
+						if (StateWrapper.compare(FIRE_ELEMENTAL_STATES, state, true))
+							player.attackEntityFrom(DamageSource.STARVE, 4F);
+						if (StateWrapper.compare(WATER_ELEMENTAL_STATES, state, false)) {
 							player.setAir(300);
 							flag = true;
 							break;
 						}
 					} else if (getMorph() == Morph.FireElemental) {
-						if (StateWrapper.compare(WATER_ELEMENTAL_STATES, state))
-							player.attackEntityFrom(DamageSource.STARVE, 8F);
-						if (StateWrapper.compare(FIRE_ELEMENTAL_STATES, state)) {
+						if (StateWrapper.compare(WATER_ELEMENTAL_STATES, state, true))
+							player.attackEntityFrom(DamageSource.STARVE, 4F);
+						if (StateWrapper.compare(FIRE_ELEMENTAL_STATES, state, false)) {
 							flag = true;
 							break;
 						}
@@ -207,17 +205,17 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 					}
 				}
 			}
-		}
-		try {
-			if (getMorph() == Morph.FireElemental && !player.isImmuneToFire()) {
-				ENTITY_isImmuneToFire.setBoolean(player, true);
-				unsetter_ENTITY_isImmuneToFire = true;
-			} else if (getMorph() != Morph.FireElemental && player.isImmuneToFire() && unsetter_ENTITY_isImmuneToFire) {
-				ENTITY_isImmuneToFire.setBoolean(player, false);
-				unsetter_ENTITY_isImmuneToFire = false;
+			try {
+				if (getMorph() == Morph.FireElemental && !player.isImmuneToFire()) {
+					ENTITY_isImmuneToFire.setBoolean(player, true);
+					unsetter_ENTITY_isImmuneToFire = true;
+				} else if (getMorph() != Morph.FireElemental && player.isImmuneToFire() && unsetter_ENTITY_isImmuneToFire) {
+					ENTITY_isImmuneToFire.setBoolean(player, false);
+					unsetter_ENTITY_isImmuneToFire = false;
+				}
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
 			}
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -235,11 +233,11 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 
 		private final Block block;
 		private final Set<IBlockState> states;
-		private boolean match = false;
+		private boolean match;
+		private boolean doesDamage;
 
-		StateWrapper(Block block, boolean matchAny) {
+		StateWrapper(Block block) {
 			this(block.getDefaultState());
-			match = matchAny;
 		}
 
 		StateWrapper(IBlockState... states) {
@@ -247,11 +245,21 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 			block = states[0].getBlock();
 		}
 
-		public static boolean compare(Set<StateWrapper> set, Object obj) {
+		public static boolean compare(Set<StateWrapper> set, Object obj, boolean damage) {
 			for (StateWrapper wrapper : set)
-				if (wrapper.equals(obj))
+				if (wrapper.doesDamage == damage && wrapper.equals(obj))
 					return true;
 			return false;
+		}
+
+		public StateWrapper matchAnyState() {
+			match = true;
+			return this;
+		}
+
+		public StateWrapper dealsDamage() {
+			doesDamage = true;
+			return this;
 		}
 
 		@Override

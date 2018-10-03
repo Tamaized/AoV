@@ -1,10 +1,21 @@
 package tamaized.aov.common.capabilities.polymorph;
 
+import com.google.common.collect.ImmutableSet;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
+import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 import tamaized.aov.AoV;
 
+import java.util.Set;
+
 public interface IPolymorphCapability {
+
+	Set<Potion> ELEMENTAL_IMMUNITY_EFFECTS = ImmutableSet.of(
+
+			MobEffects.SLOWNESS, MobEffects.POISON, MobEffects.WITHER
+
+	);
 
 	ResourceLocation ID = new ResourceLocation(AoV.modid, "PolymorphCapabilityHandler");
 
@@ -28,9 +39,9 @@ public interface IPolymorphCapability {
 
 	void update(EntityPlayer player);
 
-	void setRenderBits(byte bits);
-
 	byte getRenderBits();
+
+	void setRenderBits(byte bits);
 
 	enum Morph {
 

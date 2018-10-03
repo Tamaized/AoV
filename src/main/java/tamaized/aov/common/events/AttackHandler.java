@@ -32,7 +32,11 @@ import java.util.Set;
 
 public class AttackHandler {
 
-	private static Set<DamageSource> WATER_SOURCES = ImmutableSet.of(DamageSource.DROWN);
+	private static Set<DamageSource> WATER_SOURCES = ImmutableSet.of(
+
+			DamageSource.DROWN
+
+	);
 	private static Set<DamageSource> FIRE_SOURCES = ImmutableSet.of(
 
 			DamageSource.FIREWORKS,
@@ -89,6 +93,11 @@ public class AttackHandler {
 				}
 				event.setCanceled(true);
 				return;
+			}
+			if(livingAttackState && (poly.getMorph() == IPolymorphCapability.Morph.WaterElemental && FIRE_SOURCES.contains(event.getSource())) || (poly.getMorph() == IPolymorphCapability.Morph.FireElemental && WATER_SOURCES.contains(event.getSource()))){
+				livingAttackState = false;
+				entity.attackEntityFrom(event.getSource(), event.getAmount() * 2F);
+				livingAttackState = true;
 			}
 		}
 
