@@ -116,7 +116,6 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 
 	@Override
 	public void update(EntityPlayer player) {
-		DebugHelper.begin(player.world.isRemote).addText("Centered: " + IAoVCapability.isCentered(player, CapabilityHelper.getCap(player, CapabilityList.AOV, null))).persist();
 		if (ENTITY_isImmuneToFire == null)
 			ENTITY_isImmuneToFire = ReflectionHelper.findField(Entity.class, "field_70178_ae", "isImmuneToFire");
 		if (attackCooldown > 0)

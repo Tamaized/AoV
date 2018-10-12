@@ -1,5 +1,6 @@
 package tamaized.aov.common.capabilities.aov;
 
+import com.google.common.collect.ImmutableSet;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -36,12 +37,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 public class AoVCapabilityHandler implements IAoVCapability {
 
 	public static final float xpScale = 2.5F;
-	private static final String defenderHealthName = "AoV Defender Health";
-	private static final AttributeModifier defenderHealth = new AttributeModifier(defenderHealthName, 10.0D, 0);
+	private static final String DEFENDER_HEALTH_NAME = "AoV Defender Health";
+	private static final String DRUID_HEALTH_NAME = "AoV Druid Health";
+	private static final Set<String> HEALTH_NAMES = ImmutableSet.of(DEFENDER_HEALTH_NAME, DRUID_HEALTH_NAME);
+	private static final AttributeModifier DEFENDER_HEALTH = new AttributeModifier(DEFENDER_HEALTH_NAME, 10.0D, 0);
 	private int tick = 1;
 	private boolean dirty = true;
 	private boolean hasLoaded = false;
@@ -179,13 +183,14 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		//noinspection WhileLoopReplaceableByForEach
 		while (iter.hasNext()) {
 			AttributeModifier mod = iter.next();
-			if (mod.getName().equals(defenderHealthName)) {
+			if (HEALTH_NAMES.contains(mod.getName())) {
 				hp.removeModifier(mod);
 			}
 		}
-		if (hasSkill(AoVSkills.defender_tier_4_2) && !hp.hasModifier(defenderHealth) && player.getHeldItemOffhand().getItem().isShield(player.getHeldItemOffhand(), player)) {
-			hp.applyModifier(defenderHealth);
-		}
+		if (hasSkill(AoVSkills.defender_tier_4_2) && !hp.hasModifier(DEFENDER_HEALTH) && player.getHeldItemOffhand().getItem().isShield(player.getHeldItemOffhand(), player))
+			hp.applyModifier(DEFENDER_HEALTH);
+		if (getCoreSkill() == AoVSkills.druid_core_1 && IAoVCapability.isCentered(player, this))
+			hp.applyModifier(new AttributeModifier(DRUID_HEALTH_NAME, getLevel(), 0));
 	}
 
 	private void updateValues(@Nullable EntityPlayer player) {
@@ -215,6 +220,12 @@ public class AoVCapabilityHandler implements IAoVCapability {
 					hasInvoke = true;
 				list.add(ability);
 			}
+		}
+		if (getCoreSkill() == AoVSkills.druid_core_1 && IAoVCapability.isCentered(player, this)) {
+			int level = getLevel();
+			dodge += level;
+			doublestrike += level;
+			spellpower += (5 * level);
 		}
 		Iterator<Ability> iter = abilities.iterator();
 		main:
