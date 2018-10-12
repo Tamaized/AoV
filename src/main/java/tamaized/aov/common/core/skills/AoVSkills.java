@@ -247,7 +247,7 @@ public class AoVSkills {
 		astro_tier_4_5 = register(new AoVSkill(new TextComponentTranslation("aov.skill.astro.tier4.5.name"), Abilities.aspectedhelios.getIcon(), 0, 12, 0, 1, 0, 0, 0, false, astro_tier_3_5, Lists.newArrayList(Abilities.aspectedhelios)).setupTooltip(new TextComponentTranslation("aov.skill.astro.tier4.5.desc")));
 
 		/* Druid */
-		druid_core_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.druid.core.1.name"), SkillIcons.vitality, 0, 0, 0, 1, 0, 0, 0, true, null, Lists.newArrayList(Abilities.wildshapeWolf, Abilities.wildshapeWaterElemental, Abilities.wildshapeFireElemental)).setupTooltip(new TextComponentTranslation("aov.skill.druid.core.1.desc")));
+		druid_core_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.druid.core.1.name"), SkillIcons.vitality, 0, 0, 0, 1, 0, 0, 0, true, null, Lists.newArrayList()).setupTooltip(new TextComponentTranslation("aov.skill.druid.core.1.desc")));
 	}
 
 	public static AoVSkill register(AoVSkill skill) {

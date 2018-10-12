@@ -143,7 +143,7 @@ public class KeyHandler {
 				}
 			} else {
 				IPolymorphCapability cap = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
-				if (cap != null) {
+				if (cap != null && cap.getMorph() == IPolymorphCapability.Morph.Wolf) {
 					cap.doAttack(player, false);
 					KeyBinding.setKeyBindState(itemUse.getKeyCode(), false);
 				}

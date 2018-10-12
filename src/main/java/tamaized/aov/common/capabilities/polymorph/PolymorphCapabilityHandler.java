@@ -17,6 +17,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import tamaized.aov.AoV;
+import tamaized.aov.client.DebugHelper;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.helper.UtilHelper;
@@ -90,6 +91,8 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 
 	@Override
 	public void doAttack(EntityPlayer player, boolean fromPacket, int cooldown) {
+		if (getMorph() != Morph.Wolf)
+			return;
 		if (player.world.isRemote) {
 			if (fromPacket && player.onGround) {
 				initalAttackCooldown = attackCooldown = cooldown;
@@ -113,6 +116,7 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 
 	@Override
 	public void update(EntityPlayer player) {
+		DebugHelper.begin(player.world.isRemote).addText("Centered: " + IAoVCapability.isCentered(player, CapabilityHelper.getCap(player, CapabilityList.AOV, null))).persist();
 		if (ENTITY_isImmuneToFire == null)
 			ENTITY_isImmuneToFire = ReflectionHelper.findField(Entity.class, "field_70178_ae", "isImmuneToFire");
 		if (attackCooldown > 0)

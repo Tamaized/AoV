@@ -6,7 +6,7 @@ public class ClientTicker {
 
 	public static TickerDataCharges charges = new TickerDataCharges();
 	public static int dangerBiomeTicks;
-	public static /*TODO final */int dangerBiomeMaxTick = 20 * 10;
+	public static final int dangerBiomeMaxTick = 20 * 10;
 	public static boolean dangerBiomeTicksFlag;
 
 	public static void update() {
@@ -14,7 +14,6 @@ public class ClientTicker {
 		if (ClientProxy.getTarget() != null && ClientProxy.getTarget().isDead)
 			ClientProxy.setTarget(null);
 		{
-			dangerBiomeMaxTick = 20 * 20;
 			if (dangerBiomeTicksFlag) {
 				if (dangerBiomeTicks < dangerBiomeMaxTick)
 					dangerBiomeTicks++;
