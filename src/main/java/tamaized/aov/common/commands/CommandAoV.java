@@ -50,7 +50,7 @@ public class CommandAoV extends CommandBase {
 						try {
 							level = MathHelper.clamp(Integer.parseInt(args[1]), 0, ConfigHandler.maxlevel);
 						} catch (NumberFormatException e) {
-							throw new WrongUsageException("commands.aov.error.level");
+							throw new WrongUsageException("commands.aov.error.level", ConfigHandler.maxlevel);
 						}
 						IAoVCapability cap;
 						Entity e;
