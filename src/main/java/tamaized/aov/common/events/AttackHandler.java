@@ -94,7 +94,7 @@ public class AttackHandler {
 				event.setCanceled(true);
 				return;
 			}
-			if(livingAttackState && (poly.getMorph() == IPolymorphCapability.Morph.WaterElemental && FIRE_SOURCES.contains(event.getSource())) || (poly.getMorph() == IPolymorphCapability.Morph.FireElemental && WATER_SOURCES.contains(event.getSource()))){
+			if (livingAttackState && (poly.getMorph() == IPolymorphCapability.Morph.WaterElemental && FIRE_SOURCES.contains(event.getSource())) || (poly.getMorph() == IPolymorphCapability.Morph.FireElemental && WATER_SOURCES.contains(event.getSource()))) {
 				livingAttackState = false;
 				entity.attackEntityFrom(event.getSource(), event.getAmount() * 2F);
 				livingAttackState = true;
@@ -116,14 +116,21 @@ public class AttackHandler {
 			EntityLivingBase attackerLiving = null;
 			if (attacker instanceof EntityLivingBase)
 				attackerLiving = (EntityLivingBase) attacker;
-			if (cap != null && cap.hasSkill(AoVSkills.defender_core_3) && attackerLiving != null && ((!attackerLiving.getHeldItemMainhand().isEmpty() && attackerLiving.getHeldItemMainhand().getItem().isShield(attackerLiving.getHeldItemMainhand(), attackerLiving)) || (!attackerLiving.getHeldItemOffhand().isEmpty() && attackerLiving.getHeldItemOffhand().getItem().isShield(attackerLiving.getHeldItemOffhand(), attackerLiving)))) {
-				double d1 = attacker.posX - entity.posX;
-				double d0;
-				for (d0 = attacker.posZ - entity.posZ; d1 * d1 + d0 * d0 < 1.0E-4D; d0 = (Math.random() - Math.random()) * 0.01D) {
-					d1 = (Math.random() - Math.random()) * 0.01D;
+			if (cap != null) {
+				if (cap.hasSkill(AoVSkills.defender_core_3) && attackerLiving != null && ((!attackerLiving.getHeldItemMainhand().isEmpty() && attackerLiving.getHeldItemMainhand().getItem().isShield(attackerLiving.getHeldItemMainhand(), attackerLiving)) || (!attackerLiving.getHeldItemOffhand().isEmpty() && attackerLiving.getHeldItemOffhand().getItem().isShield(attackerLiving.getHeldItemOffhand(), attackerLiving)))) {
+					double d1 = attacker.posX - entity.posX;
+					double d0;
+					for (d0 = attacker.posZ - entity.posZ; d1 * d1 + d0 * d0 < 1.0E-4D; d0 = (Math.random() - Math.random()) * 0.01D) {
+						d1 = (Math.random() - Math.random()) * 0.01D;
+					}
+					entity.attackedAtYaw = (float) (MathHelper.atan2(d0, d1) * (180D / Math.PI) - (double) entity.rotationYaw);
+					entity.knockBack(attacker, 1.0F, d1, d0);
 				}
-				entity.attackedAtYaw = (float) (MathHelper.atan2(d0, d1) * (180D / Math.PI) - (double) entity.rotationYaw);
-				entity.knockBack(attacker, 1.0F, d1, d0);
+				if (cap.hasSkill(AoVSkills.druid_core_4) && IAoVCapability.isCentered(attackerLiving, cap)) {
+					livingAttackState = false;
+					entity.attackEntityFrom(event.getSource(), event.getAmount() + cap.getLevel());
+					livingAttackState = true;
+				}
 			}
 		}
 

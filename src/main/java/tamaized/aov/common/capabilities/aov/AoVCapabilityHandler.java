@@ -155,8 +155,9 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		}
 	}
 
+	@SuppressWarnings("ConstantConditions")
 	private void checkState(@Nullable EntityPlayer player) {
-		if (player == null || player.isDead || !(player instanceof EntityPlayerMP))
+		if (!(player instanceof EntityPlayerMP) || player.isDead)
 			return;
 		final boolean aid = player.getActivePotionEffect(AoVPotions.aid) != null;
 		final boolean zeal = player.getActivePotionEffect(AoVPotions.zeal) != null;
@@ -226,6 +227,10 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			dodge += level;
 			doublestrike += level;
 			spellpower += (5 * level);
+			if(hasSkill(AoVSkills.druid_core_3))
+				dodge += 25;
+			if(hasSkill(AoVSkills.druid_capstone))
+				dodge += 25;
 		}
 		Iterator<Ability> iter = abilities.iterator();
 		main:

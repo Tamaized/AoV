@@ -248,6 +248,7 @@ public class AoVSkills {
 
 		/* Druid */
 		druid_core_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.druid.core.1.name"), SkillIcons.vitality, 0, 0, 0, 1, 0, 0, 0, true, null, Lists.newArrayList()).setupTooltip(new TextComponentTranslation("aov.skill.druid.core.1.desc")));
+		druid_core_2 = register(new AoVSkill(new TextComponentTranslation("aov.skill.druid.core.2.name"), SkillIcons.vitality, 3, 0, 0, 1, 0, 0, 0, false, druid_core_1, Lists.newArrayList(Abilities.wildshapeWolf)).setupTooltip(new TextComponentTranslation("aov.skill.druid.core.2.desc")));
 	}
 
 	public static AoVSkill register(AoVSkill skill) {

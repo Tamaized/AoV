@@ -17,9 +17,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import tamaized.aov.AoV;
-import tamaized.aov.client.DebugHelper;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.common.helper.UtilHelper;
 import tamaized.aov.network.client.ClientPacketHandlerPolymorphDogAttack;
 import tamaized.aov.network.server.ServerPacketHandlerPolymorphDogAttack;
@@ -97,7 +97,11 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 			if (fromPacket && player.onGround) {
 				initalAttackCooldown = attackCooldown = cooldown;
 				Vec3d lookVector = player.getLook(Minecraft.getMinecraft().getRenderPartialTicks());
-				player.addVelocity(0.9F * lookVector.x, 0.5F, 0.9F * lookVector.z);
+				IAoVCapability cap = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
+				if (cap != null && cap.hasSkill(AoVSkills.druid_core_4) && IAoVCapability.isCentered(player, cap))
+					player.addVelocity(1.8F * lookVector.x, 1.0F, 1.8F * lookVector.z);
+				else
+					player.addVelocity(0.9F * lookVector.x, 0.5F, 0.9F * lookVector.z);
 			} else if (attackCooldown <= 0 && player.onGround)
 				AoV.network.sendToServer(new ServerPacketHandlerPolymorphDogAttack.Packet());
 		} else {
