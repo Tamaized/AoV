@@ -12,6 +12,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.AoVCapabilityHandler;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.config.ConfigHandler;
 import tamaized.aov.common.gui.GuiHandler;
 import tamaized.tammodized.common.helper.CapabilityHelper;
 
@@ -47,7 +48,7 @@ public class CommandAoV extends CommandBase {
 					if (args.length > 1) {
 						int level;
 						try {
-							level = MathHelper.clamp(Integer.parseInt(args[1]), 0, 15);
+							level = MathHelper.clamp(Integer.parseInt(args[1]), 0, ConfigHandler.maxlevel);
 						} catch (NumberFormatException e) {
 							throw new WrongUsageException("commands.aov.error.level");
 						}
