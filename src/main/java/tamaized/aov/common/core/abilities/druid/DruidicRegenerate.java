@@ -9,11 +9,13 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextComponentTranslation;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.skills.SkillIcons;
 import tamaized.tammodized.common.helper.CapabilityHelper;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class DruidicRegenerate extends AbilityBase {
@@ -65,6 +67,12 @@ public class DruidicRegenerate extends AbilityBase {
 	@Override
 	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
 		return false;
+	}
+
+	@Override
+	public boolean shouldDisable(@Nullable EntityPlayer caster, IAoVCapability cap) {
+		IPolymorphCapability poly = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
+		return poly == null || poly.getMorph() == IPolymorphCapability.Morph.Wolf || super.shouldDisable(caster, cap);
 	}
 
 	@Override
