@@ -249,6 +249,11 @@ public class AoVSkills {
 		/* Druid */
 		druid_core_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.druid.core.1.name"), SkillIcons.vitality, 0, 0, 0, 1, 0, 0, 0, true, null, Lists.newArrayList()).setupTooltip(new TextComponentTranslation("aov.skill.druid.core.1.desc")));
 		druid_core_2 = register(new AoVSkill(new TextComponentTranslation("aov.skill.druid.core.2.name"), SkillIcons.vitality, 3, 0, 0, 1, 0, 0, 0, false, druid_core_1, Lists.newArrayList(Abilities.wildshapeWolf)).setupTooltip(new TextComponentTranslation("aov.skill.druid.core.2.desc")));
+		druid_core_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.druid.core.3.name"), SkillIcons.vitality, 6, 0, 0, 1, 0, 0, 0, false, druid_core_2, Lists.newArrayList()).setupTooltip(new TextComponentTranslation("aov.skill.druid.core.3.desc")));
+		druid_core_4 = register(new AoVSkill(new TextComponentTranslation("aov.skill.druid.core.4.name"), SkillIcons.vitality, 12, 0, 0, 1, 0, 0, 0, false, druid_core_3, Lists.newArrayList()).setupTooltip(new TextComponentTranslation("aov.skill.druid.core.4.desc")));
+		druid_capstone = register(new AoVSkill(new TextComponentTranslation("aov.skill.druid.core.5.name"), SkillIcons.vitality, 15, 0, 0, 1, 0, 0, 0, false, druid_core_4, Lists.newArrayList()).setupTooltip(new TextComponentTranslation("aov.skill.druid.core.5.desc")));
+
+		druid_tier_1_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.druid.tier1.1.name"), SkillIcons.vitality, 0, 1, 0, 1, 0, 0, 0, false, druid_core_1, Lists.newArrayList(Abilities.furiousClaw)).setupTooltip(new TextComponentTranslation("aov.skill.druid.tier1.1.desc")));
 	}
 
 	public static AoVSkill register(AoVSkill skill) {

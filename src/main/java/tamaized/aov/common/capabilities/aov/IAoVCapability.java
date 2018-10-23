@@ -93,6 +93,10 @@ public interface IAoVCapability {
 
 	int getCooldown(AbilityBase ability);
 
+	Map<AbilityBase, Integer> getCooldowns();
+
+	void setCooldowns(Map<AbilityBase, Integer> map);
+
 	void resetCharges(EntityPlayer player);
 
 	void restoreCharges(int amount);

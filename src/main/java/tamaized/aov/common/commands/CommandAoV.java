@@ -12,6 +12,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.AoVCapabilityHandler;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.config.ConfigHandler;
 import tamaized.aov.common.gui.GuiHandler;
 import tamaized.tammodized.common.helper.CapabilityHelper;
@@ -58,7 +59,7 @@ public class CommandAoV extends CommandBase {
 							cap = getCap(e = getEntity(server, sender, args[2]));
 						else
 							cap = getCap(e = sender.getCommandSenderEntity());
-						if (cap != null){
+						if (cap != null) {
 							cap.reset(true);
 							cap.setExp(AoVCapabilityHandler.getExpForLevel(level));
 							sender.sendMessage(new TextComponentTranslation("commands.aov.success.level", e.getName(), level));
@@ -67,6 +68,8 @@ public class CommandAoV extends CommandBase {
 					}
 					throw new WrongUsageException("commands.aov.usage.setlevel");
 				case "reset":
+					Entity entity = args.length > 2 ? getEntity(server, sender, args[2]) : sender.getCommandSenderEntity();
+					IAoVCapability cap = getCap(entity);
 					ResetType type = null;
 					if (args.length > 1) {
 						switch (args[1].toLowerCase()) {
@@ -76,11 +79,18 @@ public class CommandAoV extends CommandBase {
 							case "full":
 								type = ResetType.MAJOR;
 								break;
+							case "cooldown":
+								if (cap != null && entity instanceof EntityPlayer)
+									cap.resetCharges((EntityPlayer) entity);
+								sender.sendMessage(new TextComponentTranslation("commands.aov.success.reset"));
+								return;
 						}
 					}
-					IAoVCapability cap = getCap(args.length > 2 ? getEntity(server, sender, args[2]) : sender.getCommandSenderEntity());
 					if (type != null && cap != null) {
 						cap.reset(type == ResetType.MAJOR);
+						IPolymorphCapability poly = CapabilityHelper.getCap(entity, CapabilityList.POLYMORPH, null);
+						if (poly != null)
+							poly.morph(null);
 						sender.sendMessage(new TextComponentTranslation("commands.aov.success.reset"));
 						return;
 					}

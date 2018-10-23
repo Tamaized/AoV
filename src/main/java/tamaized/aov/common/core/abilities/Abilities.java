@@ -27,6 +27,7 @@ import tamaized.aov.common.core.abilities.defender.Aid;
 import tamaized.aov.common.core.abilities.defender.ShieldOfFaith;
 import tamaized.aov.common.core.abilities.defender.StalwartPact;
 import tamaized.aov.common.core.abilities.defender.Zeal;
+import tamaized.aov.common.core.abilities.druid.FuriousClaw;
 import tamaized.aov.common.core.abilities.druid.Polymorph;
 import tamaized.aov.common.core.abilities.healer.Cores.Burst;
 import tamaized.aov.common.core.abilities.healer.Cores.PosEnergyAura;
@@ -160,8 +161,18 @@ public class Abilities {
 		celestialopposition = new CelestialOpposition();
 
 		wildshapeWolf = new Polymorph("wolf", IPolymorphCapability.Morph.Wolf);
+		furiousClaw = new FuriousClaw();
+		//		druidicRegenerate;
+		//		litStrike;
+		//		furiousFang;
+		//		naturesBounty;
+		//		earthquake;
+		//		furiousHowl;
 		wildshapeWaterElemental = new Polymorph("water", IPolymorphCapability.Morph.WaterElemental);
+		//		lightningStorm;
+		//		formPack;
 		wildshapeFireElemental = new Polymorph("fire", IPolymorphCapability.Morph.FireElemental);
+		//		elementalEmpowerment;
 	}
 
 }

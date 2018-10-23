@@ -23,6 +23,7 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.core.abilities.Abilities;
+import tamaized.aov.common.core.abilities.druid.FuriousClaw;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.registry.AoVPotions;
 import tamaized.tammodized.common.helper.CapabilityHelper;
@@ -62,6 +63,10 @@ public class AttackHandler {
 
 	@SubscribeEvent
 	public void onLivingHurtEvent(LivingHurtEvent event) {
+		Entity attacker = event.getSource().getTrueSource();
+		IAoVCapability cap = CapabilityHelper.getCap(attacker, CapabilityList.AOV, null);
+		if(attacker instanceof EntityLivingBase && cap != null && cap.hasSkill(AoVSkills.druid_core_4) && IAoVCapability.isCentered((EntityLivingBase) attacker, cap))
+			event.setAmount(event.getAmount() + cap.getLevel());
 		if (event.getEntityLiving() != null && event.getEntityLiving().getActivePotionEffect(AoVPotions.shieldOfFaith) != null)
 			event.setAmount(event.getAmount() / 2F);
 	}
@@ -72,7 +77,12 @@ public class AttackHandler {
 		IPolymorphCapability poly = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
 		if (poly != null && poly.getMorph() == IPolymorphCapability.Morph.Wolf) {
 			IAoVCapability cap = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
-			e.getTarget().attackEntityFrom(DamageSource.causePlayerDamage(e.getEntityPlayer()), 4.0F * (1.0F + (cap == null ? 0F : cap.getSpellPower())));
+			float amp = (1.0F + (cap == null ? 0F : (cap.getSpellPower() / 100F)));
+			float dmg = 4.0F * amp;
+			if(poly.isFlagBitActive(FuriousClaw.BIT))
+				dmg += 2F * amp * (IAoVCapability.isCentered(e.getEntityPlayer(), cap) ? 2F : 1F);
+			poly.subtractFlagBits(FuriousClaw.BIT);
+			e.getTarget().attackEntityFrom(DamageSource.causePlayerDamage(e.getEntityPlayer()), dmg);
 			e.setCanceled(true);
 		}
 	}
@@ -125,11 +135,6 @@ public class AttackHandler {
 					}
 					entity.attackedAtYaw = (float) (MathHelper.atan2(d0, d1) * (180D / Math.PI) - (double) entity.rotationYaw);
 					entity.knockBack(attacker, 1.0F, d1, d0);
-				}
-				if (cap.hasSkill(AoVSkills.druid_core_4) && IAoVCapability.isCentered(attackerLiving, cap)) {
-					livingAttackState = false;
-					entity.attackEntityFrom(event.getSource(), event.getAmount() + cap.getLevel());
-					livingAttackState = true;
 				}
 			}
 		}

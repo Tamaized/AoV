@@ -12,12 +12,16 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.core.abilities.Ability;
+import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.skills.AoVSkill;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketHandlerAoVData.Packet, IMessage> {
 
@@ -35,13 +39,14 @@ public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketH
 			for (int index = 0; index < 9; index++)
 				cap.setSlot(message.slots[index], index, true);
 			cap.setCurrentSlot(message.currentSlot);
+			cap.setCooldowns(Collections.unmodifiableMap(message.cooldowns));
 			cap.markDirty();
 			cap.setLoaded();
 		}
 		IPolymorphCapability poly = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
 		if (poly != null) {
 			poly.morph(message.polymorph);
-			poly.setRenderBits(message.renderBits);
+			poly.setFlagBits(message.renderBits);
 		}
 	}
 
@@ -63,6 +68,7 @@ public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketH
 		private int currentSlot;
 		private IPolymorphCapability.Morph polymorph;
 		private byte renderBits;
+		private Map<AbilityBase, Integer> cooldowns = new HashMap<>();
 
 		@SuppressWarnings("unused")
 		public Packet() {
@@ -77,14 +83,15 @@ public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketH
 			invokeMass = cap.getInvokeMass();
 			slots = cap.getSlots();
 			currentSlot = cap.getCurrentSlot();
+			cooldowns = cap.getCooldowns();
 			polymorph = poly.getMorph();
-			renderBits = poly.getRenderBits();
+			renderBits = poly.getFlagBits();
 		}
 
 		@Override
 		public void fromBytes(ByteBuf stream) {
-			int size = stream.readInt();
 			obtainedSkills.clear();
+			int size = stream.readInt();
 			for (int index = 0; index < size; index++) {
 				obtainedSkills.add(AoVSkills.getSkillFromID(stream.readInt()));
 			}
@@ -96,6 +103,11 @@ public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketH
 				slots[index] = stream.readBoolean() ? Ability.construct(stream) : null;
 			}
 			currentSlot = stream.readInt();
+			cooldowns.clear();
+			size = stream.readInt();
+			for (int index = 0; index < size; index++) {
+				cooldowns.put(AbilityBase.getAbilityFromID(stream.readInt()), stream.readInt());
+			}
 			polymorph = IPolymorphCapability.Morph.getMorph(stream.readInt());
 			renderBits = stream.readByte();
 		}
@@ -119,6 +131,11 @@ public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketH
 				}
 			}
 			stream.writeInt(currentSlot);
+			stream.writeInt(cooldowns.size());
+			for(Map.Entry<AbilityBase, Integer> entry : cooldowns.entrySet()) {
+				stream.writeInt(entry.getKey().getID());
+				stream.writeInt(entry.getValue());
+			}
 			stream.writeInt(polymorph == null ? -1 : polymorph.ordinal());
 			stream.writeByte(renderBits);
 		}

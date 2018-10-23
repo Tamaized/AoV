@@ -1,6 +1,7 @@
 package tamaized.aov.common.capabilities.aov;
 
 import com.google.common.collect.ImmutableSet;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -227,9 +228,9 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			dodge += level;
 			doublestrike += level;
 			spellpower += (5 * level);
-			if(hasSkill(AoVSkills.druid_core_3))
+			if (hasSkill(AoVSkills.druid_core_3))
 				dodge += 25;
-			if(hasSkill(AoVSkills.druid_capstone))
+			if (hasSkill(AoVSkills.druid_capstone))
 				dodge += 25;
 		}
 		Iterator<Ability> iter = abilities.iterator();
@@ -328,6 +329,18 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	@Override
 	public int getCooldown(AbilityBase ability) {
 		return cooldowns.getOrDefault(ability, 0);
+	}
+
+	@Override
+	public Map<AbilityBase, Integer> getCooldowns() {
+		return Collections.unmodifiableMap(cooldowns);
+	}
+
+	@Override
+	public void setCooldowns(Map<AbilityBase, Integer> map) {
+		cooldowns.clear();
+		for(Map.Entry<AbilityBase, Integer> entry : map.entrySet())
+			cooldowns.put(entry.getKey(), entry.getValue());
 	}
 
 	@Override
@@ -553,6 +566,12 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	@SideOnly(Side.CLIENT)
 	public void cast(int slotLoc) {
 		AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.CAST_SPELL, null, ClientProxy.getTarget() != null ? new int[]{slotLoc, ClientProxy.getTarget().getEntityId()} : new int[]{slotLoc}));
+		Ability ability = getSlot(slotLoc);
+		if (ability != null && ability.getAbility().runOnClient())
+			if (ClientProxy.getTarget() == null)
+				ability.cast(Minecraft.getMinecraft().player);
+			else
+				ability.cast(Minecraft.getMinecraft().player, ClientProxy.getTarget());
 	}
 
 	@Override

@@ -44,6 +44,10 @@ public abstract class AbilityBase {
 		return false;
 	}
 
+	public boolean runOnClient() {
+		return false;
+	}
+
 	@SideOnly(Side.CLIENT)
 	public final List<String> getDescription() {
 		List<String> list = Lists.newArrayList();

@@ -90,10 +90,10 @@ public class AoVOverlay extends Gui {
 		} else if(e.getType() == RenderGameOverlayEvent.ElementType.ALL){
 			IPolymorphCapability poly = CapabilityHelper.getCap(mc.player, CapabilityList.POLYMORPH, null);
 			if (poly != null) {
-				ClientTicker.dangerBiomeTicksFlag = (poly.getRenderBits() & 0b0001) == 0b0001;
+				ClientTicker.dangerBiomeTicksFlag = (poly.getFlagBits() & 0b0001) == 0b0001;
 				if (ClientTicker.dangerBiomeTicks > 0) {
 					mc.renderEngine.bindTexture(TEXTURE_DANGERBIOME);
-					boolean isWater = (poly.getRenderBits() & 0b0010) == 0b0000;
+					boolean isWater = (poly.getFlagBits() & 0b0010) == 0b0000;
 					float r = isWater ? 1F : 0F;
 					float g = isWater ? 0.15F : 0.6F;
 					float b = isWater ? 0F : 1F;

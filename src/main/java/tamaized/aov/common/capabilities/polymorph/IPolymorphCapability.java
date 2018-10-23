@@ -39,9 +39,15 @@ public interface IPolymorphCapability {
 
 	void update(EntityPlayer player);
 
-	byte getRenderBits();
+	byte getFlagBits();
 
-	void setRenderBits(byte bits);
+	void setFlagBits(byte bits);
+
+	boolean isFlagBitActive(byte bit);
+
+	void addFlagBits(byte add);
+
+	void subtractFlagBits(byte sub);
 
 	enum Morph {
 

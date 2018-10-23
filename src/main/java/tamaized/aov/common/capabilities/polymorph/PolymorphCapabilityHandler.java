@@ -48,11 +48,12 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 	private int initalAttackCooldown;
 	private int attackCooldownMax = 20 * 5;
 	private boolean attacking = false;
-	// 1XXX - unused
-	// X1XX - unused
+	// 1XXX - Furious Claw
+	// X1XX - Furious Fang
 	// XX1X - Dangerous Biome Elemental (0 = Water; 1 = Fire)
 	// XXX1 - Dangerous Biome Temperature
-	private byte renderBits = 0b0000;
+	private byte flagBits = 0b0000;
+	private static final byte FLAG_BIT_LENGTH = 0b1111;
 
 	@Override
 	public Morph getMorph() {
@@ -98,10 +99,10 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 				initalAttackCooldown = attackCooldown = cooldown;
 				Vec3d lookVector = player.getLook(Minecraft.getMinecraft().getRenderPartialTicks());
 				IAoVCapability cap = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
+				Vec3d vel = new Vec3d(0.9F * lookVector.x, 0.5F, 0.9F * lookVector.z);
 				if (cap != null && cap.hasSkill(AoVSkills.druid_core_4) && IAoVCapability.isCentered(player, cap))
-					player.addVelocity(1.8F * lookVector.x, 1.0F, 1.8F * lookVector.z);
-				else
-					player.addVelocity(0.9F * lookVector.x, 0.5F, 0.9F * lookVector.z);
+					vel = new Vec3d(1.8F * lookVector.x, 0.65F, 1.8F * lookVector.z);
+				player.addVelocity(vel.x, vel.y, vel.z);
 			} else if (attackCooldown <= 0 && player.onGround)
 				AoV.network.sendToServer(new ServerPacketHandlerPolymorphDogAttack.Packet());
 		} else {
@@ -135,7 +136,7 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 				IAoVCapability aov = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
 				List<Entity> targets = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getEntityBoundingBox().grow(0.75D));
 				for (Entity target : targets) {
-					target.attackEntityFrom(DamageSource.causePlayerDamage(player), 5F * (aov == null ? 1 : (aov.getSpellPower() + 1F)));
+					target.attackEntityFrom(DamageSource.causePlayerDamage(player), 5F * (aov == null ? 1 : (aov.getSpellPower() / 100F + 1F)));
 				}
 			}
 		} else if (localMorphSize()) {
@@ -191,18 +192,18 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 						if (getMorph() == Morph.FireElemental)
 							flags |= 0b10;
 					}
-					byte oldBits = renderBits;
+					byte oldBits = flagBits;
 					if ((flags & 0b01) == 0b01) {
 						player.attackEntityFrom(DamageSource.STARVE, 1F);
-						renderBits |= 0b0001;
+						flagBits |= 0b0001;
 						if (getMorph() == Morph.WaterElemental)
-							renderBits &= 0b1101;
+							flagBits &= 0b1101;
 						else if (getMorph() == Morph.FireElemental)
-							renderBits |= 0b0010;
+							flagBits |= 0b0010;
 					} else {
-						renderBits &= 0b1110;
+						flagBits &= 0b1110;
 					}
-					if (oldBits != renderBits) {
+					if (oldBits != flagBits) {
 						IAoVCapability aov = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
 						if (aov != null)
 							aov.markDirty();
@@ -227,13 +228,28 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 	}
 
 	@Override
-	public byte getRenderBits() {
-		return renderBits;
+	public byte getFlagBits() {
+		return flagBits;
 	}
 
 	@Override
-	public void setRenderBits(byte bits) {
-		renderBits = bits;
+	public void setFlagBits(byte bits) {
+		flagBits = bits;
+	}
+
+	@Override
+	public boolean isFlagBitActive(byte bit) {
+		return (flagBits & bit) == bit;
+	}
+
+	@Override
+	public void addFlagBits(byte add) {
+		flagBits |= add;
+	}
+
+	@Override
+	public void subtractFlagBits(byte sub) {
+		flagBits &= (~sub & FLAG_BIT_LENGTH);
 	}
 
 	private static class StateWrapper {

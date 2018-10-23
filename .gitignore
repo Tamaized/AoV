@@ -6,6 +6,7 @@
 !/src/
 !/src/**
 /src/disabled/
+/src/test/
 !/libs/
 !/libs/**
 !build.gradle
