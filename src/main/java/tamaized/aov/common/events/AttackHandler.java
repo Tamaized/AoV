@@ -65,7 +65,7 @@ public class AttackHandler {
 	public void onLivingHurtEvent(LivingHurtEvent event) {
 		Entity attacker = event.getSource().getTrueSource();
 		IAoVCapability cap = CapabilityHelper.getCap(attacker, CapabilityList.AOV, null);
-		if(attacker instanceof EntityLivingBase && cap != null && cap.hasSkill(AoVSkills.druid_core_4) && IAoVCapability.isCentered((EntityLivingBase) attacker, cap))
+		if (attacker instanceof EntityLivingBase && cap != null && cap.hasSkill(AoVSkills.druid_core_4) && IAoVCapability.isCentered((EntityLivingBase) attacker, cap))
 			event.setAmount(event.getAmount() + cap.getLevel());
 		if (event.getEntityLiving() != null && event.getEntityLiving().getActivePotionEffect(AoVPotions.shieldOfFaith) != null)
 			event.setAmount(event.getAmount() / 2F);
@@ -75,14 +75,18 @@ public class AttackHandler {
 	public void onPlayerMeleeAttack(AttackEntityEvent e) {
 		EntityPlayer player = e.getEntityPlayer();
 		IPolymorphCapability poly = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
+		IAoVCapability cap = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
+		if(cap != null && cap.getCoreSkill() == AoVSkills.druid_core_1 && IAoVCapability.isCentered(player, cap))
+			cap.addExp(player, 10, Abilities.druidCentered);
 		if (poly != null && poly.getMorph() == IPolymorphCapability.Morph.Wolf) {
-			IAoVCapability cap = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
 			float amp = (1.0F + (cap == null ? 0F : (cap.getSpellPower() / 100F)));
 			float dmg = 4.0F * amp;
-			if(poly.isFlagBitActive(FuriousClaw.BIT))
+			if (poly.isFlagBitActive(FuriousClaw.BIT))
 				dmg += 2F * amp * (IAoVCapability.isCentered(e.getEntityPlayer(), cap) ? 2F : 1F);
 			poly.subtractFlagBits(FuriousClaw.BIT);
 			e.getTarget().attackEntityFrom(DamageSource.causePlayerDamage(e.getEntityPlayer()), dmg);
+			if (cap != null)
+				cap.addExp(player, 10, Abilities.wildshapeWolf);
 			e.setCanceled(true);
 		}
 	}

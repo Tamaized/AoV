@@ -1,29 +1,28 @@
 package tamaized.aov.common.core.abilities.druid;
 
-import com.google.common.collect.Sets;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.EnumHand;
+import net.minecraft.init.MobEffects;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextComponentTranslation;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
-import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.skills.SkillIcons;
+import tamaized.aov.common.helper.ParticleHelper;
+import tamaized.aov.proxy.CommonProxy;
 import tamaized.tammodized.common.helper.CapabilityHelper;
-import tamaized.tammodized.common.helper.RayTraceHelper;
 
-public class FuriousClaw extends AbilityBase {
+import java.util.List;
 
-	public static final byte BIT = 0b1000;
+public class DruidicRegenerate extends AbilityBase {
 
-	private static final String UNLOC = "aov.spells.furiousclaw";
+	private static final String UNLOC = "aov.spells.druidregenerate";
 
-	public FuriousClaw() {
+	public DruidicRegenerate(){
 		super(
 
 				new TextComponentTranslation(UNLOC.concat(".name")),
@@ -37,7 +36,7 @@ public class FuriousClaw extends AbilityBase {
 
 	@Override
 	public String getName() {
-		return I18n.format(UNLOC.concat(".name"));
+		return null;
 	}
 
 	@Override
@@ -52,12 +51,12 @@ public class FuriousClaw extends AbilityBase {
 
 	@Override
 	public double getMaxDistance() {
-		return 0;
+		return 6;
 	}
 
 	@Override
 	public int getCoolDown() {
-		return 30;
+		return 3;
 	}
 
 	@Override
@@ -72,30 +71,21 @@ public class FuriousClaw extends AbilityBase {
 
 	@Override
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
-		IPolymorphCapability cap = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
-		if (cap == null || cap.getMorph() != IPolymorphCapability.Morph.Wolf)
-			return false;
-		if (caster.world.isRemote)
-			caster.swingArm(EnumHand.MAIN_HAND);
-		cap.addFlagBits(BIT);
-		RayTraceResult ray = RayTraceHelper.tracePath(caster.world, caster, (int) caster.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue(), 1, Sets.newHashSet(caster));
-		if (ray != null && ray.typeOfHit == RayTraceResult.Type.ENTITY) {
-			caster.attackTargetEntityWithCurrentItem(ray.entityHit);
-			IAoVCapability aov = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
-			if (aov != null)
-				aov.addExp(caster, 20, this);
+		IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
+		if(cap != null) {
+			int range = (int) (getMaxDistance() * 2);
+			List<EntityLivingBase> list = caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-range, -range, -range), caster.getPosition().add(range, range, range)));
+			for (EntityLivingBase entity : list) {
+				entity.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 10));
+				cap.addExp(caster, 15, this);
+			}
+			return true;
 		}
-		cap.subtractFlagBits(BIT);
-		return true;
+		return false;
 	}
 
 	@Override
 	public ResourceLocation getIcon() {
 		return SkillIcons.vitality;
-	}
-
-	@Override
-	public boolean runOnClient() {
-		return true;
 	}
 }

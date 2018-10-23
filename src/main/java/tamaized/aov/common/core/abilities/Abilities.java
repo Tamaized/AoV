@@ -27,6 +27,7 @@ import tamaized.aov.common.core.abilities.defender.Aid;
 import tamaized.aov.common.core.abilities.defender.ShieldOfFaith;
 import tamaized.aov.common.core.abilities.defender.StalwartPact;
 import tamaized.aov.common.core.abilities.defender.Zeal;
+import tamaized.aov.common.core.abilities.druid.DruidicRegenerate;
 import tamaized.aov.common.core.abilities.druid.FuriousClaw;
 import tamaized.aov.common.core.abilities.druid.Polymorph;
 import tamaized.aov.common.core.abilities.healer.Cores.Burst;
@@ -94,6 +95,7 @@ public class Abilities {
 	public static AbilityBase celestialopposition;
 
 	//Druid
+	public static AbilityBase druidCentered;
 	public static AbilityBase wildshapeWolf;
 	public static AbilityBase furiousClaw;
 	public static AbilityBase druidicRegenerate;
@@ -160,9 +162,10 @@ public class Abilities {
 		gravity = new Gravity();
 		celestialopposition = new CelestialOpposition();
 
+		druidCentered = new AbilityBase.NullAbility("DruidCentered");
 		wildshapeWolf = new Polymorph("wolf", IPolymorphCapability.Morph.Wolf);
 		furiousClaw = new FuriousClaw();
-		//		druidicRegenerate;
+		druidicRegenerate = new DruidicRegenerate();
 		//		litStrike;
 		//		furiousFang;
 		//		naturesBounty;

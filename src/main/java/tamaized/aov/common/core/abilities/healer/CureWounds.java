@@ -93,13 +93,7 @@ public abstract class CureWounds extends AbilityBase {
 			caster.heal(a);
 			SoundEvents.playMovingSoundOnServer(SoundEvents.heal, caster);
 		} else {
-			if (e.isEntityUndead()) {
-				e.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, caster), a);
-				SoundEvents.playMovingSoundOnServer(SoundEvents.heal, e);
-			} else if (IAoVCapability.canBenefit(caster, cap, e)) {
-				e.heal(a);
-				SoundEvents.playMovingSoundOnServer(SoundEvents.heal, e);
-			}
+			heal(e, caster, a, cap);
 		}
 		cap.addExp(caster, 24, this);
 		return true;
@@ -110,14 +104,18 @@ public abstract class CureWounds extends AbilityBase {
 		ParticleHelper.spawnParticleMesh(ParticleHelper.MeshType.BURST, CommonProxy.ParticleType.Heart, caster.world, caster.getPositionVector(), range, getParticleColor());
 		List<EntityLivingBase> list = caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-range, -range, -range), caster.getPosition().add(range, range, range)));
 		for (EntityLivingBase entity : list) {
-			if (entity.isEntityUndead()) {
-				entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, caster), dmg);
-				SoundEvents.playMovingSoundOnServer(SoundEvents.heal, entity);
-			} else if (IAoVCapability.canBenefit(caster, cap, entity)) {
-				entity.heal(dmg);
-				SoundEvents.playMovingSoundOnServer(SoundEvents.heal, entity);
-			}
+			heal(entity, caster, dmg, cap);
 			cap.addExp(caster, 24, this);
+		}
+	}
+
+	private void heal(EntityLivingBase entity, EntityLivingBase caster, int dmg, IAoVCapability cap){
+		if (entity.isEntityUndead()) {
+			entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, caster), dmg);
+			SoundEvents.playMovingSoundOnServer(SoundEvents.heal, entity);
+		} else if (IAoVCapability.canBenefit(caster, cap, entity)) {
+			entity.heal(dmg);
+			SoundEvents.playMovingSoundOnServer(SoundEvents.heal, entity);
 		}
 	}
 
