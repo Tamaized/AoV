@@ -18,9 +18,9 @@ public class DruidSkillRegisterButtons implements IClassButtons {
 		instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 37, instance.height - 48, AoVSkills.druid_capstone));
 
 		/* Tier 1 */
-		instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 63, instance.height - 88, AoVSkills.druid_tier_1_1));/*
-instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width/2 - 38, instance.height-88, AoVSkills.druid_tier_1_2));
-instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 13, instance.height - 88, AoVSkills.druid_tier_1_3));
+		instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 63, instance.height - 88, AoVSkills.druid_tier_1_1));
+		instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 38, instance.height - 88, AoVSkills.druid_tier_1_2));
+		instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 13, instance.height - 88, AoVSkills.druid_tier_1_3));/*
 instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 12, instance.height - 88, AoVSkills.druid_tier_1_4));
 instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 37, instance.height - 88, AoVSkills.druid_tier_1_5));
 		

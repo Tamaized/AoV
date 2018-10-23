@@ -19,6 +19,7 @@ import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.common.helper.UtilHelper;
 import tamaized.aov.network.client.ClientPacketHandlerPolymorphDogAttack;
@@ -40,6 +41,7 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 			new StateWrapper(Blocks.FIRE).matchAnyState(), new StateWrapper(Blocks.LAVA).matchAnyState(), new StateWrapper(Blocks.FLOWING_LAVA).matchAnyState()
 
 	);
+	private static final byte FLAG_BIT_LENGTH = 0b1111;
 	private static Field ENTITY_isImmuneToFire;
 	private boolean unsetter_ENTITY_isImmuneToFire = false;
 	private Morph morph;
@@ -53,7 +55,6 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 	// XX1X - Dangerous Biome Elemental (0 = Water; 1 = Fire)
 	// XXX1 - Dangerous Biome Temperature
 	private byte flagBits = 0b0000;
-	private static final byte FLAG_BIT_LENGTH = 0b1111;
 
 	@Override
 	public Morph getMorph() {
@@ -137,6 +138,8 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 				List<Entity> targets = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getEntityBoundingBox().grow(0.75D));
 				for (Entity target : targets) {
 					target.attackEntityFrom(DamageSource.causePlayerDamage(player), 5F * (aov == null ? 1 : (aov.getSpellPower() / 100F + 1F)));
+					if (aov != null)
+						aov.addExp(player, 10, Abilities.wildshapeWolf);
 				}
 			}
 		} else if (localMorphSize()) {

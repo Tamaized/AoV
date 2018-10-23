@@ -85,8 +85,6 @@ public class AttackHandler {
 				dmg += 2F * amp * (IAoVCapability.isCentered(e.getEntityPlayer(), cap) ? 2F : 1F);
 			poly.subtractFlagBits(FuriousClaw.BIT);
 			e.getTarget().attackEntityFrom(DamageSource.causePlayerDamage(e.getEntityPlayer()), dmg);
-			if (cap != null)
-				cap.addExp(player, 10, Abilities.wildshapeWolf);
 			e.setCanceled(true);
 		}
 	}

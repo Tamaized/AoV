@@ -12,8 +12,6 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.skills.SkillIcons;
-import tamaized.aov.common.helper.ParticleHelper;
-import tamaized.aov.proxy.CommonProxy;
 import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import java.util.List;
@@ -36,7 +34,7 @@ public class DruidicRegenerate extends AbilityBase {
 
 	@Override
 	public String getName() {
-		return null;
+		return UNLOC.concat(".name");
 	}
 
 	@Override
@@ -76,7 +74,7 @@ public class DruidicRegenerate extends AbilityBase {
 			int range = (int) (getMaxDistance() * 2);
 			List<EntityLivingBase> list = caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-range, -range, -range), caster.getPosition().add(range, range, range)));
 			for (EntityLivingBase entity : list) {
-				entity.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 10));
+				entity.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 200));
 				cap.addExp(caster, 15, this);
 			}
 			return true;
