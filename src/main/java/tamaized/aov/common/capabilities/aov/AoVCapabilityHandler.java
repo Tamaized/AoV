@@ -346,6 +346,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	@Override
 	public void resetCharges(EntityPlayer player) {
 		cooldowns.clear();
+		decay.clear();
 		for (Ability ability : slots)
 			if (ability != null)
 				ability.reset(this, CapabilityHelper.getCap(player, CapabilityList.ASTRO, null));
