@@ -39,8 +39,7 @@ public abstract class AbilityBase {
 		return getID(this);
 	}
 
-	@SuppressWarnings("unused")
-	public boolean shouldDisable(IAoVCapability cap, @Nullable IAstroCapability astro) {
+	public boolean shouldDisable(@Nullable EntityPlayer caster, IAoVCapability cap) {
 		return false;
 	}
 

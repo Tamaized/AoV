@@ -131,7 +131,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			return;
 		tick++;
 		checkState(player);
-		updateAbilities();
+		updateAbilities(player);
 		updateAuras(player);
 		updateDecay();
 		if (tick % (20 * 10) == 0)
@@ -288,10 +288,10 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		}
 	}
 
-	private void updateAbilities() {
+	private void updateAbilities(@Nullable EntityPlayer player) {
 		for (Ability ability : slots)
 			if (ability != null)
-				ability.update(this);
+				ability.update(player, this);
 		if (tick % 20 == 0)
 			for (Iterator<Map.Entry<AbilityBase, Integer>> iter = cooldowns.entrySet().iterator(); iter.hasNext(); ) {
 				Map.Entry<AbilityBase, Integer> entry = iter.next();
@@ -349,7 +349,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		decay.clear();
 		for (Ability ability : slots)
 			if (ability != null)
-				ability.reset(this, CapabilityHelper.getCap(player, CapabilityList.ASTRO, null));
+				ability.reset(player, this);
 		dirty = true;
 	}
 

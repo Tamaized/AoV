@@ -17,6 +17,8 @@ import tamaized.aov.common.core.skills.SkillIcons;
 import tamaized.tammodized.common.helper.CapabilityHelper;
 import tamaized.tammodized.common.helper.RayTraceHelper;
 
+import javax.annotation.Nullable;
+
 public class FuriousClaw extends AbilityBase {
 
 	public static final byte BIT = 0b1000;
@@ -68,6 +70,12 @@ public class FuriousClaw extends AbilityBase {
 	@Override
 	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
 		return false;
+	}
+
+	@Override
+	public boolean shouldDisable(@Nullable EntityPlayer caster, IAoVCapability cap) {
+		IPolymorphCapability poly = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
+		return poly == null || poly.getMorph() != IPolymorphCapability.Morph.Wolf || super.shouldDisable(caster, cap);
 	}
 
 	@Override

@@ -35,7 +35,7 @@ public final class Ability {
 
 	public Ability(AbilityBase ability, IAoVCapability cap, @Nullable IAstroCapability astro) {
 		this.ability = ability;
-		reset(cap, astro);
+		reset(null, cap);
 	}
 
 	public static Ability construct(ByteBuf stream) {
@@ -96,13 +96,13 @@ public final class Ability {
 		disabled = nbt.getBoolean("disabled");
 	}
 
-	public void reset(IAoVCapability cap, @Nullable IAstroCapability astro) {
+	public void reset(EntityPlayer caster, IAoVCapability cap) {
 		cooldown = cap.getCooldown(ability);
 		nextCooldown = -1;
 		charges = ability.getMaxCharges() < 0 ? -1 : ability.getMaxCharges() + cap.getExtraCharges();
 		decay = 0;
 		timer = -1;
-		disabled = getAbility().shouldDisable(cap, astro);
+		disabled = getAbility().shouldDisable(caster, cap);
 	}
 
 	public void restoreCharge(IAoVCapability cap, int amount) {
@@ -115,16 +115,6 @@ public final class Ability {
 
 	public void setTimer(int t) {
 		timer = t;
-	}
-
-	@SuppressWarnings("unused")
-	public void setDisabled() {
-		disabled = true;
-	}
-
-	@SuppressWarnings("unused")
-	public void setEnabled() {
-		disabled = false;
 	}
 
 	public final void cast(EntityPlayer caster) {
@@ -178,13 +168,13 @@ public final class Ability {
 		return charges;
 	}
 
-	@SuppressWarnings("unused")
 	public int getDecay() {
 		return decay;
 	}
 
-	public void update(IAoVCapability cap) {
+	public void update(EntityPlayer caster, IAoVCapability cap) {
 		tick++;
+		disabled = ability.shouldDisable(caster, cap);
 		if (tick % 20 == 0 && cooldown > 0)
 			cooldown--;
 		if (decay > 0 && tick % (20 * 20) == 0)
