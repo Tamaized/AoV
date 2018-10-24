@@ -1,13 +1,11 @@
 package tamaized.aov.common.core.abilities.caster;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -17,11 +15,9 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.entity.ProjectileFlameStrike;
+import tamaized.aov.common.helper.UtilHelper;
 import tamaized.aov.registry.SoundEvents;
 import tamaized.tammodized.common.helper.CapabilityHelper;
-import tamaized.tammodized.common.helper.RayTraceHelper;
-
-import java.util.HashSet;
 
 public class FlameStrike extends AbilityBase {
 
@@ -103,29 +99,8 @@ public class FlameStrike extends AbilityBase {
 			return false;
 		int a = (int) (damage * (1f + (cap.getSpellPower() / 100f)));
 		ProjectileFlameStrike strike = new ProjectileFlameStrike(caster.world, caster, a);
-		if(target == null) {
-			HashSet<Entity> exclude = new HashSet<>();
-			exclude.add(caster);
-			RayTraceResult result = RayTraceHelper.tracePath(caster.world, caster, distance, 1, exclude);
-			if (result != null && result.typeOfHit != null) {
-				switch (result.typeOfHit) {
-					case BLOCK:
-						BlockPos pos = result.getBlockPos();
-						strike.setPosition(pos.getX(), pos.getY() + 15, pos.getZ());
-						break;
-					case ENTITY:
-						pos = result.entityHit.getPosition();
-						strike.setPosition(pos.getX(), pos.getY() + 15, pos.getZ());
-						break;
-					default:
-						pos = caster.getPosition();
-						strike.setPosition(pos.getX(), pos.getY() + 15, pos.getZ());
-						break;
-				}
-			}
-		} else {
-			strike.setPosition(target.posX, target.posY + 15, target.posZ);
-		}
+		Vec3d pos = UtilHelper.getSpellLocation(caster, distance, target);
+		strike.setPosition(pos.x, pos.y + 15, pos.z);
 		caster.world.spawnEntity(strike);
 		strike.world.playSound(null, strike.posX, strike.posY - 20, strike.posZ, SoundEvents.firestrike, SoundCategory.NEUTRAL, 1.0F, 1.0F);
 		return true;

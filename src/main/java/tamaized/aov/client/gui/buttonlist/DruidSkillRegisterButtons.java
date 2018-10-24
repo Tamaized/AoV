@@ -20,31 +20,31 @@ public class DruidSkillRegisterButtons implements IClassButtons {
 		/* Tier 1 */
 		instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 63, instance.height - 88, AoVSkills.druid_tier_1_1));
 		instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 38, instance.height - 88, AoVSkills.druid_tier_1_2));
-		instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 13, instance.height - 88, AoVSkills.druid_tier_1_3));/*
-instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 12, instance.height - 88, AoVSkills.druid_tier_1_4));
-instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 37, instance.height - 88, AoVSkills.druid_tier_1_5));
-		
-		*//* Tier 2 *//*
-instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 63, instance.height - 128, AoVSkills.druid_tier_2_1));
-instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 38, instance.height - 128, AoVSkills.druid_tier_2_2));
-instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 13, instance.height - 128, AoVSkills.druid_tier_2_3));
-instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 12, instance.height - 128, AoVSkills.druid_tier_2_4));
-instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 37, instance.height - 128, AoVSkills.druid_tier_2_5));
-		
-		*//* Tier 3 *//*
-instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 63, instance.height - 168, AoVSkills.druid_tier_3_1));
-instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 38, instance.height - 168, AoVSkills.druid_tier_3_2));
-instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 13, instance.height - 168, AoVSkills.druid_tier_3_3));
-instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 12, instance.height - 168, AoVSkills.druid_tier_3_4));
-instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 37, instance.height - 168, AoVSkills.druid_tier_3_5));
-		
-		*//* Tier 4 *//*
-instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 63, instance.height - 208, AoVSkills.druid_tier_4_1));
-instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 38, instance.height - 208, AoVSkills.druid_tier_4_2));
-instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 13, instance.height - 208, AoVSkills.druid_tier_4_3));
-instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 12, instance.height - 208, AoVSkills.druid_tier_4_4));
-instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 37, instance.height - 208, AoVSkills.druid_tier_4_5));
-		*/
+		instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 13, instance.height - 88, AoVSkills.druid_tier_1_3));
+		instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 12, instance.height - 88, AoVSkills.druid_tier_1_4));
+		instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 37, instance.height - 88, AoVSkills.druid_tier_1_5));
+
+		/* Tier 2 */
+		//instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 63, instance.height - 128, AoVSkills.druid_tier_2_1));
+		//instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 38, instance.height - 128, AoVSkills.druid_tier_2_2));
+		//instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 13, instance.height - 128, AoVSkills.druid_tier_2_3));
+		//instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 12, instance.height - 128, AoVSkills.druid_tier_2_4));
+		//instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 37, instance.height - 128, AoVSkills.druid_tier_2_5));
+
+		/* Tier 3 */
+		//instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 63, instance.height - 168, AoVSkills.druid_tier_3_1));
+		//instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 38, instance.height - 168, AoVSkills.druid_tier_3_2));
+		//instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 13, instance.height - 168, AoVSkills.druid_tier_3_3));
+		//instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 12, instance.height - 168, AoVSkills.druid_tier_3_4));
+		//instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 37, instance.height - 168, AoVSkills.druid_tier_3_5));
+
+		/* Tier 4 */
+		//instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 63, instance.height - 208, AoVSkills.druid_tier_4_1));
+		//instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 38, instance.height - 208, AoVSkills.druid_tier_4_2));
+		//instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 13, instance.height - 208, AoVSkills.druid_tier_4_3));
+		//instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 12, instance.height - 208, AoVSkills.druid_tier_4_4));
+		//instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 37, instance.height - 208, AoVSkills.druid_tier_4_5));
+
 
 	}
 

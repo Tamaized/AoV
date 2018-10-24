@@ -2,7 +2,15 @@ package tamaized.aov.common.helper;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
+import tamaized.tammodized.common.helper.RayTraceHelper;
+
+import javax.annotation.Nullable;
+import java.util.HashSet;
 
 public class UtilHelper {
 
@@ -25,6 +33,27 @@ public class UtilHelper {
 				e.move(MoverType.SELF, (double) (f - e.width), 0.0D, (double) (f - e.width));
 			}
 		}
+	}
+
+	public static Vec3d getSpellLocation(EntityPlayer caster, int maxDistance, @Nullable Entity target) {
+		if (target == null) {
+			HashSet<Entity> exclude = new HashSet<>();
+			exclude.add(caster);
+			RayTraceResult result = RayTraceHelper.tracePath(caster.world, caster, maxDistance, 1, exclude);
+			if (result != null && result.typeOfHit != null) {
+				switch (result.typeOfHit) {
+					case BLOCK: {
+						BlockPos pos = result.getBlockPos();
+						return new Vec3d(pos.getX(), pos.getY(), pos.getZ());
+					}
+					case ENTITY: {
+						return result.entityHit.getPositionVector();
+					}
+				}
+			}
+			return caster.getPositionVector();
+		} else
+			return target.getPositionVector();
 	}
 
 }

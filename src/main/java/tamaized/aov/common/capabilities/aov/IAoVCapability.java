@@ -55,7 +55,7 @@ public interface IAoVCapability {
 	 * @return true if can damage
 	 */
 	static boolean selectiveTarget(Entity caster, IAoVCapability cap, EntityLivingBase entity) {
-		return (!cap.hasSelectiveFocus() || // We don't have selective focus, just return true
+		return (cap == null || !cap.hasSelectiveFocus() || // We don't have selective focus, just return true
 				caster == null || // Caster is null, what's the point, return true
 				(caster.getTeam() != null && // We are on a team
 						!caster.isOnSameTeam(entity)) || // Not the same team, return true
