@@ -70,12 +70,6 @@ public class DruidicRegenerate extends AbilityBase {
 	}
 
 	@Override
-	public boolean shouldDisable(@Nullable EntityPlayer caster, IAoVCapability cap) {
-		IPolymorphCapability poly = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
-		return poly == null || poly.getMorph() == IPolymorphCapability.Morph.Wolf || super.shouldDisable(caster, cap);
-	}
-
-	@Override
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
 		if(cap != null) {

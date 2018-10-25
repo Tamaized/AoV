@@ -29,6 +29,7 @@ import tamaized.aov.common.core.abilities.defender.StalwartPact;
 import tamaized.aov.common.core.abilities.defender.Zeal;
 import tamaized.aov.common.core.abilities.druid.DruidicRegenerate;
 import tamaized.aov.common.core.abilities.druid.FuriousClaw;
+import tamaized.aov.common.core.abilities.druid.FuriousFang;
 import tamaized.aov.common.core.abilities.druid.LightningStrike;
 import tamaized.aov.common.core.abilities.druid.Polymorph;
 import tamaized.aov.common.core.abilities.healer.Cores.Burst;
@@ -168,7 +169,7 @@ public class Abilities {
 		furiousClaw = new FuriousClaw();
 		druidicRegenerate = new DruidicRegenerate();
 		litStrike = new LightningStrike();
-		//		furiousFang;
+		furiousFang = new FuriousFang();
 		//		naturesBounty;
 		//		earthquake;
 		//		furiousHowl;

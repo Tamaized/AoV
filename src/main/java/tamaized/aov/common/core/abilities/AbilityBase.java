@@ -8,8 +8,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
+import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -40,7 +43,8 @@ public abstract class AbilityBase {
 	}
 
 	public boolean shouldDisable(@Nullable EntityPlayer caster, IAoVCapability cap) {
-		return false;
+		IPolymorphCapability poly = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
+		return poly != null && poly.getMorph() == IPolymorphCapability.Morph.Wolf;
 	}
 
 	public boolean runOnClient() {

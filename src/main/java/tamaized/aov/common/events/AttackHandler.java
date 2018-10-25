@@ -24,6 +24,7 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.druid.FuriousClaw;
+import tamaized.aov.common.core.abilities.druid.FuriousFang;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.registry.AoVPotions;
 import tamaized.tammodized.common.helper.CapabilityHelper;
@@ -84,6 +85,9 @@ public class AttackHandler {
 			if (poly.isFlagBitActive(FuriousClaw.BIT))
 				dmg += 2F * amp * (IAoVCapability.isCentered(e.getEntityPlayer(), cap) ? 2F : 1F);
 			poly.subtractFlagBits(FuriousClaw.BIT);
+			if (poly.isFlagBitActive(FuriousFang.BIT))
+				dmg += 4F * amp * (IAoVCapability.isCentered(e.getEntityPlayer(), cap) ? 2F : 1F);
+			poly.subtractFlagBits(FuriousFang.BIT);
 			e.getTarget().attackEntityFrom(DamageSource.causePlayerDamage(e.getEntityPlayer()), dmg);
 			e.setCanceled(true);
 		}

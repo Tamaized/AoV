@@ -75,25 +75,29 @@ public class FuriousClaw extends AbilityBase {
 	@Override
 	public boolean shouldDisable(@Nullable EntityPlayer caster, IAoVCapability cap) {
 		IPolymorphCapability poly = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
-		return poly == null || poly.getMorph() != IPolymorphCapability.Morph.Wolf || super.shouldDisable(caster, cap);
+		return poly == null || poly.getMorph() != IPolymorphCapability.Morph.Wolf;
 	}
 
 	@Override
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
+		return invoke(BIT, caster, this);
+	}
+
+	public static boolean invoke(byte bit, EntityPlayer caster, AbilityBase ability){
 		IPolymorphCapability cap = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
 		if (cap == null || cap.getMorph() != IPolymorphCapability.Morph.Wolf)
 			return false;
 		if (caster.world.isRemote)
 			caster.swingArm(EnumHand.MAIN_HAND);
-		cap.addFlagBits(BIT);
+		cap.addFlagBits(bit);
 		RayTraceResult ray = RayTraceHelper.tracePath(caster.world, caster, (int) caster.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue(), 1, Sets.newHashSet(caster));
 		if (ray != null && ray.typeOfHit == RayTraceResult.Type.ENTITY) {
 			caster.attackTargetEntityWithCurrentItem(ray.entityHit);
 			IAoVCapability aov = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
 			if (aov != null)
-				aov.addExp(caster, 20, this);
+				aov.addExp(caster, 20, ability);
 		}
-		cap.subtractFlagBits(BIT);
+		cap.subtractFlagBits(bit);
 		return true;
 	}
 

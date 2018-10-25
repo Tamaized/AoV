@@ -26,7 +26,7 @@ public class DruidSkillRegisterButtons implements IClassButtons {
 
 		/* Tier 2 */
 		//instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 63, instance.height - 128, AoVSkills.druid_tier_2_1));
-		//instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 38, instance.height - 128, AoVSkills.druid_tier_2_2));
+		instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 38, instance.height - 128, AoVSkills.druid_tier_2_2));
 		//instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 13, instance.height - 128, AoVSkills.druid_tier_2_3));
 		//instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 12, instance.height - 128, AoVSkills.druid_tier_2_4));
 		//instance.addNewButton(new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 37, instance.height - 128, AoVSkills.druid_tier_2_5));
