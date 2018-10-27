@@ -135,7 +135,7 @@ public final class Ability {
 				target = null;
 			if (cap.canUseAbility(this) && ((ability.usesInvoke() && cap.getInvokeMass()) || target == null || ability.getMaxDistance() >= caster.getDistance(target))) {
 				if (ability.cast(this, caster, target)) {
-					charges -= ability.getCost(cap);
+					charges -= caster.isCreative() ? 0 : ability.getCost(cap);
 					cooldown = (nextCooldown < 0 ? ability.getCoolDown() : nextCooldown) * ((ability.usesInvoke() && cap.getInvokeMass()) ? 2 : 1);
 				} else
 					cooldown = 1;
