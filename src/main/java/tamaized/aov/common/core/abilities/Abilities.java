@@ -28,6 +28,7 @@ import tamaized.aov.common.core.abilities.defender.ShieldOfFaith;
 import tamaized.aov.common.core.abilities.defender.StalwartPact;
 import tamaized.aov.common.core.abilities.defender.Zeal;
 import tamaized.aov.common.core.abilities.druid.DruidicRegenerate;
+import tamaized.aov.common.core.abilities.druid.Earthquake;
 import tamaized.aov.common.core.abilities.druid.FuriousClaw;
 import tamaized.aov.common.core.abilities.druid.FuriousFang;
 import tamaized.aov.common.core.abilities.druid.LightningStrike;
@@ -171,8 +172,8 @@ public class Abilities {
 		druidicRegenerate = new DruidicRegenerate();
 		litStrike = new LightningStrike();
 		furiousFang = new FuriousFang();
-				naturesBounty = new NaturesBounty();
-		//		earthquake;
+		naturesBounty = new NaturesBounty();
+		earthquake = new Earthquake();
 		//		furiousHowl;
 		wildshapeWaterElemental = new Polymorph("water", IPolymorphCapability.Morph.WaterElemental);
 		//		lightningStorm;

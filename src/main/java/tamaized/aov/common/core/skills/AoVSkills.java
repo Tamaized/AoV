@@ -262,6 +262,7 @@ public class AoVSkills {
 		druid_tier_2_2 = register(new AoVSkill(new TextComponentTranslation("aov.skill.druid.tier2.2.name"), SkillIcons.vitality, 0, 4, 0, 1, 0, 0, 0, false, druid_tier_1_2, Lists.newArrayList(Abilities.furiousFang)).setupTooltip(new TextComponentTranslation("aov.skill.druid.tier2.2.desc")));
 		druid_tier_2_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.druid.tier2.3.name"), SkillIcons.dodge, 0, 4, 0, 1, 0, 1, 0, false, druid_tier_1_3, Lists.newArrayList()).setupTooltip(new TextComponentTranslation("aov.skill.druid.tier2.3.desc")));
 		druid_tier_2_4 = register(new AoVSkill(new TextComponentTranslation("aov.skill.druid.tier2.4.name"), SkillIcons.vitality, 0, 4, 0, 1, 0, 0, 0, false, druid_tier_1_4, Lists.newArrayList(Abilities.naturesBounty)).setupTooltip(new TextComponentTranslation("aov.skill.druid.tier2.4.desc")));
+		druid_tier_2_5 = register(new AoVSkill(new TextComponentTranslation("aov.skill.druid.tier2.5.name"), SkillIcons.vitality, 0, 4, 0, 1, 0, 0, 0, false, druid_tier_1_5, Lists.newArrayList(Abilities.earthquake)).setupTooltip(new TextComponentTranslation("aov.skill.druid.tier2.5.desc")));
 	}
 
 	public static AoVSkill register(AoVSkill skill) {
