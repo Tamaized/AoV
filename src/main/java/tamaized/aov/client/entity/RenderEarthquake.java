@@ -19,6 +19,7 @@ import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL14;
 import tamaized.aov.AoV;
+import tamaized.aov.client.gui.AoVOverlay;
 import tamaized.aov.common.entity.EntityEarthquake;
 
 import javax.annotation.Nonnull;
@@ -114,6 +115,9 @@ public class RenderEarthquake extends Render<EntityEarthquake> {
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 		renderMask(entity, x, y, z, partialTicks);
 		renderQuakes(entity, x, y, z, partialTicks);
+		float intense = (float) (1F - entity.getDistanceSq(Minecraft.getMinecraft().player) / Math.pow(12, 2));
+		if (intense > AoVOverlay.intensity)
+			AoVOverlay.intensity = intense;
 	}
 
 	private void renderMask(@Nonnull EntityEarthquake entity, double x, double y, double z, float partialTicks) {

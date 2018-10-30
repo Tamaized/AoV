@@ -16,6 +16,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -36,6 +37,7 @@ import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Random;
 
 public class AoVOverlay extends Gui {
 
@@ -45,7 +47,9 @@ public class AoVOverlay extends Gui {
 	private static final ResourceLocation TEXTURE_ELEMENTALS = new ResourceLocation(AoV.modid, "textures/entity/fluid.png");
 	private static final ResourceLocation TEXTURE_DANGERBIOME = new ResourceLocation(AoV.modid, "textures/gui/dangerbiome.png");
 	private static final Minecraft mc = Minecraft.getMinecraft();
+	private static final Random rand = new Random();
 	public static boolean hackyshit = false;
+	public static float intensity = 0F;
 	private static EntityLivingBase cacheEntity;
 	private static int cacheEntityID = -1;
 
@@ -87,7 +91,7 @@ public class AoVOverlay extends Gui {
 			IPolymorphCapability poly = CapabilityHelper.getCap(mc.player, CapabilityList.POLYMORPH, null);
 			if (poly != null && poly.getMorph() == IPolymorphCapability.Morph.WaterElemental)
 				e.setCanceled(true);
-		} else if(e.getType() == RenderGameOverlayEvent.ElementType.ALL){
+		} else if (e.getType() == RenderGameOverlayEvent.ElementType.ALL) {
 			IPolymorphCapability poly = CapabilityHelper.getCap(mc.player, CapabilityList.POLYMORPH, null);
 			if (poly != null) {
 				ClientTicker.dangerBiomeTicksFlag = (poly.getFlagBits() & 0b0001) == 0b0001;
@@ -160,6 +164,15 @@ public class AoVOverlay extends Gui {
 	public void render(RenderWorldLastEvent e) {
 		renderStencils();
 		hackyshit = true;
+	}
+
+	@SubscribeEvent
+	public void camera(EntityViewRenderEvent.CameraSetup e){
+		if(intensity > 0){
+			e.setPitch(e.getPitch() + (rand.nextFloat() * 2F - 1F) * intensity);
+			e.setRoll(e.getRoll() + (rand.nextFloat() * 2F - 1F) * intensity);
+			intensity = 0F;
+		}
 	}
 
 	private void renderStencils() {
