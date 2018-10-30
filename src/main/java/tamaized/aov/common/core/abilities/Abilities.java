@@ -31,6 +31,7 @@ import tamaized.aov.common.core.abilities.druid.DruidicRegenerate;
 import tamaized.aov.common.core.abilities.druid.Earthquake;
 import tamaized.aov.common.core.abilities.druid.FuriousClaw;
 import tamaized.aov.common.core.abilities.druid.FuriousFang;
+import tamaized.aov.common.core.abilities.druid.FuriousHowl;
 import tamaized.aov.common.core.abilities.druid.LightningStrike;
 import tamaized.aov.common.core.abilities.druid.NaturesBounty;
 import tamaized.aov.common.core.abilities.druid.Polymorph;
@@ -174,7 +175,7 @@ public class Abilities {
 		furiousFang = new FuriousFang();
 		naturesBounty = new NaturesBounty();
 		earthquake = new Earthquake();
-		//		furiousHowl;
+		furiousHowl = new FuriousHowl();
 		wildshapeWaterElemental = new Polymorph("water", IPolymorphCapability.Morph.WaterElemental);
 		//		lightningStorm;
 		//		formPack;
