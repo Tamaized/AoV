@@ -267,9 +267,12 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		if (player != null) {
 			IPolymorphCapability poly = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
 			if (poly != null) {
-				if (player.world.getWorldTime() % 24000 < 12000 && poly.getMorph() == IPolymorphCapability.Morph.FireElemental) // Day (6 AM)
+				if (poly.getMorph() == IPolymorphCapability.Morph.Wolf) {
+					doublestrike += 15;
+					dodge += 10;
+				} else if (poly.getMorph() == IPolymorphCapability.Morph.FireElemental && player.world.getWorldTime() % 24000 < 12000) // Day (6 AM)
 					spellpower += 20;
-				else if (player.world.getWorldTime() % 24000 >= 12000 && poly.getMorph() == IPolymorphCapability.Morph.WaterElemental) // Night (6 PM)
+				else if (poly.getMorph() == IPolymorphCapability.Morph.WaterElemental && player.world.getWorldTime() % 24000 >= 12000) // Night (6 PM)
 					spellpower += 20;
 			}
 			if (player.getActivePotionEffect(AoVPotions.aid) != null)
@@ -339,7 +342,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	@Override
 	public void setCooldowns(Map<AbilityBase, Integer> map) {
 		cooldowns.clear();
-		for(Map.Entry<AbilityBase, Integer> entry : map.entrySet())
+		for (Map.Entry<AbilityBase, Integer> entry : map.entrySet())
 			cooldowns.put(entry.getKey(), entry.getValue());
 	}
 
