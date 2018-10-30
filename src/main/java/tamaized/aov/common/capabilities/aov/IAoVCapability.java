@@ -20,6 +20,7 @@ import tamaized.aov.common.core.abilities.Aura;
 import tamaized.aov.common.core.skills.AoVSkill;
 import tamaized.aov.common.core.skills.AoVSkills;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -54,7 +55,7 @@ public interface IAoVCapability {
 	/**
 	 * @return true if can damage
 	 */
-	static boolean selectiveTarget(Entity caster, IAoVCapability cap, EntityLivingBase entity) {
+	static boolean selectiveTarget(@Nullable Entity caster, @Nullable IAoVCapability cap, EntityLivingBase entity) {
 		return (cap == null || !cap.hasSelectiveFocus() || // We don't have selective focus, just return true
 				caster == null || // Caster is null, what's the point, return true
 				(caster.getTeam() != null && // We are on a team

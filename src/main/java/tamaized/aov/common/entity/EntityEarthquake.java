@@ -8,9 +8,14 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.MobEffects;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -18,11 +23,16 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
+import tamaized.aov.common.capabilities.CapabilityList;
+import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.config.ConfigHandler;
+import tamaized.aov.registry.AoVDamageSource;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 public class EntityEarthquake extends Entity {
 
@@ -30,6 +40,7 @@ public class EntityEarthquake extends Entity {
 	public List<Quake> quakes = Lists.newArrayList(new Quake());
 	private float damage = 1F;
 	private Entity caster;
+	private UUID casterID;
 
 	public EntityEarthquake(World worldIn) {
 		super(worldIn);
@@ -116,6 +127,18 @@ public class EntityEarthquake extends Entity {
 					world.playEvent(2001, pos, Block.getStateId(state));
 				}
 			}
+			if (ticksExisted % 20 == 0) {
+				if (caster == null && casterID != null)
+					for (Entity e : world.loadedEntityList)
+						if (e.getUniqueID().equals(casterID))
+							caster = e;
+				for (EntityLivingBase entity : world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(posX - width, posY - 1F, posZ - width, posX + width, posY + 3F, posZ + width))) {
+					if (entity != caster && IAoVCapability.selectiveTarget(caster, CapabilityHelper.getCap(caster, CapabilityList.AOV, null), entity)) {
+						entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, caster), damage);
+						entity.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 20 * 8));
+					}
+				}
+			}
 		}
 		if (ticksExisted % 400 == 0)
 			setDead();
@@ -128,12 +151,16 @@ public class EntityEarthquake extends Entity {
 
 	@Override
 	protected void readEntityFromNBT(@Nonnull NBTTagCompound compound) {
-
+		damage = Math.max(1F, compound.getFloat("damage"));
+		if (compound.hasUniqueId("casterID"))
+			casterID = compound.getUniqueId("casterID");
 	}
 
 	@Override
 	protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
-
+		if (caster != null)
+			compound.setUniqueId("casterID", caster.getUniqueID());
+		compound.setFloat("damage", damage);
 	}
 
 	public static class Quake {
