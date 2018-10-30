@@ -15,6 +15,10 @@ public class ConfigHandler {
 	@Config.Comment("The XY positions of on screen elements from the mod")
 	public static ElementPositions elementPositions = new ElementPositions();
 
+	@Config.Name("Earthquake")
+	@Config.Comment("Manages the Earthquake Spell Block Destruction")
+	public static Earthquake earthquake = new Earthquake();
+
 	@Config.Name("Max Level")
 	@Config.Comment("Sets the maximum level")
 	public static int maxlevel = 15;
@@ -67,6 +71,52 @@ public class ConfigHandler {
 		public int target_x = 0;
 		@Config.Name("Target Y")
 		public int target_y = 0;
+
+	}
+
+	public static class Earthquake {
+
+		@Config.Name("Enable")
+		public boolean enable = true;
+
+		@Config.Name("Enable Air")
+		@Config.Comment("If Disabled, destruction stops at the last block rather than setting to air")
+		public boolean air = true;
+
+		@Config.Name("Destruction Ticks")
+		@Config.Comment("Amount of Ticks to wait until the next Destruction; Lower = Sooner")
+		@Config.RangeInt(min = 1)
+		public int ticks = 5;
+
+		@Config.Name("Destruction Chance")
+		@Config.Comment("Chance that a Destruction will take place; Lower = Higher Chance")
+		@Config.RangeInt(min = 1)
+		public int chance = 5;
+
+		@Config.Name("Destruction Order")
+		@Config.Comment("domain:name:meta|other\n" +
+
+				"meta is optional\n" +
+
+				"[other] is what CAN be broken down but won't be broken down into.\n\n" +
+
+
+				"Example: [minecraft:gravel|minecraft:grass] may have Cobble before it, so Cobble breaks down into Gravel, which may have Dirt after it so Gravel breaks down into Dirt.\n" +
+
+				"Grass will also break down into Dirt but Cobble will never break down into Grass.")
+		public String[] destruction = new String[]{
+
+				"minecraft:stone",
+
+				"minecraft:cobblestone",
+
+				"minecraft:gravel|minecraft:grass",
+
+				"minecraft:dirt",
+
+				"minecraft:sand"
+
+		};
 
 	}
 

@@ -1,20 +1,26 @@
 package tamaized.aov.common.entity;
 
 import com.google.common.collect.Lists;
-import com.sun.javafx.geom.Vec2d;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
+import tamaized.aov.client.gui.AoVOverlay;
+import tamaized.aov.common.config.ConfigHandler;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -38,6 +44,33 @@ public class EntityEarthquake extends Entity {
 		this.damage = damage;
 	}
 
+	@SuppressWarnings("deprecation")
+	private static IBlockState checkDestruction(String check) {
+		int index = 0;
+		for (String compare : ConfigHandler.earthquake.destruction) {
+			index++;
+			for (String c : compare.split("\\|"))
+				if (c.equalsIgnoreCase(check)) {
+					if (index >= ConfigHandler.earthquake.destruction.length)
+						return Blocks.AIR.getDefaultState();
+					String[] next = ConfigHandler.earthquake.destruction[index].split("\\|")[0].split(":");
+					if (next.length < 2)
+						next = new String[]{"minecraft", next[0]};
+					Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(next[0], next[1]));
+					if (block == null)
+						return null;
+					try {
+						if (next.length > 2)
+							return block.getStateFromMeta(Integer.parseInt(next[2]));
+					} catch (NumberFormatException e) {
+						// NO-OP
+					}
+					return block.getDefaultState();
+				}
+		}
+		return null;
+	}
+
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
@@ -54,8 +87,35 @@ public class EntityEarthquake extends Entity {
 						return;
 					}
 					if (!world.isAirBlock(new BlockPos(getPosition().getX(), i, getPosition().getZ()))) {
-						setPosition(posX, i, posZ);
+						setPosition(posX, i + 1, posZ);
+						break;
 					}
+				}
+			}
+			if (ConfigHandler.earthquake.enable && ticksExisted % ConfigHandler.earthquake.ticks == 0 && rand.nextInt(ConfigHandler.earthquake.chance) == 0) {
+				final int radius = 2;
+				List<BlockPos> positions = Lists.newArrayList(BlockPos.getAllInBox(new BlockPos(posX - radius, posY - 1, posZ - radius), new BlockPos(posX + radius, posY, posZ + radius)));
+				IBlockState newState = null;
+				IBlockState state = null;
+				BlockPos pos = null;
+				int tries = positions.size();
+				while (newState == null && tries-- > 0) {
+					pos = positions.get(rand.nextInt(positions.size()));
+					state = world.getBlockState(pos);
+					Block block = state.getBlock();
+					ResourceLocation regname = block.getRegistryName();
+					if (regname == null) {
+						newState = null;
+						continue;
+					}
+					StringBuilder check = new StringBuilder(regname.getNamespace()).append(":").append(regname.getPath());
+					if ((newState = checkDestruction(check.toString())) != null)
+						break;
+					newState = checkDestruction(check.append(":").append(block.getMetaFromState(state)).toString());
+				}
+				if (newState != null) {
+					world.setBlockState(pos, newState);
+					world.playEvent(2001, pos, Block.getStateId(state));
 				}
 			}
 		}
