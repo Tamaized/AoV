@@ -79,6 +79,9 @@ public class ConfigHandler {
 		@Config.Name("Enable")
 		public boolean enable = true;
 
+		@Config.Name("Enable Screen Shaking")
+		public boolean shake = true;
+
 		@Config.Name("Enable Air")
 		@Config.Comment("If Disabled, destruction stops at the last block rather than setting to air")
 		public boolean air = true;

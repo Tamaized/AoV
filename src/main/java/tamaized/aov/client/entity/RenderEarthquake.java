@@ -115,9 +115,6 @@ public class RenderEarthquake extends Render<EntityEarthquake> {
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 		renderMask(entity, x, y, z, partialTicks);
 		renderQuakes(entity, x, y, z, partialTicks);
-		float intense = (float) (1F - entity.getDistanceSq(Minecraft.getMinecraft().player) / Math.pow(12, 2));
-		if (intense > AoVOverlay.intensity)
-			AoVOverlay.intensity = intense;
 	}
 
 	private void renderMask(@Nonnull EntityEarthquake entity, double x, double y, double z, float partialTicks) {

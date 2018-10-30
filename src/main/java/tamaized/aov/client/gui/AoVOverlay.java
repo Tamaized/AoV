@@ -32,6 +32,7 @@ import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.config.ConfigHandler;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.skills.AoVSkills;
+import tamaized.aov.common.entity.EntityEarthquake;
 import tamaized.aov.proxy.ClientProxy;
 import tamaized.tammodized.common.helper.CapabilityHelper;
 
@@ -154,6 +155,15 @@ public class AoVOverlay extends Gui {
 
 	@SubscribeEvent
 	public void render(TickEvent.RenderTickEvent e) {
+		if (ConfigHandler.earthquake.shake && e.phase == TickEvent.Phase.START && mc.world != null) {
+			for (Entity entity : mc.world.loadedEntityList) {
+				if (entity instanceof EntityEarthquake) {
+					float intense = (float) (1F - entity.getDistanceSq(Minecraft.getMinecraft().player) / Math.pow(16, 2));
+					if (intense > AoVOverlay.intensity)
+						AoVOverlay.intensity = intense;
+				}
+			}
+		}
 		if (e.phase == TickEvent.Phase.END && mc.currentScreen != null) {
 			renderStencils();
 		}
@@ -167,8 +177,9 @@ public class AoVOverlay extends Gui {
 	}
 
 	@SubscribeEvent
-	public void camera(EntityViewRenderEvent.CameraSetup e){
-		if(intensity > 0){
+	public void camera(EntityViewRenderEvent.CameraSetup e) {
+		if (ConfigHandler.earthquake.shake && intensity > 0) {
+			e.setYaw(e.getYaw() + (rand.nextFloat() * 2F - 1F) * intensity);
 			e.setPitch(e.getPitch() + (rand.nextFloat() * 2F - 1F) * intensity);
 			e.setRoll(e.getRoll() + (rand.nextFloat() * 2F - 1F) * intensity);
 			intensity = 0F;
