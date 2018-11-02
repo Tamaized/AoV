@@ -22,6 +22,7 @@ import tamaized.aov.client.entity.RenderNimbusRay;
 import tamaized.aov.client.entity.RenderSpellBladeBarrier;
 import tamaized.aov.client.entity.RenderSpellEntity;
 import tamaized.aov.client.entity.RenderSpellLightingBolt;
+import tamaized.aov.client.entity.RenderSpellLightingStorm;
 import tamaized.aov.client.events.ClientSpawnEvent;
 import tamaized.aov.client.events.KeyHandler;
 import tamaized.aov.client.gui.AoVOverlay;
@@ -36,6 +37,7 @@ import tamaized.aov.common.entity.EntitySpellAoVParticles;
 import tamaized.aov.common.entity.EntitySpellBladeBarrier;
 import tamaized.aov.common.entity.EntitySpellImplosion;
 import tamaized.aov.common.entity.EntitySpellLightningBolt;
+import tamaized.aov.common.entity.EntitySpellLightningStorm;
 import tamaized.aov.common.entity.EntitySpellVanillaParticles;
 import tamaized.aov.common.entity.ProjectileFlameStrike;
 import tamaized.aov.common.entity.ProjectileNimbusRay;
@@ -100,6 +102,7 @@ public class ClientProxy extends CommonProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityCelestialOpposition.class, RenderCelestialOpposition::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntitySpellLightningBolt.class, RenderSpellLightingBolt::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityEarthquake.class, RenderEarthquake::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntitySpellLightningStorm.class, RenderSpellLightingStorm::new);
 
 	}
 

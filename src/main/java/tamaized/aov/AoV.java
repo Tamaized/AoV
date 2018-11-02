@@ -41,6 +41,7 @@ import tamaized.aov.common.entity.EntitySpellAoVParticles;
 import tamaized.aov.common.entity.EntitySpellBladeBarrier;
 import tamaized.aov.common.entity.EntitySpellImplosion;
 import tamaized.aov.common.entity.EntitySpellLightningBolt;
+import tamaized.aov.common.entity.EntitySpellLightningStorm;
 import tamaized.aov.common.entity.EntitySpellVanillaParticles;
 import tamaized.aov.common.entity.ProjectileFlameStrike;
 import tamaized.aov.common.entity.ProjectileNimbusRay;
@@ -152,6 +153,7 @@ public class AoV extends TamModBase {
 		registerEntity(EntityCelestialOpposition.class, "EntityCelestialOpposition", this, modid, 256, 1, true);
 		registerEntity(EntitySpellLightningBolt.class, "EntitySpellLightningBolt", this, modid, 256, 1, true);
 		registerEntity(EntityEarthquake.class, "EntityEarthquake", this, modid, 256, 1, true);
+		registerEntity(EntitySpellLightningStorm.class, "EntitySpellLightningStorm", this, modid, 256, 1, true);
 	}
 
 	@Override

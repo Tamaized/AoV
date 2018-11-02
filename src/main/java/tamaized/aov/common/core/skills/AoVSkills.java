@@ -266,6 +266,9 @@ public class AoVSkills {
 
 		druid_tier_3_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.druid.tier3.1.name"), Abilities.cureModWounds.getIcon(), 0, 8, 0, 1, 0, 0, 0, false, druid_tier_1_1, Lists.newArrayList(Abilities.cureModWounds)).setupTooltip(new TextComponentTranslation("aov.skill.druid.tier3.1.desc")));
 		druid_tier_3_2 = register(new AoVSkill(new TextComponentTranslation("aov.skill.druid.tier3.2.name"), Abilities.furiousHowl.getIcon(), 0, 8, 0, 1, 0, 0, 0, false, druid_tier_2_2, Lists.newArrayList(Abilities.furiousHowl)).setupTooltip(new TextComponentTranslation("aov.skill.druid.tier3.2.desc")));
+		druid_tier_3_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.druid.tier3.3.name"), SkillIcons.dodge, 0, 8, 0, 1, 0, 1, 0, false, druid_tier_2_3, Lists.newArrayList()).setupTooltip(new TextComponentTranslation("aov.skill.druid.tier3.3.desc")));
+		druid_tier_3_4 = register(new AoVSkill(new TextComponentTranslation("aov.skill.druid.tier3.4.name"), Abilities.wildshapeWaterElemental.getIcon(), 0, 8, 0, 1, 0, 0, 0, false, druid_tier_2_4, Lists.newArrayList(Abilities.wildshapeWaterElemental)).setupTooltip(new TextComponentTranslation("aov.skill.druid.tier3.4.desc")));
+		druid_tier_3_5 = register(new AoVSkill(new TextComponentTranslation("aov.skill.druid.tier3.5.name"), Abilities.lightningStorm.getIcon(), 0, 8, 0, 1, 0, 0, 0, false, druid_tier_2_5, Lists.newArrayList(Abilities.lightningStorm)).setupTooltip(new TextComponentTranslation("aov.skill.druid.tier3.5.desc")));
 	}
 
 	public static AoVSkill register(AoVSkill skill) {
