@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import tamaized.aov.AoV;
 
 import java.util.Set;
@@ -36,6 +37,8 @@ public interface IPolymorphCapability {
 	void doAttack(EntityPlayer player, boolean fromPacket, int cooldown);
 
 	float getInitalAttackCooldown();
+
+	void callWolves(World world, EntityPlayer caster, float damage);
 
 	void update(EntityPlayer player);
 

@@ -14,6 +14,7 @@ import tamaized.aov.client.RenderPlayer;
 import tamaized.aov.client.SizedFontRenderer;
 import tamaized.aov.client.entity.RenderCelestialOpposition;
 import tamaized.aov.client.entity.RenderCombust;
+import tamaized.aov.client.entity.RenderDruidicWolf;
 import tamaized.aov.client.entity.RenderEarthquake;
 import tamaized.aov.client.entity.RenderFlameStrike;
 import tamaized.aov.client.entity.RenderGravity;
@@ -30,6 +31,7 @@ import tamaized.aov.client.particle.ParticleFeather;
 import tamaized.aov.client.particle.ParticleHeartColor;
 import tamaized.aov.common.entity.EntityCelestialOpposition;
 import tamaized.aov.common.entity.EntityCombust;
+import tamaized.aov.common.entity.EntityDruidicWolf;
 import tamaized.aov.common.entity.EntityEarthquake;
 import tamaized.aov.common.entity.EntityGravity;
 import tamaized.aov.common.entity.EntityMalefic;
@@ -103,6 +105,7 @@ public class ClientProxy extends CommonProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntitySpellLightningBolt.class, RenderSpellLightingBolt::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityEarthquake.class, RenderEarthquake::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntitySpellLightningStorm.class, RenderSpellLightingStorm::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityDruidicWolf.class, RenderDruidicWolf::new);
 
 	}
 

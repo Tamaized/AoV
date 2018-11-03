@@ -34,6 +34,7 @@ import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.common.entity.EntityCelestialOpposition;
 import tamaized.aov.common.entity.EntityCombust;
+import tamaized.aov.common.entity.EntityDruidicWolf;
 import tamaized.aov.common.entity.EntityEarthquake;
 import tamaized.aov.common.entity.EntityGravity;
 import tamaized.aov.common.entity.EntityMalefic;
@@ -154,6 +155,7 @@ public class AoV extends TamModBase {
 		registerEntity(EntitySpellLightningBolt.class, "EntitySpellLightningBolt", this, modid, 256, 1, true);
 		registerEntity(EntityEarthquake.class, "EntityEarthquake", this, modid, 256, 1, true);
 		registerEntity(EntitySpellLightningStorm.class, "EntitySpellLightningStorm", this, modid, 256, 1, true);
+		registerEntity(EntityDruidicWolf.class, "EntityDruidicWolf", this, modid, 256, 1, true);
 	}
 
 	@Override
