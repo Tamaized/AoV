@@ -75,6 +75,8 @@ public class LightningStorm extends AbilityBase {
 		float damage = DAMAGE * (1F + (cap.getSpellPower() / 100F));
 		EntitySpellLightningStorm storm = new EntitySpellLightningStorm(caster.world, caster, damage);
 		Vec3d pos = UtilHelper.getSpellLocation(caster, DISTANCE, target);
+		if (pos.equals(caster.getPositionVector()))
+			return false;
 		storm.setPosition(pos.x, pos.y + 10F, pos.z);
 		caster.world.spawnEntity(storm);
 		return true;

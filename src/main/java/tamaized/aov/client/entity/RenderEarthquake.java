@@ -17,9 +17,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL14;
 import tamaized.aov.AoV;
-import tamaized.aov.client.gui.AoVOverlay;
 import tamaized.aov.common.entity.EntityEarthquake;
 
 import javax.annotation.Nonnull;
@@ -139,12 +137,12 @@ public class RenderEarthquake extends Render<EntityEarthquake> {
 		{
 			bindTexture(TEXTURE);
 			GlStateManager.color(1F, 1F, 1F, 1F);
-					GlStateManager.enableBlend();
-//					GlStateManager.glBlendEquation(GL14.GL_FUNC_SUBTRACT);
+			GlStateManager.enableBlend();
+			//					GlStateManager.glBlendEquation(GL14.GL_FUNC_SUBTRACT);
 			//		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 			AtomicReference<Float> offset = new AtomicReference<>(0F);
 			entity.quakes.removeIf(q -> q.render(entity, x, y + (offset.updateAndGet(v -> v + 0.0001F)), z, partialTicks));
-//					GlStateManager.glBlendEquation(GL14.GL_FUNC_ADD);
+			//					GlStateManager.glBlendEquation(GL14.GL_FUNC_ADD);
 		}
 		GL11.glStencilMask(0x00);
 		GL11.glDisable(GL11.GL_STENCIL_TEST);
