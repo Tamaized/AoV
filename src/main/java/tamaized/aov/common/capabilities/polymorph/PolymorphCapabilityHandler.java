@@ -40,7 +40,7 @@ import java.util.Set;
 public class PolymorphCapabilityHandler implements IPolymorphCapability {
 	private static final Set<StateWrapper> WATER_ELEMENTAL_STATES = ImmutableSet.of(
 
-			new StateWrapper(Blocks.WATER).matchAnyState().dealsDamage(), new StateWrapper(Blocks.FLOWING_WATER).matchAnyState().dealsDamage()
+			new StateWrapper(Blocks.WATER).matchAnyState(), new StateWrapper(Blocks.FLOWING_WATER).matchAnyState()
 
 	);
 	private static final Set<StateWrapper> FIRE_ELEMENTAL_STATES = ImmutableSet.of(
@@ -211,17 +211,17 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 				boolean flag = false;
 				for (IBlockState state : states) {
 					if (getMorph() == Morph.WaterElemental) {
-						if (StateWrapper.compare(FIRE_ELEMENTAL_STATES, state, true))
+						if (StateWrapper.compare(FIRE_ELEMENTAL_STATES, state))
 							player.attackEntityFrom(DamageSource.STARVE, 4F);
-						if (StateWrapper.compare(WATER_ELEMENTAL_STATES, state, false)) {
+						if (StateWrapper.compare(WATER_ELEMENTAL_STATES, state)) {
 							player.setAir(300);
 							flag = true;
 							break;
 						}
 					} else if (getMorph() == Morph.FireElemental) {
-						if (StateWrapper.compare(WATER_ELEMENTAL_STATES, state, true))
+						if (StateWrapper.compare(WATER_ELEMENTAL_STATES, state))
 							player.attackEntityFrom(DamageSource.STARVE, 4F);
-						if (StateWrapper.compare(FIRE_ELEMENTAL_STATES, state, false)) {
+						if (StateWrapper.compare(FIRE_ELEMENTAL_STATES, state)) {
 							flag = true;
 							break;
 						}
@@ -309,7 +309,6 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 		private final Block block;
 		private final Set<IBlockState> states;
 		private boolean match;
-		private boolean doesDamage;
 
 		StateWrapper(Block block) {
 			this(block.getDefaultState());
@@ -320,20 +319,15 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 			block = states[0].getBlock();
 		}
 
-		public static boolean compare(Set<StateWrapper> set, Object obj, boolean damage) {
+		public static boolean compare(Set<StateWrapper> set, Object obj) {
 			for (StateWrapper wrapper : set)
-				if (wrapper.doesDamage == damage && wrapper.equals(obj))
+				if (wrapper.equals(obj))
 					return true;
 			return false;
 		}
 
 		public StateWrapper matchAnyState() {
 			match = true;
-			return this;
-		}
-
-		public StateWrapper dealsDamage() {
-			doesDamage = true;
 			return this;
 		}
 
