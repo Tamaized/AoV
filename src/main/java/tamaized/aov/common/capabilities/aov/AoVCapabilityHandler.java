@@ -401,10 +401,25 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@Override
+	public void clearAuras() {
+		auras.clear();
+	}
+
+	@Override
 	public void addAura(Aura aura) {
 		auras.removeIf(a -> a.equals(aura));
 		auras.add(aura);
 		dirty = true;
+	}
+
+	@Override
+	public <T> boolean isAuraActive(T aura) {
+		return auras.stream().anyMatch(a -> a.getAsAura() == aura);
+	}
+
+	@Override
+	public List<Aura> getAuras() {
+		return Collections.unmodifiableList(auras);
 	}
 
 	@Override

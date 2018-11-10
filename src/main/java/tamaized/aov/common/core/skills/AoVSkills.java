@@ -274,7 +274,7 @@ public class AoVSkills {
 		druid_tier_4_2 = register(new AoVSkill(new TextComponentTranslation("aov.skill.druid.tier4.2.name"), Abilities.formPack.getIcon(), 0, 12, 0, 1, 0, 0, 0, false, druid_tier_3_2, Lists.newArrayList(Abilities.formPack)).setupTooltip(new TextComponentTranslation("aov.skill.druid.tier4.2.desc")));
 		druid_tier_4_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.druid.tier4.3.name"), SkillIcons.dodge, 0, 12, 0, 1, 0, 1, 0, false, druid_tier_3_3, Lists.newArrayList()).setupTooltip(new TextComponentTranslation("aov.skill.druid.tier4.3.desc")));
 		druid_tier_4_4 = register(new AoVSkill(new TextComponentTranslation("aov.skill.druid.tier4.4.name"), Abilities.wildshapeFireElemental.getIcon(), 0, 12, 0, 1, 0, 0, 0, false, druid_tier_3_4, Lists.newArrayList(Abilities.wildshapeFireElemental)).setupTooltip(new TextComponentTranslation("aov.skill.druid.tier4.4.desc")));
-		//druid_tier_4_5
+		druid_tier_4_5 = register(new AoVSkill(new TextComponentTranslation("aov.skill.druid.tier4.5.name"), Abilities.elementalEmpowerment.getIcon(), 0, 12, 0, 1, 0, 0, 0, false, druid_tier_3_5, Lists.newArrayList(Abilities.elementalEmpowerment)).setupTooltip(new TextComponentTranslation("aov.skill.druid.tier4.5.desc")));
 	}
 
 	public static AoVSkill register(AoVSkill skill) {

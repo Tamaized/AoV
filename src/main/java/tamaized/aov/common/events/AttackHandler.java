@@ -162,6 +162,10 @@ public class AttackHandler {
 				event.setCanceled(true);
 				return;
 			}
+
+			if(attacker instanceof EntityLivingBase && cap != null && poly != null && poly.getMorph() == IPolymorphCapability.Morph.WaterElemental && cap.isAuraActive(Abilities.elementalEmpowerment))
+				((EntityLivingBase) attacker).addPotionEffect(new PotionEffect(AoVPotions.coldChill, 20 * 20, (int) Math.floor(cap.getSpellPower() / 25F)));
+
 			// Full Radial Shield
 			if (cap != null && cap.hasSkill(AoVSkills.defender_core_4)) {
 				handleShield(event, true);

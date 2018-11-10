@@ -1,18 +1,28 @@
 package tamaized.aov.common.core.abilities;
 
-import tamaized.aov.common.capabilities.CapabilityList;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
+import tamaized.aov.common.capabilities.CapabilityList;
 
 import javax.annotation.Nullable;
 
 public final class Aura {
 
-	private final Ability spell;
+	private Ability spell;
 	private int life;
 
 	public Aura(Ability ability, int duration) {
 		spell = ability;
 		life = duration * 20;
+	}
+
+	public static Aura construct(ByteBuf stream) {
+		return new Aura(Ability.construct(stream), stream.readInt());
+	}
+
+	public void encode(ByteBuf stream) {
+		spell.encode(stream);
+		stream.writeInt(life);
 	}
 
 	/**
@@ -22,7 +32,7 @@ public final class Aura {
 		if (caster == null || caster.isDead || !caster.hasCapability(CapabilityList.AOV, null))
 			life = 0;
 		if (life > 0) {
-			spell.castAsAura(caster, caster.getCapability(CapabilityList.AOV, null), life);
+			spell.castAsAura(this, caster, caster.getCapability(CapabilityList.AOV, null), life);
 		}
 		life--;
 	}
@@ -31,8 +41,16 @@ public final class Aura {
 		return life <= 0;
 	}
 
+	public final void kill() {
+		life = 0;
+	}
+
 	public Ability getSpell() {
 		return spell;
+	}
+
+	public IAura getAsAura() {
+		return spell.getAbility() instanceof IAura ? (IAura) spell.getAbility() : null;
 	}
 
 	@Override

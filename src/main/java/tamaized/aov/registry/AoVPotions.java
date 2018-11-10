@@ -6,6 +6,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import tamaized.aov.common.potion.PotionAid;
 import tamaized.aov.common.potion.PotionBalance;
+import tamaized.aov.common.potion.PotionColdChill;
 import tamaized.aov.common.potion.PotionEwer;
 import tamaized.aov.common.potion.PotionNaturesBounty;
 import tamaized.aov.common.potion.PotionSlowFall;
@@ -29,6 +30,7 @@ public class AoVPotions {
 	public static Potion spire;
 	public static Potion balance;
 	public static Potion naturesBounty;
+	public static Potion coldChill;
 	private static List<Potion> potionList;
 
 	static {
@@ -47,6 +49,7 @@ public class AoVPotions {
 		potionList.add(balance = new PotionBalance("balance"));
 
 		potionList.add(naturesBounty = new PotionNaturesBounty("naturesbounty"));
+		potionList.add(coldChill = new PotionColdChill("coldchill"));
 	}
 
 	@SubscribeEvent

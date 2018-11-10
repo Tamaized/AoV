@@ -145,8 +145,10 @@ public final class Ability {
 		}
 	}
 
-	public void castAsAura(EntityPlayer caster, IAoVCapability cap, int life) {
-		if (!disabled && ability instanceof IAura)
+	public void castAsAura(Aura aura, EntityPlayer caster, IAoVCapability cap, int life) {
+		if (disabled)
+			aura.kill();
+		else if (ability instanceof IAura)
 			((IAura) ability).castAsAura(caster, cap, life);
 	}
 

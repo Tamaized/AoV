@@ -1,5 +1,6 @@
 package tamaized.aov.common.capabilities.aov;
 
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -17,6 +18,7 @@ import tamaized.aov.common.capabilities.aov.AoVCapabilityHandler.DecayWrapper;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.abilities.Aura;
+import tamaized.aov.common.core.abilities.IAura;
 import tamaized.aov.common.core.skills.AoVSkill;
 import tamaized.aov.common.core.skills.AoVSkills;
 
@@ -110,7 +112,13 @@ public interface IAoVCapability {
 
 	void removeAbility(Ability ability);
 
+	void clearAuras();
+
 	void addAura(Aura aura);
+
+	<T> boolean isAuraActive(T aura);
+
+	List<Aura> getAuras();
 
 	void addExp(Entity player, int amount, AbilityBase spell);
 

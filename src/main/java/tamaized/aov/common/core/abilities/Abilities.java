@@ -29,6 +29,7 @@ import tamaized.aov.common.core.abilities.defender.StalwartPact;
 import tamaized.aov.common.core.abilities.defender.Zeal;
 import tamaized.aov.common.core.abilities.druid.DruidicRegenerate;
 import tamaized.aov.common.core.abilities.druid.Earthquake;
+import tamaized.aov.common.core.abilities.druid.ElementalEmpowerment;
 import tamaized.aov.common.core.abilities.druid.FormPack;
 import tamaized.aov.common.core.abilities.druid.FuriousClaw;
 import tamaized.aov.common.core.abilities.druid.FuriousFang;
@@ -182,7 +183,7 @@ public class Abilities {
 		lightningStorm = new LightningStorm();
 		formPack = new FormPack();
 		wildshapeFireElemental = new Polymorph("fire", IPolymorphCapability.Morph.FireElemental);
-		//		elementalEmpowerment;
+		elementalEmpowerment = new ElementalEmpowerment();
 	}
 
 }

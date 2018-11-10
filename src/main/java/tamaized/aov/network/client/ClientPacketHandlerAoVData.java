@@ -1,5 +1,6 @@
 package tamaized.aov.network.client;
 
+import com.google.common.collect.Lists;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,11 +14,11 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
+import tamaized.aov.common.core.abilities.Aura;
 import tamaized.aov.common.core.skills.AoVSkill;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.tammodized.common.helper.CapabilityHelper;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +41,9 @@ public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketH
 				cap.setSlot(message.slots[index], index, true);
 			cap.setCurrentSlot(message.currentSlot);
 			cap.setCooldowns(Collections.unmodifiableMap(message.cooldowns));
+			cap.clearAuras();
+			for (Aura aura : message.auras)
+				cap.addAura(aura);
 			cap.markDirty();
 			cap.setLoaded();
 		}
@@ -59,7 +63,7 @@ public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketH
 
 	public static class Packet implements IMessage {
 
-		private List<AoVSkill> obtainedSkills = new ArrayList<>();
+		private List<AoVSkill> obtainedSkills = Lists.newArrayList();
 		private int skillPoints;
 		private int exp;
 		private int maxLevel;
@@ -69,6 +73,7 @@ public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketH
 		private IPolymorphCapability.Morph polymorph;
 		private byte renderBits;
 		private Map<AbilityBase, Integer> cooldowns = new HashMap<>();
+		private List<Aura> auras = Lists.newArrayList();
 
 		@SuppressWarnings("unused")
 		public Packet() {
@@ -86,6 +91,7 @@ public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketH
 			cooldowns = cap.getCooldowns();
 			polymorph = poly.getMorph();
 			renderBits = poly.getFlagBits();
+			auras = cap.getAuras();
 		}
 
 		@Override
@@ -110,6 +116,11 @@ public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketH
 			}
 			polymorph = IPolymorphCapability.Morph.getMorph(stream.readInt());
 			renderBits = stream.readByte();
+			auras.clear();
+			size = stream.readInt();
+			for (int index = 0; index < size; index++) {
+				auras.add(Aura.construct(stream));
+			}
 		}
 
 		@Override
@@ -132,12 +143,15 @@ public class ClientPacketHandlerAoVData implements IMessageHandler<ClientPacketH
 			}
 			stream.writeInt(currentSlot);
 			stream.writeInt(cooldowns.size());
-			for(Map.Entry<AbilityBase, Integer> entry : cooldowns.entrySet()) {
+			for (Map.Entry<AbilityBase, Integer> entry : cooldowns.entrySet()) {
 				stream.writeInt(entry.getKey().getID());
 				stream.writeInt(entry.getValue());
 			}
 			stream.writeInt(polymorph == null ? -1 : polymorph.ordinal());
 			stream.writeByte(renderBits);
+			stream.writeInt(auras.size());
+			for (Aura aura : auras)
+				aura.encode(stream);
 		}
 	}
 }

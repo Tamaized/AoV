@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLivingBase;
@@ -24,14 +25,17 @@ import tamaized.aov.AoV;
 import tamaized.aov.client.entity.ModelPolymorphWolf;
 import tamaized.aov.client.gui.AoVOverlay;
 import tamaized.aov.common.capabilities.CapabilityList;
+import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.leap.ILeapCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
+import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class RenderPlayer {
 
-	private static final ResourceLocation texture = new ResourceLocation(AoV.modid, "textures/entity/wing.png");
-	private static final ModelPolymorphWolf wolf = new ModelPolymorphWolf();
+	private static final ResourceLocation TEXTURE_WING = new ResourceLocation(AoV.modid, "textures/entity/wing.png");
+	private static final ResourceLocation TEXTURE_SUNBODY = new ResourceLocation(AoV.modid, "textures/entity/sunbody.png");
+	private static final ModelPolymorphWolf WOLF_MODEL = new ModelPolymorphWolf();
 	private static final ResourceLocation WOLF_TEXTURES = new ResourceLocation("textures/entity/wolf/wolf.png");
 	private static boolean hackyshit = false;
 
@@ -53,10 +57,10 @@ public class RenderPlayer {
 				float ticksExisted = 0.53F * (float) Math.PI;
 				applyRotations(player, ticksExisted, f, e.getPartialRenderTick());
 				float scale = e.getRenderer().prepareScale((AbstractClientPlayer) player, e.getPartialRenderTick());
-				wolf.setLivingAnimations(player, swingProgress, swingAmount, e.getPartialRenderTick());
-				wolf.setRotationAngles(swingProgress, swingAmount, ticksExisted, netHeadYaw, headPitch, scale, player);
+				WOLF_MODEL.setLivingAnimations(player, swingProgress, swingAmount, e.getPartialRenderTick());
+				WOLF_MODEL.setRotationAngles(swingProgress, swingAmount, ticksExisted, netHeadYaw, headPitch, scale, player);
 				e.getRenderer().bindTexture(WOLF_TEXTURES);
-				wolf.render(player, swingProgress, swingAmount, ticksExisted, netHeadYaw, headPitch, scale);
+				WOLF_MODEL.render(player, swingProgress, swingAmount, ticksExisted, netHeadYaw, headPitch, scale);
 				GlStateManager.popMatrix();
 				e.setCanceled(true);
 			}
@@ -71,7 +75,10 @@ public class RenderPlayer {
 			return;
 		GlStateManager.pushMatrix();
 		{
+			Tessellator tess = Tessellator.getInstance();
+			BufferBuilder buffer = tess.getBuffer();
 			GlStateManager.enableBlend();
+			GlStateManager.popMatrix();
 			GlStateManager.disableCull();
 			float perc = (float) cap.getLeapDuration() / (float) cap.getMaxLeapDuration();
 			GlStateManager.color(1, 1, 1, perc);
@@ -82,10 +89,8 @@ public class RenderPlayer {
 			if (player.isSneaking()) {
 				GlStateManager.translate(0.0F, -0.2F, 0.0F);
 			}
-			Minecraft.getMinecraft().renderEngine.bindTexture(texture);
-			Tessellator tess = Tessellator.getInstance();
-			BufferBuilder vertexbuffer = tess.getBuffer();
-			vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
+			Minecraft.getMinecraft().renderEngine.bindTexture(TEXTURE_WING);
+			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 			double x1 = 0;
 			double x2 = x1 + 1;
 			double y1 = 1.90;
@@ -93,17 +98,17 @@ public class RenderPlayer {
 			double z1 = -0.05;
 			double z2 = z1 - 0.5;
 
-			vertexbuffer.pos(x1, y1, z1).tex(1, 0).endVertex();
-			vertexbuffer.pos(x2, y1, z2).tex(0, 0).endVertex();
-			vertexbuffer.pos(x2, y2, z2).tex(0, 1).endVertex();
-			vertexbuffer.pos(x1, y2, z1).tex(1, 1).endVertex();
+			buffer.pos(x1, y1, z1).tex(1, 0).endVertex();
+			buffer.pos(x2, y1, z2).tex(0, 0).endVertex();
+			buffer.pos(x2, y2, z2).tex(0, 1).endVertex();
+			buffer.pos(x1, y2, z1).tex(1, 1).endVertex();
 
 			double offset = -1.0;
 
-			vertexbuffer.pos(x2 + offset, y1, z1).tex(1, 0).endVertex();
-			vertexbuffer.pos(x1 + offset, y1, z2).tex(0, 0).endVertex();
-			vertexbuffer.pos(x1 + offset, y2, z2).tex(0, 1).endVertex();
-			vertexbuffer.pos(x2 + offset, y2, z1).tex(1, 1).endVertex();
+			buffer.pos(x2 + offset, y1, z1).tex(1, 0).endVertex();
+			buffer.pos(x1 + offset, y1, z2).tex(0, 0).endVertex();
+			buffer.pos(x1 + offset, y2, z2).tex(0, 1).endVertex();
+			buffer.pos(x2 + offset, y2, z1).tex(1, 1).endVertex();
 
 			tess.draw();
 			GlStateManager.enableCull();
@@ -144,6 +149,53 @@ public class RenderPlayer {
 				GL11.glStencilMask(0x00);
 				GL11.glDisable(GL11.GL_STENCIL_TEST);
 				GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+				IAoVCapability aov = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
+				if (aov != null && cap.getMorph() == IPolymorphCapability.Morph.FireElemental && aov.isAuraActive(Abilities.elementalEmpowerment)) {
+					GlStateManager.pushMatrix();
+					{
+						Minecraft.getMinecraft().renderEngine.bindTexture(TEXTURE_SUNBODY);
+
+						Tessellator tess = Tessellator.getInstance();
+						BufferBuilder buffer = tess.getBuffer();
+
+						GlStateManager.translate(0, player.eyeHeight / 1.5F, 0);
+						GlStateManager.rotate(180.0F - e.getRenderer().getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
+						GlStateManager.rotate((float) (e.getRenderer().getRenderManager().options.thirdPersonView == 2 ? -1 : 1) * -e.getRenderer().getRenderManager().playerViewX, 1.0F, 0.0F, 0.0F);
+
+						float r = 1.0F;
+						float g = 0.35F;
+						float b = 0.0F;
+						float a = 1.0F;
+
+						float size = 1.5F;
+
+						float z = 0;
+
+						for (int index = 0; index < 3; index++) {
+							buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
+
+							buffer.pos(-size, -size, z).tex(0, 0).color(r, g, b, a).endVertex();
+							buffer.pos(size, -size, z).tex(1, 0).color(r, g, b, a).endVertex();
+							buffer.pos(size, size, z).tex(1, 1).color(r, g, b, a).endVertex();
+							buffer.pos(-size, size, z).tex(0, 1).color(r, g, b, a).endVertex();
+							GlStateManager.pushMatrix();
+							GlStateManager.rotate((2 + (index * 3)) * player.ticksExisted + e.getPartialRenderTick(), 0, 0, ((index & 1) == 0 ? 1 : -1));
+
+							GlStateManager.disableLighting();
+							int j = 0xF000F0 % 0x10000;
+							int k = 0xF000F0 / 0x10000;
+							OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j, (float)k);
+							GlStateManager.enableBlend();
+							tess.draw();
+							GlStateManager.popMatrix();
+							GlStateManager.enableLighting();
+
+							size -= 0.25F;
+							z += 0.0001F;
+						}
+					}
+					GlStateManager.popMatrix();
+				}
 				GlStateManager.disableBlend();
 			}
 		}
@@ -217,10 +269,10 @@ public class RenderPlayer {
 		float scale = 3.0F;
 		GlStateManager.scale(scale, scale, scale);
 		GlStateManager.translate(0.25F, -0.65F, 0F);
-		wolf.swingProgress = 0.0F;
-		wolf.setRotationAngles(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, f1, clientPlayer);
-		wolf.wolfLeg2.rotateAngleX = 0.0F;
-		wolf.wolfLeg2.render(f1);
+		WOLF_MODEL.swingProgress = 0.0F;
+		WOLF_MODEL.setRotationAngles(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, f1, clientPlayer);
+		WOLF_MODEL.wolfLeg2.rotateAngleX = 0.0F;
+		WOLF_MODEL.wolfLeg2.render(f1);
 		GlStateManager.popMatrix();
 		GlStateManager.disableBlend();
 	}
