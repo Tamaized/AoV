@@ -105,7 +105,7 @@ public final class Ability {
 		disabled = getAbility().shouldDisable(caster, cap);
 	}
 
-	public void restoreCharge(Entity caster, IAoVCapability cap, int amount) {
+	public void restoreCharge(EntityLivingBase caster, IAoVCapability cap, int amount) {
 		charges += (ability.getMaxCharges() > -1 && charges < (ability.getMaxCharges() + cap.getExtraCharges(caster, this))) ? amount : 0;
 	}
 

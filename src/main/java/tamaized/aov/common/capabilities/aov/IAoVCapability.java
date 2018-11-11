@@ -104,7 +104,7 @@ public interface IAoVCapability {
 
 	void resetCharges(EntityPlayer player);
 
-	void restoreCharges(Entity caster, int amount);
+	void restoreCharges(EntityLivingBase caster, int amount);
 
 	List<Ability> getAbilities();
 

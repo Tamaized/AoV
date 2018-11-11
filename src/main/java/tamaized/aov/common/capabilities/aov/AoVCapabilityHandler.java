@@ -358,7 +358,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@Override
-	public void restoreCharges(Entity caster, int amount) {
+	public void restoreCharges(EntityLivingBase caster, int amount) {
 		for (Ability ability : slots)
 			if (ability != null)
 				ability.restoreCharge(caster, this, amount);
