@@ -26,6 +26,7 @@ import org.lwjgl.opengl.GL11;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.config.ConfigHandler;
+import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.registry.AoVDamageSource;
 import tamaized.tammodized.common.helper.CapabilityHelper;
 
@@ -132,10 +133,13 @@ public class EntityEarthquake extends Entity {
 					for (Entity e : world.loadedEntityList)
 						if (e.getUniqueID().equals(casterID))
 							caster = e;
+				IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
 				for (EntityLivingBase entity : world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(posX - width, posY - 1F, posZ - width, posX + width, posY + 3F, posZ + width))) {
-					if (entity != caster && IAoVCapability.selectiveTarget(caster, CapabilityHelper.getCap(caster, CapabilityList.AOV, null), entity)) {
+					if (entity != caster && IAoVCapability.selectiveTarget(caster, cap, entity)) {
 						entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, caster), damage);
 						entity.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 20 * 8));
+						if (cap != null)
+							cap.addExp(caster, 20, Abilities.earthquake);
 					}
 				}
 			}

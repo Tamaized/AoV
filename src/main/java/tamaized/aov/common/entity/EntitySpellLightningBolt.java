@@ -13,6 +13,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.core.abilities.Abilities;
+import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import javax.annotation.Nonnull;
@@ -25,16 +27,18 @@ public class EntitySpellLightningBolt extends Entity {
 	private int boltLivingTime = this.rand.nextInt(3) + 1;
 	private EntityLivingBase caster;
 	private float damage;
+	private AbilityBase source;
 
 	public EntitySpellLightningBolt(World world){
 		super(world);
 		damage = 3F;
 	}
 
-	public EntitySpellLightningBolt(World world, EntityLivingBase caster, float damage) {
+	public EntitySpellLightningBolt(World world, EntityLivingBase caster, float damage, AbilityBase source) {
 		this(world);
 		this.caster = caster;
 		this.damage = damage;
+		this.source = source;
 	}
 
 	@Override
@@ -80,9 +84,13 @@ public class EntitySpellLightningBolt extends Entity {
 		if (this.lightningState >= 0) {
 			List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this, new AxisAlignedBB(this.posX - 3.0D, this.posY - 3.0D, this.posZ - 3.0D, this.posX + 3.0D, this.posY + 6.0D + 3.0D, this.posZ + 3.0D));
 
+			IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
 			for (Entity entity : list)
-				if (!(entity instanceof EntityLivingBase) || IAoVCapability.selectiveTarget(caster, CapabilityHelper.getCap(caster, CapabilityList.AOV, null), (EntityLivingBase) entity))
+				if (!(entity instanceof EntityLivingBase) || IAoVCapability.selectiveTarget(caster, cap, (EntityLivingBase) entity)) {
 					entity.attackEntityFrom(DamageSource.LIGHTNING_BOLT, damage);
+					if(cap != null)
+						cap.addExp(caster, 20, source == null ? Abilities.litStrike : source);
+				}
 		}
 	}
 

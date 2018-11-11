@@ -2,10 +2,8 @@ package tamaized.aov.common.core.abilities.druid;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextComponentTranslation;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -15,13 +13,11 @@ import tamaized.aov.common.core.skills.SkillIcons;
 import tamaized.aov.registry.AoVPotions;
 import tamaized.tammodized.common.helper.CapabilityHelper;
 
-import java.util.List;
-
 public class NaturesBounty extends AbilityBase {
 
 	private static final String UNLOC = "aov.spells.naturesbounty";
 
-	public NaturesBounty(){
+	public NaturesBounty() {
 		super(
 
 				new TextComponentTranslation(UNLOC.concat(".name")),
@@ -75,10 +71,13 @@ public class NaturesBounty extends AbilityBase {
 
 	@Override
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
-		if(target != null)
+		if (target != null)
 			addPotionEffects(target);
 		else
 			addPotionEffects(caster);
+		IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
+		if (cap != null)
+			cap.addExp(caster, 15, this);
 		return true;
 	}
 

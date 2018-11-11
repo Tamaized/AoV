@@ -24,6 +24,10 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import tamaized.aov.common.capabilities.CapabilityList;
+import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.core.abilities.Abilities;
+import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class EntityDruidicWolf extends EntityWolf {
 
@@ -84,6 +88,9 @@ public class EntityDruidicWolf extends EntityWolf {
 
 	@Override
 	public boolean attackEntityAsMob(Entity entityIn) {
+		IAoVCapability cap = CapabilityHelper.getCap(getOwner(), CapabilityList.AOV, null);
+		if (cap != null)
+			cap.addExp(getOwner(), 20, Abilities.formPack);
 		return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), damage);
 	}
 

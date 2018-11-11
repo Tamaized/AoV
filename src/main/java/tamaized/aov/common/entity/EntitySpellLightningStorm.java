@@ -20,6 +20,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import javax.annotation.Nonnull;
@@ -61,7 +62,7 @@ public class EntitySpellLightningStorm extends Entity {
 				List<EntityLivingBase> list = world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(posX - size, posY - 36F, posZ - size, posX + size, posY + 3F, posZ + size));
 				list.removeIf(e -> e == caster || !IAoVCapability.selectiveTarget(caster, CapabilityHelper.getCap(caster, CapabilityList.AOV, null), e));
 				EntityLivingBase entity = list.isEmpty() ? null : list.size() == 1 ? list.get(0) : list.get(rand.nextInt(list.size()));
-				EntitySpellLightningBolt strike = new EntitySpellLightningBolt(world, caster, damage);
+				EntitySpellLightningBolt strike = new EntitySpellLightningBolt(world, caster, damage, Abilities.lightningStorm);
 				Vec3d vec;
 				if (entity != null)
 					vec = entity.getPositionVector();

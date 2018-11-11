@@ -82,7 +82,7 @@ public class LightningStrike extends AbilityBase {
 		if (cap == null)
 			return false;
 		float damage = DAMAGE * (1F + (cap.getSpellPower() / 100F));
-		EntitySpellLightningBolt strike = new EntitySpellLightningBolt(caster.world, caster, damage);
+		EntitySpellLightningBolt strike = new EntitySpellLightningBolt(caster.world, caster, damage, this);
 		Vec3d pos = UtilHelper.getSpellLocation(caster, DISTANCE, target);
 		strike.setPosition(pos.x, pos.y, pos.z);
 		caster.world.spawnEntity(strike);

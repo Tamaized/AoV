@@ -122,6 +122,7 @@ public class ElementalEmpowerment extends AbilityBase implements IAura {
 							if (IAoVCapability.selectiveTarget(caster, cap, entity)) {
 								entity.attackEntityFrom(DamageSource.IN_FIRE, damage);
 								entity.setFire(5);
+								cap.addExp(caster, 20, this);
 							}
 						}
 					}

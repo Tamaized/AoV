@@ -163,8 +163,11 @@ public class AttackHandler {
 				return;
 			}
 
-			if (attacker instanceof EntityLivingBase && cap != null && poly != null && poly.getMorph() == IPolymorphCapability.Morph.WaterElemental && cap.isAuraActive(Abilities.elementalEmpowerment))
+			// Elemental Empowerment - Water
+			if (attacker instanceof EntityLivingBase && cap != null && poly != null && poly.getMorph() == IPolymorphCapability.Morph.WaterElemental && cap.isAuraActive(Abilities.elementalEmpowerment)) {
 				((EntityLivingBase) attacker).addPotionEffect(new PotionEffect(AoVPotions.coldChill, 20 * 20, (int) Math.floor(cap.getSpellPower() / 25F)));
+				cap.addExp(entity, 20, Abilities.elementalEmpowerment);
+			}
 
 			// Full Radial Shield
 			if (cap != null && cap.hasSkill(AoVSkills.defender_core_4)) {
