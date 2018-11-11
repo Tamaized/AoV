@@ -3,6 +3,7 @@ package tamaized.aov.common.capabilities.aov;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
@@ -357,10 +358,10 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@Override
-	public void restoreCharges(int amount) {
+	public void restoreCharges(Entity caster, int amount) {
 		for (Ability ability : slots)
 			if (ability != null)
-				ability.restoreCharge(this, amount);
+				ability.restoreCharge(caster, this, amount);
 		dirty = true;
 	}
 
@@ -540,8 +541,8 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@Override
-	public int getExtraCharges() {
-		return extraCharges;
+	public int getExtraCharges(EntityLivingBase caster, Ability ability) {
+		return extraCharges + ((caster == null || ability == null) ? 0 : ability.getAbility().getExtraCharges(caster, this));
 	}
 
 	@Override

@@ -99,14 +99,14 @@ public final class Ability {
 	public void reset(EntityPlayer caster, IAoVCapability cap) {
 		cooldown = cap.getCooldown(ability);
 		nextCooldown = -1;
-		charges = ability.getMaxCharges() < 0 ? -1 : ability.getMaxCharges() + cap.getExtraCharges();
+		charges = ability.getMaxCharges() < 0 ? -1 : ability.getMaxCharges() + cap.getExtraCharges(caster, this);
 		decay = 0;
 		timer = -1;
 		disabled = getAbility().shouldDisable(caster, cap);
 	}
 
-	public void restoreCharge(IAoVCapability cap, int amount) {
-		charges += (ability.getMaxCharges() > -1 && charges < (ability.getMaxCharges() + cap.getExtraCharges())) ? amount : 0;
+	public void restoreCharge(Entity caster, IAoVCapability cap, int amount) {
+		charges += (ability.getMaxCharges() > -1 && charges < (ability.getMaxCharges() + cap.getExtraCharges(caster, this))) ? amount : 0;
 	}
 
 	public void setNextCooldown(int cd) {
@@ -183,7 +183,7 @@ public final class Ability {
 			cooldown--;
 		if (decay > 0 && tick % (20 * 20) == 0)
 			decay--;
-		if (ability.getMaxCharges() >= 0 && ConfigHandler.recharge >= 0 && charges < (ability.getMaxCharges() + cap.getExtraCharges()) && tick % ConfigHandler.recharge == 0)
+		if (ability.getMaxCharges() >= 0 && ConfigHandler.recharge >= 0 && charges < (ability.getMaxCharges() + cap.getExtraCharges(caster, this)) && tick % ConfigHandler.recharge == 0)
 			charges++;
 		if (tick % 20 == 0 && timer > 0)
 			timer--;

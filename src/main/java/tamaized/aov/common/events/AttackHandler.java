@@ -77,16 +77,16 @@ public class AttackHandler {
 		EntityPlayer player = e.getEntityPlayer();
 		IPolymorphCapability poly = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
 		IAoVCapability cap = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
-		if(cap != null && cap.getCoreSkill() == AoVSkills.druid_core_1 && IAoVCapability.isCentered(player, cap))
+		if (cap != null && cap.getCoreSkill() == AoVSkills.druid_core_1 && IAoVCapability.isCentered(player, cap))
 			cap.addExp(player, 10, Abilities.druidCentered);
 		if (poly != null && poly.getMorph() == IPolymorphCapability.Morph.Wolf) {
 			float amp = (1.0F + (cap == null ? 0F : (cap.getSpellPower() / 100F)));
 			float dmg = 4.0F * amp;
 			if (poly.isFlagBitActive(FuriousClaw.BIT))
-				dmg += 2F * amp * (IAoVCapability.isCentered(e.getEntityPlayer(), cap) ? 2F : 1F);
+				dmg += 2F * amp * (IAoVCapability.isCentered(e.getEntityPlayer(), cap) ? 2F : 1F) * (IAoVCapability.isImprovedCentered(player, cap) ? 2F : 1F);
 			poly.subtractFlagBits(FuriousClaw.BIT);
 			if (poly.isFlagBitActive(FuriousFang.BIT))
-				dmg += 4F * amp * (IAoVCapability.isCentered(e.getEntityPlayer(), cap) ? 2F : 1F);
+				dmg += 4F * amp * (IAoVCapability.isCentered(e.getEntityPlayer(), cap) ? 2F : 1F) * (IAoVCapability.isImprovedCentered(player, cap) ? 2F : 1F);
 			poly.subtractFlagBits(FuriousFang.BIT);
 			e.getTarget().attackEntityFrom(DamageSource.causePlayerDamage(e.getEntityPlayer()), dmg);
 			e.setCanceled(true);
@@ -163,7 +163,7 @@ public class AttackHandler {
 				return;
 			}
 
-			if(attacker instanceof EntityLivingBase && cap != null && poly != null && poly.getMorph() == IPolymorphCapability.Morph.WaterElemental && cap.isAuraActive(Abilities.elementalEmpowerment))
+			if (attacker instanceof EntityLivingBase && cap != null && poly != null && poly.getMorph() == IPolymorphCapability.Morph.WaterElemental && cap.isAuraActive(Abilities.elementalEmpowerment))
 				((EntityLivingBase) attacker).addPotionEffect(new PotionEffect(AoVPotions.coldChill, 20 * 20, (int) Math.floor(cap.getSpellPower() / 25F)));
 
 			// Full Radial Shield

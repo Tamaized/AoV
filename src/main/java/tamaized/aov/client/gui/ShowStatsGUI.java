@@ -63,7 +63,7 @@ public class ShowStatsGUI extends GuiScreenClose {
 		String s = cap == null ? "null" : cap.getLevel() >= cap.getMaxLevel() ? I18n.format("aov.gui.stats.max") : cap.getExp() + "/" + AoVCapabilityHandler.getExpForLevel(cap.getLevel() + 1);
 		this.drawCenteredString(fontRenderer, I18n.format("aov.gui.stats.experience", s), width / 2, 50, 0xFFFF00);
 		this.drawCenteredString(fontRenderer, I18n.format("aov.gui.stats.level", cap == null ? "null" : cap.getLevel()), width / 2, 60, 0xFFFF00);
-		this.drawCenteredString(fontRenderer, I18n.format("aov.gui.stats.charges", cap == null ? "null" : cap.getExtraCharges()), width / 2, 70, 0x00BBFF);
+		this.drawCenteredString(fontRenderer, I18n.format("aov.gui.stats.charges", cap == null ? "null" : cap.getExtraCharges(null, null)), width / 2, 70, 0x00BBFF);
 		this.drawCenteredString(fontRenderer, I18n.format("aov.gui.stats.spellpower", cap == null ? "null" : (int) cap.getSpellPower()), width / 2, 80, 0x00FF00);
 		this.drawCenteredString(fontRenderer, I18n.format("aov.gui.stats.dodge", cap == null ? "null" : cap.getDodge()) + "%", width / 2, 90, 0x00FF00);
 		this.drawCenteredString(fontRenderer, I18n.format("aov.gui.stats.doublestrike", cap == null ? "null" : cap.getDoubleStrike()) + "%", width / 2, 100, 0x00FF00);

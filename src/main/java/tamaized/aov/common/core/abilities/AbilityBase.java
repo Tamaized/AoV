@@ -10,7 +10,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
-import tamaized.aov.common.capabilities.astro.IAstroCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.tammodized.common.helper.CapabilityHelper;
 
@@ -67,6 +66,10 @@ public abstract class AbilityBase {
 	public abstract String getName();
 
 	public abstract int getMaxCharges();
+
+	public int getExtraCharges(EntityLivingBase entity, IAoVCapability cap) {
+		return 0;
+	}
 
 	public abstract int getChargeCost();
 

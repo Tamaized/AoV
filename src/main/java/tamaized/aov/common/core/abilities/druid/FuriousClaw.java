@@ -37,6 +37,24 @@ public class FuriousClaw extends AbilityBase {
 		);
 	}
 
+	public static boolean invoke(byte bit, EntityPlayer caster, AbilityBase ability) {
+		IPolymorphCapability cap = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
+		if (cap == null || cap.getMorph() != IPolymorphCapability.Morph.Wolf)
+			return false;
+		if (caster.world.isRemote)
+			caster.swingArm(EnumHand.MAIN_HAND);
+		cap.addFlagBits(bit);
+		RayTraceResult ray = RayTraceHelper.tracePath(caster.world, caster, (int) caster.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue(), 1, Sets.newHashSet(caster));
+		if (ray != null && ray.typeOfHit == RayTraceResult.Type.ENTITY) {
+			caster.attackTargetEntityWithCurrentItem(ray.entityHit);
+			IAoVCapability aov = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
+			if (aov != null)
+				aov.addExp(caster, 20, ability);
+		}
+		cap.subtractFlagBits(bit);
+		return true;
+	}
+
 	@Override
 	public String getName() {
 		return I18n.format(UNLOC.concat(".name"));
@@ -50,6 +68,11 @@ public class FuriousClaw extends AbilityBase {
 	@Override
 	public int getChargeCost() {
 		return 1;
+	}
+
+	@Override
+	public int getExtraCharges(EntityLivingBase entity, IAoVCapability cap) {
+		return IAoVCapability.isImprovedCentered(entity, cap) ? getMaxCharges() : super.getExtraCharges(entity, cap);
 	}
 
 	@Override
@@ -81,24 +104,6 @@ public class FuriousClaw extends AbilityBase {
 	@Override
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		return invoke(BIT, caster, this);
-	}
-
-	public static boolean invoke(byte bit, EntityPlayer caster, AbilityBase ability){
-		IPolymorphCapability cap = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
-		if (cap == null || cap.getMorph() != IPolymorphCapability.Morph.Wolf)
-			return false;
-		if (caster.world.isRemote)
-			caster.swingArm(EnumHand.MAIN_HAND);
-		cap.addFlagBits(bit);
-		RayTraceResult ray = RayTraceHelper.tracePath(caster.world, caster, (int) caster.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue(), 1, Sets.newHashSet(caster));
-		if (ray != null && ray.typeOfHit == RayTraceResult.Type.ENTITY) {
-			caster.attackTargetEntityWithCurrentItem(ray.entityHit);
-			IAoVCapability aov = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
-			if (aov != null)
-				aov.addExp(caster, 20, ability);
-		}
-		cap.subtractFlagBits(bit);
-		return true;
 	}
 
 	@Override

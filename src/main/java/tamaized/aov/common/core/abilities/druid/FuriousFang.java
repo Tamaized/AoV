@@ -48,6 +48,11 @@ public class FuriousFang extends AbilityBase {
 	}
 
 	@Override
+	public int getExtraCharges(EntityLivingBase entity, IAoVCapability cap) {
+		return IAoVCapability.isImprovedCentered(entity, cap) ? getMaxCharges() : super.getExtraCharges(entity, cap);
+	}
+
+	@Override
 	public int getChargeCost() {
 		return 1;
 	}

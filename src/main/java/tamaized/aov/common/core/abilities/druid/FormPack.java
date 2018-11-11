@@ -42,6 +42,11 @@ public class FormPack extends AbilityBase {
 	}
 
 	@Override
+	public int getExtraCharges(EntityLivingBase entity, IAoVCapability cap) {
+		return IAoVCapability.isImprovedCentered(entity, cap) ? getMaxCharges() : super.getExtraCharges(entity, cap);
+	}
+
+	@Override
 	public int getChargeCost() {
 		return 1;
 	}
@@ -77,7 +82,7 @@ public class FormPack extends AbilityBase {
 		IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
 		if (cap == null)
 			return false;
-		float damage = DAMAGE * (1F + (cap.getSpellPower() / 100F));
+		float damage = DAMAGE * (1F + ((cap.getSpellPower() * (IAoVCapability.isImprovedCentered(caster, cap) ? 2F : 1F)) / 100F));
 		IPolymorphCapability poly = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
 		if (poly != null)
 			poly.callWolves(caster.world, caster, damage);

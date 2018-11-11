@@ -47,6 +47,11 @@ public class FuriousHowl extends AbilityBase {
 	}
 
 	@Override
+	public int getExtraCharges(EntityLivingBase entity, IAoVCapability cap) {
+		return IAoVCapability.isImprovedCentered(entity, cap) ? getMaxCharges() : super.getExtraCharges(entity, cap);
+	}
+
+	@Override
 	public int getChargeCost() {
 		return 1;
 	}
@@ -83,7 +88,7 @@ public class FuriousHowl extends AbilityBase {
 		IPolymorphCapability cap = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
 		if (aov == null || cap == null || cap.getMorph() != IPolymorphCapability.Morph.Wolf)
 			return false;
-		float damage = DAMAGE * (1F + (aov.getSpellPower() / 100F));
+		float damage = DAMAGE * (1F + ((aov.getSpellPower() * (IAoVCapability.isImprovedCentered(caster, aov) ? 2F : 1F)) / 100F));
 		for (EntityLivingBase entity : caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-RANGE, -RANGE, -RANGE), caster.getPosition().add(RANGE, RANGE, RANGE)), e -> e != caster)) {
 			entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, caster), damage);
 			aov.addExp(caster, 20, this);

@@ -1,6 +1,5 @@
 package tamaized.aov.common.capabilities.aov;
 
-import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,7 +17,6 @@ import tamaized.aov.common.capabilities.aov.AoVCapabilityHandler.DecayWrapper;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.abilities.Aura;
-import tamaized.aov.common.core.abilities.IAura;
 import tamaized.aov.common.core.skills.AoVSkill;
 import tamaized.aov.common.core.skills.AoVSkills;
 
@@ -32,7 +30,7 @@ public interface IAoVCapability {
 	ResourceLocation ID = new ResourceLocation(AoV.modid, "AoVCapabilityHandler");
 
 	// TODO: populate list based on config
-	static Set<ItemStackWrapper> CENTERED_WEAR = ImmutableSet.of(
+	Set<ItemStackWrapper> CENTERED_WEAR = ImmutableSet.of(
 
 			new ItemStackWrapper(Items.WOODEN_SWORD),
 
@@ -84,6 +82,10 @@ public interface IAoVCapability {
 		return false;
 	}
 
+	static boolean isImprovedCentered(EntityLivingBase entity, IAoVCapability cap) {
+		return cap != null && cap.hasSkill(AoVSkills.druid_core_4) && isCentered(entity, cap);
+	}
+
 	void markDirty();
 
 	void setLoaded();
@@ -102,7 +104,7 @@ public interface IAoVCapability {
 
 	void resetCharges(EntityPlayer player);
 
-	void restoreCharges(int amount);
+	void restoreCharges(Entity caster, int amount);
 
 	List<Ability> getAbilities();
 
@@ -154,7 +156,7 @@ public interface IAoVCapability {
 
 	float getSpellPower();
 
-	int getExtraCharges();
+	int getExtraCharges(@Nullable EntityLivingBase caster, @Nullable Ability ability);
 
 	int getDodge();
 
