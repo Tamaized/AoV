@@ -13,6 +13,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -187,6 +188,7 @@ public class AttackHandler {
 		if (canBlockDamageSource(player, e.getSource(), fullRadial) && damage > 0.0F) {
 			damageShield(player, damage);
 			e.setCanceled(true);
+			ForgeHooks.onLivingHurt(player, e.getSource(), damage); // See #80, do nothing with the result as the entity isn't taking damage already.
 			if (!e.getSource().isProjectile()) {
 				Entity entity = e.getSource().getImmediateSource();
 
