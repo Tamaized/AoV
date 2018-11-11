@@ -19,7 +19,7 @@ public class PotionColdChill extends Potion {
 	private final ResourceLocation iconTexture;
 
 	public PotionColdChill(String name) {
-		super(false, 0xFFFFFF);
+		super(true, 0xFFFFFF);
 		iconTexture = new ResourceLocation(AoV.modid, "textures/potions/" + name + ".png");
 		setRegistryName(AoV.modid, name);
 		setPotionName("effect." + AoV.modid + "." + name);

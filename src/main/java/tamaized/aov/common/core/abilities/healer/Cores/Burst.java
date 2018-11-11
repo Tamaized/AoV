@@ -3,6 +3,7 @@ package tamaized.aov.common.core.abilities.healer.Cores;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -20,6 +21,7 @@ import tamaized.aov.registry.AoVDamageSource;
 import tamaized.aov.registry.SoundEvents;
 import tamaized.tammodized.common.helper.CapabilityHelper;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class Burst extends AbilityBase {
@@ -66,7 +68,12 @@ public class Burst extends AbilityBase {
 				entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, caster), a);
 			else if (IAoVCapability.canBenefit(caster, cap, entity)) {
 				entity.heal(a);
-				entity.getActivePotionEffects().removeIf(pot -> pot.getPotion().isBadEffect());
+				//noinspection ForLoopReplaceableByForEach
+				for (Iterator<PotionEffect> iter = entity.getActivePotionEffects().iterator(); iter.hasNext(); ) {
+					PotionEffect effect = iter.next();
+					if (effect.getPotion().isBadEffect())
+						entity.removePotionEffect(effect.getPotion());
+				}
 				cap.addExp(caster, 20, this);
 			}
 		}
