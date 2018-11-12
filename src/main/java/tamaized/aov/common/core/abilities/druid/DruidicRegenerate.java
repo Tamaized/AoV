@@ -1,5 +1,6 @@
 package tamaized.aov.common.core.abilities.druid;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
@@ -7,6 +8,8 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
@@ -19,11 +22,19 @@ import java.util.List;
 public class DruidicRegenerate extends AbilityBase {
 
 	private static final String UNLOC = "aov.spells.druidregenerate";
+	private static final int CHARGES = 10;
+	private static final float RANGE = 6;
 
 	public DruidicRegenerate() {
 		super(
 
 				new TextComponentTranslation(UNLOC.concat(".name")),
+
+				new TextComponentTranslation(""),
+
+				new TextComponentTranslation("aov.spells.global.charges", CHARGES),
+
+				new TextComponentTranslation("aov.spells.global.range", RANGE),
 
 				new TextComponentTranslation(""),
 
@@ -33,13 +44,14 @@ public class DruidicRegenerate extends AbilityBase {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getName() {
-		return UNLOC.concat(".name");
+		return I18n.format(UNLOC.concat(".name"));
 	}
 
 	@Override
 	public int getMaxCharges() {
-		return 10;
+		return CHARGES;
 	}
 
 	@Override
@@ -54,7 +66,7 @@ public class DruidicRegenerate extends AbilityBase {
 
 	@Override
 	public double getMaxDistance() {
-		return 6;
+		return RANGE;
 	}
 
 	@Override

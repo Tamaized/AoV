@@ -8,6 +8,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
@@ -22,6 +24,8 @@ import javax.annotation.Nullable;
 public class FuriousFang extends AbilityBase {
 
 	public static final byte BIT = 0b0100;
+	private static final int CHARGES = 5;
+	public static final float DAMAGE = 4F;
 
 	private static final String UNLOC = "aov.spells.furiousfang";
 
@@ -32,19 +36,26 @@ public class FuriousFang extends AbilityBase {
 
 				new TextComponentTranslation(""),
 
+				new TextComponentTranslation("aov.spells.global.charges", CHARGES),
+
+				new TextComponentTranslation("aov.spells.global.damage", DAMAGE),
+
+				new TextComponentTranslation(""),
+
 				new TextComponentTranslation(UNLOC.concat(".desc"))
 
 		);
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getName() {
 		return I18n.format(UNLOC.concat(".name"));
 	}
 
 	@Override
 	public int getMaxCharges() {
-		return 5;
+		return CHARGES;
 	}
 
 	@Override

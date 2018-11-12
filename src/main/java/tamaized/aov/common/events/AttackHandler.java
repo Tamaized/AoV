@@ -84,10 +84,10 @@ public class AttackHandler {
 			float amp = (1.0F + (cap == null ? 0F : (cap.getSpellPower() / 100F)));
 			float dmg = 4.0F * amp;
 			if (poly.isFlagBitActive(FuriousClaw.BIT))
-				dmg += 2F * amp * (IAoVCapability.isCentered(e.getEntityPlayer(), cap) ? 2F : 1F) * (IAoVCapability.isImprovedCentered(player, cap) ? 2F : 1F);
+				dmg += FuriousClaw.DAMAGE * amp * (IAoVCapability.isCentered(e.getEntityPlayer(), cap) ? 2F : 1F) * (IAoVCapability.isImprovedCentered(player, cap) ? 2F : 1F);
 			poly.subtractFlagBits(FuriousClaw.BIT);
 			if (poly.isFlagBitActive(FuriousFang.BIT))
-				dmg += 4F * amp * (IAoVCapability.isCentered(e.getEntityPlayer(), cap) ? 2F : 1F) * (IAoVCapability.isImprovedCentered(player, cap) ? 2F : 1F);
+				dmg += FuriousFang.DAMAGE * amp * (IAoVCapability.isCentered(e.getEntityPlayer(), cap) ? 2F : 1F) * (IAoVCapability.isImprovedCentered(player, cap) ? 2F : 1F);
 			poly.subtractFlagBits(FuriousFang.BIT);
 			e.getTarget().attackEntityFrom(DamageSource.causePlayerDamage(e.getEntityPlayer()), dmg);
 			e.setCanceled(true);

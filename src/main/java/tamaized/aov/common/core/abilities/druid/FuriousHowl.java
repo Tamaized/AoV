@@ -7,6 +7,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
@@ -23,11 +25,20 @@ public class FuriousHowl extends AbilityBase {
 	private static final String UNLOC = "aov.spells.furioushowl";
 	private static final int RANGE = 6;
 	private static final float DAMAGE = 2F;
+	private static final int CHARGES = 5;
 
 	public FuriousHowl() {
 		super(
 
 				new TextComponentTranslation(UNLOC.concat(".name")),
+
+				new TextComponentTranslation(""),
+
+				new TextComponentTranslation("aov.spells.global.charges", CHARGES),
+
+				new TextComponentTranslation("aov.spells.global.range", RANGE),
+
+				new TextComponentTranslation("aov.spells.global.damage", DAMAGE),
 
 				new TextComponentTranslation(""),
 
@@ -37,13 +48,14 @@ public class FuriousHowl extends AbilityBase {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getName() {
 		return I18n.format(UNLOC.concat(".name"));
 	}
 
 	@Override
 	public int getMaxCharges() {
-		return 5;
+		return CHARGES;
 	}
 
 	@Override

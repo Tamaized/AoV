@@ -1,5 +1,6 @@
 package tamaized.aov.common.core.abilities.druid;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
@@ -7,6 +8,8 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
@@ -26,12 +29,21 @@ public class ElementalEmpowerment extends AbilityBase implements IAura {
 
 	private static final String UNLOC = "aov.spells.elementalempowerment";
 	private static final float DAMAGE = 1F;
-	private static final float DISTANCE = 4F;
+	private static final float RANGE = 4F;
+	private static final int CHARGES = 2;
 
 	public ElementalEmpowerment() {
 		super(
 
 				new TextComponentTranslation(UNLOC.concat(".name")),
+
+				new TextComponentTranslation(""),
+
+				new TextComponentTranslation("aov.spells.global.charges", CHARGES),
+
+				new TextComponentTranslation("aov.spells.global.range", RANGE),
+
+				new TextComponentTranslation("aov.spells.global.damage", DAMAGE),
 
 				new TextComponentTranslation(""),
 
@@ -41,13 +53,14 @@ public class ElementalEmpowerment extends AbilityBase implements IAura {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getName() {
-		return UNLOC.concat(".name");
+		return I18n.format(UNLOC.concat(".name"));
 	}
 
 	@Override
 	public int getMaxCharges() {
-		return 2;
+		return CHARGES;
 	}
 
 	@Override
@@ -57,7 +70,7 @@ public class ElementalEmpowerment extends AbilityBase implements IAura {
 
 	@Override
 	public double getMaxDistance() {
-		return DISTANCE;
+		return RANGE;
 	}
 
 	@Override
@@ -117,7 +130,7 @@ public class ElementalEmpowerment extends AbilityBase implements IAura {
 					ParticleHelper.spawnVanillaParticleOnServer(caster.world, EnumParticleTypes.FLAME, caster.posX + caster.world.rand.nextDouble() * 1.5F - 0.75F, caster.posY + caster.eyeHeight - 0.25F + caster.world.rand.nextDouble() * 1.5F - 0.75F, caster.posZ + caster.world.rand.nextDouble() * 1.5F - 0.75F, 0, 0, 0);
 					float damage = DAMAGE * (1F + (cap.getSpellPower() / 100F));
 					if (life > 0 && life % (3 * 20) == 0) {
-						List<EntityLivingBase> list = caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-DISTANCE, -DISTANCE, -DISTANCE), caster.getPosition().add(DISTANCE, DISTANCE, DISTANCE)));
+						List<EntityLivingBase> list = caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-RANGE, -RANGE, -RANGE), caster.getPosition().add(RANGE, RANGE, RANGE)));
 						for (EntityLivingBase entity : list) {
 							if (IAoVCapability.selectiveTarget(caster, cap, entity)) {
 								entity.attackEntityFrom(DamageSource.IN_FIRE, damage);

@@ -12,7 +12,7 @@ public class SpellButton extends GuiButton {
 	private final AbilityBase spell;
 
 	public SpellButton(int buttonId, int x, int y, AbilityBase theSpell) {
-		super(buttonId, x, y, 80, 18, "");
+		super(buttonId, x, y, 90, 18, "");
 		spell = theSpell;
 	}
 

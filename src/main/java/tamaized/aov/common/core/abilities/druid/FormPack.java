@@ -1,9 +1,12 @@
 package tamaized.aov.common.core.abilities.druid;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
@@ -18,11 +21,18 @@ public class FormPack extends AbilityBase {
 
 	private static final String UNLOC = "aov.spells.formpack";
 	private static final float DAMAGE = 4F;
+	private static final int CHARGES = 2;
 
 	public FormPack() {
 		super(
 
 				new TextComponentTranslation(UNLOC.concat(".name")),
+
+				new TextComponentTranslation(""),
+
+				new TextComponentTranslation("aov.spells.global.charges", CHARGES),
+
+				new TextComponentTranslation("aov.spells.global.damage", DAMAGE),
 
 				new TextComponentTranslation(""),
 
@@ -32,13 +42,14 @@ public class FormPack extends AbilityBase {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getName() {
-		return UNLOC.concat(".name");
+		return I18n.format(UNLOC.concat(".name"));
 	}
 
 	@Override
 	public int getMaxCharges() {
-		return 2;
+		return CHARGES;
 	}
 
 	@Override

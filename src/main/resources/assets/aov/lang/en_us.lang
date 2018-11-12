@@ -159,8 +159,34 @@ aov.spells.spread.name=§eSpread
 aov.spells.spread.desc=§5Moves your currently drawn card into your spread which you can use at a later time.
 aov.spells.timedilation.name=§eTime Dilation
 aov.spells.timedilation.desc=§5A single target ability that doubles the duration of all beneficial effects.
+aov.spells.polymorph.wolf.name=§eWild Shape: Wolf
+aov.spells.polymorph.wolf.desc=§5Transforms the user into a Wolf.\n\nWhile in Wolf form, you can no longer use items or blocks, your right click becomes a "pounce" which launches you in the direction you're looking as well as damages anything you land on.\n\nYou are no longer able to cast any spells unless otherwise stated.\n\nRather than eating with your hand, you eat food off the ground, which also gives you a small regeneration effect\n\n+15 Doublestrike\n+10 Dodge.
+aov.spells.furiousclaw.name=§eFurious Claw
+aov.spells.furiousclaw.desc=§5Can only be used while in Wolf form
+aov.spells.druidregenerate.name=§eDruidic Regenerate
+aov.spells.druidregenerate.desc=§5Casts a small aoe effect of regeneration around the caster
+aov.spells.litstrike.name=§eLightning Strike
+aov.spells.litstrike.desc=§5Casts a Lightning Strike at a target area
+aov.spells.furiousfang.name=§eFurious Fang
+aov.spells.furiousfang.desc=§5Can only be used while in Wolf form
+aov.spells.naturesbounty.name=§eNature's Bounty
+aov.spells.naturesbounty.desc=§5Upon reaching half or less health you are granted Regeneration III for 10 seconds.
+aov.spells.earthquake.name=§eEarthquake
+aov.spells.earthquake.desc=§5Casts an Earthquake on the target ground, dealing damage and slowing enemies who walk through it along with destroying the terrain around it.
+aov.spells.furioushowl.name=§eFurious Howl
+aov.spells.furioushowl.desc=§5You let out an ear piercing howl, damaging enemies nearby.
+aov.spells.polymorph.water.name=§eWild Shape: Water Elemental
+aov.spells.polymorph.water.desc=§5Transforms the user into a Water Elemental.\n\nAt night you gain 20 spellpower, during the day you lose 20 spellpower.\n\nWhile in Water, you gain regeneration.\nWhile in Lava or Fire, you are dealt incredibly more damage.\n\nWhile in Hot biomes, you take damage slowly, while in Cold biomes you regain health slowly.\n\nYou becomes immune to Slowness, Wither, and Poison.
+aov.spells.polymorph.fire.name=§eWild Shape: Fire Elemental
+aov.spells.polymorph.fire.desc=§5Transforms the user into a Fire Elemental.\n\nAt night you lose 20 spellpower, during the day you gain 20 spellpower.\n\nWhile in Lava or Fire, you gain regeneration.\nWhile in Water, you are dealt incredibly more damage.\n\nWhile in Cold biomes, you take damage slowly, while in Hot biomes you regain health slowly.\n\nYou becomes immune to Slowness, Wither, and Poison.
+aov.spells.litstorm.name=§eLightning Storm
+aov.spells.litstorm.desc=§5Casts a Cloud above a target area that strikes enemies below with a Lightning Strike. Damage scales with spellpower.
+aov.spells.formpack.name=§eForm Pack
+aov.spells.formpack.desc=§5Calls upon Wolves to fight by your side. Cannot have more than 5 Wolves at a time. Their damage scales with your spellpower.
+aov.spells.elementalempowerment.name=§eElemental Empowerment
+aov.spells.elementalempowerment.desc=§5Can only use while in Fire or Water Elemental forms. Effect changes based on your form.\n\nFire Elemental: Generates a long lasting heat aura that deals fire damage to nearby enemies, scales with spellpower\n\nWater Elemental: Generates a long lasting chill aura that slows and deals cold damage to enemies who strike the caster, scales with spellpower.
 
-# Skills
+# Skills TODO: [.req] is unused, remove at some point
 aov.skill.global.core=§cObtaining this skill prevents you from taking skills from any other class!
 aov.skill.global.minlevel=§cRequires: Level %s
 aov.skill.global.minpoint=§cRequires: %s Point(s) Spent in Tree
@@ -360,3 +386,52 @@ aov.skill.astro.tier4.3.req=§cRequires: Spell Power III
 aov.skill.astro.tier4.5.name=§bAspected Helios
 aov.skill.astro.tier4.5.req=§cRequires: Aspected Benefic
 aov.skill.astro.tier4.5.desc=§eAdded Spell: Aspected Helios
+
+## Druid
+### Core
+aov.skill.druid.core.1.name=§bClass Core: Druid
+aov.skill.druid.core.1.desc=§eYou gain Centered:\nWhile using only wooden, leather or no tools/weapons/armor you become Centered\n\nWhile Centered you gain a Half a Heart, +1 Dodge, +1 Doublestrike, and +5 Spellpower per level
+aov.skill.druid.core.2.name=§bDruid Core 2
+aov.skill.druid.core.2.desc=§eAdded Ability: Wild Shape (Wolf)
+aov.skill.druid.core.3.name=§bDruid Core 3
+aov.skill.druid.core.3.desc=§eYou gain Evasion:\nWhile Centered, you gain +25 Dodge
+aov.skill.druid.core.4.name=§bDruid Core 4
+aov.skill.druid.core.4.desc=§eYou gain Improved Centered:\nAttacks deal +1 extra damage per level, your wolf form pounce attack goes much further, Way abilities are granted double charges and potency
+aov.skill.druid.core.5.name=§bCapstone: Druid
+aov.skill.druid.core.5.desc=§eYou gain Improved Evasion:\nFurther improves your Evasion ability to grant +50 dodge instead of +25
+### T1
+aov.skill.druid.tier1.1.name=§bCure Light Wounds
+aov.skill.druid.tier1.1.desc=§eAdded Spell: Cure Light Wounds
+aov.skill.druid.tier1.2.name=§bWay of the Beast I
+aov.skill.druid.tier1.2.desc=§cWay of the Beast abilities only work while in Wolf form\n\n§eAdded Ability: Furious Claw
+aov.skill.druid.tier1.3.name=§bDodge I
+aov.skill.druid.tier1.4.name=§bWay of the Spirit I
+aov.skill.druid.tier1.4.desc=§eAdded Ability: Druidic Regenerate
+aov.skill.druid.tier1.5.name=§bLightning Strike
+aov.skill.druid.tier1.5.desc=§eAdded Ability: Lightning Strike
+### T2
+aov.skill.druid.tier2.2.name=§bWay of the Beast II
+aov.skill.druid.tier2.2.desc=§eAdded Ability: Furious Fang
+aov.skill.druid.tier2.3.name=§bDodge II
+aov.skill.druid.tier2.4.name=§bWay of the Spirit II
+aov.skill.druid.tier2.4.desc=§eAdded Ability: Nature's Bounty
+aov.skill.druid.tier2.5.name=§bEarthquake
+aov.skill.druid.tier2.5.desc=§eAdded Ability: Earthquake
+### T3
+aov.skill.druid.tier3.1.name=§bCure Moderate Wounds
+aov.skill.druid.tier3.1.desc=§eAdded Ability: Cure Moderate Wounds
+aov.skill.druid.tier3.2.name=§bWay of the Beast III
+aov.skill.druid.tier3.2.desc=§eAdded Ability: Furious Howl
+aov.skill.druid.tier3.3.name=§bDodge III
+aov.skill.druid.tier3.4.name=§bWay of the Spirit III
+aov.skill.druid.tier3.4.desc=§eAdded Ability: Wild Shape (Water Elemental)
+aov.skill.druid.tier3.5.name=§bLightning Storm
+aov.skill.druid.tier3.5.desc=§eAdded Ability: Lightning Storm
+### T4
+aov.skill.druid.tier4.2.name=§bWay of the Beast IV
+aov.skill.druid.tier4.2.desc=§eAdded Ability: Form Pack
+aov.skill.druid.tier4.3.name=§bDodge IV
+aov.skill.druid.tier4.4.name=§bWay of the Spirit IV
+aov.skill.druid.tier4.4.desc=§eAdded Ability: Wild Shape (Fire Elemental)
+aov.skill.druid.tier4.5.name=§bElemental Empowerment
+aov.skill.druid.tier4.5.desc=§eAdded Ability: Elemental Empowerment
