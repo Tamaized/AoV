@@ -10,6 +10,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
@@ -31,6 +32,8 @@ public class ElementalEmpowerment extends AbilityBase implements IAura {
 	private static final float DAMAGE = 1F;
 	private static final float RANGE = 4F;
 	private static final int CHARGES = 2;
+
+	private static final ResourceLocation ICON = new ResourceLocation(AoV.modid, "textures/spells/elementalempowerment.png");
 
 	public ElementalEmpowerment() {
 		super(
@@ -115,7 +118,7 @@ public class ElementalEmpowerment extends AbilityBase implements IAura {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return SkillIcons.vitality;
+		return ICON;
 	}
 
 	@Override

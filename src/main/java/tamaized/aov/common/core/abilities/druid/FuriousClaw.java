@@ -10,6 +10,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
@@ -28,6 +29,8 @@ public class FuriousClaw extends AbilityBase {
 	public static final float DAMAGE = 2F;
 
 	private static final String UNLOC = "aov.spells.furiousclaw";
+
+	private static final ResourceLocation ICON = new ResourceLocation(AoV.modid, "textures/spells/furiousclaw.png");
 
 	public FuriousClaw() {
 		super(
@@ -119,7 +122,7 @@ public class FuriousClaw extends AbilityBase {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return SkillIcons.vitality;
+		return ICON;
 	}
 
 	@Override

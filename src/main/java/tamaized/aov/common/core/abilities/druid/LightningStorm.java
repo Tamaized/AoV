@@ -8,6 +8,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
@@ -23,6 +24,8 @@ public class LightningStorm extends AbilityBase {
 	private static final float DAMAGE = 3F;
 	private static final int RANGE = 25;
 	private static final int CHARGES = 2;
+
+	private static final ResourceLocation ICON = new ResourceLocation(AoV.modid, "textures/spells/lightningstorm.png");
 
 	public LightningStorm() {
 		super(
@@ -96,6 +99,6 @@ public class LightningStorm extends AbilityBase {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return SkillIcons.vitality;
+		return ICON;
 	}
 }

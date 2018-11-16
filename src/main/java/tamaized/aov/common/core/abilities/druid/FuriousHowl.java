@@ -9,6 +9,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
@@ -26,6 +27,8 @@ public class FuriousHowl extends AbilityBase {
 	private static final int RANGE = 6;
 	private static final float DAMAGE = 2F;
 	private static final int CHARGES = 5;
+
+	private static final ResourceLocation ICON = new ResourceLocation(AoV.modid, "textures/spells/furioushowl.png");
 
 	public FuriousHowl() {
 		super(
@@ -110,6 +113,6 @@ public class FuriousHowl extends AbilityBase {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return SkillIcons.vitality;
+		return ICON;
 	}
 }

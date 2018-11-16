@@ -1,15 +1,13 @@
 package tamaized.aov.common.core.abilities.druid;
 
-import com.google.common.collect.Sets;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
@@ -17,7 +15,6 @@ import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.skills.SkillIcons;
 import tamaized.tammodized.common.helper.CapabilityHelper;
-import tamaized.tammodized.common.helper.RayTraceHelper;
 
 import javax.annotation.Nullable;
 
@@ -28,6 +25,8 @@ public class FuriousFang extends AbilityBase {
 	public static final float DAMAGE = 4F;
 
 	private static final String UNLOC = "aov.spells.furiousfang";
+
+	private static final ResourceLocation ICON = new ResourceLocation(AoV.modid, "textures/spells/furiousfang.png");
 
 	public FuriousFang() {
 		super(
@@ -101,7 +100,7 @@ public class FuriousFang extends AbilityBase {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return SkillIcons.vitality;
+		return ICON;
 	}
 
 	@Override
