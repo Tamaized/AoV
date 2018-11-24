@@ -137,8 +137,7 @@ public class ElementalEmpowerment extends AbilityBase implements IAura {
 					if (life > 0 && life % (3 * 20) == 0) {
 						List<EntityLivingBase> list = caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-RANGE, -RANGE, -RANGE), caster.getPosition().add(RANGE, RANGE, RANGE)));
 						for (EntityLivingBase entity : list) {
-							if (IAoVCapability.selectiveTarget(caster, cap, entity)) {
-								entity.attackEntityFrom(DamageSource.IN_FIRE, damage);
+							if (IAoVCapability.selectiveTarget(caster, cap, entity) && entity.attackEntityFrom(DamageSource.IN_FIRE, damage)) {
 								entity.setFire(5);
 								cap.addExp(caster, 20, this);
 							}
