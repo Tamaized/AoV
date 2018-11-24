@@ -78,7 +78,6 @@ public class RenderPlayer {
 			Tessellator tess = Tessellator.getInstance();
 			BufferBuilder buffer = tess.getBuffer();
 			GlStateManager.enableBlend();
-			GlStateManager.popMatrix();
 			GlStateManager.disableCull();
 			float perc = (float) cap.getLeapDuration() / (float) cap.getMaxLeapDuration();
 			GlStateManager.color(1, 1, 1, perc);
