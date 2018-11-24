@@ -25,6 +25,8 @@ effect.aov.balance=Balance
 effect.aov.ewer=Ewer
 effect.aov.spear=Spear
 effect.aov.spire=Spire
+effect.aov.naturesbounty=Nature's Bounty
+effect.aov.coldchill=Cold Chill
 
 # Item
 item.aov.debugger.name=Debugger
