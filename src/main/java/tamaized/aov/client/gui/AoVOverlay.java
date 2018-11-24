@@ -178,7 +178,7 @@ public class AoVOverlay extends Gui {
 
 	@SubscribeEvent
 	public void camera(EntityViewRenderEvent.CameraSetup e) {
-		if (ConfigHandler.earthquake.shake && intensity > 0) {
+		if (!mc.isGamePaused() && ConfigHandler.earthquake.shake && intensity > 0) {
 			e.setYaw(e.getYaw() + (rand.nextFloat() * 2F - 1F) * intensity);
 			e.setPitch(e.getPitch() + (rand.nextFloat() * 2F - 1F) * intensity);
 			e.setRoll(e.getRoll() + (rand.nextFloat() * 2F - 1F) * intensity);
