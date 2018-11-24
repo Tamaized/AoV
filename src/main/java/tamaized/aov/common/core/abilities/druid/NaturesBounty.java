@@ -3,8 +3,10 @@ package tamaized.aov.common.core.abilities.druid;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -14,6 +16,9 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.skills.SkillIcons;
+import tamaized.aov.common.entity.EntitySpellAoVParticles;
+import tamaized.aov.common.helper.ParticleHelper;
+import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.AoVPotions;
 import tamaized.tammodized.common.helper.CapabilityHelper;
 
@@ -98,6 +103,8 @@ public class NaturesBounty extends AbilityBase {
 
 	private void addPotionEffects(EntityLivingBase entity) {
 		entity.addPotionEffect(new PotionEffect(AoVPotions.naturesBounty, 20 * (60 * 15)));
+		entity.world.spawnEntity(new EntitySpellAoVParticles(entity.world, entity, CommonProxy.ParticleType.Heart, 0x00FFAAFF, 1));
+		entity.world.playSound(null, entity.posX, entity.posY, entity.posZ, SoundEvents.ENTITY_ILLAGER_PREPARE_BLINDNESS, SoundCategory.PLAYERS, 1.0F, entity.getRNG().nextFloat() * 0.5F + 0.75F);
 	}
 
 	@Override

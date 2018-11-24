@@ -11,10 +11,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -102,6 +104,8 @@ public class EntityEarthquake extends Entity {
 					}
 				}
 			}
+			if ((ticksExisted % 3 == 0 || ticksExisted % 15 == 0 || ticksExisted % 35 == 0) && rand.nextBoolean())
+				world.playSound(null, posX, posY, posZ, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.PLAYERS, 2.0F, rand.nextFloat() * 0.65F + (rand.nextBoolean() ? 0.75F : 0.1F));
 			if (ConfigHandler.earthquake.enable && ticksExisted % ConfigHandler.earthquake.ticks == 0 && rand.nextInt(ConfigHandler.earthquake.chance) == 0) {
 				final int radius = 2;
 				List<BlockPos> positions = Lists.newArrayList(BlockPos.getAllInBox(new BlockPos(posX - radius, posY - 1, posZ - radius), new BlockPos(posX + radius, posY, posZ + radius)));

@@ -3,7 +3,9 @@ package tamaized.aov.common.core.abilities.druid;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -13,7 +15,6 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
-import tamaized.aov.common.core.skills.SkillIcons;
 import tamaized.aov.common.entity.EntitySpellLightningStorm;
 import tamaized.aov.common.helper.UtilHelper;
 import tamaized.tammodized.common.helper.CapabilityHelper;
@@ -94,6 +95,7 @@ public class LightningStorm extends AbilityBase {
 			return false;
 		storm.setPosition(pos.x, pos.y + 10F, pos.z);
 		caster.world.spawnEntity(storm);
+		caster.world.playSound(null, storm.posX, storm.posY, storm.posZ, SoundEvents.EVOCATION_ILLAGER_PREPARE_SUMMON, SoundCategory.PLAYERS, 4.0F, caster.getRNG().nextFloat() * 0.5F + 0.5F);
 		return true;
 	}
 

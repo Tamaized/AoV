@@ -4,8 +4,10 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -16,6 +18,8 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.skills.SkillIcons;
+import tamaized.aov.common.helper.ParticleHelper;
+import tamaized.aov.proxy.CommonProxy;
 import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import java.util.List;
@@ -97,6 +101,8 @@ public class DruidicRegenerate extends AbilityBase {
 				entity.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 200, IAoVCapability.isImprovedCentered(caster, cap) ? 1 : 0));
 				cap.addExp(caster, 15, this);
 			}
+			ParticleHelper.spawnParticleMesh(ParticleHelper.MeshType.BURST, CommonProxy.ParticleType.Heart, caster.world, caster.getPositionVector(), range, 0x00FFAAFF);
+			caster.world.playSound(null, caster.posX, caster.posY, caster.posZ, SoundEvents.EVOCATION_ILLAGER_CAST_SPELL, SoundCategory.PLAYERS, 1.0F, caster.getRNG().nextFloat() * 0.50F + 0.50F);
 			return true;
 		}
 		return false;

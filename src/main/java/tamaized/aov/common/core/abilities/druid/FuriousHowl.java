@@ -3,8 +3,10 @@ package tamaized.aov.common.core.abilities.druid;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -15,7 +17,6 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
-import tamaized.aov.common.core.skills.SkillIcons;
 import tamaized.aov.registry.AoVDamageSource;
 import tamaized.tammodized.common.helper.CapabilityHelper;
 
@@ -108,6 +109,8 @@ public class FuriousHowl extends AbilityBase {
 			entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, caster), damage);
 			aov.addExp(caster, 20, this);
 		}
+		for (int i = 0; i < 3; i++)
+			caster.world.playSound(null, caster.posX, caster.posY, caster.posZ, SoundEvents.ENTITY_WOLF_GROWL, SoundCategory.PLAYERS, 0.5F, caster.getRNG().nextFloat() * 0.75F + 0.25F);
 		return true;
 	}
 
