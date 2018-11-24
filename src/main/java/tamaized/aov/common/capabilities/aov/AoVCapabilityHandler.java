@@ -112,6 +112,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			skillPoints = 1;
 			exp = 0;
 			maxLevel = ConfigHandler.maxlevel;
+			decay.clear();
 		} else {
 			AoVSkill core = getCoreSkill();
 			obtainedSkills.clear();
@@ -120,7 +121,6 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		}
 		abilities.clear();
 		auras.clear();
-		decay.clear();
 		invokeMass = false;
 		slots = new Ability[]{null, null, null, null, null, null, null, null, null};
 		dirty = true;
