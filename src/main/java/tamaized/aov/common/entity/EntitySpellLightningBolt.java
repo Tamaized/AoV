@@ -29,7 +29,7 @@ public class EntitySpellLightningBolt extends Entity {
 	private float damage;
 	private AbilityBase source;
 
-	public EntitySpellLightningBolt(World world){
+	public EntitySpellLightningBolt(World world) {
 		super(world);
 		damage = 3F;
 	}
@@ -87,8 +87,7 @@ public class EntitySpellLightningBolt extends Entity {
 			IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
 			for (Entity entity : list)
 				if (!(entity instanceof EntityLivingBase) || IAoVCapability.selectiveTarget(caster, cap, (EntityLivingBase) entity)) {
-					entity.attackEntityFrom(DamageSource.LIGHTNING_BOLT, damage);
-					if(cap != null)
+					if (entity.attackEntityFrom(DamageSource.LIGHTNING_BOLT, damage) && cap != null)
 						cap.addExp(caster, 20, source == null ? Abilities.litStrike : source);
 				}
 		}

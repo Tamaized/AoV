@@ -51,7 +51,7 @@ public class EntityEarthquake extends Entity {
 	}
 
 	public EntityEarthquake(World worldIn, Entity caster, float damage) {
-		super(worldIn);
+		this(worldIn);
 		this.caster = caster;
 		this.damage = damage;
 	}
@@ -139,8 +139,7 @@ public class EntityEarthquake extends Entity {
 							caster = e;
 				IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
 				for (EntityLivingBase entity : world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(posX - width, posY - 1F, posZ - width, posX + width, posY + 3F, posZ + width))) {
-					if (entity != caster && IAoVCapability.selectiveTarget(caster, cap, entity)) {
-						entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, caster), damage);
+					if (entity != caster && IAoVCapability.selectiveTarget(caster, cap, entity) && entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, caster), damage)) {
 						entity.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 20 * 8));
 						if (cap != null)
 							cap.addExp(caster, 20, Abilities.earthquake);
