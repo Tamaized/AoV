@@ -7,6 +7,7 @@ import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -191,8 +192,9 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 				IAoVCapability aov = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
 				List<Entity> targets = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getEntityBoundingBox().grow(0.75D));
 				for (Entity target : targets) {
-					target.attackEntityFrom(DamageSource.causePlayerDamage(player), 5F * (aov == null ? 1 : (aov.getSpellPower() / 100F + 1F)));
-					if (aov != null)
+					if (!(target instanceof EntityLivingBase))
+						continue;
+					if (target.attackEntityFrom(DamageSource.causePlayerDamage(player), 5F * (aov == null ? 1 : (aov.getSpellPower() / 100F + 1F))) && aov != null)
 						aov.addExp(player, 10, Abilities.wildshapeWolf);
 				}
 			}
