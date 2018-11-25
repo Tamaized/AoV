@@ -54,6 +54,7 @@ public class AoVOverlay extends Gui {
 	public static float intensity = 0F;
 	private static EntityLivingBase cacheEntity;
 	private static int cacheEntityID = -1;
+	public static boolean NO_STENCIL = false;
 
 	@SubscribeEvent
 	public void renderOverlayPre(RenderGameOverlayEvent.Pre e) {
@@ -188,6 +189,13 @@ public class AoVOverlay extends Gui {
 	}
 
 	private void renderStencils() {
+		if (!Minecraft.getMinecraft().getFramebuffer().isStencilEnabled())
+			Minecraft.getMinecraft().getFramebuffer().enableStencil();
+		if (GL11.glGetInteger(GL11.GL_STENCIL_BITS) < 1) {
+			NO_STENCIL = true;
+			return;
+		}
+		NO_STENCIL = false;
 		if (mc.world != null) {
 			Minecraft.getMinecraft().renderEngine.bindTexture(TEXTURE_ELEMENTALS);
 			Tessellator tess = Tessellator.getInstance();

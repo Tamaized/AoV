@@ -138,11 +138,18 @@ public class RenderPlayer {
 		if (cap != null) {
 			if (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental || cap.getMorph() == IPolymorphCapability.Morph.FireElemental) {
 				GlStateManager.enableBlend();
-				GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.SRC_COLOR, GlStateManager.DestFactor.ZERO);
-				GL11.glEnable(GL11.GL_STENCIL_TEST);
-				GL11.glStencilMask(0xFF);
-				GL11.glStencilFunc(GL11.GL_ALWAYS, (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental ? 8 : 9) + (AoVOverlay.hackyshit ? 2 : 0), 0xFF);
-				GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_REPLACE);
+				if (AoVOverlay.NO_STENCIL) {
+					if (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental)
+						GlStateManager.color(0F, 0.5F, 1F, 0.75F);
+					else if (cap.getMorph() == IPolymorphCapability.Morph.FireElemental)
+						GlStateManager.color(1F, 0.75F, 0F, 0.75F);
+				} else {
+					GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.SRC_COLOR, GlStateManager.DestFactor.ZERO);
+					GL11.glEnable(GL11.GL_STENCIL_TEST);
+					GL11.glStencilMask(0xFF);
+					GL11.glStencilFunc(GL11.GL_ALWAYS, (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental ? 8 : 9) + (AoVOverlay.hackyshit ? 2 : 0), 0xFF);
+					GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_REPLACE);
+				}
 			}
 		}
 	}
@@ -155,13 +162,17 @@ public class RenderPlayer {
 		IPolymorphCapability cap = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
 		if (cap != null) {
 			if (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental || cap.getMorph() == IPolymorphCapability.Morph.FireElemental) {
-				//				GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, ClientProxy.FRAME_BUFFER);
-				GL11.glStencilMask(0x00);
-				GL11.glDisable(GL11.GL_STENCIL_TEST);
-				GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-				hackyshit = true;
-				e.getRenderer().renderName(player, e.getX(), e.getY(), e.getZ());
-				hackyshit = false;
+				if (AoVOverlay.NO_STENCIL) {
+					GlStateManager.color(1F, 1F, 1F, 1F);
+				} else {
+					//				GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, ClientProxy.FRAME_BUFFER);
+					GL11.glStencilMask(0x00);
+					GL11.glDisable(GL11.GL_STENCIL_TEST);
+					GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+					hackyshit = true;
+					e.getRenderer().renderName(player, e.getX(), e.getY(), e.getZ());
+					hackyshit = false;
+				}
 				IAoVCapability aov = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
 				if (aov != null && cap.getMorph() == IPolymorphCapability.Morph.FireElemental && aov.isAuraActive(Abilities.elementalEmpowerment)) {
 					GlStateManager.pushMatrix();
@@ -221,21 +232,29 @@ public class RenderPlayer {
 		IPolymorphCapability cap = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
 		if (cap != null) {
 			if (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental || cap.getMorph() == IPolymorphCapability.Morph.FireElemental) {
-				e.setCanceled(true);
 				Minecraft mc = Minecraft.getMinecraft();
 				boolean flag = mc.getRenderViewEntity() instanceof EntityLivingBase && ((EntityLivingBase) mc.getRenderViewEntity()).isPlayerSleeping();
 				if (mc.gameSettings.thirdPersonView == 0 && !flag && !mc.gameSettings.hideGUI && !mc.playerController.isSpectator()) {
 					mc.entityRenderer.enableLightmap();
 					GlStateManager.enableBlend();
-					GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.SRC_COLOR, GlStateManager.DestFactor.ZERO);
-					GL11.glEnable(GL11.GL_STENCIL_TEST);
-					GL11.glStencilMask(0xFF);
-					GL11.glStencilFunc(GL11.GL_ALWAYS, cap.getMorph() == IPolymorphCapability.Morph.WaterElemental ? 8 : 9, 0xFF);
-					GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_REPLACE);
-					mc.entityRenderer.itemRenderer.renderItemInFirstPerson(e.getPartialTicks());
-					GL11.glStencilMask(0x00);
-					GL11.glDisable(GL11.GL_STENCIL_TEST);
-					GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+					if (AoVOverlay.NO_STENCIL) {
+						if (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental)
+							GlStateManager.color(0F, 0.5F, 1F, 0.75F);
+						else if (cap.getMorph() == IPolymorphCapability.Morph.FireElemental)
+							GlStateManager.color(1F, 0.75F, 0F, 0.75F);
+					} else {
+						e.setCanceled(true);
+						GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.SRC_COLOR, GlStateManager.DestFactor.ZERO);
+						GL11.glEnable(GL11.GL_STENCIL_TEST);
+						GL11.glStencilMask(0xFF);
+						GL11.glStencilFunc(GL11.GL_ALWAYS, cap.getMorph() == IPolymorphCapability.Morph.WaterElemental ? 8 : 9, 0xFF);
+						GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_REPLACE);
+						mc.entityRenderer.itemRenderer.renderItemInFirstPerson(e.getPartialTicks());
+						GL11.glStencilMask(0x00);
+						GL11.glDisable(GL11.GL_STENCIL_TEST);
+						GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+					}
+					GlStateManager.color(1F, 1F, 1F, 1F);
 					GlStateManager.disableBlend();
 					mc.entityRenderer.disableLightmap();
 				}
