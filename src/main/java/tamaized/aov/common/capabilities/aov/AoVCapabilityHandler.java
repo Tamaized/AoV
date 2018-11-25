@@ -25,6 +25,7 @@ import tamaized.aov.common.core.abilities.Aura;
 import tamaized.aov.common.core.skills.AoVSkill;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.network.client.ClientPacketHandlerAoVData;
+import tamaized.aov.network.client.ClientPacketHandlerAoVSimpleData;
 import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
 import tamaized.aov.proxy.ClientProxy;
 import tamaized.aov.registry.AoVPotions;
@@ -309,7 +310,8 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		Iterator<Aura> iter = auras.iterator();
 		while (iter.hasNext()) {
 			Aura aura = iter.next();
-			aura.update(player);
+			if ((player != null && !player.world.isRemote) || aura.getSpell().getAbility().runOnClient())
+				aura.update(player);
 			if (aura.isDead())
 				iter.remove();
 		}
@@ -714,8 +716,10 @@ public class AoVCapabilityHandler implements IAoVCapability {
 
 	private void sendPacketUpdates(EntityPlayerMP player) {
 		IPolymorphCapability poly = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
-		if (poly != null)
-			AoV.network.sendTo(new ClientPacketHandlerAoVData.Packet(this, poly), player);
+		if (poly == null)
+			return;
+		AoV.network.sendTo(new ClientPacketHandlerAoVData.Packet(this, poly), player);
+		AoV.network.sendToAllTracking(new ClientPacketHandlerAoVSimpleData.Packet(this, poly, player.getEntityId()), player);
 	}
 
 	protected class DecayWrapper {

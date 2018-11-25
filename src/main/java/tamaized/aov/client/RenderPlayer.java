@@ -46,6 +46,8 @@ public class RenderPlayer {
 		if (cap != null) {
 			if (cap.getMorph() == IPolymorphCapability.Morph.Wolf) {
 				GlStateManager.pushMatrix();
+				e.getRenderer().renderName((AbstractClientPlayer) player, e.getX(), e.getY(), e.getZ());
+				GlStateManager.translate(e.getX(), e.getY(), e.getZ());
 				float swingProgress = player.limbSwing - player.limbSwingAmount * (1.0F - e.getPartialRenderTick());//e.getRenderer().getMainModel().swingProgress;
 				float swingAmount = player.prevLimbSwingAmount + (player.limbSwingAmount - player.prevLimbSwingAmount) * e.getPartialRenderTick();
 				if (swingAmount > 1.0F)
@@ -118,6 +120,15 @@ public class RenderPlayer {
 	}
 
 	@SubscribeEvent
+	public void renderName(RenderLivingEvent.Specials.Pre<EntityLivingBase> e) {
+		if (hackyshit)
+			return;
+		IPolymorphCapability cap = CapabilityHelper.getCap(e.getEntity(), CapabilityList.POLYMORPH, null);
+		if (cap != null && (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental || cap.getMorph() == IPolymorphCapability.Morph.FireElemental))
+			e.setCanceled(true);
+	}
+
+	@SubscribeEvent
 	public void renderLiving(RenderLivingEvent.Pre<EntityPlayer> e) {
 		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		if (!(e.getEntity() instanceof EntityPlayer))
@@ -148,10 +159,14 @@ public class RenderPlayer {
 				GL11.glStencilMask(0x00);
 				GL11.glDisable(GL11.GL_STENCIL_TEST);
 				GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+				hackyshit = true;
+				e.getRenderer().renderName(player, e.getX(), e.getY(), e.getZ());
+				hackyshit = false;
 				IAoVCapability aov = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
 				if (aov != null && cap.getMorph() == IPolymorphCapability.Morph.FireElemental && aov.isAuraActive(Abilities.elementalEmpowerment)) {
 					GlStateManager.pushMatrix();
 					{
+						GlStateManager.translate(e.getX(), e.getY(), e.getZ());
 						Minecraft.getMinecraft().renderEngine.bindTexture(TEXTURE_SUNBODY);
 
 						Tessellator tess = Tessellator.getInstance();
@@ -183,7 +198,7 @@ public class RenderPlayer {
 							GlStateManager.disableLighting();
 							int j = 0xF000F0 % 0x10000;
 							int k = 0xF000F0 / 0x10000;
-							OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j, (float)k);
+							OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) j, (float) k);
 							GlStateManager.enableBlend();
 							tess.draw();
 							GlStateManager.popMatrix();

@@ -57,6 +57,7 @@ import tamaized.aov.registry.AoVArmors;
 import tamaized.aov.registry.AoVBlocks;
 import tamaized.aov.registry.AoVDamageSource;
 import tamaized.aov.registry.AoVItems;
+import tamaized.aov.registry.AoVParticles;
 import tamaized.aov.registry.AoVPotions;
 import tamaized.aov.registry.AoVTabs;
 import tamaized.tammodized.TamModBase;
@@ -82,6 +83,7 @@ public class AoV extends TamModBase {
 		new AoVPotions();
 		new AoVAchievements();
 		new AoVDamageSource();
+		new AoVParticles();
 	}
 
 	public static String getVersion() {

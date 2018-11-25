@@ -1,5 +1,6 @@
 package tamaized.aov.client.gui;
 
+import com.mojang.authlib.GameProfile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -390,7 +391,10 @@ public class AoVOverlay extends Gui {
 					if (cacheEntityID != target.getEntityId()) {
 						cacheEntityID = target.getEntityId();
 						try {
-							cacheEntity = target.getClass().getConstructor(World.class).newInstance(mc.world);
+							if (target instanceof EntityPlayer)
+								cacheEntity = target.getClass().getConstructor(World.class, GameProfile.class).newInstance(mc.world, ((EntityPlayer) target).getGameProfile());
+							else
+								cacheEntity = target.getClass().getConstructor(World.class).newInstance(mc.world);
 						} catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e1) {
 							e1.printStackTrace();
 						}
