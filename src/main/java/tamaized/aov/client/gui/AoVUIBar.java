@@ -118,17 +118,14 @@ public class AoVUIBar {
 		GlStateManager.popMatrix();
 	}
 
-	/**
-	 * Credit to Vazkii here, I used code from Botania :P
-	 */
-	public static void renderRadial(int x, int y, float perc) {
+	public static void renderRadial(int x, int y, float perc) { // TODO: clean up
 		GlStateManager.clear(GL11.GL_DEPTH_BUFFER_BIT);
-		GL11.glEnable(GL11.GL_STENCIL_TEST);
+//		GL11.glEnable(GL11.GL_STENCIL_TEST);
 		GlStateManager.colorMask(false, false, false, false);
 		GlStateManager.depthMask(false);
-		GL11.glStencilFunc(GL11.GL_NEVER, 1, 0xFF);
-		GL11.glStencilOp(GL11.GL_REPLACE, GL11.GL_KEEP, GL11.GL_KEEP);
-		GL11.glStencilMask(0xFF);
+//		GL11.glStencilFunc(GL11.GL_NEVER, 13, 0xFF);
+//		GL11.glStencilOp(GL11.GL_REPLACE, GL11.GL_KEEP, GL11.GL_KEEP);
+//		GL11.glStencilMask(0xFF);
 
 		int r = 10;
 		int centerX = x + 8;
@@ -142,8 +139,8 @@ public class AoVUIBar {
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 		GlStateManager.colorMask(true, true, true, true);
 		GlStateManager.depthMask(true);
-		GL11.glStencilMask(0x00);
-		GL11.glStencilFunc(GL11.GL_EQUAL, 1, 0xFF);
+//		GL11.glStencilMask(0x00);
+//		GL11.glStencilFunc(GL11.GL_EQUAL, 13, 0xFF);
 		GlStateManager.glBegin(GL11.GL_TRIANGLE_FAN);
 		GlStateManager.color(0F, 0.0F, 0.0F, a);
 		GL11.glVertex2i(centerX, centerY);
@@ -174,6 +171,6 @@ public class AoVUIBar {
 		GlStateManager.disableBlend();
 		GlStateManager.enableTexture2D();
 		GlStateManager.shadeModel(GL11.GL_FLAT);
-		GL11.glDisable(GL11.GL_STENCIL_TEST);
+//		GL11.glDisable(GL11.GL_STENCIL_TEST);
 	}
 }
