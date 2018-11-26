@@ -19,7 +19,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.opengl.GL11;
@@ -52,9 +51,9 @@ public class AoVOverlay extends Gui {
 	private static final Random rand = new Random();
 	public static boolean hackyshit = false;
 	public static float intensity = 0F;
+	public static boolean NO_STENCIL = false;
 	private static EntityLivingBase cacheEntity;
 	private static int cacheEntityID = -1;
-	public static boolean NO_STENCIL = false;
 
 	@SubscribeEvent
 	public void renderOverlayPre(RenderGameOverlayEvent.Pre e) {
@@ -95,6 +94,8 @@ public class AoVOverlay extends Gui {
 			if (poly != null && poly.getMorph() == IPolymorphCapability.Morph.WaterElemental)
 				e.setCanceled(true);
 		} else if (e.getType() == RenderGameOverlayEvent.ElementType.ALL) {
+			renderStencils();
+			hackyshit = true;
 			IPolymorphCapability poly = CapabilityHelper.getCap(mc.player, CapabilityList.POLYMORPH, null);
 			if (poly != null) {
 				ClientTicker.dangerBiomeTicksFlag = (poly.getFlagBits() & 0b0001) == 0b0001;
@@ -173,12 +174,6 @@ public class AoVOverlay extends Gui {
 	}
 
 	@SubscribeEvent
-	public void render(RenderWorldLastEvent e) {
-		renderStencils();
-		hackyshit = true;
-	}
-
-	@SubscribeEvent
 	public void camera(EntityViewRenderEvent.CameraSetup e) {
 		if (!mc.isGamePaused() && ConfigHandler.earthquake.shake && intensity > 0) {
 			e.setYaw(e.getYaw() + (rand.nextFloat() * 2F - 1F) * intensity);
@@ -207,7 +202,6 @@ public class AoVOverlay extends Gui {
 			float u = 1F / (scale / w);
 			float v = 1F / (scale / h);
 			Minecraft.getMinecraft().entityRenderer.setupOverlayRendering();
-			//			GlStateManager.disableLighting();
 			GlStateManager.enableBlend();
 			GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			GlStateManager.shadeModel(GL11.GL_SMOOTH);
@@ -231,9 +225,9 @@ public class AoVOverlay extends Gui {
 				GlStateManager.rotate(f * 0.1F, 0, 1, 0);
 				GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 				tess.draw();
-				GlStateManager.matrixMode(5890);
+				GlStateManager.matrixMode(GL11.GL_TEXTURE);
 				GlStateManager.loadIdentity();
-				GlStateManager.matrixMode(5888);
+				GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 				GlStateManager.popMatrix();
 			}
 			GL11.glStencilFunc(GL11.GL_EQUAL, hackyshit ? 11 : 9, 0xFF); // Fire
@@ -253,9 +247,9 @@ public class AoVOverlay extends Gui {
 				GlStateManager.rotate(f, 0, 0, 1);
 				GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 				tess.draw();
-				GlStateManager.matrixMode(5890);
+				GlStateManager.matrixMode(GL11.GL_TEXTURE);
 				GlStateManager.loadIdentity();
-				GlStateManager.matrixMode(5888);
+				GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 				GlStateManager.popMatrix();
 			}
 
@@ -268,7 +262,6 @@ public class AoVOverlay extends Gui {
 			GlStateManager.disableBlend();
 			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 			GlStateManager.disableBlend();
-			//			GlStateManager.enableLighting();
 		}
 	}
 
