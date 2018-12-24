@@ -283,6 +283,8 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			}
+		} else {
+			flagBits &= 0b1110;
 		}
 	}
 
