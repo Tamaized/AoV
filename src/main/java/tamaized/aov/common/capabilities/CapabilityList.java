@@ -182,6 +182,10 @@ public class CapabilityList {
 		IAoVCapability oldcap = CapabilityHelper.getCap(e.getOriginal(), AOV, null);
 		if (newcap != null && oldcap != null)
 			newcap.copyFrom(oldcap);
+		IPolymorphCapability newpoly = CapabilityHelper.getCap(e.getEntityPlayer(), POLYMORPH, null);
+		IPolymorphCapability oldpoly = CapabilityHelper.getCap(e.getOriginal(), POLYMORPH, null);
+		if(newpoly != null && oldpoly != null)
+			newpoly.morph(oldpoly.getMorph());
 	}
 
 	@SubscribeEvent
