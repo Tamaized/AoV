@@ -272,19 +272,19 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 					}
 				}
 			}
-			try {
-				if (getMorph() == Morph.FireElemental && !player.isImmuneToFire()) {
-					ENTITY_isImmuneToFire.setBoolean(player, true);
-					unsetter_ENTITY_isImmuneToFire = true;
-				} else if (getMorph() != Morph.FireElemental && player.isImmuneToFire() && unsetter_ENTITY_isImmuneToFire) {
-					ENTITY_isImmuneToFire.setBoolean(player, false);
-					unsetter_ENTITY_isImmuneToFire = false;
-				}
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			}
 		} else {
 			flagBits &= 0b1110;
+		}
+		try {
+			if (getMorph() == Morph.FireElemental && !player.isImmuneToFire()) {
+				ENTITY_isImmuneToFire.setBoolean(player, true);
+				unsetter_ENTITY_isImmuneToFire = true;
+			} else if (getMorph() != Morph.FireElemental && player.isImmuneToFire() && unsetter_ENTITY_isImmuneToFire) {
+				ENTITY_isImmuneToFire.setBoolean(player, false);
+				unsetter_ENTITY_isImmuneToFire = false;
+			}
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
 		}
 	}
 
