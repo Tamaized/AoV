@@ -30,6 +30,7 @@ effect.aov.coldchill=Cold Chill
 
 # Item
 item.aov.debugger.name=Debugger
+item.aov.handwraps.name=Handwraps
 
 # Block
 tile.aov.blockangelic.name=Angelic Statue

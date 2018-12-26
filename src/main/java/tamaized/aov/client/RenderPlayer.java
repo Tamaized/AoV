@@ -1,5 +1,6 @@
 package tamaized.aov.client;
 
+import com.google.common.base.MoreObjects;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -10,6 +11,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EnumPlayerModelParts;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.ResourceLocation;
@@ -29,6 +31,7 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.leap.ILeapCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.core.abilities.Abilities;
+import tamaized.aov.common.items.Handwraps;
 import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class RenderPlayer {
@@ -264,7 +267,7 @@ public class RenderPlayer {
 
 	@SubscribeEvent
 	public void render(RenderSpecificHandEvent e) {
-		EntityPlayer player = Minecraft.getMinecraft().player;
+		AbstractClientPlayer player = Minecraft.getMinecraft().player;
 		IPolymorphCapability cap = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
 		if (cap != null && cap.getMorph() == IPolymorphCapability.Morph.Wolf) {
 			e.setCanceled(true);
@@ -290,6 +293,16 @@ public class RenderPlayer {
 			GlStateManager.disableCull();
 			renderRightArm(abstractclientplayer);
 			GlStateManager.enableCull();
+		} else {
+			if(e.getItemStack().getItem() instanceof Handwraps && e.getHand() == EnumHand.MAIN_HAND){
+				Minecraft mc = Minecraft.getMinecraft();
+				float f = player.getSwingProgress(e.getPartialTicks());
+				EnumHand enumhand = MoreObjects.firstNonNull(player.swingingHand, EnumHand.MAIN_HAND);
+				float f3 = enumhand == e.getHand() ? f : 0.0F;
+				float f1 = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * e.getPartialTicks();
+				mc.getItemRenderer().renderItemInFirstPerson(player, e.getPartialTicks(), f1, e.getHand(), f3, ItemStack.EMPTY, 0F);
+				e.setCanceled(true);
+			}
 		}
 	}
 

@@ -1,41 +1,50 @@
 package tamaized.aov.registry;
 
-import tamaized.aov.common.items.DebugItem;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import tamaized.aov.AoV;
+import tamaized.aov.common.items.DebugItem;
+import tamaized.aov.common.items.Handwraps;
 import tamaized.tammodized.registry.ITamRegistry;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@Mod.EventBusSubscriber
+@GameRegistry.ObjectHolder(AoV.modid)
+@Mod.EventBusSubscriber(modid = AoV.modid)
 public class AoVItems {
 
-	public static DebugItem debugger;
-	private static List<ITamRegistry> modelList;
-
-	static {
-		modelList = new ArrayList<>();
-
-		modelList.add(debugger = new DebugItem("debugger"));
-	}
+	public static final Item debugger = Items.AIR;
+	public static final Item handwraps = Items.AIR;
 
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event) {
-		for (ITamRegistry b : modelList)
-			b.registerItem(event);
+		event.getRegistry().registerAll(
+
+				new DebugItem("debugger"),
+
+				new Handwraps("handwraps")
+
+		);
 	}
 
-	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event) {
-		for (ITamRegistry model : modelList)
-			model.registerModel(event);
+		registerModels(event,
+
+				debugger,
+
+				handwraps
+
+		);
+	}
+
+	private static void registerModels(ModelRegistryEvent event, Item... items) {
+		for (Item item : items)
+			if (item instanceof ITamRegistry)
+				((ITamRegistry) item).registerModel(event);
 	}
 
 }

@@ -30,6 +30,7 @@ import tamaized.aov.common.capabilities.stun.IStunCapability;
 import tamaized.aov.common.capabilities.stun.StunCapabilityHandler;
 import tamaized.aov.common.capabilities.stun.StunCapabilityStorage;
 import tamaized.aov.common.commands.CommandAoV;
+import tamaized.aov.common.config.ConfigHandler;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.common.entity.EntityCelestialOpposition;
@@ -137,6 +138,8 @@ public class AoV extends TamModBase {
 	@Override
 	public void init(FMLInitializationEvent event) {
 		logger.info("Starting AoV Init");
+
+		ConfigHandler.setupCenteredWear();
 
 		MinecraftForge.EVENT_BUS.register(new TickHandler());
 		MinecraftForge.EVENT_BUS.register(new PlayerInteractHandler());
