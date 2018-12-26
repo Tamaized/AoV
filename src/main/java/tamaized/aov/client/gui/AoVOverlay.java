@@ -272,7 +272,7 @@ public class AoVOverlay extends Gui {
 			return;
 		int w = 20;
 		int h = 20;
-		drawRect(x, y, x + w, y + h, !cap.canUseAbility(ability) ? 0x77FF0000 : 0x7700BBFF);
+		drawRect(x, y, x + w, y + h, (!cap.canUseAbility(ability) || (ability.isOnCooldown(cap) && !ability.getAbility().canUseOnCooldown(cap, mc.player))) ? 0x77FF0000 : 0x7700BBFF);
 		drawCenteredStringNoShadow(fontRender, String.valueOf(val), x + 10, y + (ConfigHandler.renderBarOverHotbar || ConfigHandler.renderChargesAboveSpellbar ? 3 : 10), 0x000000);
 	}
 

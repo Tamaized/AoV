@@ -90,7 +90,7 @@ public class AoVUIBar {
 				if (active)
 					Gui.drawRect(0, 0, 256, 256, 0x7700FFFF);
 				Ability ability = cap == null ? null : cap.getSlot(index);
-				if (ability != null && !ability.canUse(cap))
+				if (ability != null && (!ability.canUse(cap) || (ability.isOnCooldown(cap) && !ability.getAbility().canUseOnCooldown(cap, mc.player))))
 					Gui.drawRect(0, 0, 256, 256, 0x77FF0000);
 				GlStateManager.disableBlend();
 			}

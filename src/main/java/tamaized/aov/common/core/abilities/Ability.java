@@ -134,13 +134,17 @@ public final class Ability {
 			if (target != null && !ability.isCastOnTarget(caster, cap, target))
 				target = null;
 			if (cap.canUseAbility(this) && ((ability.usesInvoke() && cap.getInvokeMass()) || target == null || ability.getMaxDistance() >= caster.getDistance(target))) {
-				if (ability.cast(this, caster, target)) {
-					charges -= caster.isCreative() ? 0 : ability.getCost(cap);
-					cooldown = (nextCooldown < 0 ? ability.getCoolDown() : nextCooldown) * ((ability.usesInvoke() && cap.getInvokeMass()) ? 2 : 1);
-				} else
-					cooldown = 1;
-				cap.setCooldown(ability, cooldown);
-				nextCooldown = -1;
+				if (!isOnCooldown(cap)) {
+					if (ability.cast(this, caster, target)) {
+						charges -= caster.isCreative() ? 0 : ability.getCost(cap);
+						cooldown = (nextCooldown < 0 ? ability.getCoolDown() : nextCooldown) * ((ability.usesInvoke() && cap.getInvokeMass()) ? 2 : 1);
+					} else
+						cooldown = 1;
+					cap.setCooldown(ability, cooldown);
+					nextCooldown = -1;
+				} else if (ability.canUseOnCooldown(cap, caster)) {
+					ability.onCooldownCast(this, caster, target, cooldown);
+				}
 			}
 		}
 	}
@@ -153,7 +157,11 @@ public final class Ability {
 	}
 
 	public boolean canUse(IAoVCapability cap) {
-		return !disabled && cooldown <= 0 && cap.getCooldown(ability) <= 0 && (charges == -1 || charges >= ability.getCost(cap)) && cap.slotsContain(getAbility());
+		return !disabled && (charges == -1 || charges >= ability.getCost(cap)) && cap.slotsContain(getAbility());
+	}
+
+	public boolean isOnCooldown(IAoVCapability cap) {
+		return cooldown > 0 && cap.getCooldown(ability) > 0;
 	}
 
 	public AbilityBase getAbility() {

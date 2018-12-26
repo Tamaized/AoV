@@ -15,7 +15,6 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
-import tamaized.aov.common.core.skills.SkillIcons;
 import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import javax.annotation.Nullable;
@@ -83,19 +82,36 @@ public class Polymorph extends AbilityBase {
 	}
 
 	@Override
+	public boolean canUseOnCooldown(IAoVCapability cap, EntityPlayer caster) {
+		IPolymorphCapability poly = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
+		return poly != null && poly.getMorph() == type;
+	}
+
+	@Override
+	public void onCooldownCast(Ability ability, EntityPlayer caster, EntityLivingBase target, int cooldown) {
+		IPolymorphCapability cap = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
+		if (cap != null && cap.getMorph() == type)
+			cap.morph(null);
+
+	}
+
+	@Override
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
-			IPolymorphCapability cap = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
-			if (cap != null) {
-				if (cap.getMorph() != type)
-					cap.morph(type);
-				else
-					cap.morph(null);
-				IAoVCapability aov = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
-				if(aov != null)
-					aov.markDirty();
+		boolean cooldown = true;
+		IPolymorphCapability cap = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
+		if (cap != null) {
+			if (cap.getMorph() != type)
+				cap.morph(type);
+			else {
+				cap.morph(null);
+				cooldown = false;
 			}
+			IAoVCapability aov = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
+			if (aov != null)
+				aov.markDirty();
+		}
 		caster.world.playSound(null, caster.posX, caster.posY, caster.posZ, SoundEvents.ENTITY_ELDER_GUARDIAN_CURSE, SoundCategory.PLAYERS, 0.5F, caster.getRNG().nextFloat() * 0.75F + 0.25F);
-		return true;
+		return cooldown;
 	}
 
 	@Override

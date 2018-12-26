@@ -85,6 +85,14 @@ public abstract class AbilityBase {
 		return (usesInvoke() && cap.getInvokeMass()) ? (getChargeCost() * 2) : getChargeCost();
 	}
 
+	public boolean canUseOnCooldown(IAoVCapability cap, EntityPlayer caster) {
+		return false;
+	}
+
+	public void onCooldownCast(Ability ability, EntityPlayer caster, EntityLivingBase target, int cooldown) {
+
+	}
+
 	/**
 	 * @return false to not use a charge or set the cooldown
 	 */
