@@ -7,8 +7,6 @@
 !/src/**
 /src/disabled/
 /src/test/
-!/libs/
-!/libs/**
 !build.gradle
 !gradle.properties
 !LICENSE
