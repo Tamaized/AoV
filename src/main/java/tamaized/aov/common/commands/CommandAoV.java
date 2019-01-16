@@ -46,7 +46,7 @@ public class CommandAoV extends CommandBase {
 	}
 
 	@Override
-	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+	public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args) throws CommandException {
 		if (args.length > 0) {
 			try {
 				SubCommand.valueOf(args[0].toUpperCase(Locale.ROOT)).execute(this, server, sender, args);
