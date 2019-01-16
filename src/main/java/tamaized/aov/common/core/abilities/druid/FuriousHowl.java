@@ -106,7 +106,7 @@ public class FuriousHowl extends AbilityBase {
 			return false;
 		float damage = DAMAGE * (1F + ((aov.getSpellPower() * (IAoVCapability.isImprovedCentered(caster, aov) ? 2F : 1F)) / 100F));
 		for (EntityLivingBase entity : caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-RANGE, -RANGE, -RANGE), caster.getPosition().add(RANGE, RANGE, RANGE)), e -> e != caster)) {
-			if (entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, caster), damage))
+			if (IAoVCapability.selectiveTarget(caster, aov, entity) && entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, caster), damage))
 				aov.addExp(caster, 20, this);
 		}
 		for (int i = 0; i < 3; i++)
