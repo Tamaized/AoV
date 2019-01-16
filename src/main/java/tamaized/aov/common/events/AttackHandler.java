@@ -188,7 +188,7 @@ public class AttackHandler {
 		if (canBlockDamageSource(player, e.getSource(), fullRadial) && damage > 0.0F) {
 			damageShield(player, damage);
 			e.setCanceled(true);
-			ForgeHooks.onLivingHurt(player, e.getSource(), damage); // See #80, do nothing with the result as the entity isn't taking damage already.
+			ForgeHooks.onLivingHurt(player, e.getSource(), 0); // See #80, do nothing with the result as the entity isn't taking damage already.
 			if (!e.getSource().isProjectile()) {
 				Entity entity = e.getSource().getImmediateSource();
 
