@@ -400,7 +400,7 @@ public class AoVOverlay extends Gui {
 							e1.printStackTrace();
 						}
 					}
-					if (cacheEntity != null)
+					if (cacheEntity != null && mc.getRenderManager().renderViewEntity != null)
 						GuiInventory.drawEntityOnScreen((int) (x + 30), (int) (y + 36), 8, -40, 5, cacheEntity);
 				}
 				GlStateManager.popMatrix();
