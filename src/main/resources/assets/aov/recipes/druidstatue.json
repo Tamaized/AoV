@@ -1,0 +1,22 @@
+{
+  "result": {
+	"item": "aov:druidstatue"
+  },
+  "pattern": [
+	"M M",
+	"FSF"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+	"S": {
+	  "item": "aov:angelicstatue"
+	},
+	"F": {
+	  "item": "minecraft:tallgrass",
+	  "data": 1
+	},
+	"M": {
+	  "item": "minecraft:stick"
+	}
+  }
+}

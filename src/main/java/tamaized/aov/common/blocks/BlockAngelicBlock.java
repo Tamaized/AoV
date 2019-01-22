@@ -14,10 +14,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import tamaized.aov.AoV;
 import tamaized.aov.common.gui.GuiHandler;
 import tamaized.tammodized.common.blocks.TamBlock;
 
@@ -27,10 +25,13 @@ public class BlockAngelicBlock extends TamBlock {
 
 	public static final PropertyEnum<EnumFacing.Axis> AXIS = PropertyEnum.create("axis", EnumFacing.Axis.class, EnumFacing.Axis.X, EnumFacing.Axis.Z);
 
-	public BlockAngelicBlock(CreativeTabs tab, Material materialIn, String n, float f) {
+	private final ClassType type;
+
+	public BlockAngelicBlock(ClassType type, CreativeTabs tab, Material materialIn, String n, float f) {
 		super(tab, materialIn, n, f, SoundType.STONE);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(AXIS, EnumFacing.Axis.X));
 		this.useNeighborBrightness = true;
+		this.type = type;
 	}
 
 	public static int getMetaForAxis(EnumFacing.Axis axis) {
@@ -62,7 +63,10 @@ public class BlockAngelicBlock extends TamBlock {
 
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-		FMLNetworkHandler.openGui(playerIn, AoV.instance, GuiHandler.GUI_SKILLS, worldIn, pos.getX(), pos.getY(), pos.getZ());
+		if (type != ClassType.ALL || playerIn.isCreative())
+			GuiHandler.openGUI(GuiHandler.GUI.SKILLS, type, playerIn, worldIn);
+		else
+			return false;
 		return true;
 	}
 
@@ -104,6 +108,24 @@ public class BlockAngelicBlock extends TamBlock {
 			default:
 				return state;
 		}
+	}
+
+	public enum ClassType {
+
+		ALL,
+
+		CASTER,
+
+		HEALER,
+
+		DEFENDER,
+
+		ASTRO,
+
+		DRUID;
+
+		public static final ClassType[] values = values();
+
 	}
 
 }

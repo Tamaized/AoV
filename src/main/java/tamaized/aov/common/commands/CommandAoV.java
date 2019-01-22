@@ -12,6 +12,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentTranslation;
+import tamaized.aov.common.blocks.BlockAngelicBlock;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.AoVCapabilityHandler;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -96,7 +97,7 @@ public class CommandAoV extends CommandBase {
 			@Override
 			protected void execute(ICommand command, MinecraftServer server, ICommandSender sender, String[] args) {
 				if (sender.getCommandSenderEntity() instanceof EntityPlayer)
-					GuiHandler.openGUI(GuiHandler.GUI_SKILLS, (EntityPlayer) sender.getCommandSenderEntity(), sender.getEntityWorld());
+					GuiHandler.openGUI(GuiHandler.GUI.SKILLS, BlockAngelicBlock.ClassType.ALL, (EntityPlayer) sender.getCommandSenderEntity(), sender.getEntityWorld());
 			}
 		}, SETLEVEL {
 			@Override

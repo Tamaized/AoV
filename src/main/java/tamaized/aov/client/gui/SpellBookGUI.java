@@ -8,6 +8,7 @@ import net.minecraft.client.resources.I18n;
 import tamaized.aov.AoV;
 import tamaized.aov.client.gui.buttons.BlankButton;
 import tamaized.aov.client.gui.buttons.SpellButton;
+import tamaized.aov.common.blocks.BlockAngelicBlock;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
@@ -31,6 +32,12 @@ public class SpellBookGUI extends GuiScreenClose {
 	public static final int BUTTON_BAR_SLOT_8 = 11;
 	private static final int BUTTON_CLOSE = 0;
 	private static final int BUTTON_BACK = 1;
+
+	private final BlockAngelicBlock.ClassType parent;
+
+	public SpellBookGUI(BlockAngelicBlock.ClassType parent) {
+		this.parent = parent;
+	}
 
 	@Override
 	public void initGui() {
@@ -78,7 +85,7 @@ public class SpellBookGUI extends GuiScreenClose {
 					mc.player.closeScreen();
 					break;
 				case BUTTON_BACK:
-					GuiHandler.openGUI(GuiHandler.GUI_SKILLS, mc.player, mc.world);
+					GuiHandler.openGUI(GuiHandler.GUI.SKILLS, parent, mc.player, mc.world);
 					break;
 				case BUTTON_SPELL:
 					if (button instanceof SpellButton)

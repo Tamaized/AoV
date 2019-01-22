@@ -3,6 +3,7 @@ package tamaized.aov.client.gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.resources.I18n;
 import tamaized.aov.AoV;
+import tamaized.aov.common.blocks.BlockAngelicBlock;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.gui.GuiHandler;
@@ -15,6 +16,12 @@ public class ResetSkillsGUI extends GuiScreenClose {
 	private static final int BUTTON_BACK = 1;
 	private static final int BUTTON_RESET_MINOR = 2;
 	private static final int BUTTON_RESET_FULL = 3;
+
+	private final BlockAngelicBlock.ClassType parent;
+
+	public ResetSkillsGUI(BlockAngelicBlock.ClassType parent) {
+		this.parent = parent;
+	}
 
 	@Override
 	public void initGui() {
@@ -38,7 +45,7 @@ public class ResetSkillsGUI extends GuiScreenClose {
 					mc.player.closeScreen();
 					break;
 				case BUTTON_BACK:
-					GuiHandler.openGUI(GuiHandler.GUI_SKILLS, mc.player, mc.world);
+					GuiHandler.openGUI(GuiHandler.GUI.SKILLS, parent, mc.player, mc.world);
 					break;
 				case BUTTON_RESET_MINOR:
 					if (cap.getObtainedSkills().size() > 1)

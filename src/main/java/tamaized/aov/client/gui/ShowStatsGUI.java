@@ -2,6 +2,7 @@ package tamaized.aov.client.gui;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.resources.I18n;
+import tamaized.aov.common.blocks.BlockAngelicBlock;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.AoVCapabilityHandler;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -12,6 +13,12 @@ public class ShowStatsGUI extends GuiScreenClose {
 
 	private static final int BUTTON_CLOSE = 0;
 	private static final int BUTTON_BACK = 1;
+
+	private final BlockAngelicBlock.ClassType parent;
+
+	public ShowStatsGUI(BlockAngelicBlock.ClassType parent) {
+		this.parent = parent;
+	}
 
 	@Override
 	public void initGui() {
@@ -33,7 +40,7 @@ public class ShowStatsGUI extends GuiScreenClose {
 					mc.player.closeScreen();
 					break;
 				case BUTTON_BACK:
-					GuiHandler.openGUI(GuiHandler.GUI_SKILLS, mc.player, mc.world);
+					GuiHandler.openGUI(GuiHandler.GUI.SKILLS, parent, mc.player, mc.world);
 					break;
 				default:
 					break;

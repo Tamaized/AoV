@@ -33,7 +33,12 @@ item.aov.debugger.name=Debugger
 item.aov.handwraps.name=Handwraps
 
 # Block
-tile.aov.blockangelic.name=Angelic Statue
+tile.aov.angelicstatue.name=Unattuned Statue
+tile.aov.favoredsoulstatue.name=Caster Statue
+tile.aov.clericstatue.name=Healer Statue
+tile.aov.paladinstatue.name=Defender Statue
+tile.aov.astrostatue.name=Astrologian Statue
+tile.aov.druidstatue.name=Druidic Statue
 
 # Entity
 entity.aov.EntityDruidicWolf.name=Druidic Wolf
@@ -340,19 +345,19 @@ aov.skill.defender.tier4.3.req=§cRequires: Dodge III
 
 ## Astro
 ### Core
-aov.skill.astro.core.1.name=§bClass Core: Astro
+aov.skill.astro.core.1.name=§bClass Core: Astrologian
 aov.skill.astro.core.1.desc=§eAdded Ability: Draw
-aov.skill.astro.core.2.name=§bAstro Core 2
-aov.skill.astro.core.2.req=§cRequires: Class Core Astro
+aov.skill.astro.core.2.name=§Astrologian Core 2
+aov.skill.astro.core.2.req=§cRequires: Class Core Astrologian
 aov.skill.astro.core.2.desc=§eAdded Ability: Royal Road
-aov.skill.astro.core.3.name=§bAstro Core 3
-aov.skill.astro.core.3.req=§cRequires: Astro Core 2
+aov.skill.astro.core.3.name=§Astrologian Core 3
+aov.skill.astro.core.3.req=§cRequires: Astrologian Core 2
 aov.skill.astro.core.3.desc=§eAdded Ability: Spread
-aov.skill.astro.core.4.name=§bAstro Core 4
-aov.skill.astro.core.4.req=§cRequires: Astro Core 3
+aov.skill.astro.core.4.name=§Astrologian Core 4
+aov.skill.astro.core.4.req=§cRequires: Astrologian Core 3
 aov.skill.astro.core.4.desc=§eAdded Ability: Redraw
 aov.skill.astro.core.5.name=§bCapstone: Astro
-aov.skill.astro.core.5.req=§cRequires: Astro Core 4
+aov.skill.astro.core.5.req=§cRequires: Astrologian Core 4
 aov.skill.astro.core.5.desc=§eAdded Ability: Time Dilation
 ### T1
 aov.skill.astro.tier1.1.name=§bMalefic

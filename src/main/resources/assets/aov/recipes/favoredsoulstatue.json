@@ -1,0 +1,21 @@
+{
+  "result": {
+	"item": "aov:favoredsoulstatue"
+  },
+  "pattern": [
+	"M M",
+	"FSF"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+	"S": {
+	  "item": "aov:angelicstatue"
+	},
+	"F": {
+	  "item": "minecraft:feather"
+	},
+	"M": {
+	  "item": "minecraft:gold_ingot"
+	}
+  }
+}

@@ -20,6 +20,7 @@ import tamaized.aov.client.gui.buttonlist.DruidSkillRegisterButtons;
 import tamaized.aov.client.gui.buttonlist.HealerSkillRegisterButtons;
 import tamaized.aov.client.gui.buttonlist.IClassButtons;
 import tamaized.aov.client.gui.buttons.SkillButton;
+import tamaized.aov.common.blocks.BlockAngelicBlock;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.gui.GuiHandler;
@@ -53,14 +54,16 @@ public class AoVSkillsGUI extends GuiScreenClose {
 
 	);
 	private final Container inventory;
+	private final BlockAngelicBlock.ClassType classType;
 	private int page;
 	private List<SkillButton> skillButtonList = new ArrayList<>();
 	private int lastMx = 0;
 	private int lastMy = 0;
 	private IAoVCapability cap;
 
-	public AoVSkillsGUI() {
+	public AoVSkillsGUI(BlockAngelicBlock.ClassType classType) {
 		inventory = new GuiHandler.FakeContainer();
+		this.classType = classType;
 	}
 
 	public static int getSkillButtonID() {
@@ -73,11 +76,14 @@ public class AoVSkillsGUI extends GuiScreenClose {
 		mc.player.openContainer = inventory;
 		cap = CapabilityHelper.getCap(mc.player, CapabilityList.AOV, null);
 		if (cap != null) {
-			for (IClassButtons b : CLASS_BUTTON_REGISTRY)
-				if (b.active(cap)) {
-					page = CLASS_BUTTON_REGISTRY.indexOf(b);
-					break;
-				}
+			if (classType == BlockAngelicBlock.ClassType.ALL) {
+				for (IClassButtons b : CLASS_BUTTON_REGISTRY)
+					if (b.active(cap)) {
+						page = CLASS_BUTTON_REGISTRY.indexOf(b);
+						break;
+					}
+			} else
+				page = classType.ordinal() - 1;
 			initButtons();
 		} else {
 			mc.player.closeScreen();
@@ -91,8 +97,10 @@ public class AoVSkillsGUI extends GuiScreenClose {
 		buttonList.add(new GuiButton(BUTTON_SPELLBOOK, 110, height - 25, 80, 20, I18n.format("aov.gui.button.spellbook")));
 		buttonList.add(new GuiButton(BUTTON_CHECKSTATS, width - 190, height - 25, 80, 20, I18n.format("aov.gui.button.stats")));
 		buttonList.add(new GuiButton(BUTTON_RESET, width - 90, height - 25, 80, 20, I18n.format("aov.gui.button.reset")));
-		buttonList.add(new ArrowButton(BUTTON_PAGE_PREV, width / 2 - 95, 39, 20, height - 70, "<"));
-		buttonList.add(new ArrowButton(BUTTON_PAGE_NEXT, width / 2 + 69, 39, 20, height - 70, ">"));
+		if (classType == BlockAngelicBlock.ClassType.ALL) {
+			buttonList.add(new ArrowButton(BUTTON_PAGE_PREV, width / 2 - 95, 39, 20, height - 70, "<"));
+			buttonList.add(new ArrowButton(BUTTON_PAGE_NEXT, width / 2 + 69, 39, 20, height - 70, ">"));
+		}
 		CLASS_BUTTON_REGISTRY.get(MathHelper.clamp(page, 0, CLASS_BUTTON_REGISTRY.size() - 1)).register(this);
 	}
 
@@ -117,15 +125,15 @@ public class AoVSkillsGUI extends GuiScreenClose {
 				}
 				break;
 				case BUTTON_SPELLBOOK: {
-					GuiHandler.openGUI(GuiHandler.GUI_SPELLBOOK, mc.player, mc.world);
+					GuiHandler.openGUI(GuiHandler.GUI.SPELLBOOK, classType, mc.player, mc.world);
 				}
 				break;
 				case BUTTON_RESET: {
-					GuiHandler.openGUI(GuiHandler.GUI_RESET, mc.player, mc.world);
+					GuiHandler.openGUI(GuiHandler.GUI.RESET, classType, mc.player, mc.world);
 				}
 				break;
 				case BUTTON_CHECKSTATS: {
-					GuiHandler.openGUI(GuiHandler.GUI_CHECKSTATS, mc.player, mc.world);
+					GuiHandler.openGUI(GuiHandler.GUI.CHECKSTATS, classType, mc.player, mc.world);
 				}
 				break;
 				case BUTTON_PAGE_PREV: {

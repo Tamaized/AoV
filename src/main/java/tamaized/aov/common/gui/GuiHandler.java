@@ -11,25 +11,24 @@ import tamaized.aov.client.gui.AoVSkillsGUI;
 import tamaized.aov.client.gui.ResetSkillsGUI;
 import tamaized.aov.client.gui.ShowStatsGUI;
 import tamaized.aov.client.gui.SpellBookGUI;
+import tamaized.aov.common.blocks.BlockAngelicBlock;
 
 import javax.annotation.Nonnull;
 
 public class GuiHandler implements IGuiHandler {
 
-	public final static int GUI_SKILLS = 0;
-	public final static int GUI_SPELLBOOK = 1;
-	public final static int GUI_CHECKSTATS = 2;
-	public final static int GUI_RESET = 3;
+	private static final int GUI_BITS = 0b1111;
+	public static final int GUI_BIT_SHIFT = Integer.highestOneBit(GUI_BITS);
 
-	public static void openGUI(int id, @Nonnull EntityPlayer player, @Nonnull World world) {
+	public static void openGUI(GUI gui, BlockAngelicBlock.ClassType classType, @Nonnull EntityPlayer player, @Nonnull World world) {
 		BlockPos pos = player.getPosition();
-		FMLNetworkHandler.openGui(player, AoV.instance, id, world, pos.getX(), pos.getY(), pos.getZ());
+		FMLNetworkHandler.openGui(player, AoV.instance, (classType.ordinal() << GUI_BIT_SHIFT) + gui.ordinal(), world, pos.getX(), pos.getY(), pos.getZ());
 	}
 
 	@Override
 	public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
-		switch (id) {
-			case GUI_SKILLS:
+		switch (GUI.values[id & GUI_BITS]) {
+			case SKILLS:
 				return new FakeContainer();
 			default:
 				break;
@@ -39,19 +38,34 @@ public class GuiHandler implements IGuiHandler {
 
 	@Override
 	public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
-		switch (id) {
-			case GUI_SKILLS:
-				return new AoVSkillsGUI();
-			case GUI_SPELLBOOK:
-				return new SpellBookGUI();
-			case GUI_CHECKSTATS:
-				return new ShowStatsGUI();
-			case GUI_RESET:
-				return new ResetSkillsGUI();
+		BlockAngelicBlock.ClassType data = BlockAngelicBlock.ClassType.values[id >>> GUI_BIT_SHIFT];
+		switch (GUI.values[id & GUI_BITS]) {
+			case SKILLS:
+				return new AoVSkillsGUI(data);
+			case SPELLBOOK:
+				return new SpellBookGUI(data);
+			case CHECKSTATS:
+				return new ShowStatsGUI(data);
+			case RESET:
+				return new ResetSkillsGUI(data);
 			default:
 				break;
 		}
 		return null;
+	}
+
+	public enum GUI {
+
+		SKILLS,
+
+		SPELLBOOK,
+
+		CHECKSTATS,
+
+		RESET;
+
+		public static final GUI[] values = values();
+
 	}
 
 	public static class FakeContainer extends Container {
