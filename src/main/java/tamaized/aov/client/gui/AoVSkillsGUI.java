@@ -14,10 +14,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import tamaized.aov.AoV;
 import tamaized.aov.client.gui.buttonlist.AstroSkillRegisterButtons;
-import tamaized.aov.client.gui.buttonlist.CasterSkillRegisterButtons;
-import tamaized.aov.client.gui.buttonlist.DefenderSkillRegisterButtons;
+import tamaized.aov.client.gui.buttonlist.FavoredSoulSkillRegisterButtons;
+import tamaized.aov.client.gui.buttonlist.PaladinSkillRegisterButtons;
 import tamaized.aov.client.gui.buttonlist.DruidSkillRegisterButtons;
-import tamaized.aov.client.gui.buttonlist.HealerSkillRegisterButtons;
+import tamaized.aov.client.gui.buttonlist.ClericSkillRegisterButtons;
 import tamaized.aov.client.gui.buttonlist.IClassButtons;
 import tamaized.aov.client.gui.buttons.SkillButton;
 import tamaized.aov.common.blocks.BlockAngelicBlock;
@@ -42,11 +42,11 @@ public class AoVSkillsGUI extends GuiScreenClose {
 	private static final int BUTTON_PAGE_NEXT = 6;
 	private static List<IClassButtons> CLASS_BUTTON_REGISTRY = Lists.newArrayList(
 
-			new CasterSkillRegisterButtons(),
+			new FavoredSoulSkillRegisterButtons(),
 
-			new HealerSkillRegisterButtons(),
+			new ClericSkillRegisterButtons(),
 
-			new DefenderSkillRegisterButtons(),
+			new PaladinSkillRegisterButtons(),
 
 			new AstroSkillRegisterButtons(),
 

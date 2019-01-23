@@ -45,23 +45,28 @@ import java.util.Set;
 public class AoVCapabilityHandler implements IAoVCapability {
 
 	public static final float xpScale = 2.5F;
-	private static final String DEFENDER_HEALTH_NAME = "AoV Defender Health";
+	private static final String PALADIN_HEALTH_NAME = "AoV Paladin Health";
 	private static final String DRUID_HEALTH_NAME = "AoV Druid Health";
-	private static final Set<String> HEALTH_NAMES = ImmutableSet.of(DEFENDER_HEALTH_NAME, DRUID_HEALTH_NAME);
-	private static final AttributeModifier DEFENDER_HEALTH = new AttributeModifier(DEFENDER_HEALTH_NAME, 10.0D, 0);
+	private static final Set<String> HEALTH_NAMES = ImmutableSet.of(
+
+			"AoV Defender Health", // Legacy; Placed here to ensure it gets removed properly
+
+			PALADIN_HEALTH_NAME,
+
+			DRUID_HEALTH_NAME
+
+	);
+	private static final AttributeModifier PALADIN_HEALTH = new AttributeModifier(PALADIN_HEALTH_NAME, 10.0D, 0);
 	private int tick = 1;
 	private boolean dirty = true;
 	private boolean hasLoaded = false;
-	// TODO
 	private int currentSlot = 0;
-	// Calculate and update these when 'dirty'
 	private List<AoVSkill> obtainedSkills = new ArrayList<>();
 	private int skillPoints = 1;
 	private int exp = 0;
 	private int maxLevel = ConfigHandler.maxlevel;
 	private boolean invokeMass = false;
 	private Ability[] slots = new Ability[]{null, null, null, null, null, null, null, null, null};
-	// These can be separate
 	private List<Ability> abilities = new ArrayList<>();
 	private float spellpower = 0;
 	private int extraCharges = 0;
@@ -69,7 +74,6 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	private int doublestrike = 0;
 	private boolean selectiveFocus = false;
 	private boolean hasInvoke = false;
-	// Keep this on the server
 	private List<Aura> auras = new ArrayList<>();
 	private Map<AbilityBase, DecayWrapper> decay = new HashMap<>();
 	private Map<AbilityBase, Integer> cooldowns = new HashMap<>();
@@ -146,7 +150,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		}
 		if (tick % 10 == 0)
 			updateHealth(player);
-		if (tick % (20 * 30) == 0 && hasSkill(AoVSkills.defender_capstone) && player != null && !player.isDead) {
+		if (tick % (20 * 30) == 0 && hasSkill(AoVSkills.paladin_capstone) && player != null && !player.isDead) {
 			ItemStack main = player.getHeldItemMainhand();
 			ItemStack off = player.getHeldItemOffhand();
 			if (!main.isEmpty() && main.getItem().isShield(main, player) && main.getItem().isRepairable() && main.getItemDamage() > 0) {
@@ -191,8 +195,8 @@ public class AoVCapabilityHandler implements IAoVCapability {
 				hp.removeModifier(mod);
 			}
 		}
-		if (hasSkill(AoVSkills.defender_tier_4_2) && !hp.hasModifier(DEFENDER_HEALTH) && player.getHeldItemOffhand().getItem().isShield(player.getHeldItemOffhand(), player))
-			hp.applyModifier(DEFENDER_HEALTH);
+		if (hasSkill(AoVSkills.paladin_tier_4_2) && !hp.hasModifier(PALADIN_HEALTH) && player.getHeldItemOffhand().getItem().isShield(player.getHeldItemOffhand(), player))
+			hp.applyModifier(PALADIN_HEALTH);
 		if (getCoreSkill() == AoVSkills.druid_core_1 && IAoVCapability.isCentered(player, this))
 			hp.applyModifier(new AttributeModifier(DRUID_HEALTH_NAME, getLevel(), 0));
 	}

@@ -1,7 +1,7 @@
 package tamaized.aov.common.core.skills;
 
-import tamaized.aov.AoV;
 import net.minecraft.util.ResourceLocation;
+import tamaized.aov.AoV;
 
 public class SkillIcons {
 

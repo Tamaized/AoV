@@ -15,18 +15,18 @@ import tamaized.aov.common.core.abilities.astro.Redraw;
 import tamaized.aov.common.core.abilities.astro.RoyalRoad;
 import tamaized.aov.common.core.abilities.astro.Spread;
 import tamaized.aov.common.core.abilities.astro.TimeDilation;
-import tamaized.aov.common.core.abilities.caster.BladeBarrier;
-import tamaized.aov.common.core.abilities.caster.Destruction;
-import tamaized.aov.common.core.abilities.caster.FlameStrike;
-import tamaized.aov.common.core.abilities.caster.Implosion;
-import tamaized.aov.common.core.abilities.caster.LeapOfFaith;
-import tamaized.aov.common.core.abilities.caster.NimbusRay;
-import tamaized.aov.common.core.abilities.caster.SearingLight;
-import tamaized.aov.common.core.abilities.caster.SlayLiving;
-import tamaized.aov.common.core.abilities.defender.Aid;
-import tamaized.aov.common.core.abilities.defender.ShieldOfFaith;
-import tamaized.aov.common.core.abilities.defender.StalwartPact;
-import tamaized.aov.common.core.abilities.defender.Zeal;
+import tamaized.aov.common.core.abilities.favoredsoul.BladeBarrier;
+import tamaized.aov.common.core.abilities.favoredsoul.Destruction;
+import tamaized.aov.common.core.abilities.favoredsoul.FlameStrike;
+import tamaized.aov.common.core.abilities.favoredsoul.Implosion;
+import tamaized.aov.common.core.abilities.favoredsoul.LeapOfFaith;
+import tamaized.aov.common.core.abilities.favoredsoul.NimbusRay;
+import tamaized.aov.common.core.abilities.favoredsoul.SearingLight;
+import tamaized.aov.common.core.abilities.favoredsoul.SlayLiving;
+import tamaized.aov.common.core.abilities.paladin.Aid;
+import tamaized.aov.common.core.abilities.paladin.ShieldOfFaith;
+import tamaized.aov.common.core.abilities.paladin.StalwartPact;
+import tamaized.aov.common.core.abilities.paladin.Zeal;
 import tamaized.aov.common.core.abilities.druid.DruidicRegenerate;
 import tamaized.aov.common.core.abilities.druid.Earthquake;
 import tamaized.aov.common.core.abilities.druid.ElementalEmpowerment;
@@ -38,16 +38,16 @@ import tamaized.aov.common.core.abilities.druid.LightningStorm;
 import tamaized.aov.common.core.abilities.druid.LightningStrike;
 import tamaized.aov.common.core.abilities.druid.NaturesBounty;
 import tamaized.aov.common.core.abilities.druid.Polymorph;
-import tamaized.aov.common.core.abilities.healer.Cores.Burst;
-import tamaized.aov.common.core.abilities.healer.Cores.PosEnergyAura;
-import tamaized.aov.common.core.abilities.healer.Cures.CureBlind;
-import tamaized.aov.common.core.abilities.healer.Cures.CurePoison;
-import tamaized.aov.common.core.abilities.healer.Cures.CureWither;
-import tamaized.aov.common.core.abilities.healer.Healing.CureCriticalWounds;
-import tamaized.aov.common.core.abilities.healer.Healing.CureLightWounds;
-import tamaized.aov.common.core.abilities.healer.Healing.CureModWounds;
-import tamaized.aov.common.core.abilities.healer.Healing.CureSeriousWounds;
-import tamaized.aov.common.core.abilities.healer.Healing.Heal;
+import tamaized.aov.common.core.abilities.cleric.Cores.Burst;
+import tamaized.aov.common.core.abilities.cleric.Cores.PosEnergyAura;
+import tamaized.aov.common.core.abilities.cleric.Cures.CureBlind;
+import tamaized.aov.common.core.abilities.cleric.Cures.CurePoison;
+import tamaized.aov.common.core.abilities.cleric.Cures.CureWither;
+import tamaized.aov.common.core.abilities.cleric.Healing.CureCriticalWounds;
+import tamaized.aov.common.core.abilities.cleric.Healing.CureLightWounds;
+import tamaized.aov.common.core.abilities.cleric.Healing.CureModWounds;
+import tamaized.aov.common.core.abilities.cleric.Healing.CureSeriousWounds;
+import tamaized.aov.common.core.abilities.cleric.Healing.Heal;
 import tamaized.aov.common.core.abilities.universal.InvokeMass;
 
 public class Abilities {
@@ -55,7 +55,7 @@ public class Abilities {
 	// Universal
 	public static AbilityBase invokeMass;
 
-	// Healer
+	// Cleric
 	public static AbilityBase cureLightWounds;
 	public static AbilityBase cureModWounds;
 	public static AbilityBase cureSeriousWounds;
@@ -67,7 +67,7 @@ public class Abilities {
 	public static AbilityBase cureWither;
 	public static AbilityBase cureBlind;
 
-	// Caster
+	// Favored Soul
 	public static AbilityBase nimbusRay;
 	public static AbilityBase searingLight;
 	public static AbilityBase flameStrike;
@@ -77,7 +77,7 @@ public class Abilities {
 	public static AbilityBase implosion;
 	public static AbilityBase bladeBarrier;
 
-	// Defender
+	// Paladin
 	public static AbilityBase aid;
 	public static AbilityBase shieldOfFaith;
 	public static AbilityBase zeal;
@@ -123,7 +123,7 @@ public class Abilities {
 		// Universal
 		invokeMass = new InvokeMass();
 
-		// Healer
+		// Cleric
 		cureLightWounds = new CureLightWounds();
 		cureModWounds = new CureModWounds();
 		cureSeriousWounds = new CureSeriousWounds();
@@ -135,7 +135,7 @@ public class Abilities {
 		cureWither = new CureWither();
 		cureBlind = new CureBlind();
 
-		// Caster
+		// Favored Soul
 		nimbusRay = new NimbusRay();
 		searingLight = new SearingLight();
 		flameStrike = new FlameStrike();
@@ -145,7 +145,7 @@ public class Abilities {
 		implosion = new Implosion();
 		bladeBarrier = new BladeBarrier();
 
-		// Defender
+		// Paladin
 		aid = new Aid();
 		shieldOfFaith = new ShieldOfFaith();
 		zeal = new Zeal();

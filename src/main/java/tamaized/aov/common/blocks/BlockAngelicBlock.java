@@ -114,11 +114,11 @@ public class BlockAngelicBlock extends TamBlock {
 
 		ALL,
 
-		CASTER,
+		FAVOREDSOUL,
 
-		HEALER,
+		CLERIC,
 
-		DEFENDER,
+		PALADIN,
 
 		ASTRO,
 

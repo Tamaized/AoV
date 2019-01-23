@@ -134,7 +134,7 @@ public class AttackHandler {
 			if (attacker instanceof EntityLivingBase)
 				attackerLiving = (EntityLivingBase) attacker;
 			if (cap != null) {
-				if (cap.hasSkill(AoVSkills.defender_core_3) && attackerLiving != null && ((!attackerLiving.getHeldItemMainhand().isEmpty() && attackerLiving.getHeldItemMainhand().getItem().isShield(attackerLiving.getHeldItemMainhand(), attackerLiving)) || (!attackerLiving.getHeldItemOffhand().isEmpty() && attackerLiving.getHeldItemOffhand().getItem().isShield(attackerLiving.getHeldItemOffhand(), attackerLiving)))) {
+				if (cap.hasSkill(AoVSkills.paladin_core_3) && attackerLiving != null && ((!attackerLiving.getHeldItemMainhand().isEmpty() && attackerLiving.getHeldItemMainhand().getItem().isShield(attackerLiving.getHeldItemMainhand(), attackerLiving)) || (!attackerLiving.getHeldItemOffhand().isEmpty() && attackerLiving.getHeldItemOffhand().getItem().isShield(attackerLiving.getHeldItemOffhand(), attackerLiving)))) {
 					double d1 = attacker.posX - entity.posX;
 					double d0;
 					for (d0 = attacker.posZ - entity.posZ; d1 * d1 + d0 * d0 < 1.0E-4D; d0 = (Math.random() - Math.random()) * 0.01D) {
@@ -149,7 +149,7 @@ public class AttackHandler {
 		if (entity.hasCapability(CapabilityList.AOV, null)) {
 			IAoVCapability cap = entity.getCapability(CapabilityList.AOV, null);
 
-			if (cap != null && cap.hasSkill(AoVSkills.defender_core_1) && entity instanceof EntityPlayer) {
+			if (cap != null && cap.hasSkill(AoVSkills.paladin_core_1) && entity instanceof EntityPlayer) {
 				if (canBlockDamageSource((EntityPlayer) entity, event.getSource(), false) && event.getAmount() > 0.0F) {
 					cap.addExp(entity, 20, Abilities.defenderBlocking);
 				}
@@ -171,7 +171,7 @@ public class AttackHandler {
 			}
 
 			// Full Radial Shield
-			if (cap != null && cap.hasSkill(AoVSkills.defender_core_4)) {
+			if (cap != null && cap.hasSkill(AoVSkills.paladin_core_4)) {
 				handleShield(event, true);
 			}
 		}

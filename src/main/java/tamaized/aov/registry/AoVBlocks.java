@@ -36,11 +36,11 @@ public class AoVBlocks {
 
 				new BlockAngelicBlock(BlockAngelicBlock.ClassType.ALL, AoVTabs.tabAoV, Material.ROCK, "angelicstatue", 7.0F),
 
-				new BlockAngelicBlock(BlockAngelicBlock.ClassType.CASTER, AoVTabs.tabAoV, Material.ROCK, "favoredsoulstatue", 7.0F),
+				new BlockAngelicBlock(BlockAngelicBlock.ClassType.FAVOREDSOUL, AoVTabs.tabAoV, Material.ROCK, "favoredsoulstatue", 7.0F),
 
-				new BlockAngelicBlock(BlockAngelicBlock.ClassType.HEALER, AoVTabs.tabAoV, Material.ROCK, "clericstatue", 7.0F),
+				new BlockAngelicBlock(BlockAngelicBlock.ClassType.CLERIC, AoVTabs.tabAoV, Material.ROCK, "clericstatue", 7.0F),
 
-				new BlockAngelicBlock(BlockAngelicBlock.ClassType.DEFENDER, AoVTabs.tabAoV, Material.ROCK, "paladinstatue", 7.0F),
+				new BlockAngelicBlock(BlockAngelicBlock.ClassType.PALADIN, AoVTabs.tabAoV, Material.ROCK, "paladinstatue", 7.0F),
 
 				new BlockAngelicBlock(BlockAngelicBlock.ClassType.ASTRO, AoVTabs.tabAoV, Material.ROCK, "astrostatue", 7.0F),
 

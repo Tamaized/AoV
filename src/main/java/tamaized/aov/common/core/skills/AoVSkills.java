@@ -13,78 +13,78 @@ public class AoVSkills {
 	private static final List<AoVSkill> REGISTRY = Lists.newArrayList();
 	private static final Set<AoVSkill> SELECTIVE_FOCUS_REGISTRY = Sets.newHashSet();
 
-	/* Healer */
-	public static AoVSkill healer_core_1;
-	public static AoVSkill healer_core_2;
-	public static AoVSkill healer_core_3;
-	public static AoVSkill healer_core_4;
-	public static AoVSkill healer_capstone;
+	/* Cleric */
+	public static AoVSkill cleric_core_1;
+	public static AoVSkill cleric_core_2;
+	public static AoVSkill cleric_core_3;
+	public static AoVSkill cleric_core_4;
+	public static AoVSkill cleric_capstone;
 
-	public static AoVSkill healer_tier_1_1;
-	public static AoVSkill healer_tier_1_2;
-	public static AoVSkill healer_tier_1_3;
+	public static AoVSkill cleric_tier_1_1;
+	public static AoVSkill cleric_tier_1_2;
+	public static AoVSkill cleric_tier_1_3;
 
-	public static AoVSkill healer_tier_2_1;
-	public static AoVSkill healer_tier_2_2;
-	public static AoVSkill healer_tier_2_3;
-	public static AoVSkill healer_tier_2_4;
+	public static AoVSkill cleric_tier_2_1;
+	public static AoVSkill cleric_tier_2_2;
+	public static AoVSkill cleric_tier_2_3;
+	public static AoVSkill cleric_tier_2_4;
 
-	public static AoVSkill healer_tier_3_1;
-	public static AoVSkill healer_tier_3_2;
-	public static AoVSkill healer_tier_3_3;
-	public static AoVSkill healer_tier_3_5;
+	public static AoVSkill cleric_tier_3_1;
+	public static AoVSkill cleric_tier_3_2;
+	public static AoVSkill cleric_tier_3_3;
+	public static AoVSkill cleric_tier_3_5;
 
-	public static AoVSkill healer_tier_4_1;
-	public static AoVSkill healer_tier_4_2;
-	public static AoVSkill healer_tier_4_3;
-	public static AoVSkill healer_tier_4_5;
+	public static AoVSkill cleric_tier_4_1;
+	public static AoVSkill cleric_tier_4_2;
+	public static AoVSkill cleric_tier_4_3;
+	public static AoVSkill cleric_tier_4_5;
 
-	/* Caster */
-	public static AoVSkill caster_core_1;
-	public static AoVSkill caster_core_2;
-	public static AoVSkill caster_core_3;
-	public static AoVSkill caster_core_4;
-	public static AoVSkill caster_capstone;
+	/* Favored Soul */
+	public static AoVSkill favoredsoul_core_1;
+	public static AoVSkill favoredsoul_core_2;
+	public static AoVSkill favoredsoul_core_3;
+	public static AoVSkill favoredsoul_core_4;
+	public static AoVSkill favoredsoul_capstone;
 
-	public static AoVSkill caster_tier_1_1;
-	public static AoVSkill caster_tier_1_3;
+	public static AoVSkill favoredsoul_tier_1_1;
+	public static AoVSkill favoredsoul_tier_1_3;
 
-	public static AoVSkill caster_tier_2_1;
-	public static AoVSkill caster_tier_2_2;
-	public static AoVSkill caster_tier_2_3;
+	public static AoVSkill favoredsoul_tier_2_1;
+	public static AoVSkill favoredsoul_tier_2_2;
+	public static AoVSkill favoredsoul_tier_2_3;
 
-	public static AoVSkill caster_tier_3_1;
-	public static AoVSkill caster_tier_3_2;
-	public static AoVSkill caster_tier_3_3;
+	public static AoVSkill favoredsoul_tier_3_1;
+	public static AoVSkill favoredsoul_tier_3_2;
+	public static AoVSkill favoredsoul_tier_3_3;
 
-	public static AoVSkill caster_tier_4_1;
-	public static AoVSkill caster_tier_4_3;
-	public static AoVSkill caster_tier_4_4;
-	public static AoVSkill caster_tier_4_5;
+	public static AoVSkill favoredsoul_tier_4_1;
+	public static AoVSkill favoredsoul_tier_4_3;
+	public static AoVSkill favoredsoul_tier_4_4;
+	public static AoVSkill favoredsoul_tier_4_5;
 
-	/* Defender */
-	public static AoVSkill defender_core_1;
-	public static AoVSkill defender_core_2;
-	public static AoVSkill defender_core_3;
-	public static AoVSkill defender_core_4;
-	public static AoVSkill defender_capstone;
+	/* Paladin */
+	public static AoVSkill paladin_core_1;
+	public static AoVSkill paladin_core_2;
+	public static AoVSkill paladin_core_3;
+	public static AoVSkill paladin_core_4;
+	public static AoVSkill paladin_capstone;
 
-	public static AoVSkill defender_tier_1_1;
-	public static AoVSkill defender_tier_1_3;
+	public static AoVSkill paladin_tier_1_1;
+	public static AoVSkill paladin_tier_1_3;
 
-	public static AoVSkill defender_tier_2_1;
-	public static AoVSkill defender_tier_2_3;
-	public static AoVSkill defender_tier_2_4;
+	public static AoVSkill paladin_tier_2_1;
+	public static AoVSkill paladin_tier_2_3;
+	public static AoVSkill paladin_tier_2_4;
 
-	public static AoVSkill defender_tier_3_1;
-	public static AoVSkill defender_tier_3_3;
-	public static AoVSkill defender_tier_3_4;
-	public static AoVSkill defender_tier_3_5;
+	public static AoVSkill paladin_tier_3_1;
+	public static AoVSkill paladin_tier_3_3;
+	public static AoVSkill paladin_tier_3_4;
+	public static AoVSkill paladin_tier_3_5;
 
-	public static AoVSkill defender_tier_4_1;
-	public static AoVSkill defender_tier_4_2;
-	public static AoVSkill defender_tier_4_3;
-	public static AoVSkill defender_tier_4_5;
+	public static AoVSkill paladin_tier_4_1;
+	public static AoVSkill paladin_tier_4_2;
+	public static AoVSkill paladin_tier_4_3;
+	public static AoVSkill paladin_tier_4_5;
 
 	/* Astro */
 	public static AoVSkill astro_core_1;
@@ -146,78 +146,78 @@ public class AoVSkills {
 	public static void register() { // TODO: use IForgeRegistry
 		REGISTRY.clear();
 
-		/* Healer */
-		healer_core_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.healer.core.1.name"), Abilities.cureLightWounds.getIcon(), 0, 0, 1, 1, 0, 0, 0, true, null, Lists.newArrayList(Abilities.cureLightWounds)).setupTooltip(new TextComponentTranslation("aov.skill.healer.core.1.desc")));
-		healer_core_2 = register(new AoVSkill(new TextComponentTranslation("aov.skill.healer.core.2.name"), SkillIcons.SPELLPOWER, 3, 0, 0, 1, 10, 0, 0, false, healer_core_1, Lists.newArrayList()).setupTooltip(null));
-		healer_core_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.healer.core.3.name"), Abilities.burst.getIcon(), 6, 0, 1, 1, 10, 0, 0, false, healer_core_2, Lists.newArrayList(Abilities.burst)).setupTooltip(new TextComponentTranslation("aov.skill.healer.core.3.desc")));
-		healer_core_4 = register(new AoVSkill(new TextComponentTranslation("aov.skill.healer.core.4.name"), Abilities.posEnergyAura.getIcon(), 12, 0, 1, 1, 10, 0, 0, false, healer_core_3, Lists.newArrayList(Abilities.posEnergyAura)).setupTooltip(new TextComponentTranslation("aov.skill.healer.core.4.desc")));
-		healer_capstone = register(new AoVSkill(new TextComponentTranslation("aov.skill.healer.core.5.name"), SkillIcons.CHARGES, 15, 0, 3, 1, 50, 0, 0, false, healer_core_4, Lists.newArrayList()).setupTooltip(null));
+		/* Cleric */
+		cleric_core_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.cleric.core.1.name"), Abilities.cureLightWounds.getIcon(), 0, 0, 1, 1, 0, 0, 0, true, null, Lists.newArrayList(Abilities.cureLightWounds)).setupTooltip(new TextComponentTranslation("aov.skill.cleric.core.1.desc")));
+		cleric_core_2 = register(new AoVSkill(new TextComponentTranslation("aov.skill.cleric.core.2.name"), SkillIcons.SPELLPOWER, 3, 0, 0, 1, 10, 0, 0, false, cleric_core_1, Lists.newArrayList()).setupTooltip(null));
+		cleric_core_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.cleric.core.3.name"), Abilities.burst.getIcon(), 6, 0, 1, 1, 10, 0, 0, false, cleric_core_2, Lists.newArrayList(Abilities.burst)).setupTooltip(new TextComponentTranslation("aov.skill.cleric.core.3.desc")));
+		cleric_core_4 = register(new AoVSkill(new TextComponentTranslation("aov.skill.cleric.core.4.name"), Abilities.posEnergyAura.getIcon(), 12, 0, 1, 1, 10, 0, 0, false, cleric_core_3, Lists.newArrayList(Abilities.posEnergyAura)).setupTooltip(new TextComponentTranslation("aov.skill.cleric.core.4.desc")));
+		cleric_capstone = register(new AoVSkill(new TextComponentTranslation("aov.skill.cleric.core.5.name"), SkillIcons.CHARGES, 15, 0, 3, 1, 50, 0, 0, false, cleric_core_4, Lists.newArrayList()).setupTooltip(null));
 
-		healer_tier_1_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.healer.tier1.1.name"), Abilities.cureModWounds.getIcon(), 0, 1, 0, 1, 0, 0, 0, false, healer_core_1, Lists.newArrayList(Abilities.cureModWounds)).setupTooltip(new TextComponentTranslation("aov.skill.healer.tier1.1.desc")));
-		healer_tier_1_2 = register(new AoVSkill(new TextComponentTranslation("aov.skill.healer.tier1.2.name"), Abilities.curePoison.getIcon(), 0, 1, 0, 1, 0, 0, 0, false, healer_core_1, Lists.newArrayList(Abilities.curePoison)).setupTooltip(new TextComponentTranslation("aov.skill.healer.tier1.2.desc")));
-		healer_tier_1_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.healer.tier1.3.name"), SkillIcons.SPELLPOWER, 0, 1, 0, 1, 10, 0, 0, false, healer_core_1, Lists.newArrayList()).setupTooltip(null));
+		cleric_tier_1_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.cleric.tier1.1.name"), Abilities.cureModWounds.getIcon(), 0, 1, 0, 1, 0, 0, 0, false, cleric_core_1, Lists.newArrayList(Abilities.cureModWounds)).setupTooltip(new TextComponentTranslation("aov.skill.cleric.tier1.1.desc")));
+		cleric_tier_1_2 = register(new AoVSkill(new TextComponentTranslation("aov.skill.cleric.tier1.2.name"), Abilities.curePoison.getIcon(), 0, 1, 0, 1, 0, 0, 0, false, cleric_core_1, Lists.newArrayList(Abilities.curePoison)).setupTooltip(new TextComponentTranslation("aov.skill.cleric.tier1.2.desc")));
+		cleric_tier_1_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.cleric.tier1.3.name"), SkillIcons.SPELLPOWER, 0, 1, 0, 1, 10, 0, 0, false, cleric_core_1, Lists.newArrayList()).setupTooltip(null));
 
-		healer_tier_2_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.healer.tier2.1.name"), Abilities.cureSeriousWounds.getIcon(), 0, 4, 0, 1, 0, 0, 0, false, healer_tier_1_1, Lists.newArrayList(Abilities.cureSeriousWounds)).setupTooltip(new TextComponentTranslation("aov.skill.healer.tier2.1.desc")));
-		healer_tier_2_2 = register(new AoVSkill(new TextComponentTranslation("aov.skill.healer.tier2.2.name"), Abilities.cureWither.getIcon(), 0, 4, 0, 1, 0, 0, 0, false, healer_tier_1_2, Lists.newArrayList(Abilities.cureWither)).setupTooltip(new TextComponentTranslation("aov.skill.healer.tier2.2.desc")));
-		healer_tier_2_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.healer.tier2.3.name"), SkillIcons.SPELLPOWER, 0, 4, 0, 1, 10, 0, 0, false, healer_tier_1_3, Lists.newArrayList()).setupTooltip(null));
-		healer_tier_2_4 = register(new AoVSkill(new TextComponentTranslation("aov.skill.healer.tier2.4.name"), Abilities.cureBlind.getIcon(), 0, 4, 0, 1, 0, 0, 0, false, healer_core_1, Lists.newArrayList(Abilities.cureBlind)).setupTooltip(new TextComponentTranslation("aov.skill.healer.tier2.4.desc")));
+		cleric_tier_2_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.cleric.tier2.1.name"), Abilities.cureSeriousWounds.getIcon(), 0, 4, 0, 1, 0, 0, 0, false, cleric_tier_1_1, Lists.newArrayList(Abilities.cureSeriousWounds)).setupTooltip(new TextComponentTranslation("aov.skill.cleric.tier2.1.desc")));
+		cleric_tier_2_2 = register(new AoVSkill(new TextComponentTranslation("aov.skill.cleric.tier2.2.name"), Abilities.cureWither.getIcon(), 0, 4, 0, 1, 0, 0, 0, false, cleric_tier_1_2, Lists.newArrayList(Abilities.cureWither)).setupTooltip(new TextComponentTranslation("aov.skill.cleric.tier2.2.desc")));
+		cleric_tier_2_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.cleric.tier2.3.name"), SkillIcons.SPELLPOWER, 0, 4, 0, 1, 10, 0, 0, false, cleric_tier_1_3, Lists.newArrayList()).setupTooltip(null));
+		cleric_tier_2_4 = register(new AoVSkill(new TextComponentTranslation("aov.skill.cleric.tier2.4.name"), Abilities.cureBlind.getIcon(), 0, 4, 0, 1, 0, 0, 0, false, cleric_core_1, Lists.newArrayList(Abilities.cureBlind)).setupTooltip(new TextComponentTranslation("aov.skill.cleric.tier2.4.desc")));
 
-		healer_tier_3_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.healer.tier3.1.name"), Abilities.cureCriticalWounds.getIcon(), 0, 8, 0, 1, 0, 0, 0, false, healer_tier_2_1, Lists.newArrayList(Abilities.cureCriticalWounds)).setupTooltip(new TextComponentTranslation("aov.skill.healer.tier3.1.desc")));
-		healer_tier_3_2 = register(new AoVSkill(new TextComponentTranslation("aov.skill.healer.tier3.2.name"), SkillIcons.CHARGES, 0, 8, 1, 1, 0, 0, 0, false, healer_core_1, Lists.newArrayList()).setupTooltip(null));
-		healer_tier_3_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.healer.tier3.3.name"), SkillIcons.SPELLPOWER, 0, 8, 0, 1, 10, 0, 0, false, healer_tier_2_3, Lists.newArrayList()).setupTooltip(null));
-		healer_tier_3_5 = register(new AoVSkill(new TextComponentTranslation("aov.skill.global.invoke.name"), Abilities.invokeMass.getIcon(), 0, 8, 0, 1, 0, 0, 0, false, healer_core_1, Lists.newArrayList(Abilities.invokeMass)).setupTooltip(new TextComponentTranslation("aov.skill.global.invoke.desc")));
+		cleric_tier_3_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.cleric.tier3.1.name"), Abilities.cureCriticalWounds.getIcon(), 0, 8, 0, 1, 0, 0, 0, false, cleric_tier_2_1, Lists.newArrayList(Abilities.cureCriticalWounds)).setupTooltip(new TextComponentTranslation("aov.skill.cleric.tier3.1.desc")));
+		cleric_tier_3_2 = register(new AoVSkill(new TextComponentTranslation("aov.skill.cleric.tier3.2.name"), SkillIcons.CHARGES, 0, 8, 1, 1, 0, 0, 0, false, cleric_core_1, Lists.newArrayList()).setupTooltip(null));
+		cleric_tier_3_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.cleric.tier3.3.name"), SkillIcons.SPELLPOWER, 0, 8, 0, 1, 10, 0, 0, false, cleric_tier_2_3, Lists.newArrayList()).setupTooltip(null));
+		cleric_tier_3_5 = register(new AoVSkill(new TextComponentTranslation("aov.skill.global.invoke.name"), Abilities.invokeMass.getIcon(), 0, 8, 0, 1, 0, 0, 0, false, cleric_core_1, Lists.newArrayList(Abilities.invokeMass)).setupTooltip(new TextComponentTranslation("aov.skill.global.invoke.desc")));
 
-		healer_tier_4_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.healer.tier4.1.name"), Abilities.heal.getIcon(), 0, 12, 0, 1, 0, 0, 0, false, healer_tier_3_1, Lists.newArrayList(Abilities.heal)).setupTooltip(new TextComponentTranslation("aov.skill.healer.tier4.1.desc")));
-		healer_tier_4_2 = register(new AoVSkill(new TextComponentTranslation("aov.skill.healer.tier4.2.name"), SkillIcons.CHARGES, 0, 12, 2, 1, 0, 0, 0, false, healer_tier_3_2, Lists.newArrayList()).setupTooltip(null));
-		healer_tier_4_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.healer.tier4.3.name"), SkillIcons.SPELLPOWER, 0, 12, 0, 1, 20, 0, 0, false, healer_tier_3_3, Lists.newArrayList()).setupTooltip(null));
-		healer_tier_4_5 = registerAsSelectiveFocus(new AoVSkill(new TextComponentTranslation("aov.skill.global.selective.name"), SkillIcons.SELECTIVEFOCUS, 0, 12, 0, 1, 0, 0, 0, false, healer_core_1, Lists.newArrayList()).setupTooltip(new TextComponentTranslation("aov.skill.global.selective.desc")));
+		cleric_tier_4_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.cleric.tier4.1.name"), Abilities.heal.getIcon(), 0, 12, 0, 1, 0, 0, 0, false, cleric_tier_3_1, Lists.newArrayList(Abilities.heal)).setupTooltip(new TextComponentTranslation("aov.skill.cleric.tier4.1.desc")));
+		cleric_tier_4_2 = register(new AoVSkill(new TextComponentTranslation("aov.skill.cleric.tier4.2.name"), SkillIcons.CHARGES, 0, 12, 2, 1, 0, 0, 0, false, cleric_tier_3_2, Lists.newArrayList()).setupTooltip(null));
+		cleric_tier_4_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.cleric.tier4.3.name"), SkillIcons.SPELLPOWER, 0, 12, 0, 1, 20, 0, 0, false, cleric_tier_3_3, Lists.newArrayList()).setupTooltip(null));
+		cleric_tier_4_5 = registerAsSelectiveFocus(new AoVSkill(new TextComponentTranslation("aov.skill.global.selective.name"), SkillIcons.SELECTIVEFOCUS, 0, 12, 0, 1, 0, 0, 0, false, cleric_core_1, Lists.newArrayList()).setupTooltip(new TextComponentTranslation("aov.skill.global.selective.desc")));
 
-		/* Caster */
-		caster_core_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.caster.core.1.name"), Abilities.nimbusRay.getIcon(), 0, 0, 1, 1, 10, 0, 0, true, null, Lists.newArrayList(Abilities.nimbusRay)).setupTooltip(new TextComponentTranslation("aov.skill.caster.core.1.desc")));
-		caster_core_2 = register(new AoVSkill(new TextComponentTranslation("aov.skill.caster.core.2.name"), SkillIcons.SPELLPOWER, 3, 0, 0, 1, 15, 0, 0, false, caster_core_1, Lists.newArrayList()).setupTooltip(null));
-		caster_core_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.caster.core.3.name"), Abilities.flameStrike.getIcon(), 6, 0, 1, 1, 15, 0, 0, false, caster_core_2, Lists.newArrayList(Abilities.flameStrike)).setupTooltip(new TextComponentTranslation("aov.skill.caster.core.3.desc")));
-		caster_core_4 = register(new AoVSkill(new TextComponentTranslation("aov.skill.caster.core.4.name"), Abilities.bladeBarrier.getIcon(), 12, 0, 1, 1, 15, 0, 0, false, caster_core_3, Lists.newArrayList(Abilities.bladeBarrier)).setupTooltip(new TextComponentTranslation("aov.skill.caster.core.4.desc")));
-		caster_capstone = register(new AoVSkill(new TextComponentTranslation("aov.skill.caster.core.5.name"), SkillIcons.CHARGES, 15, 0, 4, 1, 50, 0, 0, false, caster_core_4, Lists.newArrayList()).setupTooltip(null));
+		/* Favored Soul */
+		favoredsoul_core_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.favoredsoul.core.1.name"), Abilities.nimbusRay.getIcon(), 0, 0, 1, 1, 10, 0, 0, true, null, Lists.newArrayList(Abilities.nimbusRay)).setupTooltip(new TextComponentTranslation("aov.skill.favoredsoul.core.1.desc")));
+		favoredsoul_core_2 = register(new AoVSkill(new TextComponentTranslation("aov.skill.favoredsoul.core.2.name"), SkillIcons.SPELLPOWER, 3, 0, 0, 1, 15, 0, 0, false, favoredsoul_core_1, Lists.newArrayList()).setupTooltip(null));
+		favoredsoul_core_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.favoredsoul.core.3.name"), Abilities.flameStrike.getIcon(), 6, 0, 1, 1, 15, 0, 0, false, favoredsoul_core_2, Lists.newArrayList(Abilities.flameStrike)).setupTooltip(new TextComponentTranslation("aov.skill.favoredsoul.core.3.desc")));
+		favoredsoul_core_4 = register(new AoVSkill(new TextComponentTranslation("aov.skill.favoredsoul.core.4.name"), Abilities.bladeBarrier.getIcon(), 12, 0, 1, 1, 15, 0, 0, false, favoredsoul_core_3, Lists.newArrayList(Abilities.bladeBarrier)).setupTooltip(new TextComponentTranslation("aov.skill.favoredsoul.core.4.desc")));
+		favoredsoul_capstone = register(new AoVSkill(new TextComponentTranslation("aov.skill.favoredsoul.core.5.name"), SkillIcons.CHARGES, 15, 0, 4, 1, 50, 0, 0, false, favoredsoul_core_4, Lists.newArrayList()).setupTooltip(null));
 
-		caster_tier_1_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.caster.tier1.1.name"), Abilities.searingLight.getIcon(), 0, 1, 0, 1, 0, 0, 0, false, caster_core_1, Lists.newArrayList(Abilities.searingLight)).setupTooltip(new TextComponentTranslation("aov.skill.caster.tier1.1.desc")));
-		caster_tier_1_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.caster.tier1.3.name"), SkillIcons.SPELLPOWER, 0, 1, 0, 1, 15, 0, 0, false, caster_core_1, Lists.newArrayList()).setupTooltip(null));
+		favoredsoul_tier_1_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.favoredsoul.tier1.1.name"), Abilities.searingLight.getIcon(), 0, 1, 0, 1, 0, 0, 0, false, favoredsoul_core_1, Lists.newArrayList(Abilities.searingLight)).setupTooltip(new TextComponentTranslation("aov.skill.favoredsoul.tier1.1.desc")));
+		favoredsoul_tier_1_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.favoredsoul.tier1.3.name"), SkillIcons.SPELLPOWER, 0, 1, 0, 1, 15, 0, 0, false, favoredsoul_core_1, Lists.newArrayList()).setupTooltip(null));
 
-		caster_tier_2_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.caster.tier2.1.name"), Abilities.slayLiving.getIcon(), 0, 4, 0, 1, 0, 0, 0, false, caster_tier_1_1, Lists.newArrayList(Abilities.slayLiving)).setupTooltip(new TextComponentTranslation("aov.skill.caster.tier2.1.desc")));
-		caster_tier_2_2 = register(new AoVSkill(new TextComponentTranslation("aov.skill.caster.tier2.2.name"), SkillIcons.CHARGES, 0, 4, 1, 1, 0, 0, 0, false, caster_core_1, Lists.newArrayList()).setupTooltip(null));
-		caster_tier_2_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.caster.tier2.3.name"), SkillIcons.SPELLPOWER, 0, 4, 0, 1, 15, 0, 0, false, caster_tier_1_3, Lists.newArrayList()).setupTooltip(null));
+		favoredsoul_tier_2_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.favoredsoul.tier2.1.name"), Abilities.slayLiving.getIcon(), 0, 4, 0, 1, 0, 0, 0, false, favoredsoul_tier_1_1, Lists.newArrayList(Abilities.slayLiving)).setupTooltip(new TextComponentTranslation("aov.skill.favoredsoul.tier2.1.desc")));
+		favoredsoul_tier_2_2 = register(new AoVSkill(new TextComponentTranslation("aov.skill.favoredsoul.tier2.2.name"), SkillIcons.CHARGES, 0, 4, 1, 1, 0, 0, 0, false, favoredsoul_core_1, Lists.newArrayList()).setupTooltip(null));
+		favoredsoul_tier_2_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.favoredsoul.tier2.3.name"), SkillIcons.SPELLPOWER, 0, 4, 0, 1, 15, 0, 0, false, favoredsoul_tier_1_3, Lists.newArrayList()).setupTooltip(null));
 
-		caster_tier_3_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.caster.tier3.1.name"), Abilities.destruction.getIcon(), 0, 8, 0, 1, 0, 0, 0, false, caster_tier_2_1, Lists.newArrayList(Abilities.destruction)).setupTooltip(new TextComponentTranslation("aov.skill.caster.tier3.1.desc")));
-		caster_tier_3_2 = register(new AoVSkill(new TextComponentTranslation("aov.skill.caster.tier3.2.name"), SkillIcons.CHARGES, 0, 8, 1, 1, 0, 0, 0, false, caster_tier_2_2, Lists.newArrayList()).setupTooltip(null));
-		caster_tier_3_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.caster.tier3.3.name"), SkillIcons.SPELLPOWER, 0, 8, 0, 1, 15, 0, 0, false, caster_tier_2_3, Lists.newArrayList()).setupTooltip(null));
+		favoredsoul_tier_3_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.favoredsoul.tier3.1.name"), Abilities.destruction.getIcon(), 0, 8, 0, 1, 0, 0, 0, false, favoredsoul_tier_2_1, Lists.newArrayList(Abilities.destruction)).setupTooltip(new TextComponentTranslation("aov.skill.favoredsoul.tier3.1.desc")));
+		favoredsoul_tier_3_2 = register(new AoVSkill(new TextComponentTranslation("aov.skill.favoredsoul.tier3.2.name"), SkillIcons.CHARGES, 0, 8, 1, 1, 0, 0, 0, false, favoredsoul_tier_2_2, Lists.newArrayList()).setupTooltip(null));
+		favoredsoul_tier_3_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.favoredsoul.tier3.3.name"), SkillIcons.SPELLPOWER, 0, 8, 0, 1, 15, 0, 0, false, favoredsoul_tier_2_3, Lists.newArrayList()).setupTooltip(null));
 
-		caster_tier_4_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.caster.tier4.1.name"), Abilities.implosion.getIcon(), 0, 12, 0, 1, 0, 0, 0, false, caster_tier_3_1, Lists.newArrayList(Abilities.implosion)).setupTooltip(new TextComponentTranslation("aov.skill.caster.tier4.1.desc")));
-		caster_tier_4_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.caster.tier4.3.name"), SkillIcons.SPELLPOWER, 0, 12, 0, 1, 25, 0, 0, false, caster_tier_3_3, Lists.newArrayList()).setupTooltip(null));
-		caster_tier_4_4 = register(new AoVSkill(new TextComponentTranslation("aov.skill.caster.tier4.4.name"), Abilities.leapOfFaith.getIcon(), 0, 12, 0, 1, 0, 0, 0, false, caster_core_1, Lists.newArrayList(Abilities.leapOfFaith)).setupTooltip(new TextComponentTranslation("aov.skill.caster.tier4.4.desc")));
-		caster_tier_4_5 = registerAsSelectiveFocus(new AoVSkill(new TextComponentTranslation("aov.skill.global.selective.name"), SkillIcons.SELECTIVEFOCUS, 0, 12, 0, 1, 0, 0, 0, false, caster_core_1, Lists.newArrayList()).setupTooltip(new TextComponentTranslation("aov.skill.global.selective.desc")));
+		favoredsoul_tier_4_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.favoredsoul.tier4.1.name"), Abilities.implosion.getIcon(), 0, 12, 0, 1, 0, 0, 0, false, favoredsoul_tier_3_1, Lists.newArrayList(Abilities.implosion)).setupTooltip(new TextComponentTranslation("aov.skill.favoredsoul.tier4.1.desc")));
+		favoredsoul_tier_4_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.favoredsoul.tier4.3.name"), SkillIcons.SPELLPOWER, 0, 12, 0, 1, 25, 0, 0, false, favoredsoul_tier_3_3, Lists.newArrayList()).setupTooltip(null));
+		favoredsoul_tier_4_4 = register(new AoVSkill(new TextComponentTranslation("aov.skill.favoredsoul.tier4.4.name"), Abilities.leapOfFaith.getIcon(), 0, 12, 0, 1, 0, 0, 0, false, favoredsoul_core_1, Lists.newArrayList(Abilities.leapOfFaith)).setupTooltip(new TextComponentTranslation("aov.skill.favoredsoul.tier4.4.desc")));
+		favoredsoul_tier_4_5 = registerAsSelectiveFocus(new AoVSkill(new TextComponentTranslation("aov.skill.global.selective.name"), SkillIcons.SELECTIVEFOCUS, 0, 12, 0, 1, 0, 0, 0, false, favoredsoul_core_1, Lists.newArrayList()).setupTooltip(new TextComponentTranslation("aov.skill.global.selective.desc")));
 
-		/* Defender */
-		defender_core_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.defender.core.1.name"), SkillIcons.DODGE, 0, 0, 1, 1, 0, 5, 0, true, null, Lists.newArrayList()).setupTooltip(null));
-		defender_core_2 = register(new AoVSkill(new TextComponentTranslation("aov.skill.defender.core.2.name"), SkillIcons.DOUBLESTRIKE, 3, 0, 0, 1, 0, 0, 5, false, defender_core_1, Lists.newArrayList()).setupTooltip(null));
-		defender_core_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.defender.core.3.name"), SkillIcons.DEFENDER, 6, 0, 0, 1, 0, 0, 0, false, defender_core_2, Lists.newArrayList()).setupTooltip(new TextComponentTranslation("aov.skill.defender.core.3.desc")));
-		defender_core_4 = register(new AoVSkill(new TextComponentTranslation("aov.skill.defender.core.4.name"), SkillIcons.DEFENDER, 12, 0, 0, 1, 0, 0, 0, false, defender_core_3, Lists.newArrayList()).setupTooltip(new TextComponentTranslation("aov.skill.defender.core.4.desc")));
-		defender_capstone = register(new AoVSkill(new TextComponentTranslation("aov.skill.defender.core.5.name"), SkillIcons.DEFENDER, 15, 0, 0, 1, 0, 0, 0, false, defender_core_4, Lists.newArrayList()).setupTooltip(new TextComponentTranslation("aov.skill.defender.core.5.desc")));
+		/* Paladin */
+		paladin_core_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.paladin.core.1.name"), SkillIcons.DODGE, 0, 0, 1, 1, 0, 5, 0, true, null, Lists.newArrayList()).setupTooltip(null));
+		paladin_core_2 = register(new AoVSkill(new TextComponentTranslation("aov.skill.paladin.core.2.name"), SkillIcons.DOUBLESTRIKE, 3, 0, 0, 1, 0, 0, 5, false, paladin_core_1, Lists.newArrayList()).setupTooltip(null));
+		paladin_core_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.paladin.core.3.name"), SkillIcons.DEFENDER, 6, 0, 0, 1, 0, 0, 0, false, paladin_core_2, Lists.newArrayList()).setupTooltip(new TextComponentTranslation("aov.skill.paladin.core.3.desc")));
+		paladin_core_4 = register(new AoVSkill(new TextComponentTranslation("aov.skill.paladin.core.4.name"), SkillIcons.DEFENDER, 12, 0, 0, 1, 0, 0, 0, false, paladin_core_3, Lists.newArrayList()).setupTooltip(new TextComponentTranslation("aov.skill.paladin.core.4.desc")));
+		paladin_capstone = register(new AoVSkill(new TextComponentTranslation("aov.skill.paladin.core.5.name"), SkillIcons.DEFENDER, 15, 0, 0, 1, 0, 0, 0, false, paladin_core_4, Lists.newArrayList()).setupTooltip(new TextComponentTranslation("aov.skill.paladin.core.5.desc")));
 
-		defender_tier_1_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.defender.tier1.1.name"), Abilities.aid.getIcon(), 0, 1, 0, 1, 0, 0, 0, false, defender_core_1, Lists.newArrayList(Abilities.aid)).setupTooltip(new TextComponentTranslation("aov.skill.defender.tier1.1.desc")));
-		defender_tier_1_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.defender.tier1.3.name"), SkillIcons.DODGE, 0, 1, 0, 1, 0, 5, 0, false, defender_core_1, Lists.newArrayList()).setupTooltip(null));
+		paladin_tier_1_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.paladin.tier1.1.name"), Abilities.aid.getIcon(), 0, 1, 0, 1, 0, 0, 0, false, paladin_core_1, Lists.newArrayList(Abilities.aid)).setupTooltip(new TextComponentTranslation("aov.skill.paladin.tier1.1.desc")));
+		paladin_tier_1_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.paladin.tier1.3.name"), SkillIcons.DODGE, 0, 1, 0, 1, 0, 5, 0, false, paladin_core_1, Lists.newArrayList()).setupTooltip(null));
 
-		defender_tier_2_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.defender.tier2.1.name"), Abilities.shieldOfFaith.getIcon(), 0, 4, 0, 1, 0, 0, 0, false, defender_tier_1_1, Lists.newArrayList(Abilities.shieldOfFaith)).setupTooltip(new TextComponentTranslation("aov.skill.defender.tier2.1.desc")));
-		defender_tier_2_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.defender.tier2.3.name"), SkillIcons.DODGE, 0, 4, 0, 1, 0, 5, 0, false, defender_tier_1_3, Lists.newArrayList()).setupTooltip(null));
-		defender_tier_2_4 = register(new AoVSkill(new TextComponentTranslation("aov.skill.defender.tier2.4.name"), SkillIcons.DOUBLESTRIKE, 0, 4, 0, 1, 0, 0, 5, false, defender_core_1, Lists.newArrayList()).setupTooltip(null));
+		paladin_tier_2_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.paladin.tier2.1.name"), Abilities.shieldOfFaith.getIcon(), 0, 4, 0, 1, 0, 0, 0, false, paladin_tier_1_1, Lists.newArrayList(Abilities.shieldOfFaith)).setupTooltip(new TextComponentTranslation("aov.skill.paladin.tier2.1.desc")));
+		paladin_tier_2_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.paladin.tier2.3.name"), SkillIcons.DODGE, 0, 4, 0, 1, 0, 5, 0, false, paladin_tier_1_3, Lists.newArrayList()).setupTooltip(null));
+		paladin_tier_2_4 = register(new AoVSkill(new TextComponentTranslation("aov.skill.paladin.tier2.4.name"), SkillIcons.DOUBLESTRIKE, 0, 4, 0, 1, 0, 0, 5, false, paladin_core_1, Lists.newArrayList()).setupTooltip(null));
 
-		defender_tier_3_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.defender.tier3.1.name"), Abilities.zeal.getIcon(), 0, 8, 0, 1, 0, 0, 0, false, defender_tier_2_1, Lists.newArrayList(Abilities.zeal)).setupTooltip(new TextComponentTranslation("aov.skill.defender.tier3.1.desc")));
-		defender_tier_3_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.defender.tier3.3.name"), SkillIcons.DODGE, 0, 8, 0, 1, 0, 5, 0, false, defender_tier_2_3, Lists.newArrayList()).setupTooltip(null));
-		defender_tier_3_4 = register(new AoVSkill(new TextComponentTranslation("aov.skill.defender.tier3.4.name"), SkillIcons.DOUBLESTRIKE, 0, 8, 0, 1, 0, 0, 5, false, defender_tier_2_4, Lists.newArrayList()).setupTooltip(null));
-		defender_tier_3_5 = register(new AoVSkill(new TextComponentTranslation("aov.skill.global.invoke.name"), Abilities.invokeMass.getIcon(), 0, 8, 0, 1, 0, 0, 0, false, defender_core_1, Lists.newArrayList(Abilities.invokeMass)).setupTooltip(new TextComponentTranslation("aov.skill.global.invoke.desc")));
+		paladin_tier_3_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.paladin.tier3.1.name"), Abilities.zeal.getIcon(), 0, 8, 0, 1, 0, 0, 0, false, paladin_tier_2_1, Lists.newArrayList(Abilities.zeal)).setupTooltip(new TextComponentTranslation("aov.skill.paladin.tier3.1.desc")));
+		paladin_tier_3_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.paladin.tier3.3.name"), SkillIcons.DODGE, 0, 8, 0, 1, 0, 5, 0, false, paladin_tier_2_3, Lists.newArrayList()).setupTooltip(null));
+		paladin_tier_3_4 = register(new AoVSkill(new TextComponentTranslation("aov.skill.paladin.tier3.4.name"), SkillIcons.DOUBLESTRIKE, 0, 8, 0, 1, 0, 0, 5, false, paladin_tier_2_4, Lists.newArrayList()).setupTooltip(null));
+		paladin_tier_3_5 = register(new AoVSkill(new TextComponentTranslation("aov.skill.global.invoke.name"), Abilities.invokeMass.getIcon(), 0, 8, 0, 1, 0, 0, 0, false, paladin_core_1, Lists.newArrayList(Abilities.invokeMass)).setupTooltip(new TextComponentTranslation("aov.skill.global.invoke.desc")));
 
-		defender_tier_4_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.defender.tier4.1.name"), Abilities.stalwartPact.getIcon(), 0, 12, 0, 1, 0, 0, 0, false, defender_tier_3_1, Lists.newArrayList(Abilities.stalwartPact)).setupTooltip(new TextComponentTranslation("aov.skill.defender.tier4.1.desc")));
-		defender_tier_4_2 = register(new AoVSkill(new TextComponentTranslation("aov.skill.defender.tier4.2.name"), SkillIcons.VITALITY, 0, 12, 0, 1, 0, 0, 0, false, defender_core_1, Lists.newArrayList()).setupTooltip(new TextComponentTranslation("aov.skill.defender.tier4.2.desc")));
-		defender_tier_4_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.defender.tier4.3.name"), SkillIcons.DODGE, 0, 12, 0, 1, 0, 5, 0, false, defender_tier_3_3, Lists.newArrayList()).setupTooltip(null));
-		defender_tier_4_5 = registerAsSelectiveFocus(new AoVSkill(new TextComponentTranslation("aov.skill.global.selective.name"), SkillIcons.SELECTIVEFOCUS, 0, 12, 0, 1, 0, 0, 0, false, defender_core_1, Lists.newArrayList()).setupTooltip(new TextComponentTranslation("aov.skill.global.selective.desc")));
+		paladin_tier_4_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.paladin.tier4.1.name"), Abilities.stalwartPact.getIcon(), 0, 12, 0, 1, 0, 0, 0, false, paladin_tier_3_1, Lists.newArrayList(Abilities.stalwartPact)).setupTooltip(new TextComponentTranslation("aov.skill.paladin.tier4.1.desc")));
+		paladin_tier_4_2 = register(new AoVSkill(new TextComponentTranslation("aov.skill.paladin.tier4.2.name"), SkillIcons.VITALITY, 0, 12, 0, 1, 0, 0, 0, false, paladin_core_1, Lists.newArrayList()).setupTooltip(new TextComponentTranslation("aov.skill.paladin.tier4.2.desc")));
+		paladin_tier_4_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.paladin.tier4.3.name"), SkillIcons.DODGE, 0, 12, 0, 1, 0, 5, 0, false, paladin_tier_3_3, Lists.newArrayList()).setupTooltip(null));
+		paladin_tier_4_5 = registerAsSelectiveFocus(new AoVSkill(new TextComponentTranslation("aov.skill.global.selective.name"), SkillIcons.SELECTIVEFOCUS, 0, 12, 0, 1, 0, 0, 0, false, paladin_core_1, Lists.newArrayList()).setupTooltip(new TextComponentTranslation("aov.skill.global.selective.desc")));
 
 		/* Astro */
 		astro_core_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.astro.core.1.name"), Abilities.draw.getIcon(), 0, 0, 0, 1, 0, 0, 0, true, null, Lists.newArrayList(Abilities.draw)).setupTooltip(new TextComponentTranslation("aov.skill.astro.core.1.desc")));
