@@ -181,7 +181,7 @@ public class AoVOverlay extends Gui {
 							y = 1F + y + partialTicks;
 							y = MathHelper.clamp(y, 1F, 15F);
 						}
-						renderCharges(x + ConfigHandler.elementPositions.spellbar_x, y + ConfigHandler.elementPositions.spellbar_y, fontRender, cap, i);
+						renderCharges(x + (ConfigHandler.renderBarOverHotbar ? 0 : ConfigHandler.elementPositions.spellbar_x), y + (ConfigHandler.renderBarOverHotbar ? 0 : ConfigHandler.elementPositions.spellbar_y), fontRender, cap, i);
 					}
 				}
 				GlStateManager.popMatrix();

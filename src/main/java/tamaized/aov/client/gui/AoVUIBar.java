@@ -43,8 +43,11 @@ public class AoVUIBar {
 		GlStateManager.pushMatrix();
 		{
 			ScaledResolution sr = new ScaledResolution(mc);
-			if (ConfigHandler.renderBarOverHotbar)
+			if (ConfigHandler.renderBarOverHotbar) {
+				xpos = 0;
+				ypos = 0;
 				GlStateManager.translate(0, sr.getScaledHeight() - 23, 0);
+			}
 			float alpha = 0.2f;
 			if (ClientProxy.barToggle)
 				alpha = 1.0f;
