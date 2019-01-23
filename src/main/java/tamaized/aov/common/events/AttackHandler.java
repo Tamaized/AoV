@@ -57,6 +57,10 @@ public class AttackHandler {
 	);
 	private static boolean livingAttackState = true;
 
+	public static boolean canHurt(Entity entity) {
+		return entity instanceof EntityLivingBase && entity.hurtResistantTime <= ((EntityLivingBase) entity).maxHurtResistantTime / 2F;
+	}
+
 	@SubscribeEvent
 	public void onLivingFallEvent(LivingFallEvent event) {
 		if (event.getEntityLiving() != null && event.getEntityLiving().getActivePotionEffect(AoVPotions.slowFall) != null)
@@ -78,7 +82,7 @@ public class AttackHandler {
 		EntityPlayer player = e.getEntityPlayer();
 		IPolymorphCapability poly = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
 		IAoVCapability cap = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
-		if (cap != null && cap.getCoreSkill() == AoVSkills.druid_core_1 && IAoVCapability.isCentered(player, cap))
+		if (canHurt(e.getTarget()) && cap != null && cap.getCoreSkill() == AoVSkills.druid_core_1 && IAoVCapability.isCentered(player, cap))
 			cap.addExp(player, 10, Abilities.druidCentered);
 		if (poly != null && poly.getMorph() == IPolymorphCapability.Morph.Wolf) {
 			float amp = (1.0F + (cap == null ? 0F : (cap.getSpellPower() / 100F)));
@@ -121,7 +125,7 @@ public class AttackHandler {
 		// DoubleStrike
 		if (attacker != null && attacker.hasCapability(CapabilityList.AOV, null)) {
 			IAoVCapability cap = attacker.getCapability(CapabilityList.AOV, null);
-			if (cap != null && livingAttackState && attacker.world.rand.nextInt(cap.getDoubleStrikeForRand()) == 0) {
+			if (canHurt(entity) && cap != null && livingAttackState && attacker.world.rand.nextInt(cap.getDoubleStrikeForRand()) == 0) {
 				livingAttackState = false;
 				cap.addExp(attacker, 20, Abilities.defenderDoublestrike);
 				if (attacker instanceof EntityPlayer)
