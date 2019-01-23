@@ -30,7 +30,7 @@ public class StunCapabilityHandler implements IStunCapability {
 		entity.updateBlocked = stunTicks > 0;
 		if (stunTicks > 0) {
 			stunTicks--;
-			if (entity.isDead) {
+			if (!entity.isEntityAlive()) {
 				stunTicks = 0;
 				entity.updateBlocked = false;
 			}
