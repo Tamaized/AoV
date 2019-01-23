@@ -55,6 +55,39 @@ public class AoVOverlay extends Gui {
 	private static EntityLivingBase cacheEntity;
 	private static int cacheEntityID = -1;
 
+	public static void drawRect(float left, float top, float right, float bottom, int color) {
+		if (left < right) {
+			float i = left;
+			left = right;
+			right = i;
+		}
+
+		if (top < bottom) {
+			float j = top;
+			top = bottom;
+			bottom = j;
+		}
+
+		float f3 = (float) (color >> 24 & 255) / 255.0F;
+		float f = (float) (color >> 16 & 255) / 255.0F;
+		float f1 = (float) (color >> 8 & 255) / 255.0F;
+		float f2 = (float) (color & 255) / 255.0F;
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder bufferbuilder = tessellator.getBuffer();
+		GlStateManager.enableBlend();
+		GlStateManager.disableTexture2D();
+		GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+		GlStateManager.color(f, f1, f2, f3);
+		bufferbuilder.begin(7, DefaultVertexFormats.POSITION);
+		bufferbuilder.pos((double) left, (double) bottom, 0.0D).endVertex();
+		bufferbuilder.pos((double) right, (double) bottom, 0.0D).endVertex();
+		bufferbuilder.pos((double) right, (double) top, 0.0D).endVertex();
+		bufferbuilder.pos((double) left, (double) top, 0.0D).endVertex();
+		tessellator.draw();
+		GlStateManager.enableTexture2D();
+		GlStateManager.disableBlend();
+	}
+
 	@SubscribeEvent
 	public void renderOverlayPre(RenderGameOverlayEvent.Pre e) {
 		if (e.getType() == RenderGameOverlayEvent.ElementType.HOTBAR) {
@@ -105,7 +138,7 @@ public class AoVOverlay extends Gui {
 					float r = isWater ? 1F : 0F;
 					float g = isWater ? 0.15F : 0.6F;
 					float b = isWater ? 0F : 1F;
-					float a = MathHelper.clamp(((float) ClientTicker.dangerBiomeTicks + e.getPartialTicks()) / (float) ClientTicker.dangerBiomeMaxTick, 0F, 1F);
+					float a = MathHelper.clamp(((float) ClientTicker.dangerBiomeTicks + (mc.isGamePaused() ? 0 : e.getPartialTicks())) / (float) ClientTicker.dangerBiomeMaxTick, 0F, 1F);
 					ScaledResolution resolution = new ScaledResolution(mc);
 					Tessellator tessellator = Tessellator.getInstance();
 					BufferBuilder buffer = tessellator.getBuffer();
@@ -126,11 +159,10 @@ public class AoVOverlay extends Gui {
 	public void renderOverlayPost(RenderGameOverlayEvent.Post e) {
 		if (e.getType() != RenderGameOverlayEvent.ElementType.EXPERIENCE) // TODO: ??? shouldnt this be hotbar? recheck it later.
 			return;
-		ClientTicker.update();
 		IAoVCapability cap = CapabilityHelper.getCap(mc.player, CapabilityList.AOV, null);
 		FontRenderer fontRender = mc.fontRenderer;
 		ScaledResolution sr = new ScaledResolution(mc);
-		int sW = sr.getScaledWidth() / 2;
+		float sW = (float) sr.getScaledWidth() / 2F;
 
 		if (cap != null && cap.hasCoreSkill()) {
 			if (ClientProxy.barToggle) {
@@ -139,8 +171,16 @@ public class AoVOverlay extends Gui {
 					if (ConfigHandler.renderBarOverHotbar)
 						GlStateManager.translate(0, sr.getScaledHeight() - 23, 0);
 					for (int i = 0; i < 9; i++) {
-						int x = sW - 90 + (20 * i);
-						int y = ConfigHandler.renderBarOverHotbar || ConfigHandler.renderChargesAboveSpellbar ? 1 - ClientTicker.charges.getValue(i) : 1 + ClientTicker.charges.getValue(i);
+						float x = sW - 90F + (20F * (float) i);
+						float y = ClientTicker.charges.getValue(i);
+						float partialTicks = (mc.isGamePaused() ? 0 : e.getPartialTicks()) * AoVUIBar.slotLoc == i ? 1 : -1;
+						if(ConfigHandler.renderBarOverHotbar || ConfigHandler.renderChargesAboveSpellbar){
+							y = 1F - y - partialTicks;
+							y = MathHelper.clamp(y, -15F, 1F);
+						}else{
+							y = 1F + y + partialTicks;
+							y = MathHelper.clamp(y, 1F, 15F);
+						}
 						renderCharges(x + ConfigHandler.elementPositions.spellbar_x, y + ConfigHandler.elementPositions.spellbar_y, fontRender, cap, i);
 					}
 				}
@@ -191,6 +231,7 @@ public class AoVOverlay extends Gui {
 			return;
 		}
 		NO_STENCIL = false;
+		float frames = ClientTicker.frames + (mc.isGamePaused() ? 0 : mc.getRenderPartialTicks());
 		if (mc.world != null) {
 			Minecraft.getMinecraft().renderEngine.bindTexture(TEXTURE_ELEMENTALS);
 			Tessellator tess = Tessellator.getInstance();
@@ -217,12 +258,11 @@ public class AoVOverlay extends Gui {
 				buffer.pos(0, 0, 0).tex(0, 0).color(0F, 0F, 1F, 1F).endVertex();
 
 				GlStateManager.pushMatrix();
-				float f = (float) mc.world.getTotalWorldTime() + (mc.isGamePaused() ? 0 : mc.getRenderPartialTicks());
 				GlStateManager.matrixMode(GL11.GL_TEXTURE);
 				GlStateManager.loadIdentity();
-				GlStateManager.translate(f * 0.001F, f * -0.01F, 0.0F);
+				GlStateManager.translate(frames * 0.001F, frames * -0.01F, 0.0F);
 				GlStateManager.scale(0.5F, 0.5F, 0.5F);
-				GlStateManager.rotate(f * 0.1F, 0, 1, 0);
+				GlStateManager.rotate(frames * 0.1F, 0, 1, 0);
 				GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 				tess.draw();
 				GlStateManager.matrixMode(GL11.GL_TEXTURE);
@@ -239,12 +279,11 @@ public class AoVOverlay extends Gui {
 				buffer.pos(0, 0, 0).tex(0, 0).color(0.5F, 0.5F, 0F, 1F).endVertex();
 
 				GlStateManager.pushMatrix();
-				float f = (float) mc.world.getTotalWorldTime() + (mc.isGamePaused() ? 0 : mc.getRenderPartialTicks());
 				GlStateManager.matrixMode(GL11.GL_TEXTURE);
 				GlStateManager.loadIdentity();
-				GlStateManager.translate(f * 0.01F, f * 0.01F, 0.0F);
+				GlStateManager.translate(frames * 0.01F, frames * 0.01F, 0.0F);
 				GlStateManager.scale(0.5F, 0.5F, 0.5F);
-				GlStateManager.rotate(f, 0, 0, 1);
+				GlStateManager.rotate(frames, 0, 0, 1);
 				GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 				tess.draw();
 				GlStateManager.matrixMode(GL11.GL_TEXTURE);
@@ -265,7 +304,7 @@ public class AoVOverlay extends Gui {
 		}
 	}
 
-	private void renderCharges(int x, int y, FontRenderer fontRender, IAoVCapability cap, int index) {
+	private void renderCharges(float x, float y, FontRenderer fontRender, IAoVCapability cap, int index) {
 		Ability ability = cap.getSlot(index);
 		int val = ability == null ? -1 : ability.getCharges();
 		if (val < 0)
@@ -276,8 +315,8 @@ public class AoVOverlay extends Gui {
 		drawCenteredStringNoShadow(fontRender, String.valueOf(val), x + 10, y + (ConfigHandler.renderBarOverHotbar || ConfigHandler.renderChargesAboveSpellbar ? 3 : 10), 0x000000);
 	}
 
-	private void drawCenteredStringNoShadow(FontRenderer fontRendererIn, String text, int x, int y, int color) {
-		fontRendererIn.drawString(text, (float) (x - fontRendererIn.getStringWidth(text) / 2), (float) y, color, false);
+	private void drawCenteredStringNoShadow(FontRenderer fontRendererIn, String text, float x, float y, int color) {
+		fontRendererIn.drawString(text, x - (float) fontRendererIn.getStringWidth(text) / 2F, y, color, false);
 	}
 
 	private void renderAstro(EntityPlayer player, ScaledResolution sr) {
