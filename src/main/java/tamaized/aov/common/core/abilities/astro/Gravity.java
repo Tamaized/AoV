@@ -21,7 +21,7 @@ public class Gravity extends AbilityBase {
 
 	private static final int charges = 8;
 	private static final int distance = 25;
-	private static final int damage = 10;
+	private static final int damage = 5;
 
 	public Gravity() {
 		super(
