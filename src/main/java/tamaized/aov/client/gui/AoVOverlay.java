@@ -174,10 +174,10 @@ public class AoVOverlay extends Gui {
 						float x = sW - 90F + (20F * (float) i);
 						float y = ClientTicker.charges.getValue(i);
 						float partialTicks = (mc.isGamePaused() ? 0 : e.getPartialTicks()) * AoVUIBar.slotLoc == i ? 1 : -1;
-						if(ConfigHandler.renderBarOverHotbar || ConfigHandler.renderChargesAboveSpellbar){
+						if (ConfigHandler.renderBarOverHotbar || ConfigHandler.renderChargesAboveSpellbar) {
 							y = 1F - y - partialTicks;
 							y = MathHelper.clamp(y, -15F, 1F);
-						}else{
+						} else {
 							y = 1F + y + partialTicks;
 							y = MathHelper.clamp(y, 1F, 15F);
 						}
@@ -239,7 +239,7 @@ public class AoVOverlay extends Gui {
 			ScaledResolution resolution = new ScaledResolution(mc);
 			float w = resolution.getScaledWidth();
 			float h = resolution.getScaledHeight();
-			float scale = 32F;
+			float scale = (4F - resolution.getScaleFactor() + 1F) * 32F;
 			float u = 1F / (scale / w);
 			float v = 1F / (scale / h);
 			Minecraft.getMinecraft().entityRenderer.setupOverlayRendering();
