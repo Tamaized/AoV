@@ -198,6 +198,7 @@ public final class Ability {
 		else if (timer == 0) {
 			timer--;
 			cooldown = (nextCooldown < 0 ? ability.getCoolDown() : nextCooldown) * ((ability.usesInvoke() && cap.getInvokeMass()) ? 2 : 1);
+			cap.setCooldown(ability, cooldown);
 			nextCooldown = -1;
 			cap.markDirty();
 		}
