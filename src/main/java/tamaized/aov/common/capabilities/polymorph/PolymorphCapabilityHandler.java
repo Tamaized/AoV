@@ -23,6 +23,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
@@ -176,7 +177,7 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 	@Override
 	public void update(EntityPlayer player) {
 		if (ENTITY_isImmuneToFire == null)
-			ENTITY_isImmuneToFire = ReflectionHelper.findField(Entity.class, "field_70178_ae", "isImmuneToFire");
+			ENTITY_isImmuneToFire = ObfuscationReflectionHelper.findField(Entity.class, "field_70178_ae");
 		if (attackCooldown > 0)
 			attackCooldown--;
 		if (attacking && attackCooldown < attackCooldownMax - 10 && (attackCooldown <= 0 || player.onGround))
