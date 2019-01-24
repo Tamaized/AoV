@@ -14,7 +14,7 @@ public abstract class CommonProxy extends AbstractProxy {
 		super(side);
 	}
 
-	public void spawnParticle(ParticleType type, World world, Vec3d pos, Vec3d target, int life, float gravity, float scale, int color){
+	public void spawnParticle(ParticleType type, World world, Vec3d pos, Vec3d target, int life, float gravity, float scale, int color) {
 
 	}
 

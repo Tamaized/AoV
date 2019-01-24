@@ -1,6 +1,5 @@
 package tamaized.aov.common.potion;
 
-import tamaized.aov.AoV;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
@@ -9,6 +8,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import tamaized.aov.AoV;
 
 public class PotionStalwartPact extends Potion {
 

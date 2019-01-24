@@ -6,7 +6,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -14,7 +13,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.client.sound.EntityMovingSound;
-import tamaized.tammodized.common.helper.MotionHelper;
 
 public class ClientPacketHandlerMovingSound implements IMessageHandler<ClientPacketHandlerMovingSound.Packet, IMessage> {
 
@@ -46,7 +44,7 @@ public class ClientPacketHandlerMovingSound implements IMessageHandler<ClientPac
 			this(entity, sound, 1, 1);
 		}
 
-		public Packet(Entity entity, int sound, float v, float p){
+		public Packet(Entity entity, int sound, float v, float p) {
 			e = entity.getEntityId();
 			soundID = sound;
 			volume = v;

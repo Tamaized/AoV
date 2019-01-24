@@ -16,7 +16,6 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
-import tamaized.aov.common.core.skills.SkillIcons;
 import tamaized.tammodized.common.helper.CapabilityHelper;
 import tamaized.tammodized.common.helper.RayTraceHelper;
 

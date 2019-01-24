@@ -45,7 +45,7 @@ public class ParticleHeartColor extends Particle {
 
 	@Override
 	public void onUpdate() {
-		if(true){
+		if (true) {
 			super.onUpdate();
 			return;
 		}

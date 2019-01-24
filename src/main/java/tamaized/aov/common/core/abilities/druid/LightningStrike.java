@@ -13,7 +13,6 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
-import tamaized.aov.common.core.skills.SkillIcons;
 import tamaized.aov.common.entity.EntitySpellLightningBolt;
 import tamaized.aov.common.helper.UtilHelper;
 import tamaized.tammodized.common.helper.CapabilityHelper;
@@ -93,7 +92,7 @@ public class LightningStrike extends AbilityBase {
 		Vec3d pos = UtilHelper.getSpellLocation(caster, RANGE, target);
 		strike.setPosition(pos.x, pos.y, pos.z);
 		caster.world.spawnEntity(strike);
-//		strike.world.playSound(null, strike.posX, strike.posY, strike.posZ, SoundEvents.firestrike, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+		//		strike.world.playSound(null, strike.posX, strike.posY, strike.posZ, SoundEvents.firestrike, SoundCategory.NEUTRAL, 1.0F, 1.0F);
 		return true;
 	}
 

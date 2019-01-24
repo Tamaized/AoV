@@ -19,7 +19,7 @@ public class RenderLivingHook {
 
 	@SubscribeEvent
 	public static void render(RenderLivingEvent.Pre<? extends EntityLivingBase> e) {
-		if(e.getEntity() != ClientProxy.getTarget())
+		if (e.getEntity() != ClientProxy.getTarget())
 			return;
 		GlStateManager.pushMatrix();
 		{

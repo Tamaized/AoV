@@ -24,7 +24,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -185,7 +184,7 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 		if (!player.world.isRemote && getMorph() != null && !IAoVCapability.isCentered(player, CapabilityHelper.getCap(player, CapabilityList.AOV, null))) {
 			morph(null);
 			IAoVCapability aov = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
-			if(aov != null)
+			if (aov != null)
 				aov.markDirty();
 		}
 		if (getMorph() == Morph.Wolf) {

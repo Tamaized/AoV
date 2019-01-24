@@ -139,7 +139,7 @@ public class AstroCapabilityHandler implements IAstroCapability {
 	public void redrawCard(EntityLivingBase entity) {
 		if (getDraw() != null) {
 			ICard newDraw = draw;
-			while(newDraw == draw)
+			while (newDraw == draw)
 				newDraw = ICard.getRandomCard();
 			draw = newDraw;
 			playAnimation(entity, IAnimation.Redraw);

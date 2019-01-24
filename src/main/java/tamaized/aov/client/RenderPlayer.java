@@ -294,7 +294,7 @@ public class RenderPlayer {
 			renderRightArm(abstractclientplayer);
 			GlStateManager.enableCull();
 		} else {
-			if(e.getItemStack().getItem() instanceof Handwraps && e.getHand() == EnumHand.MAIN_HAND){
+			if (e.getItemStack().getItem() instanceof Handwraps && e.getHand() == EnumHand.MAIN_HAND) {
 				Minecraft mc = Minecraft.getMinecraft();
 				float f = player.getSwingProgress(e.getPartialTicks());
 				EnumHand enumhand = MoreObjects.firstNonNull(player.swingingHand, EnumHand.MAIN_HAND);

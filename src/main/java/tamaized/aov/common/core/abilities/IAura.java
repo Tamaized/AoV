@@ -1,7 +1,7 @@
 package tamaized.aov.common.core.abilities;
 
-import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import net.minecraft.entity.player.EntityPlayer;
+import tamaized.aov.common.capabilities.aov.IAoVCapability;
 
 public interface IAura {
 

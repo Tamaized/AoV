@@ -1,10 +1,7 @@
 package tamaized.aov.common.capabilities.stun;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import tamaized.aov.AoV;
 import tamaized.aov.network.client.ClientPacketHandlerStunned;
@@ -44,12 +41,12 @@ public class StunCapabilityHandler implements IStunCapability {
 	}
 
 	private void sendPacketUpdates(Entity e) {
-		if(e.updateBlocked){
+		if (e.updateBlocked) {
 			mx = e.motionX;
 			my = e.motionY;
 			mz = e.motionZ;
 			e.motionX = e.motionY = e.motionZ = 0;
-		} else{
+		} else {
 			e.motionX = mx;
 			e.motionY = my;
 			e.motionZ = mz;

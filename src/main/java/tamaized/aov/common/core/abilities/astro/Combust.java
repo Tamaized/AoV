@@ -13,7 +13,6 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.entity.EntityCombust;
-import tamaized.aov.common.entity.EntityMalefic;
 import tamaized.aov.registry.SoundEvents;
 
 public class Combust extends AbilityBase {

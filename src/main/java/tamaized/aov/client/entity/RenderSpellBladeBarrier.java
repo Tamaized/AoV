@@ -1,6 +1,5 @@
 package tamaized.aov.client.entity;
 
-import tamaized.aov.common.entity.EntitySpellBladeBarrier;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderItem;
@@ -11,6 +10,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import tamaized.aov.common.entity.EntitySpellBladeBarrier;
 
 public class RenderSpellBladeBarrier<T extends EntitySpellBladeBarrier> extends Render<T> {
 

@@ -103,7 +103,7 @@ public class CelestialOpposition extends AbilityBase {
 						aov.addExp(caster, 25, ability.getAbility());
 					}
 				}
-				if(e == caster || IAoVCapability.canBenefit(caster, aov, e)){
+				if (e == caster || IAoVCapability.canBenefit(caster, aov, e)) {
 					for (PotionEffect effect : e.getActivePotionEffects())
 						if (!effect.getPotion().isBadEffect())
 							e.addPotionEffect(new PotionEffect(effect.getPotion(), effect.getDuration() + 400, effect.getAmplifier(), effect.getIsAmbient(), effect.doesShowParticles()));

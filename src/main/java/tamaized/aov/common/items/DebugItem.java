@@ -6,7 +6,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
-import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.registry.AoVTabs;
@@ -29,7 +28,7 @@ public class DebugItem extends TamItem {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, @Nonnull EnumHand hand) {
 		if (world.isRemote) {
-//			tamaized.aov.client.RenderAstro.testVarPleaseIgnore = 12 * 200;
+			//			tamaized.aov.client.RenderAstro.testVarPleaseIgnore = 12 * 200;
 			return super.onItemRightClick(world, player, hand);
 		}
 		if (player.hasCapability(CapabilityList.AOV, null)) {

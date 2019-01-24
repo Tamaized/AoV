@@ -1,7 +1,5 @@
 package tamaized.aov.client.entity;
 
-import tamaized.aov.AoV;
-import tamaized.aov.common.entity.ProjectileFlameStrike;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -10,6 +8,8 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
+import tamaized.aov.AoV;
+import tamaized.aov.common.entity.ProjectileFlameStrike;
 
 import java.util.Random;
 

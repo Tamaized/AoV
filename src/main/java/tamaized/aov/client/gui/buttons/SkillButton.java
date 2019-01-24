@@ -1,12 +1,12 @@
 package tamaized.aov.client.gui.buttons;
 
-import tamaized.aov.common.capabilities.aov.IAoVCapability;
-import tamaized.aov.common.core.skills.AoVSkill;
-import tamaized.aov.client.gui.AoVUIBar;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
+import tamaized.aov.client.gui.AoVUIBar;
+import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.core.skills.AoVSkill;
 
 public class SkillButton extends GuiButton {
 

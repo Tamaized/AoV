@@ -1,8 +1,8 @@
 package tamaized.aov.common.core.abilities.cleric.Healing;
 
+import net.minecraft.util.ResourceLocation;
 import tamaized.aov.AoV;
 import tamaized.aov.common.core.abilities.cleric.CureWounds;
-import net.minecraft.util.ResourceLocation;
 
 public class CureLightWounds extends CureWounds {
 

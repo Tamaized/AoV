@@ -6,7 +6,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import tamaized.aov.registry.SoundEvents;
 
 @SideOnly(Side.CLIENT)
 public class EntityMovingSound extends MovingSound {

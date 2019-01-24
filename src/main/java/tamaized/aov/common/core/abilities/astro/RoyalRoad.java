@@ -15,8 +15,6 @@ import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 
-import javax.annotation.Nullable;
-
 public class RoyalRoad extends AbilityBase {
 
 	private static final ResourceLocation icon = new ResourceLocation(AoV.modid, "textures/spells/royalroad.png");

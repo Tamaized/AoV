@@ -17,8 +17,8 @@ public class ModelPolymorphWolf extends ModelWolf {
 		/*if (entitywolf.isAngry()) {
 			this.wolfTail.rotateAngleY = 0.0F;
 		} else {*/
-			this.wolfTail.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F) * 0.8F * limbSwingAmount;
-//		}
+		this.wolfTail.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F) * 0.8F * limbSwingAmount;
+		//		}
 
 		/*if (entitywolf.isSitting()) {
 			this.wolfMane.setRotationPoint(-1.0F, 16.0F, -3.0F);

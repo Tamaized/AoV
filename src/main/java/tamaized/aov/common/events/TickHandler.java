@@ -20,7 +20,6 @@ import tamaized.aov.common.capabilities.astro.IAstroCapability;
 import tamaized.aov.common.capabilities.leap.ILeapCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.capabilities.stun.IStunCapability;
-import tamaized.aov.common.helper.UtilHelper;
 import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.AoVPotions;
 import tamaized.tammodized.common.helper.CapabilityHelper;
@@ -52,7 +51,7 @@ public class TickHandler {
 		if (e.phase == TickEvent.Phase.START)
 			return;
 		EntityPlayer player = e.player;
-		if(player.getHealth() <= (player.getMaxHealth() / 2)) {
+		if (player.getHealth() <= (player.getMaxHealth() / 2)) {
 			if (player.getActivePotionEffect(AoVPotions.stalwartPact) != null) {
 				player.removeActivePotionEffect(AoVPotions.stalwartPact);
 				player.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, (20 * (60 * 5)), 2));
@@ -88,7 +87,7 @@ public class TickHandler {
 	public void updateLiving(LivingEvent.LivingUpdateEvent e) {
 		EntityLivingBase living = e.getEntityLiving();
 		IPolymorphCapability poly = CapabilityHelper.getCap(living, CapabilityList.POLYMORPH, null);
-		if(poly != null && (poly.getMorph() == IPolymorphCapability.Morph.WaterElemental || poly.getMorph() == IPolymorphCapability.Morph.FireElemental))
+		if (poly != null && (poly.getMorph() == IPolymorphCapability.Morph.WaterElemental || poly.getMorph() == IPolymorphCapability.Morph.FireElemental))
 			for (Potion potion : IPolymorphCapability.ELEMENTAL_IMMUNITY_EFFECTS)
 				living.removePotionEffect(potion);
 		if (living.world.isRemote)

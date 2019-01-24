@@ -107,7 +107,7 @@ public abstract class CureWounds extends AbilityBase {
 		}
 	}
 
-	private void heal(EntityLivingBase entity, EntityLivingBase caster, int dmg, IAoVCapability cap){
+	private void heal(EntityLivingBase entity, EntityLivingBase caster, int dmg, IAoVCapability cap) {
 		if (entity.isEntityUndead()) {
 			entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, caster), dmg);
 			SoundEvents.playMovingSoundOnServer(SoundEvents.heal, entity);
