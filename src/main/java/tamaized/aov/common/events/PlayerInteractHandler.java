@@ -36,9 +36,9 @@ public class PlayerInteractHandler {
 	}
 
 	@SubscribeEvent
-	public void onWakeUp(PlayerWakeUpEvent e) {
+	public void onWakeUp(PlayerWakeUpEvent e) { // WorldServer#wakeAllPlayers is the only vanilla method that passes (false, false, true)
 		EntityPlayer player = e.getEntityPlayer();
-		if (player != null && e.shouldSetSpawn()) {
+		if (player != null && !e.wakeImmediately() && !e.updateWorld() && e.shouldSetSpawn()) {
 			IAoVCapability cap = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
 			if (cap != null)
 				cap.resetCharges(player);
