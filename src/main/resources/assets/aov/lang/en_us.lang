@@ -123,7 +123,7 @@ aov.spells.slayliving.desc=§5Destroys a living target. Does not affect Undead o
 aov.spells.orderswrath.name=§eOrder's Wrath
 aov.spells.orderswrath.desc=§5Call upon a Lawful power to damage your foes. Stuns Undead.
 aov.spells.chaoshammer.name=§eChaotic Hammer
-aov.spells.chaoshammer.desc=§5Call upon a Chaotic Power to damage your foes. Stuns Non-Undead.
+aov.spells.chaoshammer.desc=§5Call upon a Chaotic power to damage your foes. Stuns Non-Undead.
 aov.spells.aid.name=§eAid
 aov.spells.aid.desc=§5Grants absorption and a +5 bonus to dodge.
 aov.spells.faith.name=§eShield of Faith
@@ -233,6 +233,8 @@ aov.skill.favoredsoul.core.5.req=§cRequires: Favored Soul Core 4
 aov.skill.favoredsoul.tier1.1.name=§bSearing Light
 aov.skill.favoredsoul.tier1.1.desc=§eAdded Spell: Searing Light
 aov.skill.favoredsoul.tier1.3.name=§bSpell Power I
+aov.skill.favoredsoul.tier1.5.name=§bCure Light Wounds
+aov.skill.favoredsoul.tier1.5.desc=§eAdded Spell: Cure Light Wounds
 ### T2
 aov.skill.favoredsoul.tier2.1.name=§bOrder's Wrath
 aov.skill.favoredsoul.tier2.1.desc=§eAdded Spell: Order's Wrath
@@ -248,6 +250,8 @@ aov.skill.favoredsoul.tier3.2.name=§bCharges II
 aov.skill.favoredsoul.tier3.2.req=§cRequires: Charges I
 aov.skill.favoredsoul.tier3.3.name=§bSpell Power III
 aov.skill.favoredsoul.tier3.3.req=§cRequires: Spell Power II
+aov.skill.favoredsoul.tier3.5.name=§bCure Moderate Wounds
+aov.skill.favoredsoul.tier3.5.desc=§eAdded Ability: Cure Moderate Wounds
 ### T4
 aov.skill.favoredsoul.tier4.1.name=§bImplosion
 aov.skill.favoredsoul.tier4.1.desc=§eAdded Spell: Implosion

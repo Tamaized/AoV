@@ -31,8 +31,8 @@ public class FavoredSoulSkillRegisterButtons implements IClassButtons {
 		instance.addNewButton(sbI);
 		// sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width/2 + 12, instance.height-88, AoVSkills.favoredsoul_tier_1_4);
 		// instance.addNewButton(sbI);
-		// sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width/2 + 37, instance.height-88, AoVSkills.favoredsoul_tier_1_5);
-		// instance.addNewButton(sbI);
+		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 37, instance.height - 88, AoVSkills.favoredsoul_tier_1_5);
+		instance.addNewButton(sbI);
 
 		/* Tier 2 */
 		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 63, instance.height - 128, AoVSkills.favoredsoul_tier_2_1);
@@ -55,8 +55,8 @@ public class FavoredSoulSkillRegisterButtons implements IClassButtons {
 		instance.addNewButton(sbI);
 		// sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width/2 + 12, instance.height-168, AoVSkills.favoredsoul_tier_3_4);
 		// instance.addNewButton(sbI);
-		// sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 37, instance.height - 168, AoVSkills.favoredsoul_tier_3_5);
-		// instance.addNewButton(sbI);
+		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 + 37, instance.height - 168, AoVSkills.favoredsoul_tier_3_5);
+		instance.addNewButton(sbI);
 
 		/* Tier 4 */
 		sbI = new SkillButton(AoVSkillsGUI.getSkillButtonID(), instance.width / 2 - 63, instance.height - 208, AoVSkills.favoredsoul_tier_4_1);

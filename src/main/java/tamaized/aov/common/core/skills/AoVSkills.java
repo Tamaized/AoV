@@ -48,6 +48,7 @@ public class AoVSkills {
 
 	public static AoVSkill favoredsoul_tier_1_1;
 	public static AoVSkill favoredsoul_tier_1_3;
+	public static AoVSkill favoredsoul_tier_1_5;
 
 	public static AoVSkill favoredsoul_tier_2_1;
 	public static AoVSkill favoredsoul_tier_2_2;
@@ -56,6 +57,7 @@ public class AoVSkills {
 	public static AoVSkill favoredsoul_tier_3_1;
 	public static AoVSkill favoredsoul_tier_3_2;
 	public static AoVSkill favoredsoul_tier_3_3;
+	public static AoVSkill favoredsoul_tier_3_5;
 
 	public static AoVSkill favoredsoul_tier_4_1;
 	public static AoVSkill favoredsoul_tier_4_3;
@@ -181,6 +183,7 @@ public class AoVSkills {
 
 		favoredsoul_tier_1_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.favoredsoul.tier1.1.name"), Abilities.searingLight.getIcon(), 0, 1, 0, 1, 0, 0, 0, false, favoredsoul_core_1, Lists.newArrayList(Abilities.searingLight)).setupTooltip(new TextComponentTranslation("aov.skill.favoredsoul.tier1.1.desc")));
 		favoredsoul_tier_1_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.favoredsoul.tier1.3.name"), SkillIcons.SPELLPOWER, 0, 1, 0, 1, 15, 0, 0, false, favoredsoul_core_1, Lists.newArrayList()).setupTooltip(null));
+		favoredsoul_tier_1_5 = register(new AoVSkill(new TextComponentTranslation("aov.skill.favoredsoul.tier1.5.name"), Abilities.cureLightWounds.getIcon(), 0, 1, 0, 1, 0, 0, 0, false, favoredsoul_core_1, Lists.newArrayList(Abilities.cureLightWounds)).setupTooltip(new TextComponentTranslation("aov.skill.favoredsoul.tier1.5.desc")));
 
 		favoredsoul_tier_2_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.favoredsoul.tier2.1.name"), Abilities.ordersWrath.getIcon(), 0, 4, 0, 1, 0, 0, 0, false, favoredsoul_tier_1_1, Lists.newArrayList(Abilities.ordersWrath)).setupTooltip(new TextComponentTranslation("aov.skill.favoredsoul.tier2.1.desc")));
 		favoredsoul_tier_2_2 = register(new AoVSkill(new TextComponentTranslation("aov.skill.favoredsoul.tier2.2.name"), SkillIcons.CHARGES, 0, 4, 1, 1, 0, 0, 0, false, favoredsoul_core_1, Lists.newArrayList()).setupTooltip(null));
@@ -189,6 +192,7 @@ public class AoVSkills {
 		favoredsoul_tier_3_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.favoredsoul.tier3.1.name"), Abilities.chaosHammer.getIcon(), 0, 8, 0, 1, 0, 0, 0, false, favoredsoul_tier_2_1, Lists.newArrayList(Abilities.chaosHammer)).setupTooltip(new TextComponentTranslation("aov.skill.favoredsoul.tier3.1.desc")));
 		favoredsoul_tier_3_2 = register(new AoVSkill(new TextComponentTranslation("aov.skill.favoredsoul.tier3.2.name"), SkillIcons.CHARGES, 0, 8, 1, 1, 0, 0, 0, false, favoredsoul_tier_2_2, Lists.newArrayList()).setupTooltip(null));
 		favoredsoul_tier_3_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.favoredsoul.tier3.3.name"), SkillIcons.SPELLPOWER, 0, 8, 0, 1, 15, 0, 0, false, favoredsoul_tier_2_3, Lists.newArrayList()).setupTooltip(null));
+		favoredsoul_tier_3_5 = register(new AoVSkill(new TextComponentTranslation("aov.skill.favoredsoul.tier3.5.name"), Abilities.cureModWounds.getIcon(), 0, 8, 0, 1, 0, 0, 0, false, favoredsoul_tier_1_5, Lists.newArrayList(Abilities.cureModWounds)).setupTooltip(new TextComponentTranslation("aov.skill.favoredsoul.tier3.5.desc")));
 
 		favoredsoul_tier_4_1 = register(new AoVSkill(new TextComponentTranslation("aov.skill.favoredsoul.tier4.1.name"), Abilities.implosion.getIcon(), 0, 12, 0, 1, 0, 0, 0, false, favoredsoul_tier_3_1, Lists.newArrayList(Abilities.implosion)).setupTooltip(new TextComponentTranslation("aov.skill.favoredsoul.tier4.1.desc")));
 		favoredsoul_tier_4_3 = register(new AoVSkill(new TextComponentTranslation("aov.skill.favoredsoul.tier4.3.name"), SkillIcons.SPELLPOWER, 0, 12, 0, 1, 25, 0, 0, false, favoredsoul_tier_3_3, Lists.newArrayList()).setupTooltip(null));
