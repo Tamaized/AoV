@@ -10,7 +10,8 @@
   "heal": {"category": "neutral", "sounds": [{"name": "aov:heal", "stream": false}]},
   "implosion": {"category": "neutral", "sounds": [{"name": "aov:implosion", "stream": false}]},
   "restore": {"category": "neutral", "sounds": [{"name": "aov:restore", "stream": false}]},
-  
+  "chaoshammer": {"category": "neutral", "sounds": [{"name": "aov:chaoshammer", "stream": false}]},
+  "orderswrath": {"category": "neutral", "sounds": [{"name": "aov:orderswrath", "stream": false}]},
   "activate": {"category": "neutral", "sounds": [{"name": "aov:activate", "stream": false}]},
   "burn": {"category": "neutral", "sounds": [{"name": "aov:burn", "stream": false}]},
   "draw1": {"category": "neutral", "sounds": [{"name": "aov:draw1", "stream": false}]},

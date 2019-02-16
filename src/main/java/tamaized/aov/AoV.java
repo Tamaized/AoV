@@ -33,6 +33,7 @@ import tamaized.aov.common.commands.CommandAoV;
 import tamaized.aov.common.config.ConfigHandler;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.skills.AoVSkills;
+import tamaized.aov.common.entity.EntityAlignmentAoE;
 import tamaized.aov.common.entity.EntityCelestialOpposition;
 import tamaized.aov.common.entity.EntityCombust;
 import tamaized.aov.common.entity.EntityDruidicWolf;
@@ -161,6 +162,7 @@ public class AoV extends TamModBase {
 		registerEntity(EntityEarthquake.class, "EntityEarthquake", this, modid, 256, 1, true);
 		registerEntity(EntitySpellLightningStorm.class, "EntitySpellLightningStorm", this, modid, 256, 1, true);
 		registerEntity(EntityDruidicWolf.class, "EntityDruidicWolf", this, modid, 256, 1, true);
+		registerEntity(EntityAlignmentAoE.class, "EntityAlignmentAoE", this, modid, 256, 1, true);
 	}
 
 	@Override

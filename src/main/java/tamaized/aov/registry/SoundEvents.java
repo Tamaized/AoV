@@ -24,7 +24,8 @@ public class SoundEvents {
 	public static SoundEvent heal = null;
 	public static SoundEvent implosion = null;
 	public static SoundEvent restore = null;
-
+	public static SoundEvent chaosHammer = null;
+	public static SoundEvent ordersWrath = null;
 	public static SoundEvent activate = null;
 	public static SoundEvent burn = null;
 	public static SoundEvent draw1 = null;
@@ -55,7 +56,8 @@ public class SoundEvents {
 		heal = registerSound(event, "heal");
 		implosion = registerSound(event, "implosion");
 		restore = registerSound(event, "restore");
-
+		chaosHammer = registerSound(event, "chaoshammer");
+		ordersWrath = registerSound(event, "orderswrath");
 		activate = registerSound(event, "activate");
 		burn = registerSound(event, "burn");
 		draw1 = registerSound(event, "draw1");

@@ -36,14 +36,13 @@ import tamaized.aov.common.core.abilities.druid.LightningStorm;
 import tamaized.aov.common.core.abilities.druid.LightningStrike;
 import tamaized.aov.common.core.abilities.druid.NaturesBounty;
 import tamaized.aov.common.core.abilities.druid.Polymorph;
+import tamaized.aov.common.core.abilities.favoredsoul.AlignmentAoE;
 import tamaized.aov.common.core.abilities.favoredsoul.BladeBarrier;
-import tamaized.aov.common.core.abilities.favoredsoul.Destruction;
 import tamaized.aov.common.core.abilities.favoredsoul.FlameStrike;
 import tamaized.aov.common.core.abilities.favoredsoul.Implosion;
 import tamaized.aov.common.core.abilities.favoredsoul.LeapOfFaith;
 import tamaized.aov.common.core.abilities.favoredsoul.NimbusRay;
 import tamaized.aov.common.core.abilities.favoredsoul.SearingLight;
-import tamaized.aov.common.core.abilities.favoredsoul.SlayLiving;
 import tamaized.aov.common.core.abilities.paladin.Aid;
 import tamaized.aov.common.core.abilities.paladin.ShieldOfFaith;
 import tamaized.aov.common.core.abilities.paladin.StalwartPact;
@@ -72,10 +71,11 @@ public class Abilities {
 	public static AbilityBase searingLight;
 	public static AbilityBase flameStrike;
 	public static AbilityBase leapOfFaith;
-	public static AbilityBase slayLiving;
-	public static AbilityBase destruction;
+	public static AbilityBase ordersWrath;
+	public static AbilityBase chaosHammer;
 	public static AbilityBase implosion;
 	public static AbilityBase bladeBarrier;
+	public static AbilityBase archAngelicForm;
 
 	// Paladin
 	public static AbilityBase aid;
@@ -118,6 +118,10 @@ public class Abilities {
 	public static AbilityBase wildshapeFireElemental;
 	public static AbilityBase elementalEmpowerment;
 
+	//TODO: remove
+	public static AbilityBase slayLiving;
+	public static AbilityBase destruction;
+
 	public static void register() {
 
 		// Universal
@@ -140,8 +144,10 @@ public class Abilities {
 		searingLight = new SearingLight();
 		flameStrike = new FlameStrike();
 		leapOfFaith = new LeapOfFaith();
-		slayLiving = new SlayLiving();
-		destruction = new Destruction();
+		//		slayLiving = new SlayLiving();
+		//		destruction = new Destruction();
+		ordersWrath = new AlignmentAoE(AlignmentAoE.Type.OrdersWrath);
+		chaosHammer = new AlignmentAoE(AlignmentAoE.Type.ChaosHammer);
 		implosion = new Implosion();
 		bladeBarrier = new BladeBarrier();
 
@@ -184,6 +190,9 @@ public class Abilities {
 		formPack = new FormPack();
 		wildshapeFireElemental = new Polymorph("fire", IPolymorphCapability.Morph.FireElemental);
 		elementalEmpowerment = new ElementalEmpowerment();
+
+		// TODO: move to proper area when breaking changes happen
+		archAngelicForm = new Polymorph("archangelic", IPolymorphCapability.Morph.ArchAngel);
 	}
 
 }

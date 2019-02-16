@@ -54,9 +54,19 @@ public interface IPolymorphCapability {
 
 	enum Morph {
 
-		Wolf, FireElemental, WaterElemental;
+		Wolf, FireElemental, WaterElemental, ArchAngel(false);
 
 		public static final Morph[] values = values();
+
+		public final boolean requiresCentered;
+
+		Morph() {
+			this(true);
+		}
+
+		Morph(boolean centered) {
+			requiresCentered = centered;
+		}
 
 		public static Morph getMorph(int ordinal) {
 			return (ordinal < 0 || ordinal >= values.length) ? null : values[ordinal];

@@ -12,6 +12,7 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import tamaized.aov.client.ClientHelpers;
 import tamaized.aov.client.RenderPlayer;
 import tamaized.aov.client.SizedFontRenderer;
+import tamaized.aov.client.entity.RenderAlignmentAoE;
 import tamaized.aov.client.entity.RenderCelestialOpposition;
 import tamaized.aov.client.entity.RenderCombust;
 import tamaized.aov.client.entity.RenderDruidicWolf;
@@ -29,6 +30,7 @@ import tamaized.aov.client.events.KeyHandler;
 import tamaized.aov.client.gui.AoVOverlay;
 import tamaized.aov.client.particle.ParticleFeather;
 import tamaized.aov.client.particle.ParticleHeartColor;
+import tamaized.aov.common.entity.EntityAlignmentAoE;
 import tamaized.aov.common.entity.EntityCelestialOpposition;
 import tamaized.aov.common.entity.EntityCombust;
 import tamaized.aov.common.entity.EntityDruidicWolf;
@@ -106,6 +108,7 @@ public class ClientProxy extends CommonProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityEarthquake.class, RenderEarthquake::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntitySpellLightningStorm.class, RenderSpellLightingStorm::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityDruidicWolf.class, RenderDruidicWolf::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityAlignmentAoE.class, RenderAlignmentAoE::new);
 
 	}
 
