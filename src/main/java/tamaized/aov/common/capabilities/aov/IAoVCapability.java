@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityOwnable;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -38,7 +39,7 @@ public interface IAoVCapability {
 						!caster.isOnSameTeam(entity)) || // Not the same team, return true
 				(!(entity instanceof IEntityOwnable && // Target is a possible pet
 						((IEntityOwnable) entity).getOwner() == caster) && // If this is our pet, dont do the final player check, let it return false
-						!(entity instanceof EntityPlayer))); // Wasn't our pet, we're not on a team, is target a player? if not return true
+						(!(entity instanceof EntityPlayer) && !(entity instanceof IAnimals)))); // Wasn't our pet, we're not on a team, is target a player or passive mob? if not return true
 		// If all the above fails, it'll return false.
 	}
 
