@@ -218,7 +218,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 			setDead();
 
 		if (!world.isRemote)
-			for (Entity e : world.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().grow(0.5F))) {
+			for (Entity e : world.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().grow(speed * 2F))) {
 				if (e == this || e == shootingEntity || !canHitEntity(e))
 					continue;
 				onHit(e);
