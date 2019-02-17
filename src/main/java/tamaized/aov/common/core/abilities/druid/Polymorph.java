@@ -3,7 +3,7 @@ package tamaized.aov.common.core.abilities.druid;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -15,6 +15,7 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
+import tamaized.aov.registry.AoVPotions;
 import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import javax.annotation.Nullable;
@@ -63,7 +64,7 @@ public class Polymorph extends AbilityBase {
 
 	@Override
 	public int getCoolDown() {
-		return 60;
+		return type == IPolymorphCapability.Morph.ArchAngel ? 600 : 60;
 	}
 
 	@Override
@@ -84,7 +85,7 @@ public class Polymorph extends AbilityBase {
 	@Override
 	public boolean canUseOnCooldown(IAoVCapability cap, EntityPlayer caster) {
 		IPolymorphCapability poly = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
-		return poly != null && poly.getMorph() == type;
+		return poly != null && poly.getMorph() == type && type != IPolymorphCapability.Morph.ArchAngel;
 	}
 
 	@Override
@@ -100,9 +101,11 @@ public class Polymorph extends AbilityBase {
 		boolean cooldown = true;
 		IPolymorphCapability cap = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
 		if (cap != null) {
-			if (cap.getMorph() != type)
+			if (cap.getMorph() != type || type == IPolymorphCapability.Morph.ArchAngel) {
 				cap.morph(type);
-			else {
+				if (type == IPolymorphCapability.Morph.ArchAngel)
+					caster.addPotionEffect(new PotionEffect(AoVPotions.slowFall, 120 * 20));
+			} else {
 				cap.morph(null);
 				cooldown = false;
 			}
@@ -110,7 +113,12 @@ public class Polymorph extends AbilityBase {
 			if (aov != null)
 				aov.markDirty();
 		}
-		caster.world.playSound(null, caster.posX, caster.posY, caster.posZ, SoundEvents.ENTITY_ELDER_GUARDIAN_CURSE, SoundCategory.PLAYERS, 0.5F, caster.getRNG().nextFloat() * 0.75F + 0.25F);
+		float pitch = type == IPolymorphCapability.Morph.ArchAngel ?
+
+				caster.getRNG().nextFloat() * 0.20F + 0.95F :
+
+				caster.getRNG().nextFloat() * 0.75F + 0.25F;
+		caster.world.playSound(null, caster.posX, caster.posY, caster.posZ, type.sound, SoundCategory.PLAYERS, 0.5F, pitch);
 		return cooldown;
 	}
 

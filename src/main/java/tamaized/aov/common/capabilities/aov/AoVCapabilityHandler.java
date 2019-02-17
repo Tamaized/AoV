@@ -276,7 +276,11 @@ public class AoVCapabilityHandler implements IAoVCapability {
 				if (poly.getMorph() == IPolymorphCapability.Morph.Wolf) {
 					doublestrike += 15;
 					dodge += 10;
-				} else if (poly.getMorph() == IPolymorphCapability.Morph.FireElemental && player.world.getWorldTime() % 24000 < 12000) // Day (6 AM)
+				} else if(poly.getMorph() == IPolymorphCapability.Morph.ArchAngel){
+					spellpower += 75;
+					dodge += 25;
+				}
+				else if (poly.getMorph() == IPolymorphCapability.Morph.FireElemental && player.world.getWorldTime() % 24000 < 12000) // Day (6 AM)
 					spellpower += 20;
 				else if (poly.getMorph() == IPolymorphCapability.Morph.WaterElemental && player.world.getWorldTime() % 24000 >= 12000) // Night (6 PM)
 					spellpower += 20;

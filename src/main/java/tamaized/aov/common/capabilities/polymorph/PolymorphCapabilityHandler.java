@@ -33,6 +33,7 @@ import tamaized.aov.common.entity.EntityDruidicWolf;
 import tamaized.aov.common.helper.UtilHelper;
 import tamaized.aov.network.client.ClientPacketHandlerPolymorphDogAttack;
 import tamaized.aov.network.server.ServerPacketHandlerPolymorphDogAttack;
+import tamaized.aov.registry.AoVPotions;
 import tamaized.tammodized.common.helper.CapabilityHelper;
 import tamaized.tammodized.common.particles.ParticleHelper;
 
@@ -66,6 +67,7 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 	// XX1X - Dangerous Biome Elemental (0 = Water; 1 = Fire)
 	// XXX1 - Dangerous Biome Temperature
 	private byte flagBits = 0b0000;
+	private int polymorphTicker;
 
 	private static boolean isTeleportFriendlyBlock(World world, Entity entity, int x, int z, int y, int xOffset, int zOffset) {
 		BlockPos blockpos = new BlockPos(x + xOffset, y - 1, z + zOffset);
@@ -81,6 +83,8 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 	@Override
 	public void morph(Morph type) {
 		morph = type;
+		if (type == Morph.ArchAngel)
+			polymorphTicker = 20 * 120;
 	}
 
 	@Override
@@ -177,6 +181,13 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 	public void update(EntityPlayer player) {
 		if (ENTITY_isImmuneToFire == null)
 			ENTITY_isImmuneToFire = ObfuscationReflectionHelper.findField(Entity.class, "field_70178_ae");
+		if (!player.world.isRemote && getMorph() == Morph.ArchAngel && polymorphTicker-- <= 0) {
+			morph(null);
+			player.removePotionEffect(AoVPotions.slowFall);
+			IAoVCapability aov = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
+			if (aov != null)
+				aov.markDirty();
+		}
 		if (attackCooldown > 0)
 			attackCooldown--;
 		if (attacking && attackCooldown < attackCooldownMax - 10 && (attackCooldown <= 0 || player.onGround))
@@ -206,6 +217,11 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 			UtilHelper.setSize(player, 0.6F, 1.8F);
 			player.eyeHeight = player.getDefaultEyeHeight();
 			setLocalMorphSize(false);
+		}
+		if (getMorph() == Morph.ArchAngel) {
+			if (!player.world.isRemote) {
+				player.setAir(300);
+			}
 		}
 		if (getMorph() == Morph.WaterElemental || getMorph() == Morph.FireElemental) {
 			if (!player.world.isRemote) {

@@ -8,6 +8,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
@@ -249,7 +250,7 @@ public class AoVOverlay extends Gui {
 			GlStateManager.color(1F, 1F, 1F, 1F);
 			GL11.glEnable(GL11.GL_STENCIL_TEST);
 
-			GL11.glStencilFunc(GL11.GL_EQUAL, hackyshit ? 10 : 8, 0xFF); // Water
+			GL11.glStencilFunc(GL11.GL_EQUAL, 8 + (hackyshit ? 3 : 0), 0xFF); // Water
 			{
 				buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
 				buffer.pos(0, h, 0).tex(0, v).color(0F, 0.5F, 0.75F, 0.75F).endVertex();
@@ -270,7 +271,7 @@ public class AoVOverlay extends Gui {
 				GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 				GlStateManager.popMatrix();
 			}
-			GL11.glStencilFunc(GL11.GL_EQUAL, hackyshit ? 11 : 9, 0xFF); // Fire
+			GL11.glStencilFunc(GL11.GL_EQUAL, 9 + (hackyshit ? 3 : 0), 0xFF); // Fire
 			{
 				buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
 				buffer.pos(0, h, 0).tex(0, v).color(0.75F, 0.25F, 0F, 0.75F).endVertex();
@@ -286,6 +287,29 @@ public class AoVOverlay extends Gui {
 				GlStateManager.rotate(frames, 0, 0, 1);
 				GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 				tess.draw();
+				GlStateManager.matrixMode(GL11.GL_TEXTURE);
+				GlStateManager.loadIdentity();
+				GlStateManager.matrixMode(GL11.GL_MODELVIEW);
+				GlStateManager.popMatrix();
+			}
+			GL11.glStencilFunc(GL11.GL_EQUAL, 10 + (hackyshit ? 3 : 0), 0xFF); // Arch-Angel
+			{
+				buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
+				buffer.pos(0, h, 0).tex(0, v).color(1F, 0.85F, 0.2F, 0.75F).endVertex();
+				buffer.pos(w, h, 0).tex(u, v).color(1F, 0.85F, 0.2F, 0.75F).endVertex();
+				buffer.pos(w, 0, 0).tex(u, 0).color(1F, 0.85F, 0.2F, 0.75F).endVertex();
+				buffer.pos(0, 0, 0).tex(0, 0).color(1F, 0.85F, 0.2F, 0.75F).endVertex();
+
+				GlStateManager.pushMatrix();
+				GlStateManager.matrixMode(GL11.GL_TEXTURE);
+				GlStateManager.loadIdentity();
+				GlStateManager.translate(0.0F, frames * 0.1F, 0.0F);
+				GlStateManager.scale(0.5F, 0.5F, 0.5F);
+				//				GlStateManager.rotate(frames, 0, 0, 1);
+				GlStateManager.matrixMode(GL11.GL_MODELVIEW);
+				GlStateManager.blendFunc(GL11.GL_ONE, GL11.GL_ONE);
+				tess.draw();
+				GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 				GlStateManager.matrixMode(GL11.GL_TEXTURE);
 				GlStateManager.loadIdentity();
 				GlStateManager.matrixMode(GL11.GL_MODELVIEW);

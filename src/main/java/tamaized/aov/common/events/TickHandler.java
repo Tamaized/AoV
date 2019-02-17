@@ -25,8 +25,11 @@ import tamaized.aov.registry.AoVPotions;
 import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import java.util.List;
+import java.util.UUID;
 
 public class TickHandler {
+
+	private static final List<UUID> FLYING = Lists.newArrayList();
 
 	private static void spawnSlowfallParticles(EntityLivingBase living) {
 		ILeapCapability cap = CapabilityHelper.getCap(living, CapabilityList.LEAP, null);
@@ -87,12 +90,26 @@ public class TickHandler {
 	public void updateLiving(LivingEvent.LivingUpdateEvent e) {
 		EntityLivingBase living = e.getEntityLiving();
 		IPolymorphCapability poly = CapabilityHelper.getCap(living, CapabilityList.POLYMORPH, null);
-		if (poly != null && (poly.getMorph() == IPolymorphCapability.Morph.WaterElemental || poly.getMorph() == IPolymorphCapability.Morph.FireElemental))
+		if (poly != null && (poly.getMorph() == IPolymorphCapability.Morph.WaterElemental || poly.getMorph() == IPolymorphCapability.Morph.FireElemental || poly.getMorph() == IPolymorphCapability.Morph.ArchAngel))
 			for (Potion potion : IPolymorphCapability.ELEMENTAL_IMMUNITY_EFFECTS)
 				living.removePotionEffect(potion);
 		if (living.world.isRemote)
 			spawnSlowfallParticles(living);
 		else {
+			EntityPlayer player = living instanceof EntityPlayer ? (EntityPlayer) living : null;
+			if (player != null)
+				if (poly != null && poly.getMorph() == IPolymorphCapability.Morph.ArchAngel) {
+					if (!FLYING.contains(player.getUniqueID())) {
+						FLYING.add(player.getUniqueID());
+						player.capabilities.allowFlying = true;
+						player.sendPlayerAbilities();
+					}
+				} else if (FLYING.remove(player.getUniqueID())) {
+					player.capabilities.allowFlying = false;
+					player.capabilities.disableDamage = false;
+					player.capabilities.isFlying = false;
+					player.sendPlayerAbilities();
+				}
 			ILeapCapability cap = CapabilityHelper.getCap(living, CapabilityList.LEAP, null);
 			PotionEffect pot = living.getActivePotionEffect(AoVPotions.slowFall);
 			if (pot == null || cap == null)

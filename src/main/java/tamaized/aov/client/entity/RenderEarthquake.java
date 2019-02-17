@@ -120,7 +120,7 @@ public class RenderEarthquake extends Render<EntityEarthquake> {
 		GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.SRC_COLOR, GlStateManager.DestFactor.ZERO);
 		GL11.glEnable(GL11.GL_STENCIL_TEST);
 		GL11.glStencilMask(0xFF);
-		GL11.glStencilFunc(GL11.GL_ALWAYS, 12, 0xFF);
+		GL11.glStencilFunc(GL11.GL_ALWAYS, 6, 0xFF);
 		GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_REPLACE);
 		{
 			renderShadow(entity, x, y, z, 1F, partialTicks);
@@ -133,7 +133,7 @@ public class RenderEarthquake extends Render<EntityEarthquake> {
 
 	private void renderQuakes(@Nonnull EntityEarthquake entity, double x, double y, double z, float partialTicks) {
 		GL11.glEnable(GL11.GL_STENCIL_TEST);
-		GL11.glStencilFunc(GL11.GL_EQUAL, 12, 0xFF);
+		GL11.glStencilFunc(GL11.GL_EQUAL, 6, 0xFF);
 		{
 			bindTexture(TEXTURE);
 			GlStateManager.color(1F, 1F, 1F, 1F);

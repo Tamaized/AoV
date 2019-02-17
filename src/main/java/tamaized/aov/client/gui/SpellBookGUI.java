@@ -18,6 +18,8 @@ import tamaized.aov.common.gui.GuiHandler;
 import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
 import tamaized.tammodized.common.helper.CapabilityHelper;
 
+import java.util.List;
+
 public class SpellBookGUI extends GuiScreenClose {
 
 	public static final int BUTTON_SPELL = 2;
@@ -149,8 +151,9 @@ public class SpellBookGUI extends GuiScreenClose {
 				continue;
 			if (b instanceof SpellButton) {
 				SpellButton sb = (SpellButton) b;
-				if (sb.getSpell() != null && sb.getSpell() != null && sb.getSpell().getDescription() != null)
-					drawHoveringText(sb.getSpell().getDescription(), mouseX, mouseY);
+				List<String> desc;
+				if (sb.getSpell() != null && (desc = sb.getSpell().getDescription()) != null)
+					drawHoveringText(desc, mouseX, mouseY);
 			}
 		}
 	}
