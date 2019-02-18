@@ -1,74 +1,69 @@
 buildscript {
     repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
         jcenter()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
+        mavenCentral()
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
     }
 }
-apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'eclipse'
 
 repositories {
     maven {
         url = "http://dvs1.progwml6.com/files/maven"
     }
-    maven {
-        name 'jitpack'
-        url 'https://jitpack.io'
-    }
 }
 
-version = "1.12-${modVersion}${modVersionValue}"
+version = "1.13-${modVersion}${modVersionValue}"
 group = "tamaized.aov"
 archivesBaseName = "AoV"
 
-sourceCompatibility = targetCompatibility = '1.8'
-compileJava {
-    sourceCompatibility = targetCompatibility = '1.8'
-}
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
-    version = "${project.minecraftVersion}-${project.forgeVersion}"
-    runDir = "run"
-    mappings = "${project.forgeMapping}"
-    makeObfSourceJar = false
-    useDepAts = true
-    replaceIn 'AoV.java'
-    replace '${version}', "${modVersion}${modVersionValue}"
-    replace '${tamversion}', "${project.tammodizedVersion}"
-}
-
-jar {
-    manifest {
-        attributes 'FMLAT': 'aov_at.cfg'
+    mappings channel: project.mappingType, version: project.mappingVersion
+    //makeObfSourceJar = false
+    //accessTransformer = file('aov_at.cfg')
+    //replaceIn 'AoV.java'
+    //replace '${version}', "${modVersion}${modVersionValue}"
+    runs {
+        client = {
+            // recommended logging data for a userdev environment
+            properties 'forge.logging.markers': 'SCAN,REGISTRIES,REGISTRYDUMP'
+            // recommended logging level for the console
+            properties 'forge.logging.console.level': 'debug'
+            workingDirectory project.file('run').canonicalPath
+            source sourceSets.main
+        }
+        server = {
+            // recommended logging data for a userdev environment
+            properties 'forge.logging.markers': 'SCAN,REGISTRIES,REGISTRYDUMP'
+            // recommended logging level for the console
+            properties 'forge.logging.console.level': 'debug'
+            workingDirectory project.file('run').canonicalPath
+            source sourceSets.main
+        }
     }
 }
 
 dependencies {
-    deobfCompile "mezz.jei:${project.jeiVersion}:api"
-    runtime "mezz.jei:${project.jeiVersion}"
-    implementation 'com.github.Tamaized:TamModized:1.12-SNAPSHOT'
+    minecraft "net.minecraftforge:forge:${project.minecraftVersion}-${project.forgeVersion}"
+	
+    //deobfCompile "mezz.jei:${project.jeiVersion}:api"
+    //runtime "mezz.jei:${project.jeiVersion}"
 }
 
-processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraftVersion
-
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        expand([
-                'version'   : project.modVersion + "" + project.modVersionValue,
-                'mcversion' : project.minecraftVersion,
-                'fVersion'  : project.forgeVersion,
-                'tamVersion': project.tammodizedVersion
-        ])
-    }
-
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
+jar {
+    manifest {
+        attributes(["Specification-Title": "Angel of Vengeance",
+                    "Specification-Vendor": "Tamaized",
+                    "Specification-Version": "${modVersion}${modVersionValue}",
+                    "Implementation-Title": project.name,
+                    "Implementation-Version": "${version}",
+                    "Implementation-Vendor" :"Tamaized",
+                    "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")],)
     }
 }
