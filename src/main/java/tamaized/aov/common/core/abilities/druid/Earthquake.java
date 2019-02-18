@@ -24,7 +24,7 @@ public class Earthquake extends AbilityBase {
 	private static final int RANGE = 20;
 	private static final int CHARGES = 3;
 
-	private static final ResourceLocation ICON = new ResourceLocation(AoV.modid, "textures/spells/earthquake.png");
+	private static final ResourceLocation ICON = new ResourceLocation(AoV.MODID, "textures/spells/earthquake.png");
 
 	public Earthquake() {
 		super(

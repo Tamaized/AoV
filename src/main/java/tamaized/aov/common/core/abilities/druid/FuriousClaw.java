@@ -29,7 +29,7 @@ public class FuriousClaw extends AbilityBase {
 
 	private static final String UNLOC = "aov.spells.furiousclaw";
 
-	private static final ResourceLocation ICON = new ResourceLocation(AoV.modid, "textures/spells/furiousclaw.png");
+	private static final ResourceLocation ICON = new ResourceLocation(AoV.MODID, "textures/spells/furiousclaw.png");
 
 	public FuriousClaw() {
 		super(

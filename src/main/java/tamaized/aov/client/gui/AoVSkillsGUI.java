@@ -250,7 +250,7 @@ public class AoVSkillsGUI extends GuiScreenClose {
 
 	static class ArrowButton extends GuiButton {
 
-		private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.modid, "textures/gui/buttons.png");
+		private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.MODID, "textures/gui/buttons.png");
 
 		public ArrowButton(int buttonId, int x, int y, int widthIn, int heightIn, String buttonText) {
 			super(buttonId, x, y, widthIn, heightIn, buttonText);

@@ -19,7 +19,7 @@ import tamaized.aov.registry.SoundEvents;
 
 public class TimeDilation extends AbilityBase {
 
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid, "textures/spells/timedilation.png");
+	private static final ResourceLocation icon = new ResourceLocation(AoV.MODID, "textures/spells/timedilation.png");
 
 	private static final int charges = -1;
 	private static final int distance = 10;

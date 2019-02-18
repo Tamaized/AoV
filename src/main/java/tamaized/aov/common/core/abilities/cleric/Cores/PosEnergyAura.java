@@ -90,7 +90,7 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid, "textures/spells/posaura.png");
+		return new ResourceLocation(AoV.MODID, "textures/spells/posaura.png");
 	}
 
 	@Override

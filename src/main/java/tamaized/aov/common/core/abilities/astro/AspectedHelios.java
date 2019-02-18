@@ -24,7 +24,7 @@ import java.util.List;
 
 public class AspectedHelios extends AbilityBase {
 
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid, "textures/spells/aspectedhelios.png");
+	private static final ResourceLocation icon = new ResourceLocation(AoV.MODID, "textures/spells/aspectedhelios.png");
 
 	private static final int charges = 2;
 	private static final int distance = 20;

@@ -124,6 +124,6 @@ public class Aid extends AbilityBase {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid, "textures/spells/aid.png");
+		return new ResourceLocation(AoV.MODID, "textures/spells/aid.png");
 	}
 }

@@ -26,7 +26,7 @@ import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import java.util.List;
 
-@Mod.EventBusSubscriber(modid = AoV.modid, value = Side.CLIENT)
+@Mod.EventBusSubscriber(modid = AoV.MODID, value = Side.CLIENT)
 public class KeyHandler {
 
 	public static final String CATEGORY_AOV = "key.categories.aov";

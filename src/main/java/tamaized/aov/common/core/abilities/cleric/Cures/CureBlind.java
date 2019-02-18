@@ -23,7 +23,7 @@ public class CureBlind extends CureEffect {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid, "textures/spells/cureblind.png");
+		return new ResourceLocation(AoV.MODID, "textures/spells/cureblind.png");
 	}
 
 	@Override

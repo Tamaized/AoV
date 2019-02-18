@@ -14,7 +14,7 @@ import javax.annotation.Nonnull;
 
 public class RenderMalefic<T extends EntityMalefic> extends Render<T> {
 
-	private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.modid, "textures/entity/malefic.png");
+	private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.MODID, "textures/entity/malefic.png");
 
 	public RenderMalefic(RenderManager renderManager) {
 		super(renderManager);

@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import tamaized.aov.AoV;
 import tamaized.aov.proxy.ClientProxy;
 
-@Mod.EventBusSubscriber(modid = AoV.modid)
+@Mod.EventBusSubscriber(modid = AoV.MODID)
 public class ClientTicker {
 
 	public static final int dangerBiomeMaxTick = 20 * 10;

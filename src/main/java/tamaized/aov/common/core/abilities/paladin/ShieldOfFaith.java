@@ -122,6 +122,6 @@ public class ShieldOfFaith extends AbilityBase {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid, "textures/spells/faith.png");
+		return new ResourceLocation(AoV.MODID, "textures/spells/faith.png");
 	}
 }

@@ -26,7 +26,7 @@ public class NaturesBounty extends AbilityBase {
 	private static final int CHARGES = 5;
 	private static final float RANGE = 10F;
 
-	private static final ResourceLocation ICON = new ResourceLocation(AoV.modid, "textures/spells/naturesbounty.png");
+	private static final ResourceLocation ICON = new ResourceLocation(AoV.MODID, "textures/spells/naturesbounty.png");
 
 	public NaturesBounty() {
 		super(

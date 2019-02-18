@@ -55,10 +55,6 @@ public class ClientProxy extends CommonProxy {
 	private static EntityLivingBase target;
 	private static SizedFontRenderer FONT_RENDERER;
 
-	public ClientProxy() {
-		super(Side.CLIENT);
-	}
-
 	public static void setTarget() {
 		Entity ent = ClientHelpers.getTargetOverMouse(Minecraft.getMinecraft(), 128);
 		if (ent instanceof EntityLivingBase && target != ent)
@@ -77,11 +73,6 @@ public class ClientProxy extends CommonProxy {
 
 	public static SizedFontRenderer getFontRenderer() {
 		return FONT_RENDERER;
-	}
-
-	@Override
-	public void preRegisters() {
-
 	}
 
 	@Override

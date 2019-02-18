@@ -23,7 +23,7 @@ public class FormPack extends AbilityBase {
 	private static final float DAMAGE = 4F;
 	private static final int CHARGES = 2;
 
-	private static final ResourceLocation ICON = new ResourceLocation(AoV.modid, "textures/spells/formpack.png");
+	private static final ResourceLocation ICON = new ResourceLocation(AoV.MODID, "textures/spells/formpack.png");
 
 	public FormPack() {
 		super(

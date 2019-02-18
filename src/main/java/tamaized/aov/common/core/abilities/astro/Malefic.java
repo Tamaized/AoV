@@ -17,7 +17,7 @@ import tamaized.aov.registry.SoundEvents;
 
 public class Malefic extends AbilityBase {
 
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid, "textures/spells/malefic.png");
+	private static final ResourceLocation icon = new ResourceLocation(AoV.MODID, "textures/spells/malefic.png");
 
 	private static final int charges = 8;
 	private static final int distance = 32;

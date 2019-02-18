@@ -15,7 +15,7 @@ import javax.annotation.Nonnull;
 
 public class RenderCelestialOpposition<T extends EntityCelestialOpposition> extends Render<T> {
 
-	private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.modid, "textures/entity/celestialopposition.png");
+	private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.MODID, "textures/entity/celestialopposition.png");
 
 	public RenderCelestialOpposition(RenderManager renderManager) {
 		super(renderManager);

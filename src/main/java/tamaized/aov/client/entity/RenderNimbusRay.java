@@ -17,7 +17,7 @@ import java.util.Random;
 
 public class RenderNimbusRay<T extends ProjectileBase> extends Render<T> {
 
-	private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.modid, "textures/entity/ray.png");
+	private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.MODID, "textures/entity/ray.png");
 
 	private static final Random rand = new Random();
 

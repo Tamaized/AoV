@@ -29,7 +29,7 @@ public class FuriousHowl extends AbilityBase {
 	private static final float DAMAGE = 2F;
 	private static final int CHARGES = 5;
 
-	private static final ResourceLocation ICON = new ResourceLocation(AoV.modid, "textures/spells/furioushowl.png");
+	private static final ResourceLocation ICON = new ResourceLocation(AoV.MODID, "textures/spells/furioushowl.png");
 
 	public FuriousHowl() {
 		super(

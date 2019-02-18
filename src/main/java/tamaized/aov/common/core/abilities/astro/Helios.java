@@ -22,7 +22,7 @@ import java.util.List;
 
 public class Helios extends AbilityBase {
 
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid, "textures/spells/helios.png");
+	private static final ResourceLocation icon = new ResourceLocation(AoV.MODID, "textures/spells/helios.png");
 
 	private static final int charges = 4;
 	private static final int distance = 20;

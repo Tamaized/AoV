@@ -18,14 +18,14 @@ import net.minecraftforge.fml.relauncher.Side;
 import tamaized.aov.AoV;
 import tamaized.aov.client.gui.AdjustElementsGUI;
 
-@Mod.EventBusSubscriber(value = Side.CLIENT, modid = AoV.modid)
+@Mod.EventBusSubscriber(value = Side.CLIENT, modid = AoV.MODID)
 public class ConfigButtonHandler {
 
 	private static final IConfigElement CONFIG_ELEMENT = new DummyConfigElement.DummyCategoryElement(I18n.format("aov.config.repositionelements.name"), "aov.config.repositionelements", Lists.newArrayList());
 
 	@SubscribeEvent
 	public static void hook(GuiScreenEvent.InitGuiEvent.Post e) {
-		if (e.getGui() instanceof GuiConfig && ((GuiConfig) e.getGui()).modID.equalsIgnoreCase(AoV.modid)) {
+		if (e.getGui() instanceof GuiConfig && ((GuiConfig) e.getGui()).modID.equalsIgnoreCase(AoV.MODID)) {
 			GuiConfig gui = (GuiConfig) e.getGui();
 			if (gui.parentScreen instanceof GuiConfig || (gui.entryList.listEntries.size() > 0 && gui.entryList.listEntries.get(0).getConfigElement() == CONFIG_ELEMENT))
 				return;

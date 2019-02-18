@@ -17,7 +17,7 @@ import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class BladeBarrier extends AbilityBase {
 
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid, "textures/spells/bladebarrier.png");
+	private static final ResourceLocation icon = new ResourceLocation(AoV.MODID, "textures/spells/bladebarrier.png");
 
 	private static final int damage = 5;
 	private static final int charges = 5;

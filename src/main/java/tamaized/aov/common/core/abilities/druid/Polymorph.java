@@ -38,7 +38,7 @@ public class Polymorph extends AbilityBase {
 		);
 		this.name = name.concat(".name");
 		this.type = type;
-		icon = new ResourceLocation(AoV.modid, "textures/spells/polymorph" + type.name().toLowerCase() + ".png");
+		icon = new ResourceLocation(AoV.MODID, "textures/spells/polymorph" + type.name().toLowerCase() + ".png");
 	}
 
 	@Override

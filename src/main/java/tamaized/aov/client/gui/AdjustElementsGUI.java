@@ -96,7 +96,7 @@ public class AdjustElementsGUI extends GuiScreenClose {
 
 	@Override
 	public void onGuiClosed() {
-		ConfigManager.sync(AoV.modid, Config.Type.INSTANCE);
+		ConfigManager.sync(AoV.MODID, Config.Type.INSTANCE);
 	}
 
 	@Override

@@ -26,7 +26,7 @@ import javax.annotation.Nullable;
 
 public class Draw extends AbilityBase {
 
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid, "textures/spells/draw.png");
+	private static final ResourceLocation icon = new ResourceLocation(AoV.MODID, "textures/spells/draw.png");
 
 	private static final int charges = -1;
 	private static final int distance = 10;

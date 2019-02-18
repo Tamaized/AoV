@@ -23,7 +23,7 @@ public class CureWither extends CureEffect {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid, "textures/spells/curewither.png");
+		return new ResourceLocation(AoV.MODID, "textures/spells/curewither.png");
 	}
 
 	@Override

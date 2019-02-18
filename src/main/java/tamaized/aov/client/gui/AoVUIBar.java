@@ -19,7 +19,7 @@ import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.universal.InvokeMass;
 import tamaized.aov.proxy.ClientProxy;
 
-@Mod.EventBusSubscriber(modid = AoV.modid, value = Side.CLIENT)
+@Mod.EventBusSubscriber(modid = AoV.MODID, value = Side.CLIENT)
 public class AoVUIBar {
 
 	public static final ResourceLocation widgetsTexPath = new ResourceLocation("textures/gui/widgets.png");

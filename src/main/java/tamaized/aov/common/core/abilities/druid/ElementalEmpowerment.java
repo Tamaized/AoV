@@ -33,7 +33,7 @@ public class ElementalEmpowerment extends AbilityBase implements IAura {
 	private static final float RANGE = 4F;
 	private static final int CHARGES = 2;
 
-	private static final ResourceLocation ICON = new ResourceLocation(AoV.modid, "textures/spells/elementalempowerment.png");
+	private static final ResourceLocation ICON = new ResourceLocation(AoV.MODID, "textures/spells/elementalempowerment.png");
 
 	public ElementalEmpowerment() {
 		super(

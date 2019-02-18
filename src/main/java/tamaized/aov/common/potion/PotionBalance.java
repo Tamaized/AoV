@@ -19,9 +19,9 @@ public class PotionBalance extends Potion {
 
 	public PotionBalance(String name) {
 		super(false, 0xFF0000);
-		iconTexture = new ResourceLocation(AoV.modid, "textures/potions/" + name + ".png");
-		setRegistryName(AoV.modid, name);
-		setPotionName("effect." + AoV.modid + "." + name);
+		iconTexture = new ResourceLocation(AoV.MODID, "textures/potions/" + name + ".png");
+		setRegistryName(AoV.MODID, name);
+		setPotionName("effect." + AoV.MODID + "." + name);
 		registerPotionAttributeModifier(SharedMonsterAttributes.ATTACK_DAMAGE, "738D7064-6A60-4F59-8ABE-C2C23A6DD7B8", 0.0D, 0);
 		setBeneficial();
 	}

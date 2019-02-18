@@ -82,7 +82,7 @@ public class Burst extends AbilityBase {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid, "textures/spells/burst.png");
+		return new ResourceLocation(AoV.MODID, "textures/spells/burst.png");
 	}
 
 	@Override

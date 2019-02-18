@@ -21,7 +21,7 @@ import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class CelestialOpposition extends AbilityBase {
 
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid, "textures/spells/celestialopposition.png");
+	private static final ResourceLocation icon = new ResourceLocation(AoV.MODID, "textures/spells/celestialopposition.png");
 
 	private static final int charges = -1;
 	private static final int distance = 8;

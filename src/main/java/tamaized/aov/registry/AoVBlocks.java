@@ -19,8 +19,8 @@ import net.minecraftforge.registries.IForgeRegistry;
 import tamaized.aov.AoV;
 import tamaized.aov.common.blocks.BlockAngelicBlock;
 
-@GameRegistry.ObjectHolder(AoV.modid)
-@Mod.EventBusSubscriber(modid = AoV.modid)
+@GameRegistry.ObjectHolder(AoV.MODID)
+@Mod.EventBusSubscriber(modid = AoV.MODID)
 public class AoVBlocks {
 
 	public static final Block angelicstatue = Blocks.AIR;
@@ -82,14 +82,14 @@ public class AoVBlocks {
 	@SubscribeEvent
 	public static void fixBlockMappings(RegistryEvent.MissingMappings<Block> event) {
 		for (RegistryEvent.MissingMappings.Mapping<Block> mapping : event.getMappings())
-			if (mapping.key.getNamespace().equals(AoV.modid) && mapping.key.getPath().equals("blockangelic"))
+			if (mapping.key.getNamespace().equals(AoV.MODID) && mapping.key.getPath().equals("blockangelic"))
 				mapping.remap(angelicstatue);
 	}
 
 	@SubscribeEvent
 	public static void fixItemMappings(RegistryEvent.MissingMappings<Item> event) {
 		for (RegistryEvent.MissingMappings.Mapping<Item> mapping : event.getMappings())
-			if (mapping.key.getNamespace().equals(AoV.modid) && mapping.key.getPath().equals("blockangelic"))
+			if (mapping.key.getNamespace().equals(AoV.MODID) && mapping.key.getPath().equals("blockangelic"))
 				mapping.remap(Item.getItemFromBlock(angelicstatue));
 	}
 

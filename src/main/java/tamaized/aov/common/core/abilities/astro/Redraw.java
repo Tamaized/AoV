@@ -17,7 +17,7 @@ import tamaized.aov.common.core.abilities.AbilityBase;
 
 public class Redraw extends AbilityBase {
 
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid, "textures/spells/redraw.png");
+	private static final ResourceLocation icon = new ResourceLocation(AoV.MODID, "textures/spells/redraw.png");
 
 	private static final int charges = -1;
 

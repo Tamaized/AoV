@@ -1,18 +1,22 @@
 package tamaized.aov;
 
+import net.minecraft.network.NetworkManager;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.Mod.Instance;
-import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.network.NetworkRegistry;
+import net.minecraftforge.fml.network.simple.SimpleChannel;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.AoVCapabilityHandler;
 import tamaized.aov.common.capabilities.aov.AoVCapabilityStorage;
@@ -53,6 +57,7 @@ import tamaized.aov.common.events.PlayerInteractHandler;
 import tamaized.aov.common.events.TickHandler;
 import tamaized.aov.common.gui.GuiHandler;
 import tamaized.aov.network.NetworkMessages;
+import tamaized.aov.proxy.ClientProxy;
 import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.AoVAchievements;
 import tamaized.aov.registry.AoVArmors;
@@ -62,20 +67,25 @@ import tamaized.aov.registry.AoVItems;
 import tamaized.aov.registry.AoVParticles;
 import tamaized.aov.registry.AoVPotions;
 import tamaized.aov.registry.AoVTabs;
-import tamaized.tammodized.TamModBase;
-import tamaized.tammodized.TamModized;
-import tamaized.tammodized.proxy.AbstractProxy;
 
-@Mod(modid = AoV.modid, name = "Angel of Vengeance", version = AoV.version, acceptedMinecraftVersions = "[1.12,)", dependencies = "required-after:forge@[14.23.5.2808,);required-before:" + TamModized.modid + "@[${tamversion},)")
-public class AoV extends TamModBase {
+@Mod(value = AoV.MODID)
+public class AoV {
 
-	public static final String modid = "aov";
-	protected final static String version = "${version}";
-	@Instance(modid)
-	public static AoV instance = new AoV();
-	@SidedProxy(clientSide = "tamaized.aov.proxy.ClientProxy", serverSide = "tamaized.aov.proxy.ServerProxy")
-	public static CommonProxy proxy;
-	public static SimpleNetworkWrapper network;
+	public static final String MODID = "aov";
+
+	public static final Logger LOGGER = LogManager.getLogger("AoV");
+	public static CommonProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> CommonProxy::new);
+	public static SimpleChannel network = NetworkRegistry.ChannelBuilder
+
+			.named(new ResourceLocation(MODID, MODID))
+
+			.clientAcceptedVersions("1"::equals)
+
+			.serverAcceptedVersions("1"::equals)
+
+			.networkProtocolVersion(() -> "1")
+
+			.simpleChannel();
 
 	static {
 		new AoVTabs();
@@ -88,46 +98,14 @@ public class AoV extends TamModBase {
 		new AoVParticles();
 	}
 
-	public static String getVersion() {
-		return version;
-	}
-
-	@Override
-	protected AbstractProxy getProxy() {
-		return proxy;
-	}
-
-	@Override
-	public String getModID() {
-		return modid;
-	}
-
-	@Override
-	@EventHandler
-	public void FMLpreInit(FMLPreInitializationEvent event) {
-		super.FMLpreInit(event);
-	}
-
-	@Override
-	@EventHandler
-	public void FMLinit(FMLInitializationEvent event) {
-		super.FMLinit(event);
-	}
-
-	@Override
-	@EventHandler
-	public void FMLpostInit(FMLPostInitializationEvent event) {
-		super.FMLpostInit(event);
+	@SubscribeEvent
+	public void init(FMLCommonSetupEvent event) {
+		LOGGER.info("Initalizating AoV");
+		NetworkMessages.register(network);
 	}
 
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
-		logger = LogManager.getLogger("AoV");
-
-		logger.info("Starting AoV PreInit");
-
-		NetworkMessages.register(network = NetworkRegistry.INSTANCE.newSimpleChannel(modid));
-
 		CapabilityManager.INSTANCE.register(IAoVCapability.class, new AoVCapabilityStorage(), AoVCapabilityHandler::new);
 		CapabilityManager.INSTANCE.register(IAstroCapability.class, new AstroCapabilityStorage(), AstroCapabilityHandler::new);
 		CapabilityManager.INSTANCE.register(IStunCapability.class, new StunCapabilityStorage(), StunCapabilityHandler::new);
@@ -148,21 +126,21 @@ public class AoV extends TamModBase {
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 
-		registerEntity(ProjectileNimbusRay.class, "ProjectileNimbusRay", this, modid, 256, 1, true);
-		registerEntity(ProjectileFlameStrike.class, "ProjectileFlameStrike", this, modid, 256, 1, true);
-		registerEntity(EntitySpellImplosion.class, "EntitySpellImplosion", this, modid, 256, 1, true);
-		registerEntity(EntitySpellBladeBarrier.class, "EntitySpellBladeBarrier", this, modid, 256, 1, true);
-		registerEntity(EntitySpellVanillaParticles.class, "EntitySpellVanillaParticles", this, modid, 256, 1, true);
-		registerEntity(EntitySpellAoVParticles.class, "EntitySpellAoVParticles", this, modid, 256, 1, true);
-		registerEntity(EntityMalefic.class, "EntityMalefic", this, modid, 256, 1, true);
-		registerEntity(EntityCombust.class, "EntityCombust", this, modid, 256, 1, true);
-		registerEntity(EntityGravity.class, "EntityGravity", this, modid, 256, 1, true);
-		registerEntity(EntityCelestialOpposition.class, "EntityCelestialOpposition", this, modid, 256, 1, true);
-		registerEntity(EntitySpellLightningBolt.class, "EntitySpellLightningBolt", this, modid, 256, 1, true);
-		registerEntity(EntityEarthquake.class, "EntityEarthquake", this, modid, 256, 1, true);
-		registerEntity(EntitySpellLightningStorm.class, "EntitySpellLightningStorm", this, modid, 256, 1, true);
-		registerEntity(EntityDruidicWolf.class, "EntityDruidicWolf", this, modid, 256, 1, true);
-		registerEntity(EntityAlignmentAoE.class, "EntityAlignmentAoE", this, modid, 256, 1, true);
+		registerEntity(ProjectileNimbusRay.class, "ProjectileNimbusRay", this, MODID, 256, 1, true);
+		registerEntity(ProjectileFlameStrike.class, "ProjectileFlameStrike", this, MODID, 256, 1, true);
+		registerEntity(EntitySpellImplosion.class, "EntitySpellImplosion", this, MODID, 256, 1, true);
+		registerEntity(EntitySpellBladeBarrier.class, "EntitySpellBladeBarrier", this, MODID, 256, 1, true);
+		registerEntity(EntitySpellVanillaParticles.class, "EntitySpellVanillaParticles", this, MODID, 256, 1, true);
+		registerEntity(EntitySpellAoVParticles.class, "EntitySpellAoVParticles", this, MODID, 256, 1, true);
+		registerEntity(EntityMalefic.class, "EntityMalefic", this, MODID, 256, 1, true);
+		registerEntity(EntityCombust.class, "EntityCombust", this, MODID, 256, 1, true);
+		registerEntity(EntityGravity.class, "EntityGravity", this, MODID, 256, 1, true);
+		registerEntity(EntityCelestialOpposition.class, "EntityCelestialOpposition", this, MODID, 256, 1, true);
+		registerEntity(EntitySpellLightningBolt.class, "EntitySpellLightningBolt", this, MODID, 256, 1, true);
+		registerEntity(EntityEarthquake.class, "EntityEarthquake", this, MODID, 256, 1, true);
+		registerEntity(EntitySpellLightningStorm.class, "EntitySpellLightningStorm", this, MODID, 256, 1, true);
+		registerEntity(EntityDruidicWolf.class, "EntityDruidicWolf", this, MODID, 256, 1, true);
+		registerEntity(EntityAlignmentAoE.class, "EntityAlignmentAoE", this, MODID, 256, 1, true);
 	}
 
 	@Override

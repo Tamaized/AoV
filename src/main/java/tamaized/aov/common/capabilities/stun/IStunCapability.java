@@ -6,7 +6,7 @@ import tamaized.aov.AoV;
 
 public interface IStunCapability {
 
-	ResourceLocation ID = new ResourceLocation(AoV.modid, "StunCapabilityHandler");
+	ResourceLocation ID = new ResourceLocation(AoV.MODID, "StunCapabilityHandler");
 
 	int getStunTicks();
 

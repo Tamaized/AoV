@@ -16,7 +16,7 @@ public class CureCriticalWounds extends CureWounds {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid, "textures/spells/curecritwounds.png");
+		return new ResourceLocation(AoV.MODID, "textures/spells/curecritwounds.png");
 	}
 
 	@Override

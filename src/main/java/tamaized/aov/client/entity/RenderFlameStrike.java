@@ -15,7 +15,7 @@ import java.util.Random;
 
 public class RenderFlameStrike<T extends ProjectileFlameStrike> extends Render<T> {
 
-	private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.modid, "textures/entity/ray.png");
+	private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.MODID, "textures/entity/ray.png");
 
 	private static final Random rand = new Random();
 

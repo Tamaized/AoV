@@ -12,8 +12,8 @@ import tamaized.aov.common.items.DebugItem;
 import tamaized.aov.common.items.Handwraps;
 import tamaized.tammodized.registry.ITamRegistry;
 
-@GameRegistry.ObjectHolder(AoV.modid)
-@Mod.EventBusSubscriber(modid = AoV.modid)
+@GameRegistry.ObjectHolder(AoV.MODID)
+@Mod.EventBusSubscriber(modid = AoV.MODID)
 public class AoVItems {
 
 	public static final Item debugger = Items.AIR;

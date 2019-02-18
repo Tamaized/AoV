@@ -18,11 +18,11 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.astro.AstroCapabilityHandler;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
 
-@Mod.EventBusSubscriber(modid = AoV.modid, value = Side.CLIENT)
+@Mod.EventBusSubscriber(modid = AoV.MODID, value = Side.CLIENT)
 public class RenderAstro {
 
-	private static final ResourceLocation TEXTURE_CARDS = new ResourceLocation(AoV.modid, "textures/entity/cards.png");
-	private static final ResourceLocation TEXTURE_RUNE = new ResourceLocation(AoV.modid, "textures/entity/rune.png");
+	private static final ResourceLocation TEXTURE_CARDS = new ResourceLocation(AoV.MODID, "textures/entity/cards.png");
+	private static final ResourceLocation TEXTURE_RUNE = new ResourceLocation(AoV.MODID, "textures/entity/rune.png");
 
 	public static float testVarPleaseIgnore = 0F;
 

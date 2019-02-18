@@ -19,7 +19,7 @@ import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class Benefic extends AbilityBase {
 
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid, "textures/spells/benefic.png");
+	private static final ResourceLocation icon = new ResourceLocation(AoV.MODID, "textures/spells/benefic.png");
 
 	private static final int charges = 4;
 	private static final int distance = 10;

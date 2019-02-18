@@ -39,8 +39,8 @@ import java.util.Random;
 
 public class RenderPlayer {
 
-	private static final ResourceLocation TEXTURE_WING = new ResourceLocation(AoV.modid, "textures/entity/wing.png");
-	private static final ResourceLocation TEXTURE_SUNBODY = new ResourceLocation(AoV.modid, "textures/entity/sunbody.png");
+	private static final ResourceLocation TEXTURE_WING = new ResourceLocation(AoV.MODID, "textures/entity/wing.png");
+	private static final ResourceLocation TEXTURE_SUNBODY = new ResourceLocation(AoV.MODID, "textures/entity/sunbody.png");
 	private static final ModelPolymorphWolf WOLF_MODEL = new ModelPolymorphWolf();
 	private static final ResourceLocation WOLF_TEXTURES = new ResourceLocation("textures/entity/wolf/wolf.png");
 	private static boolean hackyshit = false;

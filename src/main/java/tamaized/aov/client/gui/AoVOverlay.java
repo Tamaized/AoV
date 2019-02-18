@@ -8,7 +8,6 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
@@ -43,11 +42,11 @@ import java.util.Random;
 
 public class AoVOverlay extends Gui {
 
-	public static final ResourceLocation TEXTURE_ASTRO = new ResourceLocation(AoV.modid, "textures/gui/astro.png");
-	public static final ResourceLocation TEXTURE_FOCUS = new ResourceLocation(AoV.modid, "textures/gui/focus.png");
-	public static final ResourceLocation TEXTURE_DOGGO = new ResourceLocation(AoV.modid, "textures/gui/doggo.png");
-	private static final ResourceLocation TEXTURE_ELEMENTALS = new ResourceLocation(AoV.modid, "textures/entity/fluid.png");
-	private static final ResourceLocation TEXTURE_DANGERBIOME = new ResourceLocation(AoV.modid, "textures/gui/dangerbiome.png");
+	public static final ResourceLocation TEXTURE_ASTRO = new ResourceLocation(AoV.MODID, "textures/gui/astro.png");
+	public static final ResourceLocation TEXTURE_FOCUS = new ResourceLocation(AoV.MODID, "textures/gui/focus.png");
+	public static final ResourceLocation TEXTURE_DOGGO = new ResourceLocation(AoV.MODID, "textures/gui/doggo.png");
+	private static final ResourceLocation TEXTURE_ELEMENTALS = new ResourceLocation(AoV.MODID, "textures/entity/fluid.png");
+	private static final ResourceLocation TEXTURE_DANGERBIOME = new ResourceLocation(AoV.MODID, "textures/gui/dangerbiome.png");
 	private static final Minecraft mc = Minecraft.getMinecraft();
 	private static final Random rand = new Random();
 	public static boolean hackyshit = false;

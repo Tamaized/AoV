@@ -26,7 +26,7 @@ public class LightningStorm extends AbilityBase {
 	private static final int RANGE = 25;
 	private static final int CHARGES = 2;
 
-	private static final ResourceLocation ICON = new ResourceLocation(AoV.modid, "textures/spells/lightningstorm.png");
+	private static final ResourceLocation ICON = new ResourceLocation(AoV.MODID, "textures/spells/lightningstorm.png");
 
 	public LightningStorm() {
 		super(

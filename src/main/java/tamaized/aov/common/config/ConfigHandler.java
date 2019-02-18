@@ -20,7 +20,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Mod.EventBusSubscriber
-@Config(modid = AoV.modid)
+@Config(modid = AoV.MODID)
 public class ConfigHandler {
 
 	@Config.Name("Element Positions")
@@ -72,7 +72,7 @@ public class ConfigHandler {
 	@Config.Comment("domain:name:meta\ndomain defaults to `minecraft`\nmeta is optional\ndomain is required if meta is specified")
 	public static String[] centered = new String[]{
 
-			AoV.modid + ":handwraps",
+			AoV.MODID + ":handwraps",
 
 			getRegName(Items.WOODEN_SWORD),
 
@@ -129,8 +129,8 @@ public class ConfigHandler {
 
 	@SubscribeEvent
 	public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
-		if (event.getModID().equals(AoV.modid)) {
-			ConfigManager.sync(AoV.modid, Config.Type.INSTANCE);
+		if (event.getModID().equals(AoV.MODID)) {
+			ConfigManager.sync(AoV.MODID, Config.Type.INSTANCE);
 			setupCenteredWear();
 		}
 	}

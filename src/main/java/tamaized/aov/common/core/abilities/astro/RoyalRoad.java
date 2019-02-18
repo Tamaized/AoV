@@ -17,7 +17,7 @@ import tamaized.aov.common.core.abilities.AbilityBase;
 
 public class RoyalRoad extends AbilityBase {
 
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid, "textures/spells/royalroad.png");
+	private static final ResourceLocation icon = new ResourceLocation(AoV.MODID, "textures/spells/royalroad.png");
 
 	private static final int charges = -1;
 

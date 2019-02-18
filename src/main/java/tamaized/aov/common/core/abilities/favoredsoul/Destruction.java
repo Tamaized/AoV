@@ -20,7 +20,7 @@ import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class Destruction extends AbilityBase {
 
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid, "textures/spells/destruction.png");
+	private static final ResourceLocation icon = new ResourceLocation(AoV.MODID, "textures/spells/destruction.png");
 
 	private static final int charges = 2;
 	private static final int distance = 20;

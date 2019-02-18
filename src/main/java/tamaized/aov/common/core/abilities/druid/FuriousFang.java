@@ -25,7 +25,7 @@ public class FuriousFang extends AbilityBase {
 
 	private static final String UNLOC = "aov.spells.furiousfang";
 
-	private static final ResourceLocation ICON = new ResourceLocation(AoV.modid, "textures/spells/furiousfang.png");
+	private static final ResourceLocation ICON = new ResourceLocation(AoV.MODID, "textures/spells/furiousfang.png");
 
 	public FuriousFang() {
 		super(

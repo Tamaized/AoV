@@ -8,7 +8,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import tamaized.aov.AoV;
 
 // TODO: TamModized
-@Mod.EventBusSubscriber(modid = AoV.modid, value = Side.CLIENT)
+@Mod.EventBusSubscriber(modid = AoV.MODID, value = Side.CLIENT)
 public class DebugHelper {
 
 	private static String textClient = "";

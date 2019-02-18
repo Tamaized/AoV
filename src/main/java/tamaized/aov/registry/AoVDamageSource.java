@@ -9,9 +9,9 @@ import javax.annotation.Nullable;
 
 public class AoVDamageSource {
 
-	public static final DamageSource NIMBUS = new DamageSource(AoV.modid + ".nimbusray").setDamageBypassesArmor().setMagicDamage();
-	public static final DamageSource DESTRUCTION = new DamageSource(AoV.modid + ".destruction").setDamageBypassesArmor().setMagicDamage();
-	public static final DamageSource COSMIC = new DamageSource(AoV.modid + ".cosmic").setDamageBypassesArmor().setMagicDamage();
+	public static final DamageSource NIMBUS = new DamageSource(AoV.MODID + ".nimbusray").setDamageBypassesArmor().setMagicDamage();
+	public static final DamageSource DESTRUCTION = new DamageSource(AoV.MODID + ".destruction").setDamageBypassesArmor().setMagicDamage();
+	public static final DamageSource COSMIC = new DamageSource(AoV.MODID + ".cosmic").setDamageBypassesArmor().setMagicDamage();
 
 	public static DamageSource createEntityDamageSource(DamageSource orign, @Nullable Entity caster) {
 		DamageSource source = new EntityDamageSource(orign.getDamageType(), caster);

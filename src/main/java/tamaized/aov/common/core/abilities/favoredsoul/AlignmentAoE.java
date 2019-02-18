@@ -105,9 +105,9 @@ public class AlignmentAoE extends AbilityBase {
 
 	public enum Type {
 
-		ChaosHammer(new ResourceLocation(AoV.modid, "textures/spells/chaoshammer.png"), SoundEvents.chaosHammer, 1F),
+		ChaosHammer(new ResourceLocation(AoV.MODID, "textures/spells/chaoshammer.png"), SoundEvents.chaosHammer, 1F),
 
-		OrdersWrath(new ResourceLocation(AoV.modid, "textures/spells/orderswrath.png"), SoundEvents.ordersWrath, 0.5F);
+		OrdersWrath(new ResourceLocation(AoV.MODID, "textures/spells/orderswrath.png"), SoundEvents.ordersWrath, 0.5F);
 
 		public static final Type[] values = values();
 		final ResourceLocation icon;

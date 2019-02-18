@@ -21,7 +21,7 @@ import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class FlameStrike extends AbilityBase {
 
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid, "textures/spells/flamestrike.png");
+	private static final ResourceLocation icon = new ResourceLocation(AoV.MODID, "textures/spells/flamestrike.png");
 
 	private static final int damage = 6;
 	private static final int charges = 5;

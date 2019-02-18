@@ -47,7 +47,7 @@ public class NimbusRay extends AbilityBase {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid, "textures/spells/nimbus.png");
+		return new ResourceLocation(AoV.MODID, "textures/spells/nimbus.png");
 	}
 
 	@Override

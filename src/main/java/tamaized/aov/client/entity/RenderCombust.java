@@ -16,8 +16,8 @@ import javax.annotation.Nonnull;
 
 public class RenderCombust<T extends EntityCombust> extends Render<T> {
 
-	public static final ResourceLocation RING = new ResourceLocation(AoV.modid, "textures/entity/combust_ring.png");
-	private static final ResourceLocation BOOM = new ResourceLocation(AoV.modid, "textures/entity/combust_boom.png");
+	public static final ResourceLocation RING = new ResourceLocation(AoV.MODID, "textures/entity/combust_ring.png");
+	private static final ResourceLocation BOOM = new ResourceLocation(AoV.MODID, "textures/entity/combust_boom.png");
 
 	public RenderCombust(RenderManager renderManager) {
 		super(renderManager);

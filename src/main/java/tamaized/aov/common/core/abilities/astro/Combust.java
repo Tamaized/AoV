@@ -17,7 +17,7 @@ import tamaized.aov.registry.SoundEvents;
 
 public class Combust extends AbilityBase {
 
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid, "textures/spells/combust.png");
+	private static final ResourceLocation icon = new ResourceLocation(AoV.MODID, "textures/spells/combust.png");
 
 	private static final int charges = 6;
 	private static final int distance = 32;

@@ -29,7 +29,7 @@ public class DruidicRegenerate extends AbilityBase {
 	private static final int CHARGES = 10;
 	private static final float RANGE = 6;
 
-	private static final ResourceLocation ICON = new ResourceLocation(AoV.modid, "textures/spells/druidicregenerate.png");
+	private static final ResourceLocation ICON = new ResourceLocation(AoV.MODID, "textures/spells/druidicregenerate.png");
 
 	public DruidicRegenerate() {
 		super(

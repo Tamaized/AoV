@@ -24,7 +24,7 @@ public class LightningStrike extends AbilityBase {
 	private static final int RANGE = 40;
 	private static final int CHARGES = 10;
 
-	private static final ResourceLocation ICON = new ResourceLocation(AoV.modid, "textures/spells/lightningstrike.png");
+	private static final ResourceLocation ICON = new ResourceLocation(AoV.MODID, "textures/spells/lightningstrike.png");
 
 	public LightningStrike() {
 		super(

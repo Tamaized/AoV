@@ -45,7 +45,7 @@ public class SlayLiving extends AbilityBase {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid, "textures/spells/slayliving.png");
+		return new ResourceLocation(AoV.MODID, "textures/spells/slayliving.png");
 	}
 
 	@Override

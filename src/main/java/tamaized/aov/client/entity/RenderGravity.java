@@ -22,7 +22,7 @@ import java.util.Random;
 
 public class RenderGravity<T extends EntityGravity> extends Render<T> {
 
-	private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.modid, "textures/entity/gravity.png");
+	private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.MODID, "textures/entity/gravity.png");
 	public static final Sphere SPHERE = new Sphere();
 
 	public RenderGravity(RenderManager renderManager) {

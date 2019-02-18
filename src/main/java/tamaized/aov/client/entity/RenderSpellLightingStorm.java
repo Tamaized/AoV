@@ -22,7 +22,7 @@ import java.util.Random;
 
 public class RenderSpellLightingStorm extends Render<EntitySpellLightningStorm> {
 
-	private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.modid, "textures/entity/cloud.png");
+	private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.MODID, "textures/entity/cloud.png");
 	private static final ResourceLocation RAIN_TEXTURES = new ResourceLocation("textures/environment/rain.png");
 	static float[] rainXCoords = new float[1024];
 	static float[] rainYCoords = new float[1024];

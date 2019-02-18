@@ -94,6 +94,6 @@ public class Zeal extends AbilityBase {
 
 	@Override
 	public ResourceLocation getIcon() {
-		return new ResourceLocation(AoV.modid, "textures/spells/zeal.png");
+		return new ResourceLocation(AoV.MODID, "textures/spells/zeal.png");
 	}
 }

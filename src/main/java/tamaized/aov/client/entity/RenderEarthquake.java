@@ -27,7 +27,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class RenderEarthquake extends Render<EntityEarthquake> {
 
 	private static final ResourceLocation SHADOW_TEXTURES = new ResourceLocation("textures/misc/shadow.png");
-	private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.modid, "textures/entity/earthquake.png");
+	private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.MODID, "textures/entity/earthquake.png");
 
 	public RenderEarthquake(RenderManager renderManager) {
 		super(renderManager);

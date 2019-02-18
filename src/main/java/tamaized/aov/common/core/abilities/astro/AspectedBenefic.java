@@ -21,7 +21,7 @@ import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class AspectedBenefic extends AbilityBase {
 
-	private static final ResourceLocation icon = new ResourceLocation(AoV.modid, "textures/spells/aspectedbenefic.png");
+	private static final ResourceLocation icon = new ResourceLocation(AoV.MODID, "textures/spells/aspectedbenefic.png");
 
 	private static final int charges = 2;
 	private static final int distance = 10;

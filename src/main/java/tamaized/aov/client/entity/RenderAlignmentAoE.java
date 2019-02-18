@@ -17,7 +17,7 @@ import java.util.Random;
 
 public class RenderAlignmentAoE<T extends EntityAlignmentAoE> extends Render<T> {
 
-	private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.modid, "textures/entity/chaoshammer.png");
+	private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.MODID, "textures/entity/chaoshammer.png");
 	private static final ModelChaosHammer MODEL = new ModelChaosHammer();
 	private static final Random rand = new Random();
 
