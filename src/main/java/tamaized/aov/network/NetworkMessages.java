@@ -26,7 +26,7 @@ public class NetworkMessages {
 	private static int index = 0;
 
 	public static void register(SimpleChannel network) {
-		NetworkMessages.registerMessage(network, ServerPacketHandlerSpellSkill.class, IMessage.Side.SERVER);
+		registerMessage(network, ServerPacketHandlerSpellSkill.class, IMessage.Side.SERVER);
 		registerMessage(network, ServerPacketHandlerPolymorphDogAttack.class, IMessage.Side.SERVER);
 
 		registerMessage(network, ClientPacketHandlerAoVData.class, IMessage.Side.CLIENT);

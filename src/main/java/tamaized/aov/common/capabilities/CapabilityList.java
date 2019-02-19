@@ -7,6 +7,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -20,6 +21,8 @@ import tamaized.aov.common.capabilities.stun.IStunCapability;
 import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Objects;
 
 public class CapabilityList {
 
@@ -41,6 +44,14 @@ public class CapabilityList {
 		STUN = null;
 		LEAP = null;
 		POLYMORPH = null;
+	}
+
+	public static <T> T getCap(@Nullable ICapabilityProvider provider, Capability<T> cap) {
+		return getCap(provider, cap, null);
+	}
+
+	public static <T> T getCap(@Nullable ICapabilityProvider provider, Capability<T> cap, @Nullable EnumFacing face) {
+		return provider != null && cap != null ? provider.getCapability(cap, face).orElse(Objects.requireNonNull(cap.getDefaultInstance())) : null;
 	}
 
 	@SubscribeEvent
