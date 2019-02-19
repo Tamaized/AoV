@@ -2,24 +2,19 @@ package tamaized.aov.registry;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.ObjectHolder;
 import tamaized.aov.AoV;
 import tamaized.aov.common.blocks.BlockAngelicBlock;
 
-@GameRegistry.ObjectHolder(AoV.MODID)
+@ObjectHolder(AoV.MODID)
 @Mod.EventBusSubscriber(modid = AoV.MODID)
 public class AoVBlocks {
 
@@ -34,17 +29,17 @@ public class AoVBlocks {
 	public static void registerBlocks(RegistryEvent.Register<Block> event) {
 		event.getRegistry().registerAll(
 
-				new BlockAngelicBlock(BlockAngelicBlock.ClassType.ALL, AoVTabs.tabAoV, Material.ROCK, "angelicstatue", 7.0F),
+				assign(new BlockAngelicBlock(BlockAngelicBlock.ClassType.ALL, Block.Properties.create(Material.ROCK).hardnessAndResistance(7F).hardnessAndResistance(7F)), "angelicstatue"),
 
-				new BlockAngelicBlock(BlockAngelicBlock.ClassType.FAVOREDSOUL, AoVTabs.tabAoV, Material.ROCK, "favoredsoulstatue", 7.0F),
+				assign(new BlockAngelicBlock(BlockAngelicBlock.ClassType.FAVOREDSOUL, Block.Properties.create(Material.ROCK).hardnessAndResistance(7F)), "favoredsoulstatue"),
 
-				new BlockAngelicBlock(BlockAngelicBlock.ClassType.CLERIC, AoVTabs.tabAoV, Material.ROCK, "clericstatue", 7.0F),
+				assign(new BlockAngelicBlock(BlockAngelicBlock.ClassType.CLERIC, Block.Properties.create(Material.ROCK).hardnessAndResistance(7F)), "clericstatue"),
 
-				new BlockAngelicBlock(BlockAngelicBlock.ClassType.PALADIN, AoVTabs.tabAoV, Material.ROCK, "paladinstatue", 7.0F),
+				assign(new BlockAngelicBlock(BlockAngelicBlock.ClassType.PALADIN, Block.Properties.create(Material.ROCK).hardnessAndResistance(7F)), "paladinstatue"),
 
-				new BlockAngelicBlock(BlockAngelicBlock.ClassType.ASTRO, AoVTabs.tabAoV, Material.ROCK, "astrostatue", 7.0F),
+				assign(new BlockAngelicBlock(BlockAngelicBlock.ClassType.ASTRO, Block.Properties.create(Material.ROCK).hardnessAndResistance(7F)), "astrostatue"),
 
-				new BlockAngelicBlock(BlockAngelicBlock.ClassType.DRUID, AoVTabs.tabAoV, Material.ROCK, "druidstatue", 7.0F)
+				assign(new BlockAngelicBlock(BlockAngelicBlock.ClassType.DRUID, Block.Properties.create(Material.ROCK).hardnessAndResistance(7F)), "druidstatue")
 
 		);
 	}
@@ -68,15 +63,19 @@ public class AoVBlocks {
 		);
 	}
 
-	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event) {
-		registerModel(angelicstatue, 0);
-		registerModel(favoredsoulstatue, 0, "favoredsoul", "angelicstatue");
-		registerModel(clericstatue, 0, "cleric", "angelicstatue");
-		registerModel(paladinstatue, 0, "paladin", "angelicstatue");
-		registerModel(astrostatue, 0, "astro", "angelicstatue");
-		registerModel(druidstatue, 0, "druid", "angelicstatue");
+		registerModel(angelicstatue);
+		registerModel(favoredsoulstatue, "favoredsoul", "angelicstatue");
+		registerModel(clericstatue, "cleric", "angelicstatue");
+		registerModel(paladinstatue, "paladin", "angelicstatue");
+		registerModel(astrostatue, "astro", "angelicstatue");
+		registerModel(druidstatue, "druid", "angelicstatue");
+	}
+
+	private static Block assign(Block block, String name) {
+		return block.
+				setRegistryName(AoV.MODID, name);
 	}
 
 	@SubscribeEvent
@@ -96,17 +95,15 @@ public class AoVBlocks {
 	private static void registerItemBlocks(IForgeRegistry<Item> registry, Block... blocks) {
 		for (Block block : blocks)
 			if (block.getRegistryName() != null)
-				registry.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
+				registry.register(new ItemBlock(block, new Item.Properties().setNoRepair().group(AoVTabs.tabAoV)).setRegistryName(block.getRegistryName()));
 	}
 
-	private static void registerModel(Block block, int meta, String... variant) {
+	private static void registerModel(Block block, String... variant) {
 		if (block.getRegistryName() == null)
 			return;
-		ModelLoader.setCustomModelResourceLocation(
+		/*ModelLoader.setCustomModelResourceLocation(
 
 				Item.getItemFromBlock(block),
-
-				meta,
 
 				new ModelResourceLocation(
 
@@ -116,7 +113,7 @@ public class AoVBlocks {
 
 				)
 
-		);
+		);*/
 	}
 
 }

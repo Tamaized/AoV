@@ -7,26 +7,23 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.IItemTier;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import tamaized.aov.registry.AoVTabs;
-import tamaized.tammodized.common.tools.TamSword;
 
 import javax.annotation.Nonnull;
 
-public class Handwraps extends TamSword {
+public class Handwraps extends ItemSword {
 
-	public Handwraps(String n) {
-		super(AoVTabs.tabAoV, ToolMaterial.DIAMOND, n);
+	public Handwraps(IItemTier tier, int attackDamage, float attackSpeed, Properties properties) {
+		super(tier, attackDamage, attackSpeed, properties);
 	}
 
 	@Nonnull
 	@Override
-	@Deprecated
-	public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot equipmentSlot) {
+	public Multimap<String, AttributeModifier> getAttributeModifiers(@Nonnull EntityEquipmentSlot equipmentSlot) {
 		return HashMultimap.create();
 	}
 
@@ -61,18 +58,6 @@ public class Handwraps extends TamSword {
 	@Override
 	public boolean canHarvestBlock(IBlockState blockIn) {
 		return false;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean isFull3D() {
-		return this.bFull3D;
-	}
-
-	@Nonnull
-	@Override
-	public String getToolMaterialName() {
-		return "CLOTH";
 	}
 
 	@Override

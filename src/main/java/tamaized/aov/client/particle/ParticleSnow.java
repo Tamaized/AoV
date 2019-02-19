@@ -1,30 +1,26 @@
 package tamaized.aov.client.particle;
 
-import net.minecraft.client.particle.ParticleSnowShovel;
+import net.minecraft.client.particle.ParticleSmokeNormal;
 import net.minecraft.world.World;
 
-public class ParticleSnow extends ParticleSnowShovel {
+public class ParticleSnow extends ParticleSmokeNormal { // TODO: used to be ParticleSnowShovel, check this
 
-	public ParticleSnow(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn) {
-		super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn, 1.0F);
-	}
-
-	public ParticleSnow(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, float p_i1228_14_) {
-		super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
+	public ParticleSnow(World p_i46348_1_, double p_i46348_2_, double p_i46348_4_, double p_i46348_6_, double p_i46348_8_, double p_i46348_10_, double p_i46348_12_, float p_i46348_14_) {
+		super(p_i46348_1_, p_i46348_2_, p_i46348_4_, p_i46348_6_, p_i46348_8_, p_i46348_10_, p_i46348_12_, p_i46348_14_);
 	}
 
 	// [Vanilla Copy] from super; except we remove the downward motion.
 	@Override
-	public void onUpdate() {
+	public void tick() {
 		this.prevPosX = this.posX;
 		this.prevPosY = this.posY;
 		this.prevPosZ = this.posZ;
 
-		if (this.particleAge++ >= this.particleMaxAge) {
+		if (this.age++ >= this.maxAge) {
 			this.setExpired();
 		}
 
-		this.setParticleTextureIndex(7 - this.particleAge * 8 / this.particleMaxAge);
+		this.setParticleTextureIndex(7 - this.age * 8 / this.maxAge);
 		//		this.motionY -= 0.03D;
 		this.move(this.motionX, this.motionY, this.motionZ);
 		this.motionX *= 0.9900000095367432D;

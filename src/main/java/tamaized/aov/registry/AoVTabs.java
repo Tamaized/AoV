@@ -1,15 +1,15 @@
 package tamaized.aov.registry;
 
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 
 public class AoVTabs {
 
-	public static final CreativeTabs tabAoV = new CreativeTabs("aov") {
+	public static final ItemGroup tabAoV = new ItemGroup("aov") {
 		@Override
 		public ItemStack createIcon() {
-			return new ItemStack(Items.BLAZE_POWDER);
+			return new ItemStack(AoVBlocks.clericstatue);
 		}
 	};
 
