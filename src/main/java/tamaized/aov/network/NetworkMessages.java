@@ -11,6 +11,7 @@ import tamaized.aov.network.client.ClientPacketHandlerAoVData;
 import tamaized.aov.network.client.ClientPacketHandlerAoVSimpleData;
 import tamaized.aov.network.client.ClientPacketHandlerAstroAnimation;
 import tamaized.aov.network.client.ClientPacketHandlerAstroData;
+import tamaized.aov.network.client.ClientPacketHandlerFloatyText;
 import tamaized.aov.network.client.ClientPacketHandlerLeap;
 import tamaized.aov.network.client.ClientPacketHandlerMovingSound;
 import tamaized.aov.network.client.ClientPacketHandlerParticle;
@@ -40,6 +41,7 @@ public class NetworkMessages {
 		registerMessage(network, ClientPacketHandlerPolymorphDogAttack.class, IMessage.Side.CLIENT);
 		registerMessage(network, ClientPacketHandlerParticle.class, IMessage.Side.CLIENT);
 		registerMessage(network, ClientPacketHandlerAoVSimpleData.class, IMessage.Side.CLIENT);
+		registerMessage(network, ClientPacketHandlerFloatyText.class, IMessage.Side.CLIENT);
 	}
 
 	private static <M extends IMessage<M>> void registerMessage(SimpleChannel network, Class<M> type, IMessage.Side side) {

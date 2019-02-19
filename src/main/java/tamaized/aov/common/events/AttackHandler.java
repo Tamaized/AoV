@@ -30,6 +30,7 @@ import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.druid.FuriousClaw;
 import tamaized.aov.common.core.abilities.druid.FuriousFang;
 import tamaized.aov.common.core.skills.AoVSkills;
+import tamaized.aov.common.helper.FloatyTextHelper;
 import tamaized.aov.registry.AoVPotions;
 
 import java.util.Set;
@@ -170,7 +171,7 @@ public class AttackHandler {
 			}
 
 			// Elemental Empowerment - Water
-			if (attacker instanceof EntityLivingBase && cap != null && poly != null && poly.getMorph() == IPolymorphCapability.Morph.WaterElemental && cap.isAuraActive(Abilities.elementalEmpowerment)) {
+			if (attacker instanceof EntityLivingBase && poly != null && poly.getMorph() == IPolymorphCapability.Morph.WaterElemental && cap.isAuraActive(Abilities.elementalEmpowerment)) {
 				((EntityLivingBase) attacker).addPotionEffect(new PotionEffect(AoVPotions.coldChill, 20 * 20, (int) Math.floor(cap.getSpellPower() / 25F)));
 				cap.addExp(entity, 20, Abilities.elementalEmpowerment);
 			}
