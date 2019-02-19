@@ -23,20 +23,20 @@ public class ClientSpawnEvent {
 	public void spawn(EntityJoinWorldEvent e) {
 		if (e.getWorld().isRemote) {
 			if (e.getEntity() instanceof EntitySpellBladeBarrier) {
-				Minecraft.getMinecraft().getSoundHandler().playSound(new EntityMovingSound(SoundEvents.bladebarrier, SoundCategory.NEUTRAL, e.getEntity(), true, 0, 1, 1));
+				Minecraft.getInstance().getSoundHandler().playSound(new EntityMovingSound(SoundEvents.bladebarrier, SoundCategory.NEUTRAL, e.getEntity(), true, 0, 1, 1));
 			} else if (e.getEntity() instanceof EntitySpellImplosion) {
-				Minecraft.getMinecraft().getSoundHandler().playSound(new EntityMovingSound(SoundEvents.implosion, SoundCategory.NEUTRAL, e.getEntity(), false, 0, 1, 1));
+				Minecraft.getInstance().getSoundHandler().playSound(new EntityMovingSound(SoundEvents.implosion, SoundCategory.NEUTRAL, e.getEntity(), false, 0, 1, 1));
 			} else if (e.getEntity() instanceof ProjectileNimbusRay) {
-				Minecraft.getMinecraft().getSoundHandler().playSound(new EntityMovingSound(SoundEvents.cast, SoundCategory.NEUTRAL, e.getEntity(), false, 0, 1, 1));
+				Minecraft.getInstance().getSoundHandler().playSound(new EntityMovingSound(SoundEvents.cast, SoundCategory.NEUTRAL, e.getEntity(), false, 0, 1, 1));
 			}
 		}
 	}
 
 	@SubscribeEvent
 	public void update(TickEvent.ClientTickEvent e) {
-		if (e.phase == TickEvent.Phase.START || Minecraft.getMinecraft().world == null)
+		if (e.phase == TickEvent.Phase.START || Minecraft.getInstance().world == null)
 			return;
-		for (Entity entity : Minecraft.getMinecraft().world.loadedEntityList) {
+		for (Entity entity : Minecraft.getInstance().world.loadedEntityList) {
 			if (!(entity instanceof EntityLivingBase))
 				continue;
 			IStunCapability cap = CapabilityList.getCap(entity, CapabilityList.STUN);

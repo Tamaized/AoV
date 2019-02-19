@@ -27,7 +27,7 @@ public class ParticleHeartColor extends Particle {
 		particleGreen = (float) (color >> 16 & 255) / 255.0F;
 		particleBlue = (float) (color >> 8 & 255) / 255.0F;
 		particleAlpha = (float) (color & 255) / 255.0F;
-		particleTexture = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(TextureStitch.HEART.toString());
+		particleTexture = Minecraft.getInstance().getTextureMapBlocks().getAtlasSprite(TextureStitch.HEART.toString());
 	}
 
 	@Override

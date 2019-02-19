@@ -119,7 +119,7 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 		if (player.world.isRemote) {
 			if (fromPacket && player.onGround) {
 				initalAttackCooldown = attackCooldown = cooldown;
-				Vec3d lookVector = player.getLook(Minecraft.getMinecraft().getRenderPartialTicks());
+				Vec3d lookVector = player.getLook(Minecraft.getInstance().getRenderPartialTicks());
 				IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
 				Vec3d vel = new Vec3d(0.9F * lookVector.x, 0.5F, 0.9F * lookVector.z);
 				if (cap != null && cap.hasSkill(AoVSkills.druid_core_4) && IAoVCapability.isCentered(player, cap))

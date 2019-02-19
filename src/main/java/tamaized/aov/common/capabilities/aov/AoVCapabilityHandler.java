@@ -597,9 +597,9 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		Ability ability = getSlot(slotLoc);
 		if (ability != null && ability.getAbility().runOnClient())
 			if (ClientProxy.getTarget() == null)
-				ability.cast(Minecraft.getMinecraft().player);
+				ability.cast(Minecraft.getInstance().player);
 			else
-				ability.cast(Minecraft.getMinecraft().player, ClientProxy.getTarget());
+				ability.cast(Minecraft.getInstance().player, ClientProxy.getTarget());
 	}
 
 	@Override

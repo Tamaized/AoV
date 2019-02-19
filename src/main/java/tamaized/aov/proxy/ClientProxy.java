@@ -56,7 +56,7 @@ public class ClientProxy extends CommonProxy {
 	private static SizedFontRenderer FONT_RENDERER;
 
 	public static void setTarget() {
-		Entity ent = ClientHelpers.getTargetOverMouse(Minecraft.getMinecraft(), 128);
+		Entity ent = ClientHelpers.getTargetOverMouse(Minecraft.getInstance(), 128);
 		if (ent instanceof EntityLivingBase && target != ent)
 			target = (EntityLivingBase) ent;
 		else
@@ -77,8 +77,8 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void preInit() {
-		if (!Minecraft.getMinecraft().getFramebuffer().isStencilEnabled())
-			Minecraft.getMinecraft().getFramebuffer().enableStencil();
+		if (!Minecraft.getInstance().getFramebuffer().isStencilEnabled())
+			Minecraft.getInstance().getFramebuffer().enableStencil();
 
 		KeyHandler.register();
 
@@ -111,12 +111,12 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void postInit() {
 		FONT_RENDERER = new SizedFontRenderer();
-		if (Minecraft.getMinecraft().gameSettings.language != null) {
-			FONT_RENDERER.setUnicodeFlag(Minecraft.getMinecraft().isUnicode());
-			FONT_RENDERER.setBidiFlag(Minecraft.getMinecraft().getLanguageManager().isCurrentLanguageBidirectional());
+		if (Minecraft.getInstance().gameSettings.language != null) {
+			FONT_RENDERER.setUnicodeFlag(Minecraft.getInstance().isUnicode());
+			FONT_RENDERER.setBidiFlag(Minecraft.getInstance().getLanguageManager().isCurrentLanguageBidirectional());
 		}
-		if (IReloadableResourceManager.class.isAssignableFrom(Minecraft.getMinecraft().getResourceManager().getClass()))
-			IReloadableResourceManager.class.cast(Minecraft.getMinecraft().getResourceManager()).registerReloadListener(FONT_RENDERER);
+		if (IReloadableResourceManager.class.isAssignableFrom(Minecraft.getInstance().getResourceManager().getClass()))
+			IReloadableResourceManager.class.cast(Minecraft.getInstance().getResourceManager()).registerReloadListener(FONT_RENDERER);
 	}
 
 	@Override
@@ -135,6 +135,6 @@ public class ClientProxy extends CommonProxy {
 		}
 		//noinspection ConstantConditions
 		if (particle != null)
-			Minecraft.getMinecraft().effectRenderer.addEffect(particle);
+			Minecraft.getInstance().effectRenderer.addEffect(particle);
 	}
 }

@@ -65,7 +65,7 @@ public class RenderSpellLightingStorm extends Render<EntitySpellLightningStorm> 
 		GlStateManager.shadeModel(GL11.GL_SMOOTH);
 		entity.clouds.sort((o1, o2) -> {
 			boolean reverse = false;
-			Entity view = Minecraft.getMinecraft().getRenderViewEntity();
+			Entity view = Minecraft.getInstance().getRenderViewEntity();
 			if (view == null) {
 				view = entity;
 				reverse = true;
@@ -91,7 +91,7 @@ public class RenderSpellLightingStorm extends Render<EntitySpellLightningStorm> 
 	}
 
 	private void renderRain(EntitySpellLightningStorm storm, float partialTicks) {
-		Minecraft mc = Minecraft.getMinecraft();
+		Minecraft mc = Minecraft.getInstance();
 		Entity entity = mc.getRenderViewEntity();
 		if (entity == null)
 			return;

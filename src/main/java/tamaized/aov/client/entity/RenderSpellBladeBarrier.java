@@ -57,7 +57,7 @@ public class RenderSpellBladeBarrier<T extends EntitySpellBladeBarrier> extends 
 	}
 
 	private void drawRing(T entity) {
-		RenderItem itemRender = Minecraft.getMinecraft().getRenderItem();
+		RenderItem itemRender = Minecraft.getInstance().getRenderItem();
 		for (int r = 0; r <= entity.getRange() + 1; r++) {
 			GlStateManager.pushMatrix();
 			{

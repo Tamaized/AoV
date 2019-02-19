@@ -149,7 +149,7 @@ public class RenderPlayer {
 			if (player.isSneaking()) {
 				GlStateManager.translate(0.0F, -0.2F, 0.0F);
 			}
-			Minecraft.getMinecraft().renderEngine.bindTexture(TEXTURE_WING);
+			Minecraft.getInstance().renderEngine.bindTexture(TEXTURE_WING);
 			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 			double x1 = 0;
 			double x2 = x1 + 1;
@@ -253,7 +253,7 @@ public class RenderPlayer {
 					GlStateManager.pushMatrix();
 					{
 						GlStateManager.translate(e.getX(), e.getY(), e.getZ());
-						Minecraft.getMinecraft().renderEngine.bindTexture(TEXTURE_SUNBODY);
+						Minecraft.getInstance().renderEngine.bindTexture(TEXTURE_SUNBODY);
 
 						Tessellator tess = Tessellator.getInstance();
 						BufferBuilder buffer = tess.getBuffer();
@@ -303,11 +303,11 @@ public class RenderPlayer {
 
 	@SubscribeEvent
 	public void render(RenderHandEvent e) {
-		EntityPlayer player = Minecraft.getMinecraft().player;
+		EntityPlayer player = Minecraft.getInstance().player;
 		IPolymorphCapability cap = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
 		if (cap != null) {
 			if (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental || cap.getMorph() == IPolymorphCapability.Morph.FireElemental || cap.getMorph() == IPolymorphCapability.Morph.ArchAngel) {
-				Minecraft mc = Minecraft.getMinecraft();
+				Minecraft mc = Minecraft.getInstance();
 				boolean flag = mc.getRenderViewEntity() instanceof EntityLivingBase && ((EntityLivingBase) mc.getRenderViewEntity()).isPlayerSleeping();
 				if (mc.gameSettings.thirdPersonView == 0 && !flag && !mc.gameSettings.hideGUI && !mc.playerController.isSpectator()) {
 					mc.entityRenderer.enableLightmap();
@@ -347,7 +347,7 @@ public class RenderPlayer {
 
 	@SubscribeEvent
 	public void render(RenderSpecificHandEvent e) {
-		AbstractClientPlayer player = Minecraft.getMinecraft().player;
+		AbstractClientPlayer player = Minecraft.getInstance().player;
 		IPolymorphCapability cap = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
 		if (cap != null && cap.getMorph() == IPolymorphCapability.Morph.Wolf) {
 			e.setCanceled(true);
@@ -363,8 +363,8 @@ public class RenderPlayer {
 			float f6 = MathHelper.sin(f1 * (float) Math.PI);
 			GlStateManager.rotate(f * f6 * 40.0F, 0.0F, 1.0F, 0.0F);
 			GlStateManager.rotate(f * f5 * -20.0F, 0.0F, 0.0F, 1.0F);
-			AbstractClientPlayer abstractclientplayer = Minecraft.getMinecraft().player;
-			Minecraft.getMinecraft().getTextureManager().bindTexture(WOLF_TEXTURES);
+			AbstractClientPlayer abstractclientplayer = Minecraft.getInstance().player;
+			Minecraft.getInstance().getTextureManager().bindTexture(WOLF_TEXTURES);
 			GlStateManager.translate(f * -1.0F, 3.6F, 3.5F);
 			GlStateManager.rotate(f * 120.0F, 0.0F, 0.0F, 1.0F);
 			GlStateManager.rotate(200.0F, 1.0F, 0.0F, 0.0F);
@@ -375,7 +375,7 @@ public class RenderPlayer {
 			GlStateManager.enableCull();
 		} else {
 			if (e.getItemStack().getItem() instanceof Handwraps && e.getHand() == EnumHand.MAIN_HAND) {
-				Minecraft mc = Minecraft.getMinecraft();
+				Minecraft mc = Minecraft.getInstance();
 				float f = player.getSwingProgress(e.getPartialTicks());
 				EnumHand enumhand = MoreObjects.firstNonNull(player.swingingHand, EnumHand.MAIN_HAND);
 				float f3 = enumhand == e.getHand() ? f : 0.0F;

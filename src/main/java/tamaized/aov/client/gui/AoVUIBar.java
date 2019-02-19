@@ -22,7 +22,7 @@ import tamaized.aov.proxy.ClientProxy;
 public class AoVUIBar {
 
 	public static final ResourceLocation widgetsTexPath = new ResourceLocation("textures/gui/widgets.png");
-	private static final Minecraft mc = Minecraft.getMinecraft();
+	private static final Minecraft mc = Minecraft.getInstance();
 	public static int slotLoc = 0;
 
 	@SubscribeEvent
@@ -103,7 +103,7 @@ public class AoVUIBar {
 	}
 
 	private static void renderIcon(Gui gui, ResourceLocation icon) {
-		Minecraft.getMinecraft().getTextureManager().bindTexture(icon);
+		Minecraft.getInstance().getTextureManager().bindTexture(icon);
 		gui.drawTexturedModalRect(0, 0, 0, 0, 256, 256);
 	}
 

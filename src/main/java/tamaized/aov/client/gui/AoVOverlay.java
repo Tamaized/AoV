@@ -47,7 +47,7 @@ public class AoVOverlay extends Gui {
 	public static final ResourceLocation TEXTURE_DOGGO = new ResourceLocation(AoV.MODID, "textures/gui/doggo.png");
 	private static final ResourceLocation TEXTURE_ELEMENTALS = new ResourceLocation(AoV.MODID, "textures/entity/fluid.png");
 	private static final ResourceLocation TEXTURE_DANGERBIOME = new ResourceLocation(AoV.MODID, "textures/gui/dangerbiome.png");
-	private static final Minecraft mc = Minecraft.getMinecraft();
+	private static final Minecraft mc = Minecraft.getInstance();
 	private static final Random rand = new Random();
 	public static boolean hackyshit = false;
 	public static float intensity = 0F;
@@ -201,7 +201,7 @@ public class AoVOverlay extends Gui {
 		if (ConfigHandler.EARTHQUAKE.shake && e.phase == TickEvent.Phase.START && mc.world != null) {
 			for (Entity entity : mc.world.loadedEntityList) {
 				if (entity instanceof EntityEarthquake) {
-					float intense = (float) (1F - entity.getDistanceSq(Minecraft.getMinecraft().player) / Math.pow(16, 2));
+					float intense = (float) (1F - entity.getDistanceSq(Minecraft.getInstance().player) / Math.pow(16, 2));
 					if (intense > AoVOverlay.intensity)
 						AoVOverlay.intensity = intense;
 				}
@@ -224,8 +224,8 @@ public class AoVOverlay extends Gui {
 	}
 
 	private void renderStencils() {
-		if (!Minecraft.getMinecraft().getFramebuffer().isStencilEnabled())
-			Minecraft.getMinecraft().getFramebuffer().enableStencil();
+		if (!Minecraft.getInstance().getFramebuffer().isStencilEnabled())
+			Minecraft.getInstance().getFramebuffer().enableStencil();
 		if (GL11.glGetInteger(GL11.GL_STENCIL_BITS) < 1) {
 			NO_STENCIL = true;
 			return;
@@ -233,7 +233,7 @@ public class AoVOverlay extends Gui {
 		NO_STENCIL = false;
 		float frames = ClientTicker.frames + (mc.isGamePaused() ? 0 : mc.getRenderPartialTicks());
 		if (mc.world != null) {
-			Minecraft.getMinecraft().renderEngine.bindTexture(TEXTURE_ELEMENTALS);
+			Minecraft.getInstance().renderEngine.bindTexture(TEXTURE_ELEMENTALS);
 			Tessellator tess = Tessellator.getInstance();
 			BufferBuilder buffer = tess.getBuffer();
 			ScaledResolution resolution = new ScaledResolution(mc);
@@ -242,7 +242,7 @@ public class AoVOverlay extends Gui {
 			float scale = (4F - resolution.getScaleFactor() + 1F) * 32F;
 			float u = 1F / (scale / w);
 			float v = 1F / (scale / h);
-			Minecraft.getMinecraft().entityRenderer.setupOverlayRendering();
+			Minecraft.getInstance().entityRenderer.setupOverlayRendering();
 			GlStateManager.enableBlend();
 			GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			GlStateManager.shadeModel(GL11.GL_SMOOTH);
@@ -443,7 +443,7 @@ public class AoVOverlay extends Gui {
 				buffer.pos(x, y + h, 0).tex(0, 1).color(r, g, b, a).endVertex();
 				buffer.pos(x + w, y + h, 0).tex(1, 1).color(r, g, b, a).endVertex();
 
-				Minecraft.getMinecraft().renderEngine.bindTexture(TEXTURE_FOCUS);
+				Minecraft.getInstance().renderEngine.bindTexture(TEXTURE_FOCUS);
 				tess.draw();
 			}
 			GlStateManager.disableBlend();
@@ -490,7 +490,7 @@ public class AoVOverlay extends Gui {
 
 						0xFFFFFF);
 				{
-					Minecraft.getMinecraft().renderEngine.bindTexture(Gui.ICONS);
+					Minecraft.getInstance().renderEngine.bindTexture(Gui.ICONS);
 					int posx = (int) (x + 30);
 					int posy = (int) (y + 13);
 					int textureX = 52;

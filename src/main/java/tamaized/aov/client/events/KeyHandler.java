@@ -84,7 +84,7 @@ public class KeyHandler {
 	public static void handle(TickEvent.ClientTickEvent e) {
 		if (e.phase == TickEvent.Phase.START)
 			return;
-		EntityPlayer player = Minecraft.getMinecraft().player;
+		EntityPlayer player = Minecraft.getInstance().player;
 		if (player == null || !player.hasCapability(CapabilityList.AOV, null)) {
 			ClientProxy.setTarget(null);
 			return;
@@ -103,12 +103,12 @@ public class KeyHandler {
 
 	@SubscribeEvent
 	public static void handleKeys(InputEvent.KeyInputEvent e) {
-		EntityPlayer player = Minecraft.getMinecraft().player;
+		EntityPlayer player = Minecraft.getInstance().player;
 		if (player == null)
 			return;
 		if (player.updateBlocked) {
-			KeyBinding chat = Minecraft.getMinecraft().gameSettings.keyBindChat;
-			KeyBinding perspective = Minecraft.getMinecraft().gameSettings.keyBindTogglePerspective;
+			KeyBinding chat = Minecraft.getInstance().gameSettings.keyBindChat;
+			KeyBinding perspective = Minecraft.getInstance().gameSettings.keyBindTogglePerspective;
 			boolean chatpress = chat.isPressed();
 			boolean perspectivepress = perspective.isPressed();
 			KeyBinding.unPressAllKeys();
@@ -124,7 +124,7 @@ public class KeyHandler {
 		}
 		if (ClientProxy.barToggle) {
 			for (int i = 0; i <= 8; i++) {
-				KeyBinding keyBind = Minecraft.getMinecraft().gameSettings.keyBindsHotbar[i];
+				KeyBinding keyBind = Minecraft.getInstance().gameSettings.keyBindsHotbar[i];
 				if (keyBind.isPressed()) {
 					KeyBinding.setKeyBindState(keyBind.getKeyCode(), false);
 					AoVUIBar.slotLoc = i;
@@ -132,7 +132,7 @@ public class KeyHandler {
 				}
 			}
 		}
-		KeyBinding itemUse = Minecraft.getMinecraft().gameSettings.keyBindUseItem;
+		KeyBinding itemUse = Minecraft.getInstance().gameSettings.keyBindUseItem;
 		if (itemUse.isPressed()) {
 			if (ClientProxy.barToggle) {
 				IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
@@ -152,7 +152,7 @@ public class KeyHandler {
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void handleCamera(EntityViewRenderEvent.CameraSetup e) {
-		EntityPlayer player = Minecraft.getMinecraft().player;
+		EntityPlayer player = Minecraft.getInstance().player;
 		if (player == null)
 			return;
 		if (player.updateBlocked) {
@@ -174,7 +174,7 @@ public class KeyHandler {
 
 	@SubscribeEvent
 	public static void handleDelta(TickEvent.RenderTickEvent e) {
-		EntityPlayer player = Minecraft.getMinecraft().player;
+		EntityPlayer player = Minecraft.getInstance().player;
 		if (player == null || e.phase == TickEvent.Phase.END)
 			return;
 		if (player.updateBlocked) {
@@ -196,7 +196,7 @@ public class KeyHandler {
 
 	@SubscribeEvent
 	public static void handleMouse(MouseEvent e) {
-		EntityPlayer player = Minecraft.getMinecraft().player;
+		EntityPlayer player = Minecraft.getInstance().player;
 		if (player == null)
 			return;
 		if (player.updateBlocked) {
@@ -220,7 +220,7 @@ public class KeyHandler {
 		if (ClientProxy.barToggle || (poly != null && poly.getMorph() == IPolymorphCapability.Morph.Wolf)) {
 			if (e.getDwheel() != 0)
 				e.setCanceled(true);
-			KeyBinding itemUse = Minecraft.getMinecraft().gameSettings.keyBindUseItem;
+			KeyBinding itemUse = Minecraft.getInstance().gameSettings.keyBindUseItem;
 			IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
 			if (e.getButton() - 100 == itemUse.getKeyCode() && e.isButtonstate()) {
 				// Cancel item use on the main hotbar if we're a mouse button

@@ -38,7 +38,7 @@ public class ConfigButtonHandler {
 						if (!event.getResult().equals(Event.Result.DENY))
 							MinecraftForge.EVENT_BUS.post(new ConfigChangedEvent.PostConfigChangedEvent(gui.modID, gui.configID, gui.isWorldRunning, requiresMcRestart));
 					}
-					Minecraft.getMinecraft().displayGuiScreen(new AdjustElementsGUI());
+					Minecraft.getInstance().displayGuiScreen(new AdjustElementsGUI());
 					return true;
 				}
 			});

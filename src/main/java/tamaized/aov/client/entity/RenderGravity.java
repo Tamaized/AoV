@@ -136,7 +136,7 @@ public class RenderGravity<T extends EntityGravity> extends Render<T> {
 		GlStateManager.pushMatrix();
 		bindTexture(TEXTURE);
 		SPHERE.setTextureFlag(true);
-		GlStateManager.rotate((entity.spinnyBoi += Minecraft.getMinecraft().isGamePaused() ? 0 : (360F / (float) Minecraft.getDebugFPS())) % 360, 0, 0, 1);
+		GlStateManager.rotate((entity.spinnyBoi += Minecraft.getInstance().isGamePaused() ? 0 : (360F / (float) Minecraft.getDebugFPS())) % 360, 0, 0, 1);
 		renderSphere(4F);
 		GlStateManager.color4f(0.5F, 0.75F, 0.75F, 1F - alpha);
 		renderSphere(1F);

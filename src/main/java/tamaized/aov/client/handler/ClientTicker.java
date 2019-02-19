@@ -18,7 +18,7 @@ public class ClientTicker {
 
 	@SubscribeEvent
 	public static void update(TickEvent.ClientTickEvent event) {
-		if (Minecraft.getMinecraft().isGamePaused() || event.phase != TickEvent.Phase.START)
+		if (Minecraft.getInstance().isGamePaused() || event.phase != TickEvent.Phase.START)
 			return;
 		frames++;
 		charges.update();

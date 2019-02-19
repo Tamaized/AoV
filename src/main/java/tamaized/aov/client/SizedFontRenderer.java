@@ -11,7 +11,7 @@ public class SizedFontRenderer extends FontRenderer { // TODO tammodized
 	private float size = 1F;
 
 	public SizedFontRenderer() {
-		super(Minecraft.getMinecraft().gameSettings, new ResourceLocation("textures/font/ascii.png"), Minecraft.getMinecraft().renderEngine, false);
+		super(Minecraft.getInstance().gameSettings, new ResourceLocation("textures/font/ascii.png"), Minecraft.getInstance().renderEngine, false);
 	}
 
 	public SizedFontRenderer setSize(float s) {

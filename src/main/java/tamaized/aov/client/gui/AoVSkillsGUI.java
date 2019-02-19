@@ -164,7 +164,7 @@ public class AoVSkillsGUI extends GuiScreenClose {
 	protected void keyTyped(char typedChar, int keyCode) {
 		if (keyCode == 1 || this.mc.gameSettings.keyBindInventory.isActiveAndMatches(keyCode)) {
 			if (mc.player == null)
-				Minecraft.getMinecraft().displayGuiScreen(null);
+				Minecraft.getInstance().displayGuiScreen(null);
 			else
 				this.mc.player.closeScreen();
 		}

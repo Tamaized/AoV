@@ -24,7 +24,7 @@ public class ParticleFeather extends Particle {
 		particleGreen = (float) (color >> 16 & 255) / 255.0F;
 		particleBlue = (float) (color >> 8 & 255) / 255.0F;
 		particleAlpha = (float) (color & 255) / 255.0F;
-		particleTexture = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(FEATHER.toString());
+		particleTexture = Minecraft.getInstance().getTextureMapBlocks().getAtlasSprite(FEATHER.toString());
 	}
 
 	@Override

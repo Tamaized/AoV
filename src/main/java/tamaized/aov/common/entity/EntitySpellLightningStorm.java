@@ -121,7 +121,7 @@ public class EntitySpellLightningStorm extends Entity {
 
 		@OnlyIn(Dist.CLIENT)
 		public boolean render(@Nonnull EntitySpellLightningStorm entity, double ox, double oy, double oz, float partialTicks, RenderManager renderManager) {
-			if (!Minecraft.getMinecraft().isGamePaused()) {
+			if (!Minecraft.getInstance().isGamePaused()) {
 				life -= partialTicks;
 				alpha += (life < maxLife / 2F ? -1 : 1) * partialTicks * (1F / (maxLife / 2F));
 				alpha = MathHelper.clamp(alpha, 0, 1);

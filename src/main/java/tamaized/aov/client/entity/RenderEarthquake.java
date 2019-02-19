@@ -35,8 +35,8 @@ public class RenderEarthquake extends Render<EntityEarthquake> {
 
 	// [Vanilla Copy] Render#renderShadow
 	private static void renderShadow(Entity entityIn, double x, double y, double z, float shadowAlpha, float partialTicks) {
-		Minecraft.getMinecraft().getRenderManager().renderEngine.bindTexture(SHADOW_TEXTURES);
-		World world = Minecraft.getMinecraft().world;
+		Minecraft.getInstance().getRenderManager().renderEngine.bindTexture(SHADOW_TEXTURES);
+		World world = Minecraft.getInstance().world;
 		GlStateManager.depthMask(false);
 		float f = 3F;
 
@@ -83,14 +83,14 @@ public class RenderEarthquake extends Render<EntityEarthquake> {
 		if (state.isFullCube()) {
 			Tessellator tessellator = Tessellator.getInstance();
 			BufferBuilder bufferbuilder = tessellator.getBuffer();
-			double d0 = ((double) p_188299_9_ - (p_188299_4_ - ((double) p_188299_8_.getY() + p_188299_13_)) / 2.0D) * 0.5D * (double) Minecraft.getMinecraft().world.getLightBrightness(p_188299_8_);
+			double d0 = ((double) p_188299_9_ - (p_188299_4_ - ((double) p_188299_8_.getY() + p_188299_13_)) / 2.0D) * 0.5D * (double) Minecraft.getInstance().world.getLightBrightness(p_188299_8_);
 
 			if (d0 >= 0.0D) {
 				if (d0 > 1.0D) {
 					d0 = 1.0D;
 				}
 
-				AxisAlignedBB axisalignedbb = state.getBoundingBox(Minecraft.getMinecraft().world, p_188299_8_);
+				AxisAlignedBB axisalignedbb = state.getBoundingBox(Minecraft.getInstance().world, p_188299_8_);
 				double d1 = (double) p_188299_8_.getX() + axisalignedbb.minX + p_188299_11_;
 				double d2 = (double) p_188299_8_.getX() + axisalignedbb.maxX + p_188299_11_;
 				double d3 = (double) p_188299_8_.getY() + axisalignedbb.minY + p_188299_13_ + 0.015625D;
