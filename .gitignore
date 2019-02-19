@@ -5,7 +5,6 @@
 !/gradle/**
 !/src/
 !/src/**
-/src/disabled/
 /src/test/
 !build.gradle
 !gradle.properties
