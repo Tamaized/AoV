@@ -5,6 +5,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
 
 import javax.annotation.Nonnull;
@@ -17,7 +19,6 @@ public class PotionSpear extends Potion {
 		super(false, 0x0000FF);
 		iconTexture = new ResourceLocation(AoV.MODID, "textures/potions/" + name + ".png");
 		setRegistryName(AoV.MODID, name);
-		setPotionName("effect." + AoV.MODID + "." + name);
 		setBeneficial();
 	}
 
@@ -33,7 +34,7 @@ public class PotionSpear extends Potion {
 
 	@Override
 	public void performEffect(@Nonnull EntityLivingBase entityLivingBaseIn, int p_76394_2_) {
-		entityLivingBaseIn.ticksSinceLastSwing = 9000;
+//		entityLivingBaseIn.ticksSinceLastSwing = 9000; TODO: ATs
 	}
 
 	@OnlyIn(Dist.CLIENT)

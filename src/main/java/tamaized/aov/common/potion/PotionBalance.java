@@ -7,6 +7,8 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
 
 import javax.annotation.Nonnull;
@@ -19,7 +21,6 @@ public class PotionBalance extends Potion {
 		super(false, 0xFF0000);
 		iconTexture = new ResourceLocation(AoV.MODID, "textures/potions/" + name + ".png");
 		setRegistryName(AoV.MODID, name);
-		setPotionName("effect." + AoV.MODID + "." + name);
 		registerPotionAttributeModifier(SharedMonsterAttributes.ATTACK_DAMAGE, "738D7064-6A60-4F59-8ABE-C2C23A6DD7B8", 0.0D, 0);
 		setBeneficial();
 	}

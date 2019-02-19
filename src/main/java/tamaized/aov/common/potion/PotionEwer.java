@@ -6,6 +6,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -20,7 +22,6 @@ public class PotionEwer extends Potion {
 		super(false, 0x00FFFF);
 		iconTexture = new ResourceLocation(AoV.MODID, "textures/potions/" + name + ".png");
 		setRegistryName(AoV.MODID, name);
-		setPotionName("effect." + AoV.MODID + "." + name);
 		setBeneficial();
 	}
 
@@ -38,11 +39,9 @@ public class PotionEwer extends Potion {
 	public void performEffect(@Nonnull EntityLivingBase entityLivingBaseIn, int p_76394_2_) {
 		if (entityLivingBaseIn instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) entityLivingBaseIn;
-			if (player.hasCapability(CapabilityList.AOV, null)) {
-				IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
-				if (cap != null)
-					cap.restoreCharges(entityLivingBaseIn, 1);
-			}
+			IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
+			if (cap != null)
+				cap.restoreCharges(entityLivingBaseIn, 1);
 		}
 	}
 

@@ -5,7 +5,11 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
+
+import javax.annotation.Nonnull;
 
 public class PotionNaturesBounty extends Potion {
 
@@ -15,7 +19,6 @@ public class PotionNaturesBounty extends Potion {
 		super(false, 0x00FF00);
 		iconTexture = new ResourceLocation(AoV.MODID, "textures/potions/" + name + ".png");
 		setRegistryName(AoV.MODID, name);
-		setPotionName("effect." + AoV.MODID + "." + name);
 		setBeneficial();
 	}
 
@@ -30,7 +33,7 @@ public class PotionNaturesBounty extends Potion {
 	}
 
 	@Override
-	public void performEffect(EntityLivingBase entityLivingBaseIn, int p_76394_2_) {
+	public void performEffect(@Nonnull EntityLivingBase entityLivingBaseIn, int p_76394_2_) {
 
 	}
 
