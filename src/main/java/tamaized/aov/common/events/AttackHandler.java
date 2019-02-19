@@ -124,7 +124,7 @@ public class AttackHandler {
 
 		// DoubleStrike
 		if (attacker != null && attacker.hasCapability(CapabilityList.AOV, null)) {
-			IAoVCapability cap = attacker.getCapability(CapabilityList.AOV, null);
+			IAoVCapability cap = CapabilityList.getCap(attacker, CapabilityList.AOV);
 			if (canHurt(entity) && cap != null && livingAttackState && attacker.world.rand.nextInt(cap.getDoubleStrikeForRand()) == 0) {
 				livingAttackState = false;
 				cap.addExp(attacker, 20, Abilities.defenderDoublestrike);
@@ -151,7 +151,7 @@ public class AttackHandler {
 		}
 
 		if (entity.hasCapability(CapabilityList.AOV, null)) {
-			IAoVCapability cap = entity.getCapability(CapabilityList.AOV, null);
+			IAoVCapability cap = CapabilityList.getCap(entity, CapabilityList.AOV);
 
 			if (cap != null && cap.hasSkill(AoVSkills.paladin_core_1) && entity instanceof EntityPlayer) {
 				if (canBlockDamageSource((EntityPlayer) entity, event.getSource(), false) && event.getAmount() > 0.0F) {

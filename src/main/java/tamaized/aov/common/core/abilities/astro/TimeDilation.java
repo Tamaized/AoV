@@ -89,7 +89,7 @@ public class TimeDilation extends AbilityBase {
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		if (!caster.hasCapability(CapabilityList.AOV, null))
 			return false;
-		IAoVCapability aov = caster.getCapability(CapabilityList.AOV, null);
+		IAoVCapability aov = CapabilityList.getCap(caster, CapabilityList.AOV);
 		EntityLivingBase entity = target != null && aov != null && IAoVCapability.canBenefit(caster, aov, target) ? target : caster;
 		for (PotionEffect effect : entity.getActivePotionEffects())
 			if (!effect.getPotion().isBadEffect())

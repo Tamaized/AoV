@@ -83,8 +83,8 @@ public class Redraw extends AbilityBase {
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		if (!caster.hasCapability(CapabilityList.ASTRO, null) || !caster.hasCapability(CapabilityList.AOV, null))
 			return false;
-		IAstroCapability astro = caster.getCapability(CapabilityList.ASTRO, null);
-		IAoVCapability aov = caster.getCapability(CapabilityList.AOV, null);
+		IAstroCapability astro = CapabilityList.getCap(caster, CapabilityList.ASTRO);
+		IAoVCapability aov = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (astro == null || aov == null)
 			return false;
 		if (astro.getDraw() != null) {

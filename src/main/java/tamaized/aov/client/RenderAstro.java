@@ -34,7 +34,7 @@ public class RenderAstro {
 
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(e.getX(), e.getY(), e.getZ());
-		IAstroCapability cap = player.getCapability(CapabilityList.ASTRO, null);
+		IAstroCapability cap = CapabilityList.getCap(player, CapabilityList.ASTRO);
 		AstroCapabilityHandler handler = cap instanceof AstroCapabilityHandler ? (AstroCapabilityHandler) cap : null;
 
 
@@ -101,7 +101,7 @@ public class RenderAstro {
 		Minecraft mc = Minecraft.getMinecraft();
 		if (mc.gameSettings.thirdPersonView != 0 || mc.player == null || !mc.player.hasCapability(CapabilityList.ASTRO, null))
 			return;
-		IAstroCapability cap = mc.player.getCapability(CapabilityList.ASTRO, null);
+		IAstroCapability cap = CapabilityList.getCap(mc.player, CapabilityList.ASTRO);
 		if (cap == null)
 			return;
 

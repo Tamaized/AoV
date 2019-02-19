@@ -10,8 +10,8 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import tamaized.aov.AoV;
@@ -23,7 +23,6 @@ import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.capabilities.stun.IStunCapability;
 import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.AoVPotions;
-import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import java.util.List;
 import java.util.UUID;
@@ -52,7 +51,7 @@ public class TickHandler {
 	}
 
 	@SubscribeEvent
-	public void update(PlayerTickEvent e) {
+	public static void update(PlayerTickEvent e) {
 		if (e.phase == TickEvent.Phase.START)
 			return;
 		EntityPlayer player = e.player;
@@ -67,21 +66,15 @@ public class TickHandler {
 				player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, (20 * (10)), 2));
 			}
 		}
-		if (player.hasCapability(CapabilityList.AOV, null)) {
-			IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
-			if (cap != null)
-				cap.update(player);
-		}
-		if (player.hasCapability(CapabilityList.ASTRO, null)) {
-			IAstroCapability cap = player.getCapability(CapabilityList.ASTRO, null);
-			if (cap != null)
-				cap.update(player);
-		}
-		if (player.hasCapability(CapabilityList.LEAP, null)) {
-			ILeapCapability cap = player.getCapability(CapabilityList.LEAP, null);
-			if (cap != null)
-				cap.update(player);
-		}
+		IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
+		if (cap != null)
+			cap.update(player);
+		IAstroCapability cap = CapabilityList.getCap(player, CapabilityList.ASTRO);
+		if (cap != null)
+			cap.update(player);
+		ILeapCapability cap = CapabilityList.getCap(player, CapabilityList.LEAP);
+		if (cap != null)
+			cap.update(player);
 		IPolymorphCapability cap = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
 		if (cap != null) {
 			cap.update(player);
@@ -89,7 +82,7 @@ public class TickHandler {
 	}
 
 	@SubscribeEvent
-	public void updateLiving(LivingEvent.LivingUpdateEvent e) {
+	public static void updateLiving(LivingEvent.LivingUpdateEvent e) {
 		EntityLivingBase living = e.getEntityLiving();
 		IPolymorphCapability poly = CapabilityList.getCap(living, CapabilityList.POLYMORPH);
 		if (poly != null && (poly.getMorph() == IPolymorphCapability.Morph.WaterElemental || poly.getMorph() == IPolymorphCapability.Morph.FireElemental || poly.getMorph() == IPolymorphCapability.Morph.ArchAngel))
@@ -122,7 +115,7 @@ public class TickHandler {
 	}
 
 	@SubscribeEvent
-	public void updateEntity(TickEvent.WorldTickEvent e) {
+	public static void updateEntity(TickEvent.WorldTickEvent e) {
 		if (e.phase == TickEvent.Phase.START)
 			return;
 		List<Entity> list = Lists.newArrayList(e.world.loadedEntityList);

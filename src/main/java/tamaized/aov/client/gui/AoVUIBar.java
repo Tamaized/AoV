@@ -37,7 +37,7 @@ public class AoVUIBar {
 			return;
 		if (mc.player == null || !mc.player.hasCapability(CapabilityList.AOV, null))
 			return;
-		IAoVCapability cap = mc.player.getCapability(CapabilityList.AOV, null);
+		IAoVCapability cap = CapabilityList.getCap(mc.player, CapabilityList.AOV);
 		if (cap == null)
 			return;
 		GlStateManager.pushMatrix();

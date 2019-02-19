@@ -32,7 +32,7 @@ public class DebugItem extends TamItem {
 			return super.onItemRightClick(world, player, hand);
 		}
 		if (player.hasCapability(CapabilityList.AOV, null)) {
-			IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
+			IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
 			if (cap != null) {
 				cap.resetCharges(player);
 				cap.addExp(player, cap.getExpNeededToLevel(), null);

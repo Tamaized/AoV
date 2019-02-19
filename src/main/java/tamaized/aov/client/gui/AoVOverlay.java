@@ -345,7 +345,7 @@ public class AoVOverlay extends Gui {
 	private void renderAstro(EntityPlayer player, ScaledResolution sr) {
 		if (!player.hasCapability(CapabilityList.ASTRO, null))
 			return;
-		IAstroCapability cap = player.getCapability(CapabilityList.ASTRO, null);
+		IAstroCapability cap = CapabilityList.getCap(player, CapabilityList.ASTRO);
 		if (cap == null)
 			return;
 		if (!ConfigHandler.renderAstro && cap.getDraw() == null && cap.getBurn() == null && cap.getSpread() == null)

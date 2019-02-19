@@ -41,7 +41,7 @@ public class PotionEwer extends Potion {
 		if (entityLivingBaseIn instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) entityLivingBaseIn;
 			if (player.hasCapability(CapabilityList.AOV, null)) {
-				IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
+				IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
 				if (cap != null)
 					cap.restoreCharges(entityLivingBaseIn, 1);
 			}

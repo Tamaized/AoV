@@ -37,7 +37,7 @@ public class ResetSkillsGUI extends GuiScreenClose {
 		if (button.enabled) {
 			if (mc == null || mc.player == null || !mc.player.hasCapability(CapabilityList.AOV, null))
 				return;
-			IAoVCapability cap = mc.player.getCapability(CapabilityList.AOV, null);
+			IAoVCapability cap = CapabilityList.getCap(mc.player, CapabilityList.AOV);
 			if (cap == null)
 				return;
 			switch (button.id) {

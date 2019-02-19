@@ -92,7 +92,7 @@ public class Combust extends AbilityBase {
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		if (!caster.hasCapability(CapabilityList.AOV, null) || target == null)
 			return false;
-		IAoVCapability aov = caster.getCapability(CapabilityList.AOV, null);
+		IAoVCapability aov = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (!caster.world.isRemote && aov != null && IAoVCapability.selectiveTarget(caster, aov, target)) {
 			int a = (int) (damage * (1f + (aov.getSpellPower() / 100f)));
 			EntityCombust spell = new EntityCombust(caster.world, caster, target, a);

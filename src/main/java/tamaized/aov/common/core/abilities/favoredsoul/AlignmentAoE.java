@@ -92,7 +92,7 @@ public class AlignmentAoE extends AbilityBase {
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		if (!caster.hasCapability(CapabilityList.AOV, null))
 			return false;
-		IAoVCapability aov = caster.getCapability(CapabilityList.AOV, null);
+		IAoVCapability aov = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (!caster.world.isRemote && aov != null && (target == null || IAoVCapability.selectiveTarget(caster, aov, target))) {
 			int dmg = (int) (damage * (1f + (aov.getSpellPower() / 100f)));
 			EntityAlignmentAoE spell = target == null ? new EntityAlignmentAoE(caster.world, type, caster, dmg, distance) : new EntityAlignmentAoE(caster.world, type, caster, dmg, target.getPositionVector());

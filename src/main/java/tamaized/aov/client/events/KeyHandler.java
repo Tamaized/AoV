@@ -90,7 +90,7 @@ public class KeyHandler {
 			ClientProxy.setTarget(null);
 			return;
 		}
-		IAoVCapability cap = player.getCapability(CapabilityList.AOV, null);
+		IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
 		if (cap == null)
 			return;
 		if (key_bar.isPressed())
