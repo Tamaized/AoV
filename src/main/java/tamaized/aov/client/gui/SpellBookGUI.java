@@ -164,7 +164,7 @@ public class SpellBookGUI extends GuiScreenClose {
 		IAoVCapability cap = CapabilityList.getCap(mc.player, CapabilityList.AOV);
 		ScaledResolution sr = new ScaledResolution(mc);
 		float alpha = 1.0f;
-		GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
+		GlStateManager.color4f(1.0F, 1.0F, 1.0F, alpha);
 		mc.getTextureManager().bindTexture(AoVUIBar.widgetsTexPath);
 		int i = sr.getScaledWidth() / 2;
 		drawTexturedModalRect(i - 91, sr.getScaledHeight() - 50, 0, 0, 182, 22);
@@ -181,7 +181,7 @@ public class SpellBookGUI extends GuiScreenClose {
 				continue;
 			int k = sr.getScaledWidth() / 2 - 90 + 2;
 			int l = sr.getScaledHeight() - 47;
-			GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
+			GlStateManager.color4f(1.0F, 1.0F, 1.0F, alpha);
 			AoVUIBar.renderHotbarIcon(this, null, j, k, l, cap.getSlot(j).getAbility().getIcon(), (cap.getSlot(j).getAbility() instanceof InvokeMass) && cap.getInvokeMass());
 		}
 		GlStateManager.popMatrix();

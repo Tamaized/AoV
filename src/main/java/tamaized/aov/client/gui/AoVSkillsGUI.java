@@ -261,7 +261,7 @@ public class AoVSkillsGUI extends GuiScreenClose {
 			if (this.visible) {
 				FontRenderer fontrenderer = mc.fontRenderer;
 				mc.getTextureManager().bindTexture(TEXTURE);
-				GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+				GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 				this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
 				int i = this.getHoverState(this.hovered);
 				GlStateManager.enableBlend();

@@ -73,7 +73,7 @@ public class SkillButton extends GuiButton {
 	public void drawButton(Minecraft mc, int mouseX, int mouseY, float p_191745_4_) {
 		if (visible) {
 			FontRenderer fontrenderer = mc.fontRenderer;
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 			hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 			int i = getHoverState(hovered);
 			GlStateManager.enableBlend();
@@ -97,7 +97,7 @@ public class SkillButton extends GuiButton {
 
 			drawRect(x, y, x + width, y + height, j);
 			float alpha = (float) (j >> 24 & 255) / 255.0F;
-			GlStateManager.color(1.0f, 1.0f, 1.0f, alpha);
+			GlStateManager.color4f(1.0f, 1.0f, 1.0f, alpha);
 			AoVUIBar.renderHotbarIcon(this, null, 0, x + 1, y + 1, skill == null ? null : skill.getIcon(), false);
 		}
 	}

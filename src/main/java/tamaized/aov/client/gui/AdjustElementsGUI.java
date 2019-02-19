@@ -122,7 +122,7 @@ public class AdjustElementsGUI extends GuiScreenClose {
 			float alpha = 0.2f;
 			if (ClientProxy.barToggle)
 				alpha = 1.0f;
-			GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
+			GlStateManager.color4f(1.0F, 1.0F, 1.0F, alpha);
 			mc.getTextureManager().bindTexture(TEXTURE_SPELLBAR);
 			int i = sr.getScaledWidth() / 2;
 			drawTexturedModalRect(xpos + i - 91, ypos + 1, 0, 0, 182, 22);
@@ -134,7 +134,7 @@ public class AdjustElementsGUI extends GuiScreenClose {
 	private void renderAstro() {
 		GlStateManager.pushMatrix();
 		{
-			GlStateManager.color(1, 1, 1, 1);
+			GlStateManager.color4f(1, 1, 1, 1);
 			mc.getTextureManager().bindTexture(AoVOverlay.TEXTURE_ASTRO);
 			GlStateManager.enableAlpha();
 			GlStateManager.enableBlend();
@@ -170,7 +170,7 @@ public class AdjustElementsGUI extends GuiScreenClose {
 			Tessellator tess = Tessellator.getInstance();
 			BufferBuilder buffer = tess.getBuffer();
 			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
-			GlStateManager.color(1F, 1F, 1F, 1F);
+			GlStateManager.color4f(1F, 1F, 1F, 1F);
 			GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 			{
 

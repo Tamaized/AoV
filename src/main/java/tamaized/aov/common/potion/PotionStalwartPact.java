@@ -8,8 +8,6 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.AoV;
 
 import javax.annotation.Nonnull;
@@ -49,9 +47,9 @@ public class PotionStalwartPact extends Potion {
 	@Override
 	public void renderInventoryEffect(int x, int y, PotionEffect effect, net.minecraft.client.Minecraft mc) {
 		mc.getTextureManager().bindTexture(iconTexture);
-		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+		GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f);
 		net.minecraft.client.gui.Gui.drawModalRectWithCustomSizedTexture(x + 7, y + 8, 0, 0, 16, 16, 16, 16);
-		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+		GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
 	@OnlyIn(Dist.CLIENT)
@@ -59,7 +57,7 @@ public class PotionStalwartPact extends Potion {
 	public void renderHUDEffect(int x, int y, PotionEffect effect, net.minecraft.client.Minecraft mc, float alpha) {
 		mc.getTextureManager().bindTexture(iconTexture);
 		net.minecraft.client.gui.Gui.drawModalRectWithCustomSizedTexture(x + 4, y + 4, 0, 0, 16, 16, 16, 16);
-		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+		GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
 }

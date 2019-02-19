@@ -77,7 +77,7 @@ public class AoVOverlay extends Gui {
 		GlStateManager.enableBlend();
 		GlStateManager.disableTexture2D();
 		GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-		GlStateManager.color(f, f1, f2, f3);
+		GlStateManager.color4f(f, f1, f2, f3);
 		bufferbuilder.begin(7, DefaultVertexFormats.POSITION);
 		bufferbuilder.pos((double) left, (double) bottom, 0.0D).endVertex();
 		bufferbuilder.pos((double) right, (double) bottom, 0.0D).endVertex();
@@ -246,7 +246,7 @@ public class AoVOverlay extends Gui {
 			GlStateManager.enableBlend();
 			GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			GlStateManager.shadeModel(GL11.GL_SMOOTH);
-			GlStateManager.color(1F, 1F, 1F, 1F);
+			GlStateManager.color4f(1F, 1F, 1F, 1F);
 			GL11.glEnable(GL11.GL_STENCIL_TEST);
 
 			GL11.glStencilFunc(GL11.GL_EQUAL, 8 + (hackyshit ? 3 : 0), 0xFF); // Water
@@ -352,7 +352,7 @@ public class AoVOverlay extends Gui {
 			return;
 		GlStateManager.pushMatrix();
 		{
-			GlStateManager.color(1F, 1F, 1F, 1F);
+			GlStateManager.color4f(1F, 1F, 1F, 1F);
 			mc.getTextureManager().bindTexture(TEXTURE_ASTRO);
 			GlStateManager.enableAlpha();
 			GlStateManager.enableBlend();
@@ -376,7 +376,7 @@ public class AoVOverlay extends Gui {
 				renderAstroIcon(IAstroCapability.ICard.getCardID(cap.getDraw()), buffer, x + 33.5F, y + 17F, scale);
 				drawCenteredString(mc.fontRenderer, "" + cap.getDrawTime(), (int) (x + 43), (int) (y + 50), 0xbd7e10);
 				mc.getTextureManager().bindTexture(TEXTURE_ASTRO);
-				GlStateManager.color(1, 1, 1, 1);
+				GlStateManager.color4f(1, 1, 1, 1);
 			}
 
 			if (cap.getSpread() != null)
@@ -414,7 +414,7 @@ public class AoVOverlay extends Gui {
 			GlStateManager.popMatrix();
 			mc.getTextureManager().bindTexture(TEXTURE_ASTRO);
 		}
-		GlStateManager.color(1, 1, 1, 1);
+		GlStateManager.color4f(1, 1, 1, 1);
 	}
 
 	private void renderTarget(EntityLivingBase target) {
@@ -428,7 +428,7 @@ public class AoVOverlay extends Gui {
 			Tessellator tess = Tessellator.getInstance();
 			BufferBuilder buffer = tess.getBuffer();
 			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
-			GlStateManager.color(1F, 1F, 1F, 1F);
+			GlStateManager.color4f(1F, 1F, 1F, 1F);
 			GlStateManager.enableBlend();
 			GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 			{

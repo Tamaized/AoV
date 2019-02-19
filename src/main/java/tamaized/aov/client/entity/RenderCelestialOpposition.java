@@ -27,7 +27,7 @@ public class RenderCelestialOpposition<T extends EntityCelestialOpposition> exte
 		GlStateManager.disableLighting();
 		GlStateManager.enableBlend();
 		GlStateManager.disableCull();
-		GlStateManager.color(0, 0.6F, 1, 1.0F);
+		GlStateManager.color4f(0, 0.6F, 1, 1.0F);
 		GlStateManager.translate(x, y, z);
 		float scale = (entity.tickBoi += Minecraft.getMinecraft().isGamePaused() ? 0 : ((entity.tickBoi < 280F ? 360F : 30F) / (float) Minecraft.getDebugFPS())) / 80F;
 		GlStateManager.scale(scale, scale, scale);
@@ -52,12 +52,12 @@ public class RenderCelestialOpposition<T extends EntityCelestialOpposition> exte
 		buf.pos(0, 1, 0).tex(0, 1).endVertex();
 
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-		GlStateManager.color(0, 0.6F, 1, 1F - entity.ticksExisted / 100F);
+		GlStateManager.color4f(0, 0.6F, 1, 1F - entity.ticksExisted / 100F);
 		GlStateManager.disableDepth();
 		tess.draw();
 		GlStateManager.enableDepth();
 
-		GlStateManager.color(1, 1, 1, 1);
+		GlStateManager.color4f(1, 1, 1, 1);
 		GlStateManager.enableCull();
 		GlStateManager.disableBlend();
 		GlStateManager.enableLighting();

@@ -42,7 +42,7 @@ public class RenderAstro {
 		GlStateManager.disableLighting();
 		GlStateManager.enableBlend();
 		GlStateManager.disableCull();
-		GlStateManager.color(0, 0.6F, 1, 1.0F);
+		GlStateManager.color4f(0, 0.6F, 1, 1.0F);
 		GlStateManager.rotate(90F, 1.0F, 0.0F, 0.0F);
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.SRC_ALPHA);
 
@@ -61,7 +61,7 @@ public class RenderAstro {
 		tess.draw();
 		GlStateManager.enableDepth();
 
-		GlStateManager.color(1, 1, 1, 1);
+		GlStateManager.color4f(1, 1, 1, 1);
 		GlStateManager.enableCull();
 		GlStateManager.disableBlend();
 		GlStateManager.enableLighting();
@@ -90,7 +90,7 @@ public class RenderAstro {
 							break;
 					}
 		}
-		GlStateManager.color(1, 1, 1, 1);
+		GlStateManager.color4f(1, 1, 1, 1);
 		GlStateManager.popMatrix();
 	}
 
@@ -148,7 +148,7 @@ public class RenderAstro {
 			GlStateManager.enableBlend();
 			GlStateManager.rotate(-e.getEntityPlayer().renderYawOffset, 0, 1, 0);
 
-			GlStateManager.color(1, 1, 1, 1);
+			GlStateManager.color4f(1, 1, 1, 1);
 			GlStateManager.translate(0F, 1.5F, 1F);
 			if (!Minecraft.getMinecraft().isGamePaused() && cap.getFrameData()[index][0] > 0)
 				cap.getFrameData()[index][0] -= (240F / (float) Minecraft.getDebugFPS());
@@ -242,7 +242,7 @@ public class RenderAstro {
 			if (timer < 90 && !Minecraft.getMinecraft().isGamePaused() && cap.getFrameData()[index][1] > 0) {
 				cap.getFrameData()[index][1] = Math.max(0, cap.getFrameData()[index][1] - (160F / (float) Minecraft.getDebugFPS()));
 			}
-			GlStateManager.color(1.0F, 1.0F, 1.0F, (80F - cap.getFrameData()[index][1]) / 80F);
+			GlStateManager.color4f(1.0F, 1.0F, 1.0F, (80F - cap.getFrameData()[index][1]) / 80F);
 			float ftimer = cap.getFrameData()[index][0];
 			if (cap.getFrameData()[index][0] > 0 && !Minecraft.getMinecraft().isGamePaused() && timer < 25)
 				cap.getFrameData()[index][0] = Math.max(0, cap.getFrameData()[index][0] - (240F / (float) Minecraft.getDebugFPS()));
@@ -289,7 +289,7 @@ public class RenderAstro {
 		GlStateManager.translate(-1.45F, -1.55F, 0);
 		if (!Minecraft.getMinecraft().isGamePaused())
 			cap.getFrameData()[index][5] += (cap.getFrameData()[index][5] >= 90 && cap.getFrameData()[index][3] > 35 ? 0 : 60F) / (float) Minecraft.getDebugFPS();
-		GlStateManager.color(1, 1, 1, MathHelper.sin((float) Math.toRadians(Math.min(cap.getFrameData()[index][5], 180))));
+		GlStateManager.color4f(1, 1, 1, MathHelper.sin((float) Math.toRadians(Math.min(cap.getFrameData()[index][5], 180))));
 
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder vertexbuffer = tessellator.getBuffer();

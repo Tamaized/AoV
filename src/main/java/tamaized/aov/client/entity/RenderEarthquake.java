@@ -74,7 +74,7 @@ public class RenderEarthquake extends Render<EntityEarthquake> {
 		}
 
 		tessellator.draw();
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GlStateManager.depthMask(true);
 	}
 
@@ -136,7 +136,7 @@ public class RenderEarthquake extends Render<EntityEarthquake> {
 		GL11.glStencilFunc(GL11.GL_EQUAL, 6, 0xFF);
 		{
 			bindTexture(TEXTURE);
-			GlStateManager.color(1F, 1F, 1F, 1F);
+			GlStateManager.color4f(1F, 1F, 1F, 1F);
 			GlStateManager.enableBlend();
 			//					GlStateManager.glBlendEquation(GL14.GL_FUNC_SUBTRACT);
 			//		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);

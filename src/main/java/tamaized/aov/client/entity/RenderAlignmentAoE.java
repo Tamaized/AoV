@@ -78,7 +78,7 @@ public class RenderAlignmentAoE<T extends EntityAlignmentAoE> extends Render<T> 
 					} else {
 						alpha = (60F - ticks) / 45F * 0.85F;
 					}
-					GlStateManager.color(0.2F, 0.3F, 0.1F, alpha);
+					GlStateManager.color4f(0.2F, 0.3F, 0.1F, alpha);
 					GlStateManager.disableLighting();
 					GlStateManager.enableBlend();
 					GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
@@ -87,7 +87,7 @@ public class RenderAlignmentAoE<T extends EntityAlignmentAoE> extends Render<T> 
 					GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
 					GlStateManager.disableBlend();
 					GlStateManager.enableLighting();
-					GlStateManager.color(1F, 1F, 1F, 1F);
+					GlStateManager.color4f(1F, 1F, 1F, 1F);
 				}
 				GlStateManager.popMatrix();
 			}

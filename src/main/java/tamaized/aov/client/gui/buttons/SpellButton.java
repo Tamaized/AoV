@@ -24,7 +24,7 @@ public class SpellButton extends GuiButton {
 	public void drawButton(Minecraft mc, int mouseX, int mouseY, float p_191745_4_) {
 		if (visible) {
 			FontRenderer fontrenderer = mc.fontRenderer;
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 			hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 			int i = getHoverState(hovered);
 			GlStateManager.enableBlend();

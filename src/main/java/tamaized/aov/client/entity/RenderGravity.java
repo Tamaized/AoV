@@ -126,7 +126,7 @@ public class RenderGravity<T extends EntityGravity> extends Render<T> {
 		GlStateManager.enableBlend();
 		GlStateManager.disableDepth();
 		float alpha = entity.spinnyBoi >= 600 ? (entity.spinnyBoi - 600F) / 420F : 0F;
-		GlStateManager.color(0.5F, 0.5F, 0.5F, 1F - alpha);
+		GlStateManager.color4f(0.5F, 0.5F, 0.5F, 1F - alpha);
 		GlStateManager.translate(x + 0.5F, y + 5.0F, z + 0.5F);
 		GlStateManager.rotate(90F, 1.0F, 0.0F, 0.0F);
 		float s = Math.min(entity.spinnyBoi / 180F, 1F);
@@ -138,7 +138,7 @@ public class RenderGravity<T extends EntityGravity> extends Render<T> {
 		SPHERE.setTextureFlag(true);
 		GlStateManager.rotate((entity.spinnyBoi += Minecraft.getMinecraft().isGamePaused() ? 0 : (360F / (float) Minecraft.getDebugFPS())) % 360, 0, 0, 1);
 		renderSphere(4F);
-		GlStateManager.color(0.5F, 0.75F, 0.75F, 1F - alpha);
+		GlStateManager.color4f(0.5F, 0.75F, 0.75F, 1F - alpha);
 		renderSphere(1F);
 		GlStateManager.rotate(-entity.spinnyBoi % 360, 0, 0, 1);
 		float scale = 0.25F;
@@ -149,7 +149,7 @@ public class RenderGravity<T extends EntityGravity> extends Render<T> {
 		}
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 		GlStateManager.popMatrix();
-		GlStateManager.color(1, 1, 1, 1);
+		GlStateManager.color4f(1, 1, 1, 1);
 		GlStateManager.enableDepth();
 		GlStateManager.disableBlend();
 		GlStateManager.enableLighting();

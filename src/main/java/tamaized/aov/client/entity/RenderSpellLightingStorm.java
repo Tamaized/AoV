@@ -120,7 +120,7 @@ public class RenderSpellLightingStorm extends Render<EntitySpellLightningStorm> 
 
 		int j1 = -1;
 		bufferbuilder.setTranslation(-d0, -d1, -d2);
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
 		for (int z = k - i1; z <= k + i1; ++z) {

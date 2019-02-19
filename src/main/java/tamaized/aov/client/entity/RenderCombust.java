@@ -39,7 +39,7 @@ public class RenderCombust<T extends EntityCombust> extends Render<T> {
 		GlStateManager.pushMatrix();
 		bindTexture(BOOM);
 		float s = entity.scale / 90F;
-		GlStateManager.color(0, 0, MathHelper.cos((float) Math.toRadians(entity.ticksExisted % 360)), 1F - s);
+		GlStateManager.color4f(0, 0, MathHelper.cos((float) Math.toRadians(entity.ticksExisted % 360)), 1F - s);
 		GlStateManager.translate(0.5F, 0.5F, 0F);
 		s *= 2.5F;
 		GlStateManager.scale(s, s, s);
@@ -55,7 +55,7 @@ public class RenderCombust<T extends EntityCombust> extends Render<T> {
 		GlStateManager.pushMatrix();
 		bindTexture(RING);
 		float c = MathHelper.abs(MathHelper.cos((float) Math.toRadians(entity.initalScale)));
-		GlStateManager.color(c, c, 1F, MathHelper.clamp(1F - (entity.ticksExisted / 45F), 0, 1));
+		GlStateManager.color4f(c, c, 1F, MathHelper.clamp(1F - (entity.ticksExisted / 45F), 0, 1));
 		float sc = (1F - c) * 2F;
 		GlStateManager.translate(0.5F, 0.5F, 0F);
 		GlStateManager.scale(sc, sc, sc);
@@ -68,7 +68,7 @@ public class RenderCombust<T extends EntityCombust> extends Render<T> {
 		tessellator.draw();
 		GlStateManager.popMatrix();
 
-		GlStateManager.color(1, 1, 1, 1);
+		GlStateManager.color4f(1, 1, 1, 1);
 		GlStateManager.disableBlend();
 		GlStateManager.enableLighting();
 		GlStateManager.enableCull();

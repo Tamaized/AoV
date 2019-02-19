@@ -51,7 +51,7 @@ public class AoVUIBar {
 			float alpha = 0.2f;
 			if (ClientProxy.barToggle)
 				alpha = 1.0f;
-			GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
+			GlStateManager.color4f(1.0F, 1.0F, 1.0F, alpha);
 			mc.getTextureManager().bindTexture(widgetsTexPath);
 			int i = sr.getScaledWidth() / 2;
 			gui.drawTexturedModalRect(xpos + i - 91, ypos + 1, 0, 0, 182, 22);
@@ -67,7 +67,7 @@ public class AoVUIBar {
 						continue;
 					int k = sr.getScaledWidth() / 2 - 90 + 2;
 					int l = 4;
-					GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
+					GlStateManager.color4f(1.0F, 1.0F, 1.0F, alpha);
 					renderHotbarIcon(gui, cap, j, xpos + k, ypos + l, ability.getAbility().getIcon(), (ability.getAbility() instanceof InvokeMass) && cap.getInvokeMass());
 					if (ability.getCooldown() > 0)
 						renderCooldown(gui, mc.fontRenderer, xpos + k, ypos + l, ability.getCooldownPerc(), ability.getCooldown());
@@ -145,9 +145,9 @@ public class AoVUIBar {
 		//		GL11.glStencilMask(0x00);
 		//		GL11.glStencilFunc(GL11.GL_EQUAL, 13, 0xFF);
 		GlStateManager.glBegin(GL11.GL_TRIANGLE_FAN);
-		GlStateManager.color(0F, 0.0F, 0.0F, a);
+		GlStateManager.color4f(0F, 0.0F, 0.0F, a);
 		GL11.glVertex2i(centerX, centerY);
-		GlStateManager.color(0F, 0F, 0.0F, a);
+		GlStateManager.color4f(0F, 0F, 0.0F, a);
 		int v = (int) ((405f) * perc);
 		int v1 = v > 45 ? -45 : -v;
 		int v2 = v > 135 ? -135 : -v;

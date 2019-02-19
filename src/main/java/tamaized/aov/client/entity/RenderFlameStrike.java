@@ -31,7 +31,7 @@ public class RenderFlameStrike<T extends ProjectileFlameStrike> extends Render<T
 		float green = ((color >> 16) & 0xFF) / 255F;
 		float blue = ((color >> 8) & 0xFF) / 255F;
 		float alpha = ((color) & 0xFF) / 255F;
-		GlStateManager.color(red, green, blue, alpha);
+		GlStateManager.color4f(red, green, blue, alpha);
 		GlStateManager.pushMatrix();
 		GlStateManager.disableLighting();
 		GlStateManager.translate((float) x, (float) y, (float) z);

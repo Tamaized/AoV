@@ -134,14 +134,14 @@ public class RenderPlayer {
 				GlStateManager.disableCull();
 				GlStateManager.disableBlend();
 				GlStateManager.shadeModel(7424);
-				GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+				GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 				GlStateManager.enableTexture2D();
 				GlStateManager.enableAlpha();
 				RenderHelper.enableStandardItemLighting();
 			}
 			GlStateManager.enableBlend();
 			GlStateManager.disableCull();
-			GlStateManager.color(1, 1, 1, perc);
+			GlStateManager.color4f(1, 1, 1, perc);
 			float scale = 1;
 			GlStateManager.translate(e.getX(), e.getY(), e.getZ());
 			GlStateManager.scale(scale, scale, scale);
@@ -181,7 +181,7 @@ public class RenderPlayer {
 			}
 			GlStateManager.enableCull();
 			GlStateManager.disableBlend();
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		}
 		GlStateManager.popMatrix();
 	}
@@ -207,11 +207,11 @@ public class RenderPlayer {
 				GlStateManager.enableBlend();
 				if (AoVOverlay.NO_STENCIL) {
 					if (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental)
-						GlStateManager.color(0F, 0.5F, 1F, 0.75F);
+						GlStateManager.color4f(0F, 0.5F, 1F, 0.75F);
 					else if (cap.getMorph() == IPolymorphCapability.Morph.FireElemental)
-						GlStateManager.color(1F, 0.75F, 0F, 0.75F);
+						GlStateManager.color4f(1F, 0.75F, 0F, 0.75F);
 					else if (cap.getMorph() == IPolymorphCapability.Morph.ArchAngel)
-						GlStateManager.color(1F, 1F, 0F, 0.75F);
+						GlStateManager.color4f(1F, 1F, 0F, 0.75F);
 				} else {
 					GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.SRC_COLOR, GlStateManager.DestFactor.ZERO);
 					GL11.glEnable(GL11.GL_STENCIL_TEST);
@@ -238,7 +238,7 @@ public class RenderPlayer {
 		if (cap != null) {
 			if (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental || cap.getMorph() == IPolymorphCapability.Morph.FireElemental || cap.getMorph() == IPolymorphCapability.Morph.ArchAngel) {
 				if (AoVOverlay.NO_STENCIL) {
-					GlStateManager.color(1F, 1F, 1F, 1F);
+					GlStateManager.color4f(1F, 1F, 1F, 1F);
 				} else {
 					//				GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, ClientProxy.FRAME_BUFFER);
 					GL11.glStencilMask(0x00);
@@ -314,11 +314,11 @@ public class RenderPlayer {
 					GlStateManager.enableBlend();
 					if (AoVOverlay.NO_STENCIL) {
 						if (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental)
-							GlStateManager.color(0F, 0.5F, 1F, 0.75F);
+							GlStateManager.color4f(0F, 0.5F, 1F, 0.75F);
 						else if (cap.getMorph() == IPolymorphCapability.Morph.FireElemental)
-							GlStateManager.color(1F, 0.75F, 0F, 0.75F);
+							GlStateManager.color4f(1F, 0.75F, 0F, 0.75F);
 						else if (cap.getMorph() == IPolymorphCapability.Morph.FireElemental)
-							GlStateManager.color(1F, 1F, 0F, 0.75F);
+							GlStateManager.color4f(1F, 1F, 0F, 0.75F);
 					} else {
 						e.setCanceled(true);
 						GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.SRC_COLOR, GlStateManager.DestFactor.ZERO);
@@ -337,7 +337,7 @@ public class RenderPlayer {
 						GL11.glDisable(GL11.GL_STENCIL_TEST);
 						GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 					}
-					GlStateManager.color(1F, 1F, 1F, 1F);
+					GlStateManager.color4f(1F, 1F, 1F, 1F);
 					GlStateManager.disableBlend();
 					mc.entityRenderer.disableLightmap();
 				}
@@ -388,7 +388,7 @@ public class RenderPlayer {
 
 	public void renderRightArm(AbstractClientPlayer clientPlayer) {
 		float f = 1.0F;
-		GlStateManager.color(f, f, f);
+		GlStateManager.color4f(f, f, f);
 		float f1 = 0.0625F;
 		GlStateManager.enableBlend();
 		GlStateManager.pushMatrix();

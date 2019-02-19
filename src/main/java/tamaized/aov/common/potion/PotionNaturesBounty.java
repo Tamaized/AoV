@@ -40,9 +40,9 @@ public class PotionNaturesBounty extends Potion {
 	@Override
 	public void renderInventoryEffect(int x, int y, PotionEffect effect, net.minecraft.client.Minecraft mc) {
 		mc.getTextureManager().bindTexture(iconTexture);
-		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+		GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f);
 		net.minecraft.client.gui.Gui.drawModalRectWithCustomSizedTexture(x + 7, y + 8, 0, 0, 16, 16, 16, 16);
-		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+		GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
 	@OnlyIn(Dist.CLIENT)
@@ -50,7 +50,7 @@ public class PotionNaturesBounty extends Potion {
 	public void renderHUDEffect(int x, int y, PotionEffect effect, net.minecraft.client.Minecraft mc, float alpha) {
 		mc.getTextureManager().bindTexture(iconTexture);
 		net.minecraft.client.gui.Gui.drawModalRectWithCustomSizedTexture(x + 4, y + 4, 0, 0, 16, 16, 16, 16);
-		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+		GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
 }
