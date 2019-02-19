@@ -6,7 +6,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
-import net.minecraftforge.fml.relauncher.Side;
 import tamaized.aov.network.client.ClientPacketHandlerAoVData;
 import tamaized.aov.network.client.ClientPacketHandlerAoVSimpleData;
 import tamaized.aov.network.client.ClientPacketHandlerAstroAnimation;
@@ -27,7 +26,7 @@ public class NetworkMessages {
 	private static int index = 0;
 
 	public static void register(SimpleChannel network) {
-		registerMessage(network, ServerPacketHandlerSpellSkill.class, IMessage.Side.SERVER);
+		NetworkMessages.registerMessage(network, ServerPacketHandlerSpellSkill.class, IMessage.Side.SERVER);
 		registerMessage(network, ServerPacketHandlerPolymorphDogAttack.class, IMessage.Side.SERVER);
 
 		registerMessage(network, ClientPacketHandlerAoVData.class, IMessage.Side.CLIENT);
@@ -42,17 +41,17 @@ public class NetworkMessages {
 		registerMessage(network, ClientPacketHandlerAoVSimpleData.class, IMessage.Side.CLIENT);
 	}
 
-	private static <M extends IMessage> void registerMessage(SimpleChannel network, Class<M> type, IMessage.Side side) {
+	private static <M extends IMessage<M>> void registerMessage(SimpleChannel network, Class<M> type, IMessage.Side side) {
 		network.registerMessage(index++, type, IMessage::encode, p -> IMessage.decode(p, type), (m, s) -> IMessage.onMessage(m, s, side));
 	}
 
-	public interface IMessage {
+	public interface IMessage<SELF extends IMessage<SELF>> {
 
-		static void encode(IMessage message, PacketBuffer packet) {
+		static <M extends IMessage<M>> void encode(M message, PacketBuffer packet) {
 			message.toBytes(packet);
 		}
 
-		static <M extends IMessage> M decode(PacketBuffer packet, Class<M> type) {
+		static <M extends IMessage<M>> M decode(PacketBuffer packet, Class<M> type) {
 			try {
 				return type.newInstance().fromBytes(packet);
 			} catch (InstantiationException | IllegalAccessException e) {
@@ -78,7 +77,7 @@ public class NetworkMessages {
 
 		void toBytes(PacketBuffer packet);
 
-		<M extends IMessage> M fromBytes(PacketBuffer packet);
+		SELF fromBytes(PacketBuffer packet);
 
 		enum Side {
 			CLIENT, SERVER
