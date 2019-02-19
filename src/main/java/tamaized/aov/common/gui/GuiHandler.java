@@ -1,12 +1,15 @@
 package tamaized.aov.common.gui;
 
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.IGuiHandler;
-import net.minecraftforge.fml.common.network.internal.FMLNetworkHandler;
-import tamaized.aov.AoV;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.world.IInteractionObject;
+import net.minecraftforge.fml.network.FMLPlayMessages;
+import net.minecraftforge.fml.network.NetworkHooks;
 import tamaized.aov.client.gui.AoVSkillsGUI;
 import tamaized.aov.client.gui.ResetSkillsGUI;
 import tamaized.aov.client.gui.ShowStatsGUI;
@@ -14,30 +17,59 @@ import tamaized.aov.client.gui.SpellBookGUI;
 import tamaized.aov.common.blocks.BlockAngelicBlock;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-public class GuiHandler implements IGuiHandler {
+public class GuiHandler {
 
 	private static final int GUI_BITS = 0b1111;
 	public static final int GUI_BIT_SHIFT = Integer.highestOneBit(GUI_BITS);
+	private static IInteractionObject FAKE_CONTAINER = new IInteractionObject() {
 
-	public static void openGUI(GUI gui, BlockAngelicBlock.ClassType classType, @Nonnull EntityPlayer player, @Nonnull World world) {
-		BlockPos pos = player.getPosition();
-		FMLNetworkHandler.openGui(player, AoV.instance, (classType.ordinal() << GUI_BIT_SHIFT) + gui.ordinal(), world, pos.getX(), pos.getY(), pos.getZ());
-	}
-
-	@Override
-	public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
-		switch (GUI.values[id & GUI_BITS]) {
-			case SKILLS:
-				return new FakeContainer();
-			default:
-				break;
+		@Nonnull
+		@Override
+		public Container createContainer(@Nonnull InventoryPlayer inventoryPlayer, @Nonnull EntityPlayer entityPlayer) {
+			return new FakeContainer();
 		}
-		return null;
+
+		@Nonnull
+		@Override
+		public String getGuiID() {
+			return "fake";
+		}
+
+		@Nonnull
+		@Override
+		public ITextComponent getName() {
+			return new TextComponentTranslation("fake");
+		}
+
+		@Override
+		public boolean hasCustomName() {
+			return false;
+		}
+
+		@Nullable
+		@Override
+		public ITextComponent getCustomName() {
+			return null;
+		}
+	};
+
+	public static void openGui(GUI gui, BlockAngelicBlock.ClassType classType, EntityPlayerMP player) {
+		openGui((classType.ordinal() << GUI_BIT_SHIFT) + gui.ordinal(), player);
 	}
 
-	@Override
-	public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
+	public static void openGui(GUI gui, EntityPlayerMP player) {
+		openGui(gui.ordinal(), player);
+	}
+
+	private static void openGui(int gui, EntityPlayerMP player) {
+		IInteractionObject container = FAKE_CONTAINER;
+		NetworkHooks.openGui(player, container, packetBuffer -> packetBuffer.writeInt(gui));
+	}
+
+	public static GuiScreen getGui(FMLPlayMessages.OpenContainer packet) {
+		int id = packet.getAdditionalData().readInt();
 		BlockAngelicBlock.ClassType data = BlockAngelicBlock.ClassType.values[id >>> GUI_BIT_SHIFT];
 		switch (GUI.values[id & GUI_BITS]) {
 			case SKILLS:
@@ -68,7 +100,7 @@ public class GuiHandler implements IGuiHandler {
 
 	}
 
-	public static class FakeContainer extends Container {
+	private static class FakeContainer extends Container {
 
 		@Override
 		public boolean canInteractWith(@Nonnull EntityPlayer playerIn) {

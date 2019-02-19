@@ -1,5 +1,6 @@
 package tamaized.aov;
 
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeConfig;
@@ -8,6 +9,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -17,6 +19,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 import org.apache.commons.lang3.tuple.Pair;
@@ -73,6 +76,9 @@ import tamaized.aov.registry.AoVParticles;
 import tamaized.aov.registry.AoVPotions;
 import tamaized.aov.registry.AoVTabs;
 
+import java.util.function.Function;
+import java.util.function.Supplier;
+
 @Mod(value = AoV.MODID)
 public class AoV {
 
@@ -119,13 +125,12 @@ public class AoV {
 		final Pair<ConfigHandler, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(ConfigHandler::new);
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, specPair.getRight());
 		config = specPair.getLeft();
+
+		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.GUIFACTORY, () -> GuiHandler::getGui);
 	}
 
 	@Override
 	public void init(FMLInitializationEvent event) {
-
-		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
-
 		registerEntity(ProjectileNimbusRay.class, "ProjectileNimbusRay", this, MODID, 256, 1, true);
 		registerEntity(ProjectileFlameStrike.class, "ProjectileFlameStrike", this, MODID, 256, 1, true);
 		registerEntity(EntitySpellImplosion.class, "EntitySpellImplosion", this, MODID, 256, 1, true);
