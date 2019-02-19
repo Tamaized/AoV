@@ -71,6 +71,7 @@ import tamaized.aov.registry.AoVAchievements;
 import tamaized.aov.registry.AoVArmors;
 import tamaized.aov.registry.AoVBlocks;
 import tamaized.aov.registry.AoVDamageSource;
+import tamaized.aov.registry.AoVEntities;
 import tamaized.aov.registry.AoVItems;
 import tamaized.aov.registry.AoVParticles;
 import tamaized.aov.registry.AoVPotions;
@@ -108,6 +109,7 @@ public class AoV {
 		new AoVAchievements();
 		new AoVDamageSource();
 		new AoVParticles();
+		new AoVEntities();
 	}
 
 	@SubscribeEvent
@@ -127,32 +129,18 @@ public class AoV {
 		config = specPair.getLeft();
 
 		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.GUIFACTORY, () -> GuiHandler::getGui);
+
+		Abilities.register();
+		AoVSkills.register();
 	}
 
 	@Override
 	public void init(FMLInitializationEvent event) {
-		registerEntity(ProjectileNimbusRay.class, "ProjectileNimbusRay", this, MODID, 256, 1, true);
-		registerEntity(ProjectileFlameStrike.class, "ProjectileFlameStrike", this, MODID, 256, 1, true);
-		registerEntity(EntitySpellImplosion.class, "EntitySpellImplosion", this, MODID, 256, 1, true);
-		registerEntity(EntitySpellBladeBarrier.class, "EntitySpellBladeBarrier", this, MODID, 256, 1, true);
-		registerEntity(EntitySpellVanillaParticles.class, "EntitySpellVanillaParticles", this, MODID, 256, 1, true);
-		registerEntity(EntitySpellAoVParticles.class, "EntitySpellAoVParticles", this, MODID, 256, 1, true);
-		registerEntity(EntityMalefic.class, "EntityMalefic", this, MODID, 256, 1, true);
-		registerEntity(EntityCombust.class, "EntityCombust", this, MODID, 256, 1, true);
-		registerEntity(EntityGravity.class, "EntityGravity", this, MODID, 256, 1, true);
-		registerEntity(EntityCelestialOpposition.class, "EntityCelestialOpposition", this, MODID, 256, 1, true);
-		registerEntity(EntitySpellLightningBolt.class, "EntitySpellLightningBolt", this, MODID, 256, 1, true);
-		registerEntity(EntityEarthquake.class, "EntityEarthquake", this, MODID, 256, 1, true);
-		registerEntity(EntitySpellLightningStorm.class, "EntitySpellLightningStorm", this, MODID, 256, 1, true);
-		registerEntity(EntityDruidicWolf.class, "EntityDruidicWolf", this, MODID, 256, 1, true);
-		registerEntity(EntityAlignmentAoE.class, "EntityAlignmentAoE", this, MODID, 256, 1, true);
 	}
 
 	@Override
 	public void postInit(FMLPostInitializationEvent event) {
 		logger.info("Starting AoV PostInit");
-		Abilities.register();
-		AoVSkills.register();
 	}
 
 	@EventHandler
