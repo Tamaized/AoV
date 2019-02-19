@@ -20,7 +20,7 @@ public class PlayerInteractHandler {
 			return;
 		EntityPlayer player = e.getEntityPlayer();
 		if (player != null) {
-			IAoVCapability cap = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
+			IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
 			if (cap != null)
 				cap.addExp(player, e.getOrb().getXpValue(), null);
 		}
@@ -28,7 +28,7 @@ public class PlayerInteractHandler {
 
 	@SubscribeEvent
 	public void onItemPickup(EntityItemPickupEvent e) {
-		IPolymorphCapability cap = CapabilityHelper.getCap(e.getEntityPlayer(), CapabilityList.POLYMORPH, null);
+		IPolymorphCapability cap = CapabilityList.getCap(e.getEntityPlayer(), CapabilityList.POLYMORPH);
 		if (cap != null && cap.getMorph() == IPolymorphCapability.Morph.Wolf && e.getEntityPlayer().getFoodStats().needFood() && e.getItem().getItem().getItem() instanceof ItemFood) {
 			e.getItem().getItem().getItem().onItemUseFinish(e.getItem().getItem(), e.getEntityPlayer().world, e.getEntityPlayer());
 			e.setCanceled(true);
@@ -39,7 +39,7 @@ public class PlayerInteractHandler {
 	public void onWakeUp(PlayerWakeUpEvent e) { // WorldServer#wakeAllPlayers is the only vanilla method that passes (false, false, true)
 		EntityPlayer player = e.getEntityPlayer();
 		if (player != null && !e.wakeImmediately() && !e.updateWorld() && e.shouldSetSpawn()) {
-			IAoVCapability cap = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
+			IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
 			if (cap != null)
 				cap.resetCharges(player);
 		}

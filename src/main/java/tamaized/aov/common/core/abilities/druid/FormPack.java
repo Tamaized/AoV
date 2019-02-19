@@ -86,17 +86,17 @@ public class FormPack extends AbilityBase {
 
 	@Override
 	public boolean shouldDisable(@Nullable EntityPlayer caster, IAoVCapability cap) {
-		IPolymorphCapability poly = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
+		IPolymorphCapability poly = CapabilityList.getCap(caster, CapabilityList.POLYMORPH);
 		return poly == null || poly.getMorph() != IPolymorphCapability.Morph.Wolf;
 	}
 
 	@Override
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
-		IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
+		IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (cap == null)
 			return false;
 		float damage = DAMAGE * (1F + ((cap.getSpellPower() * (IAoVCapability.isImprovedCentered(caster, cap) ? 2F : 1F)) / 100F));
-		IPolymorphCapability poly = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
+		IPolymorphCapability poly = CapabilityList.getCap(caster, CapabilityList.POLYMORPH);
 		if (poly != null)
 			poly.callWolves(caster.world, caster, damage);
 		return true;

@@ -123,7 +123,6 @@ public class AoV {
 
 	@Override
 	public void init(FMLInitializationEvent event) {
-		logger.info("Starting AoV Init");
 
 		MinecraftForge.EVENT_BUS.register(new TickHandler());
 		MinecraftForge.EVENT_BUS.register(new PlayerInteractHandler());

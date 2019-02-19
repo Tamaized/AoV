@@ -136,7 +136,7 @@ public class EntityAlignmentAoE extends Entity {
 
 	private void doDamage(EntityLivingBase e) {
 		boolean canDamage = false;
-		IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
+		IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (cap != null) {
 			if (IAoVCapability.selectiveTarget(caster, cap, e)) {
 				canDamage = true;
@@ -146,7 +146,7 @@ public class EntityAlignmentAoE extends Entity {
 			canDamage = true;
 		if (canDamage) {
 			e.attackEntityFrom(DamageSource.causeIndirectMagicDamage(this, caster), damage * damageMod);
-			IStunCapability stun = CapabilityHelper.getCap(e, CapabilityList.STUN, null);
+			IStunCapability stun = CapabilityList.getCap(e, CapabilityList.STUN);
 			if (stun != null) {
 				if ((e.isEntityUndead() && alignment == AlignmentAoE.Type.OrdersWrath) || (!e.isEntityUndead() && alignment == AlignmentAoE.Type.ChaosHammer))
 					stun.setStunTicks(rand.nextInt(20 * 3) + 20 * 2);

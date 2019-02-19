@@ -120,7 +120,7 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 			if (fromPacket && player.onGround) {
 				initalAttackCooldown = attackCooldown = cooldown;
 				Vec3d lookVector = player.getLook(Minecraft.getMinecraft().getRenderPartialTicks());
-				IAoVCapability cap = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
+				IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
 				Vec3d vel = new Vec3d(0.9F * lookVector.x, 0.5F, 0.9F * lookVector.z);
 				if (cap != null && cap.hasSkill(AoVSkills.druid_core_4) && IAoVCapability.isCentered(player, cap))
 					vel = new Vec3d(1.8F * lookVector.x, 0.65F, 1.8F * lookVector.z);
@@ -184,7 +184,7 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 		if (!player.world.isRemote && getMorph() == Morph.ArchAngel && polymorphTicker-- <= 0) {
 			morph(null);
 			player.removePotionEffect(AoVPotions.slowFall);
-			IAoVCapability aov = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
+			IAoVCapability aov = CapabilityList.getCap(player, CapabilityList.AOV);
 			if (aov != null)
 				aov.markDirty();
 		}
@@ -194,7 +194,7 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 			attacking = false;
 		if (!player.world.isRemote && getMorph() != null && getMorph().requiresCentered && !IAoVCapability.isCentered(player, CapabilityHelper.getCap(player, CapabilityList.AOV, null))) {
 			morph(null);
-			IAoVCapability aov = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
+			IAoVCapability aov = CapabilityList.getCap(player, CapabilityList.AOV);
 			if (aov != null)
 				aov.markDirty();
 		}
@@ -204,7 +204,7 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 			player.eyeHeight = player.height * 0.8F;
 			setLocalMorphSize(true);
 			if (attacking) {
-				IAoVCapability aov = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
+				IAoVCapability aov = CapabilityList.getCap(player, CapabilityList.AOV);
 				List<Entity> targets = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getEntityBoundingBox().grow(0.75D));
 				for (Entity target : targets) {
 					if (!(target instanceof EntityLivingBase))
@@ -283,7 +283,7 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 						flagBits &= 0b1110;
 					}
 					if (oldBits != flagBits) {
-						IAoVCapability aov = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
+						IAoVCapability aov = CapabilityList.getCap(player, CapabilityList.AOV);
 						if (aov != null)
 							aov.markDirty();
 					}

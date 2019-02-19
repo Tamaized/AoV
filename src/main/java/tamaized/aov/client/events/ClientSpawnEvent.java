@@ -39,7 +39,7 @@ public class ClientSpawnEvent {
 		for (Entity entity : Minecraft.getMinecraft().world.loadedEntityList) {
 			if (!(entity instanceof EntityLivingBase))
 				continue;
-			IStunCapability cap = CapabilityHelper.getCap(entity, CapabilityList.STUN, null);
+			IStunCapability cap = CapabilityList.getCap(entity, CapabilityList.STUN);
 			if (cap != null)
 				cap.update((EntityLivingBase) entity);
 		}

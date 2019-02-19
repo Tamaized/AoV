@@ -91,7 +91,7 @@ public class AoVOverlay extends Gui {
 	@SubscribeEvent
 	public void renderOverlayPre(RenderGameOverlayEvent.Pre e) {
 		if (e.getType() == RenderGameOverlayEvent.ElementType.HOTBAR) {
-			IPolymorphCapability poly = CapabilityHelper.getCap(mc.player, CapabilityList.POLYMORPH, null);
+			IPolymorphCapability poly = CapabilityList.getCap(mc.player, CapabilityList.POLYMORPH);
 			if (poly != null) {
 				if (poly.getMorph() == IPolymorphCapability.Morph.Wolf) {
 					e.setCanceled(true);
@@ -123,13 +123,13 @@ public class AoVOverlay extends Gui {
 				}
 			}
 		} else if (e.getType() == RenderGameOverlayEvent.ElementType.AIR) {
-			IPolymorphCapability poly = CapabilityHelper.getCap(mc.player, CapabilityList.POLYMORPH, null);
+			IPolymorphCapability poly = CapabilityList.getCap(mc.player, CapabilityList.POLYMORPH);
 			if (poly != null && poly.getMorph() == IPolymorphCapability.Morph.WaterElemental)
 				e.setCanceled(true);
 		} else if (e.getType() == RenderGameOverlayEvent.ElementType.ALL) {
 			renderStencils();
 			hackyshit = true;
-			IPolymorphCapability poly = CapabilityHelper.getCap(mc.player, CapabilityList.POLYMORPH, null);
+			IPolymorphCapability poly = CapabilityList.getCap(mc.player, CapabilityList.POLYMORPH);
 			if (poly != null) {
 				ClientTicker.dangerBiomeTicksFlag = (poly.getFlagBits() & 0b0001) == 0b0001;
 				if (ClientTicker.dangerBiomeTicks > 0) {
@@ -159,7 +159,7 @@ public class AoVOverlay extends Gui {
 	public void renderOverlayPost(RenderGameOverlayEvent.Post e) {
 		if (e.getType() != RenderGameOverlayEvent.ElementType.EXPERIENCE) // TODO: ??? shouldnt this be hotbar? recheck it later.
 			return;
-		IAoVCapability cap = CapabilityHelper.getCap(mc.player, CapabilityList.AOV, null);
+		IAoVCapability cap = CapabilityList.getCap(mc.player, CapabilityList.AOV);
 		FontRenderer fontRender = mc.fontRenderer;
 		ScaledResolution sr = new ScaledResolution(mc);
 		float sW = (float) sr.getScaledWidth() / 2F;

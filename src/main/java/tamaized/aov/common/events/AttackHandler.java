@@ -70,7 +70,7 @@ public class AttackHandler {
 	@SubscribeEvent
 	public void onLivingHurtEvent(LivingHurtEvent event) {
 		Entity attacker = event.getSource().getTrueSource();
-		IAoVCapability cap = CapabilityHelper.getCap(attacker, CapabilityList.AOV, null);
+		IAoVCapability cap = CapabilityList.getCap(attacker, CapabilityList.AOV);
 		if (attacker instanceof EntityLivingBase && cap != null && cap.hasSkill(AoVSkills.druid_core_4) && IAoVCapability.isCentered((EntityLivingBase) attacker, cap))
 			event.setAmount(event.getAmount() + cap.getLevel());
 		if (event.getEntityLiving() != null && event.getEntityLiving().getActivePotionEffect(AoVPotions.shieldOfFaith) != null)
@@ -80,8 +80,8 @@ public class AttackHandler {
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onPlayerMeleeAttack(AttackEntityEvent e) {
 		EntityPlayer player = e.getEntityPlayer();
-		IPolymorphCapability poly = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
-		IAoVCapability cap = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
+		IPolymorphCapability poly = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
+		IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
 		if (canHurt(e.getTarget()) && cap != null && cap.getCoreSkill() == AoVSkills.druid_core_1 && IAoVCapability.isCentered(player, cap))
 			cap.addExp(player, 10, Abilities.druidCentered);
 		if (poly != null && poly.getMorph() == IPolymorphCapability.Morph.Wolf) {
@@ -105,7 +105,7 @@ public class AttackHandler {
 		if (entity.world.isRemote)
 			return;
 
-		IPolymorphCapability poly = CapabilityHelper.getCap(entity, CapabilityList.POLYMORPH, null);
+		IPolymorphCapability poly = CapabilityList.getCap(entity, CapabilityList.POLYMORPH);
 		if (poly != null) {
 			if ((poly.getMorph() == IPolymorphCapability.Morph.WaterElemental && WATER_SOURCES.contains(event.getSource())) || (poly.getMorph() == IPolymorphCapability.Morph.FireElemental && FIRE_SOURCES.contains(event.getSource()))) {
 				if (entity.hurtResistantTime <= 0) {

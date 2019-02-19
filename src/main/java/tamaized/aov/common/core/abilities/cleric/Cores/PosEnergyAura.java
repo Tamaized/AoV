@@ -58,7 +58,7 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 
 	@Override
 	public boolean cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
-		IAoVCapability cap = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
+		IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
 		if (cap == null)
 			return false;
 		cap.addAura(createAura(ability));

@@ -10,6 +10,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
@@ -27,12 +28,13 @@ import tamaized.tammodized.common.helper.CapabilityHelper;
 import java.util.List;
 import java.util.UUID;
 
+@Mod.EventBusSubscriber(modid = AoV.MODID)
 public class TickHandler {
 
 	private static final List<UUID> FLYING = Lists.newArrayList();
 
 	private static void spawnSlowfallParticles(EntityLivingBase living) {
-		ILeapCapability cap = CapabilityHelper.getCap(living, CapabilityList.LEAP, null);
+		ILeapCapability cap = CapabilityList.getCap(living, CapabilityList.LEAP);
 		if (cap == null || cap.getLeapDuration() <= 0)
 			return;
 		final float perc = MathHelper.clamp((float) cap.getLeapDuration() / (float) cap.getMaxLeapDuration(), 0, 1);
@@ -80,7 +82,7 @@ public class TickHandler {
 			if (cap != null)
 				cap.update(player);
 		}
-		IPolymorphCapability cap = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
+		IPolymorphCapability cap = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
 		if (cap != null) {
 			cap.update(player);
 		}
@@ -89,7 +91,7 @@ public class TickHandler {
 	@SubscribeEvent
 	public void updateLiving(LivingEvent.LivingUpdateEvent e) {
 		EntityLivingBase living = e.getEntityLiving();
-		IPolymorphCapability poly = CapabilityHelper.getCap(living, CapabilityList.POLYMORPH, null);
+		IPolymorphCapability poly = CapabilityList.getCap(living, CapabilityList.POLYMORPH);
 		if (poly != null && (poly.getMorph() == IPolymorphCapability.Morph.WaterElemental || poly.getMorph() == IPolymorphCapability.Morph.FireElemental || poly.getMorph() == IPolymorphCapability.Morph.ArchAngel))
 			for (Potion potion : IPolymorphCapability.ELEMENTAL_IMMUNITY_EFFECTS)
 				living.removePotionEffect(potion);
@@ -110,7 +112,7 @@ public class TickHandler {
 					player.capabilities.isFlying = false;
 					player.sendPlayerAbilities();
 				}
-			ILeapCapability cap = CapabilityHelper.getCap(living, CapabilityList.LEAP, null);
+			ILeapCapability cap = CapabilityList.getCap(living, CapabilityList.LEAP);
 			PotionEffect pot = living.getActivePotionEffect(AoVPotions.slowFall);
 			if (pot == null || cap == null)
 				return;
@@ -129,7 +131,7 @@ public class TickHandler {
 				continue;
 			if (entity.isDead)
 				continue;
-			IStunCapability cap = CapabilityHelper.getCap(entity, CapabilityList.STUN, null);
+			IStunCapability cap = CapabilityList.getCap(entity, CapabilityList.STUN);
 			if (cap != null)
 				cap.update((EntityLivingBase) entity);
 		}

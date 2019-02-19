@@ -88,7 +88,7 @@ public class FuriousFang extends AbilityBase {
 
 	@Override
 	public boolean shouldDisable(@Nullable EntityPlayer caster, IAoVCapability cap) {
-		IPolymorphCapability poly = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
+		IPolymorphCapability poly = CapabilityList.getCap(caster, CapabilityList.POLYMORPH);
 		return poly == null || poly.getMorph() != IPolymorphCapability.Morph.Wolf;
 	}
 

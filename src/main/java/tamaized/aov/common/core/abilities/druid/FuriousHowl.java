@@ -94,14 +94,14 @@ public class FuriousHowl extends AbilityBase {
 
 	@Override
 	public boolean shouldDisable(@Nullable EntityPlayer caster, IAoVCapability cap) {
-		IPolymorphCapability poly = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
+		IPolymorphCapability poly = CapabilityList.getCap(caster, CapabilityList.POLYMORPH);
 		return poly == null || poly.getMorph() != IPolymorphCapability.Morph.Wolf;
 	}
 
 	@Override
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
-		IAoVCapability aov = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
-		IPolymorphCapability cap = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
+		IAoVCapability aov = CapabilityList.getCap(caster, CapabilityList.AOV);
+		IPolymorphCapability cap = CapabilityList.getCap(caster, CapabilityList.POLYMORPH);
 		if (aov == null || cap == null || cap.getMorph() != IPolymorphCapability.Morph.Wolf)
 			return false;
 		float damage = DAMAGE * (1F + ((aov.getSpellPower() * (IAoVCapability.isImprovedCentered(caster, aov) ? 2F : 1F)) / 100F));

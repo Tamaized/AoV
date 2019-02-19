@@ -85,7 +85,7 @@ public class LightningStorm extends AbilityBase {
 
 	@Override
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
-		IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
+		IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (cap == null)
 			return false;
 		float damage = DAMAGE * (1F + (cap.getSpellPower() / 100F));

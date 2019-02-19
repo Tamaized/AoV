@@ -84,7 +84,7 @@ public class EntitySpellLightningBolt extends Entity {
 		if (this.lightningState >= 0) {
 			List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this, new AxisAlignedBB(this.posX - 3.0D, this.posY - 3.0D, this.posZ - 3.0D, this.posX + 3.0D, this.posY + 6.0D + 3.0D, this.posZ + 3.0D));
 
-			IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
+			IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
 			for (Entity entity : list)
 				if (!(entity instanceof EntityLivingBase) || IAoVCapability.selectiveTarget(caster, cap, (EntityLivingBase) entity)) {
 					if (entity.attackEntityFrom(DamageSource.LIGHTNING_BOLT, damage) && cap != null)

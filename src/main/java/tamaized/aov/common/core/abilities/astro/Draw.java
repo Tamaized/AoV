@@ -79,7 +79,7 @@ public class Draw extends AbilityBase {
 					break;
 			}
 		if (aoe) {
-			IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
+			IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
 			int range = 16;
 			for (EntityLivingBase e : caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.posX - range, caster.posY - range, caster.posZ - range, caster.posX + range, caster.posY + range, caster.posZ + range))) {
 				if (cap == null || IAoVCapability.canBenefit(caster, cap, e))

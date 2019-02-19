@@ -137,7 +137,7 @@ public class EntityEarthquake extends Entity {
 					for (Entity e : world.loadedEntityList)
 						if (e.getUniqueID().equals(casterID))
 							caster = e;
-				IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
+				IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
 				for (EntityLivingBase entity : world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(posX - width, posY - 1F, posZ - width, posX + width, posY + 3F, posZ + width))) {
 					if (entity != caster && IAoVCapability.selectiveTarget(caster, cap, entity) && entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, caster), damage)) {
 						entity.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 20 * 8));

@@ -273,7 +273,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 	}
 
 	protected boolean canHitEntity(Entity entity) {
-		IAoVCapability cap = CapabilityHelper.getCap(shootingEntity, CapabilityList.AOV, null);
+		IAoVCapability cap = CapabilityList.getCap(shootingEntity, CapabilityList.AOV);
 		return entity instanceof EntityLivingBase && (cap == null || IAoVCapability.selectiveTarget(shootingEntity, cap, (EntityLivingBase) entity));
 	}
 

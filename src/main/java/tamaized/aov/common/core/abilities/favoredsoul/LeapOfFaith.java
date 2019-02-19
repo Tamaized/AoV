@@ -89,7 +89,7 @@ public class LeapOfFaith extends AbilityBase {
 		double distance = 3.5;
 		MotionHelper.addMotion(caster, new Vec3d(vec.x * distance, 1, vec.z * distance));
 		caster.addPotionEffect(new PotionEffect(AoVPotions.slowFall, 300));
-		ILeapCapability cap = CapabilityHelper.getCap(caster, CapabilityList.LEAP, null);
+		ILeapCapability cap = CapabilityList.getCap(caster, CapabilityList.LEAP);
 		if (cap != null)
 			cap.setLeapDuration(300);
 		SoundEvents.playMovingSoundOnServer(SoundEvents.boost, caster);

@@ -74,7 +74,7 @@ public class AoVSkillsGUI extends GuiScreenClose {
 	public void initGui() {
 		super.initGui();
 		mc.player.openContainer = inventory;
-		cap = CapabilityHelper.getCap(mc.player, CapabilityList.AOV, null);
+		cap = CapabilityList.getCap(mc.player, CapabilityList.AOV);
 		if (cap != null) {
 			if (classType == BlockAngelicBlock.ClassType.ALL) {
 				for (IClassButtons b : CLASS_BUTTON_REGISTRY)

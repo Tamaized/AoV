@@ -93,7 +93,7 @@ public class NaturesBounty extends AbilityBase {
 			addPotionEffects(target);
 		else
 			addPotionEffects(caster);
-		IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
+		IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (cap != null)
 			cap.addExp(caster, 15, this);
 		return true;

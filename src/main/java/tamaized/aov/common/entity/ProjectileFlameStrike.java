@@ -96,7 +96,7 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 		setDead();
 		for (EntityLivingBase entity : world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(getPosition().add(-10, -1, -10), getPosition().add(10, 5, 10)))) {
 			if (attacker != null) {
-				IAoVCapability cap = CapabilityHelper.getCap(attacker, CapabilityList.AOV, null);
+				IAoVCapability cap = CapabilityList.getCap(attacker, CapabilityList.AOV);
 				if (entity == attacker || (cap != null && !IAoVCapability.selectiveTarget(attacker, cap, entity)))
 					continue;
 				if (cap != null)

@@ -96,7 +96,7 @@ public class EntityGravity extends Entity {
 	}
 
 	private void doDamage(EntityLivingBase e) {
-		IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
+		IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (cap != null) {
 			if (IAoVCapability.selectiveTarget(caster, cap, e)) {
 				e.attackEntityFrom(DamageSource.causeIndirectMagicDamage(this, caster), damage * damageMod);

@@ -88,7 +88,7 @@ public class SlayLiving extends AbilityBase {
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		if (target == null)
 			return false;
-		IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
+		IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (cap != null && !target.isEntityUndead() && target.isNonBoss() && IAoVCapability.selectiveTarget(caster, cap, target)) {
 			float damage = target.getRNG().nextInt((int) Math.floor(target.getHealth())) <= 4 ? target.getMaxHealth() : target.getMaxHealth() / 2F;
 			damage *= (1f + (cap.getSpellPower() / 100f));

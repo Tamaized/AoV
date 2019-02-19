@@ -161,7 +161,7 @@ public class SpellBookGUI extends GuiScreenClose {
 	private void renderBar() {
 		if (mc == null)
 			return;
-		IAoVCapability cap = CapabilityHelper.getCap(mc.player, CapabilityList.AOV, null);
+		IAoVCapability cap = CapabilityList.getCap(mc.player, CapabilityList.AOV);
 		ScaledResolution sr = new ScaledResolution(mc);
 		float alpha = 1.0f;
 		GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);

@@ -88,7 +88,7 @@ public class EntityDruidicWolf extends EntityWolf {
 
 	@Override
 	public boolean attackEntityAsMob(Entity entityIn) {
-		IAoVCapability cap = CapabilityHelper.getCap(getOwner(), CapabilityList.AOV, null);
+		IAoVCapability cap = CapabilityList.getCap(getOwner(), CapabilityList.AOV);
 		if (cap != null)
 			cap.addExp(getOwner(), 20, Abilities.formPack);
 		return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), damage);

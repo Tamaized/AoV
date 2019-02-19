@@ -129,7 +129,7 @@ public final class Ability {
 	public void cast(EntityPlayer caster, EntityLivingBase target) {
 		if (disabled)
 			return;
-		IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
+		IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (cap != null) {
 			if (target != null && !ability.isCastOnTarget(caster, cap, target))
 				target = null;

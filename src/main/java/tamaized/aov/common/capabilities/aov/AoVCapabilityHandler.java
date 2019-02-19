@@ -202,7 +202,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	private void updateValues(@Nullable EntityPlayer player) {
-		IAstroCapability astro = CapabilityHelper.getCap(player, CapabilityList.ASTRO, null);
+		IAstroCapability astro = CapabilityList.getCap(player, CapabilityList.ASTRO);
 		maxLevel = ConfigHandler.maxlevel;
 		skillPoints = getLevel();
 		spellpower = 0;
@@ -271,7 +271,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 				}
 			}
 		if (player != null) {
-			IPolymorphCapability poly = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
+			IPolymorphCapability poly = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
 			if (poly != null) {
 				if (poly.getMorph() == IPolymorphCapability.Morph.Wolf) {
 					doublestrike += 15;
@@ -723,7 +723,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	private void sendPacketUpdates(EntityPlayerMP player) {
-		IPolymorphCapability poly = CapabilityHelper.getCap(player, CapabilityList.POLYMORPH, null);
+		IPolymorphCapability poly = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
 		if (poly == null)
 			return;
 		AoV.network.sendTo(new ClientPacketHandlerAoVData.Packet(this, poly), player);

@@ -84,13 +84,13 @@ public class Polymorph extends AbilityBase {
 
 	@Override
 	public boolean canUseOnCooldown(IAoVCapability cap, EntityPlayer caster) {
-		IPolymorphCapability poly = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
+		IPolymorphCapability poly = CapabilityList.getCap(caster, CapabilityList.POLYMORPH);
 		return poly != null && poly.getMorph() == type && type != IPolymorphCapability.Morph.ArchAngel;
 	}
 
 	@Override
 	public void onCooldownCast(Ability ability, EntityPlayer caster, EntityLivingBase target, int cooldown) {
-		IPolymorphCapability cap = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
+		IPolymorphCapability cap = CapabilityList.getCap(caster, CapabilityList.POLYMORPH);
 		if (cap != null && cap.getMorph() == type)
 			cap.morph(null);
 
@@ -99,7 +99,7 @@ public class Polymorph extends AbilityBase {
 	@Override
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		boolean cooldown = true;
-		IPolymorphCapability cap = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
+		IPolymorphCapability cap = CapabilityList.getCap(caster, CapabilityList.POLYMORPH);
 		if (cap != null) {
 			if (cap.getMorph() != type || type == IPolymorphCapability.Morph.ArchAngel) {
 				cap.morph(type);
@@ -109,7 +109,7 @@ public class Polymorph extends AbilityBase {
 				cap.morph(null);
 				cooldown = false;
 			}
-			IAoVCapability aov = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
+			IAoVCapability aov = CapabilityList.getCap(caster, CapabilityList.AOV);
 			if (aov != null)
 				aov.markDirty();
 		}

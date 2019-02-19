@@ -93,16 +93,16 @@ public class ElementalEmpowerment extends AbilityBase implements IAura {
 
 	@Override
 	public boolean shouldDisable(@Nullable EntityPlayer caster, IAoVCapability cap) {
-		IPolymorphCapability poly = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
+		IPolymorphCapability poly = CapabilityList.getCap(caster, CapabilityList.POLYMORPH);
 		return poly == null || (poly.getMorph() != IPolymorphCapability.Morph.FireElemental && poly.getMorph() != IPolymorphCapability.Morph.WaterElemental);
 	}
 
 	@Override
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
-		IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
+		IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (cap == null)
 			return false;
-		IPolymorphCapability poly = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
+		IPolymorphCapability poly = CapabilityList.getCap(caster, CapabilityList.POLYMORPH);
 		if (poly != null) {
 			switch (poly.getMorph()) {
 				case WaterElemental:
@@ -124,7 +124,7 @@ public class ElementalEmpowerment extends AbilityBase implements IAura {
 
 	@Override
 	public void castAsAura(EntityPlayer caster, IAoVCapability cap, int life) {
-		IPolymorphCapability poly = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
+		IPolymorphCapability poly = CapabilityList.getCap(caster, CapabilityList.POLYMORPH);
 		if (poly != null) {
 			switch (poly.getMorph()) {
 				case WaterElemental:

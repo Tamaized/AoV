@@ -47,7 +47,7 @@ public class EntityMalefic extends ProjectileBase {
 			if (target == null || target.isDead) {
 				EntityLivingBase closest = null;
 				double radius = 10;
-				IAoVCapability cap = CapabilityHelper.getCap(shootingEntity, CapabilityList.AOV, null);
+				IAoVCapability cap = CapabilityList.getCap(shootingEntity, CapabilityList.AOV);
 				for (EntityLivingBase e : world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(posX - radius, posY - radius, posZ - radius, posX + radius, posY + radius, posZ + radius)))
 					if (shootingEntity != e)
 						if (cap == null || !cap.hasSelectiveFocus() || IAoVCapability.selectiveTarget(shootingEntity, cap, e))
@@ -79,7 +79,7 @@ public class EntityMalefic extends ProjectileBase {
 	@Override
 	protected void arrowHit(EntityLivingBase entity) {
 		if (shootingEntity != null && !shootingEntity.isDead) {
-			IAoVCapability cap = CapabilityHelper.getCap(shootingEntity, CapabilityList.AOV, null);
+			IAoVCapability cap = CapabilityList.getCap(shootingEntity, CapabilityList.AOV);
 			if (cap != null)
 				cap.addExp(shootingEntity, 12, getSpell());
 			SoundEvents.playMovingSoundOnServer(SoundEvents.malefic_hit, entity);

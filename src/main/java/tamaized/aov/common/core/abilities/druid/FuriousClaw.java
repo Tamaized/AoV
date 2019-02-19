@@ -50,7 +50,7 @@ public class FuriousClaw extends AbilityBase {
 	}
 
 	public static boolean invoke(byte bit, EntityPlayer caster, AbilityBase ability) {
-		IPolymorphCapability cap = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
+		IPolymorphCapability cap = CapabilityList.getCap(caster, CapabilityList.POLYMORPH);
 		if (cap == null || cap.getMorph() != IPolymorphCapability.Morph.Wolf)
 			return false;
 		if (caster.world.isRemote)
@@ -59,7 +59,7 @@ public class FuriousClaw extends AbilityBase {
 		RayTraceResult ray = RayTraceHelper.tracePath(caster.world, caster, (int) caster.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue(), 1, Sets.newHashSet(caster));
 		if (ray != null && ray.typeOfHit == RayTraceResult.Type.ENTITY) {
 			caster.attackTargetEntityWithCurrentItem(ray.entityHit);
-			IAoVCapability aov = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
+			IAoVCapability aov = CapabilityList.getCap(caster, CapabilityList.AOV);
 			if (aov != null)
 				aov.addExp(caster, 20, ability);
 		}
@@ -110,7 +110,7 @@ public class FuriousClaw extends AbilityBase {
 
 	@Override
 	public boolean shouldDisable(@Nullable EntityPlayer caster, IAoVCapability cap) {
-		IPolymorphCapability poly = CapabilityHelper.getCap(caster, CapabilityList.POLYMORPH, null);
+		IPolymorphCapability poly = CapabilityList.getCap(caster, CapabilityList.POLYMORPH);
 		return poly == null || poly.getMorph() != IPolymorphCapability.Morph.Wolf;
 	}
 

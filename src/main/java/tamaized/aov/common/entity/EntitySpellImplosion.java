@@ -74,7 +74,7 @@ public class EntitySpellImplosion extends Entity {
 		tick++;
 		if (tick % (20 * 5) == 0) {
 			float damage = rand.nextFloat() * target.getMaxHealth();
-			IAoVCapability cap = CapabilityHelper.getCap(caster, CapabilityList.AOV, null);
+			IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
 			if (cap != null)
 				damage *= (1f + (cap.getSpellPower() / 100f));
 			target.attackEntityFrom(AoVDamageSource.createEntityDamageSource(AoVDamageSource.DESTRUCTION, caster), damage);

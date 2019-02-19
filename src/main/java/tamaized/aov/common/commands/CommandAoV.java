@@ -31,7 +31,7 @@ import java.util.Locale;
 public class CommandAoV extends CommandBase {
 
 	private static IAoVCapability getCap(Entity e) {
-		return CapabilityHelper.getCap(e, CapabilityList.AOV, null);
+		return CapabilityList.getCap(e, CapabilityList.AOV);
 	}
 
 	@Nonnull
@@ -156,7 +156,7 @@ public class CommandAoV extends CommandBase {
 				}
 				if (type != null && cap != null) {
 					cap.reset(type == ResetType.MAJOR);
-					IPolymorphCapability poly = CapabilityHelper.getCap(entity, CapabilityList.POLYMORPH, null);
+					IPolymorphCapability poly = CapabilityList.getCap(entity, CapabilityList.POLYMORPH);
 					if (poly != null)
 						poly.morph(null);
 					sender.sendMessage(new TextComponentTranslation("commands.aov.success.reset"));
