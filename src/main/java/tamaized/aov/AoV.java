@@ -134,18 +134,9 @@ public class AoV {
 		AoVSkills.register();
 	}
 
-	@Override
-	public void init(FMLInitializationEvent event) {
-	}
-
-	@Override
-	public void postInit(FMLPostInitializationEvent event) {
-		logger.info("Starting AoV PostInit");
-	}
-
-	@EventHandler
+	/*@EventHandler
 	public void startServer(FMLServerStartingEvent event) {
 		event.registerServerCommand(new CommandAoV());
-	}
+	}*/
 
 }
