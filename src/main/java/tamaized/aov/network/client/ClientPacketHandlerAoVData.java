@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
+import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.core.abilities.Ability;
@@ -13,6 +14,7 @@ import tamaized.aov.common.core.skills.AoVSkill;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.network.NetworkMessages;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -46,12 +48,61 @@ public class ClientPacketHandlerAoVData implements NetworkMessages.IMessage<Clie
 
 	@Override
 	public void handle(EntityPlayer player) {
-
+		IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
+		if (cap != null) {
+			cap.getObtainedSkills().clear();
+			for (AoVSkill skill : obtainedSkills)
+				cap.addObtainedSkill(skill);
+			cap.setSkillPoints(skillPoints);
+			cap.setExp(exp);
+			cap.setMaxLevel(maxLevel);
+			cap.toggleInvokeMass(invokeMass);
+			for (int index = 0; index < 9; index++)
+				cap.setSlot(slots[index], index, true);
+			cap.setCurrentSlot(currentSlot);
+			cap.setCooldowns(Collections.unmodifiableMap(cooldowns));
+			cap.clearAuras();
+			for (Aura aura : auras)
+				cap.addAura(aura);
+			cap.markDirty();
+			cap.setLoaded();
+		}
+		IPolymorphCapability poly = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
+		if (poly != null) {
+			poly.morph(polymorph);
+			poly.setFlagBits(renderBits);
+		}
 	}
 
 	@Override
 	public void toBytes(PacketBuffer packet) {
-
+		packet.writeInt(obtainedSkills.size());
+		for (AoVSkill skill : obtainedSkills)
+			packet.writeInt(skill == null ? -1 : skill.getID());
+		packet.writeInt(skillPoints);
+		packet.writeInt(exp);
+		packet.writeInt(maxLevel);
+		packet.writeBoolean(invokeMass);
+		for (int index = 0; index < 9; index++) {
+			Ability ability = slots[index];
+			if (ability == null) {
+				packet.writeBoolean(false);
+			} else {
+				packet.writeBoolean(true);
+				ability.encode(packet);
+			}
+		}
+		packet.writeInt(currentSlot);
+		packet.writeInt(cooldowns.size());
+		for (Map.Entry<AbilityBase, Integer> entry : cooldowns.entrySet()) {
+			packet.writeInt(entry.getKey().getID());
+			packet.writeInt(entry.getValue());
+		}
+		packet.writeInt(polymorph == null ? -1 : polymorph.ordinal());
+		packet.writeByte(renderBits);
+		packet.writeInt(auras.size());
+		for (Aura aura : auras)
+			aura.encode(packet);
 	}
 
 	@Override

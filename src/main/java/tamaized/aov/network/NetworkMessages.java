@@ -58,14 +58,17 @@ public class NetworkMessages {
 
 		static void onMessage(IMessage message, Supplier<NetworkEvent.Context> context, Side side) {
 			switch (side) {
-				case CLIENT:
-					Minecraft.getInstance().addScheduledTask(() -> message.handle(Minecraft.getInstance().player));
-					break;
-				case SERVER:
+				case CLIENT: {
+					EntityPlayer player = Minecraft.getInstance().player;
+					Minecraft.getInstance().addScheduledTask(() -> message.handle(player));
+				}
+				break;
+				case SERVER: {
 					EntityPlayerMP player = context.get().getSender();
 					if (player != null)
 						player.getServerWorld().addScheduledTask(() -> message.handle(player));
-					break;
+				}
+				break;
 			}
 		}
 
