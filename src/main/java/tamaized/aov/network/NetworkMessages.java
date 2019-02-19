@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.PacketBuffer;
+import net.minecraftforge.fml.UnsafeHacks;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 import tamaized.aov.network.client.ClientPacketHandlerAoVData;
@@ -52,12 +53,7 @@ public class NetworkMessages {
 		}
 
 		static <M extends IMessage<M>> M decode(PacketBuffer packet, Class<M> type) {
-			try {
-				return type.newInstance().fromBytes(packet);
-			} catch (InstantiationException | IllegalAccessException e) {
-				e.printStackTrace();
-			}
-			return null;
+			return UnsafeHacks.newInstance(type).fromBytes(packet);
 		}
 
 		static void onMessage(IMessage message, Supplier<NetworkEvent.Context> context, Side side) {

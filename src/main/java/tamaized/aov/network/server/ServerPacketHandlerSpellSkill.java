@@ -13,11 +13,19 @@ import tamaized.aov.common.core.skills.AoVSkill;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.network.NetworkMessages;
 
+import javax.annotation.Nullable;
+
 public class ServerPacketHandlerSpellSkill implements NetworkMessages.IMessage<ServerPacketHandlerSpellSkill> {
 
 	public PacketType id;
-	public int[] data = {};
+	public int[] data;
 	public AbilityBase ability;
+
+	public ServerPacketHandlerSpellSkill(PacketType type, @Nullable AbilityBase ability, int... data) {
+		id = type;
+		this.data = data;
+		this.ability = ability;
+	}
 
 	@Override
 	public void handle(EntityPlayer player) {
