@@ -101,17 +101,14 @@ public class AoV {
 	@SubscribeEvent
 	public void init(FMLCommonSetupEvent event) {
 		LOGGER.info("Initalizating AoV");
-		NetworkMessages.register(network);
-	}
 
-	@Override
-	public void preInit(FMLPreInitializationEvent event) {
+		NetworkMessages.register(network);
+
 		CapabilityManager.INSTANCE.register(IAoVCapability.class, new AoVCapabilityStorage(), AoVCapabilityHandler::new);
 		CapabilityManager.INSTANCE.register(IAstroCapability.class, new AstroCapabilityStorage(), AstroCapabilityHandler::new);
 		CapabilityManager.INSTANCE.register(IStunCapability.class, new StunCapabilityStorage(), StunCapabilityHandler::new);
 		CapabilityManager.INSTANCE.register(ILeapCapability.class, new LeapCapabilityStorage(), LeapCapabilityHandler::new);
 		CapabilityManager.INSTANCE.register(IPolymorphCapability.class, new PolymorphCapabilityStorage(), PolymorphCapabilityHandler::new);
-		MinecraftForge.EVENT_BUS.register(new CapabilityList());
 	}
 
 	@Override

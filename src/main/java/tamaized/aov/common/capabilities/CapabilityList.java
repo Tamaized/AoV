@@ -13,17 +13,19 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
 import tamaized.aov.common.capabilities.leap.ILeapCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.capabilities.stun.IStunCapability;
-import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+@Mod.EventBusSubscriber(modid = AoV.MODID)
 public class CapabilityList {
 
 	@CapabilityInject(IAoVCapability.class)
@@ -56,20 +58,16 @@ public class CapabilityList {
 	}
 
 	@SubscribeEvent
-	public void attachCapabilityEntity(AttachCapabilitiesEvent<Entity> e) {
+	public static void attachCapabilityEntity(AttachCapabilitiesEvent<Entity> e) {
 		if (e.getObject() instanceof EntityPlayer) {
 			e.addCapability(IAoVCapability.ID, new ICapabilitySerializable<NBTTagCompound>() {
 
 				IAoVCapability inst = AOV.getDefaultInstance();
 
+				@Nonnull
 				@Override
-				public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing facing) {
-					return capability == AOV;
-				}
-
-				@Override
-				public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
-					return capability == AOV ? AOV.<T>cast(inst) : null;
+				public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
+					return AOV.orEmpty(AOV, LazyOptional.of(() -> inst)).cast();
 				}
 
 				@Override
@@ -87,14 +85,10 @@ public class CapabilityList {
 
 				IAstroCapability inst = ASTRO.getDefaultInstance();
 
+				@Nonnull
 				@Override
-				public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing facing) {
-					return capability == ASTRO;
-				}
-
-				@Override
-				public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
-					return capability == ASTRO ? ASTRO.<T>cast(inst) : null;
+				public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
+					return ASTRO.orEmpty(ASTRO, LazyOptional.of(() -> inst)).cast();
 				}
 
 				@Override
@@ -112,14 +106,10 @@ public class CapabilityList {
 
 				IPolymorphCapability inst = POLYMORPH.getDefaultInstance();
 
+				@Nonnull
 				@Override
-				public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing facing) {
-					return capability == POLYMORPH;
-				}
-
-				@Override
-				public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
-					return capability == POLYMORPH ? POLYMORPH.<T>cast(inst) : null;
+				public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
+					return POLYMORPH.orEmpty(POLYMORPH, LazyOptional.of(() -> inst)).cast();
 				}
 
 				@Override
@@ -139,14 +129,10 @@ public class CapabilityList {
 
 				IStunCapability inst = STUN.getDefaultInstance();
 
+				@Nonnull
 				@Override
-				public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing facing) {
-					return capability == STUN;
-				}
-
-				@Override
-				public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
-					return capability == STUN ? STUN.<T>cast(inst) : null;
+				public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
+					return STUN.orEmpty(STUN, LazyOptional.of(() -> inst)).cast();
 				}
 
 				@Override
@@ -164,14 +150,10 @@ public class CapabilityList {
 
 				ILeapCapability inst = LEAP.getDefaultInstance();
 
+				@Nonnull
 				@Override
-				public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing facing) {
-					return capability == LEAP;
-				}
-
-				@Override
-				public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
-					return capability == LEAP ? LEAP.<T>cast(inst) : null;
+				public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
+					return LEAP.orEmpty(LEAP, LazyOptional.of(() -> inst)).cast();
 				}
 
 				@Override
@@ -189,25 +171,25 @@ public class CapabilityList {
 	}
 
 	@SubscribeEvent
-	public void updateClone(PlayerEvent.Clone e) {
-		IAoVCapability newcap = CapabilityHelper.getCap(e.getEntityPlayer(), AOV, null);
-		IAoVCapability oldcap = CapabilityHelper.getCap(e.getOriginal(), AOV, null);
+	public static void updateClone(PlayerEvent.Clone e) {
+		IAoVCapability newcap = getCap(e.getEntityPlayer(), AOV);
+		IAoVCapability oldcap = getCap(e.getOriginal(), AOV);
 		if (newcap != null && oldcap != null)
 			newcap.copyFrom(oldcap);
-		IPolymorphCapability newpoly = CapabilityHelper.getCap(e.getEntityPlayer(), POLYMORPH, null);
-		IPolymorphCapability oldpoly = CapabilityHelper.getCap(e.getOriginal(), POLYMORPH, null);
+		IPolymorphCapability newpoly = getCap(e.getEntityPlayer(), POLYMORPH);
+		IPolymorphCapability oldpoly = getCap(e.getOriginal(), POLYMORPH);
 		if (newpoly != null && oldpoly != null)
 			newpoly.morph(oldpoly.getMorph());
 	}
 
 	@SubscribeEvent
-	public void onJoin(EntityJoinWorldEvent e) {
-		IAoVCapability cap = CapabilityHelper.getCap(e.getEntity(), AOV, null);
+	public static void onJoin(EntityJoinWorldEvent e) {
+		IAoVCapability cap = getCap(e.getEntity(), AOV);
 		if (cap != null) {
 			cap.markDirty();
 			cap.setLoaded();
 		}
-		IAstroCapability astro = CapabilityHelper.getCap(e.getEntity(), ASTRO, null);
+		IAstroCapability astro = getCap(e.getEntity(), ASTRO);
 		if (astro != null)
 			astro.markDirty();
 	}
