@@ -4,9 +4,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraftforge.fml.network.PacketDistributor;
 import tamaized.aov.AoV;
 import tamaized.aov.network.client.ClientPacketHandlerMovingSound;
 
@@ -83,11 +83,11 @@ public class SoundEvents {
 	}
 
 	public static void playMovingSoundOnServer(SoundEvent sound, Entity entity) {
-		AoV.network.sendToAllAround(new ClientPacketHandlerMovingSound.Packet(entity, SoundEvent.REGISTRY.getIDForObject(sound)), new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 32));
+		AoV.network.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), new ClientPacketHandlerMovingSound(entity, sound));
 	}
 
 	public static void playMovingSoundOnServer(SoundEvent sound, Entity entity, float volume, float pitch) {
-		AoV.network.sendToAllAround(new ClientPacketHandlerMovingSound.Packet(entity, SoundEvent.REGISTRY.getIDForObject(sound), volume, pitch), new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 32));
+		AoV.network.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), new ClientPacketHandlerMovingSound(entity, sound, volume, pitch));
 	}
 
 }
