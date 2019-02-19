@@ -2,10 +2,9 @@ package tamaized.aov.registry;
 
 import com.google.common.collect.Lists;
 import net.minecraft.client.particle.ParticleManager;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.network.PacketDistributor;
 import tamaized.aov.AoV;
 import tamaized.aov.network.client.ClientPacketHandlerParticle;
 
@@ -25,12 +24,11 @@ public class ParticleRegistry {
 	}
 
 	public static void spawnFromServer(World world, int id, double x, double y, double z, double dx, double dy, double dz, int... data) {
-		AoV.network.sendToAllAround(new ClientPacketHandlerParticle.Packet(id, x, y, z, dx, dy, dz, data), new NetworkRegistry.TargetPoint(world.provider.getDimension(), x, y, z, 64));
+		AoV.network.send(PacketDistributor.TRACKING_CHUNK.with(() -> world.getChunk(new BlockPos(x, y, z))), new ClientPacketHandlerParticle(id, x, y, z, dx, dy, dz, data));
 	}
 
 	public interface IParticleHandler {
 
-		@SideOnly(Side.CLIENT)
 		void execute(ParticleManager manager, World world, double x, double y, double z, double dx, double dy, double dz, int... data);
 
 	}
