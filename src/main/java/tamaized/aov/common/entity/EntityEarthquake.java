@@ -186,7 +186,7 @@ public class EntityEarthquake extends Entity {
 			return RAND.nextDouble() * 3.0D - 1.5D;
 		}
 
-		@SideOnly(Side.CLIENT)
+		@OnlyIn(Dist.CLIENT)
 		public boolean render(@Nonnull EntityEarthquake entity, double ox, double oy, double oz, float partialTicks) {
 			life -= partialTicks;
 			if (life <= 0)

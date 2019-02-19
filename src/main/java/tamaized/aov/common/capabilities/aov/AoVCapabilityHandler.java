@@ -593,7 +593,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void cast(int slotLoc) {
 		AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.CAST_SPELL, null, ClientProxy.getTarget() != null ? new int[]{slotLoc, ClientProxy.getTarget().getEntityId()} : new int[]{slotLoc}));
 		Ability ability = getSlot(slotLoc);

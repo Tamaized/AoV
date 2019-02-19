@@ -89,7 +89,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public int getBrightnessForRender() {
 		return 0xF000F0;
 	}

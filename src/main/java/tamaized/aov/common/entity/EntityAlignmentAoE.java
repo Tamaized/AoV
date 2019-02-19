@@ -68,7 +68,7 @@ public class EntityAlignmentAoE extends Entity {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public int getBrightnessForRender() {
 		return 0xF000F0;
 	}

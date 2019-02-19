@@ -2,8 +2,8 @@ package tamaized.aov.registry;
 
 import net.minecraft.potion.Potion;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import tamaized.aov.common.potion.PotionAid;
 import tamaized.aov.common.potion.PotionBalance;
 import tamaized.aov.common.potion.PotionColdChill;

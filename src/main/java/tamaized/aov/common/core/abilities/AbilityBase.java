@@ -50,7 +50,7 @@ public abstract class AbilityBase {
 		return false;
 	}
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public final List<String> getDescription() {
 		List<String> list = Lists.newArrayList();
 		for (TextComponentTranslation s : description) {
@@ -62,7 +62,7 @@ public abstract class AbilityBase {
 		return list;
 	}
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public abstract String getName();
 
 	public abstract int getMaxCharges();

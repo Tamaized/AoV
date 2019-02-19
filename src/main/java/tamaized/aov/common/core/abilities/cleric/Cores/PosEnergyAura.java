@@ -94,7 +94,7 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public String getName() {
 		return I18n.format(getStaticName());
 	}

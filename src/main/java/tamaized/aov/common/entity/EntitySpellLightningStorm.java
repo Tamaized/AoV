@@ -121,7 +121,7 @@ public class EntitySpellLightningStorm extends Entity {
 			return RAND.nextDouble() * 5D - 2.5D;
 		}
 
-		@SideOnly(Side.CLIENT)
+		@OnlyIn(Dist.CLIENT)
 		public boolean render(@Nonnull EntitySpellLightningStorm entity, double ox, double oy, double oz, float partialTicks, RenderManager renderManager) {
 			if (!Minecraft.getMinecraft().isGamePaused()) {
 				life -= partialTicks;

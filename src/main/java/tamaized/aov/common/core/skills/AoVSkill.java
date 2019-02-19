@@ -127,7 +127,7 @@ public class AoVSkill {
 		return icon;
 	}
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public final List<String> getDescription() {
 		List<String> list = Lists.newArrayList();
 		for (TextComponentTranslation s : description) {

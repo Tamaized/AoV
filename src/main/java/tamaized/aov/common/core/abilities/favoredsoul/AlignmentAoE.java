@@ -53,7 +53,7 @@ public class AlignmentAoE extends AbilityBase {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public String getName() {
 		return I18n.format("aov.spells." + type.name().toLowerCase(Locale.US) + ".name");
 	}

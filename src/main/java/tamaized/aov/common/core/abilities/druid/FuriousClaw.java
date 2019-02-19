@@ -68,7 +68,7 @@ public class FuriousClaw extends AbilityBase {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public String getName() {
 		return I18n.format(UNLOC.concat(".name"));
 	}
