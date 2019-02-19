@@ -2,19 +2,24 @@ package tamaized.aov;
 
 import net.minecraft.network.NetworkManager;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.ForgeConfig;
+import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tamaized.aov.common.capabilities.CapabilityList;
@@ -75,6 +80,7 @@ public class AoV {
 
 	public static final Logger LOGGER = LogManager.getLogger("AoV");
 	public static CommonProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> CommonProxy::new);
+	public static ConfigHandler config;
 	public static SimpleChannel network = NetworkRegistry.ChannelBuilder
 
 			.named(new ResourceLocation(MODID, MODID))
@@ -109,13 +115,15 @@ public class AoV {
 		CapabilityManager.INSTANCE.register(IStunCapability.class, new StunCapabilityStorage(), StunCapabilityHandler::new);
 		CapabilityManager.INSTANCE.register(ILeapCapability.class, new LeapCapabilityStorage(), LeapCapabilityHandler::new);
 		CapabilityManager.INSTANCE.register(IPolymorphCapability.class, new PolymorphCapabilityStorage(), PolymorphCapabilityHandler::new);
+
+		final Pair<ConfigHandler, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(ConfigHandler::new);
+		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, specPair.getRight());
+		config = specPair.getLeft();
 	}
 
 	@Override
 	public void init(FMLInitializationEvent event) {
 		logger.info("Starting AoV Init");
-
-		ConfigHandler.setupCenteredWear();
 
 		MinecraftForge.EVENT_BUS.register(new TickHandler());
 		MinecraftForge.EVENT_BUS.register(new PlayerInteractHandler());

@@ -6,12 +6,12 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemAir;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.config.Config;
-import net.minecraftforge.common.config.ConfigManager;
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.registries.ForgeRegistries;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.aov.IAoVCapability.ItemStackWrapper;
 
@@ -19,82 +19,168 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-@Mod.EventBusSubscriber
-@Config(modid = AoV.MODID)
+@Mod.EventBusSubscriber(modid = AoV.MODID)
 public class ConfigHandler {
 
-	@Config.Name("Element Positions")
-	@Config.Comment("The XY positions of on screen elements from the mod")
-	public static ElementPositions elementPositions = new ElementPositions();
-
-	@Config.Name("Earthquake")
-	@Config.Comment("Manages the Earthquake Spell Block Destruction")
-	public static Earthquake earthquake = new Earthquake();
-
-	@Config.Name("Max Level")
-	@Config.Comment("Sets the maximum level")
-	public static int maxlevel = 15;
-
-	@Config.Name("Recharge Delay")
-	@Config.Comment("Sets the recharge rate per tick, -1 disables this")
-	public static int recharge = -1;
-
-	@Config.Name("Enable Vanilla Experience gain")
-	@Config.Comment("Determines whether or not vanilla experience contributes to AoV experience gain")
-	public static boolean experience = false;
-
-	@Config.Name("Render SpellBar Over HotBar")
-	@Config.Comment("Sets the Spellbar to render in place of the hotbar while active.")
-	public static boolean renderBarOverHotbar = false;
-
-	@Config.Name("Render Charges Above SpellBar")
-	@Config.Comment("Renders the Charges left to be above the Spellbar instead of below. This setting has no impact if Render SpellBar Over HotBar is enabled.")
-	public static boolean renderChargesAboveSpellbar = false;
-
-	@Config.Name("Render Astro UI while Empty")
-	@Config.Comment("If false, the Astro UI will no longer render while not holding any card, spread, or royal road buff.")
-	public static boolean renderAstro = true;
-
-	@Config.Name("Render Royal Road Text")
-	@Config.Comment("Enables the text render for the Astro UI Royal Road. If disabled, only the icon will render.")
-	public static boolean renderRoyalRoad = true;
-
-	@Config.Name("Render Target UI")
-	@Config.Comment("Enables the targetting UI renderer.")
-	public static boolean renderTarget = true;
-
-	@Config.Name("Target UI Opcaity")
-	@Config.Comment("How transparent the target ui is.")
-	@Config.RangeDouble(min = 0, max = 1)
-	public static float targetOpacity = 0.25F;
-
-	@Config.Name("Centered Wear")
-	@Config.Comment("domain:name:meta\ndomain defaults to `minecraft`\nmeta is optional\ndomain is required if meta is specified")
-	public static String[] centered = new String[]{
-
-			AoV.MODID + ":handwraps",
-
-			getRegName(Items.WOODEN_SWORD),
-
-			getRegName(Items.WOODEN_AXE),
-
-			getRegName(Items.WOODEN_HOE),
-
-			getRegName(Items.WOODEN_PICKAXE),
-
-			getRegName(Items.WOODEN_SHOVEL),
-
-			getRegName(Items.LEATHER_BOOTS),
-
-			getRegName(Items.LEATHER_CHESTPLATE),
-
-			getRegName(Items.LEATHER_HELMET),
-
-			getRegName(Items.LEATHER_LEGGINGS)
-
-	};
-	@Config.Ignore
 	public static Set<ItemStackWrapper> CENTERED_WEAR = ImmutableSet.of();
+	public ElementPositions ELEMENT_POSITIONS = new ElementPositions();
+	public Earthquake EARTHQUAKE = new Earthquake();
+	public ForgeConfigSpec.IntValue maxlevel;
+	public ForgeConfigSpec.ConfigValue<Integer> recharge;
+	public ForgeConfigSpec.BooleanValue experience;
+	public ForgeConfigSpec.BooleanValue renderBarOverHotbar;
+	public ForgeConfigSpec.BooleanValue renderChargesAboveSpellbar;
+	public ForgeConfigSpec.BooleanValue renderAstro;
+	public ForgeConfigSpec.BooleanValue renderRoyalRoad;
+	public ForgeConfigSpec.BooleanValue renderTarget;
+	public ForgeConfigSpec.DoubleValue targetOpacity;
+	public ForgeConfigSpec.ConfigValue<String[]> centered;
+
+	public ConfigHandler(ForgeConfigSpec.Builder builder) {
+		builder.
+				comment("The XY positions of on screen elements from the mod").
+				push("Element Positions");
+		{
+			ELEMENT_POSITIONS.spellbar_x = builder.
+					translation("SpellBar X").
+					comment("SpellBar X").
+					define("spellbar_x", 0);
+			ELEMENT_POSITIONS.spellbar_y = builder.
+					translation("SpellBar X").
+					comment("SpellBar Y").
+					define("spellbar_y", 0);
+			ELEMENT_POSITIONS.astro_x = builder.
+					translation("Astro X").
+					comment("Astro X").
+					define("astro_x", 0);
+			ELEMENT_POSITIONS.astro_y = builder.
+					translation("Astro X").
+					comment("Astro Y").
+					define("astro_y", 0);
+			ELEMENT_POSITIONS.target_x = builder.
+					translation("Target X").
+					comment("Target X").
+					define("target_x", 0);
+			ELEMENT_POSITIONS.target_y = builder.
+					translation("Target X").
+					comment("Target Y").
+					define("target_y", 0);
+		}
+		builder.pop().
+				comment("Manages the Earthquake Spell Block Destruction").
+				push("Earthquake");
+		{
+			EARTHQUAKE.enable = builder.
+					translation("Enable").
+					comment("Enable Earthquake Destruction").
+					define("enable", true);
+			EARTHQUAKE.shake = builder.
+					comment("Enable Screen Shaking").
+					define("shake", true);
+			EARTHQUAKE.air = builder.
+					translation("Enable Air").
+					comment("If Disabled, destruction stops at the last block rather than setting to air").
+					define("air", true);
+			EARTHQUAKE.ticks = builder.
+					translation("Destruction Ticks").
+					comment("Amount of Ticks to wait until the next Destruction; Lower = Sooner").
+					defineInRange("ticks", 5, 1, Integer.MAX_VALUE);
+			EARTHQUAKE.chance = builder.
+					translation("Destruction Chance").
+					comment("Chance that a Destruction will take place; Lower = Higher Chance").
+					defineInRange("chance", 5, 1, Integer.MAX_VALUE);
+			EARTHQUAKE.destruction = builder.
+					translation("Destruction Order").
+					comment("domain:name:meta|other\n" +
+
+							"meta is optional\n" +
+
+							"[other] is what CAN be broken down but won't be broken down into.\n\n" +
+
+
+							"Example: [minecraft:gravel|minecraft:grass] may have Cobble before it, so Cobble breaks down into Gravel, which may have Dirt after it so Gravel breaks down into Dirt.\n" +
+
+							"Grass will also break down into Dirt but Cobble will never break down into Grass.").
+					define("destruction", new String[]{
+
+							"minecraft:stone",
+
+							"minecraft:cobblestone",
+
+							"minecraft:gravel|minecraft:grass",
+
+							"minecraft:dirt",
+
+							"minecraft:sand"
+
+					});
+		}
+		builder.pop();
+		{
+			maxlevel = builder.
+					translation("Max Level").
+					comment("Sets the maximum level").
+					defineInRange("maxLevel", 15, 1, Integer.MAX_VALUE);
+			recharge = builder.
+					translation("Recharge Delay").
+					comment("Sets the recharge rate per tick, -1 disables this").
+					define("recharge", -1);
+			experience = builder.
+					translation("Enable Vanilla Experience gain").
+					comment("Determines whether or not vanilla experience contributes to AoV experience gain").
+					define("experience", false);
+			renderBarOverHotbar = builder.
+					translation("Render SpellBar Over HotBar").
+					comment("Sets the Spellbar to render in place of the hotbar while active.").
+					define("renderBarOverHotbar", false);
+			renderChargesAboveSpellbar = builder.
+					translation("Render Charges Above SpellBar").
+					comment("Renders the Charges left to be above the Spellbar instead of below. This setting has no impact if Render SpellBar Over HotBar is enabled.").
+					define("renderChargesAboveSpellbar", false);
+			renderAstro = builder.
+					translation("Render Astro UI while Empty").
+					comment("If false, the Astro UI will no longer render while not holding any card, spread, or royal road buff.").
+					define("renderAstro", true);
+			renderRoyalRoad = builder.
+					translation("Render Royal Road Text").
+					comment("Enables the text render for the Astro UI Royal Road. If disabled, only the icon will render.").
+					define("renderRoyalRoad", true);
+			renderTarget = builder.
+					translation("Render Target UI").
+					comment("Enables the targetting UI renderer.").
+					define("renderTarget", true);
+			targetOpacity = builder.
+					translation("Target UI Opcaity").
+					comment("How transparent the target ui is.").
+					defineInRange("targetOpacity", 0.25F, 0, 1);
+			centered = builder.
+					translation("Centered Wear").
+					comment("domain:name:meta\ndomain defaults to `minecraft`\nmeta is optional\ndomain is required if meta is specified").
+					define("centered", new String[]{
+
+							AoV.MODID + ":handwraps",
+
+							getRegName(Items.WOODEN_SWORD),
+
+							getRegName(Items.WOODEN_AXE),
+
+							getRegName(Items.WOODEN_HOE),
+
+							getRegName(Items.WOODEN_PICKAXE),
+
+							getRegName(Items.WOODEN_SHOVEL),
+
+							getRegName(Items.LEATHER_BOOTS),
+
+							getRegName(Items.LEATHER_CHESTPLATE),
+
+							getRegName(Items.LEATHER_HELMET),
+
+							getRegName(Items.LEATHER_LEGGINGS)
+
+					});
+		}
+	}
 
 	private static String getRegName(Item item) {
 		return Objects.requireNonNull(item.getRegistryName()).getPath();
@@ -102,7 +188,7 @@ public class ConfigHandler {
 
 	public static void setupCenteredWear() {
 		List<ItemStackWrapper> list = Lists.newArrayList();
-		for (String next : centered) {
+		for (String next : AoV.config.centered.get()) {
 			String[] split = next.split(":");
 			String domain = "minecraft";
 			String regname = split[0];
@@ -116,7 +202,7 @@ public class ConfigHandler {
 						meta = Integer.parseInt(split[2]);
 						hasmeta = true;
 					} catch (NumberFormatException e) {
-						hasmeta = false;
+						// NO-OP
 					}
 			}
 			Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(domain, regname));
@@ -127,79 +213,49 @@ public class ConfigHandler {
 		CENTERED_WEAR = ImmutableSet.copyOf(list);
 	}
 
+	private static void update() {
+		setupCenteredWear();
+	}
+
 	@SubscribeEvent
 	public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
-		if (event.getModID().equals(AoV.MODID)) {
-			ConfigManager.sync(AoV.MODID, Config.Type.INSTANCE);
-			setupCenteredWear();
-		}
+		if (event.getModID().equals(AoV.MODID))
+			update();
+	}
+
+	@SubscribeEvent
+	public static void onLoad(final ModConfig.Loading event) {
+		if (event.getConfig().getModId().equals(AoV.MODID))
+			update();
+	}
+
+	@SubscribeEvent
+	public static void onFileChange(final ModConfig.ConfigReloading event) {
+		if (event.getConfig().getModId().equals(AoV.MODID))
+			update();
 	}
 
 	public static class ElementPositions {
 
-		@Config.Name("SpellBar X")
-		public int spellbar_x = 0;
-		@Config.Name("SpellBar Y")
-		public int spellbar_y = 0;
+		public ForgeConfigSpec.ConfigValue<Integer> spellbar_x;
+		public ForgeConfigSpec.ConfigValue<Integer> spellbar_y;
 
-		@Config.Name("Astro X")
-		public int astro_x = 0;
-		@Config.Name("Astro Y")
-		public int astro_y = 0;
+		public ForgeConfigSpec.ConfigValue<Integer> astro_x;
+		public ForgeConfigSpec.ConfigValue<Integer> astro_y;
 
-		@Config.Name("Target X")
-		public int target_x = 0;
-		@Config.Name("Target Y")
-		public int target_y = 0;
+		public ForgeConfigSpec.ConfigValue<Integer> target_x;
+		public ForgeConfigSpec.ConfigValue<Integer> target_y;
 
 	}
 
 	public static class Earthquake {
 
-		@Config.Name("Enable")
-		public boolean enable = true;
-
-		@Config.Name("Enable Screen Shaking")
-		public boolean shake = true;
-
-		@Config.Name("Enable Air")
-		@Config.Comment("If Disabled, destruction stops at the last block rather than setting to air")
-		public boolean air = true;
-
-		@Config.Name("Destruction Ticks")
-		@Config.Comment("Amount of Ticks to wait until the next Destruction; Lower = Sooner")
-		@Config.RangeInt(min = 1)
-		public int ticks = 5;
-
-		@Config.Name("Destruction Chance")
-		@Config.Comment("Chance that a Destruction will take place; Lower = Higher Chance")
-		@Config.RangeInt(min = 1)
-		public int chance = 5;
-
-		@Config.Name("Destruction Order")
-		@Config.Comment("domain:name:meta|other\n" +
-
-				"meta is optional\n" +
-
-				"[other] is what CAN be broken down but won't be broken down into.\n\n" +
-
-
-				"Example: [minecraft:gravel|minecraft:grass] may have Cobble before it, so Cobble breaks down into Gravel, which may have Dirt after it so Gravel breaks down into Dirt.\n" +
-
-				"Grass will also break down into Dirt but Cobble will never break down into Grass.")
-		public String[] destruction = new String[]{
-
-				"minecraft:stone",
-
-				"minecraft:cobblestone",
-
-				"minecraft:gravel|minecraft:grass",
-
-				"minecraft:dirt",
-
-				"minecraft:sand"
-
-		};
+		public ForgeConfigSpec.BooleanValue enable;
+		public ForgeConfigSpec.BooleanValue shake;
+		public ForgeConfigSpec.BooleanValue air;
+		public ForgeConfigSpec.IntValue ticks;
+		public ForgeConfigSpec.IntValue chance;
+		public ForgeConfigSpec.ConfigValue<String[]> destruction;
 
 	}
 

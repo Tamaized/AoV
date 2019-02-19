@@ -181,13 +181,13 @@ public class AoVOverlay extends Gui {
 							y = 1F + y + partialTicks;
 							y = MathHelper.clamp(y, 1F, 15F);
 						}
-						renderCharges(x + (ConfigHandler.renderBarOverHotbar ? 0 : ConfigHandler.elementPositions.spellbar_x), y + (ConfigHandler.renderBarOverHotbar ? 0 : ConfigHandler.elementPositions.spellbar_y), fontRender, cap, i);
+						renderCharges(x + (ConfigHandler.renderBarOverHotbar ? 0 : ConfigHandler.ELEMENT_POSITIONS.spellbar_x), y + (ConfigHandler.renderBarOverHotbar ? 0 : ConfigHandler.ELEMENT_POSITIONS.spellbar_y), fontRender, cap, i);
 					}
 				}
 				GlStateManager.popMatrix();
 			}
 
-			AoVUIBar.render(this, ConfigHandler.elementPositions.spellbar_x, ConfigHandler.elementPositions.spellbar_y);
+			AoVUIBar.render(this, ConfigHandler.ELEMENT_POSITIONS.spellbar_x, ConfigHandler.ELEMENT_POSITIONS.spellbar_y);
 			if (cap.getCoreSkill() == AoVSkills.astro_core_1)
 				renderAstro(mc.player, sr);
 			Entity target = ClientProxy.getTarget() != null ? ClientProxy.getTarget() : ClientHelpers.getTargetOverMouse(mc, 128);
@@ -198,7 +198,7 @@ public class AoVOverlay extends Gui {
 
 	@SubscribeEvent
 	public void render(TickEvent.RenderTickEvent e) {
-		if (ConfigHandler.earthquake.shake && e.phase == TickEvent.Phase.START && mc.world != null) {
+		if (ConfigHandler.EARTHQUAKE.shake && e.phase == TickEvent.Phase.START && mc.world != null) {
 			for (Entity entity : mc.world.loadedEntityList) {
 				if (entity instanceof EntityEarthquake) {
 					float intense = (float) (1F - entity.getDistanceSq(Minecraft.getMinecraft().player) / Math.pow(16, 2));
@@ -215,7 +215,7 @@ public class AoVOverlay extends Gui {
 
 	@SubscribeEvent
 	public void camera(EntityViewRenderEvent.CameraSetup e) {
-		if (!mc.isGamePaused() && ConfigHandler.earthquake.shake && intensity > 0) {
+		if (!mc.isGamePaused() && ConfigHandler.EARTHQUAKE.shake && intensity > 0) {
 			e.setYaw(e.getYaw() + (rand.nextFloat() * 2F - 1F) * intensity);
 			e.setPitch(e.getPitch() + (rand.nextFloat() * 2F - 1F) * intensity);
 			e.setRoll(e.getRoll() + (rand.nextFloat() * 2F - 1F) * intensity);
@@ -363,8 +363,8 @@ public class AoVOverlay extends Gui {
 			float x = sr.getScaledWidth() * 2F / 3F;
 			float y = sr.getScaledHeight() / 5F;
 
-			x += ConfigHandler.elementPositions.astro_x;
-			y += ConfigHandler.elementPositions.astro_y;
+			x += ConfigHandler.ELEMENT_POSITIONS.astro_x;
+			y += ConfigHandler.ELEMENT_POSITIONS.astro_y;
 
 			float scale = 0.35F;
 			buffer.pos(x, y + 143F * scale, 0).tex(0, 0.5F).endVertex();
@@ -420,8 +420,8 @@ public class AoVOverlay extends Gui {
 	private void renderTarget(EntityLivingBase target) {
 		GlStateManager.pushMatrix();
 		{
-			double x = 10 + ConfigHandler.elementPositions.target_x;
-			double y = 150 + ConfigHandler.elementPositions.target_y;
+			double x = 10 + ConfigHandler.ELEMENT_POSITIONS.target_x;
+			double y = 150 + ConfigHandler.ELEMENT_POSITIONS.target_y;
 			double w = 100;
 			double h = 41;
 

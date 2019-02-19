@@ -40,9 +40,9 @@ public class AdjustElementsGUI extends GuiScreenClose {
 	public void initGui() {
 		super.initGui();
 		ScaledResolution sr = new ScaledResolution(mc);
-		addButton(new Element(ELEMENT_SPELLBAR, (sr.getScaledWidth() / 2) - 91, 1, ConfigHandler.elementPositions.spellbar_x, ConfigHandler.elementPositions.spellbar_y, 182, 22, 0x00FFFF, ""));
-		addButton(new Element(ELEMENT_ASTRO, sr.getScaledWidth() * 2 / 3, sr.getScaledHeight() / 5 - 8, ConfigHandler.elementPositions.astro_x, ConfigHandler.elementPositions.astro_y, (int) (235F * 0.35F), (int) (143F * 0.35F) + 8, 0x00FFFF, ""));
-		addButton(new Element(ELEMENT_TARGET, 10, 150, ConfigHandler.elementPositions.target_x, ConfigHandler.elementPositions.target_y, 100, 41, 0x00FFFF, ""));
+		addButton(new Element(ELEMENT_SPELLBAR, (sr.getScaledWidth() / 2) - 91, 1, ConfigHandler.ELEMENT_POSITIONS.spellbar_x, ConfigHandler.ELEMENT_POSITIONS.spellbar_y, 182, 22, 0x00FFFF, ""));
+		addButton(new Element(ELEMENT_ASTRO, sr.getScaledWidth() * 2 / 3, sr.getScaledHeight() / 5 - 8, ConfigHandler.ELEMENT_POSITIONS.astro_x, ConfigHandler.ELEMENT_POSITIONS.astro_y, (int) (235F * 0.35F), (int) (143F * 0.35F) + 8, 0x00FFFF, ""));
+		addButton(new Element(ELEMENT_TARGET, 10, 150, ConfigHandler.ELEMENT_POSITIONS.target_x, ConfigHandler.ELEMENT_POSITIONS.target_y, 100, 41, 0x00FFFF, ""));
 	}
 
 	@Override
@@ -80,16 +80,16 @@ public class AdjustElementsGUI extends GuiScreenClose {
 	private void updateValues(Element element) {
 		switch (element.id) {
 			case ELEMENT_SPELLBAR:
-				ConfigHandler.elementPositions.spellbar_x = element.x;
-				ConfigHandler.elementPositions.spellbar_y = element.y;
+				ConfigHandler.ELEMENT_POSITIONS.spellbar_x = element.x;
+				ConfigHandler.ELEMENT_POSITIONS.spellbar_y = element.y;
 				break;
 			case ELEMENT_ASTRO:
-				ConfigHandler.elementPositions.astro_x = element.x;
-				ConfigHandler.elementPositions.astro_y = element.y;
+				ConfigHandler.ELEMENT_POSITIONS.astro_x = element.x;
+				ConfigHandler.ELEMENT_POSITIONS.astro_y = element.y;
 				break;
 			case ELEMENT_TARGET:
-				ConfigHandler.elementPositions.target_x = element.x;
-				ConfigHandler.elementPositions.target_y = element.y;
+				ConfigHandler.ELEMENT_POSITIONS.target_x = element.x;
+				ConfigHandler.ELEMENT_POSITIONS.target_y = element.y;
 				break;
 		}
 	}
@@ -112,8 +112,8 @@ public class AdjustElementsGUI extends GuiScreenClose {
 	}
 
 	private void renderSpellBar() {
-		final int xpos = ConfigHandler.elementPositions.spellbar_x;
-		final int ypos = ConfigHandler.elementPositions.spellbar_y;
+		final int xpos = ConfigHandler.ELEMENT_POSITIONS.spellbar_x;
+		final int ypos = ConfigHandler.ELEMENT_POSITIONS.spellbar_y;
 		GlStateManager.pushMatrix();
 		{
 			ScaledResolution sr = new ScaledResolution(mc);
@@ -146,8 +146,8 @@ public class AdjustElementsGUI extends GuiScreenClose {
 			float x = sr.getScaledWidth() * 2 / 3;
 			float y = sr.getScaledHeight() / 5;
 
-			x += ConfigHandler.elementPositions.astro_x;
-			y += ConfigHandler.elementPositions.astro_y;
+			x += ConfigHandler.ELEMENT_POSITIONS.astro_x;
+			y += ConfigHandler.ELEMENT_POSITIONS.astro_y;
 
 			float scale = 0.35F;
 			buffer.pos(x, y + 143F * scale, 0).tex(0, 0.5F).endVertex();
@@ -162,8 +162,8 @@ public class AdjustElementsGUI extends GuiScreenClose {
 	private void renderFocus() {
 		GlStateManager.pushMatrix();
 		{
-			double x = 10 + ConfigHandler.elementPositions.target_x;
-			double y = 150 + ConfigHandler.elementPositions.target_y;
+			double x = 10 + ConfigHandler.ELEMENT_POSITIONS.target_x;
+			double y = 150 + ConfigHandler.ELEMENT_POSITIONS.target_y;
 			double w = 100;
 			double h = 41;
 
