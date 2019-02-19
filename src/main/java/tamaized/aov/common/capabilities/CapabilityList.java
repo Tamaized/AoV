@@ -9,6 +9,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -22,7 +23,6 @@ import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Objects;
 
 public class CapabilityList {
 
@@ -51,7 +51,8 @@ public class CapabilityList {
 	}
 
 	public static <T> T getCap(@Nullable ICapabilityProvider provider, Capability<T> cap, @Nullable EnumFacing face) {
-		return provider != null && cap != null ? provider.getCapability(cap, face).orElse(Objects.requireNonNull(cap.getDefaultInstance())) : null;
+		LazyOptional<T> data = provider != null ? provider.getCapability(cap, face) : null;
+		return data != null && data.isPresent() ? data.orElseThrow(IllegalStateException::new) : null;
 	}
 
 	@SubscribeEvent
