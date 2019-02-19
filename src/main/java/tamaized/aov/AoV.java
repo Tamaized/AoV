@@ -124,10 +124,6 @@ public class AoV {
 	@Override
 	public void init(FMLInitializationEvent event) {
 
-		MinecraftForge.EVENT_BUS.register(new TickHandler());
-		MinecraftForge.EVENT_BUS.register(new PlayerInteractHandler());
-		MinecraftForge.EVENT_BUS.register(new AttackHandler());
-
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 
 		registerEntity(ProjectileNimbusRay.class, "ProjectileNimbusRay", this, MODID, 256, 1, true);

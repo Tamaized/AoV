@@ -66,18 +66,25 @@ public class TickHandler {
 				player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, (20 * (10)), 2));
 			}
 		}
-		IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
-		if (cap != null)
-			cap.update(player);
-		IAstroCapability cap = CapabilityList.getCap(player, CapabilityList.ASTRO);
-		if (cap != null)
-			cap.update(player);
-		ILeapCapability cap = CapabilityList.getCap(player, CapabilityList.LEAP);
-		if (cap != null)
-			cap.update(player);
-		IPolymorphCapability cap = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
-		if (cap != null) {
-			cap.update(player);
+		{
+			IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
+			if (cap != null)
+				cap.update(player);
+		}
+		{
+			IAstroCapability cap = CapabilityList.getCap(player, CapabilityList.ASTRO);
+			if (cap != null)
+				cap.update(player);
+		}
+		{
+			ILeapCapability cap = CapabilityList.getCap(player, CapabilityList.LEAP);
+			if (cap != null)
+				cap.update(player);
+		}
+		{
+			IPolymorphCapability cap = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
+			if (cap != null)
+				cap.update(player);
 		}
 	}
 
@@ -96,13 +103,13 @@ public class TickHandler {
 				if (poly != null && poly.getMorph() == IPolymorphCapability.Morph.ArchAngel) {
 					if (!FLYING.contains(player.getUniqueID())) {
 						FLYING.add(player.getUniqueID());
-						player.capabilities.allowFlying = true;
+						player.abilities.allowFlying = true;
 						player.sendPlayerAbilities();
 					}
 				} else if (FLYING.remove(player.getUniqueID())) {
-					player.capabilities.allowFlying = false;
-					player.capabilities.disableDamage = false;
-					player.capabilities.isFlying = false;
+					player.abilities.allowFlying = false;
+					player.abilities.disableDamage = false;
+					player.abilities.isFlying = false;
 					player.sendPlayerAbilities();
 				}
 			ILeapCapability cap = CapabilityList.getCap(living, CapabilityList.LEAP);
@@ -122,7 +129,7 @@ public class TickHandler {
 		for (Entity entity : list) {
 			if (!(entity instanceof EntityLivingBase))
 				continue;
-			if (entity.isDead)
+			if (entity.removed)
 				continue;
 			IStunCapability cap = CapabilityList.getCap(entity, CapabilityList.STUN);
 			if (cap != null)

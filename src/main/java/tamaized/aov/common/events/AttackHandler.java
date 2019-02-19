@@ -1,5 +1,6 @@
 package tamaized.aov.common.events;
 
+
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,8 +19,10 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
@@ -28,11 +31,10 @@ import tamaized.aov.common.core.abilities.druid.FuriousClaw;
 import tamaized.aov.common.core.abilities.druid.FuriousFang;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.registry.AoVPotions;
-import tamaized.tammodized.common.helper.CapabilityHelper;
-import tamaized.tammodized.common.helper.FloatyTextHelper;
 
 import java.util.Set;
 
+@Mod.EventBusSubscriber(modid = AoV.MODID)
 public class AttackHandler {
 
 	private static Set<DamageSource> WATER_SOURCES = ImmutableSet.of(
@@ -62,13 +64,13 @@ public class AttackHandler {
 	}
 
 	@SubscribeEvent
-	public void onLivingFallEvent(LivingFallEvent event) {
+	public static void onLivingFallEvent(LivingFallEvent event) {
 		if (event.getEntityLiving() != null && event.getEntityLiving().getActivePotionEffect(AoVPotions.slowFall) != null)
 			event.setDamageMultiplier(0);
 	}
 
 	@SubscribeEvent
-	public void onLivingHurtEvent(LivingHurtEvent event) {
+	public static void onLivingHurtEvent(LivingHurtEvent event) {
 		Entity attacker = event.getSource().getTrueSource();
 		IAoVCapability cap = CapabilityList.getCap(attacker, CapabilityList.AOV);
 		if (attacker instanceof EntityLivingBase && cap != null && cap.hasSkill(AoVSkills.druid_core_4) && IAoVCapability.isCentered((EntityLivingBase) attacker, cap))
@@ -78,7 +80,7 @@ public class AttackHandler {
 	}
 
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void onPlayerMeleeAttack(AttackEntityEvent e) {
+	public static void onPlayerMeleeAttack(AttackEntityEvent e) {
 		EntityPlayer player = e.getEntityPlayer();
 		IPolymorphCapability poly = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
 		IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
@@ -99,7 +101,7 @@ public class AttackHandler {
 	}
 
 	@SubscribeEvent
-	public void onLivingAttack(LivingAttackEvent event) {
+	public static void onLivingAttack(LivingAttackEvent event) {
 		Entity attacker = event.getSource().getTrueSource();
 		EntityLivingBase entity = event.getEntityLiving();
 		if (entity.world.isRemote)
@@ -123,7 +125,7 @@ public class AttackHandler {
 		}
 
 		// DoubleStrike
-		if (attacker != null && attacker.hasCapability(CapabilityList.AOV, null)) {
+		if (attacker != null) {
 			IAoVCapability cap = CapabilityList.getCap(attacker, CapabilityList.AOV);
 			if (canHurt(entity) && cap != null && livingAttackState && attacker.world.rand.nextInt(cap.getDoubleStrikeForRand()) == 0) {
 				livingAttackState = false;
@@ -150,17 +152,16 @@ public class AttackHandler {
 			}
 		}
 
-		if (entity.hasCapability(CapabilityList.AOV, null)) {
-			IAoVCapability cap = CapabilityList.getCap(entity, CapabilityList.AOV);
-
-			if (cap != null && cap.hasSkill(AoVSkills.paladin_core_1) && entity instanceof EntityPlayer) {
+		IAoVCapability cap = CapabilityList.getCap(entity, CapabilityList.AOV);
+		if (cap != null) {
+			if (cap.hasSkill(AoVSkills.paladin_core_1) && entity instanceof EntityPlayer) {
 				if (canBlockDamageSource((EntityPlayer) entity, event.getSource(), false) && event.getAmount() > 0.0F) {
 					cap.addExp(entity, 20, Abilities.defenderBlocking);
 				}
 			}
 
 			// Dodge
-			if (cap != null && isWhiteListed(event.getSource()) && cap.getDodge() > 0 && entity.world.rand.nextInt(cap.getDodgeForRand()) == 0) {
+			if (isWhiteListed(event.getSource()) && cap.getDodge() > 0 && entity.world.rand.nextInt(cap.getDodgeForRand()) == 0) {
 				cap.addExp(entity, 20, Abilities.defenderDodge);
 				if (entity instanceof EntityPlayer)
 					FloatyTextHelper.sendText((EntityPlayer) entity, "Dodged");
@@ -175,13 +176,13 @@ public class AttackHandler {
 			}
 
 			// Full Radial Shield
-			if (cap != null && cap.hasSkill(AoVSkills.paladin_core_4)) {
+			if (cap.hasSkill(AoVSkills.paladin_core_4)) {
 				handleShield(event, true);
 			}
 		}
 	}
 
-	private void handleShield(LivingAttackEvent e, boolean fullRadial) {
+	private static void handleShield(LivingAttackEvent e, boolean fullRadial) {
 		float damage = e.getAmount();
 		EntityPlayer player;
 		if (!(e.getEntityLiving() instanceof EntityPlayer)) {
@@ -205,7 +206,7 @@ public class AttackHandler {
 		}
 	}
 
-	private void damageShield(EntityPlayer player, float damage) {
+	private static void damageShield(EntityPlayer player, float damage) {
 		if (damage >= 3.0F && !player.getActiveItemStack().isEmpty()) {
 			int i = 1 + MathHelper.floor(damage);
 			player.getActiveItemStack().damageItem(i, player);
@@ -226,7 +227,7 @@ public class AttackHandler {
 		}
 	}
 
-	private boolean canBlockDamageSource(EntityPlayer player, DamageSource damageSourceIn, boolean fullRadial) {
+	private static boolean canBlockDamageSource(EntityPlayer player, DamageSource damageSourceIn, boolean fullRadial) {
 		if (!damageSourceIn.isUnblockable() && player.isActiveItemStackBlocking()) {
 			Vec3d vec3d = damageSourceIn.getDamageLocation();
 
@@ -244,7 +245,7 @@ public class AttackHandler {
 		return false;
 	}
 
-	private boolean isWhiteListed(DamageSource source) {
+	private static boolean isWhiteListed(DamageSource source) {
 		return source.damageType.equals("generic") || source.damageType.equals("mob") || source.damageType.equals("player") || source.damageType.equals("arrow") || source.damageType.equals("thrown");
 	}
 
