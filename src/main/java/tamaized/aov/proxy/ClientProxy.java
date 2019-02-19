@@ -8,43 +8,14 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import tamaized.aov.client.ClientHelpers;
 import tamaized.aov.client.RenderPlayer;
 import tamaized.aov.client.SizedFontRenderer;
-import tamaized.aov.client.entity.RenderAlignmentAoE;
-import tamaized.aov.client.entity.RenderCelestialOpposition;
-import tamaized.aov.client.entity.RenderCombust;
-import tamaized.aov.client.entity.RenderDruidicWolf;
-import tamaized.aov.client.entity.RenderEarthquake;
-import tamaized.aov.client.entity.RenderFlameStrike;
-import tamaized.aov.client.entity.RenderGravity;
-import tamaized.aov.client.entity.RenderMalefic;
-import tamaized.aov.client.entity.RenderNimbusRay;
-import tamaized.aov.client.entity.RenderSpellBladeBarrier;
-import tamaized.aov.client.entity.RenderSpellEntity;
-import tamaized.aov.client.entity.RenderSpellLightingBolt;
-import tamaized.aov.client.entity.RenderSpellLightingStorm;
 import tamaized.aov.client.events.ClientSpawnEvent;
 import tamaized.aov.client.events.KeyHandler;
 import tamaized.aov.client.gui.AoVOverlay;
 import tamaized.aov.client.particle.ParticleFeather;
 import tamaized.aov.client.particle.ParticleHeartColor;
-import tamaized.aov.common.entity.EntityAlignmentAoE;
-import tamaized.aov.common.entity.EntityCelestialOpposition;
-import tamaized.aov.common.entity.EntityCombust;
-import tamaized.aov.common.entity.EntityDruidicWolf;
-import tamaized.aov.common.entity.EntityEarthquake;
-import tamaized.aov.common.entity.EntityGravity;
-import tamaized.aov.common.entity.EntityMalefic;
-import tamaized.aov.common.entity.EntitySpellAoVParticles;
-import tamaized.aov.common.entity.EntitySpellBladeBarrier;
-import tamaized.aov.common.entity.EntitySpellImplosion;
-import tamaized.aov.common.entity.EntitySpellLightningBolt;
-import tamaized.aov.common.entity.EntitySpellLightningStorm;
-import tamaized.aov.common.entity.EntitySpellVanillaParticles;
-import tamaized.aov.common.entity.ProjectileFlameStrike;
-import tamaized.aov.common.entity.ProjectileNimbusRay;
 import tamaized.tammodized.client.particles.ParticleFluff;
 
 import javax.annotation.Nullable;
@@ -84,22 +55,6 @@ public class ClientProxy extends CommonProxy {
 
 		MinecraftForge.EVENT_BUS.register(new AoVOverlay());
 		MinecraftForge.EVENT_BUS.register(new RenderPlayer());
-
-		RenderingRegistry.registerEntityRenderingHandler(ProjectileNimbusRay.class, RenderNimbusRay::new);
-		RenderingRegistry.registerEntityRenderingHandler(ProjectileFlameStrike.class, RenderFlameStrike::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntitySpellImplosion.class, RenderSpellEntity::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntitySpellBladeBarrier.class, RenderSpellBladeBarrier::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntitySpellAoVParticles.class, RenderSpellEntity::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntitySpellVanillaParticles.class, RenderSpellEntity::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityMalefic.class, RenderMalefic::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityCombust.class, RenderCombust::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityGravity.class, RenderGravity::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityCelestialOpposition.class, RenderCelestialOpposition::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntitySpellLightningBolt.class, RenderSpellLightingBolt::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityEarthquake.class, RenderEarthquake::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntitySpellLightningStorm.class, RenderSpellLightingStorm::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityDruidicWolf.class, RenderDruidicWolf::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityAlignmentAoE.class, RenderAlignmentAoE::new);
 
 	}
 

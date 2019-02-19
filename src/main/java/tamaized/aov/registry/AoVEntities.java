@@ -5,8 +5,23 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.world.World;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import tamaized.aov.AoV;
+import tamaized.aov.client.entity.RenderAlignmentAoE;
+import tamaized.aov.client.entity.RenderCelestialOpposition;
+import tamaized.aov.client.entity.RenderCombust;
+import tamaized.aov.client.entity.RenderDruidicWolf;
+import tamaized.aov.client.entity.RenderEarthquake;
+import tamaized.aov.client.entity.RenderFlameStrike;
+import tamaized.aov.client.entity.RenderGravity;
+import tamaized.aov.client.entity.RenderMalefic;
+import tamaized.aov.client.entity.RenderNimbusRay;
+import tamaized.aov.client.entity.RenderSpellBladeBarrier;
+import tamaized.aov.client.entity.RenderSpellEntity;
+import tamaized.aov.client.entity.RenderSpellLightingBolt;
+import tamaized.aov.client.entity.RenderSpellLightingStorm;
 import tamaized.aov.common.entity.EntityAlignmentAoE;
 import tamaized.aov.common.entity.EntityCelestialOpposition;
 import tamaized.aov.common.entity.EntityCombust;
@@ -63,6 +78,25 @@ public class AoVEntities {
 				create(EntityAlignmentAoE.class)
 
 		);
+	}
+
+	@SubscribeEvent
+	public static void registerRenders(FMLClientSetupEvent e) {
+		RenderingRegistry.registerEntityRenderingHandler(ProjectileNimbusRay.class, RenderNimbusRay::new);
+		RenderingRegistry.registerEntityRenderingHandler(ProjectileFlameStrike.class, RenderFlameStrike::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntitySpellImplosion.class, RenderSpellEntity::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntitySpellBladeBarrier.class, RenderSpellBladeBarrier::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntitySpellAoVParticles.class, RenderSpellEntity::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntitySpellVanillaParticles.class, RenderSpellEntity::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityMalefic.class, RenderMalefic::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityCombust.class, RenderCombust::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityGravity.class, RenderGravity::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityCelestialOpposition.class, RenderCelestialOpposition::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntitySpellLightningBolt.class, RenderSpellLightingBolt::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityEarthquake.class, RenderEarthquake::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntitySpellLightningStorm.class, RenderSpellLightingStorm::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityDruidicWolf.class, RenderDruidicWolf::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityAlignmentAoE.class, RenderAlignmentAoE::new);
 	}
 
 	private static <T extends Entity> EntityType<T> create(Class<T> entity) {
