@@ -6,9 +6,11 @@ import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
+
+import javax.annotation.Nonnull;
 
 public class PotionSlowFall extends Potion {
 
@@ -18,7 +20,6 @@ public class PotionSlowFall extends Potion {
 		super(false, 0xFFFFFF);
 		iconTexture = new ResourceLocation(AoV.MODID, "textures/potions/" + name + ".png");
 		setRegistryName(AoV.MODID, name);
-		setPotionName("effect." + AoV.MODID + "." + name);
 		setBeneficial();
 	}
 
@@ -33,13 +34,13 @@ public class PotionSlowFall extends Potion {
 	}
 
 	@Override
-	public void performEffect(EntityLivingBase entityLivingBaseIn, int p_76394_2_) {
+	public void performEffect(@Nonnull EntityLivingBase entityLivingBaseIn, int p_76394_2_) {
 		if (entityLivingBaseIn.motionY < -0.25)
 			entityLivingBaseIn.motionY = -0.25;
 	}
 
 	@Override
-	public void applyAttributesModifiersToEntity(EntityLivingBase entityLivingBaseIn, AbstractAttributeMap attributeMapIn, int amplifier) {
+	public void applyAttributesModifiersToEntity(EntityLivingBase entityLivingBaseIn, @Nonnull AbstractAttributeMap attributeMapIn, int amplifier) {
 		super.applyAttributesModifiersToEntity(entityLivingBaseIn, attributeMapIn, amplifier);
 	}
 

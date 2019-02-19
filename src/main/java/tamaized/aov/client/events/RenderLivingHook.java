@@ -9,7 +9,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
 import org.lwjgl.opengl.GL11;
 import tamaized.aov.AoV;
 import tamaized.aov.proxy.ClientProxy;

@@ -7,8 +7,6 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.AoV;
 
 import javax.annotation.Nonnull;

@@ -4,8 +4,6 @@ import com.google.common.collect.Lists;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import tamaized.aov.common.core.abilities.AbilityBase;
 
 import java.util.List;

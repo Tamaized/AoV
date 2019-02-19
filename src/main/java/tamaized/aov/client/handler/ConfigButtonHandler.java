@@ -14,7 +14,6 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
 import tamaized.aov.AoV;
 import tamaized.aov.client.gui.AdjustElementsGUI;
 
