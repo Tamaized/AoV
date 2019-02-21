@@ -261,7 +261,7 @@ public class AoVOverlay extends Gui {
 				GlStateManager.loadIdentity();
 				GlStateManager.translated(frames * 0.001F, frames * -0.01F, 0.0F);
 				GlStateManager.scalef(0.5F, 0.5F, 0.5F);
-				GlStateManager.rotate(frames * 0.1F, 0, 1, 0);
+				GlStateManager.rotatef(frames * 0.1F, 0, 1, 0);
 				GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 				tess.draw();
 				GlStateManager.matrixMode(GL11.GL_TEXTURE);
@@ -282,7 +282,7 @@ public class AoVOverlay extends Gui {
 				GlStateManager.loadIdentity();
 				GlStateManager.translated(frames * 0.01F, frames * 0.01F, 0.0F);
 				GlStateManager.scalef(0.5F, 0.5F, 0.5F);
-				GlStateManager.rotate(frames, 0, 0, 1);
+				GlStateManager.rotatef(frames, 0, 0, 1);
 				GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 				tess.draw();
 				GlStateManager.matrixMode(GL11.GL_TEXTURE);
@@ -303,7 +303,7 @@ public class AoVOverlay extends Gui {
 				GlStateManager.loadIdentity();
 				GlStateManager.translated(0.0F, frames * 0.1F, 0.0F);
 				GlStateManager.scalef(0.5F, 0.5F, 0.5F);
-				//				GlStateManager.rotate(frames, 0, 0, 1);
+				//				GlStateManager.rotatef(frames, 0, 0, 1);
 				GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 				GlStateManager.blendFunc(GL11.GL_ONE, GL11.GL_ONE);
 				tess.draw();

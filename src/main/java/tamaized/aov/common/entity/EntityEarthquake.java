@@ -212,7 +212,7 @@ public class EntityEarthquake extends Entity {
 
 			GlStateManager.pushMatrix();
 			GlStateManager.translated(ox, oy, oz);
-			GlStateManager.rotate(rot, 0, 1, 0);
+			GlStateManager.rotatef(rot, 0, 1, 0);
 			GlStateManager.translated(-ox, -oy, -oz);
 			Tessellator.getInstance().draw();
 			GlStateManager.popMatrix();

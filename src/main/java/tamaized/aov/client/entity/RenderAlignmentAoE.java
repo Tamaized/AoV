@@ -60,11 +60,11 @@ public class RenderAlignmentAoE<T extends EntityAlignmentAoE> extends Render<T> 
 				GlStateManager.translated(0.5F, 2.1F, -1.8F);
 				final float translate = 2.3F;
 				GlStateManager.translated(0, 0, translate);
-				GlStateManager.rotate(-entityYaw, 0, 1, 0);
+				GlStateManager.rotatef(-entityYaw, 0, 1, 0);
 				{
 					float t = ticks >= 10F ? ticks - 10F : 0F;
 					float f = 1F - MathHelper.clamp(t / 5F, 0F, 1F);
-					GlStateManager.rotate(-45F * f, 1, 0, 0);
+					GlStateManager.rotatef(-45F * f, 1, 0, 0);
 					GlStateManager.translated(0, f * 3F, 0);
 				}
 				GlStateManager.translated(0, 0, -translate);

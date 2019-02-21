@@ -112,12 +112,12 @@ public class RenderPlayer {
 				GlStateManager.scalef(scale, scale, scale);
 
 				for (int i = 0; (float) i < (f + f * f) / 2.0F * 60.0F; ++i) {
-					GlStateManager.rotate(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
-					GlStateManager.rotate(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
-					GlStateManager.rotate(random.nextFloat() * 360.0F, 0.0F, 0.0F, 1.0F);
-					GlStateManager.rotate(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
-					GlStateManager.rotate(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
-					GlStateManager.rotate(random.nextFloat() * 360.0F + f * 90.0F, 0.0F, 0.0F, 1.0F);
+					GlStateManager.rotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
+					GlStateManager.rotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
+					GlStateManager.rotatef(random.nextFloat() * 360.0F, 0.0F, 0.0F, 1.0F);
+					GlStateManager.rotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
+					GlStateManager.rotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
+					GlStateManager.rotatef(random.nextFloat() * 360.0F + f * 90.0F, 0.0F, 0.0F, 1.0F);
 					float f2 = random.nextFloat() * 20.0F + 5.0F + f1 * 10.0F;
 					float f3 = random.nextFloat() * 2.0F + 1.0F + f1 * 2.0F;
 					buffer.begin(6, DefaultVertexFormats.POSITION_COLOR);
@@ -145,7 +145,7 @@ public class RenderPlayer {
 			float scale = 1;
 			GlStateManager.translated(e.getX(), e.getY(), e.getZ());
 			GlStateManager.scalef(scale, scale, scale);
-			GlStateManager.rotate(-player.renderYawOffset, 0, 1, 0);
+			GlStateManager.rotatef(-player.renderYawOffset, 0, 1, 0);
 			if (player.isSneaking()) {
 				GlStateManager.translated(0.0F, -0.2F, 0.0F);
 			}
@@ -259,8 +259,8 @@ public class RenderPlayer {
 						BufferBuilder buffer = tess.getBuffer();
 
 						GlStateManager.translated(0, player.eyeHeight / 1.5F, 0);
-						GlStateManager.rotate(180.0F - e.getRenderer().getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
-						GlStateManager.rotate((float) (e.getRenderer().getRenderManager().options.thirdPersonView == 2 ? -1 : 1) * -e.getRenderer().getRenderManager().playerViewX, 1.0F, 0.0F, 0.0F);
+						GlStateManager.rotatef(180.0F - e.getRenderer().getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
+						GlStateManager.rotatef((float) (e.getRenderer().getRenderManager().options.thirdPersonView == 2 ? -1 : 1) * -e.getRenderer().getRenderManager().playerViewX, 1.0F, 0.0F, 0.0F);
 
 						float r = 1.0F;
 						float g = 0.35F;
@@ -279,7 +279,7 @@ public class RenderPlayer {
 							buffer.pos(size, size, z).tex(1, 1).color(r, g, b, a).endVertex();
 							buffer.pos(-size, size, z).tex(0, 1).color(r, g, b, a).endVertex();
 							GlStateManager.pushMatrix();
-							GlStateManager.rotate((2 + (index * 3)) * player.ticksExisted + e.getPartialRenderTick(), 0, 0, ((index & 1) == 0 ? 1 : -1));
+							GlStateManager.rotatef((2 + (index * 3)) * player.ticksExisted + e.getPartialRenderTick(), 0, 0, ((index & 1) == 0 ? 1 : -1));
 
 							GlStateManager.disableLighting();
 							int j = 0xF000F0 % 0x10000;
@@ -358,17 +358,17 @@ public class RenderPlayer {
 			float f3 = 0.4F * MathHelper.sin(f1 * ((float) Math.PI * 2F));
 			float f4 = -0.4F * MathHelper.sin(e.getSwingProgress() * (float) Math.PI);
 			GlStateManager.translated(f * (f2 + 0.64000005F), f3 + -0.6F + e.getEquipProgress() * -0.6F, f4 + -0.71999997F);
-			GlStateManager.rotate(f * 45.0F, 0.0F, 1.0F, 0.0F);
+			GlStateManager.rotatef(f * 45.0F, 0.0F, 1.0F, 0.0F);
 			float f5 = MathHelper.sin(e.getSwingProgress() * e.getSwingProgress() * (float) Math.PI);
 			float f6 = MathHelper.sin(f1 * (float) Math.PI);
-			GlStateManager.rotate(f * f6 * 40.0F, 0.0F, 1.0F, 0.0F);
-			GlStateManager.rotate(f * f5 * -20.0F, 0.0F, 0.0F, 1.0F);
+			GlStateManager.rotatef(f * f6 * 40.0F, 0.0F, 1.0F, 0.0F);
+			GlStateManager.rotatef(f * f5 * -20.0F, 0.0F, 0.0F, 1.0F);
 			AbstractClientPlayer abstractclientplayer = Minecraft.getInstance().player;
 			Minecraft.getInstance().getTextureManager().bindTexture(WOLF_TEXTURES);
 			GlStateManager.translated(f * -1.0F, 3.6F, 3.5F);
-			GlStateManager.rotate(f * 120.0F, 0.0F, 0.0F, 1.0F);
-			GlStateManager.rotate(200.0F, 1.0F, 0.0F, 0.0F);
-			GlStateManager.rotate(f * -135.0F, 0.0F, 1.0F, 0.0F);
+			GlStateManager.rotatef(f * 120.0F, 0.0F, 0.0F, 1.0F);
+			GlStateManager.rotatef(200.0F, 1.0F, 0.0F, 0.0F);
+			GlStateManager.rotatef(f * -135.0F, 0.0F, 1.0F, 0.0F);
 			GlStateManager.translated(f * 5.6F, 0.0F, 0.0F);
 			GlStateManager.disableCull();
 			renderRightArm(abstractclientplayer);
@@ -424,7 +424,7 @@ public class RenderPlayer {
 	 * [Vanilla Copy] from RenderLivingBase
 	 */
 	protected void applyRotations(EntityLivingBase entityLiving, float p_77043_2_, float rotationYaw, float partialTicks) {
-		GlStateManager.rotate(180.0F - rotationYaw, 0.0F, 1.0F, 0.0F);
+		GlStateManager.rotatef(180.0F - rotationYaw, 0.0F, 1.0F, 0.0F);
 
 		if (entityLiving.deathTime > 0) {
 			float f = ((float) entityLiving.deathTime + partialTicks - 1.0F) / 20.0F * 1.6F;
@@ -434,13 +434,13 @@ public class RenderPlayer {
 				f = 1.0F;
 			}
 
-			GlStateManager.rotate(f * 90, 0.0F, 0.0F, 1.0F);
+			GlStateManager.rotatef(f * 90, 0.0F, 0.0F, 1.0F);
 		} else {
 			String s = TextFormatting.getTextWithoutFormattingCodes(entityLiving.getName());
 
 			if (s != null && ("Dinnerbone".equals(s) || "Grumm".equals(s)) && (!(entityLiving instanceof EntityPlayer) || ((EntityPlayer) entityLiving).isWearing(EnumPlayerModelParts.CAPE))) {
 				GlStateManager.translated(0.0F, entityLiving.height + 0.1F, 0.0F);
-				GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
+				GlStateManager.rotatef(180.0F, 0.0F, 0.0F, 1.0F);
 			}
 		}
 	}

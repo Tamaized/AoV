@@ -42,7 +42,7 @@ public class RenderAstro {
 		GlStateManager.enableBlend();
 		GlStateManager.disableCull();
 		GlStateManager.color4f(0, 0.6F, 1, 1.0F);
-		GlStateManager.rotate(90F, 1.0F, 0.0F, 0.0F);
+		GlStateManager.rotatef(90F, 1.0F, 0.0F, 0.0F);
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.SRC_ALPHA);
 
 		e.getRenderer().bindTexture(RenderCombust.RING);
@@ -145,13 +145,13 @@ public class RenderAstro {
 			GlStateManager.disableCull();
 			GlStateManager.disableLighting();
 			GlStateManager.enableBlend();
-			GlStateManager.rotate(-e.getEntityPlayer().renderYawOffset, 0, 1, 0);
+			GlStateManager.rotatef(-e.getEntityPlayer().renderYawOffset, 0, 1, 0);
 
 			GlStateManager.color4f(1, 1, 1, 1);
 			GlStateManager.translated(0F, 1.5F, 1F);
 			if (!Minecraft.getInstance().isGamePaused() && cap.getFrameData()[index][0] > 0)
 				cap.getFrameData()[index][0] -= (240F / (float) Minecraft.getDebugFPS());
-			GlStateManager.rotate(cap.getFrameData()[index][0] % 360, 0, 0, 1);
+			GlStateManager.rotatef(cap.getFrameData()[index][0] % 360, 0, 0, 1);
 			if (!Minecraft.getInstance().isGamePaused() && cap.getFrameData()[index][1] > 0)
 				cap.getFrameData()[index][1] -= (120F / (float) Minecraft.getDebugFPS());
 			float s = (80F - cap.getFrameData()[index][1]) / 80F;
@@ -171,7 +171,7 @@ public class RenderAstro {
 			for (int i = 0; i <= 12; i++) {
 				vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 				if (i > 0)
-					GlStateManager.rotate(30, 0, 0, 1);
+					GlStateManager.rotatef(30, 0, 0, 1);
 				float xpos = -0.15F;
 				float ypos = -0.435F;
 				float uScale = 125F / 12F;
@@ -197,7 +197,7 @@ public class RenderAstro {
 			GlStateManager.disableCull();
 			GlStateManager.disableLighting();
 			GlStateManager.enableBlend();
-			GlStateManager.rotate(180F - e.getRenderer().getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
+			GlStateManager.rotatef(180F - e.getRenderer().getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
 
 			GlStateManager.translated(-0.125F, 0.5F + MathHelper.cos((float) Math.toRadians(cap.getFrameData()[index][1])), -0.125F);
 			cap.getFrameData()[index][1] = Math.max(0, cap.getFrameData()[index][1] - ((240F * (cap.getFrameData()[index][1] / 90F)) / (float) Minecraft.getDebugFPS()));
@@ -233,7 +233,7 @@ public class RenderAstro {
 			GlStateManager.disableCull();
 			GlStateManager.disableLighting();
 			GlStateManager.enableBlend();
-			GlStateManager.rotate((180F + cap.getFrameData()[index][2] - e.getRenderer().getRenderManager().playerViewY), 0.0F, 1.0F, 0.0F);
+			GlStateManager.rotatef((180F + cap.getFrameData()[index][2] - e.getRenderer().getRenderManager().playerViewY), 0.0F, 1.0F, 0.0F);
 			if (timer < 60 && !Minecraft.getInstance().isGamePaused() && cap.getFrameData()[index][2] > 0) {
 				cap.getFrameData()[index][2] = Math.max(0, cap.getFrameData()[index][2] - (240F / (float) Minecraft.getDebugFPS()));
 			}
@@ -278,13 +278,13 @@ public class RenderAstro {
 		GlStateManager.enableBlend();
 		GlStateManager.disableCull();
 		GlStateManager.disableLighting();
-		GlStateManager.rotate((90F - e.getRenderer().getRenderManager().playerViewY), 0.0F, 1.0F, 0.0F);
+		GlStateManager.rotatef((90F - e.getRenderer().getRenderManager().playerViewY), 0.0F, 1.0F, 0.0F);
 		GlStateManager.translated(-0.2F, 2.2F, 0.05F);
-		GlStateManager.rotate(25, 0, 0, 1);
-		GlStateManager.rotate(60, 1, 0, 0);
+		GlStateManager.rotatef(25, 0, 0, 1);
+		GlStateManager.rotatef(60, 1, 0, 0);
 		if (!Minecraft.getInstance().isGamePaused())
 			cap.getFrameData()[index][4] += (240F / (float) Minecraft.getDebugFPS()) % 360;
-		GlStateManager.rotate(cap.getFrameData()[index][4], 0, 0, 1);
+		GlStateManager.rotatef(cap.getFrameData()[index][4], 0, 0, 1);
 		GlStateManager.translated(-1.45F, -1.55F, 0);
 		if (!Minecraft.getInstance().isGamePaused())
 			cap.getFrameData()[index][5] += (cap.getFrameData()[index][5] >= 90 && cap.getFrameData()[index][3] > 35 ? 0 : 60F) / (float) Minecraft.getDebugFPS();

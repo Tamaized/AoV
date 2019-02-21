@@ -50,9 +50,9 @@ public class RenderGravity<T extends EntityGravity> extends Render<T> {
 		float rotYaw = (float) (Math.atan2((double) xd, (double) zd) * 180.0D / 3.141592653589793D);
 		float rotPitch = (float) (Math.atan2((double) yd, var7) * 180.0D / 3.141592653589793D);
 
-		GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
-		GlStateManager.rotate(180.0F + rotYaw, 0.0F, 0.0F, -1.0F);
-		GlStateManager.rotate(rotPitch, 1.0F, 0.0F, 0.0F);
+		GlStateManager.rotatef(90.0F, 1.0F, 0.0F, 0.0F);
+		GlStateManager.rotatef(180.0F + rotYaw, 0.0F, 0.0F, -1.0F);
+		GlStateManager.rotatef(rotPitch, 1.0F, 0.0F, 0.0F);
 		GlStateManager.disableCull();
 
 		buffer.begin(GL11.GL_TRIANGLE_STRIP, DefaultVertexFormats.POSITION_COLOR);
@@ -128,7 +128,7 @@ public class RenderGravity<T extends EntityGravity> extends Render<T> {
 		float alpha = entity.spinnyBoi >= 600 ? (entity.spinnyBoi - 600F) / 420F : 0F;
 		GlStateManager.color4f(0.5F, 0.5F, 0.5F, 1F - alpha);
 		GlStateManager.translated(x + 0.5F, y + 5.0F, z + 0.5F);
-		GlStateManager.rotate(90F, 1.0F, 0.0F, 0.0F);
+		GlStateManager.rotatef(90F, 1.0F, 0.0F, 0.0F);
 		float s = Math.min(entity.spinnyBoi / 180F, 1F);
 		GlStateManager.scalef(s, s, s);
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.SRC_ALPHA);
@@ -136,11 +136,11 @@ public class RenderGravity<T extends EntityGravity> extends Render<T> {
 		GlStateManager.pushMatrix();
 		bindTexture(TEXTURE);
 		SPHERE.setTextureFlag(true);
-		GlStateManager.rotate((entity.spinnyBoi += Minecraft.getInstance().isGamePaused() ? 0 : (360F / (float) Minecraft.getDebugFPS())) % 360, 0, 0, 1);
+		GlStateManager.rotatef((entity.spinnyBoi += Minecraft.getInstance().isGamePaused() ? 0 : (360F / (float) Minecraft.getDebugFPS())) % 360, 0, 0, 1);
 		renderSphere(4F);
 		GlStateManager.color4f(0.5F, 0.75F, 0.75F, 1F - alpha);
 		renderSphere(1F);
-		GlStateManager.rotate(-entity.spinnyBoi % 360, 0, 0, 1);
+		GlStateManager.rotatef(-entity.spinnyBoi % 360, 0, 0, 1);
 		float scale = 0.25F;
 		for (int i = 0; i <= 8; i++) {
 			Vec3d rot = new Vec3d(0.75F, 2.35F, 0).rotatePitch(((i * 30F)) % 360).rotateYaw(((i * 30F)) % 360);

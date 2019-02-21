@@ -35,8 +35,8 @@ public class RenderFlameStrike<T extends ProjectileFlameStrike> extends Render<T
 		GlStateManager.pushMatrix();
 		GlStateManager.disableLighting();
 		GlStateManager.translated((float) x, (float) y, (float) z);
-		GlStateManager.rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks - 90.0F, 0.0F, 1.0F, 0.0F);
-		GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, 0.0F, 0.0F, 1.0F);
+		GlStateManager.rotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks - 90.0F, 0.0F, 1.0F, 0.0F);
+		GlStateManager.rotatef(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, 0.0F, 0.0F, 1.0F);
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder vertexbuffer = tessellator.getBuffer();
 		int i = 0;
@@ -51,7 +51,7 @@ public class RenderFlameStrike<T extends ProjectileFlameStrike> extends Render<T
 		float f8 = 0.05625F;
 		GlStateManager.enableRescaleNormal();
 
-		GlStateManager.rotate(45.0F, 1.0F, 0.0F, 0.0F);
+		GlStateManager.rotatef(45.0F, 1.0F, 0.0F, 0.0F);
 		GlStateManager.scalef(0.05625F, 0.05625F, 0.05625F);
 		GlStateManager.translated(-4.0F, 0.0F, 0.0F);
 
@@ -76,7 +76,7 @@ public class RenderFlameStrike<T extends ProjectileFlameStrike> extends Render<T
 		tessellator.draw();
 
 		for (int j = 0; j < 4; ++j) {
-			GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
+			GlStateManager.rotatef(90.0F, 1.0F, 0.0F, 0.0F);
 			GlStateManager.glNormal3f(0.0F, 0.0F, 0.05625F);
 			vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 			vertexbuffer.pos(-8.0D, -2.0D, 0.0D).tex(0.0D, 0.0D).endVertex();

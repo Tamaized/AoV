@@ -28,12 +28,12 @@ public class RenderMalefic<T extends EntityMalefic> extends Render<T> {
 		GlStateManager.disableLighting();
 		GlStateManager.enableBlend();
 		GlStateManager.translated(x - 0.5F, y - 0.5F, z - 0.0F);
-		//		GlStateManager.rotate(180F - getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
+		//		GlStateManager.rotatef(180F - getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder vertexbuffer = tessellator.getBuffer();
 
 		for (int i = 0; i < 8; i++) {
-			GlStateManager.rotate((45 * i + entity.ticksExisted * 2) % 360, 1, 1, 0);
+			GlStateManager.rotatef((45 * i + entity.ticksExisted * 2) % 360, 1, 1, 0);
 			//			GlStateManager.translated(-0.25F + ((0.125F * i) % 4), -0.25F + (0.125F * ((i + 2) % 4)), -0.25F + (0.125F * ((i - 2) % 4)));
 			vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 			vertexbuffer.pos(1, 1, 0).tex(1, 1).endVertex();

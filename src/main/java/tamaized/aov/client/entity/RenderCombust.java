@@ -30,7 +30,7 @@ public class RenderCombust<T extends EntityCombust> extends Render<T> {
 		GlStateManager.disableLighting();
 		GlStateManager.enableBlend();
 		GlStateManager.translated(x, y, z);
-		GlStateManager.rotate(180F - getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
+		GlStateManager.rotatef(180F - getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
 		GlStateManager.translated(-0.5F, 0, 0);
 
 		Tessellator tessellator = Tessellator.getInstance();

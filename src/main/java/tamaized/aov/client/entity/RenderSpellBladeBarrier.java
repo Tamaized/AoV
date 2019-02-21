@@ -37,13 +37,13 @@ public class RenderSpellBladeBarrier<T extends EntitySpellBladeBarrier> extends 
 			GlStateManager.pushMatrix();
 			{
 				GlStateManager.translated(0, 0.5, 0);
-				GlStateManager.rotate(-(t > 0 ? t % 360 : 0), 0, 1, 0);
+				GlStateManager.rotatef(-(t > 0 ? t % 360 : 0), 0, 1, 0);
 				drawRing(entity);
 			}
 			GlStateManager.popMatrix();
 			GlStateManager.pushMatrix();
 			{
-				GlStateManager.rotate((t > 0 ? t % 360 : 0), 0, 1, 0);
+				GlStateManager.rotatef((t > 0 ? t % 360 : 0), 0, 1, 0);
 				drawRing(entity);
 			}
 			GlStateManager.popMatrix();
@@ -62,7 +62,7 @@ public class RenderSpellBladeBarrier<T extends EntitySpellBladeBarrier> extends 
 			GlStateManager.pushMatrix();
 			{
 				GlStateManager.translated(Math.cos(r) * entity.getRange(), 0, Math.sin(r) * entity.getRange());
-				GlStateManager.rotate(60, 1, 0, 0);
+				GlStateManager.rotatef(60, 1, 0, 0);
 				ItemStack stack = getSword(r == 0 ? 0 : r % 5);
 				itemRender.renderItem(stack, itemRender.getItemModelWithOverrides(stack, entity.world, null));
 			}

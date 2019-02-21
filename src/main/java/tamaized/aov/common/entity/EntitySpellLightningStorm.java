@@ -136,9 +136,9 @@ public class EntitySpellLightningStorm extends Entity {
 				double z = oz + offset.z;
 
 				GlStateManager.translated(ox, oy, oz);
-				GlStateManager.rotate(180.0F - renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-				GlStateManager.rotate((float) (renderManager.options.thirdPersonView == 2 ? -1 : 1) * -renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-				GlStateManager.rotate(rot, 0F, 0F, 1F);
+				GlStateManager.rotatef(180.0F - renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+				GlStateManager.rotatef((float) (renderManager.options.thirdPersonView == 2 ? -1 : 1) * -renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+				GlStateManager.rotatef(rot, 0F, 0F, 1F);
 				GlStateManager.translated(-ox, -oy, -oz);
 
 				buffer.pos(x, y, z).tex(0, 0).color(0.45F, 0.45F, 0.45F, alpha).normal(0F, 1F, 0F).endVertex();

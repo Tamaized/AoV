@@ -38,7 +38,7 @@ public class RenderLivingHook {
 			drawArc(buffer, segs, r, 1, segs / 2 - 1, 0.4F * width, 0.41F * width);
 			GlStateManager.pushMatrix();
 			{
-				GlStateManager.rotate(-((e.getEntity().ticksExisted + e.getPartialRenderTick()) % 360) * 16F, 0, 1, 0);
+				GlStateManager.rotatef(-((e.getEntity().ticksExisted + e.getPartialRenderTick()) % 360) * 16F, 0, 1, 0);
 				tessellator.draw();
 			}
 			GlStateManager.popMatrix();
@@ -46,7 +46,7 @@ public class RenderLivingHook {
 			drawArc(buffer, segs, r, 1, segs / 2 - 1, 0.5F * width, 0.51F * width);
 			GlStateManager.pushMatrix();
 			{
-				GlStateManager.rotate(180 + ((e.getEntity().ticksExisted + e.getPartialRenderTick()) % 360) * 16F, 0, 1, 0);
+				GlStateManager.rotatef(180 + ((e.getEntity().ticksExisted + e.getPartialRenderTick()) % 360) * 16F, 0, 1, 0);
 				tessellator.draw();
 			}
 			GlStateManager.popMatrix();
