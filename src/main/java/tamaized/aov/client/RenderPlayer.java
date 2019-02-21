@@ -213,7 +213,7 @@ public class RenderPlayer {
 					else if (cap.getMorph() == IPolymorphCapability.Morph.ArchAngel)
 						GlStateManager.color4f(1F, 1F, 0F, 0.75F);
 				} else {
-					GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.SRC_COLOR, GlStateManager.DestFactor.ZERO);
+					GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.SRC_COLOR, GlStateManager.DestFactor.ZERO);
 					GL11.glEnable(GL11.GL_STENCIL_TEST);
 					GL11.glStencilMask(0xFF);
 					GL11.glStencilFunc(GL11.GL_ALWAYS, (
@@ -321,7 +321,7 @@ public class RenderPlayer {
 							GlStateManager.color4f(1F, 1F, 0F, 0.75F);
 					} else {
 						e.setCanceled(true);
-						GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.SRC_COLOR, GlStateManager.DestFactor.ZERO);
+						GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.SRC_COLOR, GlStateManager.DestFactor.ZERO);
 						GL11.glEnable(GL11.GL_STENCIL_TEST);
 						GL11.glStencilMask(0xFF);
 						GL11.glStencilFunc(GL11.GL_ALWAYS,

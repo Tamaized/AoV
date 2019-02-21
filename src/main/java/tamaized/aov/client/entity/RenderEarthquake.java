@@ -117,7 +117,7 @@ public class RenderEarthquake extends Render<EntityEarthquake> {
 
 	private void renderMask(@Nonnull EntityEarthquake entity, double x, double y, double z, float partialTicks) {
 		GlStateManager.enableBlend();
-		GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.SRC_COLOR, GlStateManager.DestFactor.ZERO);
+		GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.SRC_COLOR, GlStateManager.DestFactor.ZERO);
 		GL11.glEnable(GL11.GL_STENCIL_TEST);
 		GL11.glStencilMask(0xFF);
 		GL11.glStencilFunc(GL11.GL_ALWAYS, 6, 0xFF);

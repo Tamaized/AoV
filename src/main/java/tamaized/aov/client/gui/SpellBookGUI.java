@@ -169,7 +169,7 @@ public class SpellBookGUI extends GuiScreenClose {
 		drawTexturedModalRect(i - 91, sr.getScaledHeight() - 50, 0, 0, 182, 22);
 		GlStateManager.enableRescaleNormal();
 		GlStateManager.enableBlend();
-		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+		GlStateManager.blendFuncSeparate(770, 771, 1, 0);
 		RenderHelper.enableGUIStandardItemLighting();
 		GlStateManager.pushMatrix();
 		GlStateManager.translated(0.01f, 0, 0);

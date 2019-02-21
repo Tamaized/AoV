@@ -77,7 +77,7 @@ public class SkillButton extends GuiButton {
 			hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 			int i = getHoverState(hovered);
 			GlStateManager.enableBlend();
-			GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+			GlStateManager.blendFuncSeparate(770, 771, 1, 0);
 			GlStateManager.blendFunc(770, 771);
 			// drawRect(x + width / 2, y, width / 2, height, 0xFFFFFFFF);
 			mouseDragged(mc, mouseX, mouseY);
