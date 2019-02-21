@@ -47,7 +47,7 @@ public class SpellButton extends GuiButton {
 				return;
 			AoVUIBar.renderHotbarIcon(this, null, 0, x + 1, y + 1, spell.getIcon(), false);
 			GlStateManager.pushMatrix();
-			GlStateManager.scale(0.5f, 0.5f, 0.0f);
+			GlStateManager.scalef(0.5f, 0.5f, 0.0f);
 			drawString(fontrenderer, spell.getName(), x * 2 + 38, y * 2 + 14, 0xFFFF00);
 			GlStateManager.popMatrix();
 		}

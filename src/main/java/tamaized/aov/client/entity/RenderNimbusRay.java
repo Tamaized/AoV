@@ -50,7 +50,7 @@ public class RenderNimbusRay<T extends ProjectileBase> extends Render<T> {
 		}
 
 		GlStateManager.rotate(45.0F, 1.0F, 0.0F, 0.0F);
-		GlStateManager.scale(0.05625F, 0.05625F, 0.05625F);
+		GlStateManager.scalef(0.05625F, 0.05625F, 0.05625F);
 		GlStateManager.translated(-4.0F, 0.0F, 0.0F);
 
 		if (this.renderOutlines) {

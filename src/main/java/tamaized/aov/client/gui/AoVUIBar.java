@@ -84,7 +84,7 @@ public class AoVUIBar {
 		{
 			float f1 = 1.0F / 16.0F;
 			GlStateManager.translated((float) (xPos), (float) (yPos), 0.0F);
-			GlStateManager.scale(1.0F * f1, 1.0f * f1, 1.0F);
+			GlStateManager.scalef(1.0F * f1, 1.0f * f1, 1.0F);
 			GlStateManager.pushMatrix();
 			{
 				GlStateManager.enableBlend();
@@ -112,8 +112,8 @@ public class AoVUIBar {
 		{
 			float f1 = 1.0F / 16.0F;
 			GlStateManager.translated((float) (xPos), (float) (yPos), 0.0F);
-			GlStateManager.scale(1.0F * f1, 1.0f * f1, 1.0F);
-			GlStateManager.scale(16.0f, 16.0f, 1.0f);
+			GlStateManager.scalef(1.0F * f1, 1.0f * f1, 1.0F);
+			GlStateManager.scalef(16.0f, 16.0f, 1.0f);
 			renderRadial(0, 0, perc);
 			gui.drawCenteredString(fr, String.valueOf(timeLeft), 8, 4, 0xFFFF00);
 		}

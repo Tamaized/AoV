@@ -155,7 +155,7 @@ public class RenderAstro {
 			if (!Minecraft.getInstance().isGamePaused() && cap.getFrameData()[index][1] > 0)
 				cap.getFrameData()[index][1] -= (120F / (float) Minecraft.getDebugFPS());
 			float s = (80F - cap.getFrameData()[index][1]) / 80F;
-			GlStateManager.scale(s, s, s);
+			GlStateManager.scalef(s, s, s);
 			float f = 1.5F;//ftimer > 0 ? ((ftimer / 80f) * 1.5F) : 0F;
 			float scale = 0.3F;
 

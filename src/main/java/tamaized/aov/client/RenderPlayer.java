@@ -109,7 +109,7 @@ public class RenderPlayer {
 				GlStateManager.translated(e.getX(), e.getY(), e.getZ());
 				GlStateManager.translated(0.0F, 1.0F, 0.0F);
 				final float scale = 0.0625F;
-				GlStateManager.scale(scale, scale, scale);
+				GlStateManager.scalef(scale, scale, scale);
 
 				for (int i = 0; (float) i < (f + f * f) / 2.0F * 60.0F; ++i) {
 					GlStateManager.rotate(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
@@ -144,7 +144,7 @@ public class RenderPlayer {
 			GlStateManager.color4f(1, 1, 1, perc);
 			float scale = 1;
 			GlStateManager.translated(e.getX(), e.getY(), e.getZ());
-			GlStateManager.scale(scale, scale, scale);
+			GlStateManager.scalef(scale, scale, scale);
 			GlStateManager.rotate(-player.renderYawOffset, 0, 1, 0);
 			if (player.isSneaking()) {
 				GlStateManager.translated(0.0F, -0.2F, 0.0F);
@@ -393,7 +393,7 @@ public class RenderPlayer {
 		GlStateManager.enableBlend();
 		GlStateManager.pushMatrix();
 		float scale = 3.0F;
-		GlStateManager.scale(scale, scale, scale);
+		GlStateManager.scalef(scale, scale, scale);
 		GlStateManager.translated(0.25F, -0.65F, 0F);
 		WOLF_MODEL.swingProgress = 0.0F;
 		WOLF_MODEL.setRotationAngles(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, f1, clientPlayer);

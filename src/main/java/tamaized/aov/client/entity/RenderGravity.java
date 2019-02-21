@@ -130,7 +130,7 @@ public class RenderGravity<T extends EntityGravity> extends Render<T> {
 		GlStateManager.translated(x + 0.5F, y + 5.0F, z + 0.5F);
 		GlStateManager.rotate(90F, 1.0F, 0.0F, 0.0F);
 		float s = Math.min(entity.spinnyBoi / 180F, 1F);
-		GlStateManager.scale(s, s, s);
+		GlStateManager.scalef(s, s, s);
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.SRC_ALPHA);
 
 		GlStateManager.pushMatrix();

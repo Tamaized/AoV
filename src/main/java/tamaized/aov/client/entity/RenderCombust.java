@@ -42,7 +42,7 @@ public class RenderCombust<T extends EntityCombust> extends Render<T> {
 		GlStateManager.color4f(0, 0, MathHelper.cos((float) Math.toRadians(entity.ticksExisted % 360)), 1F - s);
 		GlStateManager.translated(0.5F, 0.5F, 0F);
 		s *= 2.5F;
-		GlStateManager.scale(s, s, s);
+		GlStateManager.scalef(s, s, s);
 		GlStateManager.translated(-0.5F, -0.5F, 0F);
 		vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 		vertexbuffer.pos(1, 1, 0).tex(1, 1).endVertex();
@@ -58,7 +58,7 @@ public class RenderCombust<T extends EntityCombust> extends Render<T> {
 		GlStateManager.color4f(c, c, 1F, MathHelper.clamp(1F - (entity.ticksExisted / 45F), 0, 1));
 		float sc = (1F - c) * 2F;
 		GlStateManager.translated(0.5F, 0.5F, 0F);
-		GlStateManager.scale(sc, sc, sc);
+		GlStateManager.scalef(sc, sc, sc);
 		GlStateManager.translated(-0.5F, -0.5F, 0F);
 		vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 		vertexbuffer.pos(1, 1, 0).tex(1, 1).endVertex();

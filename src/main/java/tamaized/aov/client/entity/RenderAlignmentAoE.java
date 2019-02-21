@@ -69,7 +69,7 @@ public class RenderAlignmentAoE<T extends EntityAlignmentAoE> extends Render<T> 
 				}
 				GlStateManager.translated(0, 0, -translate);
 				final float scale = 0.1F;
-				GlStateManager.scale(scale, scale, scale);
+				GlStateManager.scalef(scale, scale, scale);
 				bindEntityTexture(entity);
 				{
 					float alpha;

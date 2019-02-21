@@ -84,7 +84,7 @@ public class ModelPolymorphWolf extends ModelBase {
 			this.wolfHeadMain.renderWithRotation(scale);
 			GlStateManager.popMatrix();
 			GlStateManager.pushMatrix();
-			GlStateManager.scalef(0.5F, 0.5F, 0.5F);
+			GlStateManager.scaleff(0.5F, 0.5F, 0.5F);
 			GlStateManager.translatef(0.0F, 24.0F * scale, 0.0F);
 			this.wolfBody.render(scale);
 			this.wolfLeg1.render(scale);
