@@ -36,12 +36,22 @@ public class PlayerInteractHandler {
 	}
 
 	@SubscribeEvent
-	public void onWakeUp(PlayerWakeUpEvent e) { // WorldServer#wakeAllPlayers is the only vanilla method that passes (false, false, true)
+	public void onWakeUp(PlayerWakeUpEvent e) {
+		// WorldServer#wakeAllPlayers is the only vanilla method that passes (false, false, true)
+		// ForgeEventFactory.fireSleepingTimeCheck passes false, true, true, lets ensure the time is day when we check this
 		EntityPlayer player = e.getEntityPlayer();
-		if (player != null && !e.wakeImmediately() && !e.updateWorld() && e.shouldSetSpawn()) {
-			IAoVCapability cap = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
-			if (cap != null)
-				cap.resetCharges(player);
+		if (player != null) {
+			boolean flag = !e.wakeImmediately() && !e.updateWorld() && e.shouldSetSpawn();
+			if (!flag) {
+				if (!e.wakeImmediately() && e.updateWorld() && e.shouldSetSpawn()) {
+					flag = player.world.isDaytime();
+				}
+			}
+			if (flag) {
+				IAoVCapability cap = CapabilityHelper.getCap(player, CapabilityList.AOV, null);
+				if (cap != null)
+					cap.resetCharges(player);
+			}
 		}
 	}
 
