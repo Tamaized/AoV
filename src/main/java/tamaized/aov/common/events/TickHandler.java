@@ -99,13 +99,14 @@ public class TickHandler {
 			EntityPlayer player = living instanceof EntityPlayer ? (EntityPlayer) living : null;
 			if (player != null)
 				if (poly != null && poly.getMorph() == IPolymorphCapability.Morph.ArchAngel) {
-					if (!FLYING.contains(player.getUniqueID())) {
+					player.capabilities.allowFlying = true;
+					player.sendPlayerAbilities();
+					if (!FLYING.contains(player.getUniqueID()))
 						FLYING.add(player.getUniqueID());
-						player.capabilities.allowFlying = true;
-						player.sendPlayerAbilities();
-					}
 				} else if (FLYING.remove(player.getUniqueID())) {
 					player.capabilities.allowFlying = false;
+					player.sendPlayerAbilities();
+				} else if (!player.isCreative() && !player.isSpectator() && !player.capabilities.allowFlying) { // This will run one tick later so we can detect if other mods enable flight
 					player.capabilities.disableDamage = false;
 					player.capabilities.isFlying = false;
 					player.sendPlayerAbilities();
