@@ -2,7 +2,7 @@ package tamaized.aov.client.handler;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import tamaized.aov.AoV;
 import tamaized.aov.proxy.ClientProxy;
