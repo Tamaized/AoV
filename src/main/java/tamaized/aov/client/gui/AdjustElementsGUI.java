@@ -184,7 +184,7 @@ public class AdjustElementsGUI extends GuiScreenClose {
 				buffer.pos(x, y + h, 0).tex(0, 1).color(r, g, b, a).endVertex();
 				buffer.pos(x + w, y + h, 0).tex(1, 1).color(r, g, b, a).endVertex();
 
-				Minecraft.getInstance().renderEngine.bindTexture(AoVOverlay.TEXTURE_FOCUS);
+				Minecraft.getInstance().textureManager.bindTexture(AoVOverlay.TEXTURE_FOCUS);
 				tess.draw();
 			}
 		}

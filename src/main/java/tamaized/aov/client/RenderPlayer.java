@@ -149,7 +149,7 @@ public class RenderPlayer {
 			if (player.isSneaking()) {
 				GlStateManager.translated(0.0F, -0.2F, 0.0F);
 			}
-			Minecraft.getInstance().renderEngine.bindTexture(TEXTURE_WING);
+			Minecraft.getInstance().textureManager.bindTexture(TEXTURE_WING);
 			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 			double x1 = 0;
 			double x2 = x1 + 1;
@@ -253,7 +253,7 @@ public class RenderPlayer {
 					GlStateManager.pushMatrix();
 					{
 						GlStateManager.translated(e.getX(), e.getY(), e.getZ());
-						Minecraft.getInstance().renderEngine.bindTexture(TEXTURE_SUNBODY);
+						Minecraft.getInstance().textureManager.bindTexture(TEXTURE_SUNBODY);
 
 						Tessellator tess = Tessellator.getInstance();
 						BufferBuilder buffer = tess.getBuffer();

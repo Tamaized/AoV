@@ -232,7 +232,7 @@ public class AoVOverlay extends Gui {
 		NO_STENCIL = false;
 		float frames = ClientTicker.frames + (mc.isGamePaused() ? 0 : mc.getRenderPartialTicks());
 		if (mc.world != null) {
-			Minecraft.getInstance().renderEngine.bindTexture(TEXTURE_ELEMENTALS);
+			Minecraft.getInstance().textureManager.bindTexture(TEXTURE_ELEMENTALS);
 			Tessellator tess = Tessellator.getInstance();
 			BufferBuilder buffer = tess.getBuffer();
 			ScaledResolution resolution = new ScaledResolution(mc);
@@ -442,7 +442,7 @@ public class AoVOverlay extends Gui {
 				buffer.pos(x, y + h, 0).tex(0, 1).color(r, g, b, a).endVertex();
 				buffer.pos(x + w, y + h, 0).tex(1, 1).color(r, g, b, a).endVertex();
 
-				Minecraft.getInstance().renderEngine.bindTexture(TEXTURE_FOCUS);
+				Minecraft.getInstance().textureManager.bindTexture(TEXTURE_FOCUS);
 				tess.draw();
 			}
 			GlStateManager.disableBlend();
@@ -489,7 +489,7 @@ public class AoVOverlay extends Gui {
 
 						0xFFFFFF);
 				{
-					Minecraft.getInstance().renderEngine.bindTexture(Gui.ICONS);
+					Minecraft.getInstance().textureManager.bindTexture(Gui.ICONS);
 					int posx = (int) (x + 30);
 					int posy = (int) (y + 13);
 					int textureX = 52;
