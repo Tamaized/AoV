@@ -36,7 +36,7 @@ public class RenderAlignmentAoE<T extends EntityAlignmentAoE> extends Render<T> 
 				GlStateManager.disableTexture2D();
 				GlStateManager.disableLighting();
 				GlStateManager.enableBlend();
-				OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 200, 200);
+				OpenGlHelper.glMultiTexCoord2f(OpenGlHelper.GL_TEXTURE1, 200, 200);
 				GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 				for (int tx = -4; tx <= 4; tx += 4)
 					for (int tz = -4; tz <= 4; tz += 4)

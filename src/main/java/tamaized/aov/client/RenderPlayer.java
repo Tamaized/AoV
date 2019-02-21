@@ -258,7 +258,7 @@ public class RenderPlayer {
 						Tessellator tess = Tessellator.getInstance();
 						BufferBuilder buffer = tess.getBuffer();
 
-						GlStateManager.translated(0, player.eyeHeight / 1.5F, 0);
+						GlStateManager.translated(0, player.getEyeHeight() / 1.5F, 0);
 						GlStateManager.rotatef(180.0F - e.getRenderer().getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
 						GlStateManager.rotatef((float) (e.getRenderer().getRenderManager().options.thirdPersonView == 2 ? -1 : 1) * -e.getRenderer().getRenderManager().playerViewX, 1.0F, 0.0F, 0.0F);
 
@@ -284,7 +284,7 @@ public class RenderPlayer {
 							GlStateManager.disableLighting();
 							int j = 0xF000F0 % 0x10000;
 							int k = 0xF000F0 / 0x10000;
-							OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) j, (float) k);
+							OpenGlHelper.glMultiTexCoord2f(OpenGlHelper.GL_TEXTURE1, (float) j, (float) k);
 							GlStateManager.enableBlend();
 							tess.draw();
 							GlStateManager.popMatrix();
