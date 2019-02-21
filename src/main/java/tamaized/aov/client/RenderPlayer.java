@@ -107,6 +107,7 @@ public class RenderPlayer {
 				GlStateManager.enableCull();
 				GlStateManager.depthMask(false);
 				GlStateManager.pushMatrix();
+				GlStateManager.translate(e.getX(), e.getY(), e.getZ());
 				GlStateManager.translate(0.0F, 1.0F, 0.0F);
 				final float scale = 0.0625F;
 				GlStateManager.scale(scale, scale, scale);
