@@ -118,7 +118,7 @@ public class AdjustElementsGUI extends GuiScreenClose {
 		{
 			ScaledResolution sr = new ScaledResolution(mc);
 			if (ConfigHandler.renderBarOverHotbar)
-				GlStateManager.translate(0, sr.getScaledHeight() - 23, 0);
+				GlStateManager.translated(0, sr.getScaledHeight() - 23, 0);
 			float alpha = 0.2f;
 			if (ClientProxy.barToggle)
 				alpha = 1.0f;

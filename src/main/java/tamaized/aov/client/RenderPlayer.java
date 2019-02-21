@@ -52,7 +52,7 @@ public class RenderPlayer {
 			if (cap.getMorph() == IPolymorphCapability.Morph.Wolf) {
 				GlStateManager.pushMatrix();
 				e.getRenderer().renderName((AbstractClientPlayer) player, e.getX(), e.getY(), e.getZ());
-				GlStateManager.translate(e.getX(), e.getY(), e.getZ());
+				GlStateManager.translated(e.getX(), e.getY(), e.getZ());
 				float swingProgress = player.limbSwing - player.limbSwingAmount * (1.0F - e.getPartialRenderTick());//e.getRenderer().getMainModel().swingProgress;
 				float swingAmount = player.prevLimbSwingAmount + (player.limbSwingAmount - player.prevLimbSwingAmount) * e.getPartialRenderTick();
 				if (swingAmount > 1.0F)
@@ -106,8 +106,8 @@ public class RenderPlayer {
 				GlStateManager.enableCull();
 				GlStateManager.depthMask(false);
 				GlStateManager.pushMatrix();
-				GlStateManager.translate(e.getX(), e.getY(), e.getZ());
-				GlStateManager.translate(0.0F, 1.0F, 0.0F);
+				GlStateManager.translated(e.getX(), e.getY(), e.getZ());
+				GlStateManager.translated(0.0F, 1.0F, 0.0F);
 				final float scale = 0.0625F;
 				GlStateManager.scale(scale, scale, scale);
 
@@ -143,11 +143,11 @@ public class RenderPlayer {
 			GlStateManager.disableCull();
 			GlStateManager.color4f(1, 1, 1, perc);
 			float scale = 1;
-			GlStateManager.translate(e.getX(), e.getY(), e.getZ());
+			GlStateManager.translated(e.getX(), e.getY(), e.getZ());
 			GlStateManager.scale(scale, scale, scale);
 			GlStateManager.rotate(-player.renderYawOffset, 0, 1, 0);
 			if (player.isSneaking()) {
-				GlStateManager.translate(0.0F, -0.2F, 0.0F);
+				GlStateManager.translated(0.0F, -0.2F, 0.0F);
 			}
 			Minecraft.getInstance().renderEngine.bindTexture(TEXTURE_WING);
 			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
@@ -252,13 +252,13 @@ public class RenderPlayer {
 				if (aov != null && cap.getMorph() == IPolymorphCapability.Morph.FireElemental && aov.isAuraActive(Abilities.elementalEmpowerment)) {
 					GlStateManager.pushMatrix();
 					{
-						GlStateManager.translate(e.getX(), e.getY(), e.getZ());
+						GlStateManager.translated(e.getX(), e.getY(), e.getZ());
 						Minecraft.getInstance().renderEngine.bindTexture(TEXTURE_SUNBODY);
 
 						Tessellator tess = Tessellator.getInstance();
 						BufferBuilder buffer = tess.getBuffer();
 
-						GlStateManager.translate(0, player.eyeHeight / 1.5F, 0);
+						GlStateManager.translated(0, player.eyeHeight / 1.5F, 0);
 						GlStateManager.rotate(180.0F - e.getRenderer().getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
 						GlStateManager.rotate((float) (e.getRenderer().getRenderManager().options.thirdPersonView == 2 ? -1 : 1) * -e.getRenderer().getRenderManager().playerViewX, 1.0F, 0.0F, 0.0F);
 
@@ -357,7 +357,7 @@ public class RenderPlayer {
 			float f2 = -0.3F * MathHelper.sin(f1 * (float) Math.PI);
 			float f3 = 0.4F * MathHelper.sin(f1 * ((float) Math.PI * 2F));
 			float f4 = -0.4F * MathHelper.sin(e.getSwingProgress() * (float) Math.PI);
-			GlStateManager.translate(f * (f2 + 0.64000005F), f3 + -0.6F + e.getEquipProgress() * -0.6F, f4 + -0.71999997F);
+			GlStateManager.translated(f * (f2 + 0.64000005F), f3 + -0.6F + e.getEquipProgress() * -0.6F, f4 + -0.71999997F);
 			GlStateManager.rotate(f * 45.0F, 0.0F, 1.0F, 0.0F);
 			float f5 = MathHelper.sin(e.getSwingProgress() * e.getSwingProgress() * (float) Math.PI);
 			float f6 = MathHelper.sin(f1 * (float) Math.PI);
@@ -365,11 +365,11 @@ public class RenderPlayer {
 			GlStateManager.rotate(f * f5 * -20.0F, 0.0F, 0.0F, 1.0F);
 			AbstractClientPlayer abstractclientplayer = Minecraft.getInstance().player;
 			Minecraft.getInstance().getTextureManager().bindTexture(WOLF_TEXTURES);
-			GlStateManager.translate(f * -1.0F, 3.6F, 3.5F);
+			GlStateManager.translated(f * -1.0F, 3.6F, 3.5F);
 			GlStateManager.rotate(f * 120.0F, 0.0F, 0.0F, 1.0F);
 			GlStateManager.rotate(200.0F, 1.0F, 0.0F, 0.0F);
 			GlStateManager.rotate(f * -135.0F, 0.0F, 1.0F, 0.0F);
-			GlStateManager.translate(f * 5.6F, 0.0F, 0.0F);
+			GlStateManager.translated(f * 5.6F, 0.0F, 0.0F);
 			GlStateManager.disableCull();
 			renderRightArm(abstractclientplayer);
 			GlStateManager.enableCull();
@@ -394,7 +394,7 @@ public class RenderPlayer {
 		GlStateManager.pushMatrix();
 		float scale = 3.0F;
 		GlStateManager.scale(scale, scale, scale);
-		GlStateManager.translate(0.25F, -0.65F, 0F);
+		GlStateManager.translated(0.25F, -0.65F, 0F);
 		WOLF_MODEL.swingProgress = 0.0F;
 		WOLF_MODEL.setRotationAngles(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, f1, clientPlayer);
 		WOLF_MODEL.wolfLeg2.rotateAngleX = 0.0F;
@@ -439,7 +439,7 @@ public class RenderPlayer {
 			String s = TextFormatting.getTextWithoutFormattingCodes(entityLiving.getName());
 
 			if (s != null && ("Dinnerbone".equals(s) || "Grumm".equals(s)) && (!(entityLiving instanceof EntityPlayer) || ((EntityPlayer) entityLiving).isWearing(EnumPlayerModelParts.CAPE))) {
-				GlStateManager.translate(0.0F, entityLiving.height + 0.1F, 0.0F);
+				GlStateManager.translated(0.0F, entityLiving.height + 0.1F, 0.0F);
 				GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
 			}
 		}

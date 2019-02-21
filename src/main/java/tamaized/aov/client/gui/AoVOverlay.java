@@ -168,7 +168,7 @@ public class AoVOverlay extends Gui {
 				GlStateManager.pushMatrix();
 				{
 					if (ConfigHandler.renderBarOverHotbar)
-						GlStateManager.translate(0, sr.getScaledHeight() - 23, 0);
+						GlStateManager.translated(0, sr.getScaledHeight() - 23, 0);
 					for (int i = 0; i < 9; i++) {
 						float x = sW - 90F + (20F * (float) i);
 						float y = ClientTicker.charges.getValue(i);
@@ -259,7 +259,7 @@ public class AoVOverlay extends Gui {
 				GlStateManager.pushMatrix();
 				GlStateManager.matrixMode(GL11.GL_TEXTURE);
 				GlStateManager.loadIdentity();
-				GlStateManager.translate(frames * 0.001F, frames * -0.01F, 0.0F);
+				GlStateManager.translated(frames * 0.001F, frames * -0.01F, 0.0F);
 				GlStateManager.scale(0.5F, 0.5F, 0.5F);
 				GlStateManager.rotate(frames * 0.1F, 0, 1, 0);
 				GlStateManager.matrixMode(GL11.GL_MODELVIEW);
@@ -280,7 +280,7 @@ public class AoVOverlay extends Gui {
 				GlStateManager.pushMatrix();
 				GlStateManager.matrixMode(GL11.GL_TEXTURE);
 				GlStateManager.loadIdentity();
-				GlStateManager.translate(frames * 0.01F, frames * 0.01F, 0.0F);
+				GlStateManager.translated(frames * 0.01F, frames * 0.01F, 0.0F);
 				GlStateManager.scale(0.5F, 0.5F, 0.5F);
 				GlStateManager.rotate(frames, 0, 0, 1);
 				GlStateManager.matrixMode(GL11.GL_MODELVIEW);
@@ -301,7 +301,7 @@ public class AoVOverlay extends Gui {
 				GlStateManager.pushMatrix();
 				GlStateManager.matrixMode(GL11.GL_TEXTURE);
 				GlStateManager.loadIdentity();
-				GlStateManager.translate(0.0F, frames * 0.1F, 0.0F);
+				GlStateManager.translated(0.0F, frames * 0.1F, 0.0F);
 				GlStateManager.scale(0.5F, 0.5F, 0.5F);
 				//				GlStateManager.rotate(frames, 0, 0, 1);
 				GlStateManager.matrixMode(GL11.GL_MODELVIEW);

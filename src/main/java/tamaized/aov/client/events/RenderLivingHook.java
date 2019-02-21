@@ -22,7 +22,7 @@ public class RenderLivingHook {
 			return;
 		GlStateManager.pushMatrix();
 		{
-			GlStateManager.translate(e.getX(), e.getY() + (e.getEntity().isSneaking() ? 0.1F : 0F), e.getZ());
+			GlStateManager.translated(e.getX(), e.getY() + (e.getEntity().isSneaking() ? 0.1F : 0F), e.getZ());
 			GlStateManager.disableTexture2D();
 			GlStateManager.enableBlend();
 			GlStateManager.disableCull();

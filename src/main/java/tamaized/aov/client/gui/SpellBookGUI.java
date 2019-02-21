@@ -172,10 +172,10 @@ public class SpellBookGUI extends GuiScreenClose {
 		GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 		RenderHelper.enableGUIStandardItemLighting();
 		GlStateManager.pushMatrix();
-		GlStateManager.translate(0.01f, 0, 0);
-		GlStateManager.translate(-20.01f, 0, 0);
+		GlStateManager.translated(0.01f, 0, 0);
+		GlStateManager.translated(-20.01f, 0, 0);
 		for (int j = 0; j < 9; ++j) {
-			GlStateManager.translate(20.01f, 0, 0);
+			GlStateManager.translated(20.01f, 0, 0);
 			if (cap == null || cap.getSlot(j) == null)
 				continue;
 			int k = sr.getScaledWidth() / 2 - 90 + 2;

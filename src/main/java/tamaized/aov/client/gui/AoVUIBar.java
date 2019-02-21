@@ -45,7 +45,7 @@ public class AoVUIBar {
 			if (ConfigHandler.renderBarOverHotbar) {
 				xpos = 0;
 				ypos = 0;
-				GlStateManager.translate(0, sr.getScaledHeight() - 23, 0);
+				GlStateManager.translated(0, sr.getScaledHeight() - 23, 0);
 			}
 			float alpha = 0.2f;
 			if (ClientProxy.barToggle)
@@ -57,10 +57,10 @@ public class AoVUIBar {
 			gui.drawTexturedModalRect(xpos + i - 91 - 1 + slotLoc * 20, ypos, 0, 22, 24, 22);
 			GlStateManager.pushMatrix();
 			{
-				GlStateManager.translate(0.01f, 0, 0);
-				GlStateManager.translate(-20.01f, 0, 0);
+				GlStateManager.translated(0.01f, 0, 0);
+				GlStateManager.translated(-20.01f, 0, 0);
 				for (int j = 0; j < 9; ++j) {
-					GlStateManager.translate(20.01f, 0, 0);
+					GlStateManager.translated(20.01f, 0, 0);
 					Ability ability = cap.getSlot(j);
 					if (ability == null)
 						continue;
@@ -83,7 +83,7 @@ public class AoVUIBar {
 		GlStateManager.pushMatrix();
 		{
 			float f1 = 1.0F / 16.0F;
-			GlStateManager.translate((float) (xPos), (float) (yPos), 0.0F);
+			GlStateManager.translated((float) (xPos), (float) (yPos), 0.0F);
 			GlStateManager.scale(1.0F * f1, 1.0f * f1, 1.0F);
 			GlStateManager.pushMatrix();
 			{
@@ -111,7 +111,7 @@ public class AoVUIBar {
 		GlStateManager.pushMatrix();
 		{
 			float f1 = 1.0F / 16.0F;
-			GlStateManager.translate((float) (xPos), (float) (yPos), 0.0F);
+			GlStateManager.translated((float) (xPos), (float) (yPos), 0.0F);
 			GlStateManager.scale(1.0F * f1, 1.0f * f1, 1.0F);
 			GlStateManager.scale(16.0f, 16.0f, 1.0f);
 			renderRadial(0, 0, perc);

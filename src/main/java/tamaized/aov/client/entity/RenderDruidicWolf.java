@@ -27,7 +27,7 @@ public class RenderDruidicWolf extends RenderWolf {
 		GlStateManager.enableRescaleNormal();
 		GlStateManager.scale(-1.0F, -1.0F, 1.0F);
 		this.preRenderCallback(entitylivingbaseIn, partialTicks);
-		GlStateManager.translate(0.0F, -1.501F, 0.0F);
+		GlStateManager.translated(0.0F, -1.501F, 0.0F);
 		return 0.0625F;
 	}
 }

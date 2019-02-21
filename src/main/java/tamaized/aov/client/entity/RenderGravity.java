@@ -40,7 +40,7 @@ public class RenderGravity<T extends EntityGravity> extends Render<T> {
 		BufferBuilder buffer = tessellator.getBuffer();
 
 		GlStateManager.pushMatrix();
-		GlStateManager.translate(p1.x, p1.y, p1.z);
+		GlStateManager.translated(p1.x, p1.y, p1.z);
 
 		double dist = p1.distanceTo(p2);
 		float xd = (float) (p1.x - p2.x);
@@ -127,7 +127,7 @@ public class RenderGravity<T extends EntityGravity> extends Render<T> {
 		GlStateManager.disableDepth();
 		float alpha = entity.spinnyBoi >= 600 ? (entity.spinnyBoi - 600F) / 420F : 0F;
 		GlStateManager.color4f(0.5F, 0.5F, 0.5F, 1F - alpha);
-		GlStateManager.translate(x + 0.5F, y + 5.0F, z + 0.5F);
+		GlStateManager.translated(x + 0.5F, y + 5.0F, z + 0.5F);
 		GlStateManager.rotate(90F, 1.0F, 0.0F, 0.0F);
 		float s = Math.min(entity.spinnyBoi / 180F, 1F);
 		GlStateManager.scale(s, s, s);

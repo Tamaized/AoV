@@ -34,7 +34,7 @@ public class RenderFlameStrike<T extends ProjectileFlameStrike> extends Render<T
 		GlStateManager.color4f(red, green, blue, alpha);
 		GlStateManager.pushMatrix();
 		GlStateManager.disableLighting();
-		GlStateManager.translate((float) x, (float) y, (float) z);
+		GlStateManager.translated((float) x, (float) y, (float) z);
 		GlStateManager.rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks - 90.0F, 0.0F, 1.0F, 0.0F);
 		GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, 0.0F, 0.0F, 1.0F);
 		Tessellator tessellator = Tessellator.getInstance();
@@ -53,7 +53,7 @@ public class RenderFlameStrike<T extends ProjectileFlameStrike> extends Render<T
 
 		GlStateManager.rotate(45.0F, 1.0F, 0.0F, 0.0F);
 		GlStateManager.scale(0.05625F, 0.05625F, 0.05625F);
-		GlStateManager.translate(-4.0F, 0.0F, 0.0F);
+		GlStateManager.translated(-4.0F, 0.0F, 0.0F);
 
 		if (this.renderOutlines) {
 			GlStateManager.enableColorMaterial();
