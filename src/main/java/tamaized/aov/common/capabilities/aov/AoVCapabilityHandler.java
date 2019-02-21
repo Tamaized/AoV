@@ -27,7 +27,6 @@ import tamaized.aov.network.client.ClientPacketHandlerAoVSimpleData;
 import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
 import tamaized.aov.proxy.ClientProxy;
 import tamaized.aov.registry.AoVPotions;
-import tamaized.tammodized.common.helper.CapabilityHelper;
 import tamaized.tammodized.common.helper.FloatyTextHelper;
 
 import javax.annotation.Nullable;

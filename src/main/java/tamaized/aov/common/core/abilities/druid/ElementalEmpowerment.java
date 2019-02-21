@@ -18,7 +18,6 @@ import tamaized.aov.common.core.abilities.IAura;
 import tamaized.aov.registry.AoVParticles;
 import tamaized.aov.registry.ParticleRegistry;
 import tamaized.aov.registry.SoundEvents;
-import tamaized.tammodized.common.helper.CapabilityHelper;
 import tamaized.tammodized.common.particles.ParticleHelper;
 
 import javax.annotation.Nullable;

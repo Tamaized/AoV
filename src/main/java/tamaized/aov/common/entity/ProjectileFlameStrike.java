@@ -19,7 +19,6 @@ import tamaized.aov.common.helper.ParticleHelper;
 import tamaized.aov.common.helper.ParticleHelper.MeshType;
 import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.AoVDamageSource;
-import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import javax.annotation.Nonnull;
 

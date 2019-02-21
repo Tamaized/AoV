@@ -34,7 +34,6 @@ import tamaized.aov.common.helper.UtilHelper;
 import tamaized.aov.network.client.ClientPacketHandlerPolymorphDogAttack;
 import tamaized.aov.network.server.ServerPacketHandlerPolymorphDogAttack;
 import tamaized.aov.registry.AoVPotions;
-import tamaized.tammodized.common.helper.CapabilityHelper;
 import tamaized.tammodized.common.particles.ParticleHelper;
 
 import java.lang.reflect.Field;

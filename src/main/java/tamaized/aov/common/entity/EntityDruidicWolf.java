@@ -27,7 +27,6 @@ import net.minecraft.world.World;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
-import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class EntityDruidicWolf extends EntityWolf {
 

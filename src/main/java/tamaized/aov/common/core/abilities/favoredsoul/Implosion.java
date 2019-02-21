@@ -12,7 +12,6 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.entity.EntitySpellImplosion;
-import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class Implosion extends AbilityBase {
 

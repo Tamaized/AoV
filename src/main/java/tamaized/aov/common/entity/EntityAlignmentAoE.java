@@ -21,7 +21,6 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.stun.IStunCapability;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.favoredsoul.AlignmentAoE;
-import tamaized.tammodized.common.helper.CapabilityHelper;
 import tamaized.tammodized.common.helper.RayTraceHelper;
 
 import javax.annotation.Nonnull;

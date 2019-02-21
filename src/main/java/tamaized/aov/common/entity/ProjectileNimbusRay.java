@@ -11,7 +11,6 @@ import net.minecraft.world.World;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.registry.AoVDamageSource;
-import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class ProjectileNimbusRay extends ProjectileBase {
 

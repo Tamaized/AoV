@@ -16,7 +16,6 @@ import tamaized.aov.common.helper.ParticleHelper;
 import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.AoVPotions;
 import tamaized.aov.registry.SoundEvents;
-import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import java.util.List;
 

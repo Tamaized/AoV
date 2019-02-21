@@ -14,7 +14,6 @@ import tamaized.aov.common.entity.EntitySpellBladeBarrier;
 import tamaized.aov.common.entity.EntitySpellImplosion;
 import tamaized.aov.common.entity.ProjectileNimbusRay;
 import tamaized.aov.registry.SoundEvents;
-import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class ClientSpawnEvent {
 

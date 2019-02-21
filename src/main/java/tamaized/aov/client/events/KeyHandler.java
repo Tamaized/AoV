@@ -21,7 +21,6 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.proxy.ClientProxy;
-import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import java.util.List;
 

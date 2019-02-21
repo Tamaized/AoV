@@ -17,7 +17,6 @@ import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.entity.EntitySpellVanillaParticles;
 import tamaized.aov.registry.AoVPotions;
-import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

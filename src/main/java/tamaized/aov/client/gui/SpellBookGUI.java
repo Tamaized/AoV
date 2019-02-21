@@ -16,7 +16,6 @@ import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.abilities.universal.InvokeMass;
 import tamaized.aov.common.gui.GuiHandler;
 import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
-import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import java.util.List;
 

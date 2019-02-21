@@ -33,7 +33,6 @@ import tamaized.aov.common.capabilities.leap.ILeapCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.items.Handwraps;
-import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import java.util.Random;
 

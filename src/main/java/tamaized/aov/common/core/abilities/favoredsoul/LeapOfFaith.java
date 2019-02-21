@@ -15,7 +15,6 @@ import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.registry.AoVPotions;
 import tamaized.aov.registry.SoundEvents;
-import tamaized.tammodized.common.helper.CapabilityHelper;
 import tamaized.tammodized.common.helper.MotionHelper;
 
 public class LeapOfFaith extends AbilityBase {

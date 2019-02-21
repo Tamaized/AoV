@@ -13,7 +13,6 @@ import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.entity.EntityEarthquake;
 import tamaized.aov.common.helper.UtilHelper;
-import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class Earthquake extends AbilityBase {
 

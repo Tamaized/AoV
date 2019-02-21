@@ -7,7 +7,6 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.AoVCapabilityHandler;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.gui.GuiHandler;
-import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class ShowStatsGUI extends GuiScreenClose {
 

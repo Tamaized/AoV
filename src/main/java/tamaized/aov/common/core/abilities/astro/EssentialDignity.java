@@ -13,7 +13,6 @@ import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.entity.EntitySpellVanillaParticles;
 import tamaized.aov.registry.SoundEvents;
-import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class EssentialDignity extends AbilityBase {
 

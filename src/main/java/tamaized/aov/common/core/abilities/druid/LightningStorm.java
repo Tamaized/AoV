@@ -15,7 +15,6 @@ import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.entity.EntitySpellLightningStorm;
 import tamaized.aov.common.helper.UtilHelper;
-import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class LightningStorm extends AbilityBase {
 

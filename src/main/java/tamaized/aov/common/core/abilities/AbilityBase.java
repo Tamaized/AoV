@@ -9,7 +9,6 @@ import net.minecraft.util.text.TextComponentTranslation;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
-import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;

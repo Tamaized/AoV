@@ -19,7 +19,6 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.config.ConfigHandler;
 import tamaized.aov.common.gui.GuiHandler;
-import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

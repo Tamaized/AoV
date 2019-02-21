@@ -25,7 +25,6 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.gui.GuiHandler;
 import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
-import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;

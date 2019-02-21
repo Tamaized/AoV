@@ -14,7 +14,6 @@ import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.registry.AoVPotions;
-import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import javax.annotation.Nullable;
 

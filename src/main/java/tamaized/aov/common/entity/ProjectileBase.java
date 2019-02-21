@@ -26,7 +26,6 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.AbilityBase;
-import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import javax.annotation.Nonnull;
 

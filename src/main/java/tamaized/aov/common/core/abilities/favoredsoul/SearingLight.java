@@ -11,7 +11,6 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.entity.ProjectileNimbusRay;
-import tamaized.tammodized.common.helper.CapabilityHelper;
 
 public class SearingLight extends AbilityBase {
 

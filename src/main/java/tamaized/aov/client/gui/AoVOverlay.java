@@ -34,7 +34,6 @@ import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.common.entity.EntityEarthquake;
 import tamaized.aov.proxy.ClientProxy;
-import tamaized.tammodized.common.helper.CapabilityHelper;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
