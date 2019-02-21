@@ -102,7 +102,7 @@ public class RenderPlayer {
 				GlStateManager.shadeModel(7425);
 				GlStateManager.enableBlend();
 				GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-				GlStateManager.disableAlpha();
+				GlStateManager.disableAlphaTest();
 				GlStateManager.enableCull();
 				GlStateManager.depthMask(false);
 				GlStateManager.pushMatrix();
@@ -136,7 +136,7 @@ public class RenderPlayer {
 				GlStateManager.shadeModel(7424);
 				GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 				GlStateManager.enableTexture2D();
-				GlStateManager.enableAlpha();
+				GlStateManager.enableAlphaTest();
 				RenderHelper.enableStandardItemLighting();
 			}
 			GlStateManager.enableBlend();

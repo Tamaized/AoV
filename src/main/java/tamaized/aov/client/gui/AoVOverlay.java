@@ -353,7 +353,7 @@ public class AoVOverlay extends Gui {
 		{
 			GlStateManager.color4f(1F, 1F, 1F, 1F);
 			mc.getTextureManager().bindTexture(TEXTURE_ASTRO);
-			GlStateManager.enableAlpha();
+			GlStateManager.enableAlphaTest();
 			GlStateManager.enableBlend();
 			Tessellator tess = Tessellator.getInstance();
 			BufferBuilder buffer = tess.getBuffer();

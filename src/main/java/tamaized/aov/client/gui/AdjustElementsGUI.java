@@ -136,7 +136,7 @@ public class AdjustElementsGUI extends GuiScreenClose {
 		{
 			GlStateManager.color4f(1, 1, 1, 1);
 			mc.getTextureManager().bindTexture(AoVOverlay.TEXTURE_ASTRO);
-			GlStateManager.enableAlpha();
+			GlStateManager.enableAlphaTest();
 			GlStateManager.enableBlend();
 			Tessellator tess = Tessellator.getInstance();
 			BufferBuilder buffer = tess.getBuffer();
