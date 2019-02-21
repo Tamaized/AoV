@@ -108,7 +108,7 @@ public class TickHandler {
 				} else if (FLYING.remove(player.getUniqueID())) {
 					player.abilities.allowFlying = false;
 					player.sendPlayerAbilities();
-				} else if (!player.isCreative() && !player.isSpectator() && !player.abilities.allowFlying) { // This will run one tick later so we can detect if other mods enable flight
+				} else if (!player.isCreative() && !player.isSpectatorMode() && !player.abilities.allowFlying) { // This will run one tick later so we can detect if other mods enable flight
 					player.abilities.disableDamage = false;
 					player.abilities.isFlying = false;
 					player.sendPlayerAbilities();
