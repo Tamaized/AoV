@@ -192,7 +192,7 @@ public class RenderPlayer {
 		if (hackyshit)
 			return;
 		IPolymorphCapability cap = CapabilityHelper.getCap(e.getEntity(), CapabilityList.POLYMORPH, null);
-		if (cap != null && (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental || cap.getMorph() == IPolymorphCapability.Morph.FireElemental))
+		if (cap != null && (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental || cap.getMorph() == IPolymorphCapability.Morph.FireElemental || cap.getMorph() == IPolymorphCapability.Morph.ArchAngel))
 			e.setCanceled(true);
 	}
 
