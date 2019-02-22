@@ -1,7 +1,6 @@
 package tamaized.aov.client.entity;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -15,6 +14,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.world.EnumLightType;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 import tamaized.aov.AoV;
@@ -34,9 +35,9 @@ public class RenderEarthquake extends Render<EntityEarthquake> {
 	}
 
 	// [Vanilla Copy] Render#renderShadow
-	private static void renderShadow(Entity entityIn, double x, double y, double z, float shadowAlpha, float partialTicks) {
-		Minecraft.getInstance().getRenderManager().textureManager.bindTexture(SHADOW_TEXTURES);
-		World world = Minecraft.getInstance().world;
+	private static void renderShadow(RenderManager renderManager, Entity entityIn, double x, double y, double z, float shadowAlpha, float partialTicks) {
+		renderManager.textureManager.bindTexture(SHADOW_TEXTURES);
+		World world = renderManager.world;
 		GlStateManager.depthMask(false);
 		float f = 3F;
 
@@ -68,8 +69,8 @@ public class RenderEarthquake extends Render<EntityEarthquake> {
 		for (BlockPos blockpos : BlockPos.getAllInBoxMutable(new BlockPos(i, l, i1), new BlockPos(j, l, j1))) {
 			IBlockState iblockstate = world.getBlockState(blockpos.down());
 
-			if (iblockstate.getRenderType() != EnumBlockRenderType.INVISIBLE && world.getLightFromNeighbors(blockpos) > 3) {
-				renderShadowSingle(iblockstate, x, y, z, blockpos, shadowAlpha, f, d2, d3, d4);
+			if (iblockstate.getRenderType() != EnumBlockRenderType.INVISIBLE && world.getLightFromNeighborsFor(EnumLightType.SKY, blockpos) > 3) {
+				renderShadowSingle(renderManager, iblockstate, x, y, z, blockpos, shadowAlpha, f, d2, d3, d4);
 			}
 		}
 
@@ -79,31 +80,33 @@ public class RenderEarthquake extends Render<EntityEarthquake> {
 	}
 
 	// [Vanilla Copy] Render#renderShadowSingle
-	private static void renderShadowSingle(IBlockState state, double p_188299_2_, double p_188299_4_, double p_188299_6_, BlockPos p_188299_8_, float p_188299_9_, float p_188299_10_, double p_188299_11_, double p_188299_13_, double p_188299_15_) {
+	private static void renderShadowSingle(RenderManager renderManager, IBlockState state, double p_188299_2_, double p_188299_4_, double p_188299_6_, BlockPos p_188299_8_, float p_188299_9_, float p_188299_10_, double p_188299_11_, double p_188299_13_, double p_188299_15_) {
 		if (state.isFullCube()) {
-			Tessellator tessellator = Tessellator.getInstance();
-			BufferBuilder bufferbuilder = tessellator.getBuffer();
-			double d0 = ((double) p_188299_9_ - (p_188299_4_ - ((double) p_188299_8_.getY() + p_188299_13_)) / 2.0D) * 0.5D * (double) Minecraft.getInstance().world.getLightBrightness(p_188299_8_);
+			VoxelShape voxelshape = state.getShape(renderManager.world, p_188299_8_.down());
+			if (!voxelshape.isEmpty()) {
+				Tessellator tessellator = Tessellator.getInstance();
+				BufferBuilder bufferbuilder = tessellator.getBuffer();
+				double d0 = ((double) p_188299_9_ - (p_188299_4_ - ((double) p_188299_8_.getY() + p_188299_13_)) / 2.0D) * 0.5D * (double) renderManager.world.getBrightness(p_188299_8_);
+				if (!(d0 < 0.0D)) {
+					if (d0 > 1.0D) {
+						d0 = 1.0D;
+					}
 
-			if (d0 >= 0.0D) {
-				if (d0 > 1.0D) {
-					d0 = 1.0D;
+					AxisAlignedBB axisalignedbb = voxelshape.getBoundingBox();
+					double d1 = (double) p_188299_8_.getX() + axisalignedbb.minX + p_188299_11_;
+					double d2 = (double) p_188299_8_.getX() + axisalignedbb.maxX + p_188299_11_;
+					double d3 = (double) p_188299_8_.getY() + axisalignedbb.minY + p_188299_13_ + 0.015625D;
+					double d4 = (double) p_188299_8_.getZ() + axisalignedbb.minZ + p_188299_15_;
+					double d5 = (double) p_188299_8_.getZ() + axisalignedbb.maxZ + p_188299_15_;
+					float f = (float) ((p_188299_2_ - d1) / 2.0D / (double) p_188299_10_ + 0.5D);
+					float f1 = (float) ((p_188299_2_ - d2) / 2.0D / (double) p_188299_10_ + 0.5D);
+					float f2 = (float) ((p_188299_6_ - d4) / 2.0D / (double) p_188299_10_ + 0.5D);
+					float f3 = (float) ((p_188299_6_ - d5) / 2.0D / (double) p_188299_10_ + 0.5D);
+					bufferbuilder.pos(d1, d3, d4).tex((double) f, (double) f2).color(1.0F, 1.0F, 1.0F, (float) d0).endVertex();
+					bufferbuilder.pos(d1, d3, d5).tex((double) f, (double) f3).color(1.0F, 1.0F, 1.0F, (float) d0).endVertex();
+					bufferbuilder.pos(d2, d3, d5).tex((double) f1, (double) f3).color(1.0F, 1.0F, 1.0F, (float) d0).endVertex();
+					bufferbuilder.pos(d2, d3, d4).tex((double) f1, (double) f2).color(1.0F, 1.0F, 1.0F, (float) d0).endVertex();
 				}
-
-				AxisAlignedBB axisalignedbb = state.getBoundingBox(Minecraft.getInstance().world, p_188299_8_);
-				double d1 = (double) p_188299_8_.getX() + axisalignedbb.minX + p_188299_11_;
-				double d2 = (double) p_188299_8_.getX() + axisalignedbb.maxX + p_188299_11_;
-				double d3 = (double) p_188299_8_.getY() + axisalignedbb.minY + p_188299_13_ + 0.015625D;
-				double d4 = (double) p_188299_8_.getZ() + axisalignedbb.minZ + p_188299_15_;
-				double d5 = (double) p_188299_8_.getZ() + axisalignedbb.maxZ + p_188299_15_;
-				float f = (float) ((p_188299_2_ - d1) / 2.0D / (double) p_188299_10_ + 0.5D);
-				float f1 = (float) ((p_188299_2_ - d2) / 2.0D / (double) p_188299_10_ + 0.5D);
-				float f2 = (float) ((p_188299_6_ - d4) / 2.0D / (double) p_188299_10_ + 0.5D);
-				float f3 = (float) ((p_188299_6_ - d5) / 2.0D / (double) p_188299_10_ + 0.5D);
-				bufferbuilder.pos(d1, d3, d4).tex((double) f, (double) f2).color(1.0F, 1.0F, 1.0F, (float) d0).endVertex();
-				bufferbuilder.pos(d1, d3, d5).tex((double) f, (double) f3).color(1.0F, 1.0F, 1.0F, (float) d0).endVertex();
-				bufferbuilder.pos(d2, d3, d5).tex((double) f1, (double) f3).color(1.0F, 1.0F, 1.0F, (float) d0).endVertex();
-				bufferbuilder.pos(d2, d3, d4).tex((double) f1, (double) f2).color(1.0F, 1.0F, 1.0F, (float) d0).endVertex();
 			}
 		}
 	}
@@ -123,7 +126,7 @@ public class RenderEarthquake extends Render<EntityEarthquake> {
 		GL11.glStencilFunc(GL11.GL_ALWAYS, 6, 0xFF);
 		GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_REPLACE);
 		{
-			renderShadow(entity, x, y, z, 1F, partialTicks);
+			renderShadow(renderManager, entity, x, y, z, 1F, partialTicks);
 		}
 		GL11.glStencilMask(0x00);
 		GL11.glDisable(GL11.GL_STENCIL_TEST);
