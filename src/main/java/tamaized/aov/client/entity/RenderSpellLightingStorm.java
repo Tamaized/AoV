@@ -104,7 +104,7 @@ public class RenderSpellLightingStorm extends Render<EntitySpellLightningStorm> 
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
 		GlStateManager.disableCull();
-		GlStateManager.glNormal3f(0.0F, 1.0F, 0.0F);
+		GlStateManager.normal3f(0.0F, 1.0F, 0.0F);
 		GlStateManager.enableBlend();
 		GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 		GlStateManager.alphaFunc(516, 0.1F);

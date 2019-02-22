@@ -58,14 +58,14 @@ public class RenderNimbusRay<T extends ProjectileBase> extends Render<T> {
 			GlStateManager.enableOutlineMode(this.getTeamColor(entity));
 		}
 
-		GlStateManager.glNormal3f(0.05625F, 0.0F, 0.0F);
+		GlStateManager.normal3f(0.05625F, 0.0F, 0.0F);
 		vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 		vertexbuffer.pos(-7.0D, -2.0D, -2.0D).tex(0.0D, 0.15625D).endVertex();
 		vertexbuffer.pos(-7.0D, -2.0D, 2.0D).tex(0.15625D, 0.15625D).endVertex();
 		vertexbuffer.pos(-7.0D, 2.0D, 2.0D).tex(0.15625D, 0.3125D).endVertex();
 		vertexbuffer.pos(-7.0D, 2.0D, -2.0D).tex(0.0D, 0.3125D).endVertex();
 		tessellator.draw();
-		GlStateManager.glNormal3f(-0.05625F, 0.0F, 0.0F);
+		GlStateManager.normal3f(-0.05625F, 0.0F, 0.0F);
 		vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 		vertexbuffer.pos(-7.0D, 2.0D, -2.0D).tex(0.0D, 0.15625D).endVertex();
 		vertexbuffer.pos(-7.0D, 2.0D, 2.0D).tex(0.15625D, 0.15625D).endVertex();
@@ -75,7 +75,7 @@ public class RenderNimbusRay<T extends ProjectileBase> extends Render<T> {
 
 		for (int j = 0; j < 4; ++j) {
 			GlStateManager.rotatef(90.0F, 1.0F, 0.0F, 0.0F);
-			GlStateManager.glNormal3f(0.0F, 0.0F, 0.05625F);
+			GlStateManager.normal3f(0.0F, 0.0F, 0.05625F);
 			vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 			vertexbuffer.pos(-8.0D, -2.0D, 0.0D).tex(0.0D, 0.0D).endVertex();
 			vertexbuffer.pos(8.0D, -2.0D, 0.0D).tex(0.5D, 0.0D).endVertex();
