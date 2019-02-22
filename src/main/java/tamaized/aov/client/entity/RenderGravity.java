@@ -12,8 +12,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.glu.GLU;
-import org.lwjgl.util.glu.Sphere;
 import tamaized.aov.AoV;
 import tamaized.aov.common.entity.EntityGravity;
 
@@ -23,17 +21,17 @@ import java.util.Random;
 public class RenderGravity<T extends EntityGravity> extends Render<T> {
 
 	private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.MODID, "textures/entity/gravity.png");
-	public static final Sphere SPHERE = new Sphere();
+//	public static final Sphere SPHERE = new Sphere(); TODO
 
 	public RenderGravity(RenderManager renderManager) {
 		super(renderManager);
 	}
 
 	public static void renderSphere(float radius) {
-		SPHERE.setDrawStyle(GLU.GLU_FILL);
+		/*SPHERE.setDrawStyle(GLU.GLU_FILL); TODO
 		SPHERE.setNormals(GLU.GLU_SMOOTH);
 		SPHERE.setOrientation(GLU.GLU_OUTSIDE);
-		SPHERE.draw(radius, 32, 32);
+		SPHERE.draw(radius, 32, 32);*/
 	}
 
 	public static void drawBoltSegment(Tessellator tessellator, Vec3d p1, Vec3d p2, float scale, int color) {
@@ -135,7 +133,7 @@ public class RenderGravity<T extends EntityGravity> extends Render<T> {
 
 		GlStateManager.pushMatrix();
 		bindTexture(TEXTURE);
-		SPHERE.setTextureFlag(true);
+//		SPHERE.setTextureFlag(true); TODO
 		GlStateManager.rotatef((entity.spinnyBoi += Minecraft.getInstance().isGamePaused() ? 0 : (360F / (float) Minecraft.getDebugFPS())) % 360, 0, 0, 1);
 		renderSphere(4F);
 		GlStateManager.color4f(0.5F, 0.75F, 0.75F, 1F - alpha);
