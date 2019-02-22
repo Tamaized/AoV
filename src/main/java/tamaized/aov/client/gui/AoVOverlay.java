@@ -114,7 +114,7 @@ public class AoVOverlay extends Gui {
 							buffer.pos(x, y + h, 0F).tex(0, 1).color(tone, tone, tone, alpha).endVertex();
 							buffer.pos(x + w, y + h, 0F).tex(1, 1).color(tone, tone, tone, alpha).endVertex();
 							buffer.pos(x + w, y + heightscale, 0F).tex(1, perc).color(tone, tone, tone, alpha).endVertex();
-							mc.renderEngine.bindTexture(TEXTURE_DOGGO);
+							mc.textureManager.bindTexture(TEXTURE_DOGGO);
 							tessellator.draw();
 						}
 						GlStateManager.popMatrix();
@@ -132,7 +132,7 @@ public class AoVOverlay extends Gui {
 			if (poly != null) {
 				ClientTicker.dangerBiomeTicksFlag = (poly.getFlagBits() & 0b0001) == 0b0001;
 				if (ClientTicker.dangerBiomeTicks > 0) {
-					mc.renderEngine.bindTexture(TEXTURE_DANGERBIOME);
+					mc.textureManager.bindTexture(TEXTURE_DANGERBIOME);
 					boolean isWater = (poly.getFlagBits() & 0b0010) == 0b0000;
 					float r = isWater ? 1F : 0F;
 					float g = isWater ? 0.15F : 0.6F;

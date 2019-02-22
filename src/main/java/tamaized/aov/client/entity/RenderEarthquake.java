@@ -35,7 +35,7 @@ public class RenderEarthquake extends Render<EntityEarthquake> {
 
 	// [Vanilla Copy] Render#renderShadow
 	private static void renderShadow(Entity entityIn, double x, double y, double z, float shadowAlpha, float partialTicks) {
-		Minecraft.getInstance().getRenderManager().renderEngine.bindTexture(SHADOW_TEXTURES);
+		Minecraft.getInstance().getRenderManager().textureManager.bindTexture(SHADOW_TEXTURES);
 		World world = Minecraft.getInstance().world;
 		GlStateManager.depthMask(false);
 		float f = 3F;
