@@ -2,7 +2,7 @@ package tamaized.aov.client.entity;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderItem;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -57,7 +57,7 @@ public class RenderSpellBladeBarrier<T extends EntitySpellBladeBarrier> extends 
 	}
 
 	private void drawRing(T entity) {
-		RenderItem itemRender = Minecraft.getInstance().getRenderItem();
+		ItemRenderer itemRender = Minecraft.getInstance().getItemRenderer();
 		for (int r = 0; r <= entity.getRange() + 1; r++) {
 			GlStateManager.pushMatrix();
 			{
