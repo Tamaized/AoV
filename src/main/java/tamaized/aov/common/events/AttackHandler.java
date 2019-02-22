@@ -223,7 +223,7 @@ public class AttackHandler {
 				}
 
 				player.resetActiveHand();
-				player.playSound(SoundEvents.ITEM_SHIELD_BREAK, 0.8F, 0.8F + player.world.rand.nextFloat() * 0.4F);
+				player.play(SoundEvents.ITEM_SHIELD_BREAK, 0.8F, 0.8F + player.world.rand.nextFloat() * 0.4F);
 			}
 		}
 	}

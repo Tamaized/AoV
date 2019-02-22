@@ -102,7 +102,7 @@ public class EntityEarthquake extends Entity {
 				}
 			}
 			if ((ticksExisted % 3 == 0 || ticksExisted % 15 == 0 || ticksExisted % 35 == 0) && rand.nextBoolean())
-				world.playSound(null, posX, posY, posZ, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.PLAYERS, 2.0F, rand.nextFloat() * 0.65F + (rand.nextBoolean() ? 0.75F : 0.1F));
+				world.play(null, posX, posY, posZ, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.PLAYERS, 2.0F, rand.nextFloat() * 0.65F + (rand.nextBoolean() ? 0.75F : 0.1F));
 			if (ConfigHandler.EARTHQUAKE.enable && ticksExisted % ConfigHandler.EARTHQUAKE.ticks == 0 && rand.nextInt(ConfigHandler.EARTHQUAKE.chance) == 0) {
 				final int radius = 2;
 				List<BlockPos> positions = Lists.newArrayList(BlockPos.getAllInBox(new BlockPos(posX - radius, posY - 1, posZ - radius), new BlockPos(posX + radius, posY, posZ + radius)));

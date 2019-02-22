@@ -98,7 +98,7 @@ public class DruidicRegenerate extends AbilityBase {
 				cap.addExp(caster, 15, this);
 			}
 			ParticleHelper.spawnParticleMesh(ParticleHelper.MeshType.BURST, CommonProxy.ParticleType.Heart, caster.world, caster.getPositionVector(), range, 0x00FFAAFF);
-			caster.world.playSound(null, caster.posX, caster.posY, caster.posZ, SoundEvents.EVOCATION_ILLAGER_CAST_SPELL, SoundCategory.PLAYERS, 1.0F, caster.getRNG().nextFloat() * 0.50F + 0.50F);
+			caster.world.play(null, caster.posX, caster.posY, caster.posZ, SoundEvents.EVOCATION_ILLAGER_CAST_SPELL, SoundCategory.PLAYERS, 1.0F, caster.getRNG().nextFloat() * 0.50F + 0.50F);
 			return true;
 		}
 		return false;

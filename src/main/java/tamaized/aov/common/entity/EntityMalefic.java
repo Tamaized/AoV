@@ -86,7 +86,7 @@ public class EntityMalefic extends ProjectileBase {
 	@Override
 	protected void blockHit(IBlockState state, BlockPos pos) {
 		if (!world.isRemote)
-			world.playSound(null, pos, SoundEvents.malefic_hit, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+			world.play(null, pos, SoundEvents.malefic_hit, SoundCategory.NEUTRAL, 1.0F, 1.0F);
 	}
 
 }

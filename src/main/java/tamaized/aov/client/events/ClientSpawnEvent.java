@@ -22,11 +22,11 @@ public class ClientSpawnEvent {
 	public void spawn(EntityJoinWorldEvent e) {
 		if (e.getWorld().isRemote) {
 			if (e.getEntity() instanceof EntitySpellBladeBarrier) {
-				Minecraft.getInstance().getSoundHandler().playSound(new EntityMovingSound(SoundEvents.bladebarrier, SoundCategory.NEUTRAL, e.getEntity(), true, 0, 1, 1));
+				Minecraft.getInstance().getSoundHandler().play(new EntityMovingSound(SoundEvents.bladebarrier, SoundCategory.NEUTRAL, e.getEntity(), true, 0, 1, 1));
 			} else if (e.getEntity() instanceof EntitySpellImplosion) {
-				Minecraft.getInstance().getSoundHandler().playSound(new EntityMovingSound(SoundEvents.implosion, SoundCategory.NEUTRAL, e.getEntity(), false, 0, 1, 1));
+				Minecraft.getInstance().getSoundHandler().play(new EntityMovingSound(SoundEvents.implosion, SoundCategory.NEUTRAL, e.getEntity(), false, 0, 1, 1));
 			} else if (e.getEntity() instanceof ProjectileNimbusRay) {
-				Minecraft.getInstance().getSoundHandler().playSound(new EntityMovingSound(SoundEvents.cast, SoundCategory.NEUTRAL, e.getEntity(), false, 0, 1, 1));
+				Minecraft.getInstance().getSoundHandler().play(new EntityMovingSound(SoundEvents.cast, SoundCategory.NEUTRAL, e.getEntity(), false, 0, 1, 1));
 			}
 		}
 	}

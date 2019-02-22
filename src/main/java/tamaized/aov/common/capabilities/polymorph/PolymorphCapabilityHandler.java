@@ -168,7 +168,7 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 						}
 						wolves.add(wolf);
 						world.spawnEntity(wolf);
-						world.playSound(null, wolf.getPosition(), SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1.0F, wolf.getRNG().nextFloat() + 0.5F);
+						world.play(null, wolf.getPosition(), SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1.0F, wolf.getRNG().nextFloat() + 0.5F);
 						continue loop;
 					}
 				}

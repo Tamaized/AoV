@@ -115,7 +115,7 @@ public class Polymorph extends AbilityBase {
 				caster.getRNG().nextFloat() * 0.20F + 0.95F :
 
 				caster.getRNG().nextFloat() * 0.75F + 0.25F;
-		caster.world.playSound(null, caster.posX, caster.posY, caster.posZ, type.sound, SoundCategory.PLAYERS, type == IPolymorphCapability.Morph.ArchAngel ? 1F : 0.5F, pitch);
+		caster.world.play(null, caster.posX, caster.posY, caster.posZ, type.sound, SoundCategory.PLAYERS, type == IPolymorphCapability.Morph.ArchAngel ? 1F : 0.5F, pitch);
 		return cooldown;
 	}
 
