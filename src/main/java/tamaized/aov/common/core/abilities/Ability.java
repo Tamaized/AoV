@@ -190,7 +190,7 @@ public final class Ability {
 			cooldown--;
 		if (decay > 0 && tick % (20 * 20) == 0)
 			decay--;
-		if (ability.getMaxCharges() >= 0 && ConfigHandler.recharge >= 0 && charges < (ability.getMaxCharges() + cap.getExtraCharges(caster, this)) && tick % ConfigHandler.recharge == 0)
+		if (ability.getMaxCharges() >= 0 && AoV.config.recharge.get() >= 0 && charges < (ability.getMaxCharges() + cap.getExtraCharges(caster, this)) && tick % AoV.config.recharge.get() == 0)
 			charges++;
 		if (tick % 20 == 0 && timer > 0)
 			timer--;

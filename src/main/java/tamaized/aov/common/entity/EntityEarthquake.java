@@ -56,13 +56,13 @@ public class EntityEarthquake extends Entity {
 	@SuppressWarnings("deprecation")
 	private static IBlockState checkDestruction(String check) {
 		int index = 0;
-		for (String compare : ConfigHandler.EARTHQUAKE.destruction) {
+		for (String compare : AoV.config.EARTHQUAKE.destruction.get()) {
 			index++;
 			for (String c : compare.split("\\|"))
 				if (c.equalsIgnoreCase(check)) {
-					if (index >= ConfigHandler.EARTHQUAKE.destruction.length)
+					if (index >= AoV.config.EARTHQUAKE.destruction.length.get())
 						return Blocks.AIR.getDefaultState();
-					String[] next = ConfigHandler.EARTHQUAKE.destruction[index].split("\\|")[0].split(":");
+					String[] next = AoV.config.EARTHQUAKE.destruction.get()[index].split("\\|")[0].split(":");
 					if (next.length < 2)
 						next = new String[]{"minecraft", next[0]};
 					Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(next[0], next[1]));
@@ -103,7 +103,7 @@ public class EntityEarthquake extends Entity {
 			}
 			if ((ticksExisted % 3 == 0 || ticksExisted % 15 == 0 || ticksExisted % 35 == 0) && rand.nextBoolean())
 				world.play(null, posX, posY, posZ, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.PLAYERS, 2.0F, rand.nextFloat() * 0.65F + (rand.nextBoolean() ? 0.75F : 0.1F));
-			if (ConfigHandler.EARTHQUAKE.enable && ticksExisted % ConfigHandler.EARTHQUAKE.ticks == 0 && rand.nextInt(ConfigHandler.EARTHQUAKE.chance) == 0) {
+			if (AoV.config.EARTHQUAKE.enable.get() && ticksExisted % AoV.config.EARTHQUAKE.ticks.get() == 0 && rand.nextInt(AoV.config.EARTHQUAKE.chance.get()) == 0) {
 				final int radius = 2;
 				List<BlockPos> positions = Lists.newArrayList(BlockPos.getAllInBox(new BlockPos(posX - radius, posY - 1, posZ - radius), new BlockPos(posX + radius, posY, posZ + radius)));
 				IBlockState newState = null;

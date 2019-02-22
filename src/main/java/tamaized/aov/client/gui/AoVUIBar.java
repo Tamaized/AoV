@@ -27,12 +27,12 @@ public class AoVUIBar {
 
 	@SubscribeEvent
 	public static void disableHotbar(RenderGameOverlayEvent e) {
-		if (ConfigHandler.renderBarOverHotbar && e.getType() == RenderGameOverlayEvent.ElementType.HOTBAR && ClientProxy.barToggle)
+		if (AoV.config.renderBarOverHotbar.get() && e.getType() == RenderGameOverlayEvent.ElementType.HOTBAR && ClientProxy.barToggle)
 			e.setCanceled(true);
 	}
 
 	public static void render(Gui gui, int xpos, int ypos) {
-		if (ConfigHandler.renderBarOverHotbar && !ClientProxy.barToggle)
+		if (AoV.config.renderBarOverHotbar.get() && !ClientProxy.barToggle)
 			return;
 		if (mc.player == null || !mc.player.hasCapability(CapabilityList.AOV, null))
 			return;
@@ -42,7 +42,7 @@ public class AoVUIBar {
 		GlStateManager.pushMatrix();
 		{
 			MainWindow sr = mc.mainWindow;
-			if (ConfigHandler.renderBarOverHotbar) {
+			if (AoV.config.renderBarOverHotbar.get()) {
 				xpos = 0;
 				ypos = 0;
 				GlStateManager.translated(0, sr.getScaledHeight() - 23, 0);

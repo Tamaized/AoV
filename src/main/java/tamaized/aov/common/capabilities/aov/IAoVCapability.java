@@ -51,11 +51,11 @@ public interface IAoVCapability {
 	static boolean isCentered(EntityLivingBase entity, IAoVCapability cap) {
 		if (entity != null && cap != null && cap.hasSkill(AoVSkills.druid_core_1)) {
 			for (ItemStack stack : entity.getArmorInventoryList())
-				if (!stack.isEmpty() && !ItemStackWrapper.compare(ConfigHandler.CENTERED_WEAR, stack))
+				if (!stack.isEmpty() && !ItemStackWrapper.compare(AoV.config.CENTERED_WEAR.get(), stack))
 					return false;
-			if (!entity.getHeldItemMainhand().isEmpty() && !ItemStackWrapper.compare(ConfigHandler.CENTERED_WEAR, entity.getHeldItemMainhand()))
+			if (!entity.getHeldItemMainhand().isEmpty() && !ItemStackWrapper.compare(AoV.config.CENTERED_WEAR.get(), entity.getHeldItemMainhand()))
 				return !entity.getHeldItemMainhand().getAttributeModifiers(EntityEquipmentSlot.MAINHAND).containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
-			return entity.getHeldItemOffhand().isEmpty() || ItemStackWrapper.compare(ConfigHandler.CENTERED_WEAR, entity.getHeldItemOffhand()) || !entity.getHeldItemOffhand().getAttributeModifiers(EntityEquipmentSlot.OFFHAND).containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
+			return entity.getHeldItemOffhand().isEmpty() || ItemStackWrapper.compare(AoV.config.CENTERED_WEAR.get(), entity.getHeldItemOffhand()) || !entity.getHeldItemOffhand().getAttributeModifiers(EntityEquipmentSlot.OFFHAND).containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
 		}
 		return false;
 	}

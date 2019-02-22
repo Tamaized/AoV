@@ -167,37 +167,37 @@ public class AoVOverlay extends Gui {
 			if (ClientProxy.barToggle) {
 				GlStateManager.pushMatrix();
 				{
-					if (ConfigHandler.renderBarOverHotbar)
+					if (AoV.config.renderBarOverHotbar.get())
 						GlStateManager.translated(0, sr.getScaledHeight() - 23, 0);
 					for (int i = 0; i < 9; i++) {
 						float x = sW - 90F + (20F * (float) i);
 						float y = ClientTicker.charges.getValue(i);
 						float partialTicks = (mc.isGamePaused() ? 0 : e.getPartialTicks()) * AoVUIBar.slotLoc == i ? 1 : -1;
-						if (ConfigHandler.renderBarOverHotbar || ConfigHandler.renderChargesAboveSpellbar) {
+						if (AoV.config.renderBarOverHotbar.get() || AoV.config.renderChargesAboveSpellbar.get()) {
 							y = 1F - y - partialTicks;
 							y = MathHelper.clamp(y, -15F, 1F);
 						} else {
 							y = 1F + y + partialTicks;
 							y = MathHelper.clamp(y, 1F, 15F);
 						}
-						renderCharges(x + (ConfigHandler.renderBarOverHotbar ? 0 : ConfigHandler.ELEMENT_POSITIONS.spellbar_x), y + (ConfigHandler.renderBarOverHotbar ? 0 : ConfigHandler.ELEMENT_POSITIONS.spellbar_y), fontRender, cap, i);
+						renderCharges(x + (AoV.config.renderBarOverHotbar.get() ? 0 : AoV.config.ELEMENT_POSITIONS.spellbar_x.get()), y + (AoV.config.renderBarOverHotbar.get() ? 0 : AoV.config.ELEMENT_POSITIONS.spellbar_y.get()), fontRender, cap, i);
 					}
 				}
 				GlStateManager.popMatrix();
 			}
 
-			AoVUIBar.render(this, ConfigHandler.ELEMENT_POSITIONS.spellbar_x, ConfigHandler.ELEMENT_POSITIONS.spellbar_y);
+			AoVUIBar.render(this, AoV.config.ELEMENT_POSITIONS.spellbar_x.get(), AoV.config.ELEMENT_POSITIONS.spellbar_y.get());
 			if (cap.getCoreSkill() == AoVSkills.astro_core_1)
 				renderAstro(mc.player, sr);
 			Entity target = ClientProxy.getTarget() != null ? ClientProxy.getTarget() : ClientHelpers.getTargetOverMouse(mc, 128);
-			if (ConfigHandler.renderTarget && target instanceof EntityLivingBase)
+			if (AoV.config.renderTarget.get() && target instanceof EntityLivingBase)
 				renderTarget((EntityLivingBase) target);
 		}
 	}
 
 	@SubscribeEvent
 	public void render(TickEvent.RenderTickEvent e) {
-		if (ConfigHandler.EARTHQUAKE.shake && e.phase == TickEvent.Phase.START && mc.world != null) {
+		if (AoV.config.EARTHQUAKE.shake.get() && e.phase == TickEvent.Phase.START && mc.world != null) {
 			for (Entity entity : mc.world.loadedEntityList) {
 				if (entity instanceof EntityEarthquake) {
 					float intense = (float) (1F - entity.getDistanceSq(Minecraft.getInstance().player) / Math.pow(16, 2));
@@ -214,7 +214,7 @@ public class AoVOverlay extends Gui {
 
 	@SubscribeEvent
 	public void camera(EntityViewRenderEvent.CameraSetup e) {
-		if (!mc.isGamePaused() && ConfigHandler.EARTHQUAKE.shake && intensity > 0) {
+		if (!mc.isGamePaused() && AoV.config.EARTHQUAKE.shake.get() && intensity > 0) {
 			e.setYaw(e.getYaw() + (rand.nextFloat() * 2F - 1F) * intensity);
 			e.setPitch(e.getPitch() + (rand.nextFloat() * 2F - 1F) * intensity);
 			e.setRoll(e.getRoll() + (rand.nextFloat() * 2F - 1F) * intensity);
@@ -334,7 +334,7 @@ public class AoVOverlay extends Gui {
 		int w = 20;
 		int h = 20;
 		drawRect(x, y, x + w, y + h, (!cap.canUseAbility(ability) || (ability.isOnCooldown(cap) && !ability.getAbility().canUseOnCooldown(cap, mc.player))) ? 0x77FF0000 : 0x7700BBFF);
-		drawCenteredStringNoShadow(fontRender, String.valueOf(val), x + 10, y + (ConfigHandler.renderBarOverHotbar || ConfigHandler.renderChargesAboveSpellbar ? 3 : 10), 0x000000);
+		drawCenteredStringNoShadow(fontRender, String.valueOf(val), x + 10, y + (AoV.config.renderBarOverHotbar.get() || AoV.config.renderChargesAboveSpellbar.get() ? 3 : 10), 0x000000);
 	}
 
 	private void drawCenteredStringNoShadow(FontRenderer fontRendererIn, String text, float x, float y, int color) {
@@ -347,7 +347,7 @@ public class AoVOverlay extends Gui {
 		IAstroCapability cap = CapabilityList.getCap(player, CapabilityList.ASTRO);
 		if (cap == null)
 			return;
-		if (!ConfigHandler.renderAstro && cap.getDraw() == null && cap.getBurn() == null && cap.getSpread() == null)
+		if (!AoV.config.renderAstro.get() && cap.getDraw() == null && cap.getBurn() == null && cap.getSpread() == null)
 			return;
 		GlStateManager.pushMatrix();
 		{
@@ -362,8 +362,8 @@ public class AoVOverlay extends Gui {
 			float x = sr.getScaledWidth() * 2F / 3F;
 			float y = sr.getScaledHeight() / 5F;
 
-			x += ConfigHandler.ELEMENT_POSITIONS.astro_x;
-			y += ConfigHandler.ELEMENT_POSITIONS.astro_y;
+			x += AoV.config.ELEMENT_POSITIONS.astro_x.get();
+			y += AoV.config.ELEMENT_POSITIONS.astro_y.get();
 
 			float scale = 0.35F;
 			buffer.pos(x, y + 143F * scale, 0).tex(0, 0.5F).endVertex();
@@ -407,7 +407,7 @@ public class AoVOverlay extends Gui {
 		buffer.pos(x, y, 0).tex(0.5F + (0.08F + xOffset), 0 + yOffset).endVertex();
 		buffer.pos(x, y + 286F * scale, 0).tex(0.5F + (0.08F + xOffset), 0.5F + yOffset).endVertex();
 		buffer.pos(x + 80F * scale, y + 286F * scale, 0).tex(0.5F + xOffset, 0.5F + yOffset).endVertex();
-		if (ConfigHandler.renderRoyalRoad) {
+		if (AoV.config.renderRoyalRoad.get()) {
 			GlStateManager.pushMatrix();
 			drawCenteredString(mc.fontRenderer, I18n.format("aov.astro.burn." + index), (int) x - 16, (int) y, index == 0 ? 0x00AAFF : index == 1 ? 0x00FFAA : 0xFFDD88);
 			GlStateManager.popMatrix();
@@ -419,8 +419,8 @@ public class AoVOverlay extends Gui {
 	private void renderTarget(EntityLivingBase target) {
 		GlStateManager.pushMatrix();
 		{
-			double x = 10 + ConfigHandler.ELEMENT_POSITIONS.target_x;
-			double y = 150 + ConfigHandler.ELEMENT_POSITIONS.target_y;
+			double x = 10 + AoV.config.ELEMENT_POSITIONS.target_x.get();
+			double y = 150 + AoV.config.ELEMENT_POSITIONS.target_y.get();
 			double w = 100;
 			double h = 41;
 
@@ -435,7 +435,7 @@ public class AoVOverlay extends Gui {
 				float r = 1F;
 				float g = 1F;
 				float b = 1F;
-				float a = ConfigHandler.targetOpacity;
+				float a = AoV.config.targetOpacity.get();
 
 				buffer.pos(x + w, y, 0).tex(1, 0).color(r, g, b, a).endVertex();
 				buffer.pos(x, y, 0).tex(0, 0).color(r, g, b, a).endVertex();

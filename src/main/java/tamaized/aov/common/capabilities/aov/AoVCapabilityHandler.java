@@ -61,7 +61,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	private List<AoVSkill> obtainedSkills = new ArrayList<>();
 	private int skillPoints = 1;
 	private int exp = 0;
-	private int maxLevel = ConfigHandler.maxlevel;
+	private int maxLevel = AoV.config.maxlevel.get();
 	private boolean invokeMass = false;
 	private Ability[] slots = new Ability[]{null, null, null, null, null, null, null, null, null};
 	private List<Ability> abilities = new ArrayList<>();
@@ -113,7 +113,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			obtainedSkills.clear();
 			skillPoints = 1;
 			exp = 0;
-			maxLevel = ConfigHandler.maxlevel;
+			maxLevel = AoV.config.maxlevel.get();
 			decay.clear();
 		} else {
 			AoVSkill core = getCoreSkill();
@@ -200,7 +200,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 
 	private void updateValues(@Nullable EntityPlayer player) {
 		IAstroCapability astro = CapabilityList.getCap(player, CapabilityList.ASTRO);
-		maxLevel = ConfigHandler.maxlevel;
+		maxLevel = AoV.config.maxlevel.get();
 		skillPoints = getLevel();
 		spellpower = 0;
 		extraCharges = 0;

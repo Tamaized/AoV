@@ -79,7 +79,7 @@ public class AoVCapabilityStorage implements IStorage<IAoVCapability> {
 			instance.setDecayMap(decay);
 		instance.setSkillPoints(compound.getInteger("skillPoints"));
 		instance.setExp(compound.getInteger("exp"));
-		instance.setMaxLevel(ConfigHandler.maxlevel);//compound.getInteger("maxLevel")); TODO
+		instance.setMaxLevel(AoV.config.maxlevel.get());//compound.getInteger("maxLevel")); TODO
 		instance.toggleInvokeMass(compound.getBoolean("invokeMass"));
 		instance.update(null);
 		tag = compound.getTag("abilities");
