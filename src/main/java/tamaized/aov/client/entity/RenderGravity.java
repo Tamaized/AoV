@@ -122,7 +122,7 @@ public class RenderGravity<T extends EntityGravity> extends Render<T> {
 		GlStateManager.disableCull();
 		GlStateManager.disableLighting();
 		GlStateManager.enableBlend();
-		GlStateManager.disableDepth();
+		GlStateManager.disableDepthTest();
 		float alpha = entity.spinnyBoi >= 600 ? (entity.spinnyBoi - 600F) / 420F : 0F;
 		GlStateManager.color4f(0.5F, 0.5F, 0.5F, 1F - alpha);
 		GlStateManager.translated(x + 0.5F, y + 5.0F, z + 0.5F);
@@ -148,7 +148,7 @@ public class RenderGravity<T extends EntityGravity> extends Render<T> {
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 		GlStateManager.popMatrix();
 		GlStateManager.color4f(1, 1, 1, 1);
-		GlStateManager.enableDepth();
+		GlStateManager.enableDepthTest();
 		GlStateManager.disableBlend();
 		GlStateManager.enableLighting();
 		GlStateManager.enableCull();

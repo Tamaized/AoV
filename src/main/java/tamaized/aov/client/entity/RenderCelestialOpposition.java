@@ -53,9 +53,9 @@ public class RenderCelestialOpposition<T extends EntityCelestialOpposition> exte
 
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 		GlStateManager.color4f(0, 0.6F, 1, 1F - entity.ticksExisted / 100F);
-		GlStateManager.disableDepth();
+		GlStateManager.disableDepthTest();
 		tess.draw();
-		GlStateManager.enableDepth();
+		GlStateManager.enableDepthTest();
 
 		GlStateManager.color4f(1, 1, 1, 1);
 		GlStateManager.enableCull();

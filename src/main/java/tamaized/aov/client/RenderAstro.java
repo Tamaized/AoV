@@ -56,9 +56,9 @@ public class RenderAstro {
 		buf.pos(0, 1, 0).tex(0, 1).endVertex();
 
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-		GlStateManager.disableDepth();
+		GlStateManager.disableDepthTest();
 		tess.draw();
-		GlStateManager.enableDepth();
+		GlStateManager.enableDepthTest();
 
 		GlStateManager.color4f(1, 1, 1, 1);
 		GlStateManager.enableCull();
