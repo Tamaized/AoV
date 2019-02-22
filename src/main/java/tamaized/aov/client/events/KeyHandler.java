@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -24,7 +25,7 @@ import tamaized.aov.proxy.ClientProxy;
 
 import java.util.List;
 
-@Mod.EventBusSubscriber(modid = AoV.MODID, value = Side.CLIENT)
+@Mod.EventBusSubscriber(modid = AoV.MODID, value = Dist.CLIENT)
 public class KeyHandler {
 
 	public static final String CATEGORY_AOV = "key.categories.aov";

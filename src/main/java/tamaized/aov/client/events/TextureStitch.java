@@ -6,7 +6,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import tamaized.aov.AoV;
 
-@Mod.EventBusSubscriber(modid = AoV.MODID, value = Side.CLIENT)
+@Mod.EventBusSubscriber(modid = AoV.MODID, value = Dist.CLIENT)
 public class TextureStitch {
 
 	public static final ResourceLocation HEART = new ResourceLocation(AoV.MODID, "particle/heart");

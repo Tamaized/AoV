@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import tamaized.aov.AoV;
 
 // TODO: TamModized
-@Mod.EventBusSubscriber(modid = AoV.MODID, value = Side.CLIENT)
+@Mod.EventBusSubscriber(modid = AoV.MODID, value = Dist.CLIENT)
 public class DebugHelper {
 
 	private static String textClient = "";

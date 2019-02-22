@@ -13,7 +13,7 @@ import org.lwjgl.opengl.GL11;
 import tamaized.aov.AoV;
 import tamaized.aov.proxy.ClientProxy;
 
-@Mod.EventBusSubscriber(modid = AoV.MODID, value = Side.CLIENT)
+@Mod.EventBusSubscriber(modid = AoV.MODID, value = Dist.CLIENT)
 public class RenderLivingHook {
 
 	@SubscribeEvent

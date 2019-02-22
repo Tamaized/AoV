@@ -17,7 +17,7 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.astro.AstroCapabilityHandler;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
 
-@Mod.EventBusSubscriber(modid = AoV.MODID, value = Side.CLIENT)
+@Mod.EventBusSubscriber(modid = AoV.MODID, value = Dist.CLIENT)
 public class RenderAstro {
 
 	private static final ResourceLocation TEXTURE_CARDS = new ResourceLocation(AoV.MODID, "textures/entity/cards.png");

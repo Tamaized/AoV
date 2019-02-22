@@ -17,7 +17,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import tamaized.aov.AoV;
 import tamaized.aov.client.gui.AdjustElementsGUI;
 
-@Mod.EventBusSubscriber(value = Side.CLIENT, modid = AoV.MODID)
+@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = AoV.MODID)
 public class ConfigButtonHandler {
 
 	private static final IConfigElement CONFIG_ELEMENT = new DummyConfigElement.DummyCategoryElement(I18n.format("aov.config.repositionelements.name"), "aov.config.repositionelements", Lists.newArrayList());
