@@ -380,7 +380,7 @@ public class RenderPlayer {
 				EnumHand enumhand = MoreObjects.firstNonNull(player.swingingHand, EnumHand.MAIN_HAND);
 				float f3 = enumhand == e.getHand() ? f : 0.0F;
 				float f1 = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * e.getPartialTicks();
-				mc.getItemRenderer().renderItemInFirstPerson(player, e.getPartialTicks(), f1, e.getHand(), f3, ItemStack.EMPTY, 0F);
+				mc.getFirstPersonRenderer().renderItemInFirstPerson(player, e.getPartialTicks(), f1, e.getHand(), f3, ItemStack.EMPTY, 0F);
 				e.setCanceled(true);
 			}
 		}
@@ -388,7 +388,7 @@ public class RenderPlayer {
 
 	public void renderRightArm(AbstractClientPlayer clientPlayer) {
 		float f = 1.0F;
-		GlStateManager.color4f(f, f, f);
+		GlStateManager.color3f(f, f, f);
 		float f1 = 0.0625F;
 		GlStateManager.enableBlend();
 		GlStateManager.pushMatrix();
@@ -436,7 +436,7 @@ public class RenderPlayer {
 
 			GlStateManager.rotatef(f * 90, 0.0F, 0.0F, 1.0F);
 		} else {
-			String s = TextFormatting.getTextWithoutFormattingCodes(entityLiving.getName());
+			String s = TextFormatting.getTextWithoutFormattingCodes(entityLiving.getName().getString());
 
 			if (s != null && ("Dinnerbone".equals(s) || "Grumm".equals(s)) && (!(entityLiving instanceof EntityPlayer) || ((EntityPlayer) entityLiving).isWearing(EnumPlayerModelParts.CAPE))) {
 				GlStateManager.translated(0.0F, entityLiving.height + 0.1F, 0.0F);

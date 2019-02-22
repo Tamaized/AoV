@@ -12,35 +12,35 @@ public class ModelPolymorphWolf extends ModelBase {
 	/**
 	 * main box for the wolf head
 	 */
-	private final ModelRenderer wolfHeadMain;
+	public final ModelRenderer wolfHeadMain;
 	/**
 	 * The wolf's body
 	 */
-	private final ModelRenderer wolfBody;
+	public final ModelRenderer wolfBody;
 	/**
 	 * Wolf'se first leg
 	 */
-	private final ModelRenderer wolfLeg1;
+	public final ModelRenderer wolfLeg1;
 	/**
 	 * Wolf's second leg
 	 */
-	private final ModelRenderer wolfLeg2;
+	public final ModelRenderer wolfLeg2;
 	/**
 	 * Wolf's third leg
 	 */
-	private final ModelRenderer wolfLeg3;
+	public final ModelRenderer wolfLeg3;
 	/**
 	 * Wolf's fourth leg
 	 */
-	private final ModelRenderer wolfLeg4;
+	public final ModelRenderer wolfLeg4;
 	/**
 	 * The wolf's tail
 	 */
-	private final ModelRenderer wolfTail;
+	public final ModelRenderer wolfTail;
 	/**
 	 * The wolf's mane
 	 */
-	private final ModelRenderer wolfMane;
+	public final ModelRenderer wolfMane;
 
 
 	public ModelPolymorphWolf() {
@@ -84,7 +84,7 @@ public class ModelPolymorphWolf extends ModelBase {
 			this.wolfHeadMain.renderWithRotation(scale);
 			GlStateManager.popMatrix();
 			GlStateManager.pushMatrix();
-			GlStateManager.scaleff(0.5F, 0.5F, 0.5F);
+			GlStateManager.scalef(0.5F, 0.5F, 0.5F);
 			GlStateManager.translatef(0.0F, 24.0F * scale, 0.0F);
 			this.wolfBody.render(scale);
 			this.wolfLeg1.render(scale);
