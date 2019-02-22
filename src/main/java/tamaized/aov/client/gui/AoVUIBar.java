@@ -41,7 +41,7 @@ public class AoVUIBar {
 			return;
 		GlStateManager.pushMatrix();
 		{
-			ScaledResolution sr = new ScaledResolution(mc);
+			MainWindow sr = mc.mainWindow;
 			if (ConfigHandler.renderBarOverHotbar) {
 				xpos = 0;
 				ypos = 0;

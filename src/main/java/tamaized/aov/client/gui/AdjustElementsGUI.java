@@ -1,5 +1,6 @@
 package tamaized.aov.client.gui;
 
+import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.ScaledResolution;
@@ -39,7 +40,7 @@ public class AdjustElementsGUI extends GuiScreenClose {
 	@Override
 	public void initGui() {
 		super.initGui();
-		ScaledResolution sr = new ScaledResolution(mc);
+		MainWindow sr = mc.mainWindow;
 		addButton(new Element(ELEMENT_SPELLBAR, (sr.getScaledWidth() / 2) - 91, 1, ConfigHandler.ELEMENT_POSITIONS.spellbar_x, ConfigHandler.ELEMENT_POSITIONS.spellbar_y, 182, 22, 0x00FFFF, ""));
 		addButton(new Element(ELEMENT_ASTRO, sr.getScaledWidth() * 2 / 3, sr.getScaledHeight() / 5 - 8, ConfigHandler.ELEMENT_POSITIONS.astro_x, ConfigHandler.ELEMENT_POSITIONS.astro_y, (int) (235F * 0.35F), (int) (143F * 0.35F) + 8, 0x00FFFF, ""));
 		addButton(new Element(ELEMENT_TARGET, 10, 150, ConfigHandler.ELEMENT_POSITIONS.target_x, ConfigHandler.ELEMENT_POSITIONS.target_y, 100, 41, 0x00FFFF, ""));
@@ -116,7 +117,7 @@ public class AdjustElementsGUI extends GuiScreenClose {
 		final int ypos = ConfigHandler.ELEMENT_POSITIONS.spellbar_y;
 		GlStateManager.pushMatrix();
 		{
-			ScaledResolution sr = new ScaledResolution(mc);
+			MainWindow sr = mc.mainWindow;
 			if (ConfigHandler.renderBarOverHotbar)
 				GlStateManager.translated(0, sr.getScaledHeight() - 23, 0);
 			float alpha = 0.2f;
@@ -142,7 +143,7 @@ public class AdjustElementsGUI extends GuiScreenClose {
 			BufferBuilder buffer = tess.getBuffer();
 			buffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 
-			ScaledResolution sr = new ScaledResolution(mc);
+			MainWindow sr = mc.mainWindow;
 			float x = sr.getScaledWidth() * 2 / 3;
 			float y = sr.getScaledHeight() / 5;
 

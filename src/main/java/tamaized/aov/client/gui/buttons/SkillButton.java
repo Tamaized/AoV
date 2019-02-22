@@ -70,7 +70,8 @@ public class SkillButton extends GuiButton {
 	}
 
 	@Override
-	public void drawButton(Minecraft mc, int mouseX, int mouseY, float p_191745_4_) {
+	public void render(int mouseX, int mouseY, float p_191745_4_) {
+		Minecraft mc = Minecraft.getInstance();
 		if (visible) {
 			FontRenderer fontrenderer = mc.fontRenderer;
 			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -80,12 +81,12 @@ public class SkillButton extends GuiButton {
 			GlStateManager.blendFuncSeparate(770, 771, 1, 0);
 			GlStateManager.blendFunc(770, 771);
 			// drawRect(x + width / 2, y, width / 2, height, 0xFFFFFFFF);
-			mouseDragged(mc, mouseX, mouseY);
+//			mouseDragged(mc, mouseX, mouseY); TODO
 			int j = 0xBBFFFFFF;
 
-			if (packedFGColour != 0) {
+			/*if (packedFGColour != 0) { TODO
 				// j = packedFGColour;
-			} else if (!enabled) {
+			} else */if (!enabled) {
 				j = 0xFF888888;
 			} else if (hovered) {
 				j = 0xFFFFFFFF;

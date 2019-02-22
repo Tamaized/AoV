@@ -138,7 +138,7 @@ public class AoVOverlay extends Gui {
 					float g = isWater ? 0.15F : 0.6F;
 					float b = isWater ? 0F : 1F;
 					float a = MathHelper.clamp(((float) ClientTicker.dangerBiomeTicks + (mc.isGamePaused() ? 0 : e.getPartialTicks())) / (float) ClientTicker.dangerBiomeMaxTick, 0F, 1F);
-					ScaledResolution resolution = new ScaledResolution(mc);
+					MainWindow resolution = mc.mainWindow;
 					Tessellator tessellator = Tessellator.getInstance();
 					BufferBuilder buffer = tessellator.getBuffer();
 					buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
@@ -160,7 +160,7 @@ public class AoVOverlay extends Gui {
 			return;
 		IAoVCapability cap = CapabilityList.getCap(mc.player, CapabilityList.AOV);
 		FontRenderer fontRender = mc.fontRenderer;
-		ScaledResolution sr = new ScaledResolution(mc);
+		MainWindow sr = mc.mainWindow;
 		float sW = (float) sr.getScaledWidth() / 2F;
 
 		if (cap != null && cap.hasCoreSkill()) {
@@ -235,7 +235,7 @@ public class AoVOverlay extends Gui {
 			Minecraft.getInstance().textureManager.bindTexture(TEXTURE_ELEMENTALS);
 			Tessellator tess = Tessellator.getInstance();
 			BufferBuilder buffer = tess.getBuffer();
-			ScaledResolution resolution = new ScaledResolution(mc);
+			MainWindow resolution = mc.mainWindow;
 			float w = resolution.getScaledWidth();
 			float h = resolution.getScaledHeight();
 			float scale = (4F - resolution.getScaleFactor() + 1F) * 32F;
