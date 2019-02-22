@@ -12,6 +12,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.Heightmap;
 import org.lwjgl.opengl.GL11;
 import tamaized.aov.AoV;
 import tamaized.aov.common.entity.EntitySpellLightningStorm;
@@ -131,7 +132,7 @@ public class RenderSpellLightingStorm extends Render<EntitySpellLightningStorm> 
 					double d4 = (double) rainYCoords[i2] * 0.5D;
 					blockpos$mutableblockpos.setPos(x, 0, z);
 
-					int j2 = world.getPrecipitationHeight(blockpos$mutableblockpos).getY();
+					int j2 = world.getHeight(Heightmap.Type.MOTION_BLOCKING, blockpos$mutableblockpos).getY();
 					int k2 = (int) Math.min(storm.posY, j - i1);
 					int l2 = (int) Math.min(storm.posY, j + i1);
 
