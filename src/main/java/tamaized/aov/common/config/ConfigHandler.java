@@ -1,5 +1,6 @@
 package tamaized.aov.common.config;
 
+import com.electronwill.nightconfig.core.utils.ConfigWrapper;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import net.minecraft.init.Items;
@@ -21,6 +22,8 @@ import java.util.Set;
 
 @Mod.EventBusSubscriber(modid = AoV.MODID)
 public class ConfigHandler {
+
+	public ConfigWrapper file;
 
 	public static Set<ItemStackWrapper> CENTERED_WEAR = ImmutableSet.of();
 	public ElementPositions ELEMENT_POSITIONS = new ElementPositions();
@@ -225,8 +228,10 @@ public class ConfigHandler {
 
 	@SubscribeEvent
 	public static void onLoad(final ModConfig.Loading event) {
-		if (event.getConfig().getModId().equals(AoV.MODID))
+		if (event.getConfig().getModId().equals(AoV.MODID)) {
+			AoV.config.file = (ConfigWrapper) event.getConfig().getConfigData();
 			update();
+		}
 	}
 
 	@SubscribeEvent

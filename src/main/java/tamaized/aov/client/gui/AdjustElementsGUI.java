@@ -3,23 +3,14 @@ package tamaized.aov.client.gui;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.config.Config;
-import net.minecraftforge.common.config.ConfigManager;
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import tamaized.aov.AoV;
-import tamaized.aov.common.config.ConfigHandler;
 import tamaized.aov.proxy.ClientProxy;
-
-import javax.annotation.Nonnull;
-import java.io.IOException;
 
 import static tamaized.aov.client.gui.AoVUIBar.slotLoc;
 
@@ -32,25 +23,25 @@ public class AdjustElementsGUI extends GuiScreenClose {
 	private static final int ELEMENT_TARGET = 2;
 
 	private Element heldElement = null;
-	private int oldMouseX;
-	private int oldMouseY;
-	private int oldElementX;
-	private int oldElementY;
+	private double oldMouseX;
+	private double oldMouseY;
+	private double oldElementX;
+	private double oldElementY;
 
 	@Override
 	public void initGui() {
 		super.initGui();
 		MainWindow sr = mc.mainWindow;
-		addButton(new Element(ELEMENT_SPELLBAR, (sr.getScaledWidth() / 2) - 91, 1, AoV.config.ELEMENT_POSITIONS.spellbar_x.get(), AoV.config.ELEMENT_POSITIONS.spellbar_y.get(), 182, 22, 0x00FFFF, ""));
-		addButton(new Element(ELEMENT_ASTRO, sr.getScaledWidth() * 2 / 3, sr.getScaledHeight() / 5 - 8, AoV.config.ELEMENT_POSITIONS.astro_x.get(), AoV.config.ELEMENT_POSITIONS.astro_y.get(), (int) (235F * 0.35F), (int) (143F * 0.35F) + 8, 0x00FFFF, ""));
+		addButton(new Element(ELEMENT_SPELLBAR, (sr.getScaledWidth() / 2F) - 91, 1, AoV.config.ELEMENT_POSITIONS.spellbar_x.get(), AoV.config.ELEMENT_POSITIONS.spellbar_y.get(), 182, 22, 0x00FFFF, ""));
+		addButton(new Element(ELEMENT_ASTRO, sr.getScaledWidth() * 2F / 3F, sr.getScaledHeight() / 5F - 8F, AoV.config.ELEMENT_POSITIONS.astro_x.get(), AoV.config.ELEMENT_POSITIONS.astro_y.get(), (int) (235F * 0.35F), (int) (143F * 0.35F) + 8, 0x00FFFF, ""));
 		addButton(new Element(ELEMENT_TARGET, 10, 150, AoV.config.ELEMENT_POSITIONS.target_x.get(), AoV.config.ELEMENT_POSITIONS.target_y.get(), 100, 41, 0x00FFFF, ""));
 	}
 
 	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+	public boolean mouseClicked(double mouseX, double mouseY, int id) {
 		oldMouseX = mouseX;
 		oldMouseY = mouseY;
-		for (GuiButton button : buttonList) {
+		for (GuiButton button : buttons) {
 			if (button instanceof Element) {
 				Element check = (Element) button;
 				if (mouseX >= check.x + check.defaultX && mouseX <= check.x + check.defaultX + check.width)
@@ -58,28 +49,36 @@ public class AdjustElementsGUI extends GuiScreenClose {
 						heldElement = check;
 						oldElementX = heldElement.x;
 						oldElementY = heldElement.y;
-						break;
+						return true;
 					}
 			}
 		}
+		return false;
 	}
 
 	@Override
-	protected void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
+	public boolean mouseDragged(double mouseX, double mouseY, int p_mouseDragged_5_, double p_mouseDragged_6_, double p_mouseDragged_8_) {
 		if (heldElement != null) {
-			heldElement.x = oldElementX + mouseX - oldMouseX;
-			heldElement.y = oldElementY + mouseY - oldMouseY;
+			heldElement.x = (int) (oldElementX + mouseX - oldMouseX);
+			heldElement.y = (int) (oldElementY + mouseY - oldMouseY);
 			updateValues(heldElement);
+			return true;
 		}
+		return false;
 	}
 
 	@Override
-	protected void mouseReleased(int mouseX, int mouseY, int state) {
-		heldElement = null;
+	public boolean mouseReleased(double p_mouseReleased_1_, double p_mouseReleased_3_, int p_mouseReleased_5_) {
+		if (heldElement != null) {
+			heldElement = null;
+			return true;
+		}
+		return false;
 	}
 
 	private void updateValues(Element element) {
-		switch (element.id) {
+//		AoV.config.file.set(AoV.config.ELEMENT_POSITIONS.spellbar_x.getPath(), );
+		/*switch (element.id) { TODO
 			case ELEMENT_SPELLBAR:
 				ConfigHandler.ELEMENT_POSITIONS.spellbar_x = element.x;
 				ConfigHandler.ELEMENT_POSITIONS.spellbar_y = element.y;
@@ -92,24 +91,24 @@ public class AdjustElementsGUI extends GuiScreenClose {
 				ConfigHandler.ELEMENT_POSITIONS.target_x = element.x;
 				ConfigHandler.ELEMENT_POSITIONS.target_y = element.y;
 				break;
-		}
+		}*/
 	}
 
 	@Override
 	public void onGuiClosed() {
-		ConfigManager.sync(AoV.MODID, Config.Type.INSTANCE);
+		//		ConfigManager.sync(AoV.MODID, Config.Type.INSTANCE); TODO
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+	public void render(int mouseX, int mouseY, float partialTicks) {
 		if (mc.world == null) {
 			drawDefaultBackground();
 			renderSpellBar();
 			renderAstro();
 			renderFocus();
 		}
-		super.drawScreen(mouseX, mouseY, partialTicks);
-		drawString(mc.fontRenderer, I18n.format("aov.repositionelements.exit", Keyboard.getKeyName(mc.gameSettings.keyBindInventory.getKeyCode()), Keyboard.getKeyName(Keyboard.KEY_ESCAPE)), 5, 5, 0xFFFF00);
+		super.render(mouseX, mouseY, partialTicks);
+		//		drawString(mc.fontRenderer, I18n.format("aov.repositionelements.exit", Keyboard.getKeyName(mc.gameSettings.keyBindInventory.getKeyCode()), Keyboard.getKeyName(Keyboard.KEY_ESCAPE)), 5, 5, 0xFFFF00); TODO
 	}
 
 	private void renderSpellBar() {
@@ -144,8 +143,8 @@ public class AdjustElementsGUI extends GuiScreenClose {
 			buffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 
 			MainWindow sr = mc.mainWindow;
-			float x = sr.getScaledWidth() * 2 / 3;
-			float y = sr.getScaledHeight() / 5;
+			float x = sr.getScaledWidth() * 2F / 3F;
+			float y = sr.getScaledHeight() / 5F;
 
 			x += AoV.config.ELEMENT_POSITIONS.astro_x.get();
 			y += AoV.config.ELEMENT_POSITIONS.astro_y.get();
@@ -215,7 +214,7 @@ public class AdjustElementsGUI extends GuiScreenClose {
 		}
 
 		@Override
-		public void drawButton(@Nonnull Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+		public void render(int mouseX, int mouseY, float partialTicks) {
 			GlStateManager.disableTexture2D();
 			GlStateManager.enableBlend();
 			Tessellator tessellator = Tessellator.getInstance();

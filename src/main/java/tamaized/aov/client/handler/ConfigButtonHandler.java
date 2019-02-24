@@ -1,28 +1,19 @@
 package tamaized.aov.client.handler;
 
 import com.google.common.collect.Lists;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
-import net.minecraftforge.client.event.GuiScreenEvent;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.client.config.DummyConfigElement;
-import net.minecraftforge.fml.client.config.GuiConfig;
-import net.minecraftforge.fml.client.config.GuiConfigEntries;
 import net.minecraftforge.fml.client.config.IConfigElement;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.Event;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import tamaized.aov.AoV;
-import tamaized.aov.client.gui.AdjustElementsGUI;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = AoV.MODID)
 public class ConfigButtonHandler {
 
 	private static final IConfigElement CONFIG_ELEMENT = new DummyConfigElement.DummyCategoryElement(I18n.format("aov.config.repositionelements.name"), "aov.config.repositionelements", Lists.newArrayList());
 
-	@SubscribeEvent
+	/*@SubscribeEvent TODO
 	public static void hook(GuiScreenEvent.InitGuiEvent.Post e) {
 		if (e.getGui() instanceof GuiConfig && ((GuiConfig) e.getGui()).modID.equalsIgnoreCase(AoV.MODID)) {
 			GuiConfig gui = (GuiConfig) e.getGui();
@@ -43,6 +34,6 @@ public class ConfigButtonHandler {
 				}
 			});
 		}
-	}
+	}*/
 
 }
