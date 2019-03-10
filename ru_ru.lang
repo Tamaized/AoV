@@ -1,0 +1,459 @@
+#PARSE_ESCAPES
+# Tab
+itemGroup.aov=Ангел Мести
+
+# Commands
+commands.aov.usage=/aov [open | setlevel [level] <player> | reset [minor | full | cooldown] <player>]
+commands.aov.error.level=Level must be a number between 0 and %s
+commands.aov.usage.setlevel=/aov setlevel [level] <player>
+commands.aov.usage.reset=/aov reset [minor | full | cooldown] <player>
+commands.aov.success.level=%s's level was set to %s
+commands.aov.success.reset=Reset Success
+
+# Death
+death.attack.aov.destruction=%s был уничтожен
+death.attack.aov.nimbusray=%s был облучен
+death.attack.aov.cosmic=%s судьба пала звездам
+
+# Potion
+effect.aov.slowfall=Падение Пера
+effect.aov.aid=Помощь
+effect.aov.faith=Щит веры
+effect.aov.zeal=Рвение
+effect.aov.stalwart=Крепкий договор
+effect.aov.balance=Баланс
+effect.aov.ewer=Кувшин
+effect.aov.spear=Гарпун
+effect.aov.spire=Игла
+effect.aov.naturesbounty=Щедрость природы
+effect.aov.coldchill=Заморозка
+
+# Item
+item.aov.debugger.name=Отладчик
+item.aov.handwraps.name=Повязки
+
+# Block
+tile.aov.angelicstatue.name=Неподтвержденная Статуя
+tile.aov.favoredsoulstatue.name=Статуя любимой души
+tile.aov.clericstatue.name=Статуя Священнослужителя
+tile.aov.paladinstatue.name=Статуя Палладина
+tile.aov.astrostatue.name=Статуя Астролога
+tile.aov.druidstatue.name=Статуя Друида
+
+# Entity
+entity.aov.EntityDruidicWolf.name=Друидский Волк
+
+# KeyBinds
+key.categories.aov=Ангел Мести
+key.aov.target=Навести на цель.
+key.aov.bartoggle=Переключить Панель Заклинаний
+key.aov.bar.0=Активировать Слот Заклинания 1
+key.aov.bar.1=Активировать Слот Заклинания 2
+key.aov.bar.2=Активировать Слот Заклинания 3
+key.aov.bar.3=Активировать Слот Заклинания 4
+key.aov.bar.4=Активировать Слот Заклинания 5
+key.aov.bar.5=Активировать Слот Заклинания 6
+key.aov.bar.6=Активировать Слот Заклинания 7
+key.aov.bar.7=Активировать Слот Заклинания 8
+key.aov.bar.8=Активировать Слот Заклинания 9
+
+# GUI
+aov.gui.infinite=Бесконечность
+aov.gui.title.skills=Ангел Мести: Навыки
+aov.gui.skills.points=Очки навыка: %s
+aov.gui.skills.spent=Потрачено: %s из %s
+aov.gui.skills.level=Уровень:
+aov.astro.burn.0=150%% Сила
+aov.astro.burn.1=200%% Продолжительность
+aov.astro.burn.2=50%% Сила + AoE
+
+aov.gui.title.stats=Ангел Мести: Статистика
+aov.gui.stats.max=Максимальный Достигнутый Опыт
+aov.gui.stats.experience=Опыт: %s
+aov.gui.stats.level=Уровень: %s
+aov.gui.stats.charges=Начисление: %s
+aov.gui.stats.spellpower=Сила Заклинаний: %s
+aov.gui.stats.dodge=Уклонения: %s
+aov.gui.stats.doublestrike=Двойной Удар: %s
+
+aov.gui.title.spellbook=Ангел Мести: Книга Заклинаний
+
+aov.gui.title.reset=Сброс навыков Ангела Мести
+aov.gui.reset.full=Полный сброс: вы вернетесь к исходной точке. Это позволяет вам переключать классы, однако вы должны восстановить весь свой опыт.
+aov.gui.reset.minor=Незначительный сброс: вы отменяете все свои навыки, кроме основного. Это позволяет вам изменить свой класс, но вы не можете изменять классы.
+
+aov.gui.button.close=Закрыть
+aov.gui.button.back=Назад
+aov.gui.button.spellbook=Книга Заклинаний
+aov.gui.button.stats=Проверка Статистики
+aov.gui.button.reset=Сброс Навыков
+aov.gui.button.fullreset=Полный Сброс
+aov.gui.button.minorreset=Незначительный Сброс
+
+aov.config.repositionelements.name=Перемещать элементы вручную.
+aov.config.repositionelements.tooltip=Переместите экранную панель заклинаний и элементы Astro, и перетащите с помощью мыши.
+aov.repositionelements.exit=Нажмите %s или %s для сохранения и выхода
+
+# Spells
+aov.spells.global.charges=§bЗаряды %s
+aov.spells.global.range=§bРанг: %s
+aov.spells.global.damage=§bБазовый Урон: %s
+aov.spells.global.healing=§bБазовое Лечение: %s
+aov.spells.global.length=§bДлительность: %s секунд(а)
+aov.spells.global.double=§cЭто также удваивает стоимость и время восстановления.
+
+aov.spells.invokemass.name=§eВызвать массу
+aov.spells.invokemass.desc=§5Во время активности определенные заклинания и способности имеют двойной радиус действия и разыгрываются как AoE (зона действия).
+aov.spells.bladebarrier.name=§eБарьер Клинков
+aov.spells.bladebarrier.desc=§5Призывает кольцо вращающихся клинков, чтобы нанести урон существам, которые входят или выходят из кольца.
+aov.spells.destruction.name=§eУничтожение
+aov.spells.destruction.desc=§5Прямо уничтожает цель. Работает с нежитью, но не с боссами. Если цель имеет более 8 текущих здоровья, то у них есть шанс получить половину урона. Чем больше здоровья, тем больше шансов.
+aov.spells.flamestrike.name=§eУдар Пламени
+aov.spells.flamestrike.desc=§5Призывает огненный шар, чтобы ударить по земле, нанося урон существам вокруг и поджигая их.
+aov.spells.impolsion.name=§eИмплозия
+aov.spells.impolsion.desc=§5Цели вокруг вас начинают взрываться через короткое время, нанося случайное количество урона максимального здоровья цели, масштабируемого силой заклинаний.
+aov.spells.leapoffaith.name=§eПрыжок Веры
+aov.spells.leapoffaith.desc=§5Вы можете прыгать по воздуху, чтобы дать бой своим врагам или пройти через пропасти.
+aov.spells.nimbus.name=§eЛуч Нимба
+aov.spells.nimbus.desc=§5Выпускает небольшой луч света, чтобы нанести урон. Урон нежити удваивается.
+aov.spells.searing.name=§eОпаляющий свет
+aov.spells.searing.desc=§5Стреляет лучом света, чтобы нанести урон. Урон нежити удваивается.
+aov.spells.slayliving.name=§eУбить Живых
+aov.spells.slayliving.desc=§5Уничтожает живую цель. Не влияет на нежить или боссов. Если цель имеет более 4 текущих здоровья, то у них есть шанс получить половину урона. Чем больше здоровья, тем больше шансов.
+aov.spells.orderswrath.name=§eГнев ордена
+aov.spells.orderswrath.desc=§5Призовите законную силу, чтобы нанести ущерб вашим врагам. Оглушает Нежить.
+aov.spells.chaoshammer.name=§eМолот Хаоса
+aov.spells.chaoshammer.desc=§5Призвает Силу Хаоса, чтобы нанести урон вашим противникам. Не оглушает нежить.
+aov.spells.aid.name=§eПомощь
+aov.spells.aid.desc=§5Предоставляет поглощение и бонус +5 к уклонению.
+aov.spells.faith.name=§eЩит Веры
+aov.spells.faith.desc=§5Удваивает сопротивление урону себе или целевой сущности.
+aov.spells.stalwart.name=§eКрепкий договор
+aov.spells.stalwart.desc=§5По достижении половины или менее здоровья вы получаете способности «Поглощение III» и «Регенерация III», которые могут быть наложены на вас или на цель.
+aov.spells.zeal.name=§eРвение
+aov.spells.zeal.desc=§5Обеспечивает +25 двойной удар только себе.
+aov.spells.burst.name=§eВзрыв Положительной Энергии
+aov.spells.burst.desc=§5Исцеляет все вокруг вас, включая вас, и лечит все вредные последствия. Наносит урон нежити.
+aov.spells.posaura.name=§eАура Положительной Энергии
+aov.spells.posaura.desc=§5Создает ауру вокруг себя, чтобы исцелить вас и все вокруг вас в течение определенного периода времени.
+aov.spells.cure.desc=§eЛечит себя или сущность эффекта состояния, если перекрестие над сущностью.
+aov.spells.cureblind.name=§eЛечение Слепоты
+aov.spells.curepoison.name=§eЛечение Отравления
+aov.spells.curewither.name=§eЛечение Иссушения
+aov.spells.curewounds.desc=§5Исцеляет себя или сущность, если перекрестие прицела находится над сущностью.
+aov.spells.curecritwounds.name=§eЛечение Критических Ран
+aov.spells.curelightwounds.name=§eЛечение Легких Ран
+aov.spells.curemodwounds.name=§eЛечение Умеренных Ран
+aov.spells.cureseriouswounds.name=§eЛечение Серьезных Ран
+aov.spells.heal.name=§eИсцеление
+aov.spells.aspectedbenefic.name=§eАспект Благодетель
+aov.spells.aspectedbenefic.desc=§5Одно целевое лечение, которое также дает регенерацию.
+aov.spells.aspectedhelios.name=§eАспект Гелиоса
+aov.spells.aspectedhelios.desc=§5Лечение AoE, которое также дает регенерацию.
+aov.spells.benefic.name=§eБлагодетель
+aov.spells.benefic.desc=§5Исцеление одной цели.
+aov.spells.celestialopposition.name=§eНебесная оппозиция
+aov.spells.celestialopposition.desc=§5Оглушение AoE, которое также дает ближайшим союзникам дополнительные 20 секунд на все их полезные эффекты.
+aov.spells.combust.name=§eВоспламенение
+aov.spells.combust.desc=§5Одна целевая точка (урон со временем), это заклинание не наносит начальный урон.
+aov.spells.draw.name=§eПритягивание
+aov.spells.draw.desc=§5Тянет одну из шести случайных карт, используйте эту способность снова, чтобы активировать свою текущую карту.
+aov.spells.essentialdignity.name=§eОсновные достоинства
+aov.spells.essentialdignity.desc=§5Быстрое восстановление цели с длительным временем восстановления.
+aov.spells.gravity.name=§eСила тяжести
+aov.spells.gravity.desc=§5Заклинание урона AoE (область действия), которое наносит на 10%%  меньше при каждом попадании в цель. (Не меньше 50%%)
+aov.spells.helios.name=§eГелиос
+aov.spells.helios.desc=§5AoE (область действия) излечивает.
+aov.spells.malefic.name=§eМалефик
+aov.spells.malefic.desc=§5Атака с низким уроном, которая будет искать цели.
+aov.spells.redraw.name=§eПерерисовка
+aov.spells.redraw.desc=§5Сбрасывает вашу текущую карту и снова тянет.
+aov.spells.royalroad.name=§eКоролевская дорога
+aov.spells.royalroad.desc=§5Сжигает вашу текущую карту, чтобы расширить возможности следующего.
+aov.spells.spread.name=§eРаспространение
+aov.spells.spread.desc=§5Перемещает текущую карту в спред, который можно использовать в более позднее время.
+aov.spells.timedilation.name=§eЗамедление Времени
+aov.spells.timedilation.desc=§5Одна целевая способность, которая удваивает длительность всех полезных эффектов.
+aov.spells.polymorph.wolf.name=§eДикая форма: Волк
+aov.spells.polymorph.wolf.desc=§5Превращает пользователя в волка.\n\nВ то время как в форме волка вы больше не можете использовать предметы или блоки, ваш правый щелчок превращается в «прыжок», который запускает вас в нужном вам направлении, а также повреждает все, на что вы приземлились .\n\nВы больше не можете произносить заклинания, если не указано иное.\n\n Вместо того, чтобы есть руками, вы едите пищу с земли, что также дает небольшой эффект регенерации\n\n+15 двойной удар\n+10 ловкость.
+aov.spells.furiousclaw.name=§eБешеный Коготь
+aov.spells.furiousclaw.desc=§5Может использоваться только в форме волка
+aov.spells.druidregenerate.name=§eДруидский Регенерат
+aov.spells.druidregenerate.desc=§5Создает небольшой эффект регенерации вокруг заклинателя.
+aov.spells.litstrike.name=§eУдар молнии
+aov.spells.litstrike.desc=§5Наносит Удар Молнии в целевую область
+aov.spells.furiousfang.name=§eЯростный клык
+aov.spells.furiousfang.desc=§5Можно использовать только в форме волка
+aov.spells.naturesbounty.name=§eЩедрость природы
+aov.spells.naturesbounty.desc=§5По достижении половины или менее здоровья вы получаете регенерацию III на 10 секунд.
+aov.spells.earthquake.name=§eЗемлетрясение
+aov.spells.earthquake.desc=§5Создает землетрясение на целевой земле, нанося урон и замедляя врагов, которые проходят через него, а также разрушая местность вокруг него.
+aov.spells.furioushowl.name=§eЯростный вой
+aov.spells.furioushowl.desc=§5Вы выпускаете пронзительный вой, повреждая врагов поблизости.
+aov.spells.polymorph.water.name=§eДикая Форма: Элементаль Воды
+aov.spells.polymorph.water.desc=§5Превращает пользователя в Элементаля Воды.\n\nНочью вы получаете 20 единиц заклинаний, в течение дня вы теряете 20 единиц заклинаний.\n\nВ воде вы получаете регенерацию.\nВ Лаве или Огне вы наносите невероятно больше урона .\n\nВ то время как в Горячих биомах вы медленно получаете урон, a в Холодных биомах вы медленно восстанавливаете здоровье.\n\nВы становитесь невосприимчивыми к медлительности, иссушению  и яду.
+aov.spells.polymorph.fire.name=§eДикая Форма: Элементаль Огня
+aov.spells.polymorph.fire.desc=§5Превращает пользователя в Элементаль Огня.\n\nНочью вы теряете 20 силы заклинаний, в течение дня вы получаете 20 сил заклинаний.\n\nВ Лаве или Огне вы получаете регенерацию. \nВ воде вы наносите невероятно больше урона .\n\nВ то время как в холодных биомах вы медленно получаете урон, a в горячих биомах вы медленно восстанавливаете здоровье.\n\nВы становитесь невосприимчивыми к замедлению, иссушению и отравлению.
+aov.spells.litstorm.name=§eГрозовой шторм
+aov.spells.litstorm.desc=§5Создает облако над целевой областью, поражающей врагов ниже ударом молнии. Урон зависит от силы заклинаний.
+aov.spells.formpack.name=§eПризыв волков
+aov.spells.formpack.desc=§5Призывает волков сражаться на вашей стороне. Не может призвать более 5 волков одновременно. Их урон зависит от вашей силы заклинаний.
+aov.spells.elementalempowerment.name=§eПолномочия Стихий
+aov.spells.elementalempowerment.desc=§5Можно использовать только в огненной или водной стихии. Изменения эффекта в зависимости от вашей формы. \n\nЭлементаль Огня: Генерирует длительную ауру тепла, которая наносит урон от огня ближайшим врагам, масштабируется с силой заклинаний.\n\nЭлементаль Воды: Создает длительную холодную ауру, которая замедляет и наносит холодный урон врагам, поражающим заклинателя, масштабируется с силой заклинаний.
+aov.spells.polymorph.archangelic.name=§eArch-Angelic Form
+aov.spells.polymorph.archangelic.desc=§5На 2 минуты вы становитесь маяком света.\n\nВы получаете 75 единиц силы заклинаний и 25 уклонений.\n\nВы получаете способность к полету.\n\nВы становитесь невосприимчивыми к замедлению, иссушению и отравлению, и можете дышать под водой бесконечно долго.
+
+# Skills TODO: [.req] is unused, remove at some point
+aov.skill.global.core=§cПолучение этого навыка мешает вам брать навыки из любого другого класса!
+aov.skill.global.minlevel=§cТребуется: Уровень %s
+aov.skill.global.minpoint=§cТребуется: %s Остальные поинты в древе
+aov.skill.global.parent=§cТребуется: %s
+aov.skill.global.charge=§a+%s затрат
+aov.skill.global.spellpower=§a+%s Сила заклинаний
+aov.skill.global.dodge=§a+%s Ловкость
+aov.skill.global.doublestrike=§a+%s Двойной удар
+aov.skill.global.selective.name=§bВыборочный Фокус
+aov.skill.global.selective.desc=§5Ваши заклинания больше не влияют на монстров, если они извлекают выгоду из заклинания или дружественных игроков/существ, если они пострадают от заклинания.
+aov.skill.global.invoke.name=§bМассовый Вызов
+aov.skill.global.invoke.desc=§eДобавлена способность: Массовый вызов\nПри использовании этой способности,  ваши заклинания стоят вдвое дороже, но их можно применить как AoE (область применения)
+
+## Любимая Душа
+### Core
+aov.skill.favoredsoul.core.1.name=§bКлассовое ядро: Любимая Душа
+aov.skill.favoredsoul.core.1.desc=§eДобавлено заклинание: Луч Нимба
+aov.skill.favoredsoul.core.2.name=§bЯдро 2: Любимая Душа
+aov.skill.favoredsoul.core.2.req=§cТребуется: Классовое ядро Любимая Душа
+aov.skill.favoredsoul.core.3.name=§bЯдро 3: Любимая Душа
+aov.skill.favoredsoul.core.3.req=§cТребуется: Классовое ядро Любимая Душа 2
+aov.skill.favoredsoul.core.3.desc=§eДобавлено заклинание: Удар Пламени
+aov.skill.favoredsoul.core.4.name=§bЯдро 4: Любимая Душа
+aov.skill.favoredsoul.core.4.req=§cТребуется: Классовое ядро Любимая Душа 3
+aov.skill.favoredsoul.core.4.desc=§eДобавлено заклинание: Барьер Клинков
+aov.skill.favoredsoul.core.5.name=§bВысшее: Любимая Душа
+aov.skill.favoredsoul.core.5.desc=§eДобавлено заклинание: Архангельская форма
+aov.skill.favoredsoul.core.5.req=§cТребуется: Классовое ядро Любимая Душа 4
+### T1
+aov.skill.favoredsoul.tier1.1.name=§bОпаляющий свет
+aov.skill.favoredsoul.tier1.1.desc=§eДобавлено заклинание: Опаляющий свет
+aov.skill.favoredsoul.tier1.3.name=§bСила заклинаний I
+aov.skill.favoredsoul.tier1.5.name=§bЛечение легких ран
+aov.skill.favoredsoul.tier1.5.desc=§eДобавлено заклинание: Лечение легких ран
+### T2
+aov.skill.favoredsoul.tier2.1.name=§bГнев ордена
+aov.skill.favoredsoul.tier2.1.desc=§eДобавлено заклинание: Гнев ордена
+aov.skill.favoredsoul.tier2.1.req=§cТребуется: Опаляющий свет
+aov.skill.favoredsoul.tier2.2.name=§bЗаряды I
+aov.skill.favoredsoul.tier2.3.name=§bСила заклинаний II
+aov.skill.favoredsoul.tier2.3.req=§cТребуется: Сила заклинаний I
+### T3
+aov.skill.favoredsoul.tier3.1.name=§bМолот Хаоса
+aov.skill.favoredsoul.tier3.1.desc=§eДобавлено заклинание: Молот Хаоса
+aov.skill.favoredsoul.tier3.1.req=§cТребуется: Убить Живых
+aov.skill.favoredsoul.tier3.2.name=§bЗаряды II
+aov.skill.favoredsoul.tier3.2.req=§cТребуется: Заряды I
+aov.skill.favoredsoul.tier3.3.name=§bСила заклинаний III
+aov.skill.favoredsoul.tier3.3.req=§cТребуется: Сила Заклинаний II
+aov.skill.favoredsoul.tier3.5.name=§bВылечить Умеренные Раны
+aov.skill.favoredsoul.tier3.5.desc=§eДобавлена Возможность: Вылечить Умеренные Раны
+### T4
+aov.skill.favoredsoul.tier4.1.name=§bИмплозия
+aov.skill.favoredsoul.tier4.1.desc=§eДобавлено Заклинание: Имплозия
+aov.skill.favoredsoul.tier4.1.req=§cТребуется: Уничтожение
+aov.skill.favoredsoul.tier4.3.name=§bСила заклинаний IV
+aov.skill.favoredsoul.tier4.3.req=§cТребуется: Сила Заклинаний III
+aov.skill.favoredsoul.tier4.4.name=§bПрыжок Веры
+aov.skill.favoredsoul.tier4.4.desc=§eДобавлено Заклинание: Прыжок Веры
+
+## Священник
+### Core
+aov.skill.cleric.core.1.name=§bКлассовое ядро: Клирик
+aov.skill.cleric.core.1.desc=§eДобавлено заклинание: Лечение легких ран
+aov.skill.cleric.core.2.name=§bКлирик 2
+aov.skill.cleric.core.2.req=§cТребуется: Классовое ядро Клирик
+aov.skill.cleric.core.3.name=§bКлирик 3
+aov.skill.cleric.core.3.req=§cТребуется: Классовое ядро Клирик 2
+aov.skill.cleric.core.3.desc=§eДобавлено заклинание: Взрыв позитивной энергии
+aov.skill.cleric.core.4.name=§bКлирик 4
+aov.skill.cleric.core.4.req=§cТребуется: Классовое ядро Клирик 3
+aov.skill.cleric.core.4.desc=§eДобавлено заклинание: Позитивная энергетическая аура
+aov.skill.cleric.core.5.name=§bВысшее: Клирик
+aov.skill.cleric.core.5.req=§cТребуется: Классовое ядро Клирик 4
+### T1
+aov.skill.cleric.tier1.1.name=§bВылечить умеренные раны
+aov.skill.cleric.tier1.1.desc=§eДобавлено заклинание: Вылечить умеренные раны
+aov.skill.cleric.tier1.2.name=§bЛечение Отравления
+aov.skill.cleric.tier1.2.desc=§eДобавлено заклинание: Лечение Отравления
+aov.skill.cleric.tier1.3.name=§bЛечение Отравления I
+### T2
+aov.skill.cleric.tier2.1.name=§bВылечить серьезные раны
+aov.skill.cleric.tier2.1.desc=§eДобавлено заклинание: Вылечить серьезные раны
+aov.skill.cleric.tier2.1.req=§cТребуется: Вылечить серьезные раны
+aov.skill.cleric.tier2.2.name=§bЛечение Иссушения
+aov.skill.cleric.tier2.2.desc=§eДобавлено заклинание: Лечение Иссушения
+aov.skill.cleric.tier2.2.req=§cТребуется: Лечение Отравления
+aov.skill.cleric.tier2.3.name=§bЛечение Отравления II
+aov.skill.cleric.tier2.3.req=§cТребуется: Сила Заклинаний I
+aov.skill.cleric.tier2.4.name=§bВылечить Слепоту
+aov.skill.cleric.tier2.4.desc=§eДобавлено Заклинание: Вылечить Слепоту
+### T3
+aov.skill.cleric.tier3.1.name=§bВылечить Критические Раны
+aov.skill.cleric.tier3.1.desc=§eДобавлено заклинание: Вылечить Критические Раны
+aov.skill.cleric.tier3.1.req=§cТребуется: Лечение серьезных ран
+aov.skill.cleric.tier3.2.name=§bЗаряды I
+aov.skill.cleric.tier3.3.name=§bЛечение Отравления III
+aov.skill.cleric.tier3.3.req=§cТребуется: Сила заклинаний II
+### T4
+aov.skill.cleric.tier4.1.name=§bЛечение
+aov.skill.cleric.tier4.1.desc=§eДобавлено заклинание: Лечение
+aov.skill.cleric.tier4.1.req=§cТребуется: Вылечить Критические Раны
+aov.skill.cleric.tier4.2.name=§bЗаряды II
+aov.skill.cleric.tier4.2.req=§cТребуется: Заряды I
+aov.skill.cleric.tier4.3.name=§bЛечение Отравления IV
+aov.skill.cleric.tier4.3.req=§cТребуется: Сила Заклинаний III
+aov.skill.cleric.tier4.4.name=§b
+
+## Паладин
+### Core
+aov.skill.paladin.core.1.name=§bПаладин
+aov.skill.paladin.core.2.name=§bПаладин 2
+aov.skill.paladin.core.2.req=§cТребуется: Паладин
+aov.skill.paladin.core.3.name=§bПаладин 3
+aov.skill.paladin.core.3.req=§cТребуется: Паладин 2
+aov.skill.paladin.core.3.desc=§eПока у вас есть щит, вы не получаете больше откидывания.
+aov.skill.paladin.core.4.name=§bПаладин 4
+aov.skill.paladin.core.4.req=§cТребуется: Паладин 3
+aov.skill.paladin.core.4.desc=§eYou are now able to block all angles with your shield, not just in front of you.
+aov.skill.paladin.core.5.name=§bВысшее: Паладин
+aov.skill.paladin.core.5.desc=§eЩиты, которые вы экипировали, если повреждены, будут полностью отремонтированы
+aov.skill.paladin.core.5.req=§cТребуется: Паладин 4
+### T1
+aov.skill.paladin.tier1.1.name=§bПомощь
+aov.skill.paladin.tier1.1.desc=§eДобавлено заклинание: Помощь
+aov.skill.paladin.tier1.3.name=§bЛовкость I
+### T2
+aov.skill.paladin.tier2.1.name=§bЩит Веры
+aov.skill.paladin.tier2.1.desc=§eДобавлено заклинание: Щит Веры
+aov.skill.paladin.tier2.1.req=§cТребуется: Помощь
+aov.skill.paladin.tier2.3.name=§bЛовкость II
+aov.skill.paladin.tier2.3.req=§cТребуется: Ловкость I
+aov.skill.paladin.tier2.4.name=§bДвойной Удар I
+### T3
+aov.skill.paladin.tier3.1.name=§bРвение
+aov.skill.paladin.tier3.1.desc=§eДобавлено заклинание: Рвение
+aov.skill.paladin.tier3.1.req=§cТребуется: Щит Веры
+aov.skill.paladin.tier3.3.name=§bЛовкость III
+aov.skill.paladin.tier3.3.req=§cТребуется: Ловкость II
+aov.skill.paladin.tier3.4.name=§bДвойной Удар II
+aov.skill.paladin.tier3.4.req=§cТребуется: Двойной Удар I
+### T4
+aov.skill.paladin.tier4.1.name=§bКрепкий Договор
+aov.skill.paladin.tier4.1.desc=§eДобавлено заклинание: Крепкий Договор
+aov.skill.paladin.tier4.1.req=§cТребуется: Рвение
+aov.skill.paladin.tier4.2.name=§bЖизнеспособность
+aov.skill.paladin.tier4.2.desc=§eВы получаете 5 дополнительных сердец максимального здоровья, держа щит в своей руке.
+aov.skill.paladin.tier4.3.name=§bЛовкость IV
+aov.skill.paladin.tier4.3.req=§cТребуется: Ловкость III
+
+## Астролог
+### Core
+aov.skill.astro.core.1.name=§bАстролог
+aov.skill.astro.core.1.desc=§eДобавлена способность: Притягивать
+aov.skill.astro.core.2.name=§Астролог 2
+aov.skill.astro.core.2.req=§cТребуется: Астролог
+aov.skill.astro.core.2.desc=§eДобавлена возможность: Королевская дорога
+aov.skill.astro.core.3.name=§Aстролог 3
+aov.skill.astro.core.3.req=§cТребуется: Aстролог 2
+aov.skill.astro.core.3.desc=§eДобавленная Способность: Распространение
+aov.skill.astro.core.4.name=§Aстролог 4
+aov.skill.astro.core.4.req=§cТребуется: Aстролог 3
+aov.skill.astro.core.4.desc=§eДобавлена способность: Перерисовать
+aov.skill.astro.core.5.name=§bВысший: Aстролог
+aov.skill.astro.core.5.req=§cТребуется: Aстролог 4
+aov.skill.astro.core.5.desc=§eДобавлена способность: Замедление Времени
+### T1
+aov.skill.astro.tier1.1.name=§bMалефик
+aov.skill.astro.tier1.1.desc=§eДобавлено заклинание: Mалефик
+aov.skill.astro.tier1.3.name=§bСила заклинаний I
+aov.skill.astro.tier1.5.name=§bБлагодетель
+aov.skill.astro.tier1.5.desc=§eДобавлено заклинание: Благодетель
+### T2
+aov.skill.astro.tier2.1.name=§bВоспламенение
+aov.skill.astro.tier2.1.req=§cТребуется: Maлефик
+aov.skill.astro.tier2.1.desc=§eДобавлено заклинание: Сжигание
+aov.skill.astro.tier2.3.name=§bСила Заклинаний II
+aov.skill.astro.tier2.3.req=§cТребуется: Сила Заклинаний I
+aov.skill.astro.tier2.4.name=§bОсновные достоинства
+aov.skill.astro.tier2.4.desc=§eДобавлено заклинание: Основные достоинства
+aov.skill.astro.tier2.5.name=§bГелиос
+aov.skill.astro.tier2.5.req=§cТребуется: Благодетель
+aov.skill.astro.tier2.5.desc=§eДобавлено заклинание: Гелиос
+### T3
+aov.skill.astro.tier3.1.name=§bСила тяжести
+aov.skill.astro.tier3.1.req=§cТребуется: Воспламенение
+aov.skill.astro.tier3.1.desc=§eДобавлено заклинание: Сила тяжести
+aov.skill.astro.tier3.2.name=§bЗаряды I
+aov.skill.astro.tier3.3.name=§bСила Заклинаний III
+aov.skill.astro.tier3.3.req=§cТребуется: Сила Заклинаний II
+aov.skill.astro.tier3.5.name=§bAспект Благодетеля
+aov.skill.astro.tier3.5.req=§cТребуется: Гелиос
+aov.skill.astro.tier3.5.desc=§eДобавлено заклинание: Aspected Benefic
+### T4
+aov.skill.astro.tier4.1.name=§bCelestial Opposition
+aov.skill.astro.tier4.1.req=§cRequires: Сила тяжести
+aov.skill.astro.tier4.1.desc=§eДобавлено заклинание: Aспект Благодетеля
+aov.skill.astro.tier4.2.name=§bЗаряды II
+aov.skill.astro.tier4.2.req=§cТребуется: Заряды I
+aov.skill.astro.tier4.3.name=§bСила Заклинаний IV
+aov.skill.astro.tier4.3.req=§cТребуется: Сила Заклинаний III
+aov.skill.astro.tier4.5.name=§bАспект Гелиоса
+aov.skill.astro.tier4.5.req=§cТребуется: Aспект Благодетеля
+aov.skill.astro.tier4.5.desc=§eДобавлено заклинание: Аспект Гелиоса
+
+## Друид
+### Core
+aov.skill.druid.core.1.name=§bДруид
+aov.skill.druid.core.1.desc=§eВы получаете Сосредоточенность:\nИспользуя только деревянные, кожаные или без инструментов/оружия/доспехов, вы становитесь Сосредоточенным\n\nВо время Сосредотачивания вы получаете Половину Сердца, +1 Увертывание, +1 Двойной Удар и +5 к силе заклинаний за уровень.
+aov.skill.druid.core.2.name=§bДруид 2
+aov.skill.druid.core.2.desc=§eДобавлено заклинание: Дикая форма (волк)
+aov.skill.druid.core.3.name=§bДруид 3
+aov.skill.druid.core.3.desc=§eВы получаете Уклонение:\nПри концентрации вы получаете +25 к уклонению.
+aov.skill.druid.core.4.name=§bДруид 4
+aov.skill.druid.core.4.desc=§eВы получаете Улучшенную концентрацию:\nАтаки наносят +1 дополнительный урон за уровень, ваша атака в форме волка идет намного дальше. Способности получают двойные заряды и силу.
+aov.skill.druid.core.5.name=§bВысший: Друид
+aov.skill.druid.core.5.desc=§eВы получаете «Улучшенное уклонение»:\nВ дальнейшем улучшается способность «Уклонение», дающая +50 к уклонению вместо +25.
+### T1
+aov.skill.druid.tier1.1.name=§bЛечение легких ран
+aov.skill.druid.tier1.1.desc=§eДобавлено заклинание: Лечение легких ран
+aov.skill.druid.tier1.2.name=§bПуть Зверя I
+aov.skill.druid.tier1.2.desc=§cСпособности «Путь зверя» работают только в форме волка.\n\n§eДобавленная способность: Яростный коготь
+aov.skill.druid.tier1.3.name=§bУклонение I
+aov.skill.druid.tier1.4.name=§bПуть Духа I
+aov.skill.druid.tier1.4.desc=§eДобавлена способность: Друидическая регенерация
+aov.skill.druid.tier1.5.name=§bУдар молнии
+aov.skill.druid.tier1.5.desc=§eДобавлена способность: Удар молнии
+### T2
+aov.skill.druid.tier2.2.name=§bПуть Зверя II
+aov.skill.druid.tier2.2.desc=§eДобавлена способность: Яростный Клык
+aov.skill.druid.tier2.3.name=§bУклонение II
+aov.skill.druid.tier2.4.name=§bПуть Духа II
+aov.skill.druid.tier2.4.desc=§eДобавлена способность: Щедрость природы
+aov.skill.druid.tier2.5.name=§bЗемлетрясение
+aov.skill.druid.tier2.5.desc=§eДобавлена способность: Землетрясение
+### T3
+aov.skill.druid.tier3.1.name=§bВылечить умеренные раны
+aov.skill.druid.tier3.1.desc=§eДобавлена способность: Cure Moderate Wounds
+aov.skill.druid.tier3.2.name=§bПуть Зверя III
+aov.skill.druid.tier3.2.desc=§eДобавлена способность: Яростный вой
+aov.skill.druid.tier3.3.name=§bУклонение III
+aov.skill.druid.tier3.4.name=§bПуть Духа III
+aov.skill.druid.tier3.4.desc=§eДобавлена способность: Дикая Форма (Элементаль Воды)
+aov.skill.druid.tier3.5.name=§bГрозовой шторм
+aov.skill.druid.tier3.5.desc=§eДобавлена способность: Грозовой шторм
+### T4
+aov.skill.druid.tier4.2.name=§bПуть Зверя IV
+aov.skill.druid.tier4.2.desc=§eДобавлена способность: Form Pack
+aov.skill.druid.tier4.3.name=§bУклонение IV
+aov.skill.druid.tier4.4.name=§bПуть Духа IV
+aov.skill.druid.tier4.4.desc=§eДобавлена способность: Wild Shape (Fire Elemental)
+aov.skill.druid.tier4.5.name=§bСтихийные полномочия
+aov.skill.druid.tier4.5.desc=§eДобавлена способность: Стихийные полномочия
