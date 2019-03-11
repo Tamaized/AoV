@@ -10,6 +10,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -51,7 +52,57 @@ public class TickHandler {
 	}
 
 	@SubscribeEvent
-	public static void update(PlayerTickEvent e) {
+	public static void updateLiving(LivingEvent.LivingUpdateEvent e) {
+		EntityLivingBase living = e.getEntityLiving();
+		IPolymorphCapability poly = CapabilityList.getCap(living, CapabilityList.POLYMORPH);
+		if (poly != null && (poly.getMorph() == IPolymorphCapability.Morph.WaterElemental || poly.getMorph() == IPolymorphCapability.Morph.FireElemental || poly.getMorph() == IPolymorphCapability.Morph.ArchAngel))
+			for (Potion potion : IPolymorphCapability.ELEMENTAL_IMMUNITY_EFFECTS)
+				living.removePotionEffect(potion);
+		if (living.world.isRemote)
+			spawnSlowfallParticles(living);
+		else {
+			EntityPlayer player = living instanceof EntityPlayer ? (EntityPlayer) living : null;
+			if (player != null)
+				if (poly != null && poly.getMorph() == IPolymorphCapability.Morph.ArchAngel) {
+					player.abilities.allowFlying = true;
+					player.sendPlayerAbilities();
+					if (!FLYING.contains(player.getUniqueID()))
+						FLYING.add(player.getUniqueID());
+				} else if (FLYING.remove(player.getUniqueID())) {
+					player.abilities.allowFlying = false;
+					player.sendPlayerAbilities();
+				} else if (!player.isCreative() && !player.isSpectator() && !player.abilities.allowFlying) { // This will run one tick later so we can detect if other mods enable flight
+					player.abilities.disableDamage = false;
+					player.abilities.isFlying = false;
+					player.sendPlayerAbilities();
+				}
+			ILeapCapability cap = CapabilityList.getCap(living, CapabilityList.LEAP);
+			PotionEffect pot = living.getActivePotionEffect(AoVPotions.slowFall);
+			if (pot == null || cap == null)
+				return;
+			if (living.ticksExisted % 20 == 0)
+				cap.setLeapDuration(pot.getDuration());
+		}
+	}
+
+	@SubscribeEvent
+	public static void updateEntity(TickEvent.WorldTickEvent e) {
+		if (e.phase == TickEvent.Phase.START)
+			return;
+		List<Entity> list = Lists.newArrayList(e.world.loadedEntityList);
+		for (Entity entity : list) {
+			if (!(entity instanceof EntityLivingBase))
+				continue;
+			if (entity.removed)
+				continue;
+			IStunCapability cap = CapabilityList.getCap(entity, CapabilityList.STUN);
+			if (cap != null)
+				cap.update((EntityLivingBase) entity);
+		}
+	}
+
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void update(PlayerTickEvent e) {
 		if (e.phase == TickEvent.Phase.START)
 			return;
 		EntityPlayer player = e.player;
@@ -85,56 +136,6 @@ public class TickHandler {
 			IPolymorphCapability cap = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
 			if (cap != null)
 				cap.update(player);
-		}
-	}
-
-	@SubscribeEvent
-	public static void updateLiving(LivingEvent.LivingUpdateEvent e) {
-		EntityLivingBase living = e.getEntityLiving();
-		IPolymorphCapability poly = CapabilityList.getCap(living, CapabilityList.POLYMORPH);
-		if (poly != null && (poly.getMorph() == IPolymorphCapability.Morph.WaterElemental || poly.getMorph() == IPolymorphCapability.Morph.FireElemental || poly.getMorph() == IPolymorphCapability.Morph.ArchAngel))
-			for (Potion potion : IPolymorphCapability.ELEMENTAL_IMMUNITY_EFFECTS)
-				living.removePotionEffect(potion);
-		if (living.world.isRemote)
-			spawnSlowfallParticles(living);
-		else {
-			EntityPlayer player = living instanceof EntityPlayer ? (EntityPlayer) living : null;
-			if (player != null)
-				if (poly != null && poly.getMorph() == IPolymorphCapability.Morph.ArchAngel) {
-					player.abilities.allowFlying = true;
-					player.sendPlayerAbilities();
-					if (!FLYING.contains(player.getUniqueID()))
-						FLYING.add(player.getUniqueID());
-				} else if (FLYING.remove(player.getUniqueID())) {
-					player.abilities.allowFlying = false;
-					player.sendPlayerAbilities();
-				} else if (!player.isCreative() && !player.isSpectatorMode() && !player.abilities.allowFlying) { // This will run one tick later so we can detect if other mods enable flight
-					player.abilities.disableDamage = false;
-					player.abilities.isFlying = false;
-					player.sendPlayerAbilities();
-				}
-			ILeapCapability cap = CapabilityList.getCap(living, CapabilityList.LEAP);
-			PotionEffect pot = living.getActivePotionEffect(AoVPotions.slowFall);
-			if (pot == null || cap == null)
-				return;
-			if (living.ticksExisted % 20 == 0)
-				cap.setLeapDuration(pot.getDuration());
-		}
-	}
-
-	@SubscribeEvent
-	public static void updateEntity(TickEvent.WorldTickEvent e) {
-		if (e.phase == TickEvent.Phase.START)
-			return;
-		List<Entity> list = Lists.newArrayList(e.world.loadedEntityList);
-		for (Entity entity : list) {
-			if (!(entity instanceof EntityLivingBase))
-				continue;
-			if (entity.removed)
-				continue;
-			IStunCapability cap = CapabilityList.getCap(entity, CapabilityList.STUN);
-			if (cap != null)
-				cap.update((EntityLivingBase) entity);
 		}
 	}
 
