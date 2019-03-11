@@ -35,6 +35,10 @@ public class ConfigHandler {
 	@Config.Comment("Sets the maximum level")
 	public static int maxlevel = 15;
 
+	@Config.Name("Speedy Handwraps")
+	@Config.Comment("Handwraps add +6 to base attack speed")
+	public static boolean handwrapsSpeed = true;
+
 	@Config.Name("Recharge Delay")
 	@Config.Comment("Sets the recharge rate per tick, -1 disables this")
 	public static int recharge = -1;
