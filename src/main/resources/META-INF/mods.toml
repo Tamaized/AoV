@@ -1,0 +1,12 @@
+modLoader="javafml"
+loaderVersion="[25,)"
+issueTrackerURL="https://github.com/Tamaized/AoV/issues"
+[[mods]]
+modId="aov"
+version="${version}"
+displayName="Angel of Vengeance"
+credits=""
+authors="Tamaized"
+description='''
+A Healing based magic mod
+'''
