@@ -23,14 +23,14 @@ import java.util.Set;
 @Mod.EventBusSubscriber(modid = AoV.MODID)
 public class ConfigHandler {
 
-	public ConfigWrapper file;
-
 	public static Set<ItemStackWrapper> CENTERED_WEAR = ImmutableSet.of();
+	public ConfigWrapper file;
 	public ElementPositions ELEMENT_POSITIONS = new ElementPositions();
 	public Earthquake EARTHQUAKE = new Earthquake();
 	public ForgeConfigSpec.IntValue maxlevel;
 	public ForgeConfigSpec.ConfigValue<Integer> recharge;
 	public ForgeConfigSpec.BooleanValue experience;
+	public ForgeConfigSpec.BooleanValue handwrapsSpeed;
 	public ForgeConfigSpec.BooleanValue renderBarOverHotbar;
 	public ForgeConfigSpec.BooleanValue renderChargesAboveSpellbar;
 	public ForgeConfigSpec.BooleanValue renderAstro;
@@ -132,6 +132,10 @@ public class ConfigHandler {
 					translation("Enable Vanilla Experience gain").
 					comment("Determines whether or not vanilla experience contributes to AoV experience gain").
 					define("experience", false);
+			handwrapsSpeed = builder.
+					translation("Speedy Handwraps").
+					comment("Handwraps add +6 to base attack speed").
+					define("handwrapsSpeed", true);
 			renderBarOverHotbar = builder.
 					translation("Render SpellBar Over HotBar").
 					comment("Sets the Spellbar to render in place of the hotbar while active.").
