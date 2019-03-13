@@ -74,6 +74,7 @@ public class NetworkMessages {
 				}
 				break;
 			}
+			context.get().setPacketHandled(true);
 		}
 
 		void handle(EntityPlayer player);

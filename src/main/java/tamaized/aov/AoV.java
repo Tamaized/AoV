@@ -56,17 +56,12 @@ public class AoV {
 	public static final Logger LOGGER = LogManager.getLogger("AoV");
 	public static CommonProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> CommonProxy::new);
 	public static ConfigHandler config;
-	public static SimpleChannel network = NetworkRegistry.ChannelBuilder
-
-			.named(new ResourceLocation(MODID, MODID))
-
-			.clientAcceptedVersions("1"::equals)
-
-			.serverAcceptedVersions("1"::equals)
-
-			.networkProtocolVersion(() -> "1")
-
-			.simpleChannel();
+	public static SimpleChannel network = NetworkRegistry.ChannelBuilder.
+			named(new ResourceLocation(MODID, MODID)).
+			clientAcceptedVersions(s -> true).
+			serverAcceptedVersions(s -> true).
+			networkProtocolVersion(() -> "1").
+			simpleChannel();
 
 	static {
 		new AoVTabs();
