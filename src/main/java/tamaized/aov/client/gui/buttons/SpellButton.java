@@ -32,12 +32,12 @@ public class SpellButton extends GuiButton {
 			GlStateManager.blendFuncSeparate(770, 771, 1, 0);
 			GlStateManager.blendFunc(770, 771);
 			// drawRect(x + width / 2, y, width / 2, height, 0xFFFFFFFF);
-//			mouseDragged(mc, mouseX, mouseY); TODO
+			mouseDragged(mouseX, mouseY, 0, mouseX, mouseY);
 			int j = 0xBBFFFFFF;
 
-			/*if (packedFGColour != 0) { TODO
-				// j = packedFGColour;
-			} else */if (!enabled) {
+			if (packedFGColor != 0) {
+				j = packedFGColor;
+			} else if (!enabled) {
 				j = 0xFF888888;
 			} else if (hovered) {
 				j = 0xFFFFFFFF;

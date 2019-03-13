@@ -16,6 +16,7 @@ import tamaized.aov.network.client.ClientPacketHandlerLeap;
 import tamaized.aov.network.client.ClientPacketHandlerMovingSound;
 import tamaized.aov.network.client.ClientPacketHandlerParticle;
 import tamaized.aov.network.client.ClientPacketHandlerParticleMesh;
+import tamaized.aov.network.client.ClientPacketHandlerPlayerMotion;
 import tamaized.aov.network.client.ClientPacketHandlerPolymorphDogAttack;
 import tamaized.aov.network.client.ClientPacketHandlerStunned;
 import tamaized.aov.network.server.ServerPacketHandlerPolymorphDogAttack;
@@ -31,17 +32,18 @@ public class NetworkMessages {
 		registerMessage(network, ServerPacketHandlerSpellSkill.class, IMessage.Side.SERVER);
 		registerMessage(network, ServerPacketHandlerPolymorphDogAttack.class, IMessage.Side.SERVER);
 
-		registerMessage(network, ClientPacketHandlerAoVData.class, IMessage.Dist.CLIENT);
-		registerMessage(network, ClientPacketHandlerAstroData.class, IMessage.Dist.CLIENT);
-		registerMessage(network, ClientPacketHandlerAstroAnimation.class, IMessage.Dist.CLIENT);
-		registerMessage(network, ClientPacketHandlerMovingSound.class, IMessage.Dist.CLIENT);
-		registerMessage(network, ClientPacketHandlerStunned.class, IMessage.Dist.CLIENT);
-		registerMessage(network, ClientPacketHandlerParticleMesh.class, IMessage.Dist.CLIENT);
-		registerMessage(network, ClientPacketHandlerLeap.class, IMessage.Dist.CLIENT);
-		registerMessage(network, ClientPacketHandlerPolymorphDogAttack.class, IMessage.Dist.CLIENT);
-		registerMessage(network, ClientPacketHandlerParticle.class, IMessage.Dist.CLIENT);
-		registerMessage(network, ClientPacketHandlerAoVSimpleData.class, IMessage.Dist.CLIENT);
-		registerMessage(network, ClientPacketHandlerFloatyText.class, IMessage.Dist.CLIENT);
+		registerMessage(network, ClientPacketHandlerAoVData.class, IMessage.Side.CLIENT);
+		registerMessage(network, ClientPacketHandlerAstroData.class, IMessage.Side.CLIENT);
+		registerMessage(network, ClientPacketHandlerAstroAnimation.class, IMessage.Side.CLIENT);
+		registerMessage(network, ClientPacketHandlerMovingSound.class, IMessage.Side.CLIENT);
+		registerMessage(network, ClientPacketHandlerStunned.class, IMessage.Side.CLIENT);
+		registerMessage(network, ClientPacketHandlerParticleMesh.class, IMessage.Side.CLIENT);
+		registerMessage(network, ClientPacketHandlerLeap.class, IMessage.Side.CLIENT);
+		registerMessage(network, ClientPacketHandlerPolymorphDogAttack.class, IMessage.Side.CLIENT);
+		registerMessage(network, ClientPacketHandlerParticle.class, IMessage.Side.CLIENT);
+		registerMessage(network, ClientPacketHandlerAoVSimpleData.class, IMessage.Side.CLIENT);
+		registerMessage(network, ClientPacketHandlerFloatyText.class, IMessage.Side.CLIENT);
+		registerMessage(network, ClientPacketHandlerPlayerMotion.class, IMessage.Side.CLIENT);
 	}
 
 	private static <M extends IMessage<M>> void registerMessage(SimpleChannel network, Class<M> type, IMessage.Side side) {

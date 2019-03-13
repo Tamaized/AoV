@@ -9,6 +9,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -107,7 +109,7 @@ public class FuriousHowl extends AbilityBase {
 				aov.addExp(caster, 20, this);
 		}
 		for (int i = 0; i < 3; i++)
-			caster.world.play(null, caster.posX, caster.posY, caster.posZ, SoundEvents.ENTITY_WOLF_GROWL, SoundCategory.PLAYERS, 0.5F, caster.getRNG().nextFloat() * 0.75F + 0.25F);
+			caster.world.playSound(null, caster.posX, caster.posY, caster.posZ, SoundEvents.ENTITY_WOLF_GROWL, SoundCategory.PLAYERS, 0.5F, caster.getRNG().nextFloat() * 0.75F + 0.25F);
 		return true;
 	}
 

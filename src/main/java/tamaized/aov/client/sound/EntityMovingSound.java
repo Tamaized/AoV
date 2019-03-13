@@ -4,6 +4,8 @@ import net.minecraft.client.audio.MovingSound;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class EntityMovingSound extends MovingSound {
@@ -21,13 +23,13 @@ public class EntityMovingSound extends MovingSound {
 	}
 
 	@Override
-	public void update() {
-		if (entity == null || this.entity.isDead) {
+	public void tick() {
+		if (entity == null || this.entity.removed) {
 			this.donePlaying = true;
 		} else {
-			this.xPosF = (float) this.entity.posX;
-			this.yPosF = (float) this.entity.posY;
-			this.zPosF = (float) this.entity.posZ;
+			this.x = (float) this.entity.posX;
+			this.y = (float) this.entity.posY;
+			this.z = (float) this.entity.posZ;
 			// float f = MathHelper.sqrt(this.entity.motionX * this.entity.motionX + this.entity.motionZ * this.entity.motionZ);
 			//
 			// if ((double) f >= 0.01D) {

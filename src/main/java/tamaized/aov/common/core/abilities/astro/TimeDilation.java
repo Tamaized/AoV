@@ -4,9 +4,11 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.init.Particles;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -85,16 +87,14 @@ public class TimeDilation extends AbilityBase {
 
 	@Override
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
-		if (!caster.hasCapability(CapabilityList.AOV, null))
-			return false;
 		IAoVCapability aov = CapabilityList.getCap(caster, CapabilityList.AOV);
 		EntityLivingBase entity = target != null && aov != null && IAoVCapability.canBenefit(caster, aov, target) ? target : caster;
 		for (PotionEffect effect : entity.getActivePotionEffects())
 			if (!effect.getPotion().isBadEffect())
-				entity.addPotionEffect(new PotionEffect(effect.getPotion(), effect.getDuration() * 2, effect.getAmplifier(), effect.getIsAmbient(), effect.doesShowParticles()));
+				entity.addPotionEffect(new PotionEffect(effect.getPotion(), effect.getDuration() * 2, effect.getAmplifier(), effect.isAmbient(), effect.doesShowParticles()));
 		if (!entity.world.isRemote) {
 			SoundEvents.playMovingSoundOnServer(SoundEvents.timedilation, entity);
-			entity.world.spawnEntity(new EntitySpellVanillaParticles(entity.world, entity, EnumParticleTypes.VILLAGER_HAPPY, 3));
+			entity.world.spawnEntity(new EntitySpellVanillaParticles(entity.world, entity, Particles.HAPPY_VILLAGER, 3));
 			if (aov != null)
 				aov.addExp(caster, 20, ability.getAbility());
 		}

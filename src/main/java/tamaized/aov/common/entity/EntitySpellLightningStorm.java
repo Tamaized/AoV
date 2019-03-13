@@ -15,13 +15,17 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL11;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
+import tamaized.aov.registry.AoVEntities;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 
@@ -34,7 +38,7 @@ public class EntitySpellLightningStorm extends Entity {
 	private int nextMod = 30;
 
 	public EntitySpellLightningStorm(World worldIn) {
-		super(worldIn);
+		super(Objects.requireNonNull(AoVEntities.entityspelllightningstorm), worldIn);
 		setSize(12F, 0.1F);
 		ignoreFrustumCheck = true;
 	}
@@ -46,8 +50,8 @@ public class EntitySpellLightningStorm extends Entity {
 	}
 
 	@Override
-	public void onUpdate() {
-		super.onUpdate();
+	public void tick() {
+		super.tick();
 		if (!world.isRemote) {
 			if (ticksExisted % nextMod == 0) {
 				nextMod = 20 + rand.nextInt(30);
@@ -57,7 +61,7 @@ public class EntitySpellLightningStorm extends Entity {
 							caster = (EntityLivingBase) e;
 				final double size = width / 2F;
 				List<EntityLivingBase> list = world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(posX - size, posY - 36F, posZ - size, posX + size, posY + 3F, posZ + size));
-				list.removeIf(e -> e == caster || !IAoVCapability.selectiveTarget(caster, CapabilityHelper.getCap(caster, CapabilityList.AOV, null), e));
+				list.removeIf(e -> e == caster || !IAoVCapability.selectiveTarget(caster, CapabilityList.getCap(caster, CapabilityList.AOV, null), e));
 				EntityLivingBase entity = list.isEmpty() ? null : list.size() == 1 ? list.get(0) : list.get(rand.nextInt(list.size()));
 				EntitySpellLightningBolt strike = new EntitySpellLightningBolt(world, caster, damage, Abilities.lightningStorm);
 				Vec3d vec;
@@ -70,7 +74,7 @@ public class EntitySpellLightningStorm extends Entity {
 			}
 		}
 		if (ticksExisted >= 400)
-			setDead();
+			remove();
 	}
 
 	private double getNextCoord() {
@@ -85,19 +89,19 @@ public class EntitySpellLightningStorm extends Entity {
 	}
 
 	@Override
-	protected void entityInit() {
+	protected void registerData() {
 
 	}
 
 	@Override
-	protected void readEntityFromNBT(@Nonnull NBTTagCompound compound) {
+	protected void readAdditional(@Nonnull NBTTagCompound compound) {
 		damage = Math.max(1F, compound.getFloat("damage"));
 		if (compound.hasUniqueId("casterID"))
 			casterID = compound.getUniqueId("casterID");
 	}
 
 	@Override
-	protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
+	protected void writeAdditional(@Nonnull NBTTagCompound compound) {
 		if (caster != null)
 			compound.setUniqueId("casterID", caster.getUniqueID());
 		compound.setFloat("damage", damage);

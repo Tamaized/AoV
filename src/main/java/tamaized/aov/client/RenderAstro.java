@@ -8,9 +8,10 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderPlayerEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
@@ -28,12 +29,12 @@ public class RenderAstro {
 	@SubscribeEvent
 	public static void render(RenderPlayerEvent.Post e) {
 		EntityPlayer player = e.getEntityPlayer();
-		if (!player.hasCapability(CapabilityList.ASTRO, null))
+		IAstroCapability cap = CapabilityList.getCap(player, CapabilityList.ASTRO);
+		if (cap == null)
 			return;
 
 		GlStateManager.pushMatrix();
 		GlStateManager.translated(e.getX(), e.getY(), e.getZ());
-		IAstroCapability cap = CapabilityList.getCap(player, CapabilityList.ASTRO);
 		AstroCapabilityHandler handler = cap instanceof AstroCapabilityHandler ? (AstroCapabilityHandler) cap : null;
 
 
@@ -66,29 +67,27 @@ public class RenderAstro {
 		GlStateManager.enableLighting();
 		GlStateManager.popMatrix();*/
 
-		if (cap != null) {
-			for (IAstroCapability.IAnimation animation : cap.getAnimations())
-				if (animation != null)
-					switch (animation) {
-						case Draw:
-							renderDraw(0, e, cap, handler != null ? handler.lastDraw : cap.getDraw());
-							break;
-						case Spread:
-							renderSpread(2, e, cap, handler != null ? handler.lastSpread : cap.getSpread());
-							break;
-						case Burn:
-							renderBurn(1, e, cap);
-							break;
-						case Activate:
-							renderBurn(3, e, cap);
-							break;
-						case Redraw:
-							renderRedraw(4, e, cap);
-							break;
-						default:
-							break;
-					}
-		}
+		for (IAstroCapability.IAnimation animation : cap.getAnimations())
+			if (animation != null)
+				switch (animation) {
+					case Draw:
+						renderDraw(0, e, cap, handler != null ? handler.lastDraw : cap.getDraw());
+						break;
+					case Spread:
+						renderSpread(2, e, cap, handler != null ? handler.lastSpread : cap.getSpread());
+						break;
+					case Burn:
+						renderBurn(1, e, cap);
+						break;
+					case Activate:
+						renderBurn(3, e, cap);
+						break;
+					case Redraw:
+						renderRedraw(4, e, cap);
+						break;
+					default:
+						break;
+				}
 		GlStateManager.color4f(1, 1, 1, 1);
 		GlStateManager.popMatrix();
 	}
@@ -98,7 +97,7 @@ public class RenderAstro {
 		if (e.phase == TickEvent.Phase.START)
 			return;
 		Minecraft mc = Minecraft.getInstance();
-		if (mc.gameSettings.thirdPersonView != 0 || mc.player == null || !mc.player.hasCapability(CapabilityList.ASTRO, null))
+		if (mc.gameSettings.thirdPersonView != 0 || mc.player == null)
 			return;
 		IAstroCapability cap = CapabilityList.getCap(mc.player, CapabilityList.ASTRO);
 		if (cap == null)

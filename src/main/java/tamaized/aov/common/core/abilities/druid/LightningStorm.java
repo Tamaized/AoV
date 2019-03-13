@@ -8,6 +8,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -92,7 +94,7 @@ public class LightningStorm extends AbilityBase {
 			return false;
 		storm.setPosition(pos.x, pos.y + 10F, pos.z);
 		caster.world.spawnEntity(storm);
-		caster.world.play(null, storm.posX, storm.posY, storm.posZ, SoundEvents.EVOCATION_ILLAGER_PREPARE_SUMMON, SoundCategory.PLAYERS, 4.0F, caster.getRNG().nextFloat() * 0.5F + 0.5F);
+		caster.world.playSound(null, storm.posX, storm.posY, storm.posZ, SoundEvents.ENTITY_EVOKER_PREPARE_SUMMON, SoundCategory.PLAYERS, 4.0F, caster.getRNG().nextFloat() * 0.5F + 0.5F);
 		return true;
 	}
 

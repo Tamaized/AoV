@@ -1,7 +1,7 @@
 package tamaized.aov.client.gui;
 
+import net.minecraft.client.MainWindow;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
@@ -47,8 +47,20 @@ public class SpellBookGUI extends GuiScreenClose {
 		float workW = width - padding;
 		int loc1 = (int) (workW * .25) + margin;
 		int loc2 = (int) (workW * .75) + margin;
-		buttonList.add(new GuiButton(BUTTON_BACK, loc1, height - 25, 80, 20, I18n.format("aov.gui.button.back")));
-		buttonList.add(new GuiButton(BUTTON_CLOSE, loc2, height - 25, 80, 20, I18n.format("aov.gui.button.close")));
+		buttons.add(new GuiButton(BUTTON_BACK, loc1, height - 25, 80, 20, I18n.format("aov.gui.button.back")) {
+			@Override
+			public void onClick(double mouseX, double mouseY) {
+				super.onClick(mouseX, mouseY);
+				GuiHandler.openGui(GuiHandler.GUI.SKILLS, parent);
+			}
+		});
+		buttons.add(new GuiButton(BUTTON_CLOSE, loc2, height - 25, 80, 20, I18n.format("aov.gui.button.close")) {
+			@Override
+			public void onClick(double mouseX, double mouseY) {
+				super.onClick(mouseX, mouseY);
+				mc.player.closeScreen();
+			}
+		});
 
 		int xLoc = 50;
 		int yLoc = 50;
@@ -56,72 +68,85 @@ public class SpellBookGUI extends GuiScreenClose {
 		{
 			int y = height - 47;
 			int x = width / 2;
-			buttonList.add(new BlankButton(BUTTON_BAR_SLOT_0, x - 88, y, 16, 16, false));
-			buttonList.add(new BlankButton(BUTTON_BAR_SLOT_1, x - 68, y, 16, 16, false));
-			buttonList.add(new BlankButton(BUTTON_BAR_SLOT_2, x - 48, y, 16, 16, false));
-			buttonList.add(new BlankButton(BUTTON_BAR_SLOT_3, x - 28, y, 16, 16, false));
-			buttonList.add(new BlankButton(BUTTON_BAR_SLOT_4, x - 8, y, 16, 16, false));
-			buttonList.add(new BlankButton(BUTTON_BAR_SLOT_5, x + 12, y, 16, 16, false));
-			buttonList.add(new BlankButton(BUTTON_BAR_SLOT_6, x + 32, y, 16, 16, false));
-			buttonList.add(new BlankButton(BUTTON_BAR_SLOT_7, x + 52, y, 16, 16, false));
-			buttonList.add(new BlankButton(BUTTON_BAR_SLOT_8, x + 72, y, 16, 16, false));
+			buttons.add(new BlankButton(BUTTON_BAR_SLOT_0, x - 88, y, 16, 16, false) {
+				@Override
+				public void onClick(double mouseX, double mouseY) {
+					super.onClick(mouseX, mouseY);
+					sendPacketTypeRemoveSlot(0);
+				}
+			});
+			buttons.add(new BlankButton(BUTTON_BAR_SLOT_1, x - 68, y, 16, 16, false) {
+				@Override
+				public void onClick(double mouseX, double mouseY) {
+					super.onClick(mouseX, mouseY);
+					sendPacketTypeRemoveSlot(1);
+				}
+			});
+			buttons.add(new BlankButton(BUTTON_BAR_SLOT_2, x - 48, y, 16, 16, false) {
+				@Override
+				public void onClick(double mouseX, double mouseY) {
+					super.onClick(mouseX, mouseY);
+					sendPacketTypeRemoveSlot(2);
+				}
+			});
+			buttons.add(new BlankButton(BUTTON_BAR_SLOT_3, x - 28, y, 16, 16, false) {
+				@Override
+				public void onClick(double mouseX, double mouseY) {
+					super.onClick(mouseX, mouseY);
+					sendPacketTypeRemoveSlot(3);
+				}
+			});
+			buttons.add(new BlankButton(BUTTON_BAR_SLOT_4, x - 8, y, 16, 16, false) {
+				@Override
+				public void onClick(double mouseX, double mouseY) {
+					super.onClick(mouseX, mouseY);
+					sendPacketTypeRemoveSlot(4);
+				}
+			});
+			buttons.add(new BlankButton(BUTTON_BAR_SLOT_5, x + 12, y, 16, 16, false) {
+				@Override
+				public void onClick(double mouseX, double mouseY) {
+					super.onClick(mouseX, mouseY);
+					sendPacketTypeRemoveSlot(5);
+				}
+			});
+			buttons.add(new BlankButton(BUTTON_BAR_SLOT_6, x + 32, y, 16, 16, false) {
+				@Override
+				public void onClick(double mouseX, double mouseY) {
+					super.onClick(mouseX, mouseY);
+					sendPacketTypeRemoveSlot(6);
+				}
+			});
+			buttons.add(new BlankButton(BUTTON_BAR_SLOT_7, x + 52, y, 16, 16, false) {
+				@Override
+				public void onClick(double mouseX, double mouseY) {
+					super.onClick(mouseX, mouseY);
+					sendPacketTypeRemoveSlot(7);
+				}
+			});
+			buttons.add(new BlankButton(BUTTON_BAR_SLOT_8, x + 72, y, 16, 16, false) {
+				@Override
+				public void onClick(double mouseX, double mouseY) {
+					super.onClick(mouseX, mouseY);
+					sendPacketTypeRemoveSlot(8);
+				}
+			});
 		}
-		if (mc == null || mc.player == null || !mc.player.hasCapability(CapabilityList.AOV, null))
+		if (mc == null || mc.player == null)
 			return;
 		IAoVCapability cap = CapabilityList.getCap(mc.player, CapabilityList.AOV);
 		if (cap == null)
 			return;
 		int index = 0;
 		for (Ability ability : cap.getAbilities()) {
-			buttonList.add(new SpellButton(BUTTON_SPELL, xLoc + (100 * ((int) Math.floor(index / 6))), yLoc + (25 * (index % 6)), ability.getAbility()));
+			buttons.add(new SpellButton(BUTTON_SPELL, xLoc + (100 * ((int) Math.floor(index / 6))), yLoc + (25 * (index % 6)), ability.getAbility()) {
+				@Override
+				public void onClick(double mouseX, double mouseY) {
+					super.onClick(mouseX, mouseY);
+					sendPacketTypeAddNearestSlot(getSpell());
+				}
+			});
 			index++;
-		}
-	}
-
-	@Override
-	protected void actionPerformed(GuiButton button) {
-		if (button.enabled) {
-			switch (button.id) {
-				case BUTTON_CLOSE:
-					mc.player.closeScreen();
-					break;
-				case BUTTON_BACK:
-					GuiHandler.openGUI(GuiHandler.GUI.SKILLS, parent, mc.player, mc.world);
-					break;
-				case BUTTON_SPELL:
-					if (button instanceof SpellButton)
-						sendPacketTypeAddNearestSlot(((SpellButton) button).getSpell());
-					break;
-				case BUTTON_BAR_SLOT_0:
-					sendPacketTypeRemoveSlot(0);
-					break;
-				case BUTTON_BAR_SLOT_1:
-					sendPacketTypeRemoveSlot(1);
-					break;
-				case BUTTON_BAR_SLOT_2:
-					sendPacketTypeRemoveSlot(2);
-					break;
-				case BUTTON_BAR_SLOT_3:
-					sendPacketTypeRemoveSlot(3);
-					break;
-				case BUTTON_BAR_SLOT_4:
-					sendPacketTypeRemoveSlot(4);
-					break;
-				case BUTTON_BAR_SLOT_5:
-					sendPacketTypeRemoveSlot(5);
-					break;
-				case BUTTON_BAR_SLOT_6:
-					sendPacketTypeRemoveSlot(6);
-					break;
-				case BUTTON_BAR_SLOT_7:
-					sendPacketTypeRemoveSlot(7);
-					break;
-				case BUTTON_BAR_SLOT_8:
-					sendPacketTypeRemoveSlot(8);
-					break;
-				default:
-					break;
-			}
 		}
 	}
 
@@ -136,16 +161,16 @@ public class SpellBookGUI extends GuiScreenClose {
 	}
 
 	@Override
-	public void updateScreen() {
+	public void tick() {
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+	public void render(int mouseX, int mouseY, float partialTicks) {
 		drawDefaultBackground();
 		drawCenteredString(fontRenderer, I18n.format("aov.gui.title.spellbook"), width / 2, 15, 16777215);
-		super.drawScreen(mouseX, mouseY, partialTicks);
+		super.render(mouseX, mouseY, partialTicks);
 		renderBar();
-		for (GuiButton b : buttonList) {
+		for (GuiButton b : buttons) {
 			if (!b.isMouseOver())
 				continue;
 			if (b instanceof SpellButton) {
@@ -190,10 +215,10 @@ public class SpellBookGUI extends GuiScreenClose {
 	}
 
 	private void sendPacketTypeRemoveSlot(int slot) {
-		AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.SPELLBAR_REMOVE, null, slot));
+		AoV.network.sendToServer(new ServerPacketHandlerSpellSkill(ServerPacketHandlerSpellSkill.PacketType.SPELLBAR_REMOVE, null, slot));
 	}
 
 	private void sendPacketTypeAddNearestSlot(AbilityBase ability) {
-		AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.SPELLBAR_ADDNEAR, ability, 0));
+		AoV.network.sendToServer(new ServerPacketHandlerSpellSkill(ServerPacketHandlerSpellSkill.PacketType.SPELLBAR_ADDNEAR, ability, 0));
 	}
 }

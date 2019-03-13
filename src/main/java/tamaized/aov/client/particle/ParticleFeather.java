@@ -19,12 +19,12 @@ public class ParticleFeather extends Particle {
 		motionZ = target.z;
 		particleScale = scale;
 		particleGravity = gravity;
-		particleMaxAge = life;
+		maxAge = life;
 		particleRed = (float) (color >> 24 & 255) / 255.0F;
 		particleGreen = (float) (color >> 16 & 255) / 255.0F;
 		particleBlue = (float) (color >> 8 & 255) / 255.0F;
 		particleAlpha = (float) (color & 255) / 255.0F;
-		particleTexture = Minecraft.getInstance().getTextureMapBlocks().getAtlasSprite(FEATHER.toString());
+		particleTexture = Minecraft.getInstance().getTextureMap().getAtlasSprite(FEATHER.toString());
 	}
 
 	@Override
@@ -38,8 +38,8 @@ public class ParticleFeather extends Particle {
 	}
 
 	@Override
-	public void onUpdate() {
-		super.onUpdate();
+	public void tick() {
+		super.tick();
 		particleScale *= 0.97F;
 		particleAlpha *= 0.9F;
 	}

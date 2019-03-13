@@ -2,7 +2,7 @@ package tamaized.aov.common.capabilities.stun;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.network.PacketDistributor;
 import tamaized.aov.AoV;
 import tamaized.aov.network.client.ClientPacketHandlerStunned;
 
@@ -23,25 +23,25 @@ public class StunCapabilityHandler implements IStunCapability {
 
 	@Override
 	public void update(EntityLivingBase entity) {
-		boolean dirty = entity.updateBlocked;
-		entity.updateBlocked = stunTicks > 0;
+		boolean dirty = entity.canUpdate();
+		entity.canUpdate(stunTicks > 0);
 		if (stunTicks > 0) {
 			stunTicks--;
-			if (!entity.isEntityAlive()) {
+			if (!entity.isAlive()) {
 				stunTicks = 0;
-				entity.updateBlocked = false;
+				entity.canUpdate(false);
 			}
 			if (entity.hurtTime > 0)
 				entity.hurtTime--;
 			if (entity.hurtResistantTime > 0)
 				entity.hurtResistantTime--;
 		}
-		if (dirty != entity.updateBlocked)
+		if (dirty != entity.canUpdate())
 			sendPacketUpdates(entity);
 	}
 
 	private void sendPacketUpdates(Entity e) {
-		if (e.updateBlocked) {
+		if (e.canUpdate()) {
 			mx = e.motionX;
 			my = e.motionY;
 			mz = e.motionZ;
@@ -52,6 +52,6 @@ public class StunCapabilityHandler implements IStunCapability {
 			e.motionZ = mz;
 		}
 		if (!e.world.isRemote)
-			AoV.network.sendToAllAround(new ClientPacketHandlerStunned.Packet(e, this), new NetworkRegistry.TargetPoint(e.dimension, e.posX, e.posY, e.posZ, 256));
+			AoV.network.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> e), new ClientPacketHandlerStunned(e, this));
 	}
 }

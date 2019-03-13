@@ -5,14 +5,18 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.AoVDamageSource;
+import tamaized.aov.registry.AoVEntities;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 public class EntitySpellImplosion extends Entity {
 
@@ -21,7 +25,7 @@ public class EntitySpellImplosion extends Entity {
 	private int tick = 0;
 
 	public EntitySpellImplosion(World worldIn) {
-		super(worldIn);
+		super(Objects.requireNonNull(AoVEntities.entityspellimplosion), worldIn);
 	}
 
 	public EntitySpellImplosion(World world, Entity caster, EntityLivingBase entity) {
@@ -33,17 +37,17 @@ public class EntitySpellImplosion extends Entity {
 	}
 
 	@Override
-	protected void entityInit() {
+	protected void registerData() {
 
 	}
 
 	@Override
-	protected void readEntityFromNBT(@Nonnull NBTTagCompound compound) {
+	protected void readAdditional(@Nonnull NBTTagCompound compound) {
 
 	}
 
 	@Override
-	protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
+	protected void writeAdditional(@Nonnull NBTTagCompound compound) {
 
 	}
 
@@ -54,7 +58,7 @@ public class EntitySpellImplosion extends Entity {
 	}
 
 	@Override
-	public void onUpdate() {
+	public void tick() {
 		if (world.isRemote) {
 			for (int index = 0; index < 10; index++) {
 				Vec3d vec = getLook(1.0F).rotatePitch(rand.nextInt(360)).rotateYaw(rand.nextInt(360));
@@ -63,8 +67,8 @@ public class EntitySpellImplosion extends Entity {
 			}
 			return;
 		}
-		if (target == null || !target.isEntityAlive()) {
-			setDead();
+		if (target == null || !target.isAlive()) {
+			remove();
 			return;
 		}
 		setPositionAndUpdate(target.posX, target.posY, target.posZ);
@@ -77,7 +81,7 @@ public class EntitySpellImplosion extends Entity {
 			target.attackEntityFrom(AoVDamageSource.createEntityDamageSource(AoVDamageSource.DESTRUCTION, caster), damage);
 			if (cap != null)
 				cap.addExp(caster, 25, Abilities.implosion);
-			setDead();
+			remove();
 		}
 	}
 

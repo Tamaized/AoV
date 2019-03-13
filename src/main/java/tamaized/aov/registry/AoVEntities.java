@@ -8,6 +8,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.registries.ObjectHolder;
 import tamaized.aov.AoV;
 import tamaized.aov.client.entity.RenderAlignmentAoE;
 import tamaized.aov.client.entity.RenderCelestialOpposition;
@@ -40,8 +41,25 @@ import tamaized.aov.common.entity.ProjectileNimbusRay;
 
 import java.lang.reflect.InvocationTargetException;
 
+@ObjectHolder(AoV.MODID)
 @Mod.EventBusSubscriber(modid = AoV.MODID)
 public class AoVEntities {
+
+	public static final EntityType projectilenimbusray = getNull();
+	public static final EntityType projectileflamestrike = getNull();
+	public static final EntityType entityspellimplosion = getNull();
+	public static final EntityType entityspellbladebarrier = getNull();
+	public static final EntityType entityspellvanillaparticles = getNull();
+	public static final EntityType entityspellaovparticles = getNull();
+	public static final EntityType entitymalefic = getNull();
+	public static final EntityType entitycombust = getNull();
+	public static final EntityType entitygravity = getNull();
+	public static final EntityType entitycelestialopposition = getNull();
+	public static final EntityType entityspelllightningbolt = getNull();
+	public static final EntityType entityearthquake = getNull();
+	public static final EntityType entityspelllightningstorm = getNull();
+	public static final EntityType entitydruidicwolf = getNull();
+	public static final EntityType entityalignmentaoe = getNull();
 
 	@SubscribeEvent
 	public static void register(RegistryEvent.Register<EntityType<?>> e) {
@@ -100,14 +118,21 @@ public class AoVEntities {
 	}
 
 	private static <T extends Entity> EntityType<T> create(Class<T> entity) {
-		return EntityType.Builder.create(entity, world -> {
+		final String name = entity.getSimpleName().toLowerCase();
+		EntityType<T> type = EntityType.Builder.create(entity, world -> {
 			try {
 				return entity.getConstructor(World.class).newInstance(world);
 			} catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 				e.printStackTrace();
 			}
 			return null;
-		}).build(entity.getSimpleName().toLowerCase());
+		}).build(name);
+		type.setRegistryName(AoV.MODID, name);
+		return type;
+	}
+
+	private static <T> T getNull(){
+		return null;
 	}
 
 }

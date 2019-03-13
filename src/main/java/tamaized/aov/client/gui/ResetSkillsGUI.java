@@ -25,40 +25,40 @@ public class ResetSkillsGUI extends GuiScreenClose {
 
 	@Override
 	public void initGui() {
-		buttonList.add(new GuiButton(BUTTON_CLOSE, 10, height - 25, 80, 20, I18n.format("aov.gui.button.close")));
-		buttonList.add(new GuiButton(BUTTON_BACK, 110, height - 25, 80, 20, I18n.format("aov.gui.button.back")));
-		buttonList.add(new GuiButton(BUTTON_RESET_FULL, width - 190, height - 25, 80, 20, I18n.format("aov.gui.button.fullreset")));
-		buttonList.add(new GuiButton(BUTTON_RESET_MINOR, width - 90, height - 25, 80, 20, I18n.format("aov.gui.button.minorreset")));
-
-	}
-
-	@Override
-	protected void actionPerformed(GuiButton button) {
-		if (button.enabled) {
-			if (mc == null || mc.player == null || !mc.player.hasCapability(CapabilityList.AOV, null))
-				return;
-			IAoVCapability cap = CapabilityList.getCap(mc.player, CapabilityList.AOV);
-			if (cap == null)
-				return;
-			switch (button.id) {
-				case BUTTON_CLOSE:
-					mc.player.closeScreen();
-					break;
-				case BUTTON_BACK:
-					GuiHandler.openGUI(GuiHandler.GUI.SKILLS, parent, mc.player, mc.world);
-					break;
-				case BUTTON_RESET_MINOR:
-					if (cap.getObtainedSkills().size() > 1)
-						AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.RESETSKILLS_MINOR, null, 0));
-					break;
-				case BUTTON_RESET_FULL:
-					AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.RESETSKILLS_FULL, null, 0));
-					ClientProxy.barToggle = false;
-					break;
-				default:
-					break;
+		buttons.add(new GuiButton(BUTTON_CLOSE, 10, height - 25, 80, 20, I18n.format("aov.gui.button.close")) {
+			@Override
+			public void onClick(double mouseX, double mouseY) {
+				super.onClick(mouseX, mouseY);
+				mc.player.closeScreen();
 			}
-		}
+		});
+		buttons.add(new GuiButton(BUTTON_BACK, 110, height - 25, 80, 20, I18n.format("aov.gui.button.back")) {
+			@Override
+			public void onClick(double mouseX, double mouseY) {
+				super.onClick(mouseX, mouseY);
+				GuiHandler.openGui(GuiHandler.GUI.SKILLS, parent);
+			}
+		});
+		buttons.add(new GuiButton(BUTTON_RESET_FULL, width - 190, height - 25, 80, 20, I18n.format("aov.gui.button.fullreset")) {
+			@Override
+			public void onClick(double mouseX, double mouseY) {
+				super.onClick(mouseX, mouseY);
+				AoV.network.sendToServer(new ServerPacketHandlerSpellSkill(ServerPacketHandlerSpellSkill.PacketType.RESETSKILLS_FULL, null, 0));
+				ClientProxy.barToggle = false;
+			}
+		});
+		buttons.add(new GuiButton(BUTTON_RESET_MINOR, width - 90, height - 25, 80, 20, I18n.format("aov.gui.button.minorreset")) {
+			@Override
+			public void onClick(double mouseX, double mouseY) {
+				super.onClick(mouseX, mouseY);
+				IAoVCapability cap = CapabilityList.getCap(mc.player, CapabilityList.AOV);
+				if (cap == null)
+					return;
+				if (cap.getObtainedSkills().size() > 1)
+					AoV.network.sendToServer(new ServerPacketHandlerSpellSkill(ServerPacketHandlerSpellSkill.PacketType.RESETSKILLS_MINOR, null, 0));
+			}
+		});
+
 	}
 
 	@Override
@@ -72,15 +72,15 @@ public class ResetSkillsGUI extends GuiScreenClose {
 	}
 
 	@Override
-	public void updateScreen() {
+	public void tick() {
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+	public void render(int mouseX, int mouseY, float partialTicks) {
 		drawDefaultBackground();
 		drawCenteredString(fontRenderer, I18n.format("aov.gui.title.reset"), width / 2, 15, 16777215);
 		fontRenderer.drawSplitString(I18n.format("aov.gui.reset.full"), 40, 40, width - 80, 0x00FFFF);
 		fontRenderer.drawSplitString(I18n.format("aov.gui.reset.minor"), 40, 125, width - 80, 0xFFFF00);
-		super.drawScreen(mouseX, mouseY, partialTicks);
+		super.render(mouseX, mouseY, partialTicks);
 	}
 }

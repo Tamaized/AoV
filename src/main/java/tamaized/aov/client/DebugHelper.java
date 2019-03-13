@@ -1,12 +1,12 @@
 package tamaized.aov.client;
 
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import tamaized.aov.AoV;
 
-// TODO: TamModized
 @Mod.EventBusSubscriber(modid = AoV.MODID, value = Dist.CLIENT)
 public class DebugHelper {
 

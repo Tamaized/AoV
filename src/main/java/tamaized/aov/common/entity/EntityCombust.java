@@ -2,12 +2,16 @@ package tamaized.aov.common.entity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.init.Particles;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.registry.AoVDamageSource;
+import tamaized.aov.registry.AoVEntities;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 public class EntityCombust extends Entity {
 
@@ -18,7 +22,7 @@ public class EntityCombust extends Entity {
 	private float damage = 2F;
 
 	public EntityCombust(World worldIn) {
-		super(worldIn);
+		super(Objects.requireNonNull(AoVEntities.entitycombust), worldIn);
 	}
 
 	public EntityCombust(World world, Entity caster, Entity target, float dmg) {
@@ -30,7 +34,7 @@ public class EntityCombust extends Entity {
 	}
 
 	@Override
-	protected void entityInit() {
+	protected void registerData() {
 
 	}
 
@@ -41,15 +45,15 @@ public class EntityCombust extends Entity {
 	}
 
 	@Override
-	public void onUpdate() {
-		super.onUpdate();
+	public void tick() {
+		super.tick();
 		if (world.isRemote) {
 			Vec3d vec = getLook(1.0F).rotatePitch(rand.nextInt(360)).rotateYaw(rand.nextInt(360));
-			world.spawnParticle(EnumParticleTypes.END_ROD, 0, 0, 0, vec.x, 5.0E-4F + vec.y, vec.z);
+			world.spawnParticle(Particles.END_ROD, 0, 0, 0, vec.x, 5.0E-4F + vec.y, vec.z);
 			return;
 		}
-		if (ticksExisted >= 18 * 20 || target == null || target.isDead) {
-			setDead();
+		if (ticksExisted >= 18 * 20 || target == null || target.removed) {
+			remove();
 			return;
 		} else if (ticksExisted % 40 == 0)
 			target.attackEntityFrom(AoVDamageSource.createEntityDamageSource(AoVDamageSource.COSMIC, caster), damage);
@@ -57,12 +61,12 @@ public class EntityCombust extends Entity {
 	}
 
 	@Override
-	protected void readEntityFromNBT(@Nonnull NBTTagCompound compound) {
+	protected void readAdditional(@Nonnull NBTTagCompound compound) {
 
 	}
 
 	@Override
-	protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
+	protected void writeAdditional(@Nonnull NBTTagCompound compound) {
 
 	}
 }

@@ -12,13 +12,17 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
-import tamaized.tammodized.common.helper.RayTraceHelper;
+import tamaized.aov.common.helper.RayTraceHelper;
+import tamaized.aov.registry.AoVEntities;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.Objects;
 
 public class EntityGravity extends Entity {
 
@@ -29,7 +33,7 @@ public class EntityGravity extends Entity {
 	private float damageMod = 1F;
 
 	public EntityGravity(World worldIn) {
-		super(worldIn);
+		super(Objects.requireNonNull(AoVEntities.entitygravity), worldIn);
 		ignoreFrustumCheck = true;
 	}
 
@@ -40,7 +44,7 @@ public class EntityGravity extends Entity {
 		if (caster instanceof EntityPlayer) {
 			RayTraceResult ray = RayTraceHelper.tracePath(world, (EntityPlayer) caster, r, 1, Sets.newHashSet(caster));
 			if (ray != null) {
-				BlockPos pos = ray.typeOfHit == RayTraceResult.Type.BLOCK ? ray.getBlockPos() : ray.entityHit.getPosition();
+				BlockPos pos = ray.type == RayTraceResult.Type.BLOCK ? ray.getBlockPos() : ray.entity.getPosition();
 				setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
 			}
 		}
@@ -60,27 +64,27 @@ public class EntityGravity extends Entity {
 	}
 
 	@Override
-	protected void entityInit() {
+	protected void registerData() {
 
 	}
 
 	@Override
-	protected void readEntityFromNBT(@Nonnull NBTTagCompound compound) {
+	protected void readAdditional(@Nonnull NBTTagCompound compound) {
 
 	}
 
 	@Override
-	protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
+	protected void writeAdditional(@Nonnull NBTTagCompound compound) {
 
 	}
 
 	@Override
-	public void onUpdate() {
-		super.onUpdate();
+	public void tick() {
+		super.tick();
 		if (world.isRemote)
 			return;
 		if (ticksExisted >= 50) {
-			setDead();
+			remove();
 			return;
 		}
 		int range = 4;

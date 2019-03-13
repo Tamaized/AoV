@@ -10,21 +10,25 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.init.Particles;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.stun.IStunCapability;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.favoredsoul.AlignmentAoE;
-import tamaized.tammodized.common.helper.RayTraceHelper;
+import tamaized.aov.common.helper.RayTraceHelper;
+import tamaized.aov.registry.AoVEntities;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.Objects;
 
 public class EntityAlignmentAoE extends Entity {
 
@@ -36,7 +40,7 @@ public class EntityAlignmentAoE extends Entity {
 	private float damageMod = 1F;
 
 	public EntityAlignmentAoE(World worldIn) {
-		super(worldIn);
+		super(Objects.requireNonNull(AoVEntities.entityalignmentaoe), worldIn);
 		ignoreFrustumCheck = true;
 	}
 
@@ -49,7 +53,7 @@ public class EntityAlignmentAoE extends Entity {
 		if (caster instanceof EntityPlayer) {
 			RayTraceResult ray = RayTraceHelper.tracePath(world, (EntityPlayer) caster, r, 1, Sets.newHashSet(caster));
 			if (ray != null) {
-				BlockPos pos = ray.typeOfHit == RayTraceResult.Type.BLOCK ? ray.getBlockPos() : ray.entityHit.getPosition();
+				BlockPos pos = ray.type == RayTraceResult.Type.BLOCK ? ray.getBlockPos() : ray.entity.getPosition();
 				setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
 			}
 		}
@@ -71,7 +75,7 @@ public class EntityAlignmentAoE extends Entity {
 	}
 
 	@Override
-	protected void entityInit() {
+	protected void registerData() {
 		dataManager.register(ALIGNMENT_TYPE, 0);
 	}
 
@@ -84,24 +88,24 @@ public class EntityAlignmentAoE extends Entity {
 	}
 
 	@Override
-	protected void readEntityFromNBT(@Nonnull NBTTagCompound compound) {
-		alignment = AlignmentAoE.Type.getTypeFromID(compound.getInteger("alignment"));
+	protected void readAdditional(@Nonnull NBTTagCompound compound) {
+		alignment = AlignmentAoE.Type.getTypeFromID(compound.getInt("alignment"));
 		if (alignment != null)
 			setAlignment(alignment);
 	}
 
 	@Override
-	protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
-		compound.setInteger("alignment", alignment.ordinal());
+	protected void writeAdditional(@Nonnull NBTTagCompound compound) {
+		compound.setInt("alignment", alignment.ordinal());
 	}
 
 	@Override
-	public void onUpdate() {
-		super.onUpdate();
+	public void tick() {
+		super.tick();
 		if (world.isRemote && getAlignment() == AlignmentAoE.Type.ChaosHammer) {
 			if (ticksExisted >= 14) {
 				for (int i = 0; i <= 7; i++)
-					world.spawnParticle(EnumParticleTypes.CRIT,
+					world.spawnParticle(Particles.CRIT,
 
 							posX + 0.5F,
 
@@ -119,7 +123,7 @@ public class EntityAlignmentAoE extends Entity {
 			return;
 		}
 		if (ticksExisted >= 50) {
-			setDead();
+			remove();
 			return;
 		}
 		int range = 4;

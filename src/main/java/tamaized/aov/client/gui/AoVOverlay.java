@@ -1,10 +1,10 @@
 package tamaized.aov.client.gui;
 
 import com.mojang.authlib.GameProfile;
+import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -29,7 +29,6 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
-import tamaized.aov.common.config.ConfigHandler;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.common.entity.EntityEarthquake;
@@ -101,12 +100,13 @@ public class AoVOverlay extends Gui {
 							Tessellator tessellator = Tessellator.getInstance();
 							BufferBuilder buffer = tessellator.getBuffer();
 							buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
-							ScaledResolution resolution = e.getResolution();
+
+							MainWindow resolution = Minecraft.getInstance().mainWindow;
 							float scale = 3F;
 							float w = 89F / scale;
 							float h = 54F / scale;
-							float x = (float) (resolution.getScaledWidth_double() / 2F) - (w / 2F);
-							float y = (float) (resolution.getScaledHeight_double() - 12F) - (h / 2F);
+							float x = (resolution.getScaledWidth() / 2F) - (w / 2F);
+							float y = resolution.getScaledHeight() - 12F - (h / 2F);
 							float alpha = 0.35F;
 							float tone = 0.75F;
 							float heightscale = perc * h;
@@ -238,10 +238,10 @@ public class AoVOverlay extends Gui {
 			MainWindow resolution = mc.mainWindow;
 			float w = resolution.getScaledWidth();
 			float h = resolution.getScaledHeight();
-			float scale = (4F - resolution.getScaleFactor() + 1F) * 32F;
+			float scale = (4F - resolution.getScaleFactor(mc.gameSettings.guiScale) + 1F) * 32F;
 			float u = 1F / (scale / w);
 			float v = 1F / (scale / h);
-			Minecraft.getInstance().entityRenderer.setupOverlayRendering();
+			resolution.setupOverlayRendering();
 			GlStateManager.enableBlend();
 			GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			GlStateManager.shadeModel(GL11.GL_SMOOTH);
@@ -338,12 +338,10 @@ public class AoVOverlay extends Gui {
 	}
 
 	private void drawCenteredStringNoShadow(FontRenderer fontRendererIn, String text, float x, float y, int color) {
-		fontRendererIn.drawString(text, x - (float) fontRendererIn.getStringWidth(text) / 2F, y, color, false);
+		fontRendererIn.drawString(text, x - (float) fontRendererIn.getStringWidth(text) / 2F, y, color);
 	}
 
-	private void renderAstro(EntityPlayer player, ScaledResolution sr) {
-		if (!player.hasCapability(CapabilityList.ASTRO, null))
-			return;
+	private void renderAstro(EntityPlayer player, MainWindow sr) {
 		IAstroCapability cap = CapabilityList.getCap(player, CapabilityList.ASTRO);
 		if (cap == null)
 			return;
@@ -435,7 +433,7 @@ public class AoVOverlay extends Gui {
 				float r = 1F;
 				float g = 1F;
 				float b = 1F;
-				float a = AoV.config.targetOpacity.get();
+				float a = AoV.config.targetOpacity.get().floatValue();
 
 				buffer.pos(x + w, y, 0).tex(1, 0).color(r, g, b, a).endVertex();
 				buffer.pos(x, y, 0).tex(0, 0).color(r, g, b, a).endVertex();

@@ -5,10 +5,12 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.init.Particles;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -107,7 +109,7 @@ public class Draw extends AbilityBase {
 				caster.addPotionEffect(new PotionEffect(AoVPotions.spire, ticks, potency));
 				break;
 		}
-		caster.world.spawnEntity(new EntitySpellVanillaParticles(caster.world, caster, EnumParticleTypes.CRIT_MAGIC, 5));
+		caster.world.spawnEntity(new EntitySpellVanillaParticles(caster.world, caster, Particles.CRIT, 5)); // TODO: was crit magic
 	}
 
 	@Override
@@ -153,8 +155,6 @@ public class Draw extends AbilityBase {
 
 	@Override
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
-		if (!caster.hasCapability(CapabilityList.ASTRO, null) || !caster.hasCapability(CapabilityList.AOV, null))
-			return false;
 		IAstroCapability astro = CapabilityList.getCap(caster, CapabilityList.ASTRO);
 		IAoVCapability aov = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (astro == null || aov == null)

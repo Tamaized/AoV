@@ -6,6 +6,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,15 +14,19 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.SPacketChangeGameState;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.init.Particles;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -46,8 +51,8 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 	private AbilityBase parentSpell;
 	private int color = 0xFFFFFFFF;
 
-	public ProjectileBase(World worldIn) {
-		super(worldIn);
+	public ProjectileBase(EntityType type, World worldIn) {
+		super(type, worldIn);
 		startingPoint = getPositionVector();
 		pickupStatus = EntityArrow.PickupStatus.DISALLOWED;
 		damage = 2.0D;
@@ -55,18 +60,18 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 		ignoreFrustumCheck = true;
 	}
 
-	public ProjectileBase(World worldIn, double x, double y, double z) {
-		this(worldIn);
+	public ProjectileBase(EntityType type, World worldIn, double x, double y, double z) {
+		this(type, worldIn);
 		setPosition(x, y, z);
 		startingPoint = getPositionVector();
 	}
 
-	public ProjectileBase(World worldIn, EntityLivingBase shooter) {
-		this(worldIn, shooter, shooter.posX, shooter.posY, shooter.posZ);
+	public ProjectileBase(EntityType type, World worldIn, EntityLivingBase shooter) {
+		this(type, worldIn, shooter, shooter.posX, shooter.posY, shooter.posZ);
 	}
 
-	public ProjectileBase(World worldIn, EntityLivingBase shooter, double x, double y, double z) {
-		this(worldIn);
+	public ProjectileBase(EntityType type, World worldIn, EntityLivingBase shooter, double x, double y, double z) {
+		this(type, worldIn);
 		shootingEntity = shooter;
 		setPosition(x, y + shooter.getEyeHeight(), z);
 		startingPoint = getPositionVector();
@@ -75,12 +80,12 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 	}
 
 	@SuppressWarnings("unused")
-	public ProjectileBase(World worldIn, EntityLivingBase shooter, EntityLivingBase target, float dmg) {
-		this(worldIn, shooter.posX, shooter.posY + (double) shooter.getEyeHeight() - 0.10000000149011612D, shooter.posZ);
+	public ProjectileBase(EntityType type, World worldIn, EntityLivingBase shooter, EntityLivingBase target, float dmg) {
+		this(type, worldIn, shooter.posX, shooter.posY + (double) shooter.getEyeHeight() - 0.10000000149011612D, shooter.posZ);
 		shootingEntity = shooter;
 		damage = dmg;
 		double d0 = target.posX - posX;
-		double d1 = target.getEntityBoundingBox().minY + (double) (target.height / 2.0F) - posY;
+		double d1 = target.getBoundingBox().minY + (double) (target.height / 2.0F) - posY;
 		double d2 = target.posZ - posZ;
 		shoot(d0, d1/* + d3 * 0.20000000298023224D */, d2, 1.6F, (float) (14 - world.getDifficulty().getId() * 4));
 	}
@@ -149,7 +154,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 	}
 
 	@Override
-	public void writeSpawnData(ByteBuf buffer) {
+	public void writeSpawnData(PacketBuffer buffer) {
 		buffer.writeDouble(posX);
 		buffer.writeDouble(posY);
 		buffer.writeDouble(posZ);
@@ -162,14 +167,14 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 	}
 
 	@Override
-	public void readSpawnData(ByteBuf data) {
+	public void readSpawnData(PacketBuffer data) {
 		setPosition(data.readDouble(), data.readDouble(), data.readDouble());
 		setDamageRangeSpeed(data.readDouble(), data.readFloat(), data.readDouble());
 		setColor(data.readInt());
 	}
 
 	@Override
-	protected void entityInit() {
+	protected void registerData() {
 
 	}
 
@@ -184,9 +189,9 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 	}
 
 	@Override
-	public void onUpdate() {
-		// super.onUpdate();
-		onEntityUpdate();
+	public void tick() {
+		// super.tick();
+		baseTick();
 
 		if (prevRotationPitch == 0.0F && prevRotationYaw == 0.0F) {
 			float f = MathHelper.sqrt(motionX * motionX + motionZ * motionZ);
@@ -197,12 +202,16 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 		BlockPos blockpos = new BlockPos(posX, posY, posZ);
 		IBlockState iblockstate = world.getBlockState(blockpos);
 
-		if (iblockstate.getMaterial() != Material.AIR) {// check if hit block
-			AxisAlignedBB axisalignedbb = iblockstate.getCollisionBoundingBox(world, blockpos);
-			if (axisalignedbb != Block.NULL_AABB && (axisalignedbb != null && axisalignedbb.offset(blockpos).contains(new Vec3d(posX, posY, posZ)))) {
-				blockHit(iblockstate, blockpos);
-				setDead();
-				return;
+		if (!iblockstate.isAir(this.world, blockpos)) {
+			VoxelShape voxelshape = iblockstate.getCollisionShape(this.world, blockpos);
+			if (!voxelshape.isEmpty()) {
+				for(AxisAlignedBB axisalignedbb : voxelshape.toBoundingBoxList()) {
+					if (axisalignedbb.offset(blockpos).contains(new Vec3d(this.posX, this.posY, this.posZ))) {
+						blockHit(iblockstate, blockpos);
+						remove();
+						return;
+					}
+				}
 			}
 		}
 
@@ -210,12 +219,12 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 		++ticksInAir;
 		if (maxRange >= 0) {
 			if (startingPoint.distanceTo(getPositionVector()) >= maxRange)
-				setDead();
+				remove();
 		} else if (ticksInAir > 20 * 10)
-			setDead();
+			remove();
 
 		if (!world.isRemote)
-			for (Entity e : world.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().grow(speed * 2F))) {
+			for (Entity e : world.getEntitiesWithinAABBExcludingEntity(this, getBoundingBox().grow(speed * 2F))) {
 				if (e == this || e == shootingEntity || !canHitEntity(e))
 					continue;
 				onHit(e);
@@ -250,10 +259,10 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 		float f2 = range;
 
 		if (isInWater()) {
-			setDead();
+			remove();
 			for (int l = 0; l < 4; ++l) {
 				f4 = 0.25F;
-				world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, posX - motionX * (double) f4, posY - motionY * (double) f4, posZ - motionZ * (double) f4, motionX, motionY, motionZ);
+				world.spawnParticle(Particles.BUBBLE, posX - motionX * (double) f4, posY - motionY * (double) f4, posZ - motionZ * (double) f4, motionX, motionY, motionZ);
 			}
 			f1 = 0.6F;
 		}
@@ -302,7 +311,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 			}
 
 			if (!(entity instanceof EntityEnderman)) {
-				setDead();
+				remove();
 			}
 		} else {
 			motionX *= -0.10000000149011612D;
@@ -317,7 +326,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 					entityDropItem(getArrowStack(), 0.1F);
 				}
 
-				setDead();
+				remove();
 			}
 		}
 	}
@@ -328,19 +337,19 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 	protected abstract void blockHit(IBlockState state, BlockPos pos);
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound nbt) {
+	public void writeAdditional(NBTTagCompound nbt) {
 		nbt.setDouble("damage", damage);
 		nbt.setFloat("range", range);
 		nbt.setDouble("speed", speed);
-		nbt.setInteger("maxRange", maxRange);
+		nbt.setInt("maxRange", maxRange);
 	}
 
 	@Override
-	public void readEntityFromNBT(NBTTagCompound nbt) {
+	public void readAdditional(NBTTagCompound nbt) {
 		damage = nbt.getDouble("damage");
 		range = nbt.getFloat("range");
 		speed = nbt.getDouble("speed");
-		maxRange = nbt.getInteger("maxRange");
+		maxRange = nbt.getInt("maxRange");
 	}
 
 	/**

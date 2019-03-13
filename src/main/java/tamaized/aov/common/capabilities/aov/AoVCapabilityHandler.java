@@ -11,23 +11,24 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.network.PacketDistributor;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
-import tamaized.aov.common.config.ConfigHandler;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.abilities.Aura;
 import tamaized.aov.common.core.skills.AoVSkill;
 import tamaized.aov.common.core.skills.AoVSkills;
+import tamaized.aov.common.helper.FloatyTextHelper;
 import tamaized.aov.network.client.ClientPacketHandlerAoVData;
-import tamaized.aov.network.client.ClientPacketHandlerAoVSimpleData;
 import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
 import tamaized.aov.proxy.ClientProxy;
 import tamaized.aov.registry.AoVPotions;
-import tamaized.tammodized.common.helper.FloatyTextHelper;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -147,21 +148,21 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		}
 		if (tick % 10 == 0)
 			updateHealth(player);
-		if (tick % (20 * 30) == 0 && hasSkill(AoVSkills.paladin_capstone) && player != null && !player.isDead) {
+		if (tick % (20 * 30) == 0 && hasSkill(AoVSkills.paladin_capstone) && player != null && !player.removed) {
 			ItemStack main = player.getHeldItemMainhand();
 			ItemStack off = player.getHeldItemOffhand();
-			if (!main.isEmpty() && main.getItem().isShield(main, player) && main.getItem().isRepairable() && main.getItemDamage() > 0) {
-				main.setItemDamage(0);
+			if (!main.isEmpty() && main.getItem().isShield(main, player) && main.getItem().isRepairable() && main.getDamage() > 0) {
+				main.setDamage(0);
 			}
-			if (!off.isEmpty() && off.getItem().isShield(off, player) && off.getItem().isRepairable() && off.getItemDamage() > 0) {
-				off.setItemDamage(0);
+			if (!off.isEmpty() && off.getItem().isShield(off, player) && off.getItem().isRepairable() && off.getDamage() > 0) {
+				off.setDamage(0);
 			}
 		}
 	}
 
 	@SuppressWarnings("ConstantConditions")
 	private void checkState(@Nullable EntityPlayer player) {
-		if (!(player instanceof EntityPlayerMP) || player.isDead)
+		if (!(player instanceof EntityPlayerMP) || player.removed)
 			return;
 		final boolean aid = player.getActivePotionEffect(AoVPotions.aid) != null;
 		final boolean zeal = player.getActivePotionEffect(AoVPotions.zeal) != null;
@@ -183,7 +184,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	private void updateHealth(@Nullable EntityPlayer player) {
 		if (player == null || player.world == null || player.world.isRemote)
 			return;
-		IAttributeInstance hp = player.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
+		IAttributeInstance hp = player.getAttribute(SharedMonsterAttributes.MAX_HEALTH);
 		Iterator<AttributeModifier> iter = hp.getModifiers().iterator();
 		//noinspection WhileLoopReplaceableByForEach
 		while (iter.hasNext()) {
@@ -273,13 +274,12 @@ public class AoVCapabilityHandler implements IAoVCapability {
 				if (poly.getMorph() == IPolymorphCapability.Morph.Wolf) {
 					doublestrike += 15;
 					dodge += 10;
-				} else if(poly.getMorph() == IPolymorphCapability.Morph.ArchAngel){
+				} else if (poly.getMorph() == IPolymorphCapability.Morph.ArchAngel) {
 					spellpower += 75;
 					dodge += 25;
-				}
-				else if (poly.getMorph() == IPolymorphCapability.Morph.FireElemental && player.world.getWorldTime() % 24000 < 12000) // Day (6 AM)
+				} else if (poly.getMorph() == IPolymorphCapability.Morph.FireElemental && player.world.getDayTime() % 24000 < 12000) // Day (6 AM)
 					spellpower += 20;
-				else if (poly.getMorph() == IPolymorphCapability.Morph.WaterElemental && player.world.getWorldTime() % 24000 >= 12000) // Night (6 PM)
+				else if (poly.getMorph() == IPolymorphCapability.Morph.WaterElemental && player.world.getDayTime() % 24000 >= 12000) // Night (6 PM)
 					spellpower += 20;
 			}
 			if (player.getActivePotionEffect(AoVPotions.aid) != null)
@@ -317,7 +317,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			Aura aura = iter.next();
 			if ((player != null && !player.world.isRemote) || aura.getSpell().getAbility().runOnClient())
 				aura.update(player);
-			if (aura.isDead())
+			if (aura.removed())
 				iter.remove();
 		}
 	}
@@ -592,7 +592,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void cast(int slotLoc) {
-		AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.CAST_SPELL, null, ClientProxy.getTarget() != null ? new int[]{slotLoc, ClientProxy.getTarget().getEntityId()} : new int[]{slotLoc}));
+		AoV.network.sendToServer(new ServerPacketHandlerSpellSkill(ServerPacketHandlerSpellSkill.PacketType.CAST_SPELL, null, ClientProxy.getTarget() != null ? new int[]{slotLoc, ClientProxy.getTarget().getEntityId()} : new int[]{slotLoc}));
 		Ability ability = getSlot(slotLoc);
 		if (ability != null && ability.getAbility().runOnClient())
 			if (ClientProxy.getTarget() == null)
@@ -723,8 +723,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		IPolymorphCapability poly = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
 		if (poly == null)
 			return;
-		AoV.network.sendTo(new ClientPacketHandlerAoVData.Packet(this, poly), player);
-		AoV.network.sendToAllTracking(new ClientPacketHandlerAoVSimpleData.Packet(this, poly, player.getEntityId()), player);
+		AoV.network.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new ClientPacketHandlerAoVData(this, poly));
 	}
 
 	protected class DecayWrapper {

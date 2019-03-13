@@ -3,9 +3,9 @@ package tamaized.aov.common.capabilities.astro;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.init.Particles;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.network.PacketDistributor;
 import tamaized.aov.AoV;
 import tamaized.aov.network.client.ClientPacketHandlerAstroAnimation;
 import tamaized.aov.network.client.ClientPacketHandlerAstroData;
@@ -27,7 +27,7 @@ public class AstroCapabilityHandler implements IAstroCapability {
 	private boolean dirty = true;
 
 	private static void spawnParticle(EntityLivingBase entity, double x, double y, double z) {
-		entity.world.spawnParticle(EnumParticleTypes.SPELL_WITCH, x, y, z, 0.0D, 0.0D, 0.0D);
+		entity.world.spawnParticle(Particles.WITCH, x, y, z, 0.0D, 0.0D, 0.0D);
 	}
 
 	@Override
@@ -113,7 +113,7 @@ public class AstroCapabilityHandler implements IAstroCapability {
 				break;
 		}
 		if (!entity.world.isRemote)
-			AoV.network.sendToAllAround(new ClientPacketHandlerAstroAnimation.Packet(entity, animation), new NetworkRegistry.TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 128));
+			AoV.network.send(PacketDistributor.TRACKING_ENTITY.with(() -> entity), new ClientPacketHandlerAstroAnimation(entity, animation));
 	}
 
 	@Override
@@ -266,10 +266,10 @@ public class AstroCapabilityHandler implements IAstroCapability {
 						break;
 					case Burn:
 						float theta = (float) Math.toRadians(dat[3] * 16);
-						entity.world.spawnParticle(EnumParticleTypes.FLAME, entity.posX + MathHelper.cos(theta), entity.posY + 2F + MathHelper.sin(theta), entity.posZ + MathHelper.sin(theta), 0.0D, 0.0D, 0.0D);
-						entity.world.spawnParticle(EnumParticleTypes.FLAME, entity.posX + MathHelper.sin(theta), entity.posY + 2F + MathHelper.sin(theta), entity.posZ + MathHelper.cos(theta), 0.0D, 0.0D, 0.0D);
+						entity.world.spawnParticle(Particles.FLAME, entity.posX + MathHelper.cos(theta), entity.posY + 2F + MathHelper.sin(theta), entity.posZ + MathHelper.sin(theta), 0.0D, 0.0D, 0.0D);
+						entity.world.spawnParticle(Particles.FLAME, entity.posX + MathHelper.sin(theta), entity.posY + 2F + MathHelper.sin(theta), entity.posZ + MathHelper.cos(theta), 0.0D, 0.0D, 0.0D);
 						if (dat[3] <= 20 && dat[3] > 0)
-							entity.world.spawnParticle(EnumParticleTypes.FLAME, entity.posX + entity.getRNG().nextDouble() * 0.125D - 0.0625D, entity.posY + 2.9F - (0.125D * ((80F - dat[0]) / 80F)), entity.posZ + entity.getRNG().nextDouble() * 0.125D - 0.0625D, 0.0D, 0.0D, 0.0D);
+							entity.world.spawnParticle(Particles.FLAME, entity.posX + entity.getRNG().nextDouble() * 0.125D - 0.0625D, entity.posY + 2.9F - (0.125D * ((80F - dat[0]) / 80F)), entity.posZ + entity.getRNG().nextDouble() * 0.125D - 0.0625D, 0.0D, 0.0D, 0.0D);
 						break;
 					case Activate:
 						if (dat[3] <= 20 && dat[3] > 0)
@@ -296,6 +296,6 @@ public class AstroCapabilityHandler implements IAstroCapability {
 
 	@Override
 	public void sendPacketUpdates(EntityPlayer player) {
-		AoV.network.sendToAllAround(new ClientPacketHandlerAstroData.Packet(player), new NetworkRegistry.TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 256));
+		AoV.network.send(PacketDistributor.TRACKING_ENTITY.with(() -> player), new ClientPacketHandlerAstroData(player));
 	}
 }

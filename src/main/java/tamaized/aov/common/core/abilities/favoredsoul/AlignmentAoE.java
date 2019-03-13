@@ -6,6 +6,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -88,8 +90,6 @@ public class AlignmentAoE extends AbilityBase {
 
 	@Override
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
-		if (!caster.hasCapability(CapabilityList.AOV, null))
-			return false;
 		IAoVCapability aov = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (!caster.world.isRemote && aov != null && (target == null || IAoVCapability.selectiveTarget(caster, aov, target))) {
 			int dmg = (int) (damage * (1f + (aov.getSpellPower() / 100f)));

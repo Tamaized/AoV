@@ -1,19 +1,19 @@
 package tamaized.aov.client.gui;
 
+import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import org.lwjgl.opengl.GL11;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
-import tamaized.aov.common.config.ConfigHandler;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.universal.InvokeMass;
 import tamaized.aov.proxy.ClientProxy;
@@ -34,7 +34,7 @@ public class AoVUIBar {
 	public static void render(Gui gui, int xpos, int ypos) {
 		if (AoV.config.renderBarOverHotbar.get() && !ClientProxy.barToggle)
 			return;
-		if (mc.player == null || !mc.player.hasCapability(CapabilityList.AOV, null))
+		if (mc.player == null)
 			return;
 		IAoVCapability cap = CapabilityList.getCap(mc.player, CapabilityList.AOV);
 		if (cap == null)
@@ -143,7 +143,7 @@ public class AoVUIBar {
 		GlStateManager.depthMask(true);
 		//		GL11.glStencilMask(0x00);
 		//		GL11.glStencilFunc(GL11.GL_EQUAL, 13, 0xFF);
-		GlStateManager.glBegin(GL11.GL_TRIANGLE_FAN);
+		GL11.glBegin(GL11.GL_TRIANGLE_FAN);
 		GlStateManager.color4f(0F, 0.0F, 0.0F, a);
 		GL11.glVertex2i(centerX, centerY);
 		GlStateManager.color4f(0F, 0F, 0.0F, a);
@@ -169,7 +169,7 @@ public class AoVUIBar {
 			GL11.glVertex2d(centerX + Math.cos((-405) / 180F * Math.PI) * r, centerY + Math.sin(rad) * r);
 
 		GL11.glVertex2i(centerX, centerY);
-		GlStateManager.glEnd();
+		GL11.glEnd();
 		GlStateManager.disableBlend();
 		GlStateManager.enableTexture2D();
 		GlStateManager.shadeModel(GL11.GL_FLAT);

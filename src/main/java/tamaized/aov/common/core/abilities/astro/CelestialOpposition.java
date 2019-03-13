@@ -7,6 +7,8 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -88,8 +90,6 @@ public class CelestialOpposition extends AbilityBase {
 
 	@Override
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
-		if (!caster.hasCapability(CapabilityList.AOV, null))
-			return false;
 		IAoVCapability aov = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (!caster.world.isRemote && aov != null) {
 			for (EntityLivingBase e : caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.posX - distance, caster.posY - distance, caster.posY - distance, caster.posX + distance, caster.posY + distance, caster.posZ + distance))) {
@@ -103,7 +103,7 @@ public class CelestialOpposition extends AbilityBase {
 				if (e == caster || IAoVCapability.canBenefit(caster, aov, e)) {
 					for (PotionEffect effect : e.getActivePotionEffects())
 						if (!effect.getPotion().isBadEffect())
-							e.addPotionEffect(new PotionEffect(effect.getPotion(), effect.getDuration() + 400, effect.getAmplifier(), effect.getIsAmbient(), effect.doesShowParticles()));
+							e.addPotionEffect(new PotionEffect(effect.getPotion(), effect.getDuration() + 400, effect.getAmplifier(), effect.isAmbient(), effect.doesShowParticles()));
 				}
 			}
 			EntityCelestialOpposition spell = new EntityCelestialOpposition(caster.world);

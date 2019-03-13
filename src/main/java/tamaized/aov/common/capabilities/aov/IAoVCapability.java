@@ -5,12 +5,12 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityOwnable;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.passive.IAnimals;
+import net.minecraft.entity.passive.IAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.aov.AoVCapabilityHandler.DecayWrapper;
@@ -40,7 +40,7 @@ public interface IAoVCapability {
 						!caster.isOnSameTeam(entity)) || // Not the same team, return true
 				(!(entity instanceof IEntityOwnable && // Target is a possible pet
 						((IEntityOwnable) entity).getOwner() == caster) && // If this is our pet, dont do the final player check, let it return false
-						(!(entity instanceof EntityPlayer) && (!(entity instanceof IAnimals) || entity instanceof IMob)))); // Wasn't our pet, we're not on a team, is target a player or passive mob? if not return true
+						(!(entity instanceof EntityPlayer) && (!(entity instanceof IAnimal) || entity instanceof IMob)))); // Wasn't our pet, we're not on a team, is target a player or passive mob? if not return true
 		// If all the above fails, it'll return false.
 	}
 
@@ -51,11 +51,11 @@ public interface IAoVCapability {
 	static boolean isCentered(EntityLivingBase entity, IAoVCapability cap) {
 		if (entity != null && cap != null && cap.hasSkill(AoVSkills.druid_core_1)) {
 			for (ItemStack stack : entity.getArmorInventoryList())
-				if (!stack.isEmpty() && !ItemStackWrapper.compare(AoV.config.CENTERED_WEAR.get(), stack))
+				if (!stack.isEmpty() && !ItemStackWrapper.compare(ConfigHandler.CENTERED_WEAR, stack))
 					return false;
-			if (!entity.getHeldItemMainhand().isEmpty() && !ItemStackWrapper.compare(AoV.config.CENTERED_WEAR.get(), entity.getHeldItemMainhand()))
+			if (!entity.getHeldItemMainhand().isEmpty() && !ItemStackWrapper.compare(ConfigHandler.CENTERED_WEAR, entity.getHeldItemMainhand()))
 				return !entity.getHeldItemMainhand().getAttributeModifiers(EntityEquipmentSlot.MAINHAND).containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
-			return entity.getHeldItemOffhand().isEmpty() || ItemStackWrapper.compare(AoV.config.CENTERED_WEAR.get(), entity.getHeldItemOffhand()) || !entity.getHeldItemOffhand().getAttributeModifiers(EntityEquipmentSlot.OFFHAND).containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
+			return entity.getHeldItemOffhand().isEmpty() || ItemStackWrapper.compare(ConfigHandler.CENTERED_WEAR, entity.getHeldItemOffhand()) || !entity.getHeldItemOffhand().getAttributeModifiers(EntityEquipmentSlot.OFFHAND).containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
 		}
 		return false;
 	}
@@ -195,38 +195,27 @@ public interface IAoVCapability {
 
 	class ItemStackWrapper {
 
-		boolean ignoreMeta;
 		boolean ignoreNBT;
 		ItemStack stack;
 
-		public ItemStackWrapper(Item item) {
-			this(item, 0);
-			ignoreMeta = true;
+		public ItemStackWrapper(IItemProvider item) {
+			this(new ItemStack(item), true);
 		}
 
-		public ItemStackWrapper(Item item, int meta) {
-			this(new ItemStack(item, 1, meta), false, true);
+		public ItemStackWrapper(NBTTagCompound tag, boolean ignoreNBT) {
+			this(ItemStack.read(tag), ignoreNBT);
 		}
 
-		public ItemStackWrapper(NBTTagCompound tag, boolean ignoreMeta, boolean ignoreNBT) {
-			this(new ItemStack(tag), ignoreMeta, ignoreNBT);
-		}
-
-		public ItemStackWrapper(ItemStack stack, boolean ignoreMeta, boolean ignoreNBT) {
+		public ItemStackWrapper(ItemStack stack, boolean ignoreNBT) {
 			this.stack = stack;
-			this.ignoreMeta = ignoreMeta;
 			this.ignoreNBT = ignoreNBT;
 		}
 
 		public static boolean compare(Set<ItemStackWrapper> set, ItemStack stack) {
 			boolean flag;
 			for (ItemStackWrapper wrapper : set) {
-				if (wrapper.ignoreMeta && wrapper.ignoreNBT)
-					flag = wrapper.stack.getItem() == stack.getItem();
-				else if (wrapper.ignoreNBT)
+				if (wrapper.ignoreNBT)
 					flag = wrapper.stack.isItemEqual(stack);
-				else if (wrapper.ignoreMeta)
-					flag = wrapper.stack.getItem() == stack.getItem() && ItemStack.areItemStackTagsEqual(wrapper.stack, stack);
 				else
 					flag = ItemStack.areItemStacksEqual(wrapper.stack, stack);
 				if (flag)
@@ -237,7 +226,7 @@ public interface IAoVCapability {
 
 		public ItemStackWrapper attachNBT(NBTTagCompound tag) {
 			ignoreNBT = false;
-			stack.setTagCompound(tag);
+			stack.setTag(tag);
 			return this;
 		}
 

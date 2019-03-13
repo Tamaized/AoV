@@ -21,13 +21,13 @@ public class ParticleHeartColor extends Particle {
 		particleScale *= 0.75F;
 		particleScale *= scale;
 		particleGravity = gravity;
-		particleMaxAge = life;
+		maxAge = life;
 		particleScaleOverTime = particleScale;
 		particleRed = (float) (color >> 24 & 255) / 255.0F;
 		particleGreen = (float) (color >> 16 & 255) / 255.0F;
 		particleBlue = (float) (color >> 8 & 255) / 255.0F;
 		particleAlpha = (float) (color & 255) / 255.0F;
-		particleTexture = Minecraft.getInstance().getTextureMapBlocks().getAtlasSprite(TextureStitch.HEART.toString());
+		particleTexture = Minecraft.getInstance().getTextureMap().getAtlasSprite(TextureStitch.HEART.toString());
 	}
 
 	@Override
@@ -37,23 +37,23 @@ public class ParticleHeartColor extends Particle {
 
 	@Override
 	public void renderParticle(BufferBuilder buffer, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
-		float f = ((float) this.particleAge + partialTicks) / (float) this.particleMaxAge * 32.0F;
+		float f = ((float) this.age + partialTicks) / (float) this.maxAge * 32.0F;
 		f = MathHelper.clamp(f, 0.0F, 1.0F);
 		this.particleScale = this.particleScaleOverTime * f;
 		super.renderParticle(buffer, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
 	}
 
 	@Override
-	public void onUpdate() {
+	public void tick() {
 		if (true) {
-			super.onUpdate();
+			super.tick();
 			return;
 		}
 		this.prevPosX = this.posX;
 		this.prevPosY = this.posY;
 		this.prevPosZ = this.posZ;
 
-		if (this.particleAge++ >= this.particleMaxAge) {
+		if (this.age++ >= this.maxAge) {
 			this.setExpired();
 		}
 

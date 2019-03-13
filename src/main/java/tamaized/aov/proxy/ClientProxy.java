@@ -2,7 +2,6 @@ package tamaized.aov.proxy;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.Vec3d;
@@ -12,11 +11,9 @@ import tamaized.aov.client.ClientHelpers;
 import tamaized.aov.client.RenderPlayer;
 import tamaized.aov.client.SizedFontRenderer;
 import tamaized.aov.client.events.ClientSpawnEvent;
-import tamaized.aov.client.events.KeyHandler;
 import tamaized.aov.client.gui.AoVOverlay;
 import tamaized.aov.client.particle.ParticleFeather;
 import tamaized.aov.client.particle.ParticleHeartColor;
-import tamaized.tammodized.client.particles.ParticleFluff;
 
 import javax.annotation.Nullable;
 
@@ -51,7 +48,7 @@ public class ClientProxy extends CommonProxy {
 		if (!Minecraft.getInstance().getFramebuffer().isStencilEnabled())
 			Minecraft.getInstance().getFramebuffer().enableStencil();
 
-		KeyHandler.register();
+		//		KeyHandler.register(); TODO
 
 		MinecraftForge.EVENT_BUS.register(new AoVOverlay());
 		MinecraftForge.EVENT_BUS.register(new RenderPlayer());
@@ -67,11 +64,11 @@ public class ClientProxy extends CommonProxy {
 	public void postInit() {
 		FONT_RENDERER = new SizedFontRenderer();
 		if (Minecraft.getInstance().gameSettings.language != null) {
-			FONT_RENDERER.setUnicodeFlag(Minecraft.getInstance().isUnicode());
+			//			FONT_RENDERER.setUnicodeFlag(Minecraft.getInstance().isUnicode());
 			FONT_RENDERER.setBidiFlag(Minecraft.getInstance().getLanguageManager().isCurrentLanguageBidirectional());
 		}
-		if (IReloadableResourceManager.class.isAssignableFrom(Minecraft.getInstance().getResourceManager().getClass()))
-			IReloadableResourceManager.class.cast(Minecraft.getInstance().getResourceManager()).registerReloadListener(FONT_RENDERER);
+		/*if (IReloadableResourceManager.class.isAssignableFrom(Minecraft.getInstance().getResourceManager().getClass()))
+			IReloadableResourceManager.class.cast(Minecraft.getInstance().getResourceManager()).addReloadListener(FONT_RENDERER);*/
 	}
 
 	@Override
@@ -79,7 +76,7 @@ public class ClientProxy extends CommonProxy {
 		Particle particle = null;
 		switch (type) {
 			case Fluff:
-				particle = new ParticleFluff(world, pos, target, life, gravity, scale, color);
+				//				particle = new ParticleFluff(world, pos, target, life, gravity, scale, color); TODO: let's not use this stupid thing anymore
 				break;
 			case Heart:
 				particle = new ParticleHeartColor(world, pos, target, life, gravity, scale, color);
@@ -90,6 +87,6 @@ public class ClientProxy extends CommonProxy {
 		}
 		//noinspection ConstantConditions
 		if (particle != null)
-			Minecraft.getInstance().effectRenderer.addEffect(particle);
+			Minecraft.getInstance().particles.addEffect(particle);
 	}
 }

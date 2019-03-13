@@ -7,6 +7,8 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -115,7 +117,7 @@ public class Polymorph extends AbilityBase {
 				caster.getRNG().nextFloat() * 0.20F + 0.95F :
 
 				caster.getRNG().nextFloat() * 0.75F + 0.25F;
-		caster.world.play(null, caster.posX, caster.posY, caster.posZ, type.sound, SoundCategory.PLAYERS, type == IPolymorphCapability.Morph.ArchAngel ? 1F : 0.5F, pitch);
+		caster.world.playSound(null, caster.posX, caster.posY, caster.posZ, type.sound, SoundCategory.PLAYERS, type == IPolymorphCapability.Morph.ArchAngel ? 1F : 0.5F, pitch);
 		return cooldown;
 	}
 

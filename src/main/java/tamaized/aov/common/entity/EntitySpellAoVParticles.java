@@ -7,10 +7,14 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
 import tamaized.aov.proxy.CommonProxy;
+import tamaized.aov.registry.AoVEntities;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 public class EntitySpellAoVParticles extends Entity {
 
@@ -22,7 +26,7 @@ public class EntitySpellAoVParticles extends Entity {
 	private int tick = 0;
 
 	public EntitySpellAoVParticles(World worldIn) {
-		super(worldIn);
+		super(Objects.requireNonNull(AoVEntities.entityspellaovparticles), worldIn);
 	}
 
 	public EntitySpellAoVParticles(World world, Entity entity, CommonProxy.ParticleType particle, int color, int rate) {
@@ -42,7 +46,7 @@ public class EntitySpellAoVParticles extends Entity {
 	}
 
 	@Override
-	protected void entityInit() {
+	protected void registerData() {
 		dataManager.register(PARTICLE, CommonProxy.ParticleType.Fluff.ordinal());
 		dataManager.register(COLOR, 0xFFFFFFFF);
 		dataManager.register(RATE, 10);
@@ -66,17 +70,17 @@ public class EntitySpellAoVParticles extends Entity {
 	}
 
 	@Override
-	protected void readEntityFromNBT(@Nonnull NBTTagCompound compound) {
-		dataManager.set(PARTICLE, compound.getInteger("particle"));
+	protected void readAdditional(@Nonnull NBTTagCompound compound) {
+		dataManager.set(PARTICLE, compound.getInt("particle"));
 	}
 
 	@Override
-	protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
-		compound.setInteger("particle", dataManager.get(PARTICLE));
+	protected void writeAdditional(@Nonnull NBTTagCompound compound) {
+		compound.setInt("particle", dataManager.get(PARTICLE));
 	}
 
 	@Override
-	public void onUpdate() {
+	public void tick() {
 		if (world.isRemote) {
 			for (int index = 0; index < dataManager.get(RATE); index++) {
 				Vec3d vec = getLook(1.0F).rotatePitch(rand.nextInt(360)).rotateYaw(rand.nextInt(360));
@@ -85,8 +89,8 @@ public class EntitySpellAoVParticles extends Entity {
 			}
 			return;
 		}
-		if (tick-- <= 0 || target == null || !target.isEntityAlive()) {
-			setDead();
+		if (tick-- <= 0 || target == null || !target.isAlive()) {
+			remove();
 			return;
 		}
 		setPositionAndUpdate(target.posX, target.posY, target.posZ);

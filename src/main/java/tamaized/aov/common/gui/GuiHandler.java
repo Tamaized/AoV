@@ -1,5 +1,6 @@
 package tamaized.aov.common.gui;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -8,6 +9,8 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.IInteractionObject;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
 import tamaized.aov.client.gui.AoVSkillsGUI;
@@ -55,6 +58,19 @@ public class GuiHandler {
 		}
 	};
 
+	public static void openGui(GUI gui, BlockAngelicBlock.ClassType classType) {
+		openGui((classType.ordinal() << GUI_BIT_SHIFT) + gui.ordinal());
+	}
+
+	public static void openGui(GUI gui) {
+		openGui(gui.ordinal());
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	private static void openGui(int gui) {
+		Minecraft.getInstance().displayGuiScreen(getGui(gui));
+	}
+
 	public static void openGui(GUI gui, BlockAngelicBlock.ClassType classType, EntityPlayerMP player) {
 		openGui((classType.ordinal() << GUI_BIT_SHIFT) + gui.ordinal(), player);
 	}
@@ -70,6 +86,10 @@ public class GuiHandler {
 
 	public static GuiScreen getGui(FMLPlayMessages.OpenContainer packet) {
 		int id = packet.getAdditionalData().readInt();
+		return getGui(id);
+	}
+
+	public static GuiScreen getGui(int id) {
 		BlockAngelicBlock.ClassType data = BlockAngelicBlock.ClassType.values[id >>> GUI_BIT_SHIFT];
 		switch (GUI.values[id & GUI_BITS]) {
 			case SKILLS:
@@ -100,7 +120,7 @@ public class GuiHandler {
 
 	}
 
-	private static class FakeContainer extends Container {
+	public static class FakeContainer extends Container {
 
 		@Override
 		public boolean canInteractWith(@Nonnull EntityPlayer playerIn) {

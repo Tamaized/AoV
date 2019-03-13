@@ -7,15 +7,17 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.leap.ILeapCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
+import tamaized.aov.common.helper.MotionHelper;
 import tamaized.aov.registry.AoVPotions;
 import tamaized.aov.registry.SoundEvents;
-import tamaized.tammodized.common.helper.MotionHelper;
 
 public class LeapOfFaith extends AbilityBase {
 

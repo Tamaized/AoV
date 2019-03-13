@@ -10,6 +10,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -98,7 +100,7 @@ public class DruidicRegenerate extends AbilityBase {
 				cap.addExp(caster, 15, this);
 			}
 			ParticleHelper.spawnParticleMesh(ParticleHelper.MeshType.BURST, CommonProxy.ParticleType.Heart, caster.world, caster.getPositionVector(), range, 0x00FFAAFF);
-			caster.world.play(null, caster.posX, caster.posY, caster.posZ, SoundEvents.EVOCATION_ILLAGER_CAST_SPELL, SoundCategory.PLAYERS, 1.0F, caster.getRNG().nextFloat() * 0.50F + 0.50F);
+			caster.world.playSound(null, caster.posX, caster.posY, caster.posZ, SoundEvents.ENTITY_EVOKER_CAST_SPELL, SoundCategory.PLAYERS, 1.0F, caster.getRNG().nextFloat() * 0.50F + 0.50F);
 			return true;
 		}
 		return false;

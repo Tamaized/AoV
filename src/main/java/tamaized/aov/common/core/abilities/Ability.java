@@ -6,11 +6,11 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.RayTraceResult;
+import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
-import tamaized.aov.common.config.ConfigHandler;
-import tamaized.tammodized.common.helper.RayTraceHelper;
+import tamaized.aov.common.helper.RayTraceHelper;
 
 import javax.annotation.Nullable;
 import java.util.HashSet;
@@ -47,7 +47,7 @@ public final class Ability {
 	}
 
 	public static Ability construct(IAoVCapability cap, @Nullable IAstroCapability astro, NBTTagCompound nbt) {
-		int id = nbt.getInteger("id");
+		int id = nbt.getInt("id");
 		if (id < 0)
 			return null;
 		Ability ability = new Ability(AbilityBase.getAbilityFromID(id), cap, astro);
@@ -74,24 +74,24 @@ public final class Ability {
 
 	@SuppressWarnings("UnusedReturnValue")
 	public NBTTagCompound encode(NBTTagCompound nbt, IAoVCapability cap) {
-		nbt.setInteger("id", ability.getID());
-		nbt.setInteger("cooldown", cooldown);
-		nbt.setInteger("cooldownfailsafe", cap.getCooldown(ability));
-		nbt.setInteger("charges", charges);
-		nbt.setInteger("decay", decay);
-		nbt.setInteger("timer", timer);
+		nbt.setInt("id", ability.getID());
+		nbt.setInt("cooldown", cooldown);
+		nbt.setInt("cooldownfailsafe", cap.getCooldown(ability));
+		nbt.setInt("charges", charges);
+		nbt.setInt("decay", decay);
+		nbt.setInt("timer", timer);
 		nbt.setBoolean("disabled", disabled);
 		return nbt;
 	}
 
 	public void decode(NBTTagCompound nbt, IAoVCapability cap) {
-		cooldown = nbt.getInteger("cooldown");
-		int cooldownfailsafe = nbt.getInteger("cooldownfailsafe");
+		cooldown = nbt.getInt("cooldown");
+		int cooldownfailsafe = nbt.getInt("cooldownfailsafe");
 		if (cooldownfailsafe > 0)
 			cap.setCooldown(ability, cooldownfailsafe);
-		charges = nbt.getInteger("charges");
-		decay = nbt.getInteger("decay");
-		timer = nbt.getInteger("timer");
+		charges = nbt.getInt("charges");
+		decay = nbt.getInt("decay");
+		timer = nbt.getInt("timer");
 		disabled = nbt.getBoolean("disabled");
 	}
 
@@ -122,7 +122,7 @@ public final class Ability {
 		HashSet<Entity> set = new HashSet<>();
 		set.add(caster);
 		RayTraceResult ray = RayTraceHelper.tracePath(caster.world, caster, (int) getAbility().getMaxDistance(), 1, set);
-		cast(caster, (ray == null || !(ray.entityHit instanceof EntityLivingBase)) ? null : (EntityLivingBase) ray.entityHit);
+		cast(caster, (ray == null || !(ray.entity instanceof EntityLivingBase)) ? null : (EntityLivingBase) ray.entity);
 	}
 
 	public void cast(EntityPlayer caster, EntityLivingBase target) {

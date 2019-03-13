@@ -4,7 +4,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.RayTraceResult;
-import tamaized.tammodized.common.helper.RayTraceHelper;
+import tamaized.aov.common.helper.RayTraceHelper;
 
 import java.util.HashSet;
 
@@ -22,7 +22,7 @@ public final class ClientHelpers {
 		BLANK_SET.add(mc.player);
 		RayTraceResult ray = RayTraceHelper.tracePath(mc.world, mc.player, range, 1, BLANK_SET);
 		BLANK_SET.clear();
-		return ray == null || ray.typeOfHit != RayTraceResult.Type.ENTITY ? null : ray.entityHit;
+		return ray == null || ray.type != RayTraceResult.Type.ENTITY ? null : ray.entity;
 	}
 
 }

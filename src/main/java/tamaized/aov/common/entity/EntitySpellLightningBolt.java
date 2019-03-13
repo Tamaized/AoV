@@ -15,9 +15,11 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.AbilityBase;
+import tamaized.aov.registry.AoVEntities;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.Objects;
 
 public class EntitySpellLightningBolt extends Entity {
 
@@ -29,7 +31,7 @@ public class EntitySpellLightningBolt extends Entity {
 	private AbilityBase source;
 
 	public EntitySpellLightningBolt(World world) {
-		super(world);
+		super(Objects.requireNonNull(AoVEntities.entityspelllightningbolt), world);
 		damage = 3F;
 	}
 
@@ -41,7 +43,7 @@ public class EntitySpellLightningBolt extends Entity {
 	}
 
 	@Override
-	protected void entityInit() {
+	protected void registerData() {
 
 	}
 
@@ -52,19 +54,19 @@ public class EntitySpellLightningBolt extends Entity {
 	}
 
 	@Override
-	public void onUpdate() {
-		super.onUpdate();
+	public void tick() {
+		super.tick();
 
 		if (this.lightningState == 2) {
-			this.world.play(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_LIGHTNING_THUNDER, SoundCategory.WEATHER, 10000.0F, 0.8F + this.rand.nextFloat() * 0.2F);
-			this.world.play(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_LIGHTNING_IMPACT, SoundCategory.WEATHER, 2.0F, 0.5F + this.rand.nextFloat() * 0.2F);
+			this.world.playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_LIGHTNING_BOLT_THUNDER, SoundCategory.WEATHER, 10000.0F, 0.8F + this.rand.nextFloat() * 0.2F);
+			this.world.playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_LIGHTNING_BOLT_IMPACT, SoundCategory.WEATHER, 2.0F, 0.5F + this.rand.nextFloat() * 0.2F);
 		}
 
 		--this.lightningState;
 
 		if (this.lightningState < 0) {
 			if (this.boltLivingTime == 0) {
-				this.setDead();
+				this.remove();
 			} else if (this.lightningState < -this.rand.nextInt(10)) {
 				--this.boltLivingTime;
 				this.lightningState = 1;
@@ -73,7 +75,7 @@ public class EntitySpellLightningBolt extends Entity {
 					this.boltVertex = this.rand.nextLong();
 					BlockPos blockpos = new BlockPos(this);
 
-					if (this.world.getGameRules().getBoolean("doFireTick") && this.world.isAreaLoaded(blockpos, 10) && this.world.getBlockState(blockpos).getMaterial() == Material.AIR && Blocks.FIRE.canPlaceBlockAt(this.world, blockpos)) {
+					if (this.world.getGameRules().getBoolean("doFireTick") && this.world.isAreaLoaded(blockpos, 10) && this.world.getBlockState(blockpos).getMaterial() == Material.AIR && Blocks.FIRE.getDefaultState().isValidPosition(this.world, blockpos)) {
 						this.world.setBlockState(blockpos, Blocks.FIRE.getDefaultState());
 					}
 				}
@@ -93,12 +95,12 @@ public class EntitySpellLightningBolt extends Entity {
 	}
 
 	@Override
-	protected void readEntityFromNBT(@Nonnull NBTTagCompound compound) {
+	protected void readAdditional(@Nonnull NBTTagCompound compound) {
 
 	}
 
 	@Override
-	protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
+	protected void writeAdditional(@Nonnull NBTTagCompound compound) {
 
 	}
 

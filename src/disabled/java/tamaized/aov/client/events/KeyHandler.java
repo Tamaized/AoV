@@ -105,7 +105,7 @@ public class KeyHandler {
 		EntityPlayer player = Minecraft.getInstance().player;
 		if (player == null)
 			return;
-		if (player.updateBlocked) {
+		if (player.canUpdate()) {
 			KeyBinding chat = Minecraft.getInstance().gameSettings.keyBindChat;
 			KeyBinding perspective = Minecraft.getInstance().gameSettings.keyBindTogglePerspective;
 			boolean chatpress = chat.isPressed();
@@ -154,7 +154,7 @@ public class KeyHandler {
 		EntityPlayer player = Minecraft.getInstance().player;
 		if (player == null)
 			return;
-		if (player.updateBlocked) {
+		if (player.canUpdate()) {
 			e.setYaw(yaw);
 			e.setPitch(pitch);
 			e.setRoll(roll);
@@ -167,7 +167,7 @@ public class KeyHandler {
 
 	@SubscribeEvent
 	public static void handleUpdate(LivingEvent.LivingUpdateEvent e) {
-		if (e.getEntity().updateBlocked)
+		if (e.getEntity().canUpdate())
 			e.setCanceled(true);
 	}
 
@@ -176,7 +176,7 @@ public class KeyHandler {
 		EntityPlayer player = Minecraft.getInstance().player;
 		if (player == null || e.phase == TickEvent.Phase.END)
 			return;
-		if (player.updateBlocked) {
+		if (player.canUpdate()) {
 			Mouse.getDX();
 			Mouse.getDY();
 			player.prevRotationYawHead = player.rotationYawHead = ryh;
@@ -198,7 +198,7 @@ public class KeyHandler {
 		EntityPlayer player = Minecraft.getInstance().player;
 		if (player == null)
 			return;
-		if (player.updateBlocked) {
+		if (player.canUpdate()) {
 			Mouse.setCursorPosition(mx, my);
 			e.setCanceled(true);
 			return;

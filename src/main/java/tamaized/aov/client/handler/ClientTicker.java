@@ -22,7 +22,7 @@ public class ClientTicker {
 			return;
 		frames++;
 		charges.update();
-		if (ClientProxy.getTarget() != null && !ClientProxy.getTarget().isEntityAlive())
+		if (ClientProxy.getTarget() != null && !ClientProxy.getTarget().isAlive())
 			ClientProxy.setTarget(null);
 		{
 			if (dangerBiomeTicksFlag) {

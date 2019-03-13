@@ -21,7 +21,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.init.Particles;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import tamaized.aov.common.capabilities.CapabilityList;
@@ -65,8 +65,8 @@ public class EntityDruidicWolf extends EntityWolf {
 	}
 
 	@Override
-	public void onLivingUpdate() {
-		super.onLivingUpdate();
+	public void livingTick() {
+		super.livingTick();
 		if (!world.isRemote) {
 			if (--life <= 0) {
 				setHealth(0F);
@@ -80,7 +80,7 @@ public class EntityDruidicWolf extends EntityWolf {
 		if (world.isRemote) {
 			for (int index = 0; index < 4; index++) {
 				Vec3d result = getLook(1F).rotateYaw(rand.nextFloat() * 360F).rotatePitch(rand.nextFloat() * 360F).scale(0.08F);//.add(getPositionVector());
-				world.spawnParticle(EnumParticleTypes.END_ROD, posX, posY + height / 2F, posZ, result.x, result.y, result.z);
+				world.spawnParticle(Particles.END_ROD, posX, posY + height / 2F, posZ, result.x, result.y, result.z);
 			}
 		}
 	}

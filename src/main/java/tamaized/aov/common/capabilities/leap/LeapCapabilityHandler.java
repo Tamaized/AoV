@@ -2,7 +2,7 @@ package tamaized.aov.common.capabilities.leap;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.network.PacketDistributor;
 import tamaized.aov.AoV;
 import tamaized.aov.network.client.ClientPacketHandlerLeap;
 
@@ -40,6 +40,6 @@ public class LeapCapabilityHandler implements ILeapCapability {
 
 	private void sendPacketUpdates(Entity e) {
 		if (!e.world.isRemote)
-			AoV.network.sendToAllAround(new ClientPacketHandlerLeap.Packet(e, this), new NetworkRegistry.TargetPoint(e.dimension, e.posX, e.posY, e.posZ, 256));
+			AoV.network.send(PacketDistributor.TRACKING_ENTITY.with(() -> e), new ClientPacketHandlerLeap(e, this));
 	}
 }

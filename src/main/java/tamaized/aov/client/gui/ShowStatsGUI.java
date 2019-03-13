@@ -2,12 +2,10 @@ package tamaized.aov.client.gui;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.resources.I18n;
-import tamaized.aov.client.gui.buttons.GuiStandardButton;
 import tamaized.aov.common.blocks.BlockAngelicBlock;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.AoVCapabilityHandler;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
-import tamaized.aov.common.gui.GuiHandler;
 
 public class ShowStatsGUI extends GuiScreenClose {
 
@@ -27,27 +25,21 @@ public class ShowStatsGUI extends GuiScreenClose {
 		float workW = width - padding;
 		int loc1 = (int) (workW * .25) + margin;
 		int loc2 = (int) (workW * .75) + margin;
-		buttons.add(new GuiStandardButton(BUTTON_BACK, loc1, height - 25, 80, 20, I18n.format("aov.gui.button.back")));
-		buttons.add(new GuiStandardButton(BUTTON_CLOSE, loc2, height - 25, 80, 20, I18n.format("aov.gui.button.close")));
-
-	}
-
-
-
-	@Override
-	protected void actionPerformed(GuiButton button) {
-		if (button.enabled) {
-			switch (button.id) {
-				case BUTTON_CLOSE:
-					mc.player.closeScreen();
-					break;
-				case BUTTON_BACK:
-//					GuiHandler.openGUI(GuiHandler.GUI.SKILLS, parent, mc.player, mc.world); TODO
-					break;
-				default:
-					break;
+		buttons.add(new GuiButton(BUTTON_BACK, loc1, height - 25, 80, 20, I18n.format("aov.gui.button.back")) {
+			@Override
+			public void onClick(double mouseX, double mouseY) {
+				super.onClick(mouseX, mouseY);
+				//GuiHandler.openGUI(GuiHandler.GUI.SKILLS, parent, mc.player, mc.world); TODO
 			}
-		}
+		});
+		buttons.add(new GuiButton(BUTTON_CLOSE, loc2, height - 25, 80, 20, I18n.format("aov.gui.button.close")) {
+			@Override
+			public void onClick(double mouseX, double mouseY) {
+				super.onClick(mouseX, mouseY);
+				mc.player.closeScreen();
+			}
+		});
+
 	}
 
 	@Override
@@ -61,11 +53,7 @@ public class ShowStatsGUI extends GuiScreenClose {
 	}
 
 	@Override
-	public void updateScreen() {
-	}
-
-	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+	public void render(int mouseX, int mouseY, float partialTicks) {
 		this.drawDefaultBackground();
 		this.drawCenteredString(this.fontRenderer, I18n.format("aov.gui.title.stats"), this.width / 2, 15, 16777215);
 		IAoVCapability cap = mc == null ? null : CapabilityList.getCap(mc.player, CapabilityList.AOV);
@@ -77,7 +65,7 @@ public class ShowStatsGUI extends GuiScreenClose {
 		this.drawCenteredString(fontRenderer, I18n.format("aov.gui.stats.dodge", cap == null ? "null" : cap.getDodge()) + "%", width / 2, 90, 0x00FF00);
 		this.drawCenteredString(fontRenderer, I18n.format("aov.gui.stats.doublestrike", cap == null ? "null" : cap.getDoubleStrike()) + "%", width / 2, 100, 0x00FF00);
 
-		super.drawScreen(mouseX, mouseY, partialTicks);
+		super.render(mouseX, mouseY, partialTicks);
 	}
 
 }

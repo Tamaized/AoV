@@ -3,7 +3,9 @@ package tamaized.aov.client.gui.buttons;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
+import tamaized.aov.client.gui.AoVSkillsGUI;
 import tamaized.aov.client.gui.AoVUIBar;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.skills.AoVSkill;
@@ -24,6 +26,14 @@ public class SkillButton extends GuiButton {
 		super(buttonId, x, y, 18, 18, "");
 		skill = s;
 		update(null);
+	}
+
+	@Override
+	public void onClick(double mouseX, double mouseY) {
+		super.onClick(mouseX, mouseY);
+		GuiScreen screen = Minecraft.getInstance().currentScreen;
+		if (screen instanceof AoVSkillsGUI)
+			((AoVSkillsGUI) screen).doSkillButton(this);
 	}
 
 	public AoVSkill getSkill() {
@@ -81,12 +91,12 @@ public class SkillButton extends GuiButton {
 			GlStateManager.blendFuncSeparate(770, 771, 1, 0);
 			GlStateManager.blendFunc(770, 771);
 			// drawRect(x + width / 2, y, width / 2, height, 0xFFFFFFFF);
-//			mouseDragged(mc, mouseX, mouseY); TODO
+			mouseDragged(mouseX, mouseY, 0, mouseX, mouseY);
 			int j = 0xBBFFFFFF;
 
-			/*if (packedFGColour != 0) { TODO
-				// j = packedFGColour;
-			} else */if (!enabled) {
+			if (packedFGColor != 0) {
+				j = packedFGColor;
+			} else if (!enabled) {
 				j = 0xFF888888;
 			} else if (hovered) {
 				j = 0xFFFFFFFF;

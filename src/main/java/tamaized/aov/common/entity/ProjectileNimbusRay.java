@@ -8,19 +8,24 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.registry.AoVDamageSource;
+import tamaized.aov.registry.AoVEntities;
+
+import java.util.Objects;
 
 public class ProjectileNimbusRay extends ProjectileBase {
 
 	public ProjectileNimbusRay(World worldIn) {
-		super(worldIn);
+		super(Objects.requireNonNull(AoVEntities.projectilenimbusray), worldIn);
 		setDamageRangeSpeed(2.0F, 0, 0.0F);
 	}
 
 	public ProjectileNimbusRay(World world, EntityPlayer shooter, double x, double y, double z) {
-		super(world, shooter, x, y, z);
+		super(Objects.requireNonNull(AoVEntities.projectilenimbusray), world, shooter, x, y, z);
 	}
 
 	@Override

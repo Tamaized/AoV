@@ -5,12 +5,16 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceFluidMode;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -19,8 +23,10 @@ import tamaized.aov.common.helper.ParticleHelper;
 import tamaized.aov.common.helper.ParticleHelper.MeshType;
 import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.AoVDamageSource;
+import tamaized.aov.registry.AoVEntities;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 public class ProjectileFlameStrike extends Entity implements IProjectile, IEntityAdditionalSpawnData {
 
@@ -28,7 +34,7 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 	private float damage = 2;
 
 	public ProjectileFlameStrike(World worldIn) {
-		super(worldIn);
+		super(Objects.requireNonNull(AoVEntities.projectileflamestrike), worldIn);
 		setFire(100);
 		motionX = 0;
 		motionY = -0.8;
@@ -57,26 +63,26 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 	}
 
 	@Override
-	public void writeSpawnData(ByteBuf buffer) {
+	public void writeSpawnData(PacketBuffer buffer) {
 		buffer.writeDouble(posX);
 		buffer.writeDouble(posY);
 		buffer.writeDouble(posZ);
 	}
 
 	@Override
-	public void readSpawnData(ByteBuf data) {
+	public void readSpawnData(PacketBuffer data) {
 		setPosition(data.readDouble(), data.readDouble(), data.readDouble());
 
 	}
 
 	@Override
-	public void onUpdate() {
-		onEntityUpdate();
+	public void tick() {
+		baseTick();
 		Vec3d vec3d1 = new Vec3d(posX, posY, posZ);
 		Vec3d vec3d = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
-		RayTraceResult ray = world.rayTraceBlocks(vec3d1, vec3d, false, true, false);
-		if (ray != null && ray.typeOfHit != null) {
-			switch (ray.typeOfHit) {
+		RayTraceResult ray = world.rayTraceBlocks(vec3d1, vec3d, RayTraceFluidMode.NEVER, true, false);
+		if (ray != null && ray.type != null) {
+			switch (ray.type) {
 				case BLOCK:
 				case ENTITY:
 					explode();
@@ -90,7 +96,7 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 	}
 
 	private void explode() {
-		setDead();
+		remove();
 		for (EntityLivingBase entity : world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(getPosition().add(-10, -1, -10), getPosition().add(10, 5, 10)))) {
 			if (attacker != null) {
 				IAoVCapability cap = CapabilityList.getCap(attacker, CapabilityList.AOV);
@@ -129,17 +135,17 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 	}
 
 	@Override
-	protected void entityInit() {
+	protected void registerData() {
 
 	}
 
 	@Override
-	protected void readEntityFromNBT(@Nonnull NBTTagCompound compound) {
+	protected void readAdditional(@Nonnull NBTTagCompound compound) {
 
 	}
 
 	@Override
-	protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
+	protected void writeAdditional(@Nonnull NBTTagCompound compound) {
 
 	}
 

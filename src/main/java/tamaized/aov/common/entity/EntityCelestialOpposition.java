@@ -3,30 +3,34 @@ package tamaized.aov.common.entity;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import tamaized.aov.registry.AoVEntities;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 public class EntityCelestialOpposition extends Entity {
 
 	public float tickBoi;
 
 	public EntityCelestialOpposition(World worldIn) {
-		super(worldIn);
+		super(Objects.requireNonNull(AoVEntities.entitycelestialopposition), worldIn);
 		ignoreFrustumCheck = true;
 	}
 
 	@Override
-	protected void entityInit() {
+	protected void registerData() {
 
 	}
 
 	@Override
-	protected void readEntityFromNBT(@Nonnull NBTTagCompound compound) {
+	protected void readAdditional(@Nonnull NBTTagCompound compound) {
 
 	}
 
 	@Override
-	protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
+	protected void writeAdditional(@Nonnull NBTTagCompound compound) {
 
 	}
 
@@ -37,9 +41,9 @@ public class EntityCelestialOpposition extends Entity {
 	}
 
 	@Override
-	public void onUpdate() {
-		super.onUpdate();
+	public void tick() {
+		super.tick();
 		if (ticksExisted >= 20 * 5)
-			setDead();
+			remove();
 	}
 }

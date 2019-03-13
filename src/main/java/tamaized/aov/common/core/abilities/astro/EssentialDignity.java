@@ -3,9 +3,11 @@ package tamaized.aov.common.core.abilities.astro;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.init.Particles;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -92,7 +94,7 @@ public class EssentialDignity extends AbilityBase {
 		EntityLivingBase entity = target != null && IAoVCapability.canBenefit(caster, cap, target) ? target : caster;
 		entity.heal(entity.getMaxHealth());
 		SoundEvents.playMovingSoundOnServer(SoundEvents.essentialdignity, entity);
-		entity.world.spawnEntity(new EntitySpellVanillaParticles(entity.world, entity, EnumParticleTypes.END_ROD, 10));
+		entity.world.spawnEntity(new EntitySpellVanillaParticles(entity.world, entity, Particles.END_ROD, 10));
 		cap.addExp(caster, 12, this);
 		return true;
 	}

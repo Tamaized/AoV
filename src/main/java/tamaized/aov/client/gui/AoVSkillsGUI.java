@@ -26,7 +26,6 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.gui.GuiHandler;
 import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
 
-import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +54,7 @@ public class AoVSkillsGUI extends GuiScreenClose {
 	private final Container inventory;
 	private final BlockAngelicBlock.ClassType classType;
 	private int page;
-	private List<SkillButton> skillButtonList = new ArrayList<>();
+	private List<SkillButton> skillbuttons = new ArrayList<>();
 	private int lastMx = 0;
 	private int lastMy = 0;
 	private IAoVCapability cap;
@@ -90,83 +89,72 @@ public class AoVSkillsGUI extends GuiScreenClose {
 	}
 
 	public void initButtons() {
-		buttonList.clear();
-		skillButtonList.clear();
-		buttonList.add(new GuiButton(BUTTON_CLOSE, 10, height - 25, 80, 20, I18n.format("aov.gui.button.close")));
-		buttonList.add(new GuiButton(BUTTON_SPELLBOOK, 110, height - 25, 80, 20, I18n.format("aov.gui.button.spellbook")));
-		buttonList.add(new GuiButton(BUTTON_CHECKSTATS, width - 190, height - 25, 80, 20, I18n.format("aov.gui.button.stats")));
-		buttonList.add(new GuiButton(BUTTON_RESET, width - 90, height - 25, 80, 20, I18n.format("aov.gui.button.reset")));
+		buttons.clear();
+		skillbuttons.clear();
+		buttons.add(new GuiButton(BUTTON_CLOSE, 10, height - 25, 80, 20, I18n.format("aov.gui.button.close")) {
+			@Override
+			public void onClick(double mouseX, double mouseY) {
+				super.onClick(mouseX, mouseY);
+				mc.player.closeScreen();
+			}
+		});
+		buttons.add(new GuiButton(BUTTON_SPELLBOOK, 110, height - 25, 80, 20, I18n.format("aov.gui.button.spellbook")) {
+			@Override
+			public void onClick(double mouseX, double mouseY) {
+				super.onClick(mouseX, mouseY);
+				GuiHandler.openGui(GuiHandler.GUI.SPELLBOOK, classType);
+			}
+		});
+		buttons.add(new GuiButton(BUTTON_CHECKSTATS, width - 190, height - 25, 80, 20, I18n.format("aov.gui.button.stats")) {
+			@Override
+			public void onClick(double mouseX, double mouseY) {
+				super.onClick(mouseX, mouseY);
+				GuiHandler.openGui(GuiHandler.GUI.CHECKSTATS, classType);
+			}
+		});
+		buttons.add(new GuiButton(BUTTON_RESET, width - 90, height - 25, 80, 20, I18n.format("aov.gui.button.reset")) {
+			@Override
+			public void onClick(double mouseX, double mouseY) {
+				super.onClick(mouseX, mouseY);
+				GuiHandler.openGui(GuiHandler.GUI.RESET, classType);
+			}
+		});
 		if (classType == BlockAngelicBlock.ClassType.ALL) {
-			buttonList.add(new ArrowButton(BUTTON_PAGE_PREV, width / 2 - 95, 39, 20, height - 70, "<"));
-			buttonList.add(new ArrowButton(BUTTON_PAGE_NEXT, width / 2 + 69, 39, 20, height - 70, ">"));
+			buttons.add(new ArrowButton(BUTTON_PAGE_PREV, width / 2 - 95, 39, 20, height - 70, "<") {
+				@Override
+				public void onClick(double mouseX, double mouseY) {
+					super.onClick(mouseX, mouseY);
+					if (page > 0)
+						page--;
+					initButtons();
+				}
+			});
+			buttons.add(new ArrowButton(BUTTON_PAGE_NEXT, width / 2 + 69, 39, 20, height - 70, ">") {
+				@Override
+				public void onClick(double mouseX, double mouseY) {
+					super.onClick(mouseX, mouseY);
+					if (page < CLASS_BUTTON_REGISTRY.size() - 1)
+						page++;
+					initButtons();
+				}
+			});
 		}
 		CLASS_BUTTON_REGISTRY.get(MathHelper.clamp(page, 0, CLASS_BUTTON_REGISTRY.size() - 1)).register(this);
 	}
 
 	public void addNewButton(SkillButton button) {
-		buttonList.add(button);
-		skillButtonList.add(button);
+		buttons.add(button);
+		skillbuttons.add(button);
 	}
 
-	@Override
-	protected void actionPerformed(GuiButton button) {
-		if (button.enabled) {
-			switch (button.id) {
-				case BUTTON_CLOSE: {
-					mc.player.closeScreen();
-				}
-				break;
-				case BUTTON_SKILL_CHECK: {
-					if (!(button instanceof SkillButton))
-						break;
-					SkillButton skillButton = (SkillButton) button;
-					skillButton.enabled = !beginChecks(skillButton);
-				}
-				break;
-				case BUTTON_SPELLBOOK: {
-					GuiHandler.openGUI(GuiHandler.GUI.SPELLBOOK, classType, mc.player, mc.world);
-				}
-				break;
-				case BUTTON_RESET: {
-					GuiHandler.openGUI(GuiHandler.GUI.RESET, classType, mc.player, mc.world);
-				}
-				break;
-				case BUTTON_CHECKSTATS: {
-					GuiHandler.openGUI(GuiHandler.GUI.CHECKSTATS, classType, mc.player, mc.world);
-				}
-				break;
-				case BUTTON_PAGE_PREV: {
-					if (page > 0)
-						page--;
-					initButtons();
-				}
-				break;
-				case BUTTON_PAGE_NEXT: {
-					if (page < CLASS_BUTTON_REGISTRY.size() - 1)
-						page++;
-					initButtons();
-				}
-				break;
-				default:
-					break;
-			}
-		}
+	public void doSkillButton(SkillButton button) {
+		button.enabled = !beginChecks(button);
 	}
 
 	private boolean beginChecks(SkillButton button) {
 		if ((button.getSkill() == null || !cap.hasSkill(button.getSkill())) && button.canObtain(cap))
-			AoV.network.sendToServer(new ServerPacketHandlerSpellSkill.Packet(ServerPacketHandlerSpellSkill.Packet.PacketType.SKILLEDIT_CHECK_CANOBTAIN, null, button.getSkill().getID()));
+			AoV.network.sendToServer(new ServerPacketHandlerSpellSkill(ServerPacketHandlerSpellSkill.PacketType.SKILLEDIT_CHECK_CANOBTAIN, null, button.getSkill().getID()));
 		return false;
-	}
-
-	@Override
-	protected void keyTyped(char typedChar, int keyCode) {
-		if (keyCode == 1 || this.mc.gameSettings.keyBindInventory.isActiveAndMatches(keyCode)) {
-			if (mc.player == null)
-				Minecraft.getInstance().displayGuiScreen(null);
-			else
-				this.mc.player.closeScreen();
-		}
 	}
 
 	@Override
@@ -175,9 +163,9 @@ public class AoVSkillsGUI extends GuiScreenClose {
 	}
 
 	@Override
-	public void updateScreen() {
-		super.updateScreen();
-		for (GuiButton button : buttonList) {
+	public void tick() {
+		super.tick();
+		for (GuiButton button : buttons) {
 			if (button instanceof SkillButton)
 				((SkillButton) button).update(cap);
 			if (button.id == BUTTON_PAGE_PREV)
@@ -185,13 +173,13 @@ public class AoVSkillsGUI extends GuiScreenClose {
 			if (button.id == BUTTON_PAGE_NEXT)
 				button.enabled = page < CLASS_BUTTON_REGISTRY.size() - 1;
 		}
-		if (!this.mc.player.isEntityAlive() || this.mc.player.isDead) {
+		if (!this.mc.player.isAlive() || this.mc.player.removed) {
 			this.mc.player.closeScreen();
 		}
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+	public void render(int mouseX, int mouseY, float partialTicks) {
 		drawDefaultBackground();
 		drawCenteredString(fontRenderer, I18n.format("aov.gui.title.skills"), width / 2, 15, 16777215);
 		drawString(fontRenderer, I18n.format("aov.gui.skills.points", cap == null ? "null" : cap.getSkillPoints()), 5, 5, 0xFFFFFF00);
@@ -220,10 +208,10 @@ public class AoVSkillsGUI extends GuiScreenClose {
 		//		drawRect(width / 2 - 200, height - 215, width / 2 - 200 + 126, height - 27, 0x88000000);
 		drawRect(width / 2 - 66, height - 215, width / 2 - 66 + 126, height - 27, 0x88000000);
 		//		drawRect(width / 2 + 68, height - 215, width / 2 + 68 + 126, height - 27, 0x88000000);
-		super.drawScreen(mouseX, mouseY, partialTicks);
+		super.render(mouseX, mouseY, partialTicks);
 		if (mouseX != lastMx || mouseY != lastMy) {
 			boolean flag = true;
-			for (SkillButton b : skillButtonList) {
+			for (SkillButton b : skillbuttons) {
 				if (!b.isMouseOver())
 					continue;
 				if (b.getSkill() != null && b.getSkill().getDescription() != null) {
@@ -256,7 +244,8 @@ public class AoVSkillsGUI extends GuiScreenClose {
 		}
 
 		@Override
-		public void drawButton(@Nonnull Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+		public void render(int mouseX, int mouseY, float partialTicks) {
+			Minecraft mc = Minecraft.getInstance();
 			if (this.visible) {
 				FontRenderer fontrenderer = mc.fontRenderer;
 				mc.getTextureManager().bindTexture(TEXTURE);
@@ -274,11 +263,11 @@ public class AoVSkillsGUI extends GuiScreenClose {
 				bufferbuilder.pos(x + 20, y + height, 0.0D).tex((1F + i) / 3F, 1).endVertex();
 				bufferbuilder.pos(x + 20, y, 0.0D).tex((1F + i) / 3F, 0).endVertex();
 				tessellator.draw();
-				this.mouseDragged(mc, mouseX, mouseY);
+				this.mouseDragged(mouseX, mouseY, 0, mouseX, mouseY);
 				int j = 14737632;
 
-				if (packedFGColour != 0) {
-					j = packedFGColour;
+				if (packedFGColor != 0) {
+					j = packedFGColor;
 				} else if (!this.enabled) {
 					j = 10526880;
 				} else if (this.hovered) {

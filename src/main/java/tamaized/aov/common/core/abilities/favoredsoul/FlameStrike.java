@@ -7,6 +7,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -99,7 +101,7 @@ public class FlameStrike extends AbilityBase {
 		Vec3d pos = UtilHelper.getSpellLocation(caster, distance, target);
 		strike.setPosition(pos.x, pos.y + 15, pos.z);
 		caster.world.spawnEntity(strike);
-		strike.world.play(null, strike.posX, strike.posY - 20, strike.posZ, SoundEvents.firestrike, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+		strike.world.playSound(null, strike.posX, strike.posY - 20, strike.posZ, SoundEvents.firestrike, SoundCategory.NEUTRAL, 1.0F, 1.0F);
 		return true;
 	}
 

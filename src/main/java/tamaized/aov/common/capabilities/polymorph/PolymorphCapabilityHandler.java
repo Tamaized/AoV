@@ -12,29 +12,29 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
+import net.minecraft.init.Particles;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.network.PacketDistributor;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.common.entity.EntityDruidicWolf;
+import tamaized.aov.common.helper.ParticleHelper;
 import tamaized.aov.common.helper.UtilHelper;
 import tamaized.aov.network.client.ClientPacketHandlerPolymorphDogAttack;
 import tamaized.aov.network.server.ServerPacketHandlerPolymorphDogAttack;
 import tamaized.aov.registry.AoVPotions;
-import tamaized.tammodized.common.particles.ParticleHelper;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -43,12 +43,12 @@ import java.util.Set;
 public class PolymorphCapabilityHandler implements IPolymorphCapability {
 	private static final Set<StateWrapper> WATER_ELEMENTAL_STATES = ImmutableSet.of(
 
-			new StateWrapper(Blocks.WATER).matchAnyState(), new StateWrapper(Blocks.FLOWING_WATER).matchAnyState()
+			new StateWrapper(Blocks.WATER).matchAnyState()
 
 	);
 	private static final Set<StateWrapper> FIRE_ELEMENTAL_STATES = ImmutableSet.of(
 
-			new StateWrapper(Blocks.FIRE).matchAnyState(), new StateWrapper(Blocks.LAVA).matchAnyState(), new StateWrapper(Blocks.FLOWING_LAVA).matchAnyState()
+			new StateWrapper(Blocks.FIRE).matchAnyState(), new StateWrapper(Blocks.LAVA).matchAnyState()
 
 	);
 	private static final byte FLAG_BIT_LENGTH = 0b1111;
@@ -125,12 +125,12 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 					vel = new Vec3d(1.8F * lookVector.x, 0.65F, 1.8F * lookVector.z);
 				player.addVelocity(vel.x, vel.y, vel.z);
 			} else if (attackCooldown <= 0 && player.onGround)
-				AoV.network.sendToServer(new ServerPacketHandlerPolymorphDogAttack.Packet());
+				AoV.network.sendToServer(new ServerPacketHandlerPolymorphDogAttack());
 		} else {
 			if (attackCooldown <= 0 && player instanceof EntityPlayerMP && player.onGround) {
 				initalAttackCooldown = attackCooldown = cooldown;
 				attacking = true;
-				AoV.network.sendTo(new ClientPacketHandlerPolymorphDogAttack.Packet(), (EntityPlayerMP) player);
+				AoV.network.send(PacketDistributor.PLAYER.with(() -> (EntityPlayerMP) player), new ClientPacketHandlerPolymorphDogAttack());
 			}
 		}
 	}
@@ -142,7 +142,7 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 
 	@Override
 	public void callWolves(World world, EntityPlayer caster, float damage) {
-		wolves.removeIf(w -> w.isDead);
+		wolves.removeIf(w -> w.removed);
 		for (EntityDruidicWolf wolf : wolves) {
 			wolf.heal(wolf.getMaxHealth());
 			wolf.extendLife();
@@ -153,7 +153,7 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 
 			int x = MathHelper.floor(caster.posX) - 2;
 			int z = MathHelper.floor(caster.posZ) - 2;
-			int y = MathHelper.floor(caster.getEntityBoundingBox().minY);
+			int y = MathHelper.floor(caster.getBoundingBox().minY);
 
 			for (int l = wolf.getRNG().nextInt(6); l <= 8; ++l) {
 				for (int i1 = wolf.getRNG().nextInt(6); i1 <= 8; ++i1) {
@@ -164,11 +164,11 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 						wolf.setLocationAndAngles(posx, posy, posz, wolf.rotationYaw, wolf.rotationPitch);
 						for (int i = 0; i < 25; i++) {
 							Vec3d result = wolf.getLook(1F).rotateYaw(wolf.getRNG().nextFloat() * 360F).rotatePitch(wolf.getRNG().nextFloat() * 360F);
-							ParticleHelper.spawnVanillaParticleOnServer(world, EnumParticleTypes.END_ROD, wolf.posX + result.x, wolf.posY + wolf.height / 2F + result.y, wolf.posZ + result.z, 0, 0, 0);
+							ParticleHelper.spawnVanillaParticleOnServer(world, Particles.END_ROD, wolf.posX + result.x, wolf.posY + wolf.height / 2F + result.y, wolf.posZ + result.z, 0, 0, 0);
 						}
 						wolves.add(wolf);
 						world.spawnEntity(wolf);
-						world.play(null, wolf.getPosition(), SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1.0F, wolf.getRNG().nextFloat() + 0.5F);
+						world.playSound(null, wolf.getPosition(), SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1.0F, wolf.getRNG().nextFloat() + 0.5F);
 						continue loop;
 					}
 				}
@@ -179,7 +179,7 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 	@Override
 	public void update(EntityPlayer player) {
 		if (ENTITY_isImmuneToFire == null)
-			ENTITY_isImmuneToFire = ObfuscationReflectionHelper.findField(Entity.class, "field_70178_ae");
+			ENTITY_isImmuneToFire = UtilHelper.findField(Entity.class, "field_70178_ae");
 		if (!player.world.isRemote && getMorph() == Morph.ArchAngel && polymorphTicker-- <= 0) {
 			morph(null);
 			player.removePotionEffect(AoVPotions.slowFall);
@@ -191,20 +191,20 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 			attackCooldown--;
 		if (attacking && attackCooldown < attackCooldownMax - 10 && (attackCooldown <= 0 || player.onGround))
 			attacking = false;
-		if (!player.world.isRemote && getMorph() != null && getMorph().requiresCentered && !IAoVCapability.isCentered(player, CapabilityHelper.getCap(player, CapabilityList.AOV, null))) {
+		if (!player.world.isRemote && getMorph() != null && getMorph().requiresCentered && !IAoVCapability.isCentered(player, CapabilityList.getCap(player, CapabilityList.AOV, null))) {
 			morph(null);
 			IAoVCapability aov = CapabilityList.getCap(player, CapabilityList.AOV);
 			if (aov != null)
 				aov.markDirty();
 		}
 		if (getMorph() == Morph.Wolf) {
-			player.ticksSinceLastSwing = 9000;
+			//			player.ticksSinceLastSwing = 9000; TODO: AT not being applied
 			UtilHelper.setSize(player, 0.6F, 0.85F);
-			player.eyeHeight = player.height * 0.8F;
+			//			player.eyeHeight = player.height * 0.8F; TODO: AT
 			setLocalMorphSize(true);
 			if (attacking) {
 				IAoVCapability aov = CapabilityList.getCap(player, CapabilityList.AOV);
-				List<Entity> targets = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getEntityBoundingBox().grow(0.75D));
+				List<Entity> targets = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(0.75D));
 				for (Entity target : targets) {
 					if (!(target instanceof EntityLivingBase))
 						continue;
@@ -214,7 +214,7 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 			}
 		} else if (localMorphSize()) {
 			UtilHelper.setSize(player, 0.6F, 1.8F);
-			player.eyeHeight = player.getDefaultEyeHeight();
+			//			player.eyeHeight = player.getDefaultEyeHeight(); TODO
 			setLocalMorphSize(false);
 		}
 		if (getMorph() == Morph.ArchAngel) {
@@ -225,7 +225,7 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 		if (getMorph() == Morph.WaterElemental || getMorph() == Morph.FireElemental) {
 			if (!player.world.isRemote) {
 				List<IBlockState> states = Lists.newArrayList();
-				AxisAlignedBB bounding = player.getEntityBoundingBox();
+				AxisAlignedBB bounding = player.getBoundingBox();
 				double x, y, z;
 				for (x = bounding.minX; x <= bounding.maxX; x += 0.5D)
 					for (z = bounding.minZ; z <= bounding.maxZ; z += 0.5D)

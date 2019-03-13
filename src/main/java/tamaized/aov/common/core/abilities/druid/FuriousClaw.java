@@ -8,13 +8,15 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
-import tamaized.tammodized.common.helper.RayTraceHelper;
+import tamaized.aov.common.helper.RayTraceHelper;
 
 import javax.annotation.Nullable;
 
@@ -53,9 +55,9 @@ public class FuriousClaw extends AbilityBase {
 		if (caster.world.isRemote)
 			caster.swingArm(EnumHand.MAIN_HAND);
 		cap.addFlagBits(bit);
-		RayTraceResult ray = RayTraceHelper.tracePath(caster.world, caster, (int) caster.getEntityAttribute(EntityPlayer.REACH_DISTANCE).getAttributeValue(), 1, Sets.newHashSet(caster));
-		if (ray != null && ray.typeOfHit == RayTraceResult.Type.ENTITY) {
-			caster.attackTargetEntityWithCurrentItem(ray.entityHit);
+		RayTraceResult ray = RayTraceHelper.tracePath(caster.world, caster, (int) caster.getAttribute(EntityPlayer.REACH_DISTANCE).getValue(), 1, Sets.newHashSet(caster));
+		if (ray != null && ray.type == RayTraceResult.Type.ENTITY) {
+			caster.attackTargetEntityWithCurrentItem(ray.entity);
 			IAoVCapability aov = CapabilityList.getCap(caster, CapabilityList.AOV);
 			if (aov != null)
 				aov.addExp(caster, 20, ability);

@@ -193,7 +193,7 @@ public class ConfigHandler {
 		return Objects.requireNonNull(item.getRegistryName()).getPath();
 	}
 
-	public static void setupCenteredWear() {
+	public static void setupCenteredWear() { // TODO: meta is gone
 		List<ItemStackWrapper> list = Lists.newArrayList();
 		for (String next : AoV.config.centered.get()) {
 			String[] split = next.split(":");
@@ -215,7 +215,7 @@ public class ConfigHandler {
 			Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(domain, regname));
 			if (item == null || item instanceof ItemAir)
 				continue;
-			list.add(hasmeta ? new ItemStackWrapper(item, meta) : new ItemStackWrapper(item));
+			list.add(hasmeta ? new ItemStackWrapper(item) : new ItemStackWrapper(item));
 		}
 		CENTERED_WEAR = ImmutableSet.copyOf(list);
 	}
