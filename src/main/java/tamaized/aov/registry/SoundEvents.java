@@ -10,7 +10,7 @@ import net.minecraftforge.fml.network.PacketDistributor;
 import tamaized.aov.AoV;
 import tamaized.aov.network.client.ClientPacketHandlerMovingSound;
 
-@Mod.EventBusSubscriber(modid = AoV.MODID)
+@Mod.EventBusSubscriber(modid = AoV.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class SoundEvents {
 
 	public static SoundEvent aura = null;

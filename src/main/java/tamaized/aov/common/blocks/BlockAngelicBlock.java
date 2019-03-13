@@ -5,6 +5,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.state.EnumProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -26,6 +27,11 @@ public class BlockAngelicBlock extends Block {
 		super(properties);
 		this.setDefaultState(stateContainer.getBaseState().with(AXIS, EnumFacing.Axis.X));
 		this.type = type;
+	}
+
+	@Override
+	protected void fillStateContainer(StateContainer.Builder<Block, IBlockState> builder) {
+		builder.add(AXIS);
 	}
 
 	@Nonnull

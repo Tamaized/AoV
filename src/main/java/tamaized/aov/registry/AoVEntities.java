@@ -42,7 +42,7 @@ import tamaized.aov.common.entity.ProjectileNimbusRay;
 import java.lang.reflect.InvocationTargetException;
 
 @ObjectHolder(AoV.MODID)
-@Mod.EventBusSubscriber(modid = AoV.MODID)
+@Mod.EventBusSubscriber(modid = AoV.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AoVEntities {
 
 	public static final EntityType projectilenimbusray = getNull();

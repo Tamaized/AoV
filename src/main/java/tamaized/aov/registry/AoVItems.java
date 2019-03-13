@@ -13,7 +13,7 @@ import tamaized.aov.common.items.DebugItem;
 import tamaized.aov.common.items.Handwraps;
 
 @ObjectHolder(AoV.MODID)
-@Mod.EventBusSubscriber(modid = AoV.MODID)
+@Mod.EventBusSubscriber(modid = AoV.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AoVItems {
 
 	public static final Item debugger = Items.AIR;

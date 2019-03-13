@@ -1,6 +1,5 @@
 package tamaized.aov.registry;
 
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 

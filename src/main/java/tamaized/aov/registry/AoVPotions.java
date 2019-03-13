@@ -4,6 +4,7 @@ import net.minecraft.potion.Potion;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import tamaized.aov.AoV;
 import tamaized.aov.common.potion.PotionAid;
 import tamaized.aov.common.potion.PotionBalance;
 import tamaized.aov.common.potion.PotionColdChill;
@@ -17,7 +18,7 @@ import tamaized.aov.common.potion.PotionStalwartPact;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = AoV.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AoVPotions {
 
 	public static Potion aid;

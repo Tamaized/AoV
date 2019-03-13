@@ -15,7 +15,7 @@ import tamaized.aov.AoV;
 import tamaized.aov.common.blocks.BlockAngelicBlock;
 
 @ObjectHolder(AoV.MODID)
-@Mod.EventBusSubscriber(modid = AoV.MODID)
+@Mod.EventBusSubscriber(modid = AoV.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AoVBlocks {
 
 	public static final Block angelicstatue = Blocks.AIR;

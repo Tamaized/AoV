@@ -48,6 +48,7 @@ import tamaized.aov.registry.AoVPotions;
 import tamaized.aov.registry.AoVTabs;
 
 @Mod(value = AoV.MODID)
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AoV {
 
 	public static final String MODID = "aov";
@@ -79,8 +80,14 @@ public class AoV {
 		new AoVEntities();
 	}
 
+	public AoV() {
+		final Pair<ConfigHandler, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(ConfigHandler::new);
+		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, specPair.getRight());
+		config = specPair.getLeft();
+	}
+
 	@SubscribeEvent
-	public void init(FMLCommonSetupEvent event) {
+	public static void init(FMLCommonSetupEvent event) {
 		LOGGER.info("Initalizating AoV");
 
 		NetworkMessages.register(network);
@@ -90,10 +97,6 @@ public class AoV {
 		CapabilityManager.INSTANCE.register(IStunCapability.class, new StunCapabilityStorage(), StunCapabilityHandler::new);
 		CapabilityManager.INSTANCE.register(ILeapCapability.class, new LeapCapabilityStorage(), LeapCapabilityHandler::new);
 		CapabilityManager.INSTANCE.register(IPolymorphCapability.class, new PolymorphCapabilityStorage(), PolymorphCapabilityHandler::new);
-
-		final Pair<ConfigHandler, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(ConfigHandler::new);
-		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, specPair.getRight());
-		config = specPair.getLeft();
 
 		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.GUIFACTORY, () -> GuiHandler::getGui);
 

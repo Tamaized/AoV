@@ -67,7 +67,7 @@ public class CapabilityList {
 				@Nonnull
 				@Override
 				public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
-					return AOV.orEmpty(AOV, LazyOptional.of(() -> inst)).cast();
+					return AOV.orEmpty(capability, LazyOptional.of(() -> inst)).cast();
 				}
 
 				@Override
@@ -88,7 +88,7 @@ public class CapabilityList {
 				@Nonnull
 				@Override
 				public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
-					return ASTRO.orEmpty(ASTRO, LazyOptional.of(() -> inst)).cast();
+					return ASTRO.orEmpty(capability, LazyOptional.of(() -> inst)).cast();
 				}
 
 				@Override
@@ -109,7 +109,7 @@ public class CapabilityList {
 				@Nonnull
 				@Override
 				public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
-					return POLYMORPH.orEmpty(POLYMORPH, LazyOptional.of(() -> inst)).cast();
+					return POLYMORPH.orEmpty(capability, LazyOptional.of(() -> inst)).cast();
 				}
 
 				@Override
@@ -132,7 +132,7 @@ public class CapabilityList {
 				@Nonnull
 				@Override
 				public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
-					return STUN.orEmpty(STUN, LazyOptional.of(() -> inst)).cast();
+					return STUN.orEmpty(capability, LazyOptional.of(() -> inst)).cast();
 				}
 
 				@Override
@@ -153,7 +153,7 @@ public class CapabilityList {
 				@Nonnull
 				@Override
 				public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
-					return LEAP.orEmpty(LEAP, LazyOptional.of(() -> inst)).cast();
+					return LEAP.orEmpty(capability, LazyOptional.of(() -> inst)).cast();
 				}
 
 				@Override
