@@ -6,7 +6,7 @@ import tamaized.aov.AoV;
 
 public interface ILeapCapability {
 
-	ResourceLocation ID = new ResourceLocation(AoV.MODID, "LeapCapabilityHandler");
+	ResourceLocation ID = new ResourceLocation(AoV.MODID, "leapcapabilityhandler");
 
 	void update(EntityLivingBase entity);
 

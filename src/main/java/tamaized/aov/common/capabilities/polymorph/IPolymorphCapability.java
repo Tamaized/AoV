@@ -20,7 +20,7 @@ public interface IPolymorphCapability {
 
 	);
 
-	ResourceLocation ID = new ResourceLocation(AoV.MODID, "PolymorphCapabilityHandler");
+	ResourceLocation ID = new ResourceLocation(AoV.MODID, "polymorphcapabilityhandler");
 
 	Morph getMorph();
 

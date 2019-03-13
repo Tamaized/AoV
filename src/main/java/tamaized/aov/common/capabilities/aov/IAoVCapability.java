@@ -28,7 +28,7 @@ import java.util.Set;
 
 public interface IAoVCapability {
 
-	ResourceLocation ID = new ResourceLocation(AoV.MODID, "AoVCapabilityHandler");
+	ResourceLocation ID = new ResourceLocation(AoV.MODID, "aovcapabilityhandler");
 
 	/**
 	 * @return true if can damage

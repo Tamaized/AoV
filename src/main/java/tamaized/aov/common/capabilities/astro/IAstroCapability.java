@@ -10,7 +10,7 @@ import java.util.Random;
 
 public interface IAstroCapability {
 
-	ResourceLocation ID = new ResourceLocation(AoV.MODID, "AstroCapabilityHandler");
+	ResourceLocation ID = new ResourceLocation(AoV.MODID, "astrocapabilityhandler");
 
 	void markDirty();
 
