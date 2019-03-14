@@ -1,7 +1,10 @@
 package tamaized.aov;
 
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import net.minecraft.command.CommandSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -10,6 +13,7 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 import org.apache.commons.lang3.tuple.Pair;
@@ -30,6 +34,7 @@ import tamaized.aov.common.capabilities.polymorph.PolymorphCapabilityStorage;
 import tamaized.aov.common.capabilities.stun.IStunCapability;
 import tamaized.aov.common.capabilities.stun.StunCapabilityHandler;
 import tamaized.aov.common.capabilities.stun.StunCapabilityStorage;
+import tamaized.aov.common.commands.AoVCommands;
 import tamaized.aov.common.config.ConfigHandler;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.skills.AoVSkills;
@@ -79,6 +84,8 @@ public class AoV {
 		final Pair<ConfigHandler, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(ConfigHandler::new);
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, specPair.getRight());
 		config = specPair.getLeft();
+
+		MinecraftForge.EVENT_BUS.addListener(this::serverStarting);
 	}
 
 	@SubscribeEvent
@@ -101,9 +108,15 @@ public class AoV {
 		proxy.init();
 	}
 
-	/*@EventHandler
-	public void startServer(FMLServerStartingEvent event) { TODO
-		event.registerServerCommand(new CommandAoV());
-	}*/
+	public void serverStarting(FMLServerStartingEvent evt) {
+		evt.getCommandDispatcher().register(
+
+				LiteralArgumentBuilder.<CommandSource>literal("aov").
+						then(AoVCommands.Open.register()).
+						then(AoVCommands.SetLevel.register()).
+						then(AoVCommands.Reset.register())
+
+		);
+	}
 
 }
