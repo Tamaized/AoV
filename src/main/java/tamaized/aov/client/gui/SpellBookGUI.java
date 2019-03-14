@@ -206,7 +206,7 @@ public class SpellBookGUI extends GuiScreenClose {
 			int k = sr.getScaledWidth() / 2 - 90 + 2;
 			int l = sr.getScaledHeight() - 47;
 			GlStateManager.color4f(1.0F, 1.0F, 1.0F, alpha);
-			AoVUIBar.renderHotbarIcon(this, null, j, k, l, cap.getSlot(j).getAbility().getIcon(), (cap.getSlot(j).getAbility() instanceof InvokeMass) && cap.getInvokeMass());
+			AoVUIBar.renderHotbarIcon(null, j, k, l, cap.getSlot(j).getAbility().getIcon(), (cap.getSlot(j).getAbility() instanceof InvokeMass) && cap.getInvokeMass());
 		}
 		GlStateManager.popMatrix();
 		RenderHelper.disableStandardItemLighting();

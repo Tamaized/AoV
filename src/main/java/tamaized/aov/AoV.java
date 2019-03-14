@@ -97,10 +97,12 @@ public class AoV {
 
 		Abilities.register();
 		AoVSkills.register();
+
+		proxy.init();
 	}
 
 	/*@EventHandler
-	public void startServer(FMLServerStartingEvent event) {
+	public void startServer(FMLServerStartingEvent event) { TODO
 		event.registerServerCommand(new CommandAoV());
 	}*/
 

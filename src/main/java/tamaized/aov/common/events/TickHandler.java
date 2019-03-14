@@ -102,7 +102,7 @@ public class TickHandler {
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public void update(PlayerTickEvent e) {
+	public static void update(PlayerTickEvent e) {
 		if (e.phase == TickEvent.Phase.START)
 			return;
 		EntityPlayer player = e.player;

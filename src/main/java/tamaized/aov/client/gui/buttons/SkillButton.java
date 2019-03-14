@@ -109,7 +109,7 @@ public class SkillButton extends GuiButton {
 			drawRect(x, y, x + width, y + height, j);
 			float alpha = (float) (j >> 24 & 255) / 255.0F;
 			GlStateManager.color4f(1.0f, 1.0f, 1.0f, alpha);
-			AoVUIBar.renderHotbarIcon(this, null, 0, x + 1, y + 1, skill == null ? null : skill.getIcon(), false);
+			AoVUIBar.renderHotbarIcon(null, 0, x + 1, y + 1, skill == null ? null : skill.getIcon(), false);
 		}
 	}
 

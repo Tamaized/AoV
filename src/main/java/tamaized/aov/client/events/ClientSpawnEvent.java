@@ -4,9 +4,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.SoundCategory;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import tamaized.aov.AoV;
 import tamaized.aov.client.sound.EntityMovingSound;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.stun.IStunCapability;
@@ -15,11 +18,12 @@ import tamaized.aov.common.entity.EntitySpellImplosion;
 import tamaized.aov.common.entity.ProjectileNimbusRay;
 import tamaized.aov.registry.SoundEvents;
 
+@Mod.EventBusSubscriber(modid = AoV.MODID, value = Dist.CLIENT)
 public class ClientSpawnEvent {
 
 	@Deprecated
 	@SubscribeEvent
-	public void spawn(EntityJoinWorldEvent e) {
+	public static void spawn(EntityJoinWorldEvent e) {
 		if (e.getWorld().isRemote) {
 			if (e.getEntity() instanceof EntitySpellBladeBarrier) {
 				Minecraft.getInstance().getSoundHandler().play(new EntityMovingSound(SoundEvents.bladebarrier, SoundCategory.NEUTRAL, e.getEntity(), true, 0, 1, 1));
@@ -32,7 +36,7 @@ public class ClientSpawnEvent {
 	}
 
 	@SubscribeEvent
-	public void update(TickEvent.ClientTickEvent e) {
+	public static void update(TickEvent.ClientTickEvent e) {
 		if (e.phase == TickEvent.Phase.START || Minecraft.getInstance().world == null)
 			return;
 		for (Entity entity : Minecraft.getInstance().world.loadedEntityList) {

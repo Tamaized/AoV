@@ -18,11 +18,13 @@ import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.RenderSpecificHandEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import org.lwjgl.opengl.GL11;
 import tamaized.aov.AoV;
 import tamaized.aov.client.entity.ModelPolymorphWolf;
@@ -36,6 +38,7 @@ import tamaized.aov.common.items.Handwraps;
 
 import java.util.Random;
 
+@Mod.EventBusSubscriber(modid = AoV.MODID, value = Dist.CLIENT)
 public class RenderPlayer {
 
 	private static final ResourceLocation TEXTURE_WING = new ResourceLocation(AoV.MODID, "textures/entity/wing.png");
@@ -45,7 +48,7 @@ public class RenderPlayer {
 	private static boolean hackyshit = false;
 
 	@SubscribeEvent
-	public void render(RenderPlayerEvent.Pre e) {
+	public static void render(RenderPlayerEvent.Pre e) {
 		EntityPlayer player = e.getEntityPlayer();
 		IPolymorphCapability cap = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
 		if (cap != null) {
@@ -57,8 +60,8 @@ public class RenderPlayer {
 				float swingAmount = player.prevLimbSwingAmount + (player.limbSwingAmount - player.prevLimbSwingAmount) * e.getPartialRenderTick();
 				if (swingAmount > 1.0F)
 					swingAmount = 1.0F;
-				float f = this.interpolateRotation(player.prevRenderYawOffset, player.renderYawOffset, e.getPartialRenderTick());
-				float f1 = this.interpolateRotation(player.prevRotationYawHead, player.rotationYawHead, e.getPartialRenderTick());
+				float f = interpolateRotation(player.prevRenderYawOffset, player.renderYawOffset, e.getPartialRenderTick());
+				float f1 = interpolateRotation(player.prevRotationYawHead, player.rotationYawHead, e.getPartialRenderTick());
 				float netHeadYaw = f1 - f;
 				float headPitch = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * e.getPartialRenderTick();
 				float ticksExisted = 0.53F * (float) Math.PI;
@@ -75,7 +78,7 @@ public class RenderPlayer {
 	}
 
 	@SubscribeEvent
-	public void render(RenderPlayerEvent.Post e) {
+	public static void render(RenderPlayerEvent.Post e) {
 		EntityPlayer player = e.getEntityPlayer();
 		ILeapCapability cap = CapabilityList.getCap(player, CapabilityList.LEAP);
 		if (cap == null || cap.getLeapDuration() <= 0)
@@ -90,7 +93,7 @@ public class RenderPlayer {
 			boolean flag = poly != null && poly.getMorph() == IPolymorphCapability.Morph.ArchAngel;
 			if (flag) {
 				RenderHelper.disableStandardItemLighting();
-				float f =  perc;
+				float f = perc;
 				float f1 = 0.0F;
 
 				if (f > 0.8F) {
@@ -187,7 +190,7 @@ public class RenderPlayer {
 	}
 
 	@SubscribeEvent
-	public void renderName(RenderLivingEvent.Specials.Pre<EntityLivingBase> e) {
+	public static void renderName(RenderLivingEvent.Specials.Pre<EntityLivingBase> e) {
 		if (hackyshit)
 			return;
 		IPolymorphCapability cap = CapabilityList.getCap(e.getEntity(), CapabilityList.POLYMORPH);
@@ -196,7 +199,7 @@ public class RenderPlayer {
 	}
 
 	@SubscribeEvent
-	public void renderLiving(RenderLivingEvent.Pre<EntityPlayer> e) {
+	public static void renderLiving(RenderLivingEvent.Pre<EntityPlayer> e) {
 		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		if (!(e.getEntity() instanceof EntityPlayer))
 			return;
@@ -230,7 +233,7 @@ public class RenderPlayer {
 	}
 
 	@SubscribeEvent
-	public void renderLiving(RenderLivingEvent.Post<EntityPlayer> e) {
+	public static void renderLiving(RenderLivingEvent.Post<EntityPlayer> e) {
 		if (!(e.getEntity() instanceof EntityPlayer))
 			return;
 		EntityPlayer player = (EntityPlayer) e.getEntity();
@@ -302,7 +305,7 @@ public class RenderPlayer {
 	}
 
 	@SubscribeEvent
-	public void render(RenderHandEvent e) {
+	public static void render(RenderHandEvent e) {
 		EntityPlayer player = Minecraft.getInstance().player;
 		IPolymorphCapability cap = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
 		if (cap != null) {
@@ -346,7 +349,7 @@ public class RenderPlayer {
 	}
 
 	@SubscribeEvent
-	public void render(RenderSpecificHandEvent e) {
+	public static void render(RenderSpecificHandEvent e) {
 		AbstractClientPlayer player = Minecraft.getInstance().player;
 		IPolymorphCapability cap = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
 		if (cap != null && cap.getMorph() == IPolymorphCapability.Morph.Wolf) {
@@ -386,7 +389,7 @@ public class RenderPlayer {
 		}
 	}
 
-	public void renderRightArm(AbstractClientPlayer clientPlayer) {
+	public static void renderRightArm(AbstractClientPlayer clientPlayer) {
 		float f = 1.0F;
 		GlStateManager.color3f(f, f, f);
 		float f1 = 0.0625F;
@@ -406,7 +409,7 @@ public class RenderPlayer {
 	/*
 	 * [Vanilla Copy] from RenderLivingBase
 	 */
-	protected float interpolateRotation(float prevYawOffset, float yawOffset, float partialTicks) {
+	protected static float interpolateRotation(float prevYawOffset, float yawOffset, float partialTicks) {
 		float f;
 
 		for (f = yawOffset - prevYawOffset; f < -180.0F; f += 360.0F) {
@@ -423,7 +426,7 @@ public class RenderPlayer {
 	/*
 	 * [Vanilla Copy] from RenderLivingBase
 	 */
-	protected void applyRotations(EntityLivingBase entityLiving, float p_77043_2_, float rotationYaw, float partialTicks) {
+	protected static void applyRotations(EntityLivingBase entityLiving, float p_77043_2_, float rotationYaw, float partialTicks) {
 		GlStateManager.rotatef(180.0F - rotationYaw, 0.0F, 1.0F, 0.0F);
 
 		if (entityLiving.deathTime > 0) {

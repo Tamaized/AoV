@@ -17,9 +17,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.opengl.GL11;
 import tamaized.aov.AoV;
@@ -38,7 +40,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Random;
 
-public class AoVOverlay extends Gui {
+@Mod.EventBusSubscriber(modid = AoV.MODID, value = Dist.CLIENT)
+public class AoVOverlay {
 
 	public static final ResourceLocation TEXTURE_ASTRO = new ResourceLocation(AoV.MODID, "textures/gui/astro.png");
 	public static final ResourceLocation TEXTURE_FOCUS = new ResourceLocation(AoV.MODID, "textures/gui/focus.png");
@@ -52,6 +55,8 @@ public class AoVOverlay extends Gui {
 	public static boolean NO_STENCIL = false;
 	private static EntityLivingBase cacheEntity;
 	private static int cacheEntityID = -1;
+
+	public static float zLevel;
 
 	public static void drawRect(float left, float top, float right, float bottom, int color) {
 		if (left < right) {
@@ -87,7 +92,7 @@ public class AoVOverlay extends Gui {
 	}
 
 	@SubscribeEvent
-	public void renderOverlayPre(RenderGameOverlayEvent.Pre e) {
+	public static void renderOverlayPre(RenderGameOverlayEvent.Pre e) {
 		if (e.getType() == RenderGameOverlayEvent.ElementType.HOTBAR) {
 			IPolymorphCapability poly = CapabilityList.getCap(mc.player, CapabilityList.POLYMORPH);
 			if (poly != null) {
@@ -155,7 +160,7 @@ public class AoVOverlay extends Gui {
 	}
 
 	@SubscribeEvent
-	public void renderOverlayPost(RenderGameOverlayEvent.Post e) {
+	public static void renderOverlayPost(RenderGameOverlayEvent.Post e) {
 		if (e.getType() != RenderGameOverlayEvent.ElementType.EXPERIENCE) // TODO: ??? shouldnt this be hotbar? recheck it later.
 			return;
 		IAoVCapability cap = CapabilityList.getCap(mc.player, CapabilityList.AOV);
@@ -186,7 +191,7 @@ public class AoVOverlay extends Gui {
 				GlStateManager.popMatrix();
 			}
 
-			AoVUIBar.render(this, AoV.config.ELEMENT_POSITIONS.spellbar_x.get(), AoV.config.ELEMENT_POSITIONS.spellbar_y.get());
+			AoVUIBar.render(AoV.config.ELEMENT_POSITIONS.spellbar_x.get(), AoV.config.ELEMENT_POSITIONS.spellbar_y.get());
 			if (cap.getCoreSkill() == AoVSkills.astro_core_1)
 				renderAstro(mc.player, sr);
 			Entity target = ClientProxy.getTarget() != null ? ClientProxy.getTarget() : ClientHelpers.getTargetOverMouse(mc, 128);
@@ -222,7 +227,7 @@ public class AoVOverlay extends Gui {
 		}
 	}
 
-	private void renderStencils() {
+	private static void renderStencils() {
 		if (!Minecraft.getInstance().getFramebuffer().isStencilEnabled())
 			Minecraft.getInstance().getFramebuffer().enableStencil();
 		if (GL11.glGetInteger(GL11.GL_STENCIL_BITS) < 1) {
@@ -326,7 +331,7 @@ public class AoVOverlay extends Gui {
 		}
 	}
 
-	private void renderCharges(float x, float y, FontRenderer fontRender, IAoVCapability cap, int index) {
+	private static void renderCharges(float x, float y, FontRenderer fontRender, IAoVCapability cap, int index) {
 		Ability ability = cap.getSlot(index);
 		int val = ability == null ? -1 : ability.getCharges();
 		if (val < 0)
@@ -337,11 +342,11 @@ public class AoVOverlay extends Gui {
 		drawCenteredStringNoShadow(fontRender, String.valueOf(val), x + 10, y + (AoV.config.renderBarOverHotbar.get() || AoV.config.renderChargesAboveSpellbar.get() ? 3 : 10), 0x000000);
 	}
 
-	private void drawCenteredStringNoShadow(FontRenderer fontRendererIn, String text, float x, float y, int color) {
+	private static void drawCenteredStringNoShadow(FontRenderer fontRendererIn, String text, float x, float y, int color) {
 		fontRendererIn.drawString(text, x - (float) fontRendererIn.getStringWidth(text) / 2F, y, color);
 	}
 
-	private void renderAstro(EntityPlayer player, MainWindow sr) {
+	private static void renderAstro(EntityPlayer player, MainWindow sr) {
 		IAstroCapability cap = CapabilityList.getCap(player, CapabilityList.ASTRO);
 		if (cap == null)
 			return;
@@ -387,7 +392,7 @@ public class AoVOverlay extends Gui {
 		GlStateManager.popMatrix();
 	}
 
-	private void renderAstroIcon(int index, BufferBuilder buffer, float x, float y, float scale) {
+	private static void renderAstroIcon(int index, BufferBuilder buffer, float x, float y, float scale) {
 		scale = scale / 4F;
 		float xOffset = 0.25F * (index % 4);
 		float yOffset = 0.25F * (float) Math.floor(index / 4F);
@@ -397,7 +402,7 @@ public class AoVOverlay extends Gui {
 		buffer.pos(x, y, 0).tex(0.5F * xOffset, 0.5F + yOffset).endVertex();
 	}
 
-	private void renderAstroRoyalRoadIcon(int index, BufferBuilder buffer, float x, float y, float scale) {
+	private static void renderAstroRoyalRoadIcon(int index, BufferBuilder buffer, float x, float y, float scale) {
 		scale *= 0.60F;
 		float xOffset = 0.15F + (0.084F * index);
 		float yOffset = 0;//0.25F * (float) Math.floor(index / 4);
@@ -414,7 +419,7 @@ public class AoVOverlay extends Gui {
 		GlStateManager.color4f(1, 1, 1, 1);
 	}
 
-	private void renderTarget(EntityLivingBase target) {
+	private static void renderTarget(EntityLivingBase target) {
 		GlStateManager.pushMatrix();
 		{
 			double x = 10 + AoV.config.ELEMENT_POSITIONS.target_x.get();
@@ -499,16 +504,37 @@ public class AoVOverlay extends Gui {
 					Tessellator tessellator = Tessellator.getInstance();
 					BufferBuilder bufferbuilder = tessellator.getBuffer();
 					bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-					bufferbuilder.pos((double) (posx), (double) (posy + sizeY), (double) this.zLevel).tex((double) ((float) (textureX) * 0.00390625F), (double) ((float) (textureY + height) * 0.00390625F)).endVertex();
-					bufferbuilder.pos((double) (posx + sizeX), (double) (posy + sizeY), (double) this.zLevel).tex((double) ((float) (textureX + width) * 0.00390625F), (double) ((float) (textureY + height) * 0.00390625F)).endVertex();
-					bufferbuilder.pos((double) (posx + sizeX), (double) (posy), (double) this.zLevel).tex((double) ((float) (textureX + width) * 0.00390625F), (double) ((float) (textureY) * 0.00390625F)).endVertex();
-					bufferbuilder.pos((double) (posx), (double) (posy), (double) this.zLevel).tex((double) ((float) (textureX) * 0.00390625F), (double) ((float) (textureY) * 0.00390625F)).endVertex();
+					bufferbuilder.pos((double) (posx), (double) (posy + sizeY), (double) zLevel).tex((double) ((float) (textureX) * 0.00390625F), (double) ((float) (textureY + height) * 0.00390625F)).endVertex();
+					bufferbuilder.pos((double) (posx + sizeX), (double) (posy + sizeY), (double) zLevel).tex((double) ((float) (textureX + width) * 0.00390625F), (double) ((float) (textureY + height) * 0.00390625F)).endVertex();
+					bufferbuilder.pos((double) (posx + sizeX), (double) (posy), (double) zLevel).tex((double) ((float) (textureX + width) * 0.00390625F), (double) ((float) (textureY) * 0.00390625F)).endVertex();
+					bufferbuilder.pos((double) (posx), (double) (posy), (double) zLevel).tex((double) ((float) (textureX) * 0.00390625F), (double) ((float) (textureY) * 0.00390625F)).endVertex();
 					tessellator.draw();
 				}
 				ClientProxy.getFontRenderer().reset();
 			}
 		}
 		GlStateManager.popMatrix();
+	}
+	
+	public static void drawCenteredString(FontRenderer fontRendererIn, String text, int x, int y, int color) {
+		fontRendererIn.drawStringWithShadow(text, (float)(x - fontRendererIn.getStringWidth(text) / 2), (float)y, color);
+	}
+
+	public static void drawString(FontRenderer fontRendererIn, String text, int x, int y, int color) {
+		fontRendererIn.drawStringWithShadow(text, (float)x, (float)y, color);
+	}
+
+	public static void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height) {
+		float f = 0.00390625F;
+		float f1 = 0.00390625F;
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder bufferbuilder = tessellator.getBuffer();
+		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
+		bufferbuilder.pos((double)(x + 0), (double)(y + height), (double)zLevel).tex((double)((float)(textureX + 0) * 0.00390625F), (double)((float)(textureY + height) * 0.00390625F)).endVertex();
+		bufferbuilder.pos((double)(x + width), (double)(y + height), (double)zLevel).tex((double)((float)(textureX + width) * 0.00390625F), (double)((float)(textureY + height) * 0.00390625F)).endVertex();
+		bufferbuilder.pos((double)(x + width), (double)(y + 0), (double)zLevel).tex((double)((float)(textureX + width) * 0.00390625F), (double)((float)(textureY + 0) * 0.00390625F)).endVertex();
+		bufferbuilder.pos((double)(x + 0), (double)(y + 0), (double)zLevel).tex((double)((float)(textureX + 0) * 0.00390625F), (double)((float)(textureY + 0) * 0.00390625F)).endVertex();
+		tessellator.draw();
 	}
 
 }

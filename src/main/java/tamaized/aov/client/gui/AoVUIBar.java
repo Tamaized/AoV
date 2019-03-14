@@ -31,7 +31,7 @@ public class AoVUIBar {
 			e.setCanceled(true);
 	}
 
-	public static void render(Gui gui, int xpos, int ypos) {
+	public static void render(int xpos, int ypos) {
 		if (AoV.config.renderBarOverHotbar.get() && !ClientProxy.barToggle)
 			return;
 		if (mc.player == null)
@@ -53,8 +53,8 @@ public class AoVUIBar {
 			GlStateManager.color4f(1.0F, 1.0F, 1.0F, alpha);
 			mc.getTextureManager().bindTexture(widgetsTexPath);
 			int i = sr.getScaledWidth() / 2;
-			gui.drawTexturedModalRect(xpos + i - 91, ypos + 1, 0, 0, 182, 22);
-			gui.drawTexturedModalRect(xpos + i - 91 - 1 + slotLoc * 20, ypos, 0, 22, 24, 22);
+			AoVOverlay.drawTexturedModalRect(xpos + i - 91, ypos + 1, 0, 0, 182, 22);
+			AoVOverlay.drawTexturedModalRect(xpos + i - 91 - 1 + slotLoc * 20, ypos, 0, 22, 24, 22);
 			GlStateManager.pushMatrix();
 			{
 				GlStateManager.translated(0.01f, 0, 0);
@@ -67,9 +67,9 @@ public class AoVUIBar {
 					int k = sr.getScaledWidth() / 2 - 90 + 2;
 					int l = 4;
 					GlStateManager.color4f(1.0F, 1.0F, 1.0F, alpha);
-					renderHotbarIcon(gui, cap, j, xpos + k, ypos + l, ability.getAbility().getIcon(), (ability.getAbility() instanceof InvokeMass) && cap.getInvokeMass());
+					renderHotbarIcon(cap, j, xpos + k, ypos + l, ability.getAbility().getIcon(), (ability.getAbility() instanceof InvokeMass) && cap.getInvokeMass());
 					if (ability.getCooldown() > 0)
-						renderCooldown(gui, mc.fontRenderer, xpos + k, ypos + l, ability.getCooldownPerc(), ability.getCooldown());
+						renderCooldown(mc.fontRenderer, xpos + k, ypos + l, ability.getCooldownPerc(), ability.getCooldown());
 				}
 			}
 			GlStateManager.popMatrix();
@@ -77,7 +77,7 @@ public class AoVUIBar {
 		GlStateManager.popMatrix();
 	}
 
-	public static void renderHotbarIcon(Gui gui, IAoVCapability cap, int index, int xPos, int yPos, ResourceLocation icon, boolean active) {
+	public static void renderHotbarIcon(IAoVCapability cap, int index, int xPos, int yPos, ResourceLocation icon, boolean active) {
 		if (icon == null)
 			return;
 		GlStateManager.pushMatrix();
@@ -88,7 +88,7 @@ public class AoVUIBar {
 			GlStateManager.pushMatrix();
 			{
 				GlStateManager.enableBlend();
-				renderIcon(gui, icon);
+				renderIcon(icon);
 				if (active)
 					Gui.drawRect(0, 0, 256, 256, 0x7700FFFF);
 				Ability ability = cap == null ? null : cap.getSlot(index);
@@ -102,12 +102,12 @@ public class AoVUIBar {
 		GlStateManager.popMatrix();
 	}
 
-	private static void renderIcon(Gui gui, ResourceLocation icon) {
+	private static void renderIcon(ResourceLocation icon) {
 		Minecraft.getInstance().getTextureManager().bindTexture(icon);
-		gui.drawTexturedModalRect(0, 0, 0, 0, 256, 256);
+		AoVOverlay.drawTexturedModalRect(0, 0, 0, 0, 256, 256);
 	}
 
-	private static void renderCooldown(Gui gui, FontRenderer fr, int xPos, int yPos, float perc, int timeLeft) {
+	private static void renderCooldown(FontRenderer fr, int xPos, int yPos, float perc, int timeLeft) {
 		GlStateManager.pushMatrix();
 		{
 			float f1 = 1.0F / 16.0F;
@@ -115,7 +115,7 @@ public class AoVUIBar {
 			GlStateManager.scalef(1.0F * f1, 1.0f * f1, 1.0F);
 			GlStateManager.scalef(16.0f, 16.0f, 1.0f);
 			renderRadial(0, 0, perc);
-			gui.drawCenteredString(fr, String.valueOf(timeLeft), 8, 4, 0xFFFF00);
+			AoVOverlay.drawCenteredString(fr, String.valueOf(timeLeft), 8, 4, 0xFFFF00);
 		}
 		GlStateManager.popMatrix();
 	}

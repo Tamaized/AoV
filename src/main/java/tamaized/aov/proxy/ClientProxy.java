@@ -6,12 +6,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 import tamaized.aov.client.ClientHelpers;
-import tamaized.aov.client.RenderPlayer;
 import tamaized.aov.client.SizedFontRenderer;
-import tamaized.aov.client.events.ClientSpawnEvent;
-import tamaized.aov.client.gui.AoVOverlay;
 import tamaized.aov.client.particle.ParticleFeather;
 import tamaized.aov.client.particle.ParticleHeartColor;
 
@@ -44,24 +40,12 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	@Override
-	public void preInit() {
-		if (!Minecraft.getInstance().getFramebuffer().isStencilEnabled())
-			Minecraft.getInstance().getFramebuffer().enableStencil();
-
-		//		KeyHandler.register(); TODO
-
-		MinecraftForge.EVENT_BUS.register(new AoVOverlay());
-		MinecraftForge.EVENT_BUS.register(new RenderPlayer());
-
-	}
-
-	@Override
 	public void init() {
-		MinecraftForge.EVENT_BUS.register(new ClientSpawnEvent());
-	}
-
-	@Override
-	public void postInit() {
+		//		KeyHandler.register(); TODO
+		Minecraft.getInstance().addScheduledTask(() -> {
+			if (!Minecraft.getInstance().getFramebuffer().isStencilEnabled())
+				Minecraft.getInstance().getFramebuffer().enableStencil();
+		});
 		FONT_RENDERER = new SizedFontRenderer();
 		if (Minecraft.getInstance().gameSettings.language != null) {
 			//			FONT_RENDERER.setUnicodeFlag(Minecraft.getInstance().isUnicode());
