@@ -117,7 +117,7 @@ public class ConfigHandler {
 
 							getRegName(Blocks.SAND) + "|" + getRegName(Blocks.RED_SAND)
 
-					));
+					), o -> o instanceof String);
 		}
 		builder.pop();
 		{
