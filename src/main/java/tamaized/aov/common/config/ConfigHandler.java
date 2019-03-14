@@ -3,6 +3,8 @@ package tamaized.aov.common.config;
 import com.electronwill.nightconfig.core.utils.ConfigWrapper;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemAir;
@@ -14,7 +16,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.registries.ForgeRegistries;
 import tamaized.aov.AoV;
-import tamaized.aov.common.capabilities.aov.IAoVCapability.ItemStackWrapper;
 
 import java.util.List;
 import java.util.Objects;
@@ -23,7 +24,7 @@ import java.util.Set;
 @Mod.EventBusSubscriber(modid = AoV.MODID)
 public class ConfigHandler {
 
-	public static Set<ItemStackWrapper> CENTERED_WEAR = ImmutableSet.of();
+	public static Set<Item> CENTERED_WEAR = ImmutableSet.of();
 	public ConfigWrapper file;
 	public ElementPositions ELEMENT_POSITIONS = new ElementPositions();
 	public Earthquake EARTHQUAKE = new Earthquake();
@@ -37,7 +38,7 @@ public class ConfigHandler {
 	public ForgeConfigSpec.BooleanValue renderRoyalRoad;
 	public ForgeConfigSpec.BooleanValue renderTarget;
 	public ForgeConfigSpec.DoubleValue targetOpacity;
-	public ForgeConfigSpec.ConfigValue<String[]> centered;
+	public ForgeConfigSpec.ConfigValue<List<? extends String>> centered;
 
 	public ConfigHandler(ForgeConfigSpec.Builder builder) {
 		builder.
@@ -94,9 +95,9 @@ public class ConfigHandler {
 					defineInRange("chance", 5, 1, Integer.MAX_VALUE);
 			EARTHQUAKE.destruction = builder.
 					translation("Destruction Order").
-					comment("domain:name:meta|other\n" +
+					comment("domain:name|other\n" +
 
-							"meta is optional\n" +
+							"[domain] defaults to `minecraft`\n" +
 
 							"[other] is what CAN be broken down but won't be broken down into.\n\n" +
 
@@ -104,19 +105,19 @@ public class ConfigHandler {
 							"Example: [minecraft:gravel|minecraft:grass] may have Cobble before it, so Cobble breaks down into Gravel, which may have Dirt after it so Gravel breaks down into Dirt.\n" +
 
 							"Grass will also break down into Dirt but Cobble will never break down into Grass.").
-					define("destruction", new String[]{
+					define("destruction", Lists.newArrayList(
 
-							"minecraft:stone",
+							getRegName(Blocks.STONE),
 
-							"minecraft:cobblestone",
+							getRegName(Blocks.COBBLESTONE),
 
-							"minecraft:gravel|minecraft:grass",
+							getRegName(Blocks.GRAVEL) + "|" + getRegName(Blocks.GRASS_BLOCK) + "|" + getRegName(Blocks.GRASS_PATH) + "|" + getRegName(Blocks.COARSE_DIRT),
 
-							"minecraft:dirt",
+							getRegName(Blocks.DIRT) + "|" + getRegName(Blocks.SANDSTONE),
 
-							"minecraft:sand"
+							getRegName(Blocks.SAND) + "|" + getRegName(Blocks.RED_SAND)
 
-					});
+					));
 		}
 		builder.pop();
 		{
@@ -162,8 +163,8 @@ public class ConfigHandler {
 					defineInRange("targetOpacity", 0.25F, 0, 1);
 			centered = builder.
 					translation("Centered Wear").
-					comment("domain:name:meta\ndomain defaults to `minecraft`\nmeta is optional\ndomain is required if meta is specified").
-					define("centered", new String[]{
+					comment("domain:name\ndomain defaults to `minecraft`").
+					defineList("centered", Lists.newArrayList(
 
 							AoV.MODID + ":handwraps",
 
@@ -185,7 +186,7 @@ public class ConfigHandler {
 
 							getRegName(Items.LEATHER_LEGGINGS)
 
-					});
+					), o -> o instanceof String);
 		}
 	}
 
@@ -193,29 +194,24 @@ public class ConfigHandler {
 		return Objects.requireNonNull(item.getRegistryName()).getPath();
 	}
 
-	public static void setupCenteredWear() { // TODO: meta is gone
-		List<ItemStackWrapper> list = Lists.newArrayList();
+	private static String getRegName(Block block) {
+		return Objects.requireNonNull(block.getRegistryName()).getPath();
+	}
+
+	public static void setupCenteredWear() {
+		List<Item> list = Lists.newArrayList();
 		for (String next : AoV.config.centered.get()) {
 			String[] split = next.split(":");
 			String domain = "minecraft";
 			String regname = split[0];
-			int meta = 0;
-			boolean hasmeta = false;
 			if (split.length > 1) {
 				domain = split[0];
 				regname = split[1];
-				if (split.length > 2)
-					try {
-						meta = Integer.parseInt(split[2]);
-						hasmeta = true;
-					} catch (NumberFormatException e) {
-						// NO-OP
-					}
 			}
 			Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(domain, regname));
 			if (item == null || item instanceof ItemAir)
 				continue;
-			list.add(hasmeta ? new ItemStackWrapper(item) : new ItemStackWrapper(item));
+			list.add(item);
 		}
 		CENTERED_WEAR = ImmutableSet.copyOf(list);
 	}
@@ -264,7 +260,7 @@ public class ConfigHandler {
 		public ForgeConfigSpec.BooleanValue air;
 		public ForgeConfigSpec.IntValue ticks;
 		public ForgeConfigSpec.IntValue chance;
-		public ForgeConfigSpec.ConfigValue<String[]> destruction;
+		public ForgeConfigSpec.ConfigValue<List<? extends String>> destruction;
 
 	}
 

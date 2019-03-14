@@ -13,6 +13,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.fml.network.NetworkHooks;
+import tamaized.aov.AoV;
 import tamaized.aov.client.gui.AoVSkillsGUI;
 import tamaized.aov.client.gui.ResetSkillsGUI;
 import tamaized.aov.client.gui.ShowStatsGUI;
@@ -37,7 +38,7 @@ public class GuiHandler {
 		@Nonnull
 		@Override
 		public String getGuiID() {
-			return "fake";
+			return AoV.MODID + ":fake";
 		}
 
 		@Nonnull

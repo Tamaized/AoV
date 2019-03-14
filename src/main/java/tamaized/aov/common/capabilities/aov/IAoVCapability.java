@@ -8,6 +8,7 @@ import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.IAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IItemProvider;
@@ -51,11 +52,11 @@ public interface IAoVCapability {
 	static boolean isCentered(EntityLivingBase entity, IAoVCapability cap) {
 		if (entity != null && cap != null && cap.hasSkill(AoVSkills.druid_core_1)) {
 			for (ItemStack stack : entity.getArmorInventoryList())
-				if (!stack.isEmpty() && !ItemStackWrapper.compare(ConfigHandler.CENTERED_WEAR, stack))
+				if (!stack.isEmpty() && !ItemStackWrapper.compareItems(ConfigHandler.CENTERED_WEAR, stack))
 					return false;
-			if (!entity.getHeldItemMainhand().isEmpty() && !ItemStackWrapper.compare(ConfigHandler.CENTERED_WEAR, entity.getHeldItemMainhand()))
+			if (!entity.getHeldItemMainhand().isEmpty() && !ItemStackWrapper.compareItems(ConfigHandler.CENTERED_WEAR, entity.getHeldItemMainhand()))
 				return !entity.getHeldItemMainhand().getAttributeModifiers(EntityEquipmentSlot.MAINHAND).containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
-			return entity.getHeldItemOffhand().isEmpty() || ItemStackWrapper.compare(ConfigHandler.CENTERED_WEAR, entity.getHeldItemOffhand()) || !entity.getHeldItemOffhand().getAttributeModifiers(EntityEquipmentSlot.OFFHAND).containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
+			return entity.getHeldItemOffhand().isEmpty() || ItemStackWrapper.compareItems(ConfigHandler.CENTERED_WEAR, entity.getHeldItemOffhand()) || !entity.getHeldItemOffhand().getAttributeModifiers(EntityEquipmentSlot.OFFHAND).containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
 		}
 		return false;
 	}
@@ -209,6 +210,13 @@ public interface IAoVCapability {
 		public ItemStackWrapper(ItemStack stack, boolean ignoreNBT) {
 			this.stack = stack;
 			this.ignoreNBT = ignoreNBT;
+		}
+
+		public static boolean compareItems(Set<Item> set, ItemStack stack) { //TODO remove
+			for (Item item : set)
+				if (stack.getItem() == item)
+					return true;
+			return false;
 		}
 
 		public static boolean compare(Set<ItemStackWrapper> set, ItemStack stack) {

@@ -64,20 +64,14 @@ public class EntityEarthquake extends Entity {
 			index++;
 			for (String c : compare.split("\\|"))
 				if (c.equalsIgnoreCase(check)) {
-					if (index >= AoV.config.EARTHQUAKE.destruction.get().length)
+					if (index >= AoV.config.EARTHQUAKE.destruction.get().size())
 						return Blocks.AIR.getDefaultState();
-					String[] next = AoV.config.EARTHQUAKE.destruction.get()[index].split("\\|")[0].split(":");
+					String[] next = AoV.config.EARTHQUAKE.destruction.get().get(index).split("\\|")[0].split(":");
 					if (next.length < 2)
 						next = new String[]{"minecraft", next[0]};
 					Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(next[0], next[1]));
 					if (block == null)
 						return null;
-					try {
-						if (next.length > 2)
-							return Blocks.COBBLESTONE.getDefaultState();//block.getStateFromMeta(Integer.parseInt(next[2])); TODO
-					} catch (NumberFormatException e) {
-						// NO-OP
-					}
 					return block.getDefaultState();
 				}
 		}
