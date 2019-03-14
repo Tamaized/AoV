@@ -6,6 +6,7 @@ import tamaized.aov.common.blocks.BlockAngelicBlock;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.AoVCapabilityHandler;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
+import tamaized.aov.common.gui.GuiHandler;
 
 public class ShowStatsGUI extends GuiScreenClose {
 
@@ -29,7 +30,7 @@ public class ShowStatsGUI extends GuiScreenClose {
 			@Override
 			public void onClick(double mouseX, double mouseY) {
 				super.onClick(mouseX, mouseY);
-				//GuiHandler.openGUI(GuiHandler.GUI.SKILLS, parent, mc.player, mc.world); TODO
+				GuiHandler.openGui(GuiHandler.GUI.SKILLS, parent);
 			}
 		});
 		buttons.add(new GuiButton(BUTTON_CLOSE, loc2, height - 25, 80, 20, I18n.format("aov.gui.button.close")) {
