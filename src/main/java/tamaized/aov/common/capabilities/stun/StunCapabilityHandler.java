@@ -23,25 +23,28 @@ public class StunCapabilityHandler implements IStunCapability {
 
 	@Override
 	public void update(EntityLivingBase entity) {
-		boolean dirty = entity.canUpdate();
-		entity.canUpdate(stunTicks > 0);
-		if (stunTicks > 0) {
-			stunTicks--;
+		boolean canUpdate = entity.canUpdate();
+		if (stunTicks-- > 0) {
+			if (canUpdate) {
+				entity.canUpdate(false);
+				sendPacketUpdates(entity);
+			}
 			if (!entity.isAlive()) {
 				stunTicks = 0;
-				entity.canUpdate(false);
+				entity.canUpdate(true);
 			}
 			if (entity.hurtTime > 0)
 				entity.hurtTime--;
 			if (entity.hurtResistantTime > 0)
 				entity.hurtResistantTime--;
-		}
-		if (dirty != entity.canUpdate())
+		} else if (!canUpdate) {
+			entity.canUpdate(true);
 			sendPacketUpdates(entity);
+		}
 	}
 
 	private void sendPacketUpdates(Entity e) {
-		if (e.canUpdate()) {
+		if (!e.canUpdate()) {
 			mx = e.motionX;
 			my = e.motionY;
 			mz = e.motionZ;

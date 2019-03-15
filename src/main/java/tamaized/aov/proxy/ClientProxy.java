@@ -8,6 +8,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import tamaized.aov.client.ClientHelpers;
 import tamaized.aov.client.SizedFontRenderer;
+import tamaized.aov.client.events.KeyHandler;
 import tamaized.aov.client.particle.ParticleFeather;
 import tamaized.aov.client.particle.ParticleHeartColor;
 
@@ -41,7 +42,7 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void init() {
-		//		KeyHandler.register(); TODO
+		KeyHandler.register();
 		Minecraft.getInstance().addScheduledTask(() -> {
 			if (!Minecraft.getInstance().getFramebuffer().isStencilEnabled())
 				Minecraft.getInstance().getFramebuffer().enableStencil();
