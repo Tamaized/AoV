@@ -46,7 +46,7 @@ public class BlockAngelicBlock extends Block {
 		if ((type != ClassType.ALL || playerIn.isCreative()) && playerIn instanceof EntityPlayerMP)
 			GuiHandler.openGui(GuiHandler.GUI.SKILLS, type, (EntityPlayerMP) playerIn);
 		else
-			return false;
+			return (type != ClassType.ALL || playerIn.isCreative());
 		return true;
 	}
 

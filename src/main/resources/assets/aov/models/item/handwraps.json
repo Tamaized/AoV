@@ -1,0 +1,13 @@
+{
+  "parent": "item/generated",
+  "textures": {
+	"layer0": "aov:items/handwraps"
+  },
+  "display": {
+	"thirdperson_righthand": {
+	  "rotation": [ 0, 0, 0 ],
+	  "translation": [ 0, -1.75, -0.20 ],
+	  "scale": [ 0.35, 0.35, 0.35 ]
+	}
+  }
+}

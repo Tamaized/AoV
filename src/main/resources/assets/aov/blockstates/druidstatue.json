@@ -1,24 +1,10 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-	"model": "aov:blockangelic",
-	"textures": {
-	  "texture": "aov:blocks/druidstatue"
-	},
-	"transform": {
-	  "fixed": {
-		"scale": [ 0.5, 0.5, 0.5 ]
-	  }
-	}
-  },
   "variants": {
-	"inventory": [ { } ],
-	"normal": [ { } ],
-	"axis": {
-	  "z": {
-		"y": 90
-	  },
-	  "x": { }
+	"": {
+	  "model": "aov:block/druidstatue",
+	  "textures": {
+		"texture": "aov:blocks/druidstatue"
+	  }
 	}
   }
 }

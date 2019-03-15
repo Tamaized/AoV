@@ -6,6 +6,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -89,7 +90,7 @@ public class AoVBlocks {
 	public static void fixItemMappings(RegistryEvent.MissingMappings<Item> event) {
 		for (RegistryEvent.MissingMappings.Mapping<Item> mapping : event.getMappings())
 			if (mapping.key.getNamespace().equals(AoV.MODID) && mapping.key.getPath().equals("blockangelic"))
-				mapping.remap(Item.getItemFromBlock(angelicstatue));
+				mapping.remap(angelicstatue.asItem());
 	}
 
 	private static void registerItemBlocks(IForgeRegistry<Item> registry, Block... blocks) {

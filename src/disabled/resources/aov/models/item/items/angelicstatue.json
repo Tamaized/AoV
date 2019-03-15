@@ -1,0 +1,4 @@
+{
+  "parent": "aov:block/blockangelic",
+  "textures": { "texture": "aov:blocks/angelicstatue" }
+}
