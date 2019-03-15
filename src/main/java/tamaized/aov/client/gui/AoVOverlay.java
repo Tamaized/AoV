@@ -201,7 +201,7 @@ public class AoVOverlay {
 	}
 
 	@SubscribeEvent
-	public void render(TickEvent.RenderTickEvent e) {
+	public static void render(TickEvent.RenderTickEvent e) {
 		if (AoV.config.EARTHQUAKE.shake.get() && e.phase == TickEvent.Phase.START && mc.world != null) {
 			for (Entity entity : mc.world.loadedEntityList) {
 				if (entity instanceof EntityEarthquake) {
@@ -218,7 +218,7 @@ public class AoVOverlay {
 	}
 
 	@SubscribeEvent
-	public void camera(EntityViewRenderEvent.CameraSetup e) {
+	public static void camera(EntityViewRenderEvent.CameraSetup e) {
 		if (!mc.isGamePaused() && AoV.config.EARTHQUAKE.shake.get() && intensity > 0) {
 			e.setYaw(e.getYaw() + (rand.nextFloat() * 2F - 1F) * intensity);
 			e.setPitch(e.getPitch() + (rand.nextFloat() * 2F - 1F) * intensity);
