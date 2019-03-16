@@ -10,16 +10,13 @@
   "type": "minecraft:crafting_shaped",
   "key": {
 	"D": {
-	  "item": "minecraft:stone",
-	  "data": 4
+	  "item": "minecraft:polished_diorite"
 	},
 	"G": {
-	  "item": "minecraft:stone",
-	  "data": 2
+	  "item": "minecraft:polished_granite"
 	},
 	"A": {
-	  "item": "minecraft:stone",
-	  "data": 6
+	  "item": "minecraft:polished_andesite"
 	}
   }
 }

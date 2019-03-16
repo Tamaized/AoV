@@ -12,8 +12,7 @@
 	  "item": "aov:angelicstatue"
 	},
 	"F": {
-	  "item": "minecraft:tallgrass",
-	  "data": 1
+	  "item": "minecraft:grass"
 	},
 	"M": {
 	  "item": "minecraft:stick"
