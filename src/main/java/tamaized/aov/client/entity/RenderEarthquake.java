@@ -18,6 +18,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 import tamaized.aov.AoV;
+import tamaized.aov.common.config.ConfigHandler;
 import tamaized.aov.common.entity.EntityEarthquake;
 
 import javax.annotation.Nonnull;
@@ -120,11 +121,12 @@ public class RenderEarthquake extends Render<EntityEarthquake> {
 		GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.SRC_COLOR, GlStateManager.DestFactor.ZERO);
 		GL11.glEnable(GL11.GL_STENCIL_TEST);
 		GL11.glStencilMask(0xFF);
-		GL11.glStencilFunc(GL11.GL_ALWAYS, 6, 0xFF);
+		GL11.glStencilFunc(GL11.GL_ALWAYS, ConfigHandler.stencil + 6, 0xFF);
 		GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_REPLACE);
 		{
 			renderShadow(entity, x, y, z, 1F, partialTicks);
 		}
+		GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_KEEP);
 		GL11.glStencilMask(0x00);
 		GL11.glDisable(GL11.GL_STENCIL_TEST);
 		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -133,16 +135,13 @@ public class RenderEarthquake extends Render<EntityEarthquake> {
 
 	private void renderQuakes(@Nonnull EntityEarthquake entity, double x, double y, double z, float partialTicks) {
 		GL11.glEnable(GL11.GL_STENCIL_TEST);
-		GL11.glStencilFunc(GL11.GL_EQUAL, 6, 0xFF);
+		GL11.glStencilFunc(GL11.GL_EQUAL, ConfigHandler.stencil + 6, 0xFF);
 		{
 			bindTexture(TEXTURE);
 			GlStateManager.color(1F, 1F, 1F, 1F);
 			GlStateManager.enableBlend();
-			//					GlStateManager.glBlendEquation(GL14.GL_FUNC_SUBTRACT);
-			//		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 			AtomicReference<Float> offset = new AtomicReference<>(0F);
 			entity.quakes.removeIf(q -> q.render(entity, x, y + (offset.updateAndGet(v -> v + 0.0001F)), z, partialTicks));
-			//					GlStateManager.glBlendEquation(GL14.GL_FUNC_ADD);
 		}
 		GL11.glStencilMask(0x00);
 		GL11.glDisable(GL11.GL_STENCIL_TEST);

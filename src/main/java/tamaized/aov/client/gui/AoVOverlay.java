@@ -8,7 +8,6 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
@@ -250,7 +249,8 @@ public class AoVOverlay extends Gui {
 			GlStateManager.color(1F, 1F, 1F, 1F);
 			GL11.glEnable(GL11.GL_STENCIL_TEST);
 
-			GL11.glStencilFunc(GL11.GL_EQUAL, 8 + (hackyshit ? 3 : 0), 0xFF); // Water
+			int curStencil = ConfigHandler.stencil + 8 + (hackyshit ? 3 : 0);
+			GL11.glStencilFunc(GL11.GL_EQUAL, curStencil, 0xFF); // Water
 			{
 				buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
 				buffer.pos(0, h, 0).tex(0, v).color(0F, 0.5F, 0.75F, 0.75F).endVertex();
@@ -271,7 +271,8 @@ public class AoVOverlay extends Gui {
 				GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 				GlStateManager.popMatrix();
 			}
-			GL11.glStencilFunc(GL11.GL_EQUAL, 9 + (hackyshit ? 3 : 0), 0xFF); // Fire
+			GL11.glStencilFunc(GL11.GL_ALWAYS, curStencil, 0xFF);
+			GL11.glStencilFunc(GL11.GL_EQUAL, curStencil = (ConfigHandler.stencil + 9 + (hackyshit ? 3 : 0)), 0xFF); // Fire
 			{
 				buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
 				buffer.pos(0, h, 0).tex(0, v).color(0.75F, 0.25F, 0F, 0.75F).endVertex();
@@ -292,7 +293,8 @@ public class AoVOverlay extends Gui {
 				GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 				GlStateManager.popMatrix();
 			}
-			GL11.glStencilFunc(GL11.GL_EQUAL, 10 + (hackyshit ? 3 : 0), 0xFF); // Arch-Angel
+			GL11.glStencilFunc(GL11.GL_ALWAYS, curStencil, 0xFF);
+			GL11.glStencilFunc(GL11.GL_EQUAL, curStencil = (ConfigHandler.stencil + 10 + (hackyshit ? 3 : 0)), 0xFF); // Arch-Angel
 			{
 				buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
 				buffer.pos(0, h, 0).tex(0, v).color(1F, 0.85F, 0.2F, 0.75F).endVertex();
@@ -315,6 +317,7 @@ public class AoVOverlay extends Gui {
 				GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 				GlStateManager.popMatrix();
 			}
+			GL11.glStencilFunc(GL11.GL_ALWAYS, curStencil, 0xFF);
 
 			if (!hackyshit)
 				GL11.glStencilMask(0xFF);

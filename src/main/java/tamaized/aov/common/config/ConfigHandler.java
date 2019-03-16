@@ -72,6 +72,11 @@ public class ConfigHandler {
 	@Config.RangeDouble(min = 0, max = 1)
 	public static float targetOpacity = 0.25F;
 
+	@Config.Name("Starting Stencil Buffer ref Value")
+	@Config.Comment("Increase this if you experience weird render issues with this mod and other mods.")
+	@Config.RangeInt(min = 0)
+	public static int stencil = 100;
+
 	@Config.Name("Centered Wear")
 	@Config.Comment("domain:name:meta\ndomain defaults to `minecraft`\nmeta is optional\ndomain is required if meta is specified")
 	public static String[] centered = new String[]{
