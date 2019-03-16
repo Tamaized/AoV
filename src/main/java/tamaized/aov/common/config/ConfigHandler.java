@@ -37,6 +37,7 @@ public class ConfigHandler {
 	public ForgeConfigSpec.BooleanValue renderAstro;
 	public ForgeConfigSpec.BooleanValue renderRoyalRoad;
 	public ForgeConfigSpec.BooleanValue renderTarget;
+	public ForgeConfigSpec.IntValue stencil;
 	public ForgeConfigSpec.DoubleValue targetOpacity;
 	public ForgeConfigSpec.ConfigValue<List<? extends String>> centered;
 
@@ -161,6 +162,10 @@ public class ConfigHandler {
 					translation("Target UI Opcaity").
 					comment("How transparent the target ui is.").
 					defineInRange("targetOpacity", 0.25F, 0, 1);
+			stencil = builder.
+					translation("Starting Stencil Buffer ref Value").
+					comment("Increase this if you experience weird render issues with this mod and other mods.").
+					defineInRange("stencil", 100, 0, Integer.MAX_VALUE);
 			centered = builder.
 					translation("Centered Wear").
 					comment("domain:name\ndomain defaults to `minecraft`").

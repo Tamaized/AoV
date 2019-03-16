@@ -33,6 +33,7 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.leap.ILeapCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
+import tamaized.aov.common.config.ConfigHandler;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.items.Handwraps;
 
@@ -221,11 +222,11 @@ public class RenderPlayer {
 					GL11.glStencilMask(0xFF);
 					GL11.glStencilFunc(GL11.GL_ALWAYS, (
 
-							cap.getMorph() == IPolymorphCapability.Morph.WaterElemental ? 8 :
+							AoV.config.stencil.get() + (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental ? 8 :
 
 									cap.getMorph() == IPolymorphCapability.Morph.FireElemental ? 9 : 10
 
-					) + (AoVOverlay.hackyshit ? 3 : 0), 0xFF);
+					) + (AoVOverlay.hackyshit ? 3 : 0)), 0xFF);
 					GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_REPLACE);
 				}
 			}
@@ -243,7 +244,8 @@ public class RenderPlayer {
 				if (AoVOverlay.NO_STENCIL) {
 					GlStateManager.color4f(1F, 1F, 1F, 1F);
 				} else {
-					//				GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, ClientProxy.FRAME_BUFFER);
+					GL11.glStencilFunc(GL11.GL_ALWAYS, 0, 0xFF);
+					GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_KEEP);
 					GL11.glStencilMask(0x00);
 					GL11.glDisable(GL11.GL_STENCIL_TEST);
 					GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -329,13 +331,15 @@ public class RenderPlayer {
 						GL11.glStencilMask(0xFF);
 						GL11.glStencilFunc(GL11.GL_ALWAYS,
 
-								cap.getMorph() == IPolymorphCapability.Morph.WaterElemental ? 8 :
+								AoV.config.stencil.get() + (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental ? 8 :
 
-										cap.getMorph() == IPolymorphCapability.Morph.FireElemental ? 9 : 10,
+										cap.getMorph() == IPolymorphCapability.Morph.FireElemental ? 9 : 10),
 
 								0xFF);
 						GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_REPLACE);
 						mc.entityRenderer.itemRenderer.renderItemInFirstPerson(e.getPartialTicks());
+						GL11.glStencilFunc(GL11.GL_ALWAYS, 0, 0xFF);
+						GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_KEEP);
 						GL11.glStencilMask(0x00);
 						GL11.glDisable(GL11.GL_STENCIL_TEST);
 						GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
