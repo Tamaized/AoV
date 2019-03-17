@@ -55,7 +55,7 @@ minecraft {
 dependencies {
     minecraft "net.minecraftforge:forge:${project.minecraftVersion}-${project.forgeVersion}"
 
-    deobf "mezz.jei:${project.jeiVersion}"
+//    deobf "mezz.jei:${project.jeiVersion}"
 }
 
 jar {
