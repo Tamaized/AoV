@@ -13,7 +13,10 @@ apply plugin: 'eclipse'
 
 repositories {
     maven {
-        url = "http://dvs1.progwml6.com/files/maven"
+        url = "https://dvs1.progwml6.com/files/maven/" // JEI
+    }
+    maven {
+        url = "https://modmaven.k-4u.nl/" // JEI Backup
     }
 }
 
@@ -51,19 +54,18 @@ minecraft {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${project.minecraftVersion}-${project.forgeVersion}"
-	
-    //deobfCompile "mezz.jei:${project.jeiVersion}:api"
-    //runtime "mezz.jei:${project.jeiVersion}"
+
+    deobf "mezz.jei:${project.jeiVersion}"
 }
 
 jar {
     manifest {
-        attributes(["Specification-Title": "Angel of Vengeance",
-                    "Specification-Vendor": "Tamaized",
-                    "Specification-Version": "${modVersion}${modVersionValue}",
-                    "Implementation-Title": project.name,
-                    "Implementation-Version": "${version}",
-                    "Implementation-Vendor" :"Tamaized",
+        attributes(["Specification-Title"     : "Angel of Vengeance",
+                    "Specification-Vendor"    : "Tamaized",
+                    "Specification-Version"   : "${modVersion}${modVersionValue}",
+                    "Implementation-Title"    : project.name,
+                    "Implementation-Version"  : "${version}",
+                    "Implementation-Vendor"   : "Tamaized",
                     "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")],)
     }
 }
