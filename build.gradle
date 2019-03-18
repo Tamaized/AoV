@@ -29,7 +29,7 @@ sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = co
 minecraft {
     mappings channel: project.mappingType, version: project.mappingVersion
     //makeObfSourceJar = false
-    //accessTransformer = file('aov_at.cfg')
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
     //replaceIn 'AoV.java'
     //replace '${version}', "${modVersion}${modVersionValue}"
     runs {

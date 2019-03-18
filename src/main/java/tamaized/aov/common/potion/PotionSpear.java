@@ -34,7 +34,7 @@ public class PotionSpear extends Potion {
 
 	@Override
 	public void performEffect(@Nonnull EntityLivingBase entityLivingBaseIn, int p_76394_2_) {
-//		entityLivingBaseIn.ticksSinceLastSwing = 9000; TODO: ATs
+		entityLivingBaseIn.ticksSinceLastSwing = 9000;
 	}
 
 	@OnlyIn(Dist.CLIENT)
