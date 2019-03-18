@@ -27,7 +27,6 @@ public class ModelPolymorphWolf extends ModelWolf {
 		this.wolfLeg2.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
 		this.wolfLeg3.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
 		this.wolfLeg4.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
-		//		}
 
 		this.wolfHeadMain.rotateAngleZ = getShakeAngle(partialTickTime, 0.0F);
 		this.wolfMane.rotateAngleZ = getShakeAngle(partialTickTime, -0.08F);

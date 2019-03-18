@@ -118,10 +118,6 @@ public class Abilities {
 	public static AbilityBase wildshapeFireElemental;
 	public static AbilityBase elementalEmpowerment;
 
-	//TODO: remove
-	public static AbilityBase slayLiving;
-	public static AbilityBase destruction;
-
 	public static void register() {
 
 		// Universal
@@ -144,12 +140,11 @@ public class Abilities {
 		searingLight = new SearingLight();
 		flameStrike = new FlameStrike();
 		leapOfFaith = new LeapOfFaith();
-		//		slayLiving = new SlayLiving();
-		//		destruction = new Destruction();
 		ordersWrath = new AlignmentAoE(AlignmentAoE.Type.OrdersWrath);
 		chaosHammer = new AlignmentAoE(AlignmentAoE.Type.ChaosHammer);
 		implosion = new Implosion();
 		bladeBarrier = new BladeBarrier();
+		archAngelicForm = new Polymorph("archangelic", IPolymorphCapability.Morph.ArchAngel);
 
 		// Paladin
 		aid = new Aid();
@@ -191,8 +186,6 @@ public class Abilities {
 		wildshapeFireElemental = new Polymorph("fire", IPolymorphCapability.Morph.FireElemental);
 		elementalEmpowerment = new ElementalEmpowerment();
 
-		// TODO: move to proper area when breaking changes happen
-		archAngelicForm = new Polymorph("archangelic", IPolymorphCapability.Morph.ArchAngel);
 	}
 
 }

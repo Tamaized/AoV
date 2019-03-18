@@ -198,9 +198,9 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 				aov.markDirty();
 		}
 		if (getMorph() == Morph.Wolf) {
-			//			player.ticksSinceLastSwing = 9000; TODO: AT not being applied
+			player.ticksSinceLastSwing = 9000;
 			UtilHelper.setSize(player, 0.6F, 0.85F);
-			//			player.eyeHeight = player.height * 0.8F; TODO: AT
+			//			player.eyeHeight = player.height * 0.8F; TODO: cant AT since it's added by forge, reflect this shit
 			setLocalMorphSize(true);
 			if (attacking) {
 				IAoVCapability aov = CapabilityList.getCap(player, CapabilityList.AOV);
@@ -214,7 +214,7 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 			}
 		} else if (localMorphSize()) {
 			UtilHelper.setSize(player, 0.6F, 1.8F);
-			//			player.eyeHeight = player.getDefaultEyeHeight(); TODO
+			//			player.eyeHeight = player.getDefaultEyeHeight();
 			setLocalMorphSize(false);
 		}
 		if (getMorph() == Morph.ArchAngel) {
