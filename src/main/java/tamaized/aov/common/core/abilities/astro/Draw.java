@@ -109,7 +109,7 @@ public class Draw extends AbilityBase {
 				caster.addPotionEffect(new PotionEffect(AoVPotions.spire, ticks, potency));
 				break;
 		}
-		caster.world.spawnEntity(new EntitySpellVanillaParticles(caster.world, caster, Particles.CRIT, 5)); // TODO: was crit magic
+		caster.world.spawnEntity(new EntitySpellVanillaParticles(caster.world, caster, Particles.ENCHANTED_HIT, 5));
 	}
 
 	@Override

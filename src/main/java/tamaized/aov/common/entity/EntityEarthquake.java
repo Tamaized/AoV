@@ -104,11 +104,11 @@ public class EntityEarthquake extends Entity {
 			if (AoV.config.EARTHQUAKE.enable.get() && ticksExisted % AoV.config.EARTHQUAKE.ticks.get() == 0 && rand.nextInt(AoV.config.EARTHQUAKE.chance.get()) == 0) {
 				final int radius = 2;
 				List<BlockPos> positions = Lists.newArrayList(BlockPos.getAllInBox(new BlockPos(posX - radius, posY - 1, posZ - radius), new BlockPos(posX + radius, posY, posZ + radius)));
-				IBlockState newState = null;
-				IBlockState state = null;
-				BlockPos pos = null;
+				IBlockState newState;
+				IBlockState state;
+				BlockPos pos;
 				int tries = positions.size();
-				while (newState == null && tries-- > 0) {
+				do {
 					pos = positions.get(rand.nextInt(positions.size()));
 					state = world.getBlockState(pos);
 					Block block = state.getBlock();
@@ -120,8 +120,7 @@ public class EntityEarthquake extends Entity {
 					StringBuilder check = new StringBuilder(regname.getNamespace()).append(":").append(regname.getPath());
 					if ((newState = checkDestruction(check.toString())) != null)
 						break;
-					//					newState = checkDestruction(check.append(":").append(block.getMetaFromState(state)).toString()); TODO
-				}
+				} while (tries-- > 0);
 				if (newState != null) {
 					world.setBlockState(pos, newState);
 					world.playEvent(2001, pos, Block.getStateId(state));
