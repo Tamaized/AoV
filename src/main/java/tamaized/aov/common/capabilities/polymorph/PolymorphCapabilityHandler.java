@@ -53,6 +53,7 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 	);
 	private static final byte FLAG_BIT_LENGTH = 0b1111;
 	private static Field ENTITY_isImmuneToFire;
+	private static Field ENTITYPLAYER_eyeHeight;
 	List<EntityDruidicWolf> wolves = Lists.newArrayList();
 	private boolean unsetter_ENTITY_isImmuneToFire = false;
 	private Morph morph;
@@ -200,7 +201,13 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 		if (getMorph() == Morph.Wolf) {
 			player.ticksSinceLastSwing = 9000;
 			UtilHelper.setSize(player, 0.6F, 0.85F);
-			//			player.eyeHeight = player.height * 0.8F; TODO: cant AT since it's added by forge, reflect this shit
+			if (ENTITYPLAYER_eyeHeight == null)
+				ENTITYPLAYER_eyeHeight = UtilHelper.findField(EntityPlayer.class, "eyeHeight");
+			try {
+				ENTITYPLAYER_eyeHeight.set(player, player.height * 0.8F);
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
 			setLocalMorphSize(true);
 			if (attacking) {
 				IAoVCapability aov = CapabilityList.getCap(player, CapabilityList.AOV);
@@ -214,7 +221,11 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 			}
 		} else if (localMorphSize()) {
 			UtilHelper.setSize(player, 0.6F, 1.8F);
-			//			player.eyeHeight = player.getDefaultEyeHeight();
+			try {
+				ENTITYPLAYER_eyeHeight.set(player, player.getDefaultEyeHeight());
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
 			setLocalMorphSize(false);
 		}
 		if (getMorph() == Morph.ArchAngel) {
