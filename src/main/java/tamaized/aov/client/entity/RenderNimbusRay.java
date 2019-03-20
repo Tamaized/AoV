@@ -11,6 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import tamaized.aov.AoV;
+import tamaized.aov.client.particle.ParticleColorSpark;
 import tamaized.aov.common.entity.ProjectileBase;
 
 import java.util.Random;
@@ -94,9 +95,30 @@ public class RenderNimbusRay<T extends ProjectileBase> extends Render<T> {
 		GlStateManager.popMatrix();
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 		Vec3d vec = entity.getLook(1.0F);
-		/*if (!Minecraft.getInstance().isGamePaused()) TODO: new particle
-			for (int index = 0; index < 20; index++)
-				net.minecraft.client.Minecraft.getInstance().effectRenderer.addEffect(new tamaized.tammodized.client.particles.ParticleFluff(entity.world, entity.getPositionVector(), new Vec3d(-((0.015 * vec.x) + ((rand.nextFloat() * 0.125) - 0.0625)), ((0.015 * vec.y) + ((rand.nextFloat() * 0.125) - 0.0625)), -((0.015 * vec.z) + ((rand.nextFloat() * 0.125) - 0.0625))), rand.nextInt(10), 0, (rand.nextFloat() * 0.85F) + 0.15F, color));*/
+		if (!Minecraft.getInstance().isGamePaused())
+			for (int i = 0; i < 2; i++)
+				Minecraft.getInstance().particles.addEffect(new ParticleColorSpark(
+
+						entity.world,
+
+						entity.posX,
+
+						entity.posY,
+
+						entity.posZ,
+
+						-((0.015 * vec.x) + ((rand.nextFloat() * 0.125) - 0.0625)),
+
+						((0.015 * vec.y) + ((rand.nextFloat() * 0.125) - 0.0625)),
+
+						-((0.015 * vec.z) + ((rand.nextFloat() * 0.125) - 0.0625)),
+
+						Minecraft.getInstance().particles,
+
+						color >> 8
+
+				));
+		//				net.minecraft.client.Minecraft.getInstance().effectRenderer.addEffect(new tamaized.tammodized.client.particles.ParticleFluff(entity.world, entity.getPositionVector(), new Vec3d(-((0.015 * vec.x) + ((rand.nextFloat() * 0.125) - 0.0625)), ((0.015 * vec.y) + ((rand.nextFloat() * 0.125) - 0.0625)), -((0.015 * vec.z) + ((rand.nextFloat() * 0.125) - 0.0625))), rand.nextInt(10), 0, (rand.nextFloat() * 0.85F) + 0.15F, color));
 
 	}
 
