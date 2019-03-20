@@ -42,18 +42,24 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void init() {
+		super.init();
 		KeyHandler.register();
 		Minecraft.getInstance().addScheduledTask(() -> {
 			if (!Minecraft.getInstance().getFramebuffer().isStencilEnabled())
 				Minecraft.getInstance().getFramebuffer().enableStencil();
 		});
-		FONT_RENDERER = new SizedFontRenderer();
+		/*if (IReloadableResourceManager.class.isAssignableFrom(Minecraft.getInstance().getResourceManager().getClass()))
+			IReloadableResourceManager.class.cast(Minecraft.getInstance().getResourceManager()).addReloadListener(FONT_RENDERER);*/
+	}
+
+	@Override
+	public void finish() {
+		super.finish();
+		FONT_RENDERER = new SizedFontRenderer(); //TODO this doesnt render any text
 		if (Minecraft.getInstance().gameSettings.language != null) {
 			//			FONT_RENDERER.setUnicodeFlag(Minecraft.getInstance().isUnicode());
 			FONT_RENDERER.setBidiFlag(Minecraft.getInstance().getLanguageManager().isCurrentLanguageBidirectional());
 		}
-		/*if (IReloadableResourceManager.class.isAssignableFrom(Minecraft.getInstance().getResourceManager().getClass()))
-			IReloadableResourceManager.class.cast(Minecraft.getInstance().getResourceManager()).addReloadListener(FONT_RENDERER);*/
 	}
 
 	@Override

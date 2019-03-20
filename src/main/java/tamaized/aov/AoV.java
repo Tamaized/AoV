@@ -13,6 +13,7 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
@@ -106,6 +107,11 @@ public class AoV {
 		AoVSkills.register();
 
 		proxy.init();
+	}
+
+	@SubscribeEvent
+	public static void finish(FMLLoadCompleteEvent event){
+		proxy.finish();
 	}
 
 	public void serverStarting(FMLServerStartingEvent evt) {
