@@ -40,6 +40,6 @@ public class LeapCapabilityHandler implements ILeapCapability {
 
 	private void sendPacketUpdates(Entity e) {
 		if (!e.world.isRemote)
-			AoV.network.send(PacketDistributor.TRACKING_ENTITY.with(() -> e), new ClientPacketHandlerLeap(e, this));
+			AoV.network.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> e), new ClientPacketHandlerLeap(e, this));
 	}
 }

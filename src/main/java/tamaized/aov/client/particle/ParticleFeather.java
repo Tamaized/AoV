@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 
 public class ParticleFeather extends Particle {
 
-	private static final ResourceLocation FEATHER = new ResourceLocation("items/feather");
+	private static final ResourceLocation FEATHER = new ResourceLocation("item/feather");
 
 	public ParticleFeather(World world, Vec3d pos, Vec3d target, int life, float gravity, float scale, int color) {
 		super(world, pos.x, pos.y, pos.z, 0.0D, 0.0D, 0.0D);
