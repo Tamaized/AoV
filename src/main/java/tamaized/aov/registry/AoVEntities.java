@@ -65,35 +65,35 @@ public class AoVEntities {
 	public static void register(RegistryEvent.Register<EntityType<?>> e) {
 		e.getRegistry().registerAll(
 
-				create(ProjectileNimbusRay.class),
+				create(ProjectileNimbusRay.class, 256, 1, true),
 
-				create(ProjectileFlameStrike.class),
+				create(ProjectileFlameStrike.class, 256, 1, true),
 
-				create(EntitySpellImplosion.class),
+				create(EntitySpellImplosion.class, 256, 1, true),
 
-				create(EntitySpellBladeBarrier.class),
+				create(EntitySpellBladeBarrier.class, 256, 1, true),
 
-				create(EntitySpellVanillaParticles.class),
+				create(EntitySpellVanillaParticles.class, 256, 1, true),
 
-				create(EntitySpellAoVParticles.class),
+				create(EntitySpellAoVParticles.class, 256, 1, true),
 
-				create(EntityMalefic.class),
+				create(EntityMalefic.class, 256, 1, true),
 
-				create(EntityCombust.class),
+				create(EntityCombust.class, 256, 1, true),
 
-				create(EntityGravity.class),
+				create(EntityGravity.class, 256, 1, true),
 
-				create(EntityCelestialOpposition.class),
+				create(EntityCelestialOpposition.class, 256, 1, true),
 
-				create(EntitySpellLightningBolt.class),
+				create(EntitySpellLightningBolt.class, 256, 1, true),
 
-				create(EntityEarthquake.class),
+				create(EntityEarthquake.class, 256, 1, true),
 
-				create(EntitySpellLightningStorm.class),
+				create(EntitySpellLightningStorm.class, 256, 1, true),
 
-				create(EntityDruidicWolf.class),
+				create(EntityDruidicWolf.class, 256, 1, true),
 
-				create(EntityAlignmentAoE.class)
+				create(EntityAlignmentAoE.class, 256, 1, true)
 
 		);
 	}
@@ -117,7 +117,7 @@ public class AoVEntities {
 		RenderingRegistry.registerEntityRenderingHandler(EntityAlignmentAoE.class, RenderAlignmentAoE::new);
 	}
 
-	private static <T extends Entity> EntityType<T> create(Class<T> entity) {
+	private static <T extends Entity> EntityType<T> create(Class<T> entity, int range, int freq, boolean updates) {
 		final String name = entity.getSimpleName().toLowerCase();
 		EntityType<T> type = EntityType.Builder.create(entity, world -> {
 			try {
@@ -126,12 +126,14 @@ public class AoVEntities {
 				e.printStackTrace();
 			}
 			return null;
-		}).build(name);
+		}).
+				tracker(range, freq, updates).
+				build(name);
 		type.setRegistryName(AoV.MODID, name);
 		return type;
 	}
 
-	private static <T> T getNull(){
+	private static <T> T getNull() {
 		return null;
 	}
 
