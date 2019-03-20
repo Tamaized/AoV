@@ -1,11 +1,13 @@
 package tamaized.aov.client.entity;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.init.Particles;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import tamaized.aov.AoV;
@@ -39,16 +41,6 @@ public class RenderFlameStrike<T extends ProjectileFlameStrike> extends Render<T
 		GlStateManager.rotatef(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, 0.0F, 0.0F, 1.0F);
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder vertexbuffer = tessellator.getBuffer();
-		int i = 0;
-		float f = 0.0F;
-		float f1 = 0.5F;
-		float f2 = 0.0F;
-		float f3 = 0.15625F;
-		float f4 = 0.0F;
-		float f5 = 0.15625F;
-		float f6 = 0.15625F;
-		float f7 = 0.3125F;
-		float f8 = 0.05625F;
 		GlStateManager.enableRescaleNormal();
 
 		GlStateManager.rotatef(45.0F, 1.0F, 0.0F, 0.0F);
@@ -96,8 +88,23 @@ public class RenderFlameStrike<T extends ProjectileFlameStrike> extends Render<T
 		GlStateManager.popMatrix();
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 		Vec3d vec = entity.getLook(1.0F);
-		/*for (int index = 0; index < 20; index++) TODO: use a fire particle
-			net.minecraft.client.Minecraft.getInstance().effectRenderer.addEffect(new tamaized.tammodized.client.particles.ParticleFluff(entity.world, entity.getPositionVector(), new Vec3d(-((0.015 * vec.x) + ((rand.nextFloat() * 0.5) - 0.25)), ((0.015 * vec.y) + ((rand.nextFloat() * 0.5) - 0.25)), -((0.015 * vec.z) + ((rand.nextFloat() * 0.5) - 0.25))), rand.nextInt(10) + 10, 0, (rand.nextFloat() * 0.85F) + 2.15F, color));*/
+		if (!Minecraft.getInstance().isGamePaused())
+			for (int index = 0; index < 20; index++)
+				entity.world.spawnParticle(Particles.FLAME,
+
+						entity.posX,
+
+						entity.posY,
+
+						entity.posZ,
+
+						-((0.015 * vec.x) + ((rand.nextFloat() * 0.5) - 0.25)),
+
+						((0.015 * vec.y) + ((rand.nextFloat() * 0.5) - 0.25)),
+
+						-((0.015 * vec.z) + ((rand.nextFloat() * 0.5) - 0.25))
+
+				);
 
 	}
 
