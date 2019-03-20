@@ -47,6 +47,9 @@ public final class AoVCommands {
 				cap.reset(true);
 				cap.setExp(AoVCapabilityHandler.getExpForLevel(level));
 			}
+			IPolymorphCapability poly = CapabilityList.getCap(target, CapabilityList.POLYMORPH, null);
+			if (poly != null)
+				poly.morph(null);
 			return 0;
 		}
 	}
