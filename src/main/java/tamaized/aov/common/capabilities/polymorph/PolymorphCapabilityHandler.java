@@ -181,6 +181,8 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 	public void update(EntityPlayer player) {
 		if (ENTITY_isImmuneToFire == null)
 			ENTITY_isImmuneToFire = UtilHelper.findField(Entity.class, "field_70178_ae");
+		if (ENTITYPLAYER_eyeHeight == null)
+			ENTITYPLAYER_eyeHeight = UtilHelper.findField(EntityPlayer.class, "eyeHeight");
 		if (!player.world.isRemote && getMorph() == Morph.ArchAngel && polymorphTicker-- <= 0) {
 			morph(null);
 			player.removePotionEffect(AoVPotions.slowFall);
@@ -201,8 +203,6 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 		if (getMorph() == Morph.Wolf) {
 			player.ticksSinceLastSwing = 9000;
 			UtilHelper.setSize(player, 0.6F, 0.85F);
-			if (ENTITYPLAYER_eyeHeight == null)
-				ENTITYPLAYER_eyeHeight = UtilHelper.findField(EntityPlayer.class, "eyeHeight");
 			try {
 				ENTITYPLAYER_eyeHeight.set(player, player.height * 0.8F);
 			} catch (IllegalAccessException e) {
