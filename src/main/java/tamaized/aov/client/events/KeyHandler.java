@@ -95,9 +95,10 @@ public class KeyHandler {
 		IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
 		if (player == null || cap == null) {
 			ClientProxy.setTarget(null);
+			ClientProxy.barToggle = false;
 			return;
 		}
-		if (key_bar.isPressed())
+		if (key_bar.isPressed() || !cap.hasCoreSkill())
 			ClientProxy.barToggle = cap.hasCoreSkill() && !ClientProxy.barToggle;
 		if (key_target.isPressed())
 			ClientProxy.setTarget();
