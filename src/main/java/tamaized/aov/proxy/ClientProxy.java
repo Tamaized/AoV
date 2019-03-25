@@ -7,7 +7,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import tamaized.aov.client.ClientHelpers;
-import tamaized.aov.client.SizedFontRenderer;
 import tamaized.aov.client.events.KeyHandler;
 import tamaized.aov.client.particle.ParticleFeather;
 import tamaized.aov.client.particle.ParticleHeartColor;
@@ -18,7 +17,6 @@ public class ClientProxy extends CommonProxy {
 
 	public static boolean barToggle = false;
 	private static EntityLivingBase target;
-	private static SizedFontRenderer FONT_RENDERER;
 
 	public static void setTarget() {
 		Entity ent = ClientHelpers.getTargetOverMouse(Minecraft.getInstance(), 128);
@@ -36,10 +34,6 @@ public class ClientProxy extends CommonProxy {
 		target = entity;
 	}
 
-	public static SizedFontRenderer getFontRenderer() {
-		return FONT_RENDERER;
-	}
-
 	@Override
 	public void init() {
 		super.init();
@@ -48,18 +42,11 @@ public class ClientProxy extends CommonProxy {
 			if (!Minecraft.getInstance().getFramebuffer().isStencilEnabled())
 				Minecraft.getInstance().getFramebuffer().enableStencil();
 		});
-		/*if (IReloadableResourceManager.class.isAssignableFrom(Minecraft.getInstance().getResourceManager().getClass()))
-			IReloadableResourceManager.class.cast(Minecraft.getInstance().getResourceManager()).addReloadListener(FONT_RENDERER);*/
 	}
 
 	@Override
 	public void finish() {
 		super.finish();
-		FONT_RENDERER = new SizedFontRenderer(); //TODO this doesnt render any text
-		if (Minecraft.getInstance().gameSettings.language != null) {
-			//			FONT_RENDERER.setUnicodeFlag(Minecraft.getInstance().isUnicode());
-			FONT_RENDERER.setBidiFlag(Minecraft.getInstance().getLanguageManager().isCurrentLanguageBidirectional());
-		}
 	}
 
 	@Override
@@ -76,7 +63,6 @@ public class ClientProxy extends CommonProxy {
 				particle = new ParticleFeather(world, pos, target, life, gravity, scale, color);
 				break;
 		}
-		//noinspection ConstantConditions
 		if (particle != null)
 			Minecraft.getInstance().particles.addEffect(particle);
 	}

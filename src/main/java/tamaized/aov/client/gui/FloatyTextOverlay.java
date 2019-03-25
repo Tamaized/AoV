@@ -59,7 +59,7 @@ public class FloatyTextOverlay extends Gui {
 
 		GlStateManager.pushMatrix();
 		{
-			GlStateManager.scalef(0.5f, 0.5f, 0f);
+			GlStateManager.scalef(0.5F, 0.5F, 0F);
 			for (int i = 0; i <= 5; i++) {
 				FloatyText ft = floatyText[i];
 				if (ft == null)

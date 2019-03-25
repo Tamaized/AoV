@@ -26,6 +26,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.opengl.GL11;
 import tamaized.aov.AoV;
 import tamaized.aov.client.ClientHelpers;
+import tamaized.aov.client.SizedFontHelper;
 import tamaized.aov.client.handler.ClientTicker;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -53,10 +54,9 @@ public class AoVOverlay {
 	public static boolean hackyshit = false;
 	public static float intensity = 0F;
 	public static boolean NO_STENCIL = false;
+	public static float zLevel;
 	private static EntityLivingBase cacheEntity;
 	private static int cacheEntityID = -1;
-
-	public static float zLevel;
 
 	public static void drawRect(float left, float top, float right, float bottom, int color) {
 		if (left < right) {
@@ -469,28 +469,38 @@ public class AoVOverlay {
 				}
 				GlStateManager.popMatrix();
 				String name = target.getDisplayName().getFormattedText();
-				FontRenderer font = ClientProxy.getFontRenderer().setSize(0.5F);
-				List<String> list = font.listFormattedStringToWidth(name, 80);
-				if (!list.isEmpty())
-					name = list.get(0);
-				drawString(font,
+				{
+					FontRenderer font = Minecraft.getInstance().fontRenderer;
+					List<String> list = font.listFormattedStringToWidth(name, 80);
+					if (!list.isEmpty())
+						name = list.get(0);
+					SizedFontHelper.render(font,
 
-						name,
+							name,
 
-						(int) (x + w / 3) + 3,
+							(float) (x + w / 3) + 3,
 
-						(int) (y + 28) - (int) (ClientProxy.getFontRenderer().getFontHeight() / 2F),
+							(float) (y + 28) - font.FONT_HEIGHT / 3F,
 
-						0xFFFFFF);
-				drawString(font,
+							0.5F,
 
-						"x " + (int) target.getHealth() + "/" + (int) target.getMaxHealth(),
+							0xFFFFFF,
 
-						(int) (x + w / 3) + 3,
+							true);
+					SizedFontHelper.render(font,
 
-						(int) (y + 16) - (int) (ClientProxy.getFontRenderer().getFontHeight() / 2F),
+							"x " + (int) target.getHealth() + "/" + (int) target.getMaxHealth(),
 
-						0xFFFFFF);
+							(float) (x + w / 3) + 3,
+
+							(float) (y + 16) - font.FONT_HEIGHT / 3F,
+
+							0.5F,
+
+							0xFFFFFF,
+
+							true);
+				}
 				{
 					Minecraft.getInstance().textureManager.bindTexture(Gui.ICONS);
 					int posx = (int) (x + 30);
@@ -510,30 +520,27 @@ public class AoVOverlay {
 					bufferbuilder.pos((double) (posx), (double) (posy), (double) zLevel).tex((double) ((float) (textureX) * 0.00390625F), (double) ((float) (textureY) * 0.00390625F)).endVertex();
 					tessellator.draw();
 				}
-				ClientProxy.getFontRenderer().reset();
 			}
 		}
 		GlStateManager.popMatrix();
 	}
-	
+
 	public static void drawCenteredString(FontRenderer fontRendererIn, String text, int x, int y, int color) {
-		fontRendererIn.drawStringWithShadow(text, (float)(x - fontRendererIn.getStringWidth(text) / 2), (float)y, color);
+		fontRendererIn.drawStringWithShadow(text, (float) (x - fontRendererIn.getStringWidth(text) / 2), (float) y, color);
 	}
 
 	public static void drawString(FontRenderer fontRendererIn, String text, int x, int y, int color) {
-		fontRendererIn.drawStringWithShadow(text, (float)x, (float)y, color);
+		fontRendererIn.drawStringWithShadow(text, (float) x, (float) y, color);
 	}
 
 	public static void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height) {
-		float f = 0.00390625F;
-		float f1 = 0.00390625F;
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
 		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-		bufferbuilder.pos((double)(x + 0), (double)(y + height), (double)zLevel).tex((double)((float)(textureX + 0) * 0.00390625F), (double)((float)(textureY + height) * 0.00390625F)).endVertex();
-		bufferbuilder.pos((double)(x + width), (double)(y + height), (double)zLevel).tex((double)((float)(textureX + width) * 0.00390625F), (double)((float)(textureY + height) * 0.00390625F)).endVertex();
-		bufferbuilder.pos((double)(x + width), (double)(y + 0), (double)zLevel).tex((double)((float)(textureX + width) * 0.00390625F), (double)((float)(textureY + 0) * 0.00390625F)).endVertex();
-		bufferbuilder.pos((double)(x + 0), (double)(y + 0), (double)zLevel).tex((double)((float)(textureX + 0) * 0.00390625F), (double)((float)(textureY + 0) * 0.00390625F)).endVertex();
+		bufferbuilder.pos((double) (x + 0), (double) (y + height), (double) zLevel).tex((double) ((float) (textureX + 0) * 0.00390625F), (double) ((float) (textureY + height) * 0.00390625F)).endVertex();
+		bufferbuilder.pos((double) (x + width), (double) (y + height), (double) zLevel).tex((double) ((float) (textureX + width) * 0.00390625F), (double) ((float) (textureY + height) * 0.00390625F)).endVertex();
+		bufferbuilder.pos((double) (x + width), (double) (y + 0), (double) zLevel).tex((double) ((float) (textureX + width) * 0.00390625F), (double) ((float) (textureY + 0) * 0.00390625F)).endVertex();
+		bufferbuilder.pos((double) (x + 0), (double) (y + 0), (double) zLevel).tex((double) ((float) (textureX + 0) * 0.00390625F), (double) ((float) (textureY + 0) * 0.00390625F)).endVertex();
 		tessellator.draw();
 	}
 
