@@ -58,6 +58,15 @@ dependencies {
     deobf "mezz.jei:${project.jeiVersion}"
 }
 
+processResources {
+    from(sourceSets.main.resources.srcDirs){
+        include 'META-INF/mods.toml'
+        expand([
+                'version': "${project.version}"
+        ])
+    }
+}
+
 jar {
     manifest {
         attributes(["Specification-Title"     : "Angel of Vengeance",
