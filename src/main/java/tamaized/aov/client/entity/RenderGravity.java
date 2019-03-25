@@ -21,13 +21,41 @@ import java.util.Random;
 public class RenderGravity<T extends EntityGravity> extends Render<T> {
 
 	private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.MODID, "textures/entity/gravity.png");
-//	public static final Sphere SPHERE = new Sphere(); TODO
+	//	public static final Sphere SPHERE = new Sphere(); TODO
 
 	public RenderGravity(RenderManager renderManager) {
 		super(renderManager);
 	}
 
+	public static void drawSphere(float radius, int color) {
+		float r = ((color >> 24) & 0xFF) / 255F;
+		float g = ((color >> 16) & 0xFF) / 255F;
+		float b = ((color >> 8) & 0xFF) / 255F;
+		float a = (color & 0xFF) / 255F;
+		float PI = (float) Math.PI;
+		float x, y, z;
+		int gradation = 50;
+		Tessellator.getInstance().getBuffer().begin(GL11.GL_TRIANGLE_STRIP, DefaultVertexFormats.POSITION_TEX/*_COLOR*/);
+		for (int j = 0; j < gradation; j++) {
+			float alpha1 = (float) j / gradation * PI;
+			float alpha2 = (float) (j + 1) / gradation * PI;
+			for (int i = 0; i <= gradation; i++) {
+				float beta = (float) i / gradation * 2.0f * PI;
+				x = (float) (radius * Math.cos(beta) * Math.sin(alpha1));
+				y = (float) (radius * Math.sin(beta) * Math.sin(alpha1));
+				z = (float) (radius * Math.cos(alpha1));
+				Tessellator.getInstance().getBuffer().pos(x, y, z).tex(beta / (2.0f * PI), alpha1 / PI)/*.color(r, g, b, a)*/.endVertex();
+				x = (float) (radius * Math.cos(beta) * Math.sin(alpha2));
+				y = (float) (radius * Math.sin(beta) * Math.sin(alpha2));
+				z = (float) (radius * Math.cos(alpha2));
+				Tessellator.getInstance().getBuffer().pos(x, y, z).tex(beta / (2.0f * PI), alpha2 / PI)/*.color(r, g, b, a)*/.endVertex();
+			}
+		}
+		Tessellator.getInstance().draw();
+	}
+
 	public static void renderSphere(float radius) {
+		drawSphere(radius, 0xFFFFFFFF);
 		/*SPHERE.setDrawStyle(GLU.GLU_FILL); TODO
 		SPHERE.setNormals(GLU.GLU_SMOOTH);
 		SPHERE.setOrientation(GLU.GLU_OUTSIDE);
@@ -124,7 +152,7 @@ public class RenderGravity<T extends EntityGravity> extends Render<T> {
 		GlStateManager.enableBlend();
 		GlStateManager.disableDepthTest();
 		float alpha = entity.spinnyBoi >= 600 ? (entity.spinnyBoi - 600F) / 420F : 0F;
-		GlStateManager.color4f(0.5F, 0.5F, 0.5F, 1F - alpha);
+		GlStateManager.color4f(0.5F, 0.5F, 0.5F, 1F);
 		GlStateManager.translated(x + 0.5F, y + 5.0F, z + 0.5F);
 		GlStateManager.rotatef(90F, 1.0F, 0.0F, 0.0F);
 		float s = Math.min(entity.spinnyBoi / 180F, 1F);
@@ -133,11 +161,13 @@ public class RenderGravity<T extends EntityGravity> extends Render<T> {
 
 		GlStateManager.pushMatrix();
 		bindTexture(TEXTURE);
-//		SPHERE.setTextureFlag(true); TODO
+		//		SPHERE.setTextureFlag(true); TODO
 		GlStateManager.rotatef((entity.spinnyBoi += Minecraft.getInstance().isGamePaused() ? 0 : (360F / (float) Minecraft.getDebugFPS())) % 360, 0, 0, 1);
+		GlStateManager.alphaFunc(GL11.GL_GREATER, alpha);
 		renderSphere(4F);
-		GlStateManager.color4f(0.5F, 0.75F, 0.75F, 1F - alpha);
+		GlStateManager.color4f(0.5F, 0.75F, 0.75F, 1F);
 		renderSphere(1F);
+		GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
 		GlStateManager.rotatef(-entity.spinnyBoi % 360, 0, 0, 1);
 		float scale = 0.25F;
 		for (int i = 0; i <= 8; i++) {
