@@ -113,7 +113,7 @@ public class AstroCapabilityHandler implements IAstroCapability {
 				break;
 		}
 		if (!entity.world.isRemote)
-			AoV.network.send(PacketDistributor.TRACKING_ENTITY.with(() -> entity), new ClientPacketHandlerAstroAnimation(entity, animation));
+			AoV.network.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), new ClientPacketHandlerAstroAnimation(entity, animation));
 	}
 
 	@Override
@@ -275,6 +275,8 @@ public class AstroCapabilityHandler implements IAstroCapability {
 						if (dat[3] <= 20 && dat[3] > 0)
 							spawnParticle(entity, entity.posX + entity.getRNG().nextDouble() * 0.125D - 0.0625D, entity.posY + 2.7F - (0.125D * ((80F - dat[0]) / 80F)), entity.posZ + entity.getRNG().nextDouble() * 0.125D - 0.0625D);
 						break;
+					default:
+						break;
 				}
 			index++;
 		}
@@ -296,6 +298,6 @@ public class AstroCapabilityHandler implements IAstroCapability {
 
 	@Override
 	public void sendPacketUpdates(EntityPlayer player) {
-		AoV.network.send(PacketDistributor.TRACKING_ENTITY.with(() -> player), new ClientPacketHandlerAstroData(player));
+		AoV.network.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new ClientPacketHandlerAstroData(player));
 	}
 }

@@ -380,7 +380,9 @@ public class AoVOverlay {
 
 			if (cap.getDraw() != null) {
 				renderAstroIcon(IAstroCapability.ICard.getCardID(cap.getDraw()), buffer, x + 33.5F, y + 17F, scale);
+				tess.draw();
 				drawCenteredString(mc.fontRenderer, "" + cap.getDrawTime(), (int) (x + 43), (int) (y + 50), 0xbd7e10);
+				buffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 				mc.getTextureManager().bindTexture(TEXTURE_ASTRO);
 				GlStateManager.color4f(1, 1, 1, 1);
 			}
@@ -415,9 +417,11 @@ public class AoVOverlay {
 		buffer.pos(x, y + 286F * scale, 0).tex(0.5F + (0.08F + xOffset), 0.5F + yOffset).endVertex();
 		buffer.pos(x + 80F * scale, y + 286F * scale, 0).tex(0.5F + xOffset, 0.5F + yOffset).endVertex();
 		if (AoV.config.renderRoyalRoad.get()) {
+			Tessellator.getInstance().draw();
 			GlStateManager.pushMatrix();
 			drawCenteredString(mc.fontRenderer, I18n.format("aov.astro.burn." + index), (int) x - 16, (int) y, index == 0 ? 0x00AAFF : index == 1 ? 0x00FFAA : 0xFFDD88);
 			GlStateManager.popMatrix();
+			buffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 			mc.getTextureManager().bindTexture(TEXTURE_ASTRO);
 		}
 		GlStateManager.color4f(1, 1, 1, 1);
