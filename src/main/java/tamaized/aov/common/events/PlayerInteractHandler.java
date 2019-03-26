@@ -38,7 +38,7 @@ public class PlayerInteractHandler {
 	}
 
 	@SubscribeEvent
-	public void onWakeUp(PlayerWakeUpEvent e) {
+	public static void onWakeUp(PlayerWakeUpEvent e) {
 		// WorldServer#wakeAllPlayers is the only vanilla method that passes (false, false, true)
 		// ForgeEventFactory.fireSleepingTimeCheck passes false, true, true, lets ensure the time is day when we check this
 		EntityPlayer player = e.getEntityPlayer();
