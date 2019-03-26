@@ -92,7 +92,7 @@ public class CelestialOpposition extends AbilityBase {
 	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
 		IAoVCapability aov = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (!caster.world.isRemote && aov != null) {
-			for (EntityLivingBase e : caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.posX - distance, caster.posY - distance, caster.posY - distance, caster.posX + distance, caster.posY + distance, caster.posZ + distance))) {
+			for (EntityLivingBase e : caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.posX - distance, caster.posY - distance, caster.posZ - distance, caster.posX + distance, caster.posY + distance, caster.posZ + distance))) {
 				if (e != caster && IAoVCapability.selectiveTarget(caster, aov, e)) {
 					IStunCapability stun = CapabilityList.getCap(e, CapabilityList.STUN);
 					if (stun != null) {

@@ -88,7 +88,7 @@ public class EntityGravity extends Entity {
 			return;
 		}
 		int range = 4;
-		for (EntityLivingBase e : world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(getPosition().add(-range, -2, -range), getPosition().add(range, 2, range)))) {
+		for (EntityLivingBase e : world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(getPosition().add(-range, -range, -range), getPosition().add(range, range, range)))) {
 			if (e == caster || alreadyHit.contains(e))
 				continue;
 			doDamage(e);
