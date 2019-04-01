@@ -26,6 +26,7 @@ import tamaized.aov.common.core.skills.AoVSkill;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.common.helper.FloatyTextHelper;
 import tamaized.aov.network.client.ClientPacketHandlerAoVData;
+import tamaized.aov.network.client.ClientPacketHandlerAoVSimpleData;
 import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
 import tamaized.aov.proxy.ClientProxy;
 import tamaized.aov.registry.AoVPotions;
@@ -706,7 +707,8 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		IPolymorphCapability poly = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
 		if (poly == null)
 			return;
-		AoV.network.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new ClientPacketHandlerAoVData(this, poly));
+		AoV.network.send(PacketDistributor.PLAYER.with(() -> player), new ClientPacketHandlerAoVData(this, poly));
+		AoV.network.send(PacketDistributor.TRACKING_ENTITY.with(() -> player), new ClientPacketHandlerAoVSimpleData(this, CapabilityList.getCap(player, CapabilityList.POLYMORPH), player.getEntityId()));
 	}
 
 	@Override
