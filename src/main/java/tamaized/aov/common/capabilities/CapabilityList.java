@@ -177,7 +177,6 @@ public class CapabilityList {
 	}
 
 	@SubscribeEvent
-	@SuppressWarnings("JavaReflectionMemberAccess")
 	public static void updateClone(PlayerEvent.Clone event) {
 		if (FIELD_capabilityProvider_valid == null) {
 			try {
