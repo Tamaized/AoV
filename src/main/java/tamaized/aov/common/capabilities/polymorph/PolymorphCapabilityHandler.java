@@ -343,6 +343,11 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 		flagBits &= (~sub & FLAG_BIT_LENGTH);
 	}
 
+	@Override
+	public void handleClone(IPolymorphCapability data) {
+		morph(data.getMorph());
+	}
+
 	private static class StateWrapper {
 
 		private final Block block;

@@ -7,6 +7,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.common.capabilities.CapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -24,6 +25,9 @@ import tamaized.aov.common.capabilities.stun.IStunCapability;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.reflect.Field;
 
 @Mod.EventBusSubscriber(modid = AoV.MODID)
 public class CapabilityList {
@@ -38,6 +42,8 @@ public class CapabilityList {
 	public static final Capability<ILeapCapability> LEAP;
 	@CapabilityInject(IPolymorphCapability.class)
 	public static final Capability<IPolymorphCapability> POLYMORPH;
+
+	private static volatile MethodHandle FIELD_capabilityProvider_valid;
 
 	// Tricks Intellij
 	static {
@@ -171,15 +177,38 @@ public class CapabilityList {
 	}
 
 	@SubscribeEvent
-	public static void updateClone(PlayerEvent.Clone e) {
-		IAoVCapability newcap = getCap(e.getEntityPlayer(), AOV);
-		IAoVCapability oldcap = getCap(e.getOriginal(), AOV);
-		if (newcap != null && oldcap != null)
-			newcap.copyFrom(oldcap);
-		IPolymorphCapability newpoly = getCap(e.getEntityPlayer(), POLYMORPH);
-		IPolymorphCapability oldpoly = getCap(e.getOriginal(), POLYMORPH);
-		if (newpoly != null && oldpoly != null)
-			newpoly.morph(oldpoly.getMorph());
+	@SuppressWarnings("JavaReflectionMemberAccess")
+	public static void updateClone(PlayerEvent.Clone event) {
+		if (FIELD_capabilityProvider_valid == null) {
+			try {
+				Field f = CapabilityProvider.class.getDeclaredField("valid");
+				f.setAccessible(true);
+				FIELD_capabilityProvider_valid = MethodHandles.lookup().unreflectSetter(f);
+				f.setAccessible(false);
+			} catch (IllegalAccessException | NoSuchFieldException e) {
+				e.printStackTrace();
+			}
+		}
+		if (FIELD_capabilityProvider_valid != null) {
+			try {
+				FIELD_capabilityProvider_valid.invoke(event.getOriginal(), true);
+				{
+					handlePlayerCopy(event.getEntityPlayer(), event.getOriginal(), AOV);
+					handlePlayerCopy(event.getEntityPlayer(), event.getOriginal(), POLYMORPH);
+				}
+				FIELD_capabilityProvider_valid.invoke(event.getOriginal(), false);
+			} catch (Throwable e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public static <C extends IPlayerCapabilityHandler<C>> void handlePlayerCopy(EntityPlayer player, EntityPlayer old, Capability<C> cap) {
+		C newCap = getCap(player, cap);
+		C oldCap = getCap(old, cap);
+		if (newCap != null && oldCap != null) {
+			newCap.handleClone(oldCap);
+		}
 	}
 
 	@SubscribeEvent

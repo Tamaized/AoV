@@ -687,23 +687,6 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@Override
-	public void copyFrom(IAoVCapability cap) {
-		obtainedSkills = cap.getObtainedSkills();
-		skillPoints = cap.getSkillPoints();
-		exp = cap.getExp();
-		maxLevel = cap.getMaxLevel();
-		invokeMass = cap.getInvokeMass();
-		abilities = cap.getAbilities();
-		for (int index = 0; index < 9; index++) {
-			slots[index] = cap.getSlot(index);
-		}
-		currentSlot = cap.getCurrentSlot();
-		setDecayMap(cap.getDecayMap());
-		hasLoaded = true;
-		dirty = true;
-	}
-
-	@Override
 	public Map<AbilityBase, DecayWrapper> getDecayMap() {
 		return Collections.unmodifiableMap(decay);
 	}
@@ -724,6 +707,23 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		if (poly == null)
 			return;
 		AoV.network.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new ClientPacketHandlerAoVData(this, poly));
+	}
+
+	@Override
+	public void handleClone(IAoVCapability data) {
+		obtainedSkills = data.getObtainedSkills();
+		skillPoints = data.getSkillPoints();
+		exp = data.getExp();
+		maxLevel = data.getMaxLevel();
+		invokeMass = data.getInvokeMass();
+		abilities = data.getAbilities();
+		for (int index = 0; index < 9; index++) {
+			slots[index] = data.getSlot(index);
+		}
+		currentSlot = data.getCurrentSlot();
+		setDecayMap(data.getDecayMap());
+		hasLoaded = true;
+		dirty = true;
 	}
 
 	protected class DecayWrapper {

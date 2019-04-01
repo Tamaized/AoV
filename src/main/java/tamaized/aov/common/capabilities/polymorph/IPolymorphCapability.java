@@ -9,10 +9,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import tamaized.aov.AoV;
+import tamaized.aov.common.capabilities.IPlayerCapabilityHandler;
 
 import java.util.Set;
 
-public interface IPolymorphCapability {
+public interface IPolymorphCapability extends IPlayerCapabilityHandler<IPolymorphCapability> {
 
 	Set<Potion> ELEMENTAL_IMMUNITY_EFFECTS = ImmutableSet.of(
 

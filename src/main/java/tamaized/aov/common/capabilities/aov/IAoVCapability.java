@@ -14,6 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import tamaized.aov.AoV;
+import tamaized.aov.common.capabilities.IPlayerCapabilityHandler;
 import tamaized.aov.common.capabilities.aov.AoVCapabilityHandler.DecayWrapper;
 import tamaized.aov.common.config.ConfigHandler;
 import tamaized.aov.common.core.abilities.Ability;
@@ -27,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public interface IAoVCapability {
+public interface IAoVCapability extends IPlayerCapabilityHandler<IAoVCapability> {
 
 	ResourceLocation ID = new ResourceLocation(AoV.MODID, "aovcapabilityhandler");
 
@@ -189,8 +190,6 @@ public interface IAoVCapability {
 	Map<AbilityBase, DecayWrapper> getDecayMap();
 
 	void setDecayMap(Map<AbilityBase, DecayWrapper> map);
-
-	void copyFrom(IAoVCapability cap);
 
 	Ability[] getSlots();
 
