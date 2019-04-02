@@ -2,7 +2,6 @@ package tamaized.aov.network;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
@@ -61,20 +60,18 @@ public class NetworkMessages {
 		}
 
 		static void onMessage(IMessage message, Supplier<NetworkEvent.Context> context, Side side) {
-			switch (side) {
-				case CLIENT: {
-					EntityPlayer player = Minecraft.getInstance().player;
-					Minecraft.getInstance().addScheduledTask(() -> message.handle(player));
-				}
-				break;
-				case SERVER: {
-					EntityPlayerMP player = context.get().getSender();
-					if (player != null)
-						player.getServerWorld().addScheduledTask(() -> message.handle(player));
-				}
-				break;
-			}
+			context.get().enqueueWork(() -> message.handle(side == Side.SERVER ? context.get().getSender() : getClientSidePlayer().get()));
 			context.get().setPacketHandled(true);
+		}
+
+		@SuppressWarnings("Convert2Lambda")
+		static Supplier<EntityPlayer> getClientSidePlayer() {
+			return new Supplier<EntityPlayer>() {
+				@Override
+				public EntityPlayer get() {
+					return Minecraft.getInstance().player;
+				}
+			};
 		}
 
 		void handle(EntityPlayer player);

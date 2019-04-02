@@ -9,18 +9,19 @@ import tamaized.aov.AoV;
 import tamaized.aov.network.client.ClientPacketHandlerParticle;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class ParticleRegistry {
 
-	private static final List<IParticleHandler> HANDLERS = Lists.newArrayList();
+	private static final List<Supplier<IParticleHandler>> HANDLERS = Lists.newArrayList();
 
-	public static int register(IParticleHandler handler) {
+	public static int register(Supplier<IParticleHandler> handler) {
 		HANDLERS.add(handler);
 		return HANDLERS.size() - 1;
 	}
 
 	public static IParticleHandler getHandlerFromID(int id) {
-		return id < 0 || id >= HANDLERS.size() ? null : HANDLERS.get(id);
+		return id < 0 || id >= HANDLERS.size() ? null : HANDLERS.get(id).get();
 	}
 
 	public static void spawnFromServer(World world, int id, double x, double y, double z, double dx, double dy, double dz, int... data) {
