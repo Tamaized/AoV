@@ -128,7 +128,7 @@ public class AttackHandler {
 		// DoubleStrike
 		if (attacker != null) {
 			IAoVCapability cap = CapabilityList.getCap(attacker, CapabilityList.AOV);
-			if (canHurt(entity) && cap != null && livingAttackState && attacker.world.rand.nextInt(cap.getDoubleStrikeForRand()) == 0) {
+			if (canHurt(entity) && cap != null && cap.getDoubleStrike() > 0 && livingAttackState && attacker.world.rand.nextInt(cap.getDoubleStrikeForRand()) == 0) {
 				livingAttackState = false;
 				cap.addExp(attacker, 20, Abilities.defenderDoublestrike);
 				if (attacker instanceof EntityPlayer)
