@@ -73,6 +73,7 @@ public class AoVUIBar {
 				}
 			}
 			GlStateManager.popMatrix();
+			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		}
 		GlStateManager.popMatrix();
 	}
