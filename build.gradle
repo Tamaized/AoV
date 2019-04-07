@@ -10,14 +10,15 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
 
 repositories {
     maven {
         url = "https://dvs1.progwml6.com/files/maven/" // JEI
     }
-    maven {
+    /*maven {
         url = "https://modmaven.k-4u.nl/" // JEI Backup
-    }
+    }*/
 }
 
 version = "1.13-${modVersion}${modVersionValue}"

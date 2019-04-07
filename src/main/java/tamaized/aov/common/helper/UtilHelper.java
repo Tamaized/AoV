@@ -1,5 +1,6 @@
 package tamaized.aov.common.helper;
 
+import cpw.mods.modlauncher.api.INameMappingService;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,7 +18,7 @@ public class UtilHelper {
 
 	public static Field findField(Class<?> clazz, String name) {
 		try {
-			Field f = clazz.getDeclaredField(ObfuscationReflectionHelper.remapName(name));
+			Field f = clazz.getDeclaredField(ObfuscationReflectionHelper.remapName(INameMappingService.Domain.FIELD, name));
 			f.setAccessible(true);
 			return f;
 		} catch (Exception e) {
