@@ -11,8 +11,8 @@
   "credits": "Tamaized",
   "logoFile": "",
   "screenshots": [],
-  "dependencies": [ "tammodized@[${tamVersion},)" ],
-  "requiredMods": [ "tammodized@[${tamVersion},)" ],
+  "dependencies": [ "tammodized@[${tamVersion},)", "forge[14.23.5.2808,)" ],
+  "requiredMods": [ "tammodized@[${tamVersion},)", "forge[14.23.5.2808,)" ],
   "useDependencyInformation": true
 }
 ]
