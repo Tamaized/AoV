@@ -35,20 +35,40 @@ minecraft {
     //replace '${version}', "${modVersion}${modVersionValue}"
     runs {
         client = {
+            taskName "Minecraft Client 1.13"
             // recommended logging data for a userdev environment
-            properties 'forge.logging.markers': 'SCAN,REGISTRIES,REGISTRYDUMP'
+            properties 'forge.logging.markers': 'SCAN,AXFORM'
             // recommended logging level for the console
             properties 'forge.logging.console.level': 'debug'
             workingDirectory project.file('run').canonicalPath
             source sourceSets.main
+            setArgs(new ArrayList() {
+                {
+                    add('--username')
+                    add('Tamaized')
+                    add('--uuid')
+                    add('16fea09e-314e-4955-88c2-6b552ecf314a')
+                }
+            })
+            environment 'TMP': './tmp/'
+            ideaModule project.getName()
+            singleInstance true
+        }
+        client = {
+            taskName "Minecraft Client 1.13 (Anon)"
+            getArgs().clear()
         }
         server = {
+            taskName "Minecraft Server 1.13"
             // recommended logging data for a userdev environment
-            properties 'forge.logging.markers': 'SCAN,REGISTRIES,REGISTRYDUMP'
+            properties 'forge.logging.markers': 'SCAN,AXFORM'
             // recommended logging level for the console
             properties 'forge.logging.console.level': 'debug'
             workingDirectory project.file('run').canonicalPath
             source sourceSets.main
+            environment 'TMP': './tmp/'
+            ideaModule project.getName()
+            singleInstance true
         }
     }
 }
@@ -60,7 +80,7 @@ dependencies {
 }
 
 processResources {
-    from(sourceSets.main.resources.srcDirs){
+    from(sourceSets.main.resources.srcDirs) {
         include 'META-INF/mods.toml'
         expand([
                 'version': "${project.version}"
