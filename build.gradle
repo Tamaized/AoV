@@ -1,3 +1,5 @@
+import net.minecraftforge.gradle.common.util.RunConfig
+
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
@@ -27,50 +29,45 @@ archivesBaseName = "AoV"
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
-minecraft {
-    mappings channel: project.mappingType, version: project.mappingVersion
-    //makeObfSourceJar = false
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-    //replaceIn 'AoV.java'
-    //replace '${version}', "${modVersion}${modVersionValue}"
-    runs {
-        client = {
-            taskName "Minecraft Client 1.13"
-            // recommended logging data for a userdev environment
-            properties 'forge.logging.markers': 'SCAN,AXFORM'
-            // recommended logging level for the console
-            properties 'forge.logging.console.level': 'debug'
-            workingDirectory project.file('run').canonicalPath
-            source sourceSets.main
-            setArgs(new ArrayList() {
-                {
-                    add('--username')
-                    add('Tamaized')
-                    add('--uuid')
-                    add('16fea09e-314e-4955-88c2-6b552ecf314a')
-                }
-            })
-            environment 'TMP': './tmp/'
-            ideaModule project.getName()
-            singleInstance true
-        }
-        client = {
-            taskName "Minecraft Client 1.13 (Anon)"
-            getArgs().clear()
-        }
-        server = {
-            taskName "Minecraft Server 1.13"
-            // recommended logging data for a userdev environment
-            properties 'forge.logging.markers': 'SCAN,AXFORM'
-            // recommended logging level for the console
-            properties 'forge.logging.console.level': 'debug'
-            workingDirectory project.file('run').canonicalPath
-            source sourceSets.main
-            environment 'TMP': './tmp/'
-            ideaModule project.getName()
-            singleInstance true
-        }
+class DefaultRunConfig extends RunConfig {
+
+    DefaultRunConfig(Project project, SourceSet sourceSet, boolean client) {
+        super(project, client ? 'client' : 'server')
+        this.taskName "Minecraft_" + name.substring(0, 1).toUpperCase(Locale.US).concat(name.substring(1)) + "_1.13"
+        this.properties 'forge.logging.markers': 'SCAN,AXFORM'
+        this.properties 'forge.logging.console.level': 'debug'
+        this.workingDirectory project.file('run').canonicalPath
+        this.source sourceSet
+        this.environment 'TMP': './tmp/'
+        this.ideaModule project.getName()
+        this.singleInstance true
     }
+
+    DefaultRunConfig setArgs(String... args) {
+        setArgs(new ArrayList() {
+            {
+                for (String arg : args)
+                    add(arg)
+            }
+        })
+        return this
+    }
+}
+
+minecraft {
+    mappings("${project.mappingType}", "${project.mappingVersion}")
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    getRuns().addAll(
+            new DefaultRunConfig(project, sourceSets.main, true).setArgs(
+
+                    '--username', 'Tamaized',
+
+                    '--uuid', '16fea09e-314e-4955-88c2-6b552ecf314a'
+
+            ),
+
+            new DefaultRunConfig(project, sourceSets.main, false)
+    )
 }
 
 dependencies {
