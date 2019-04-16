@@ -4,6 +4,7 @@ import net.minecraft.potion.Potion;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ObjectHolder;
 import tamaized.aov.AoV;
 import tamaized.aov.common.potion.PotionAid;
 import tamaized.aov.common.potion.PotionBalance;
@@ -15,9 +16,7 @@ import tamaized.aov.common.potion.PotionSpear;
 import tamaized.aov.common.potion.PotionSpire;
 import tamaized.aov.common.potion.PotionStalwartPact;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@ObjectHolder(AoV.MODID)
 @Mod.EventBusSubscriber(modid = AoV.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AoVPotions {
 
@@ -32,31 +31,34 @@ public class AoVPotions {
 	public static Potion balance;
 	public static Potion naturesBounty;
 	public static Potion coldChill;
-	private static List<Potion> potionList;
-
-	static {
-		potionList = new ArrayList<>();
-
-		potionList.add(aid = new PotionAid("aid"));
-		potionList.add(shieldOfFaith = new PotionAid("faith"));
-		potionList.add(zeal = new PotionAid("zeal"));
-		potionList.add(stalwartPact = new PotionStalwartPact("stalwart"));
-
-		potionList.add(slowFall = new PotionSlowFall("slowfall"));
-
-		potionList.add(spear = new PotionSpear("spear"));
-		potionList.add(ewer = new PotionEwer("ewer"));
-		potionList.add(spire = new PotionSpire("spire"));
-		potionList.add(balance = new PotionBalance("balance"));
-
-		potionList.add(naturesBounty = new PotionNaturesBounty("naturesbounty"));
-		potionList.add(coldChill = new PotionColdChill("coldchill"));
-	}
 
 	@SubscribeEvent
 	public static void registerPotions(RegistryEvent.Register<Potion> event) {
-		for (Potion p : potionList)
-			event.getRegistry().register(p);
+		event.getRegistry().registerAll(
+
+				aid = new PotionAid("aid"),
+
+				shieldOfFaith = new PotionAid("shieldoffaith"),
+
+				zeal = new PotionAid("zeal"),
+
+				stalwartPact = new PotionStalwartPact("stalwartpact"),
+
+				slowFall = new PotionSlowFall("slowfall"),
+
+				spear = new PotionSpear("spear"),
+
+				ewer = new PotionEwer("ewer"),
+
+				spire = new PotionSpire("spire"),
+
+				balance = new PotionBalance("balance"),
+
+				naturesBounty = new PotionNaturesBounty("naturesbounty"),
+
+				coldChill = new PotionColdChill("coldchill")
+
+		);
 	}
 
 }
