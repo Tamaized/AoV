@@ -93,6 +93,8 @@ public class AoV {
 	public static void init(FMLCommonSetupEvent event) {
 		LOGGER.info("Initalizating AoV");
 
+		ConfigHandler.update();
+
 		NetworkMessages.register(network);
 
 		CapabilityManager.INSTANCE.register(IAoVCapability.class, new AoVCapabilityStorage(), AoVCapabilityHandler::new);

@@ -203,7 +203,7 @@ public class ConfigHandler {
 		return Objects.requireNonNull(block.getRegistryName()).getPath();
 	}
 
-	public static void setupCenteredWear() {
+	private static void setupCenteredWear() {
 		List<Item> list = Lists.newArrayList();
 		for (String next : AoV.config.centered.get()) {
 			String[] split = next.split(":");
@@ -221,7 +221,7 @@ public class ConfigHandler {
 		CENTERED_WEAR = ImmutableSet.copyOf(list);
 	}
 
-	private static void update() {
+	public static void update() {
 		setupCenteredWear();
 	}
 
