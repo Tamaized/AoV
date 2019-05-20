@@ -85,11 +85,13 @@ public class GuiHandler {
 		NetworkHooks.openGui(player, container, packetBuffer -> packetBuffer.writeInt(gui));
 	}
 
+	@OnlyIn(Dist.CLIENT)
 	public static GuiScreen getGui(FMLPlayMessages.OpenContainer packet) {
 		int id = packet.getAdditionalData().readInt();
 		return getGui(id);
 	}
 
+	@OnlyIn(Dist.CLIENT)
 	public static GuiScreen getGui(int id) {
 		BlockAngelicBlock.ClassType data = BlockAngelicBlock.ClassType.values[id >>> GUI_BIT_SHIFT];
 		switch (GUI.values[id & GUI_BITS]) {
