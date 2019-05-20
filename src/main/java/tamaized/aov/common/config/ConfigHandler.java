@@ -128,7 +128,7 @@ public class ConfigHandler {
 					defineInRange("maxLevel", 15, 1, Integer.MAX_VALUE);
 			recharge = builder.
 					translation("Recharge Delay").
-					comment("Sets the recharge rate per tick, -1 disables this").
+					comment("Sets the rate, in ticks, at which all abilities will replenish a single charge. -1 disables this").
 					define("recharge", -1);
 			experience = builder.
 					translation("Enable Vanilla Experience gain").
