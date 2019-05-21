@@ -5,6 +5,7 @@ import com.mojang.brigadier.builder.ArgumentBuilder;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
+import net.minecraft.command.arguments.EntitySelector;
 import net.minecraft.entity.player.EntityPlayer;
 import tamaized.aov.AoV;
 import tamaized.aov.common.blocks.BlockAngelicBlock;
@@ -37,7 +38,7 @@ public final class AoVCommands {
 					requires(cs -> cs.hasPermissionLevel(2)).
 					then(Commands.argument("level", IntegerArgumentType.integer(0, AoV.config.maxlevel.get())).
 							then(Commands.argument("player", EntityArgument.singlePlayer()).
-									executes(context -> run(context.getArgument("player", EntityPlayer.class), context.getArgument("level", int.class)))).
+									executes(context -> run(context.getArgument("player", EntitySelector.class).selectOnePlayer(context.getSource()), context.getArgument("level", int.class)))).
 							executes(context -> run(context.getSource().asPlayer(), context.getArgument("level", int.class))));
 		}
 
@@ -60,15 +61,15 @@ public final class AoVCommands {
 					requires(cs -> cs.hasPermissionLevel(2)).
 					then(Commands.literal("full").
 							then(Commands.argument("player", EntityArgument.singlePlayer()).
-									executes(context -> run(context.getArgument("player", EntityPlayer.class), Type.FULL))).
+									executes(context -> run(context.getArgument("player", EntitySelector.class).selectOnePlayer(context.getSource()), Type.FULL))).
 							executes(context -> run(context.getSource().asPlayer(), Type.FULL))).
 					then(Commands.literal("minor").
 							then(Commands.argument("player", EntityArgument.singlePlayer()).
-									executes(context -> run(context.getArgument("player", EntityPlayer.class), Type.MINOR))).
+									executes(context -> run(context.getArgument("player", EntitySelector.class).selectOnePlayer(context.getSource()), Type.MINOR))).
 							executes(context -> run(context.getSource().asPlayer(), Type.MINOR))).
 					then(Commands.literal("cooldown").
 							then(Commands.argument("player", EntityArgument.singlePlayer()).
-									executes(context -> run(context.getArgument("player", EntityPlayer.class), Type.COOLDOWN))).
+									executes(context -> run(context.getArgument("player", EntitySelector.class).selectOnePlayer(context.getSource()), Type.COOLDOWN))).
 							executes(context -> run(context.getSource().asPlayer(), Type.COOLDOWN)));
 
 		}
