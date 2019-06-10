@@ -23,7 +23,7 @@ repositories {
     }*/
 }
 
-version = "1.13-${modVersion}${modVersionValue}"
+version = "1.14-${modVersion}${modVersionValue}"
 group = "tamaized.aov"
 archivesBaseName = "AoV"
 
@@ -33,7 +33,7 @@ class DefaultRunConfig extends RunConfig {
 
     DefaultRunConfig(Project project, SourceSet sourceSet, boolean client) {
         super(project, client ? 'client' : 'server')
-        this.taskName "Minecraft_" + name.substring(0, 1).toUpperCase(Locale.US).concat(name.substring(1)) + "_1.13"
+        this.taskName "Minecraft_" + name.substring(0, 1).toUpperCase(Locale.US).concat(name.substring(1)) + "_1.14"
         this.properties 'forge.logging.markers': 'SCAN,AXFORM'
         this.properties 'forge.logging.console.level': 'debug'
         this.workingDirectory project.file('run').canonicalPath
@@ -73,7 +73,7 @@ minecraft {
 dependencies {
     minecraft "net.minecraftforge:forge:${project.minecraftVersion}-${project.forgeVersion}"
 
-    runtime fg.deobf("mezz.jei:${project.jeiVersion}")
+    //runtime fg.deobf("mezz.jei:${project.jeiVersion}")
 }
 
 processResources {
