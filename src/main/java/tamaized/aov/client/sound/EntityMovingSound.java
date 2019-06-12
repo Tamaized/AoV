@@ -1,6 +1,6 @@
 package tamaized.aov.client.sound;
 
-import net.minecraft.client.audio.MovingSound;
+import net.minecraft.client.audio.TickableSound;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
@@ -8,7 +8,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class EntityMovingSound extends MovingSound {
+public class EntityMovingSound extends TickableSound {
 
 	private final Entity entity;
 	private float distance = 0.0F;

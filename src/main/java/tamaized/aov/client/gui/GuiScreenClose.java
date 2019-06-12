@@ -1,10 +1,10 @@
 package tamaized.aov.client.gui;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.button.Button;
 
-public class GuiScreenClose extends GuiScreen {
+public class GuiScreenClose extends Screen {
 
 	@Override
 	public boolean keyReleased(int key, int scan, int mods) {
@@ -20,7 +20,7 @@ public class GuiScreenClose extends GuiScreen {
 	@Override
 	public boolean mouseClicked(double p_mouseClicked_1_, double p_mouseClicked_3_, int p_mouseClicked_5_) {
 		boolean flag = false;
-		for (GuiButton button : buttons) {
+		for (Button button : buttons) {
 			if (button.mouseClicked(p_mouseClicked_1_, p_mouseClicked_3_, p_mouseClicked_5_)) {
 				flag = true;
 				break;

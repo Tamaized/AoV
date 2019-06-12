@@ -4,8 +4,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
@@ -16,13 +16,13 @@ import tamaized.aov.common.entity.ProjectileBase;
 
 import java.util.Random;
 
-public class RenderNimbusRay<T extends ProjectileBase> extends Render<T> {
+public class RenderNimbusRay<T extends ProjectileBase> extends EntityRenderer<T> {
 
 	private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.MODID, "textures/entity/ray.png");
 
 	private static final Random rand = new Random();
 
-	public RenderNimbusRay(RenderManager renderManager) {
+	public RenderNimbusRay(EntityRendererManager renderManager) {
 		super(renderManager);
 	}
 

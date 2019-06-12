@@ -1,14 +1,14 @@
 package tamaized.aov.common.core.abilities.astro;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.init.Particles;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
@@ -33,15 +33,15 @@ public class Draw extends AbilityBase {
 	public Draw() {
 		super(
 
-				new TextComponentTranslation(getStaticName()),
+				new TranslationTextComponent(getStaticName()),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.global.range", distance),
+				new TranslationTextComponent("aov.spells.global.range", distance),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.draw.desc")
+				new TranslationTextComponent("aov.spells.draw.desc")
 
 		);
 	}
@@ -50,7 +50,7 @@ public class Draw extends AbilityBase {
 		return "aov.spells.draw.name";
 	}
 
-	public static void doDrawEffects(EntityLivingBase caster, @Nonnull IAstroCapability.ICard card, int potency, @Nullable IAstroCapability.ICard burn, boolean fromAoe) {
+	public static void doDrawEffects(LivingEntity caster, @Nonnull IAstroCapability.ICard card, int potency, @Nullable IAstroCapability.ICard burn, boolean fromAoe) {
 		int ticks = 300;
 		int hardcodedBalancePotency = fromAoe ? potency : 0;
 		boolean aoe = false;
@@ -80,7 +80,7 @@ public class Draw extends AbilityBase {
 		if (aoe) {
 			IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
 			int range = 16;
-			for (EntityLivingBase e : caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.posX - range, caster.posY - range, caster.posZ - range, caster.posX + range, caster.posY + range, caster.posZ + range))) {
+			for (LivingEntity e : caster.world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(caster.posX - range, caster.posY - range, caster.posZ - range, caster.posX + range, caster.posY + range, caster.posZ + range))) {
 				if (cap == null || IAoVCapability.canBenefit(caster, cap, e))
 					doDrawEffects(e, card, potency, null, true);
 			}
@@ -89,24 +89,24 @@ public class Draw extends AbilityBase {
 		switch (card) {
 			default:
 			case Balance:
-				caster.addPotionEffect(new PotionEffect(AoVPotions.balance, ticks, hardcodedBalancePotency));
+				caster.addPotionEffect(new EffectInstance(AoVPotions.balance, ticks, hardcodedBalancePotency));
 				break;
 			case Bole:
-				caster.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, ticks, potency));
-				caster.addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, ticks, (int) Math.floor(potency / 2F)));
-				caster.addPotionEffect(new PotionEffect(MobEffects.SATURATION, 20 * 3, (int) Math.floor(potency / 2F)));
+				caster.addPotionEffect(new EffectInstance(Effects.RESISTANCE, ticks, potency));
+				caster.addPotionEffect(new EffectInstance(Effects.HEALTH_BOOST, ticks, (int) Math.floor(potency / 2F)));
+				caster.addPotionEffect(new EffectInstance(Effects.SATURATION, 20 * 3, (int) Math.floor(potency / 2F)));
 				break;
 			case Spear:
-				caster.addPotionEffect(new PotionEffect(AoVPotions.spear, ticks, potency));
+				caster.addPotionEffect(new EffectInstance(AoVPotions.spear, ticks, potency));
 				break;
 			case Arrow:
-				caster.addPotionEffect(new PotionEffect(MobEffects.HASTE, ticks, potency));
+				caster.addPotionEffect(new EffectInstance(Effects.HASTE, ticks, potency));
 				break;
 			case Ewer:
-				caster.addPotionEffect(new PotionEffect(AoVPotions.ewer, ticks, 0));
+				caster.addPotionEffect(new EffectInstance(AoVPotions.ewer, ticks, 0));
 				break;
 			case Spire:
-				caster.addPotionEffect(new PotionEffect(AoVPotions.spire, ticks, potency));
+				caster.addPotionEffect(new EffectInstance(AoVPotions.spire, ticks, potency));
 				break;
 		}
 		caster.world.spawnEntity(new EntitySpellVanillaParticles(caster.world, caster, Particles.ENCHANTED_HIT, 5));
@@ -149,12 +149,12 @@ public class Draw extends AbilityBase {
 	}
 
 	@Override
-	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+	public boolean isCastOnTarget(PlayerEntity caster, IAoVCapability cap, LivingEntity target) {
 		return IAoVCapability.canBenefit(caster, cap, target);
 	}
 
 	@Override
-	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
+	public boolean cast(Ability ability, PlayerEntity caster, LivingEntity target) {
 		IAstroCapability astro = CapabilityList.getCap(caster, CapabilityList.ASTRO);
 		IAoVCapability aov = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (astro == null || aov == null)
@@ -165,7 +165,7 @@ public class Draw extends AbilityBase {
 			ability.setTimer(30);
 		} else {
 			IAstroCapability.ICard card = astro.getDraw();
-			EntityLivingBase entity = target == null || caster.getDistance(target) >= getMaxDistance() ? caster : target;
+			LivingEntity entity = target == null || caster.getDistance(target) >= getMaxDistance() ? caster : target;
 			int potency = (int) Math.floor(aov.getSpellPower() / 10F);
 			IAstroCapability.ICard burn = astro.getBurn();
 			astro.useDraw(caster);

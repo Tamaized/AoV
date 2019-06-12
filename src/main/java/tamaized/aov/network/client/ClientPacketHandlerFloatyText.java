@@ -1,6 +1,6 @@
 package tamaized.aov.network.client;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import tamaized.aov.common.helper.FloatyTextHelper;
 import tamaized.aov.network.NetworkMessages;
@@ -14,7 +14,7 @@ public class ClientPacketHandlerFloatyText implements NetworkMessages.IMessage<C
 	}
 
 	@Override
-	public void handle(EntityPlayer player) {
+	public void handle(PlayerEntity player) {
 		FloatyTextHelper.sendText(player, text);
 	}
 

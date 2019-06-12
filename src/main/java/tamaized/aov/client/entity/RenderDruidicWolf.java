@@ -1,29 +1,29 @@
 package tamaized.aov.client.entity;
 
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.RenderWolf;
-import net.minecraft.entity.passive.EntityWolf;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.WolfRenderer;
+import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
 
-public class RenderDruidicWolf extends RenderWolf {
+public class RenderDruidicWolf extends WolfRenderer {
 
 	private static final ResourceLocation ANRGY_WOLF_TEXTURES = new ResourceLocation("textures/entity/wolf/wolf_angry.png");
 
-	public RenderDruidicWolf(RenderManager p_i47187_1_) {
+	public RenderDruidicWolf(EntityRendererManager p_i47187_1_) {
 		super(p_i47187_1_);
 		layerRenderers.clear();
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(EntityWolf entity) {
+	protected ResourceLocation getEntityTexture(WolfEntity entity) {
 		return ANRGY_WOLF_TEXTURES;
 	}
 
 	@Override
-	public float prepareScale(@Nonnull EntityWolf entitylivingbaseIn, float partialTicks) {
+	public float prepareScale(@Nonnull WolfEntity entitylivingbaseIn, float partialTicks) {
 		GlStateManager.enableRescaleNormal();
 		GlStateManager.scalef(-1.0F, -1.0F, 1.0F);
 		this.preRenderCallback(entitylivingbaseIn, partialTicks);

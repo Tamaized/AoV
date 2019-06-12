@@ -2,12 +2,12 @@ package tamaized.aov.client.gui.buttons;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.GlStateManager;
 import tamaized.aov.client.gui.AoVUIBar;
 import tamaized.aov.common.core.abilities.AbilityBase;
 
-public class SpellButton extends GuiButton {
+public class SpellButton extends Button {
 
 	private final AbilityBase spell;
 

@@ -1,8 +1,8 @@
 package tamaized.aov.network.server;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -28,7 +28,7 @@ public class ServerPacketHandlerSpellSkill implements NetworkMessages.IMessage<S
 	}
 
 	@Override
-	public void handle(EntityPlayer player) {
+	public void handle(PlayerEntity player) {
 		IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
 		IPolymorphCapability poly = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
 		if (cap == null)
@@ -42,8 +42,8 @@ public class ServerPacketHandlerSpellSkill implements NetworkMessages.IMessage<S
 					break;
 				if (data.length > 1) {
 					Entity e = player.world.getEntityByID(data[1]);
-					if (e instanceof EntityLivingBase) {
-						ability.cast(player, (EntityLivingBase) e);
+					if (e instanceof LivingEntity) {
+						ability.cast(player, (LivingEntity) e);
 						break;
 					}
 				}

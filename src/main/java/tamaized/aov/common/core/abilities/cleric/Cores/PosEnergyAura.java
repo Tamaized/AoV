@@ -1,12 +1,12 @@
 package tamaized.aov.common.core.abilities.cleric.Cores;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
@@ -32,21 +32,21 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 	public PosEnergyAura() {
 		super(
 
-				new TextComponentTranslation(getStaticName()),
+				new TranslationTextComponent(getStaticName()),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.global.charges", charges),
+				new TranslationTextComponent("aov.spells.global.charges", charges),
 
-				new TextComponentTranslation("aov.spells.global.range", range),
+				new TranslationTextComponent("aov.spells.global.range", range),
 
-				new TextComponentTranslation("aov.spells.global.healing", dmg),
+				new TranslationTextComponent("aov.spells.global.healing", dmg),
 
-				new TextComponentTranslation("aov.spells.global.length", life),
+				new TranslationTextComponent("aov.spells.global.length", life),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.posaura.desc")
+				new TranslationTextComponent("aov.spells.posaura.desc")
 
 		);
 	}
@@ -56,7 +56,7 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 	}
 
 	@Override
-	public boolean cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
+	public boolean cast(Ability ability, PlayerEntity player, LivingEntity e) {
 		IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
 		if (cap == null)
 			return false;
@@ -67,13 +67,13 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 	}
 
 	@Override
-	public void castAsAura(EntityPlayer caster, IAoVCapability cap, int life) {
+	public void castAsAura(PlayerEntity caster, IAoVCapability cap, int life) {
 		int tick = (PosEnergyAura.life * 20) - life;
 		if (tick > 0 && tick % 20 == 0) {
 			ParticleHelper.spawnParticleMesh(ParticleHelper.MeshType.BURST, CommonProxy.ParticleType.Heart, caster.world, caster.getPositionVector(), range, 0xFFFF00FF);
 			int a = (int) (dmg * (1f + (cap.getSpellPower() / 100f)));
-			List<EntityLivingBase> list = caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-range, -range, -range), caster.getPosition().add(range, range, range)));
-			for (EntityLivingBase entity : list) {
+			List<LivingEntity> list = caster.world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(caster.getPosition().add(-range, -range, -range), caster.getPosition().add(range, range, range)));
+			for (LivingEntity entity : list) {
 				if (entity.isEntityUndead())
 					entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, caster), a);
 				else if (IAoVCapability.canBenefit(caster, cap, entity))
@@ -124,7 +124,7 @@ public class PosEnergyAura extends AbilityBase implements IAura {
 	}
 
 	@Override
-	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+	public boolean isCastOnTarget(PlayerEntity caster, IAoVCapability cap, LivingEntity target) {
 		return false;
 	}
 

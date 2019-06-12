@@ -1,11 +1,11 @@
 package tamaized.aov.common.entity;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -26,7 +26,7 @@ public class EntitySpellLightningBolt extends Entity {
 	public long boltVertex = this.rand.nextLong();
 	private int lightningState = 2;
 	private int boltLivingTime = this.rand.nextInt(3) + 1;
-	private EntityLivingBase caster;
+	private LivingEntity caster;
 	private float damage;
 	private AbilityBase source;
 
@@ -35,7 +35,7 @@ public class EntitySpellLightningBolt extends Entity {
 		damage = 3F;
 	}
 
-	public EntitySpellLightningBolt(World world, EntityLivingBase caster, float damage, AbilityBase source) {
+	public EntitySpellLightningBolt(World world, LivingEntity caster, float damage, AbilityBase source) {
 		this(world);
 		this.caster = caster;
 		this.damage = damage;
@@ -87,7 +87,7 @@ public class EntitySpellLightningBolt extends Entity {
 
 			IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
 			for (Entity entity : list)
-				if (!(entity instanceof EntityLivingBase) || IAoVCapability.selectiveTarget(caster, cap, (EntityLivingBase) entity)) {
+				if (!(entity instanceof LivingEntity) || IAoVCapability.selectiveTarget(caster, cap, (LivingEntity) entity)) {
 					if (entity.attackEntityFrom(DamageSource.LIGHTNING_BOLT, damage) && cap != null)
 						cap.addExp(caster, 20, source == null ? Abilities.litStrike : source);
 				}
@@ -95,12 +95,12 @@ public class EntitySpellLightningBolt extends Entity {
 	}
 
 	@Override
-	protected void readAdditional(@Nonnull NBTTagCompound compound) {
+	protected void readAdditional(@Nonnull CompoundNBT compound) {
 
 	}
 
 	@Override
-	protected void writeAdditional(@Nonnull NBTTagCompound compound) {
+	protected void writeAdditional(@Nonnull CompoundNBT compound) {
 
 	}
 

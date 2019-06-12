@@ -1,9 +1,9 @@
 package tamaized.aov.client.particle;
 
-import net.minecraft.client.particle.ParticleSmokeNormal;
+import net.minecraft.client.particle.SmokeParticle;
 import net.minecraft.world.World;
 
-public class ParticleSnow extends ParticleSmokeNormal {
+public class ParticleSnow extends SmokeParticle {
 
 	public ParticleSnow(World p_i46348_1_, double p_i46348_2_, double p_i46348_4_, double p_i46348_6_, double p_i46348_8_, double p_i46348_10_, double p_i46348_12_) {
 		super(p_i46348_1_, p_i46348_2_, p_i46348_4_, p_i46348_6_, p_i46348_8_, p_i46348_10_, p_i46348_12_, 1F);

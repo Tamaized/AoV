@@ -1,12 +1,12 @@
 package tamaized.aov.common.core.abilities.druid;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
@@ -28,11 +28,11 @@ public class Polymorph extends AbilityBase {
 	public Polymorph(String name, IPolymorphCapability.Morph type) {
 		super(
 
-				new TextComponentTranslation((name = "aov.spells.polymorph.".concat(name)).concat(".name")),
+				new TranslationTextComponent((name = "aov.spells.polymorph.".concat(name)).concat(".name")),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation(name.concat(".desc"))
+				new TranslationTextComponent(name.concat(".desc"))
 
 		);
 		this.name = name.concat(".name");
@@ -72,23 +72,23 @@ public class Polymorph extends AbilityBase {
 	}
 
 	@Override
-	public boolean shouldDisable(@Nullable EntityPlayer caster, IAoVCapability cap) {
+	public boolean shouldDisable(@Nullable PlayerEntity caster, IAoVCapability cap) {
 		return false;
 	}
 
 	@Override
-	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+	public boolean isCastOnTarget(PlayerEntity caster, IAoVCapability cap, LivingEntity target) {
 		return false;
 	}
 
 	@Override
-	public boolean canUseOnCooldown(IAoVCapability cap, EntityPlayer caster) {
+	public boolean canUseOnCooldown(IAoVCapability cap, PlayerEntity caster) {
 		IPolymorphCapability poly = CapabilityList.getCap(caster, CapabilityList.POLYMORPH);
 		return poly != null && poly.getMorph() == type && type != IPolymorphCapability.Morph.ArchAngel;
 	}
 
 	@Override
-	public void onCooldownCast(Ability ability, EntityPlayer caster, EntityLivingBase target, int cooldown) {
+	public void onCooldownCast(Ability ability, PlayerEntity caster, LivingEntity target, int cooldown) {
 		IPolymorphCapability cap = CapabilityList.getCap(caster, CapabilityList.POLYMORPH);
 		if (cap != null && cap.getMorph() == type)
 			cap.morph(null);
@@ -96,14 +96,14 @@ public class Polymorph extends AbilityBase {
 	}
 
 	@Override
-	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
+	public boolean cast(Ability ability, PlayerEntity caster, LivingEntity target) {
 		boolean cooldown = true;
 		IPolymorphCapability cap = CapabilityList.getCap(caster, CapabilityList.POLYMORPH);
 		if (cap != null) {
 			if (cap.getMorph() != type || type == IPolymorphCapability.Morph.ArchAngel) {
 				cap.morph(type);
 				if (type == IPolymorphCapability.Morph.ArchAngel)
-					caster.addPotionEffect(new PotionEffect(AoVPotions.slowFall, 120 * 20));
+					caster.addPotionEffect(new EffectInstance(AoVPotions.slowFall, 120 * 20));
 			} else {
 				cap.morph(null);
 				cooldown = false;

@@ -1,10 +1,10 @@
 package tamaized.aov.common.capabilities.aov;
 
-import net.minecraft.nbt.INBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagInt;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.IntNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 import tamaized.aov.AoV;
@@ -21,15 +21,15 @@ import java.util.Map.Entry;
 public class AoVCapabilityStorage implements IStorage<IAoVCapability> {
 
 	@Override
-	public INBTBase writeNBT(Capability<IAoVCapability> capability, IAoVCapability instance, EnumFacing side) {
-		NBTTagCompound nbt = new NBTTagCompound();
-		NBTTagList list = new NBTTagList();
+	public INBT writeNBT(Capability<IAoVCapability> capability, IAoVCapability instance, Direction side) {
+		CompoundNBT nbt = new CompoundNBT();
+		ListNBT list = new ListNBT();
 		for (AoVSkill skill : instance.getObtainedSkills())
-			list.add(new NBTTagInt(skill.getID()));
+			list.add(new IntNBT(skill.getID()));
 		nbt.setTag("obtainedSkills", list);
-		list = new NBTTagList();
+		list = new ListNBT();
 		for (Entry<AbilityBase, DecayWrapper> entry : instance.getDecayMap().entrySet()) {
-			NBTTagCompound comp = new NBTTagCompound();
+			CompoundNBT comp = new CompoundNBT();
 			comp.setInt("id", AbilityBase.getID(entry.getKey()));
 			comp.setInt("decay", entry.getValue().getDecay());
 			list.add(comp);
@@ -39,39 +39,39 @@ public class AoVCapabilityStorage implements IStorage<IAoVCapability> {
 		nbt.setInt("exp", instance.getExp());
 		nbt.setInt("maxLevel", instance.getMaxLevel());
 		nbt.setBoolean("invokeMass", instance.getInvokeMass());
-		list = new NBTTagList();
+		list = new ListNBT();
 		for (int index = 0; index < 9; index++) {
-			NBTTagCompound ct = new NBTTagCompound();
+			CompoundNBT ct = new CompoundNBT();
 			Ability ability = instance.getSlot(index);
 			ct.setInt("slot", index);
 			ct.setInt("id", ability == null ? -1 : ability.getAbility().getID());
 			list.add(ct);
 		}
 		nbt.setTag("slots", list);
-		list = new NBTTagList();
+		list = new ListNBT();
 		for (Ability ability : instance.getAbilities())
-			list.add(ability.encode(new NBTTagCompound(), instance));
+			list.add(ability.encode(new CompoundNBT(), instance));
 		nbt.setTag("abilities", list);
 		nbt.setInt("currentSlot", instance.getCurrentSlot());
 		return nbt;
 	}
 
 	@Override
-	public void readNBT(Capability<IAoVCapability> capability, IAoVCapability instance, EnumFacing side, INBTBase nbt) {
-		NBTTagCompound compound = (NBTTagCompound) nbt;
-		INBTBase tag = compound.getTag("obtainedSkills");
-		if (tag instanceof NBTTagList) {
-			NBTTagList list = (NBTTagList) tag;
+	public void readNBT(Capability<IAoVCapability> capability, IAoVCapability instance, Direction side, INBT nbt) {
+		CompoundNBT compound = (CompoundNBT) nbt;
+		INBT tag = compound.getTag("obtainedSkills");
+		if (tag instanceof ListNBT) {
+			ListNBT list = (ListNBT) tag;
 			for (int index = 0; index < list.size(); index++) {
 				instance.addObtainedSkill(AoVSkills.getSkillFromID(list.getInt(index)));
 			}
 		}
 		Map<AbilityBase, DecayWrapper> decay = new HashMap<>();
 		tag = compound.getTag("decay");
-		if (tag instanceof NBTTagList) {
-			NBTTagList list = (NBTTagList) tag;
+		if (tag instanceof ListNBT) {
+			ListNBT list = (ListNBT) tag;
 			for (int index = 0; index < list.size(); index++) {
-				NBTTagCompound comp = list.getCompound(index);
+				CompoundNBT comp = list.getCompound(index);
 				decay.put(AbilityBase.getAbilityFromID(comp.getInt("id")), ((AoVCapabilityHandler) instance).new DecayWrapper(comp.getInt("decay")));
 			}
 		}
@@ -83,18 +83,18 @@ public class AoVCapabilityStorage implements IStorage<IAoVCapability> {
 		instance.toggleInvokeMass(compound.getBoolean("invokeMass"));
 		instance.update(null);
 		tag = compound.getTag("abilities");
-		if (tag instanceof NBTTagList) {
-			for (INBTBase nt : (NBTTagList) tag) {
-				if (nt instanceof NBTTagCompound) {
-					instance.addAbility(Ability.construct(instance, null, (NBTTagCompound) nt));
+		if (tag instanceof ListNBT) {
+			for (INBT nt : (ListNBT) tag) {
+				if (nt instanceof CompoundNBT) {
+					instance.addAbility(Ability.construct(instance, null, (CompoundNBT) nt));
 				}
 			}
 		}
 		tag = compound.getTag("slots");
-		if (tag instanceof NBTTagList) {
-			for (INBTBase nt : (NBTTagList) tag) {
-				if (nt instanceof NBTTagCompound) {
-					NBTTagCompound ct = ((NBTTagCompound) nt);
+		if (tag instanceof ListNBT) {
+			for (INBT nt : (ListNBT) tag) {
+				if (nt instanceof CompoundNBT) {
+					CompoundNBT ct = ((CompoundNBT) nt);
 					instance.setSlot(new Ability(AbilityBase.getAbilityFromID(ct.getInt("id"))), ct.getInt("slot"), false);
 				}
 			}

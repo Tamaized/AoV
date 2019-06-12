@@ -2,8 +2,8 @@ package tamaized.aov.client.gui;
 
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.api.distmarker.Dist;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Mod.EventBusSubscriber(modid = AoV.MODID, value = Dist.CLIENT)
-public class FloatyTextOverlay extends Gui {
+public class FloatyTextOverlay extends AbstractGui {
 
 	private static Minecraft mc = Minecraft.getInstance();
 

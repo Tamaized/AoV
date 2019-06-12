@@ -1,13 +1,13 @@
 package tamaized.aov.common.gui;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IInteractionObject;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -31,7 +31,7 @@ public class GuiHandler {
 
 		@Nonnull
 		@Override
-		public Container createContainer(@Nonnull InventoryPlayer inventoryPlayer, @Nonnull EntityPlayer entityPlayer) {
+		public Container createContainer(@Nonnull PlayerInventory inventoryPlayer, @Nonnull PlayerEntity entityPlayer) {
 			return new FakeContainer();
 		}
 
@@ -44,7 +44,7 @@ public class GuiHandler {
 		@Nonnull
 		@Override
 		public ITextComponent getName() {
-			return new TextComponentTranslation("fake");
+			return new TranslationTextComponent("fake");
 		}
 
 		@Override
@@ -72,27 +72,27 @@ public class GuiHandler {
 		Minecraft.getInstance().displayGuiScreen(getGui(gui));
 	}
 
-	public static void openGui(GUI gui, BlockAngelicBlock.ClassType classType, EntityPlayerMP player) {
+	public static void openGui(GUI gui, BlockAngelicBlock.ClassType classType, ServerPlayerEntity player) {
 		openGui((classType.ordinal() << GUI_BIT_SHIFT) + gui.ordinal(), player);
 	}
 
-	public static void openGui(GUI gui, EntityPlayerMP player) {
+	public static void openGui(GUI gui, ServerPlayerEntity player) {
 		openGui(gui.ordinal(), player);
 	}
 
-	private static void openGui(int gui, EntityPlayerMP player) {
+	private static void openGui(int gui, ServerPlayerEntity player) {
 		IInteractionObject container = FAKE_CONTAINER;
 		NetworkHooks.openGui(player, container, packetBuffer -> packetBuffer.writeInt(gui));
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static GuiScreen getGui(FMLPlayMessages.OpenContainer packet) {
+	public static Screen getGui(FMLPlayMessages.OpenContainer packet) {
 		int id = packet.getAdditionalData().readInt();
 		return getGui(id);
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static GuiScreen getGui(int id) {
+	public static Screen getGui(int id) {
 		BlockAngelicBlock.ClassType data = BlockAngelicBlock.ClassType.values[id >>> GUI_BIT_SHIFT];
 		switch (GUI.values[id & GUI_BITS]) {
 			case SKILLS:
@@ -126,7 +126,7 @@ public class GuiHandler {
 	public static class FakeContainer extends Container {
 
 		@Override
-		public boolean canInteractWith(@Nonnull EntityPlayer playerIn) {
+		public boolean canInteractWith(@Nonnull PlayerEntity playerIn) {
 			return true;
 		}
 	}

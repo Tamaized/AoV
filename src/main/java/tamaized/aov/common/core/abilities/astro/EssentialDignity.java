@@ -1,11 +1,11 @@
 package tamaized.aov.common.core.abilities.astro;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.init.Particles;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
@@ -26,17 +26,17 @@ public class EssentialDignity extends AbilityBase {
 	public EssentialDignity() {
 		super(
 
-				new TextComponentTranslation(getStaticName()),
+				new TranslationTextComponent(getStaticName()),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.global.charges", "aov.gui.infinite"),
+				new TranslationTextComponent("aov.spells.global.charges", "aov.gui.infinite"),
 
-				new TextComponentTranslation("aov.spells.global.range", distance),
+				new TranslationTextComponent("aov.spells.global.range", distance),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.essentialdignity.desc")
+				new TranslationTextComponent("aov.spells.essentialdignity.desc")
 
 		);
 	}
@@ -82,16 +82,16 @@ public class EssentialDignity extends AbilityBase {
 	}
 
 	@Override
-	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+	public boolean isCastOnTarget(PlayerEntity caster, IAoVCapability cap, LivingEntity target) {
 		return IAoVCapability.canBenefit(caster, cap, target);
 	}
 
 	@Override
-	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
+	public boolean cast(Ability ability, PlayerEntity caster, LivingEntity target) {
 		IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (cap == null)
 			return false;
-		EntityLivingBase entity = target != null && IAoVCapability.canBenefit(caster, cap, target) ? target : caster;
+		LivingEntity entity = target != null && IAoVCapability.canBenefit(caster, cap, target) ? target : caster;
 		entity.heal(entity.getMaxHealth());
 		SoundEvents.playMovingSoundOnServer(SoundEvents.essentialdignity, entity);
 		entity.world.spawnEntity(new EntitySpellVanillaParticles(entity.world, entity, Particles.END_ROD, 10));

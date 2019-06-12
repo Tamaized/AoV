@@ -2,11 +2,11 @@ package tamaized.aov.common.events;
 
 import com.google.common.collect.Lists;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -33,7 +33,7 @@ public class TickHandler {
 
 	private static final List<UUID> FLYING = Lists.newArrayList();
 
-	private static void spawnSlowfallParticles(EntityLivingBase living) {
+	private static void spawnSlowfallParticles(LivingEntity living) {
 		ILeapCapability cap = CapabilityList.getCap(living, CapabilityList.LEAP);
 		if (cap == null || cap.getLeapDuration() <= 0)
 			return;
@@ -53,15 +53,15 @@ public class TickHandler {
 
 	@SubscribeEvent
 	public static void updateLiving(LivingEvent.LivingUpdateEvent e) {
-		EntityLivingBase living = e.getEntityLiving();
+		LivingEntity living = e.getEntityLiving();
 		IPolymorphCapability poly = CapabilityList.getCap(living, CapabilityList.POLYMORPH);
 		if (poly != null && (poly.getMorph() == IPolymorphCapability.Morph.WaterElemental || poly.getMorph() == IPolymorphCapability.Morph.FireElemental || poly.getMorph() == IPolymorphCapability.Morph.ArchAngel))
-			for (Potion potion : IPolymorphCapability.ELEMENTAL_IMMUNITY_EFFECTS)
+			for (Effect potion : IPolymorphCapability.ELEMENTAL_IMMUNITY_EFFECTS)
 				living.removePotionEffect(potion);
 		if (living.world.isRemote)
 			spawnSlowfallParticles(living);
 		else {
-			EntityPlayer player = living instanceof EntityPlayer ? (EntityPlayer) living : null;
+			PlayerEntity player = living instanceof PlayerEntity ? (PlayerEntity) living : null;
 			if (player != null)
 				if (poly != null && poly.getMorph() == IPolymorphCapability.Morph.ArchAngel) {
 					player.abilities.allowFlying = true;
@@ -77,7 +77,7 @@ public class TickHandler {
 					player.sendPlayerAbilities();
 				}
 			ILeapCapability cap = CapabilityList.getCap(living, CapabilityList.LEAP);
-			PotionEffect pot = living.getActivePotionEffect(AoVPotions.slowFall);
+			EffectInstance pot = living.getActivePotionEffect(AoVPotions.slowFall);
 			if (pot == null || cap == null)
 				return;
 			if (living.ticksExisted % 20 == 0)
@@ -91,13 +91,13 @@ public class TickHandler {
 			return;
 		List<Entity> list = Lists.newArrayList(e.world.loadedEntityList);
 		for (Entity entity : list) {
-			if (!(entity instanceof EntityLivingBase))
+			if (!(entity instanceof LivingEntity))
 				continue;
 			if (entity.removed)
 				continue;
 			IStunCapability cap = CapabilityList.getCap(entity, CapabilityList.STUN);
 			if (cap != null)
-				cap.update((EntityLivingBase) entity);
+				cap.update((LivingEntity) entity);
 		}
 	}
 
@@ -105,16 +105,16 @@ public class TickHandler {
 	public static void update(PlayerTickEvent e) {
 		if (e.phase == TickEvent.Phase.START)
 			return;
-		EntityPlayer player = e.player;
+		PlayerEntity player = e.player;
 		if (player.getHealth() <= (player.getMaxHealth() / 2)) {
 			if (player.getActivePotionEffect(AoVPotions.stalwartPact) != null) {
 				player.removeActivePotionEffect(AoVPotions.stalwartPact);
-				player.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, (20 * (60 * 5)), 2));
-				player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, (20 * (10)), 2));
+				player.addPotionEffect(new EffectInstance(Effects.ABSORPTION, (20 * (60 * 5)), 2));
+				player.addPotionEffect(new EffectInstance(Effects.REGENERATION, (20 * (10)), 2));
 			}
 			if (player.getActivePotionEffect(AoVPotions.naturesBounty) != null) {
 				player.removeActivePotionEffect(AoVPotions.naturesBounty);
-				player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, (20 * (10)), 2));
+				player.addPotionEffect(new EffectInstance(Effects.REGENERATION, (20 * (10)), 2));
 			}
 		}
 		{

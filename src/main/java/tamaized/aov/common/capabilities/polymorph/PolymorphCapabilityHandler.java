@@ -3,20 +3,20 @@ package tamaized.aov.common.capabilities.polymorph;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.MobEffects;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.block.Blocks;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.init.Particles;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -71,8 +71,8 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 
 	private static boolean isTeleportFriendlyBlock(World world, Entity entity, int x, int z, int y, int xOffset, int zOffset) {
 		BlockPos blockpos = new BlockPos(x + xOffset, y - 1, z + zOffset);
-		IBlockState iblockstate = world.getBlockState(blockpos);
-		return iblockstate.getBlockFaceShape(world, blockpos, EnumFacing.DOWN) == BlockFaceShape.SOLID && iblockstate.canEntitySpawn(entity) && world.isAirBlock(blockpos.up()) && world.isAirBlock(blockpos.up(2));
+		BlockState iblockstate = world.getBlockState(blockpos);
+		return iblockstate.getBlockFaceShape(world, blockpos, Direction.DOWN) == BlockFaceShape.SOLID && iblockstate.canEntitySpawn(entity) && world.isAirBlock(blockpos.up()) && world.isAirBlock(blockpos.up(2));
 	}
 
 	@Override
@@ -103,17 +103,17 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 	}
 
 	@Override
-	public void doAttack(EntityPlayer player) {
+	public void doAttack(PlayerEntity player) {
 		doAttack(player, false);
 	}
 
 	@Override
-	public void doAttack(EntityPlayer player, boolean fromPacket) {
+	public void doAttack(PlayerEntity player, boolean fromPacket) {
 		doAttack(player, fromPacket, attackCooldownMax);
 	}
 
 	@Override
-	public void doAttack(EntityPlayer player, boolean fromPacket, int cooldown) {
+	public void doAttack(PlayerEntity player, boolean fromPacket, int cooldown) {
 		if (getMorph() != Morph.Wolf)
 			return;
 		if (player.world.isRemote) {
@@ -128,10 +128,10 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 			} else if (attackCooldown <= 0 && player.onGround)
 				AoV.network.sendToServer(new ServerPacketHandlerPolymorphDogAttack());
 		} else {
-			if (attackCooldown <= 0 && player instanceof EntityPlayerMP && player.onGround) {
+			if (attackCooldown <= 0 && player instanceof ServerPlayerEntity && player.onGround) {
 				initalAttackCooldown = attackCooldown = cooldown;
 				attacking = true;
-				AoV.network.send(PacketDistributor.PLAYER.with(() -> (EntityPlayerMP) player), new ClientPacketHandlerPolymorphDogAttack());
+				AoV.network.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) player), new ClientPacketHandlerPolymorphDogAttack());
 			}
 		}
 	}
@@ -142,7 +142,7 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 	}
 
 	@Override
-	public void callWolves(World world, EntityPlayer caster, float damage) {
+	public void callWolves(World world, PlayerEntity caster, float damage) {
 		wolves.removeIf(w -> w.removed);
 		for (EntityDruidicWolf wolf : wolves) {
 			wolf.heal(wolf.getMaxHealth());
@@ -178,11 +178,11 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 	}
 
 	@Override
-	public void update(EntityPlayer player) {
+	public void update(PlayerEntity player) {
 		if (ENTITY_isImmuneToFire == null)
 			ENTITY_isImmuneToFire = UtilHelper.findField(Entity.class, "field_70178_ae");
 		if (ENTITYPLAYER_eyeHeight == null)
-			ENTITYPLAYER_eyeHeight = UtilHelper.findField(EntityPlayer.class, "eyeHeight");
+			ENTITYPLAYER_eyeHeight = UtilHelper.findField(PlayerEntity.class, "eyeHeight");
 		if (!player.world.isRemote && getMorph() == Morph.ArchAngel && polymorphTicker-- <= 0) {
 			morph(null);
 			player.removePotionEffect(AoVPotions.slowFall);
@@ -213,7 +213,7 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 				IAoVCapability aov = CapabilityList.getCap(player, CapabilityList.AOV);
 				List<Entity> targets = player.world.getEntitiesWithinAABBExcludingEntity(player, player.getBoundingBox().grow(0.75D));
 				for (Entity target : targets) {
-					if (!(target instanceof EntityLivingBase))
+					if (!(target instanceof LivingEntity))
 						continue;
 					if (target.attackEntityFrom(DamageSource.causePlayerDamage(player), 5F * (aov == null ? 1 : (aov.getSpellPower() / 100F + 1F))) && aov != null)
 						aov.addExp(player, 10, Abilities.wildshapeWolf);
@@ -235,18 +235,18 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 		}
 		if (getMorph() == Morph.WaterElemental || getMorph() == Morph.FireElemental) {
 			if (!player.world.isRemote) {
-				List<IBlockState> states = Lists.newArrayList();
+				List<BlockState> states = Lists.newArrayList();
 				AxisAlignedBB bounding = player.getBoundingBox();
 				double x, y, z;
 				for (x = bounding.minX; x <= bounding.maxX; x += 0.5D)
 					for (z = bounding.minZ; z <= bounding.maxZ; z += 0.5D)
 						for (y = bounding.minY; y <= bounding.maxY; y += 0.5D) {
-							IBlockState state = player.world.getBlockState(new BlockPos(x, y, z));
+							BlockState state = player.world.getBlockState(new BlockPos(x, y, z));
 							if (!states.contains(state))
 								states.add(state);
 						}
 				boolean flag = false;
-				for (IBlockState state : states) {
+				for (BlockState state : states) {
 					if (getMorph() == Morph.WaterElemental) {
 						if (StateWrapper.compare(FIRE_ELEMENTAL_STATES, state))
 							player.attackEntityFrom(DamageSource.STARVE, 4F);
@@ -264,8 +264,8 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 						}
 					}
 				}
-				if (flag && (player.getActivePotionEffect(MobEffects.REGENERATION) == null || player.ticksExisted % 60 == 0)) {
-					player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 100));
+				if (flag && (player.getActivePotionEffect(Effects.REGENERATION) == null || player.ticksExisted % 60 == 0)) {
+					player.addPotionEffect(new EffectInstance(Effects.REGENERATION, 100));
 				}
 				if ((player.ticksExisted % (20 * 6)) == 0) {
 					byte flags = 0b00; // 1X = heal; X1 = damage
@@ -351,14 +351,14 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 	private static class StateWrapper {
 
 		private final Block block;
-		private final Set<IBlockState> states;
+		private final Set<BlockState> states;
 		private boolean match;
 
 		StateWrapper(Block block) {
 			this(block.getDefaultState());
 		}
 
-		StateWrapper(IBlockState... states) {
+		StateWrapper(BlockState... states) {
 			this.states = ImmutableSet.copyOf(states);
 			block = states[0].getBlock();
 		}
@@ -377,9 +377,9 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 
 		@Override
 		public boolean equals(Object obj) {
-			if (obj instanceof IBlockState) {
+			if (obj instanceof BlockState) {
 				if (match)
-					return ((IBlockState) obj).getBlock() == block;
+					return ((BlockState) obj).getBlock() == block;
 				else
 					return states.contains(obj);
 			}

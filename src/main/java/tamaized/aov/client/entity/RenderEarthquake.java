@@ -1,49 +1,48 @@
 package tamaized.aov.client.entity;
 
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.EnumLightType;
+import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 import tamaized.aov.AoV;
-import tamaized.aov.common.config.ConfigHandler;
 import tamaized.aov.common.entity.EntityEarthquake;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class RenderEarthquake extends Render<EntityEarthquake> {
+public class RenderEarthquake extends EntityRenderer<EntityEarthquake> {
 
 	private static final ResourceLocation SHADOW_TEXTURES = new ResourceLocation("textures/misc/shadow.png");
 	private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.MODID, "textures/entity/earthquake.png");
 
-	public RenderEarthquake(RenderManager renderManager) {
+	public RenderEarthquake(EntityRendererManager renderManager) {
 		super(renderManager);
 	}
 
 	// [Vanilla Copy] Render#renderShadow
-	private static void renderShadow(RenderManager renderManager, Entity entityIn, double x, double y, double z, float shadowAlpha, float partialTicks) {
+	private static void renderShadow(EntityRendererManager renderManager, Entity entityIn, double x, double y, double z, float shadowAlpha, float partialTicks) {
 		renderManager.textureManager.bindTexture(SHADOW_TEXTURES);
 		World world = renderManager.world;
 		GlStateManager.depthMask(false);
 		float f = 3F;
 
-		if (entityIn instanceof EntityLiving) {
-			EntityLiving entityliving = (EntityLiving) entityIn;
+		if (entityIn instanceof MobEntity) {
+			MobEntity entityliving = (MobEntity) entityIn;
 			f *= entityliving.getRenderSizeModifier();
 
 			if (entityliving.isChild()) {
@@ -68,9 +67,9 @@ public class RenderEarthquake extends Render<EntityEarthquake> {
 		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
 
 		for (BlockPos blockpos : BlockPos.getAllInBoxMutable(new BlockPos(i, l, i1), new BlockPos(j, l, j1))) {
-			IBlockState iblockstate = world.getBlockState(blockpos.down());
+			BlockState iblockstate = world.getBlockState(blockpos.down());
 
-			if (iblockstate.getRenderType() != EnumBlockRenderType.INVISIBLE && world.getLightFromNeighborsFor(EnumLightType.SKY, blockpos) > 3) {
+			if (iblockstate.getRenderType() != BlockRenderType.INVISIBLE && world.getLightFromNeighborsFor(LightType.SKY, blockpos) > 3) {
 				renderShadowSingle(renderManager, iblockstate, x, y, z, blockpos, shadowAlpha, f, d2, d3, d4);
 			}
 		}
@@ -81,7 +80,7 @@ public class RenderEarthquake extends Render<EntityEarthquake> {
 	}
 
 	// [Vanilla Copy] Render#renderShadowSingle
-	private static void renderShadowSingle(RenderManager renderManager, IBlockState state, double p_188299_2_, double p_188299_4_, double p_188299_6_, BlockPos p_188299_8_, float p_188299_9_, float p_188299_10_, double p_188299_11_, double p_188299_13_, double p_188299_15_) {
+	private static void renderShadowSingle(EntityRendererManager renderManager, BlockState state, double p_188299_2_, double p_188299_4_, double p_188299_6_, BlockPos p_188299_8_, float p_188299_9_, float p_188299_10_, double p_188299_11_, double p_188299_13_, double p_188299_15_) {
 		if (state.isFullCube()) {
 			VoxelShape voxelshape = state.getShape(renderManager.world, p_188299_8_.down());
 			if (!voxelshape.isEmpty()) {

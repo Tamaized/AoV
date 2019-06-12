@@ -3,8 +3,8 @@ package tamaized.aov.client.entity;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -15,13 +15,13 @@ import tamaized.aov.common.entity.EntityAlignmentAoE;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class RenderAlignmentAoE<T extends EntityAlignmentAoE> extends Render<T> {
+public class RenderAlignmentAoE<T extends EntityAlignmentAoE> extends EntityRenderer<T> {
 
 	private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.MODID, "textures/entity/chaoshammer.png");
 	private static final ModelChaosHammer MODEL = new ModelChaosHammer();
 	private static final Random rand = new Random();
 
-	public RenderAlignmentAoE(RenderManager renderManager) {
+	public RenderAlignmentAoE(EntityRendererManager renderManager) {
 		super(renderManager);
 	}
 

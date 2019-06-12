@@ -1,11 +1,11 @@
 package tamaized.aov.common.core.abilities.favoredsoul;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
@@ -25,17 +25,17 @@ public class Implosion extends AbilityBase {
 	public Implosion() {
 		super(
 
-				new TextComponentTranslation(getStaticName()),
+				new TranslationTextComponent(getStaticName()),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.global.charges", charges),
+				new TranslationTextComponent("aov.spells.global.charges", charges),
 
-				new TextComponentTranslation("aov.spells.global.range", distance),
+				new TranslationTextComponent("aov.spells.global.range", distance),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.impolsion.desc")
+				new TranslationTextComponent("aov.spells.impolsion.desc")
 
 		);
 	}
@@ -81,14 +81,14 @@ public class Implosion extends AbilityBase {
 	}
 
 	@Override
-	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+	public boolean isCastOnTarget(PlayerEntity caster, IAoVCapability cap, LivingEntity target) {
 		return false;
 	}
 
 	@Override
-	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
+	public boolean cast(Ability ability, PlayerEntity caster, LivingEntity target) {
 		boolean flag = false;
-		for (EntityLivingBase entity : caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-distance, -1, -distance), caster.getPosition().add(distance, 5, distance)))) {
+		for (LivingEntity entity : caster.world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(caster.getPosition().add(-distance, -1, -distance), caster.getPosition().add(distance, 5, distance)))) {
 			IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
 			if (entity == caster || (cap != null && !IAoVCapability.selectiveTarget(caster, cap, entity)))
 				continue;

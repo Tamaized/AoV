@@ -2,19 +2,19 @@ package tamaized.aov.client;
 
 import com.google.common.base.MoreObjects;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EnumPlayerModelParts;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerModelPart;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumHandSide;
+import net.minecraft.util.Hand;
+import net.minecraft.util.HandSide;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
@@ -33,7 +33,6 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.leap.ILeapCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
-import tamaized.aov.common.config.ConfigHandler;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.items.Handwraps;
 
@@ -50,12 +49,12 @@ public class RenderPlayer {
 
 	@SubscribeEvent
 	public static void render(RenderPlayerEvent.Pre e) {
-		EntityPlayer player = e.getEntityPlayer();
+		PlayerEntity player = e.getEntityPlayer();
 		IPolymorphCapability cap = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
 		if (cap != null) {
 			if (cap.getMorph() == IPolymorphCapability.Morph.Wolf) {
 				GlStateManager.pushMatrix();
-				e.getRenderer().renderName((AbstractClientPlayer) player, e.getX(), e.getY(), e.getZ());
+				e.getRenderer().renderName((AbstractClientPlayerEntity) player, e.getX(), e.getY(), e.getZ());
 				GlStateManager.translated(e.getX(), e.getY(), e.getZ());
 				float swingProgress = player.limbSwing - player.limbSwingAmount * (1.0F - e.getPartialRenderTick());//e.getRenderer().getMainModel().swingProgress;
 				float swingAmount = player.prevLimbSwingAmount + (player.limbSwingAmount - player.prevLimbSwingAmount) * e.getPartialRenderTick();
@@ -67,7 +66,7 @@ public class RenderPlayer {
 				float headPitch = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * e.getPartialRenderTick();
 				float ticksExisted = 0.53F * (float) Math.PI;
 				applyRotations(player, ticksExisted, f, e.getPartialRenderTick());
-				float scale = e.getRenderer().prepareScale((AbstractClientPlayer) player, e.getPartialRenderTick());
+				float scale = e.getRenderer().prepareScale((AbstractClientPlayerEntity) player, e.getPartialRenderTick());
 				WOLF_MODEL.setLivingAnimations(player, swingProgress, swingAmount, e.getPartialRenderTick());
 				WOLF_MODEL.setRotationAngles(swingProgress, swingAmount, ticksExisted, netHeadYaw, headPitch, scale, player);
 				e.getRenderer().bindTexture(WOLF_TEXTURES);
@@ -80,7 +79,7 @@ public class RenderPlayer {
 
 	@SubscribeEvent
 	public static void render(RenderPlayerEvent.Post e) {
-		EntityPlayer player = e.getEntityPlayer();
+		PlayerEntity player = e.getEntityPlayer();
 		ILeapCapability cap = CapabilityList.getCap(player, CapabilityList.LEAP);
 		if (cap == null || cap.getLeapDuration() <= 0)
 			return;
@@ -191,7 +190,7 @@ public class RenderPlayer {
 	}
 
 	@SubscribeEvent
-	public static void renderName(RenderLivingEvent.Specials.Pre<EntityLivingBase> e) {
+	public static void renderName(RenderLivingEvent.Specials.Pre<LivingEntity> e) {
 		if (hackyshit)
 			return;
 		IPolymorphCapability cap = CapabilityList.getCap(e.getEntity(), CapabilityList.POLYMORPH);
@@ -200,11 +199,11 @@ public class RenderPlayer {
 	}
 
 	@SubscribeEvent
-	public static void renderLiving(RenderLivingEvent.Pre<EntityPlayer> e) {
+	public static void renderLiving(RenderLivingEvent.Pre<PlayerEntity> e) {
 		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		if (!(e.getEntity() instanceof EntityPlayer))
+		if (!(e.getEntity() instanceof PlayerEntity))
 			return;
-		EntityPlayer player = (EntityPlayer) e.getEntity();
+		PlayerEntity player = (PlayerEntity) e.getEntity();
 		IPolymorphCapability cap = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
 		if (cap != null) {
 			if (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental || cap.getMorph() == IPolymorphCapability.Morph.FireElemental || cap.getMorph() == IPolymorphCapability.Morph.ArchAngel) {
@@ -234,10 +233,10 @@ public class RenderPlayer {
 	}
 
 	@SubscribeEvent
-	public static void renderLiving(RenderLivingEvent.Post<EntityPlayer> e) {
-		if (!(e.getEntity() instanceof EntityPlayer))
+	public static void renderLiving(RenderLivingEvent.Post<PlayerEntity> e) {
+		if (!(e.getEntity() instanceof PlayerEntity))
 			return;
-		EntityPlayer player = (EntityPlayer) e.getEntity();
+		PlayerEntity player = (PlayerEntity) e.getEntity();
 		IPolymorphCapability cap = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
 		if (cap != null) {
 			if (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental || cap.getMorph() == IPolymorphCapability.Morph.FireElemental || cap.getMorph() == IPolymorphCapability.Morph.ArchAngel) {
@@ -308,12 +307,12 @@ public class RenderPlayer {
 
 	@SubscribeEvent
 	public static void render(RenderHandEvent e) {
-		EntityPlayer player = Minecraft.getInstance().player;
+		PlayerEntity player = Minecraft.getInstance().player;
 		IPolymorphCapability cap = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
 		if (cap != null) {
 			if (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental || cap.getMorph() == IPolymorphCapability.Morph.FireElemental || cap.getMorph() == IPolymorphCapability.Morph.ArchAngel) {
 				Minecraft mc = Minecraft.getInstance();
-				boolean flag = mc.getRenderViewEntity() instanceof EntityLivingBase && ((EntityLivingBase) mc.getRenderViewEntity()).isPlayerSleeping();
+				boolean flag = mc.getRenderViewEntity() instanceof LivingEntity && ((LivingEntity) mc.getRenderViewEntity()).isPlayerSleeping();
 				if (mc.gameSettings.thirdPersonView == 0 && !flag && !mc.gameSettings.hideGUI && !mc.playerController.isSpectatorMode()) {
 					mc.entityRenderer.enableLightmap();
 					GlStateManager.enableBlend();
@@ -354,11 +353,11 @@ public class RenderPlayer {
 
 	@SubscribeEvent
 	public static void render(RenderSpecificHandEvent e) {
-		AbstractClientPlayer player = Minecraft.getInstance().player;
+		AbstractClientPlayerEntity player = Minecraft.getInstance().player;
 		IPolymorphCapability cap = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
 		if (cap != null && cap.getMorph() == IPolymorphCapability.Morph.Wolf) {
 			e.setCanceled(true);
-			boolean flag = (e.getHand() == EnumHand.MAIN_HAND ? player.getPrimaryHand() : player.getPrimaryHand().opposite()) != EnumHandSide.LEFT;
+			boolean flag = (e.getHand() == Hand.MAIN_HAND ? player.getPrimaryHand() : player.getPrimaryHand().opposite()) != HandSide.LEFT;
 			float f = flag ? 1.0F : -1.0F;
 			float f1 = MathHelper.sqrt(e.getSwingProgress());
 			float f2 = -0.3F * MathHelper.sin(f1 * (float) Math.PI);
@@ -370,7 +369,7 @@ public class RenderPlayer {
 			float f6 = MathHelper.sin(f1 * (float) Math.PI);
 			GlStateManager.rotatef(f * f6 * 40.0F, 0.0F, 1.0F, 0.0F);
 			GlStateManager.rotatef(f * f5 * -20.0F, 0.0F, 0.0F, 1.0F);
-			AbstractClientPlayer abstractclientplayer = Minecraft.getInstance().player;
+			AbstractClientPlayerEntity abstractclientplayer = Minecraft.getInstance().player;
 			Minecraft.getInstance().getTextureManager().bindTexture(WOLF_TEXTURES);
 			GlStateManager.translated(f * -1.0F, 3.6F, 3.5F);
 			GlStateManager.rotatef(f * 120.0F, 0.0F, 0.0F, 1.0F);
@@ -381,10 +380,10 @@ public class RenderPlayer {
 			renderRightArm(abstractclientplayer);
 			GlStateManager.enableCull();
 		} else {
-			if (e.getItemStack().getItem() instanceof Handwraps && e.getHand() == EnumHand.MAIN_HAND) {
+			if (e.getItemStack().getItem() instanceof Handwraps && e.getHand() == Hand.MAIN_HAND) {
 				Minecraft mc = Minecraft.getInstance();
 				float f = player.getSwingProgress(e.getPartialTicks());
-				EnumHand enumhand = MoreObjects.firstNonNull(player.swingingHand, EnumHand.MAIN_HAND);
+				Hand enumhand = MoreObjects.firstNonNull(player.swingingHand, Hand.MAIN_HAND);
 				float f3 = enumhand == e.getHand() ? f : 0.0F;
 				float f1 = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * e.getPartialTicks();
 				mc.getFirstPersonRenderer().renderItemInFirstPerson(player, e.getPartialTicks(), f1, e.getHand(), f3, ItemStack.EMPTY, 0F);
@@ -393,7 +392,7 @@ public class RenderPlayer {
 		}
 	}
 
-	public static void renderRightArm(AbstractClientPlayer clientPlayer) {
+	public static void renderRightArm(AbstractClientPlayerEntity clientPlayer) {
 		float f = 1.0F;
 		GlStateManager.color3f(f, f, f);
 		float f1 = 0.0625F;
@@ -430,7 +429,7 @@ public class RenderPlayer {
 	/*
 	 * [Vanilla Copy] from RenderLivingBase
 	 */
-	protected static void applyRotations(EntityLivingBase entityLiving, float p_77043_2_, float rotationYaw, float partialTicks) {
+	protected static void applyRotations(LivingEntity entityLiving, float p_77043_2_, float rotationYaw, float partialTicks) {
 		GlStateManager.rotatef(180.0F - rotationYaw, 0.0F, 1.0F, 0.0F);
 
 		if (entityLiving.deathTime > 0) {
@@ -445,7 +444,7 @@ public class RenderPlayer {
 		} else {
 			String s = TextFormatting.getTextWithoutFormattingCodes(entityLiving.getName().getString());
 
-			if (s != null && ("Dinnerbone".equals(s) || "Grumm".equals(s)) && (!(entityLiving instanceof EntityPlayer) || ((EntityPlayer) entityLiving).isWearing(EnumPlayerModelParts.CAPE))) {
+			if (s != null && ("Dinnerbone".equals(s) || "Grumm".equals(s)) && (!(entityLiving instanceof PlayerEntity) || ((PlayerEntity) entityLiving).isWearing(PlayerModelPart.CAPE))) {
 				GlStateManager.translated(0.0F, entityLiving.height + 0.1F, 0.0F);
 				GlStateManager.rotatef(180.0F, 0.0F, 0.0F, 1.0F);
 			}

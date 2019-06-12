@@ -1,10 +1,10 @@
 package tamaized.aov.common.core.abilities.druid;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
@@ -29,17 +29,17 @@ public class FuriousFang extends AbilityBase {
 	public FuriousFang() {
 		super(
 
-				new TextComponentTranslation(UNLOC.concat(".name")),
+				new TranslationTextComponent(UNLOC.concat(".name")),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.global.charges", CHARGES),
+				new TranslationTextComponent("aov.spells.global.charges", CHARGES),
 
-				new TextComponentTranslation("aov.spells.global.damage", DAMAGE),
+				new TranslationTextComponent("aov.spells.global.damage", DAMAGE),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation(UNLOC.concat(".desc"))
+				new TranslationTextComponent(UNLOC.concat(".desc"))
 
 		);
 	}
@@ -56,7 +56,7 @@ public class FuriousFang extends AbilityBase {
 	}
 
 	@Override
-	public int getExtraCharges(EntityLivingBase entity, IAoVCapability cap) {
+	public int getExtraCharges(LivingEntity entity, IAoVCapability cap) {
 		return IAoVCapability.isImprovedCentered(entity, cap) ? getMaxCharges() : super.getExtraCharges(entity, cap);
 	}
 
@@ -81,18 +81,18 @@ public class FuriousFang extends AbilityBase {
 	}
 
 	@Override
-	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+	public boolean isCastOnTarget(PlayerEntity caster, IAoVCapability cap, LivingEntity target) {
 		return false;
 	}
 
 	@Override
-	public boolean shouldDisable(@Nullable EntityPlayer caster, IAoVCapability cap) {
+	public boolean shouldDisable(@Nullable PlayerEntity caster, IAoVCapability cap) {
 		IPolymorphCapability poly = CapabilityList.getCap(caster, CapabilityList.POLYMORPH);
 		return poly == null || poly.getMorph() != IPolymorphCapability.Morph.Wolf;
 	}
 
 	@Override
-	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
+	public boolean cast(Ability ability, PlayerEntity caster, LivingEntity target) {
 		return FuriousClaw.invoke(BIT, caster, this);
 	}
 

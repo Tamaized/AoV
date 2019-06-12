@@ -3,9 +3,9 @@ package tamaized.aov.common.entity;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -50,8 +50,8 @@ public class EntityAlignmentAoE extends Entity {
 		caster = entity;
 		rotationYaw = caster.rotationYaw;
 		damage = dmg;
-		if (caster instanceof EntityPlayer) {
-			RayTraceResult ray = RayTraceHelper.tracePath(world, (EntityPlayer) caster, r, 1, Sets.newHashSet(caster));
+		if (caster instanceof PlayerEntity) {
+			RayTraceResult ray = RayTraceHelper.tracePath(world, (PlayerEntity) caster, r, 1, Sets.newHashSet(caster));
 			if (ray != null) {
 				BlockPos pos = ray.type == RayTraceResult.Type.BLOCK ? ray.getBlockPos() : ray.entity.getPosition();
 				setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
@@ -88,14 +88,14 @@ public class EntityAlignmentAoE extends Entity {
 	}
 
 	@Override
-	protected void readAdditional(@Nonnull NBTTagCompound compound) {
+	protected void readAdditional(@Nonnull CompoundNBT compound) {
 		alignment = AlignmentAoE.Type.getTypeFromID(compound.getInt("alignment"));
 		if (alignment != null)
 			setAlignment(alignment);
 	}
 
 	@Override
-	protected void writeAdditional(@Nonnull NBTTagCompound compound) {
+	protected void writeAdditional(@Nonnull CompoundNBT compound) {
 		compound.setInt("alignment", alignment.ordinal());
 	}
 
@@ -127,7 +127,7 @@ public class EntityAlignmentAoE extends Entity {
 			return;
 		}
 		int range = 4;
-		for (EntityLivingBase e : world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(getPosition().add(-range, -2, -range), getPosition().add(range, 2, range)))) {
+		for (LivingEntity e : world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(getPosition().add(-range, -2, -range), getPosition().add(range, 2, range)))) {
 			if (e == caster || alreadyHit.contains(e))
 				continue;
 			doDamage(e);
@@ -135,7 +135,7 @@ public class EntityAlignmentAoE extends Entity {
 		}
 	}
 
-	private void doDamage(EntityLivingBase e) {
+	private void doDamage(LivingEntity e) {
 		boolean canDamage = false;
 		IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (cap != null) {

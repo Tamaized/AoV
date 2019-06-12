@@ -1,9 +1,9 @@
 package tamaized.aov.client.particle;
 
-import net.minecraft.client.particle.ParticleSquidInk;
+import net.minecraft.client.particle.SquidInkParticle;
 import net.minecraft.world.World;
 
-public class ParticleImplosion extends ParticleSquidInk {
+public class ParticleImplosion extends SquidInkParticle {
 
 	public ParticleImplosion(World p_i48831_1_, double p_i48831_2_, double p_i48831_4_, double p_i48831_6_, double p_i48831_8_, double p_i48831_10_, double p_i48831_12_) {
 		super(p_i48831_1_, p_i48831_2_, p_i48831_4_, p_i48831_6_, p_i48831_8_, p_i48831_10_, p_i48831_12_);

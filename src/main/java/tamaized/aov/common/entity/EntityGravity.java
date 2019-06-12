@@ -3,9 +3,9 @@ package tamaized.aov.common.entity;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -41,8 +41,8 @@ public class EntityGravity extends Entity {
 		this(world);
 		caster = entity;
 		damage = dmg;
-		if (caster instanceof EntityPlayer) {
-			RayTraceResult ray = RayTraceHelper.tracePath(world, (EntityPlayer) caster, r, 1, Sets.newHashSet(caster));
+		if (caster instanceof PlayerEntity) {
+			RayTraceResult ray = RayTraceHelper.tracePath(world, (PlayerEntity) caster, r, 1, Sets.newHashSet(caster));
 			if (ray != null) {
 				BlockPos pos = ray.type == RayTraceResult.Type.BLOCK ? ray.getBlockPos() : ray.entity.getPosition();
 				setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
@@ -69,12 +69,12 @@ public class EntityGravity extends Entity {
 	}
 
 	@Override
-	protected void readAdditional(@Nonnull NBTTagCompound compound) {
+	protected void readAdditional(@Nonnull CompoundNBT compound) {
 
 	}
 
 	@Override
-	protected void writeAdditional(@Nonnull NBTTagCompound compound) {
+	protected void writeAdditional(@Nonnull CompoundNBT compound) {
 
 	}
 
@@ -88,7 +88,7 @@ public class EntityGravity extends Entity {
 			return;
 		}
 		int range = 4;
-		for (EntityLivingBase e : world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(getPosition().add(-range, -range, -range), getPosition().add(range, range, range)))) {
+		for (LivingEntity e : world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(getPosition().add(-range, -range, -range), getPosition().add(range, range, range)))) {
 			if (e == caster || alreadyHit.contains(e))
 				continue;
 			doDamage(e);
@@ -96,7 +96,7 @@ public class EntityGravity extends Entity {
 		}
 	}
 
-	private void doDamage(EntityLivingBase e) {
+	private void doDamage(LivingEntity e) {
 		IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (cap != null) {
 			if (IAoVCapability.selectiveTarget(caster, cap, e)) {

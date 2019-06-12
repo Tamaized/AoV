@@ -2,15 +2,15 @@ package tamaized.aov.client.gui.buttons;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.GlStateManager;
 import tamaized.aov.client.gui.AoVSkillsGUI;
 import tamaized.aov.client.gui.AoVUIBar;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.skills.AoVSkill;
 
-public class SkillButton extends GuiButton {
+public class SkillButton extends Button {
 
 	private final AoVSkill skill;
 	private boolean isObtained;
@@ -31,7 +31,7 @@ public class SkillButton extends GuiButton {
 	@Override
 	public void onClick(double mouseX, double mouseY) {
 		super.onClick(mouseX, mouseY);
-		GuiScreen screen = Minecraft.getInstance().currentScreen;
+		Screen screen = Minecraft.getInstance().currentScreen;
 		if (screen instanceof AoVSkillsGUI)
 			((AoVSkillsGUI) screen).doSkillButton(this);
 	}

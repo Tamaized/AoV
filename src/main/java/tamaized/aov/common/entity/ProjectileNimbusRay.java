@@ -1,10 +1,10 @@
 package tamaized.aov.common.entity;
 
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -24,7 +24,7 @@ public class ProjectileNimbusRay extends ProjectileBase {
 		setDamageRangeSpeed(2.0F, 0, 0.0F);
 	}
 
-	public ProjectileNimbusRay(World world, EntityPlayer shooter, double x, double y, double z) {
+	public ProjectileNimbusRay(World world, PlayerEntity shooter, double x, double y, double z) {
 		super(Objects.requireNonNull(AoVEntities.projectilenimbusray), world, shooter, x, y, z);
 	}
 
@@ -41,11 +41,11 @@ public class ProjectileNimbusRay extends ProjectileBase {
 
 	@Override
 	protected float getDamageAmp(double damage, Entity shooter, Entity target) {
-		return (float) (damage * (target instanceof EntityMob && ((EntityMob) target).isEntityUndead() ? 2 : 1));
+		return (float) (damage * (target instanceof MonsterEntity && ((MonsterEntity) target).isEntityUndead() ? 2 : 1));
 	}
 
 	@Override
-	protected void arrowHit(EntityLivingBase entity) {
+	protected void arrowHit(LivingEntity entity) {
 		if (shootingEntity != null) {
 			IAoVCapability cap = CapabilityList.getCap(shootingEntity, CapabilityList.AOV);
 			if (cap != null)
@@ -54,7 +54,7 @@ public class ProjectileNimbusRay extends ProjectileBase {
 	}
 
 	@Override
-	protected void blockHit(IBlockState state, BlockPos pos) {
+	protected void blockHit(BlockState state, BlockPos pos) {
 
 	}
 

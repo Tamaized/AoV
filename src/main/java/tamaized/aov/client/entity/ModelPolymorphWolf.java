@@ -1,10 +1,10 @@
 package tamaized.aov.client.entity;
 
-import net.minecraft.client.renderer.entity.model.ModelWolf;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.client.renderer.entity.model.WolfModel;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 
-public class ModelPolymorphWolf extends ModelWolf {
+public class ModelPolymorphWolf extends WolfModel {
 
 
 	public ModelPolymorphWolf() {
@@ -12,7 +12,7 @@ public class ModelPolymorphWolf extends ModelWolf {
 	}
 
 	@Override
-	public void setLivingAnimations(EntityLivingBase entity, float limbSwing, float limbSwingAmount, float partialTickTime) {
+	public void setLivingAnimations(LivingEntity entity, float limbSwing, float limbSwingAmount, float partialTickTime) {
 		this.wolfTail.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F) * 0.8F * limbSwingAmount;
 		this.wolfBody.setRotationPoint(0.0F, 14.0F, 2.0F);
 		this.wolfBody.rotateAngleX = ((float) Math.PI / 2F);

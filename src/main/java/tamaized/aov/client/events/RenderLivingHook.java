@@ -4,7 +4,7 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderLivingEvent;
@@ -18,7 +18,7 @@ import tamaized.aov.proxy.ClientProxy;
 public class RenderLivingHook {
 
 	@SubscribeEvent
-	public static void render(RenderLivingEvent.Pre<? extends EntityLivingBase> e) {
+	public static void render(RenderLivingEvent.Pre<? extends LivingEntity> e) {
 		if (e.getEntity() != ClientProxy.getTarget())
 			return;
 		GlStateManager.pushMatrix();

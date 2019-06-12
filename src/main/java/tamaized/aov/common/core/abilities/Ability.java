@@ -2,9 +2,9 @@ package tamaized.aov.common.core.abilities;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.RayTraceResult;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
@@ -46,7 +46,7 @@ public final class Ability {
 		return ability;
 	}
 
-	public static Ability construct(IAoVCapability cap, @Nullable IAstroCapability astro, NBTTagCompound nbt) {
+	public static Ability construct(IAoVCapability cap, @Nullable IAstroCapability astro, CompoundNBT nbt) {
 		int id = nbt.getInt("id");
 		if (id < 0)
 			return null;
@@ -73,7 +73,7 @@ public final class Ability {
 	}
 
 	@SuppressWarnings("UnusedReturnValue")
-	public NBTTagCompound encode(NBTTagCompound nbt, IAoVCapability cap) {
+	public CompoundNBT encode(CompoundNBT nbt, IAoVCapability cap) {
 		nbt.setInt("id", ability.getID());
 		nbt.setInt("cooldown", cooldown);
 		nbt.setInt("cooldownfailsafe", cap.getCooldown(ability));
@@ -84,7 +84,7 @@ public final class Ability {
 		return nbt;
 	}
 
-	public void decode(NBTTagCompound nbt, IAoVCapability cap) {
+	public void decode(CompoundNBT nbt, IAoVCapability cap) {
 		cooldown = nbt.getInt("cooldown");
 		int cooldownfailsafe = nbt.getInt("cooldownfailsafe");
 		if (cooldownfailsafe > 0)
@@ -95,7 +95,7 @@ public final class Ability {
 		disabled = nbt.getBoolean("disabled");
 	}
 
-	public void reset(EntityPlayer caster, IAoVCapability cap) {
+	public void reset(PlayerEntity caster, IAoVCapability cap) {
 		cooldown = cap.getCooldown(ability);
 		nextCooldown = -1;
 		charges = ability.getMaxCharges() < 0 ? -1 : ability.getMaxCharges() + cap.getExtraCharges(caster, this);
@@ -104,7 +104,7 @@ public final class Ability {
 		disabled = getAbility().shouldDisable(caster, cap);
 	}
 
-	public void restoreCharge(EntityLivingBase caster, IAoVCapability cap, int amount) {
+	public void restoreCharge(LivingEntity caster, IAoVCapability cap, int amount) {
 		charges += (ability.getMaxCharges() > -1 && charges < (ability.getMaxCharges() + cap.getExtraCharges(caster, this))) ? amount : 0;
 	}
 
@@ -116,16 +116,16 @@ public final class Ability {
 		timer = t;
 	}
 
-	public final void cast(EntityPlayer caster) {
+	public final void cast(PlayerEntity caster) {
 		if (disabled)
 			return;
 		HashSet<Entity> set = new HashSet<>();
 		set.add(caster);
 		RayTraceResult ray = RayTraceHelper.tracePath(caster.world, caster, (int) getAbility().getMaxDistance(), 1, set);
-		cast(caster, (ray == null || !(ray.entity instanceof EntityLivingBase)) ? null : (EntityLivingBase) ray.entity);
+		cast(caster, (ray == null || !(ray.entity instanceof LivingEntity)) ? null : (LivingEntity) ray.entity);
 	}
 
-	public void cast(EntityPlayer caster, EntityLivingBase target) {
+	public void cast(PlayerEntity caster, LivingEntity target) {
 		if (disabled)
 			return;
 		IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
@@ -148,7 +148,7 @@ public final class Ability {
 		}
 	}
 
-	public void castAsAura(Aura aura, EntityPlayer caster, IAoVCapability cap, int life) {
+	public void castAsAura(Aura aura, PlayerEntity caster, IAoVCapability cap, int life) {
 		if (disabled)
 			aura.kill();
 		else if (ability instanceof IAura)
@@ -183,7 +183,7 @@ public final class Ability {
 		return decay;
 	}
 
-	public void update(EntityPlayer caster, IAoVCapability cap) {
+	public void update(PlayerEntity caster, IAoVCapability cap) {
 		tick++;
 		disabled = ability.shouldDisable(caster, cap);
 		if (tick % 20 == 0 && cooldown > 0)

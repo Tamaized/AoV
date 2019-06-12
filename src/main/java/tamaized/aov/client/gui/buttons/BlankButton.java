@@ -1,10 +1,9 @@
 package tamaized.aov.client.gui.buttons;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.GlStateManager;
 
-public class BlankButton extends GuiButton {
+public class BlankButton extends Button {
 
 	private boolean debug = false;
 

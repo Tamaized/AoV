@@ -1,12 +1,12 @@
 package tamaized.aov.common.core.abilities.favoredsoul;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
@@ -24,15 +24,15 @@ public class LeapOfFaith extends AbilityBase {
 	public LeapOfFaith() {
 		super(
 
-				new TextComponentTranslation(getStaticName()),
+				new TranslationTextComponent(getStaticName()),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.global.charges", "aov.gui.infinite"),
+				new TranslationTextComponent("aov.spells.global.charges", "aov.gui.infinite"),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.leapoffaith.desc")
+				new TranslationTextComponent("aov.spells.leapoffaith.desc")
 
 		);
 	}
@@ -78,16 +78,16 @@ public class LeapOfFaith extends AbilityBase {
 	}
 
 	@Override
-	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+	public boolean isCastOnTarget(PlayerEntity caster, IAoVCapability cap, LivingEntity target) {
 		return false;
 	}
 
 	@Override
-	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
+	public boolean cast(Ability ability, PlayerEntity caster, LivingEntity target) {
 		Vec3d vec = caster.getLook(1.0F);
 		double distance = 3.5;
 		MotionHelper.addMotion(caster, new Vec3d(vec.x * distance, 1, vec.z * distance));
-		caster.addPotionEffect(new PotionEffect(AoVPotions.slowFall, 300));
+		caster.addPotionEffect(new EffectInstance(AoVPotions.slowFall, 300));
 		ILeapCapability cap = CapabilityList.getCap(caster, CapabilityList.LEAP);
 		if (cap != null)
 			cap.setLeapDuration(300);

@@ -4,8 +4,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
@@ -14,12 +14,12 @@ import tamaized.aov.common.entity.EntityCombust;
 
 import javax.annotation.Nonnull;
 
-public class RenderCombust<T extends EntityCombust> extends Render<T> {
+public class RenderCombust<T extends EntityCombust> extends EntityRenderer<T> {
 
 	public static final ResourceLocation RING = new ResourceLocation(AoV.MODID, "textures/entity/combust_ring.png");
 	private static final ResourceLocation BOOM = new ResourceLocation(AoV.MODID, "textures/entity/combust_boom.png");
 
-	public RenderCombust(RenderManager renderManager) {
+	public RenderCombust(EntityRendererManager renderManager) {
 		super(renderManager);
 	}
 

@@ -1,11 +1,12 @@
 package tamaized.aov.common.potion;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -13,7 +14,7 @@ import tamaized.aov.AoV;
 
 import javax.annotation.Nonnull;
 
-public class PotionStalwartPact extends Potion {
+public class PotionStalwartPact extends Effect {
 
 	private final ResourceLocation iconTexture;
 
@@ -35,29 +36,29 @@ public class PotionStalwartPact extends Potion {
 	}
 
 	@Override
-	public void performEffect(@Nonnull EntityLivingBase entityLivingBaseIn, int p_76394_2_) {
+	public void performEffect(@Nonnull LivingEntity entityLivingBaseIn, int p_76394_2_) {
 
 	}
 
 	@Override
-	public void applyAttributesModifiersToEntity(EntityLivingBase entityLivingBaseIn, AbstractAttributeMap attributeMapIn, int amplifier) {
+	public void applyAttributesModifiersToEntity(LivingEntity entityLivingBaseIn, AbstractAttributeMap attributeMapIn, int amplifier) {
 		super.applyAttributesModifiersToEntity(entityLivingBaseIn, attributeMapIn, amplifier);
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void renderInventoryEffect(PotionEffect effect, net.minecraft.client.gui.Gui gui, int x, int y, float z) {
+	public void renderInventoryEffect(EffectInstance effect, AbstractGui gui, int x, int y, float z) {
 		Minecraft.getInstance().getTextureManager().bindTexture(iconTexture);
 		GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f);
-		net.minecraft.client.gui.Gui.drawModalRectWithCustomSizedTexture(x + 7, y + 8, 0, 0, 16, 16, 16, 16);
+		AbstractGui.drawModalRectWithCustomSizedTexture(x + 7, y + 8, 0, 0, 16, 16, 16, 16);
 		GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void renderHUDEffect(PotionEffect effect, net.minecraft.client.gui.Gui gui, int x, int y, float z, float alpha) {
+	public void renderHUDEffect(EffectInstance effect, AbstractGui gui, int x, int y, float z, float alpha) {
 		Minecraft.getInstance().getTextureManager().bindTexture(iconTexture);
-		net.minecraft.client.gui.Gui.drawModalRectWithCustomSizedTexture(x + 4, y + 4, 0, 0, 16, 16, 16, 16);
+		AbstractGui.drawModalRectWithCustomSizedTexture(x + 4, y + 4, 0, 0, 16, 16, 16, 16);
 		GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 

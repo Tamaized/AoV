@@ -1,6 +1,6 @@
 package tamaized.aov.common.core.abilities.cleric.Cures;
 
-import net.minecraft.init.MobEffects;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.ResourceLocation;
 import tamaized.aov.AoV;
 import tamaized.aov.common.core.abilities.cleric.CureEffect;
@@ -8,7 +8,7 @@ import tamaized.aov.common.core.abilities.cleric.CureEffect;
 public class CurePoison extends CureEffect {
 
 	public CurePoison() {
-		super("aov.spells.curepoison.name", 6, 2, MobEffects.POISON);
+		super("aov.spells.curepoison.name", 6, 2, Effects.POISON);
 	}
 
 	@Override

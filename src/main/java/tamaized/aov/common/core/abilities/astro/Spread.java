@@ -1,10 +1,10 @@
 package tamaized.aov.common.core.abilities.astro;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
@@ -25,15 +25,15 @@ public class Spread extends AbilityBase {
 	public Spread() {
 		super(
 
-				new TextComponentTranslation(getStaticName()),
+				new TranslationTextComponent(getStaticName()),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.global.range", distance),
+				new TranslationTextComponent("aov.spells.global.range", distance),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.spread.desc")
+				new TranslationTextComponent("aov.spells.spread.desc")
 
 		);
 	}
@@ -79,12 +79,12 @@ public class Spread extends AbilityBase {
 	}
 
 	@Override
-	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+	public boolean isCastOnTarget(PlayerEntity caster, IAoVCapability cap, LivingEntity target) {
 		return IAoVCapability.canBenefit(caster, cap, target);
 	}
 
 	@Override
-	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
+	public boolean cast(Ability ability, PlayerEntity caster, LivingEntity target) {
 		IAstroCapability astro = CapabilityList.getCap(caster, CapabilityList.ASTRO);
 		IAoVCapability aov = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (astro == null || aov == null)
@@ -100,7 +100,7 @@ public class Spread extends AbilityBase {
 			}
 		} else {
 			IAstroCapability.ICard card = astro.getSpread();
-			EntityLivingBase entity = target == null || caster.getDistance(target) >= getMaxDistance() ? caster : target;
+			LivingEntity entity = target == null || caster.getDistance(target) >= getMaxDistance() ? caster : target;
 			int potency = (int) Math.floor(aov.getSpellPower() / 10F);
 			IAstroCapability.ICard burn = astro.getBurn();
 			astro.useSpread(caster);

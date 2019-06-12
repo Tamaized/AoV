@@ -2,7 +2,7 @@ package tamaized.aov.common.helper;
 
 import com.google.common.collect.Lists;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -17,14 +17,14 @@ public class RayTraceHelper {
 
 	}
 
-	public static Vec3d[] getPlayerTraceVec(EntityPlayer player, int distance) {
+	public static Vec3d[] getPlayerTraceVec(PlayerEntity player, int distance) {
 		Vec3d vec3d = new Vec3d(player.posX, player.posY + player.getEyeHeight(), player.posZ);
 		Vec3d vec3d1 = player.getLook(1.0f);
 		Vec3d vec3d2 = vec3d.add(vec3d1.x * distance, vec3d1.y * distance, vec3d1.z * distance);
 		return new Vec3d[]{vec3d, vec3d2};
 	}
 
-	public static RayTraceResult tracePath(World world, EntityPlayer player, int distance, float size, HashSet<Entity> excluded) {
+	public static RayTraceResult tracePath(World world, PlayerEntity player, int distance, float size, HashSet<Entity> excluded) {
 		Vec3d[] vecs = getPlayerTraceVec(player, distance);
 		return tracePath(world, vecs[0], vecs[1], size, excluded);
 	}

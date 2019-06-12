@@ -1,7 +1,7 @@
 package tamaized.aov.common.capabilities.astro;
 
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import tamaized.aov.AoV;
 
@@ -16,19 +16,19 @@ public interface IAstroCapability {
 
 	IAnimation[] getAnimations();
 
-	void playAnimation(EntityLivingBase entity, IAnimation animation);
+	void playAnimation(LivingEntity entity, IAnimation animation);
 
 	void updateFrameData(float[][] data);
 
 	float[][] getFrameData();
 
-	void drawCard(EntityLivingBase entity);
+	void drawCard(LivingEntity entity);
 
-	void redrawCard(EntityLivingBase entity);
+	void redrawCard(LivingEntity entity);
 
-	void burnCard(EntityLivingBase entity);
+	void burnCard(LivingEntity entity);
 
-	void spreadCard(EntityLivingBase entity);
+	void spreadCard(LivingEntity entity);
 
 	int getDrawTime();
 
@@ -49,13 +49,13 @@ public interface IAstroCapability {
 
 	void setSpread(ICard card);
 
-	void useDraw(EntityLivingBase entity);
+	void useDraw(LivingEntity entity);
 
-	void useSpread(EntityLivingBase entity);
+	void useSpread(LivingEntity entity);
 
-	void update(EntityLivingBase entity);
+	void update(LivingEntity entity);
 
-	void sendPacketUpdates(EntityPlayer player);
+	void sendPacketUpdates(PlayerEntity player);
 
 	enum IAnimation {
 

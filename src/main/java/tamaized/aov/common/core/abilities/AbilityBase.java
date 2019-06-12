@@ -2,10 +2,10 @@ package tamaized.aov.common.core.abilities;
 
 import com.google.common.collect.Lists;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.common.capabilities.CapabilityList;
@@ -20,9 +20,9 @@ public abstract class AbilityBase {
 
 	private static final List<AbilityBase> registry = Lists.newArrayList();
 
-	private final List<TextComponentTranslation> description;
+	private final List<TranslationTextComponent> description;
 
-	public AbilityBase(TextComponentTranslation... desc) {
+	public AbilityBase(TranslationTextComponent... desc) {
 		description = Lists.newArrayList();
 		description.addAll(Arrays.asList(desc));
 		registry.add(this);
@@ -40,7 +40,7 @@ public abstract class AbilityBase {
 		return getID(this);
 	}
 
-	public boolean shouldDisable(@Nullable EntityPlayer caster, IAoVCapability cap) {
+	public boolean shouldDisable(@Nullable PlayerEntity caster, IAoVCapability cap) {
 		IPolymorphCapability poly = CapabilityList.getCap(caster, CapabilityList.POLYMORPH);
 		return poly != null && poly.getMorph() == IPolymorphCapability.Morph.Wolf;
 	}
@@ -52,7 +52,7 @@ public abstract class AbilityBase {
 	@OnlyIn(Dist.CLIENT)
 	public final List<String> getDescription() {
 		List<String> list = Lists.newArrayList();
-		for (TextComponentTranslation s : description) {
+		for (TranslationTextComponent s : description) {
 			Object[] args = new Object[s.getFormatArgs().length];
 			for (int index = 0; index < s.getFormatArgs().length; index++)
 				args[index] = I18n.format(s.getFormatArgs()[index].toString());
@@ -66,7 +66,7 @@ public abstract class AbilityBase {
 
 	public abstract int getMaxCharges();
 
-	public int getExtraCharges(EntityLivingBase entity, IAoVCapability cap) {
+	public int getExtraCharges(LivingEntity entity, IAoVCapability cap) {
 		return 0;
 	}
 
@@ -78,24 +78,24 @@ public abstract class AbilityBase {
 
 	public abstract boolean usesInvoke();
 
-	public abstract boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target);
+	public abstract boolean isCastOnTarget(PlayerEntity caster, IAoVCapability cap, LivingEntity target);
 
 	public int getCost(IAoVCapability cap) {
 		return (usesInvoke() && cap.getInvokeMass()) ? (getChargeCost() * 2) : getChargeCost();
 	}
 
-	public boolean canUseOnCooldown(IAoVCapability cap, EntityPlayer caster) {
+	public boolean canUseOnCooldown(IAoVCapability cap, PlayerEntity caster) {
 		return false;
 	}
 
-	public void onCooldownCast(Ability ability, EntityPlayer caster, EntityLivingBase target, int cooldown) {
+	public void onCooldownCast(Ability ability, PlayerEntity caster, LivingEntity target, int cooldown) {
 
 	}
 
 	/**
 	 * @return false to not use a charge or set the cooldown
 	 */
-	public abstract boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target);
+	public abstract boolean cast(Ability ability, PlayerEntity caster, LivingEntity target);
 
 	public abstract ResourceLocation getIcon();
 
@@ -138,12 +138,12 @@ public abstract class AbilityBase {
 		}
 
 		@Override
-		public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+		public boolean isCastOnTarget(PlayerEntity caster, IAoVCapability cap, LivingEntity target) {
 			return false;
 		}
 
 		@Override
-		public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
+		public boolean cast(Ability ability, PlayerEntity caster, LivingEntity target) {
 			return false;
 		}
 

@@ -6,7 +6,7 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.command.arguments.EntitySelector;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import tamaized.aov.AoV;
 import tamaized.aov.common.blocks.BlockAngelicBlock;
 import tamaized.aov.common.capabilities.CapabilityList;
@@ -42,7 +42,7 @@ public final class AoVCommands {
 							executes(context -> run(context.getSource().asPlayer(), context.getArgument("level", int.class))));
 		}
 
-		private static int run(EntityPlayer target, int level) {
+		private static int run(PlayerEntity target, int level) {
 			IAoVCapability cap = CapabilityList.getCap(target, CapabilityList.AOV, null);
 			if (cap != null) {
 				cap.reset(true);
@@ -74,7 +74,7 @@ public final class AoVCommands {
 
 		}
 
-		private static int run(EntityPlayer target, Type type) {
+		private static int run(PlayerEntity target, Type type) {
 			IAoVCapability cap = CapabilityList.getCap(target, CapabilityList.AOV, null);
 			if (cap != null) {
 				switch (type) {

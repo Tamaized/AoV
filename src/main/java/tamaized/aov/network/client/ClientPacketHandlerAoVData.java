@@ -2,7 +2,7 @@ package tamaized.aov.network.client;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -47,7 +47,7 @@ public class ClientPacketHandlerAoVData implements NetworkMessages.IMessage<Clie
 	}
 
 	@Override
-	public void handle(EntityPlayer player) {
+	public void handle(PlayerEntity player) {
 		IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
 		if (cap != null) {
 			cap.getObtainedSkills().clear();

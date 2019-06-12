@@ -1,14 +1,14 @@
 package tamaized.aov.common.blocks;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
@@ -19,18 +19,18 @@ import javax.annotation.Nonnull;
 
 public class BlockAngelicBlock extends Block {
 
-	public static final EnumProperty<EnumFacing.Axis> AXIS = EnumProperty.create("axis", EnumFacing.Axis.class, EnumFacing.Axis.X, EnumFacing.Axis.Z);
+	public static final EnumProperty<Direction.Axis> AXIS = EnumProperty.create("axis", Direction.Axis.class, Direction.Axis.X, Direction.Axis.Z);
 
 	private final ClassType type;
 
 	public BlockAngelicBlock(ClassType type, Block.Properties properties) {
 		super(properties);
-		this.setDefaultState(stateContainer.getBaseState().with(AXIS, EnumFacing.Axis.X));
+		this.setDefaultState(stateContainer.getBaseState().with(AXIS, Direction.Axis.X));
 		this.type = type;
 	}
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, IBlockState> builder) {
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(AXIS);
 	}
 
@@ -42,25 +42,25 @@ public class BlockAngelicBlock extends Block {
 
 	@Override
 	@Deprecated
-	public boolean onBlockActivated(IBlockState state, World worldIn, BlockPos pos, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if ((type != ClassType.ALL || playerIn.isCreative()) && playerIn instanceof EntityPlayerMP)
-			GuiHandler.openGui(GuiHandler.GUI.SKILLS, type, (EntityPlayerMP) playerIn);
+	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity playerIn, Hand hand, Direction side, float hitX, float hitY, float hitZ) {
+		if ((type != ClassType.ALL || playerIn.isCreative()) && playerIn instanceof ServerPlayerEntity)
+			GuiHandler.openGui(GuiHandler.GUI.SKILLS, type, (ServerPlayerEntity) playerIn);
 		else
 			return (type != ClassType.ALL || playerIn.isCreative());
 		return true;
 	}
 
 	@Override
-	public IBlockState rotate(IBlockState state, IWorld world, BlockPos pos, Rotation direction) {
+	public BlockState rotate(BlockState state, IWorld world, BlockPos pos, Rotation direction) {
 		switch (direction) {
 			case COUNTERCLOCKWISE_90:
 			case CLOCKWISE_90:
 
 				switch (state.get(AXIS)) {
 					case X:
-						return state.with(AXIS, EnumFacing.Axis.Z);
+						return state.with(AXIS, Direction.Axis.Z);
 					case Z:
-						return state.with(AXIS, EnumFacing.Axis.X);
+						return state.with(AXIS, Direction.Axis.X);
 					default:
 						return state;
 				}

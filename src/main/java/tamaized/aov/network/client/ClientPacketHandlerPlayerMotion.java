@@ -1,7 +1,7 @@
 package tamaized.aov.network.client;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.Vec3d;
 import tamaized.aov.common.helper.MotionHelper;
@@ -18,7 +18,7 @@ public class ClientPacketHandlerPlayerMotion implements NetworkMessages.IMessage
 	}
 
 	@Override
-	public void handle(EntityPlayer player) {
+	public void handle(PlayerEntity player) {
 		MotionHelper.addMotion(player.world.getEntityByID(e), vel);
 	}
 

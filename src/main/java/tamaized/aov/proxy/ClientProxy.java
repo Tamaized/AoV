@@ -3,7 +3,7 @@ package tamaized.aov.proxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import tamaized.aov.client.ClientHelpers;
@@ -16,21 +16,21 @@ import javax.annotation.Nullable;
 public class ClientProxy extends CommonProxy {
 
 	public static boolean barToggle = false;
-	private static EntityLivingBase target;
+	private static LivingEntity target;
 
 	public static void setTarget() {
 		Entity ent = ClientHelpers.getTargetOverMouse(Minecraft.getInstance(), 128);
-		if (ent instanceof EntityLivingBase && target != ent)
-			target = (EntityLivingBase) ent;
+		if (ent instanceof LivingEntity && target != ent)
+			target = (LivingEntity) ent;
 		else
 			target = null;
 	}
 
-	public static EntityLivingBase getTarget() {
+	public static LivingEntity getTarget() {
 		return target;
 	}
 
-	public static void setTarget(@Nullable EntityLivingBase entity) {
+	public static void setTarget(@Nullable LivingEntity entity) {
 		target = entity;
 	}
 

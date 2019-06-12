@@ -1,7 +1,7 @@
 package tamaized.aov.network.client;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
@@ -15,7 +15,7 @@ public class ClientPacketHandlerAstroData implements NetworkMessages.IMessage<Cl
 	private IAstroCapability.ICard spread;
 	private int drawTime;
 
-	public ClientPacketHandlerAstroData(EntityPlayer player) {
+	public ClientPacketHandlerAstroData(PlayerEntity player) {
 		IAstroCapability cap = CapabilityList.getCap(player, CapabilityList.ASTRO);
 		if (cap == null)
 			return;
@@ -27,10 +27,10 @@ public class ClientPacketHandlerAstroData implements NetworkMessages.IMessage<Cl
 	}
 
 	@Override
-	public void handle(EntityPlayer player) {
+	public void handle(PlayerEntity player) {
 		Entity e = player.world.getEntityByID(entityID);
-		if (e instanceof EntityPlayer) {
-			EntityPlayer p = (EntityPlayer) e;
+		if (e instanceof PlayerEntity) {
+			PlayerEntity p = (PlayerEntity) e;
 			IAstroCapability cap = CapabilityList.getCap(p, CapabilityList.ASTRO);
 			if (cap != null) {
 				cap.setDraw(draw);

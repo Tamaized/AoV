@@ -1,8 +1,8 @@
 package tamaized.aov.common.capabilities.astro;
 
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.init.Particles;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.network.PacketDistributor;
@@ -26,7 +26,7 @@ public class AstroCapabilityHandler implements IAstroCapability {
 	private ICard spread;
 	private boolean dirty = true;
 
-	private static void spawnParticle(EntityLivingBase entity, double x, double y, double z) {
+	private static void spawnParticle(LivingEntity entity, double x, double y, double z) {
 		entity.world.spawnParticle(Particles.WITCH, x, y, z, 0.0D, 0.0D, 0.0D);
 	}
 
@@ -41,7 +41,7 @@ public class AstroCapabilityHandler implements IAstroCapability {
 	}
 
 	@Override
-	public void playAnimation(EntityLivingBase entity, IAnimation animation) {
+	public void playAnimation(LivingEntity entity, IAnimation animation) {
 		if (animation == null)
 			return;
 		//		for (IAnimation a : animations)
@@ -127,7 +127,7 @@ public class AstroCapabilityHandler implements IAstroCapability {
 	}
 
 	@Override
-	public void drawCard(EntityLivingBase entity) {
+	public void drawCard(LivingEntity entity) {
 		if (getDraw() == null) {
 			draw = ICard.getRandomCard();
 			drawTime = 30;
@@ -136,7 +136,7 @@ public class AstroCapabilityHandler implements IAstroCapability {
 	}
 
 	@Override
-	public void redrawCard(EntityLivingBase entity) {
+	public void redrawCard(LivingEntity entity) {
 		if (getDraw() != null) {
 			ICard newDraw = draw;
 			while (newDraw == draw)
@@ -148,7 +148,7 @@ public class AstroCapabilityHandler implements IAstroCapability {
 	}
 
 	@Override
-	public void burnCard(EntityLivingBase entity) {
+	public void burnCard(LivingEntity entity) {
 		if (getDraw() != null) {
 			burn = getDraw();
 			draw = null;
@@ -158,7 +158,7 @@ public class AstroCapabilityHandler implements IAstroCapability {
 	}
 
 	@Override
-	public void spreadCard(EntityLivingBase entity) {
+	public void spreadCard(LivingEntity entity) {
 		if (getDraw() != null) {
 			spread = getDraw();
 			draw = null;
@@ -211,7 +211,7 @@ public class AstroCapabilityHandler implements IAstroCapability {
 	}
 
 	@Override
-	public void useDraw(EntityLivingBase entity) {
+	public void useDraw(LivingEntity entity) {
 		playAnimation(entity, IAnimation.Activate);
 		draw = null;
 		burn = null;
@@ -219,14 +219,14 @@ public class AstroCapabilityHandler implements IAstroCapability {
 	}
 
 	@Override
-	public void useSpread(EntityLivingBase entity) {
+	public void useSpread(LivingEntity entity) {
 		playAnimation(entity, IAnimation.Activate);
 		spread = null;
 		burn = null;
 	}
 
 	@Override
-	public void update(EntityLivingBase entity) {
+	public void update(LivingEntity entity) {
 		if (lastDraw != draw && draw != null)
 			lastDraw = draw;
 		if (lastSpread != spread && spread != null)
@@ -290,14 +290,14 @@ public class AstroCapabilityHandler implements IAstroCapability {
 			tick = 0;
 		}
 		if (dirty) {
-			if (entity instanceof EntityPlayerMP)
-				sendPacketUpdates((EntityPlayerMP) entity);
+			if (entity instanceof ServerPlayerEntity)
+				sendPacketUpdates((ServerPlayerEntity) entity);
 			dirty = false;
 		}
 	}
 
 	@Override
-	public void sendPacketUpdates(EntityPlayer player) {
+	public void sendPacketUpdates(PlayerEntity player) {
 		AoV.network.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> player), new ClientPacketHandlerAstroData(player));
 	}
 }

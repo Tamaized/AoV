@@ -1,10 +1,9 @@
 package tamaized.aov.common.entity;
 
-import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.IProjectile;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -97,7 +96,7 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 
 	private void explode() {
 		remove();
-		for (EntityLivingBase entity : world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(getPosition().add(-10, -1, -10), getPosition().add(10, 5, 10)))) {
+		for (LivingEntity entity : world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(getPosition().add(-10, -1, -10), getPosition().add(10, 5, 10)))) {
 			if (attacker != null) {
 				IAoVCapability cap = CapabilityList.getCap(attacker, CapabilityList.AOV);
 				if (entity == attacker || (cap != null && !IAoVCapability.selectiveTarget(attacker, cap, entity)))
@@ -140,12 +139,12 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 	}
 
 	@Override
-	protected void readAdditional(@Nonnull NBTTagCompound compound) {
+	protected void readAdditional(@Nonnull CompoundNBT compound) {
 
 	}
 
 	@Override
-	protected void writeAdditional(@Nonnull NBTTagCompound compound) {
+	protected void writeAdditional(@Nonnull CompoundNBT compound) {
 
 	}
 

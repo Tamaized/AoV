@@ -1,12 +1,12 @@
 package tamaized.aov.common.core.abilities.astro;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
@@ -28,17 +28,17 @@ public class CelestialOpposition extends AbilityBase {
 	public CelestialOpposition() {
 		super(
 
-				new TextComponentTranslation(getStaticName()),
+				new TranslationTextComponent(getStaticName()),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.global.charges", "aov.gui.infinite"),
+				new TranslationTextComponent("aov.spells.global.charges", "aov.gui.infinite"),
 
-				new TextComponentTranslation("aov.spells.global.range", distance),
+				new TranslationTextComponent("aov.spells.global.range", distance),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.celestialopposition.desc")
+				new TranslationTextComponent("aov.spells.celestialopposition.desc")
 
 		);
 	}
@@ -84,15 +84,15 @@ public class CelestialOpposition extends AbilityBase {
 	}
 
 	@Override
-	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+	public boolean isCastOnTarget(PlayerEntity caster, IAoVCapability cap, LivingEntity target) {
 		return false;
 	}
 
 	@Override
-	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
+	public boolean cast(Ability ability, PlayerEntity caster, LivingEntity target) {
 		IAoVCapability aov = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (!caster.world.isRemote && aov != null) {
-			for (EntityLivingBase e : caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.posX - distance, caster.posY - distance, caster.posZ - distance, caster.posX + distance, caster.posY + distance, caster.posZ + distance))) {
+			for (LivingEntity e : caster.world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(caster.posX - distance, caster.posY - distance, caster.posZ - distance, caster.posX + distance, caster.posY + distance, caster.posZ + distance))) {
 				if (e != caster && IAoVCapability.selectiveTarget(caster, aov, e)) {
 					IStunCapability stun = CapabilityList.getCap(e, CapabilityList.STUN);
 					if (stun != null) {
@@ -101,9 +101,9 @@ public class CelestialOpposition extends AbilityBase {
 					}
 				}
 				if (e == caster || IAoVCapability.canBenefit(caster, aov, e)) {
-					for (PotionEffect effect : e.getActivePotionEffects())
+					for (EffectInstance effect : e.getActivePotionEffects())
 						if (!effect.getPotion().isBadEffect())
-							e.addPotionEffect(new PotionEffect(effect.getPotion(), effect.getDuration() + 400, effect.getAmplifier(), effect.isAmbient(), effect.doesShowParticles()));
+							e.addPotionEffect(new EffectInstance(effect.getPotion(), effect.getDuration() + 400, effect.getAmplifier(), effect.isAmbient(), effect.doesShowParticles()));
 				}
 			}
 			EntityCelestialOpposition spell = new EntityCelestialOpposition(caster.world);

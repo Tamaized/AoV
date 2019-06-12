@@ -1,15 +1,15 @@
 package tamaized.aov.client.entity;
 
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
 
-public class RenderSpellEntity<T extends Entity> extends Render<T> {
+public class RenderSpellEntity<T extends Entity> extends EntityRenderer<T> {
 
-	public RenderSpellEntity(RenderManager renderManager) {
+	public RenderSpellEntity(EntityRendererManager renderManager) {
 		super(renderManager);
 	}
 

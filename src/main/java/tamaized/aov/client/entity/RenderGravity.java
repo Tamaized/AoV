@@ -5,8 +5,8 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
@@ -18,12 +18,12 @@ import tamaized.aov.common.entity.EntityGravity;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class RenderGravity<T extends EntityGravity> extends Render<T> {
+public class RenderGravity<T extends EntityGravity> extends EntityRenderer<T> {
 
 	private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.MODID, "textures/entity/gravity.png");
 	//	public static final Sphere SPHERE = new Sphere(); TODO
 
-	public RenderGravity(RenderManager renderManager) {
+	public RenderGravity(EntityRendererManager renderManager) {
 		super(renderManager);
 	}
 

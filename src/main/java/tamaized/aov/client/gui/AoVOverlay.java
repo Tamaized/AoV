@@ -3,17 +3,17 @@ package tamaized.aov.client.gui;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -55,7 +55,7 @@ public class AoVOverlay {
 	public static float intensity = 0F;
 	public static boolean NO_STENCIL = false;
 	public static float zLevel;
-	private static EntityLivingBase cacheEntity;
+	private static LivingEntity cacheEntity;
 	private static int cacheEntityID = -1;
 
 	public static void drawRect(float left, float top, float right, float bottom, int color) {
@@ -195,8 +195,8 @@ public class AoVOverlay {
 			if (cap.getCoreSkill() == AoVSkills.astro_core_1)
 				renderAstro(mc.player, sr);
 			Entity target = ClientProxy.getTarget() != null ? ClientProxy.getTarget() : ClientHelpers.getTargetOverMouse(mc, 128);
-			if (AoV.config.renderTarget.get() && target instanceof EntityLivingBase)
-				renderTarget((EntityLivingBase) target);
+			if (AoV.config.renderTarget.get() && target instanceof LivingEntity)
+				renderTarget((LivingEntity) target);
 		}
 	}
 
@@ -350,7 +350,7 @@ public class AoVOverlay {
 		fontRendererIn.drawString(text, x - (float) fontRendererIn.getStringWidth(text) / 2F, y, color);
 	}
 
-	private static void renderAstro(EntityPlayer player, MainWindow sr) {
+	private static void renderAstro(PlayerEntity player, MainWindow sr) {
 		IAstroCapability cap = CapabilityList.getCap(player, CapabilityList.ASTRO);
 		if (cap == null)
 			return;
@@ -427,7 +427,7 @@ public class AoVOverlay {
 		GlStateManager.color4f(1, 1, 1, 1);
 	}
 
-	private static void renderTarget(EntityLivingBase target) {
+	private static void renderTarget(LivingEntity target) {
 		GlStateManager.pushMatrix();
 		{
 			double x = 10 + AoV.config.ELEMENT_POSITIONS.target_x.get();
@@ -464,8 +464,8 @@ public class AoVOverlay {
 					if (cacheEntityID != target.getEntityId()) {
 						cacheEntityID = target.getEntityId();
 						try {
-							if (target instanceof EntityPlayer)
-								cacheEntity = target.getClass().getConstructor(World.class, GameProfile.class).newInstance(mc.world, ((EntityPlayer) target).getGameProfile());
+							if (target instanceof PlayerEntity)
+								cacheEntity = target.getClass().getConstructor(World.class, GameProfile.class).newInstance(mc.world, ((PlayerEntity) target).getGameProfile());
 							else
 								cacheEntity = target.getClass().getConstructor(World.class).newInstance(mc.world);
 						} catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e1) {
@@ -473,7 +473,7 @@ public class AoVOverlay {
 						}
 					}
 					if (cacheEntity != null && mc.getRenderManager().renderViewEntity != null)
-						GuiInventory.drawEntityOnScreen((int) (x + 30), (int) (y + 36), 8, -40, 5, cacheEntity);
+						InventoryScreen.drawEntityOnScreen((int) (x + 30), (int) (y + 36), 8, -40, 5, cacheEntity);
 				}
 				GlStateManager.popMatrix();
 				String name = target.getDisplayName().getFormattedText();
@@ -510,7 +510,7 @@ public class AoVOverlay {
 							true);
 				}
 				{
-					Minecraft.getInstance().textureManager.bindTexture(Gui.ICONS);
+					Minecraft.getInstance().textureManager.bindTexture(AbstractGui.ICONS);
 					int posx = (int) (x + 30);
 					int posy = (int) (y + 13);
 					int textureX = 52;

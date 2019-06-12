@@ -1,20 +1,20 @@
 package tamaized.aov.common.capabilities.leap;
 
-import net.minecraft.nbt.INBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 
 public class LeapCapabilityStorage implements IStorage<ILeapCapability> {
 
 	@Override
-	public INBTBase writeNBT(Capability<ILeapCapability> capability, ILeapCapability instance, EnumFacing side) {
-		return new NBTTagCompound();
+	public INBT writeNBT(Capability<ILeapCapability> capability, ILeapCapability instance, Direction side) {
+		return new CompoundNBT();
 	}
 
 	@Override
-	public void readNBT(Capability<ILeapCapability> capability, ILeapCapability instance, EnumFacing side, INBTBase nbt) {
+	public void readNBT(Capability<ILeapCapability> capability, ILeapCapability instance, Direction side, INBT nbt) {
 	}
 
 }

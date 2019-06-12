@@ -1,7 +1,7 @@
 package tamaized.aov.common.entity;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -70,12 +70,12 @@ public class EntitySpellAoVParticles extends Entity {
 	}
 
 	@Override
-	protected void readAdditional(@Nonnull NBTTagCompound compound) {
+	protected void readAdditional(@Nonnull CompoundNBT compound) {
 		dataManager.set(PARTICLE, compound.getInt("particle"));
 	}
 
 	@Override
-	protected void writeAdditional(@Nonnull NBTTagCompound compound) {
+	protected void writeAdditional(@Nonnull CompoundNBT compound) {
 		compound.setInt("particle", dataManager.get(PARTICLE));
 	}
 

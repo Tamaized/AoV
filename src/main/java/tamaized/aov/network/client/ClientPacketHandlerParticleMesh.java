@@ -1,6 +1,6 @@
 package tamaized.aov.network.client;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.Vec3d;
 import tamaized.aov.common.helper.ParticleHelper;
@@ -26,7 +26,7 @@ public class ClientPacketHandlerParticleMesh implements NetworkMessages.IMessage
 	}
 
 	@Override
-	public void handle(EntityPlayer player) {
+	public void handle(PlayerEntity player) {
 		ParticleHelper.spawnParticleMesh(mesh >= 0 && mesh < MESH_TYPES.length ? MESH_TYPES[mesh] : ParticleHelper.MeshType.BURST, particle >= 0 && particle < PARTICLE_TYPES.length ? PARTICLE_TYPES[particle] : CommonProxy.ParticleType.Fluff, player.world, pos, range, color);
 	}
 

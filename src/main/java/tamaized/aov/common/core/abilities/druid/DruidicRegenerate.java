@@ -1,15 +1,15 @@
 package tamaized.aov.common.core.abilities.druid;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.Effects;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
@@ -33,17 +33,17 @@ public class DruidicRegenerate extends AbilityBase {
 	public DruidicRegenerate() {
 		super(
 
-				new TextComponentTranslation(UNLOC.concat(".name")),
+				new TranslationTextComponent(UNLOC.concat(".name")),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.global.charges", CHARGES),
+				new TranslationTextComponent("aov.spells.global.charges", CHARGES),
 
-				new TextComponentTranslation("aov.spells.global.range", RANGE),
+				new TranslationTextComponent("aov.spells.global.range", RANGE),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation(UNLOC.concat(".desc"))
+				new TranslationTextComponent(UNLOC.concat(".desc"))
 
 		);
 	}
@@ -60,7 +60,7 @@ public class DruidicRegenerate extends AbilityBase {
 	}
 
 	@Override
-	public int getExtraCharges(EntityLivingBase entity, IAoVCapability cap) {
+	public int getExtraCharges(LivingEntity entity, IAoVCapability cap) {
 		return IAoVCapability.isImprovedCentered(entity, cap) ? getMaxCharges() : super.getExtraCharges(entity, cap);
 	}
 
@@ -85,18 +85,18 @@ public class DruidicRegenerate extends AbilityBase {
 	}
 
 	@Override
-	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+	public boolean isCastOnTarget(PlayerEntity caster, IAoVCapability cap, LivingEntity target) {
 		return false;
 	}
 
 	@Override
-	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
+	public boolean cast(Ability ability, PlayerEntity caster, LivingEntity target) {
 		IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (cap != null) {
 			int range = (int) (getMaxDistance() * 2);
-			List<EntityLivingBase> list = caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-range, -range, -range), caster.getPosition().add(range, range, range)));
-			for (EntityLivingBase entity : list) {
-				entity.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 200, IAoVCapability.isImprovedCentered(caster, cap) ? 1 : 0));
+			List<LivingEntity> list = caster.world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(caster.getPosition().add(-range, -range, -range), caster.getPosition().add(range, range, range)));
+			for (LivingEntity entity : list) {
+				entity.addPotionEffect(new EffectInstance(Effects.REGENERATION, 200, IAoVCapability.isImprovedCentered(caster, cap) ? 1 : 0));
 				cap.addExp(caster, 15, this);
 			}
 			ParticleHelper.spawnParticleMesh(ParticleHelper.MeshType.BURST, CommonProxy.ParticleType.Heart, caster.world, caster.getPositionVector(), range, 0x00FFAAFF);

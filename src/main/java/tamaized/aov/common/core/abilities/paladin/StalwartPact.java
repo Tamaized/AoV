@@ -1,12 +1,12 @@
 package tamaized.aov.common.core.abilities.paladin;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
@@ -30,17 +30,17 @@ public class StalwartPact extends AbilityBase {
 	public StalwartPact() {
 		super(
 
-				new TextComponentTranslation(name),
+				new TranslationTextComponent(name),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.global.charges", charges),
+				new TranslationTextComponent("aov.spells.global.charges", charges),
 
-				new TextComponentTranslation("aov.spells.global.range", range),
+				new TranslationTextComponent("aov.spells.global.range", range),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.stalwart.desc")
+				new TranslationTextComponent("aov.spells.stalwart.desc")
 
 		);
 	}
@@ -67,7 +67,7 @@ public class StalwartPact extends AbilityBase {
 	}
 
 	@Override
-	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+	public boolean isCastOnTarget(PlayerEntity caster, IAoVCapability cap, LivingEntity target) {
 		return IAoVCapability.canBenefit(caster, cap, target);
 	}
 
@@ -76,7 +76,7 @@ public class StalwartPact extends AbilityBase {
 	}
 
 	@Override
-	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase e) {
+	public boolean cast(Ability ability, PlayerEntity caster, LivingEntity e) {
 		IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (cap == null)
 			return false;
@@ -93,15 +93,15 @@ public class StalwartPact extends AbilityBase {
 		return true;
 	}
 
-	private void addPotionEffects(EntityLivingBase entity) {
-		entity.addPotionEffect(new PotionEffect(AoVPotions.stalwartPact, 20 * (60 * 5)));
+	private void addPotionEffects(LivingEntity entity) {
+		entity.addPotionEffect(new EffectInstance(AoVPotions.stalwartPact, 20 * (60 * 5)));
 	}
 
-	private void castAsMass(EntityLivingBase caster, IAoVCapability cap) {
+	private void castAsMass(LivingEntity caster, IAoVCapability cap) {
 		int range = (int) (getMaxDistance() * 2);
 		ParticleHelper.spawnParticleMesh(ParticleHelper.MeshType.BURST, CommonProxy.ParticleType.Fluff, caster.world, caster.getPositionVector(), range, getParticleColor());
-		List<EntityLivingBase> list = caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-range, -range, -range), caster.getPosition().add(range, range, range)));
-		for (EntityLivingBase entity : list) {
+		List<LivingEntity> list = caster.world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(caster.getPosition().add(-range, -range, -range), caster.getPosition().add(range, range, range)));
+		for (LivingEntity entity : list) {
 			if (IAoVCapability.canBenefit(caster, cap, entity)) {
 				addPotionEffects(entity);
 				cap.addExp(caster, 20, this);

@@ -1,11 +1,11 @@
 package tamaized.aov.common.core.abilities.druid;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
@@ -28,19 +28,19 @@ public class Earthquake extends AbilityBase {
 	public Earthquake() {
 		super(
 
-				new TextComponentTranslation(UNLOC.concat(".name")),
+				new TranslationTextComponent(UNLOC.concat(".name")),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.global.charges", CHARGES),
+				new TranslationTextComponent("aov.spells.global.charges", CHARGES),
 
-				new TextComponentTranslation("aov.spells.global.range", RANGE),
+				new TranslationTextComponent("aov.spells.global.range", RANGE),
 
-				new TextComponentTranslation("aov.spells.global.damage", DAMAGE),
+				new TranslationTextComponent("aov.spells.global.damage", DAMAGE),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation(UNLOC.concat(".desc"))
+				new TranslationTextComponent(UNLOC.concat(".desc"))
 
 		);
 	}
@@ -77,12 +77,12 @@ public class Earthquake extends AbilityBase {
 	}
 
 	@Override
-	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+	public boolean isCastOnTarget(PlayerEntity caster, IAoVCapability cap, LivingEntity target) {
 		return IAoVCapability.selectiveTarget(caster, cap, target);
 	}
 
 	@Override
-	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
+	public boolean cast(Ability ability, PlayerEntity caster, LivingEntity target) {
 		IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (cap == null)
 			return false;

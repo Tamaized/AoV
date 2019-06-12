@@ -4,10 +4,10 @@ import com.electronwill.nightconfig.core.utils.ConfigWrapper;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import net.minecraft.block.Blocks;
+import net.minecraft.item.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemAir;
+import net.minecraft.item.AirItem;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -214,7 +214,7 @@ public class ConfigHandler {
 				regname = split[1];
 			}
 			Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(domain, regname));
-			if (item == null || item instanceof ItemAir)
+			if (item == null || item instanceof AirItem)
 				continue;
 			list.add(item);
 		}

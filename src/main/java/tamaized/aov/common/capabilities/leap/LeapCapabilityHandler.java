@@ -1,7 +1,7 @@
 package tamaized.aov.common.capabilities.leap;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraftforge.fml.network.PacketDistributor;
 import tamaized.aov.AoV;
 import tamaized.aov.network.client.ClientPacketHandlerLeap;
@@ -15,7 +15,7 @@ public class LeapCapabilityHandler implements ILeapCapability {
 	private int maxLeapDuration = 300;
 
 	@Override
-	public void update(EntityLivingBase entity) {
+	public void update(LivingEntity entity) {
 		leapDuration--;
 		if (dirty || ++tick % 20 == 0)
 			sendPacketUpdates(entity);

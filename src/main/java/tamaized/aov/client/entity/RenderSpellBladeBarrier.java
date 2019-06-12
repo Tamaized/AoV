@@ -3,16 +3,16 @@ package tamaized.aov.client.entity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.init.Items;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.texture.AtlasTexture;
+import net.minecraft.item.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import tamaized.aov.common.entity.EntitySpellBladeBarrier;
 
-public class RenderSpellBladeBarrier<T extends EntitySpellBladeBarrier> extends Render<T> {
+public class RenderSpellBladeBarrier<T extends EntitySpellBladeBarrier> extends EntityRenderer<T> {
 
 	private static final ItemStack woodSword = new ItemStack(Items.WOODEN_SWORD);
 	private static final ItemStack stoneSword = new ItemStack(Items.STONE_SWORD);
@@ -20,7 +20,7 @@ public class RenderSpellBladeBarrier<T extends EntitySpellBladeBarrier> extends 
 	private static final ItemStack diamondSword = new ItemStack(Items.DIAMOND_SWORD);
 	private static final ItemStack goldSword = new ItemStack(Items.GOLDEN_SWORD);
 
-	public RenderSpellBladeBarrier(RenderManager renderManager) {
+	public RenderSpellBladeBarrier(EntityRendererManager renderManager) {
 		super(renderManager);
 	}
 
@@ -29,7 +29,7 @@ public class RenderSpellBladeBarrier<T extends EntitySpellBladeBarrier> extends 
 		World world = entity.world;
 		if (world == null)
 			return;
-		bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
 		GlStateManager.pushMatrix();
 		{
 			GlStateManager.translated(x, y + 1, z);

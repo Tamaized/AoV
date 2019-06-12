@@ -3,13 +3,13 @@ package tamaized.aov.client.gui;
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.inventory.Container;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import tamaized.aov.AoV;
@@ -91,28 +91,28 @@ public class AoVSkillsGUI extends GuiScreenClose {
 	public void initButtons() {
 		buttons.clear();
 		skillbuttons.clear();
-		buttons.add(new GuiButton(BUTTON_CLOSE, 10, height - 25, 80, 20, I18n.format("aov.gui.button.close")) {
+		buttons.add(new Button(BUTTON_CLOSE, 10, height - 25, 80, 20, I18n.format("aov.gui.button.close")) {
 			@Override
 			public void onClick(double mouseX, double mouseY) {
 				super.onClick(mouseX, mouseY);
 				mc.player.closeScreen();
 			}
 		});
-		buttons.add(new GuiButton(BUTTON_SPELLBOOK, 110, height - 25, 80, 20, I18n.format("aov.gui.button.spellbook")) {
+		buttons.add(new Button(BUTTON_SPELLBOOK, 110, height - 25, 80, 20, I18n.format("aov.gui.button.spellbook")) {
 			@Override
 			public void onClick(double mouseX, double mouseY) {
 				super.onClick(mouseX, mouseY);
 				GuiHandler.openGui(GuiHandler.GUI.SPELLBOOK, classType);
 			}
 		});
-		buttons.add(new GuiButton(BUTTON_CHECKSTATS, width - 190, height - 25, 80, 20, I18n.format("aov.gui.button.stats")) {
+		buttons.add(new Button(BUTTON_CHECKSTATS, width - 190, height - 25, 80, 20, I18n.format("aov.gui.button.stats")) {
 			@Override
 			public void onClick(double mouseX, double mouseY) {
 				super.onClick(mouseX, mouseY);
 				GuiHandler.openGui(GuiHandler.GUI.CHECKSTATS, classType);
 			}
 		});
-		buttons.add(new GuiButton(BUTTON_RESET, width - 90, height - 25, 80, 20, I18n.format("aov.gui.button.reset")) {
+		buttons.add(new Button(BUTTON_RESET, width - 90, height - 25, 80, 20, I18n.format("aov.gui.button.reset")) {
 			@Override
 			public void onClick(double mouseX, double mouseY) {
 				super.onClick(mouseX, mouseY);
@@ -165,7 +165,7 @@ public class AoVSkillsGUI extends GuiScreenClose {
 	@Override
 	public void tick() {
 		super.tick();
-		for (GuiButton button : buttons) {
+		for (Button button : buttons) {
 			if (button instanceof SkillButton)
 				((SkillButton) button).update(cap);
 			if (button.id == BUTTON_PAGE_PREV)
@@ -235,7 +235,7 @@ public class AoVSkillsGUI extends GuiScreenClose {
 		}
 	}
 
-	static class ArrowButton extends GuiButton {
+	static class ArrowButton extends Button {
 
 		private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.MODID, "textures/gui/buttons.png");
 

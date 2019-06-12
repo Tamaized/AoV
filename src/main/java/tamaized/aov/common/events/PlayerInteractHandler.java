@@ -1,7 +1,7 @@
 package tamaized.aov.common.events;
 
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemFood;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerPickupXpEvent;
@@ -20,7 +20,7 @@ public class PlayerInteractHandler {
 	public static void onXPGain(PlayerPickupXpEvent e) {
 		if (!AoV.config.experience.get())
 			return;
-		EntityPlayer player = e.getEntityPlayer();
+		PlayerEntity player = e.getEntityPlayer();
 		if (player != null) {
 			IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
 			if (cap != null)
@@ -41,7 +41,7 @@ public class PlayerInteractHandler {
 	public static void onWakeUp(PlayerWakeUpEvent e) {
 		// WorldServer#wakeAllPlayers is the only vanilla method that passes (false, false, true)
 		// ForgeEventFactory.fireSleepingTimeCheck passes false, true, true, lets ensure the time is day when we check this
-		EntityPlayer player = e.getEntityPlayer();
+		PlayerEntity player = e.getEntityPlayer();
 		if (player != null) {
 			boolean flag = !e.wakeImmediately() && !e.updateWorld() && e.shouldSetSpawn();
 			if (!flag) {

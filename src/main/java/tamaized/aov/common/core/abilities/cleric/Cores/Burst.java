@@ -1,13 +1,13 @@
 package tamaized.aov.common.core.abilities.cleric.Cores;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
@@ -32,19 +32,19 @@ public class Burst extends AbilityBase {
 	public Burst() {
 		super(
 
-				new TextComponentTranslation(getStaticName()),
+				new TranslationTextComponent(getStaticName()),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.global.charges", charges),
+				new TranslationTextComponent("aov.spells.global.charges", charges),
 
-				new TextComponentTranslation("aov.spells.global.range", range),
+				new TranslationTextComponent("aov.spells.global.range", range),
 
-				new TextComponentTranslation("aov.spells.global.healing", dmg),
+				new TranslationTextComponent("aov.spells.global.healing", dmg),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.burst.desc")
+				new TranslationTextComponent("aov.spells.burst.desc")
 
 		);
 	}
@@ -54,22 +54,22 @@ public class Burst extends AbilityBase {
 	}
 
 	@Override
-	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase e) {
+	public boolean cast(Ability ability, PlayerEntity caster, LivingEntity e) {
 		IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (cap == null)
 			return false;
 		ParticleHelper.spawnParticleMesh(ParticleHelper.MeshType.BURST, CommonProxy.ParticleType.Heart, caster.world, caster.getPositionVector(), range, 0xFFFF00FF);
 		SoundEvents.playMovingSoundOnServer(SoundEvents.burst, caster);
 		int a = (int) (dmg * (1f + (cap.getSpellPower() / 100f)));
-		List<EntityLivingBase> list = caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-range, -range, -range), caster.getPosition().add(range, range, range)));
-		for (EntityLivingBase entity : list) {
+		List<LivingEntity> list = caster.world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(caster.getPosition().add(-range, -range, -range), caster.getPosition().add(range, range, range)));
+		for (LivingEntity entity : list) {
 			if (entity.isEntityUndead())
 				entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, caster), a);
 			else if (IAoVCapability.canBenefit(caster, cap, entity)) {
 				entity.heal(a);
 				//noinspection ForLoopReplaceableByForEach
-				for (Iterator<PotionEffect> iter = entity.getActivePotionEffects().iterator(); iter.hasNext(); ) {
-					PotionEffect effect = iter.next();
+				for (Iterator<EffectInstance> iter = entity.getActivePotionEffects().iterator(); iter.hasNext(); ) {
+					EffectInstance effect = iter.next();
 					if (effect.getPotion().isBadEffect())
 						entity.removePotionEffect(effect.getPotion());
 				}
@@ -116,7 +116,7 @@ public class Burst extends AbilityBase {
 	}
 
 	@Override
-	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+	public boolean isCastOnTarget(PlayerEntity caster, IAoVCapability cap, LivingEntity target) {
 		return false;
 	}
 

@@ -1,6 +1,6 @@
 package tamaized.aov.common.capabilities.stun;
 
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
 import tamaized.aov.AoV;
 
@@ -12,5 +12,5 @@ public interface IStunCapability {
 
 	void setStunTicks(int ticks);
 
-	void update(EntityLivingBase entity);
+	void update(LivingEntity entity);
 }

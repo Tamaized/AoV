@@ -1,12 +1,11 @@
 package tamaized.aov.registry;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -96,7 +95,7 @@ public class AoVBlocks {
 	private static void registerItemBlocks(IForgeRegistry<Item> registry, Block... blocks) {
 		for (Block block : blocks)
 			if (block.getRegistryName() != null)
-				registry.register(new ItemBlock(block, new Item.Properties().setNoRepair().group(AoVTabs.tabAoV)).setRegistryName(block.getRegistryName()));
+				registry.register(new BlockItem(block, new Item.Properties().setNoRepair().group(AoVTabs.tabAoV)).setRegistryName(block.getRegistryName()));
 	}
 
 	private static void registerModel(Block block, String... variant) {

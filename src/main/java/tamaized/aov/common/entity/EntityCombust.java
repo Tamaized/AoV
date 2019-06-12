@@ -1,7 +1,7 @@
 package tamaized.aov.common.entity;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.init.Particles;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -61,12 +61,12 @@ public class EntityCombust extends Entity {
 	}
 
 	@Override
-	protected void readAdditional(@Nonnull NBTTagCompound compound) {
+	protected void readAdditional(@Nonnull CompoundNBT compound) {
 
 	}
 
 	@Override
-	protected void writeAdditional(@Nonnull NBTTagCompound compound) {
+	protected void writeAdditional(@Nonnull CompoundNBT compound) {
 
 	}
 }

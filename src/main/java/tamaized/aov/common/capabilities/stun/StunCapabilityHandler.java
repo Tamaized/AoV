@@ -1,7 +1,7 @@
 package tamaized.aov.common.capabilities.stun;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraftforge.fml.network.PacketDistributor;
 import tamaized.aov.AoV;
 import tamaized.aov.network.client.ClientPacketHandlerStunned;
@@ -22,7 +22,7 @@ public class StunCapabilityHandler implements IStunCapability {
 	}
 
 	@Override
-	public void update(EntityLivingBase entity) {
+	public void update(LivingEntity entity) {
 		boolean canUpdate = entity.canUpdate();
 		if (stunTicks-- > 0) {
 			if (canUpdate) {

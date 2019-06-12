@@ -1,26 +1,26 @@
 package tamaized.aov.common.entity;
 
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIFollowOwner;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILeapAtTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIOwnerHurtByTarget;
-import net.minecraft.entity.ai.EntityAIOwnerHurtTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.monster.EntityPigZombie;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityWolf;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.ai.goal.FollowOwnerGoal;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.OwnerHurtByTargetGoal;
+import net.minecraft.entity.ai.goal.OwnerHurtTargetGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.monster.ZombiePigmanEntity;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.WolfEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.init.Particles;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -28,7 +28,7 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
 
-public class EntityDruidicWolf extends EntityWolf {
+public class EntityDruidicWolf extends WolfEntity {
 
 	private float damage = 1F;
 	private int life;
@@ -37,7 +37,7 @@ public class EntityDruidicWolf extends EntityWolf {
 		super(worldIn);
 	}
 
-	public EntityDruidicWolf(World worldIn, EntityPlayer caster, float dmg) {
+	public EntityDruidicWolf(World worldIn, PlayerEntity caster, float dmg) {
 		this(worldIn);
 		setTamedBy(caster);
 		damage = dmg;
@@ -51,17 +51,17 @@ public class EntityDruidicWolf extends EntityWolf {
 
 	@Override
 	protected void initEntityAI() {
-		this.tasks.addTask(1, new EntityAISwimming(this));
-		this.tasks.addTask(4, new EntityAILeapAtTarget(this, 0.4F));
-		this.tasks.addTask(5, new EntityAIAttackMelee(this, 1.0D, true));
-		this.tasks.addTask(6, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
-		this.tasks.addTask(8, new EntityAIWanderAvoidWater(this, 1.0D));
-		this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-		this.tasks.addTask(10, new EntityAILookIdle(this));
-		this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
-		this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
-		this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
-		this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<>(this, EntityMob.class, 10, false, false, e -> !(e instanceof EntityPigZombie)));
+		this.tasks.addTask(1, new SwimGoal(this));
+		this.tasks.addTask(4, new LeapAtTargetGoal(this, 0.4F));
+		this.tasks.addTask(5, new MeleeAttackGoal(this, 1.0D, true));
+		this.tasks.addTask(6, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
+		this.tasks.addTask(8, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+		this.tasks.addTask(10, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+		this.tasks.addTask(10, new LookRandomlyGoal(this));
+		this.targetTasks.addTask(1, new OwnerHurtByTargetGoal(this));
+		this.targetTasks.addTask(2, new OwnerHurtTargetGoal(this));
+		this.targetTasks.addTask(3, new HurtByTargetGoal(this, true));
+		this.targetTasks.addTask(5, new NearestAttackableTargetGoal<>(this, MonsterEntity.class, 10, false, false, e -> !(e instanceof ZombiePigmanEntity)));
 	}
 
 	@Override
@@ -94,7 +94,7 @@ public class EntityDruidicWolf extends EntityWolf {
 	}
 
 	@Override
-	public boolean processInteract(EntityPlayer player, EnumHand hand) {
+	public boolean processInteract(PlayerEntity player, Hand hand) {
 		return false;
 	}
 
@@ -114,12 +114,12 @@ public class EntityDruidicWolf extends EntityWolf {
 	}
 
 	@Override
-	public EntityWolf createChild(EntityAgeable ageable) {
+	public WolfEntity createChild(AgeableEntity ageable) {
 		return null;
 	}
 
 	@Override
-	public boolean canMateWith(EntityAnimal otherAnimal) {
+	public boolean canMateWith(AnimalEntity otherAnimal) {
 		return false;
 	}
 

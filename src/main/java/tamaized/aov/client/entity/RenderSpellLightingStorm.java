@@ -4,8 +4,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
@@ -21,7 +21,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class RenderSpellLightingStorm extends Render<EntitySpellLightningStorm> {
+public class RenderSpellLightingStorm extends EntityRenderer<EntitySpellLightningStorm> {
 
 	private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.MODID, "textures/entity/cloud.png");
 	private static final ResourceLocation RAIN_TEXTURES = new ResourceLocation("textures/environment/rain.png");
@@ -44,7 +44,7 @@ public class RenderSpellLightingStorm extends Render<EntitySpellLightningStorm> 
 	int lastTick;
 	int nextCloud = 1;
 
-	public RenderSpellLightingStorm(RenderManager renderManagerIn) {
+	public RenderSpellLightingStorm(EntityRendererManager renderManagerIn) {
 		super(renderManagerIn);
 	}
 

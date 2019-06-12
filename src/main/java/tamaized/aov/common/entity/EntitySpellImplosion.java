@@ -2,8 +2,8 @@ package tamaized.aov.common.entity;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -23,14 +23,14 @@ import java.util.Objects;
 public class EntitySpellImplosion extends Entity implements IEntityAdditionalSpawnData {
 
 	private Entity caster;
-	private EntityLivingBase target;
+	private LivingEntity target;
 	private int tick = 0;
 
 	public EntitySpellImplosion(World worldIn) {
 		super(Objects.requireNonNull(AoVEntities.entityspellimplosion), worldIn);
 	}
 
-	public EntitySpellImplosion(World world, Entity caster, EntityLivingBase entity) {
+	public EntitySpellImplosion(World world, Entity caster, LivingEntity entity) {
 		this(world);
 		this.caster = caster;
 		target = entity;
@@ -46,8 +46,8 @@ public class EntitySpellImplosion extends Entity implements IEntityAdditionalSpa
 	@Override
 	public void readSpawnData(PacketBuffer additionalData) {
 		Entity e = world.getEntityByID(additionalData.readInt());
-		if (e instanceof EntityLivingBase)
-			target = (EntityLivingBase) e;
+		if (e instanceof LivingEntity)
+			target = (LivingEntity) e;
 	}
 
 	@Override
@@ -56,12 +56,12 @@ public class EntitySpellImplosion extends Entity implements IEntityAdditionalSpa
 	}
 
 	@Override
-	protected void readAdditional(@Nonnull NBTTagCompound compound) {
+	protected void readAdditional(@Nonnull CompoundNBT compound) {
 
 	}
 
 	@Override
-	protected void writeAdditional(@Nonnull NBTTagCompound compound) {
+	protected void writeAdditional(@Nonnull CompoundNBT compound) {
 
 	}
 

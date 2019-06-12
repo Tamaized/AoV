@@ -1,13 +1,13 @@
 package tamaized.aov.common.core.abilities.druid;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
@@ -30,17 +30,17 @@ public class NaturesBounty extends AbilityBase {
 	public NaturesBounty() {
 		super(
 
-				new TextComponentTranslation(UNLOC.concat(".name")),
+				new TranslationTextComponent(UNLOC.concat(".name")),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.global.charges", CHARGES),
+				new TranslationTextComponent("aov.spells.global.charges", CHARGES),
 
-				new TextComponentTranslation("aov.spells.global.range", RANGE),
+				new TranslationTextComponent("aov.spells.global.range", RANGE),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation(UNLOC.concat(".desc"))
+				new TranslationTextComponent(UNLOC.concat(".desc"))
 
 		);
 	}
@@ -57,7 +57,7 @@ public class NaturesBounty extends AbilityBase {
 	}
 
 	@Override
-	public int getExtraCharges(EntityLivingBase entity, IAoVCapability cap) {
+	public int getExtraCharges(LivingEntity entity, IAoVCapability cap) {
 		return IAoVCapability.isImprovedCentered(entity, cap) ? getMaxCharges() : super.getExtraCharges(entity, cap);
 	}
 
@@ -82,12 +82,12 @@ public class NaturesBounty extends AbilityBase {
 	}
 
 	@Override
-	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+	public boolean isCastOnTarget(PlayerEntity caster, IAoVCapability cap, LivingEntity target) {
 		return IAoVCapability.canBenefit(caster, cap, target);
 	}
 
 	@Override
-	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
+	public boolean cast(Ability ability, PlayerEntity caster, LivingEntity target) {
 		if (target != null)
 			addPotionEffects(target);
 		else
@@ -98,8 +98,8 @@ public class NaturesBounty extends AbilityBase {
 		return true;
 	}
 
-	private void addPotionEffects(EntityLivingBase entity) {
-		entity.addPotionEffect(new PotionEffect(AoVPotions.naturesBounty, 20 * (60 * 15)));
+	private void addPotionEffects(LivingEntity entity) {
+		entity.addPotionEffect(new EffectInstance(AoVPotions.naturesBounty, 20 * (60 * 15)));
 		entity.world.spawnEntity(new EntitySpellAoVParticles(entity.world, entity, CommonProxy.ParticleType.Heart, 0x00FFAAFF, 1));
 		entity.world.playSound(null, entity.posX, entity.posY, entity.posZ, SoundEvents.ENTITY_ILLUSIONER_PREPARE_BLINDNESS, SoundCategory.PLAYERS, 1.0F, entity.getRNG().nextFloat() * 0.5F + 0.75F);
 	}

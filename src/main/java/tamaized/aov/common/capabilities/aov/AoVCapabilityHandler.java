@@ -3,14 +3,14 @@ package tamaized.aov.common.capabilities.aov;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.EffectInstance;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.PacketDistributor;
@@ -131,7 +131,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@Override
-	public void update(@Nullable EntityPlayer player) {
+	public void update(@Nullable PlayerEntity player) {
 		if (!hasLoaded)
 			return;
 		tick++;
@@ -143,8 +143,8 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			dirty = true;
 		if (dirty) {
 			updateValues(player);
-			if (player instanceof EntityPlayerMP)
-				sendPacketUpdates((EntityPlayerMP) player);
+			if (player instanceof ServerPlayerEntity)
+				sendPacketUpdates((ServerPlayerEntity) player);
 			dirty = false;
 		}
 		if (tick % 10 == 0)
@@ -162,8 +162,8 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@SuppressWarnings("ConstantConditions")
-	private void checkState(@Nullable EntityPlayer player) {
-		if (!(player instanceof EntityPlayerMP) || player.removed)
+	private void checkState(@Nullable PlayerEntity player) {
+		if (!(player instanceof ServerPlayerEntity) || player.removed)
 			return;
 		final boolean aid = player.getActivePotionEffect(AoVPotions.aid) != null;
 		final boolean zeal = player.getActivePotionEffect(AoVPotions.zeal) != null;
@@ -182,7 +182,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		}
 	}
 
-	private void updateHealth(@Nullable EntityPlayer player) {
+	private void updateHealth(@Nullable PlayerEntity player) {
 		if (player == null || player.world == null || player.world.isRemote)
 			return;
 		IAttributeInstance hp = player.getAttribute(SharedMonsterAttributes.MAX_HEALTH);
@@ -200,7 +200,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			hp.applyModifier(new AttributeModifier(DRUID_HEALTH_NAME, getLevel(), 0));
 	}
 
-	private void updateValues(@Nullable EntityPlayer player) {
+	private void updateValues(@Nullable PlayerEntity player) {
 		IAstroCapability astro = CapabilityList.getCap(player, CapabilityList.ASTRO);
 		maxLevel = AoV.config.maxlevel.get();
 		skillPoints = getLevel();
@@ -287,19 +287,19 @@ public class AoVCapabilityHandler implements IAoVCapability {
 				dodge += 5;
 			if (player.getActivePotionEffect(AoVPotions.zeal) != null)
 				doublestrike += 25;
-			PotionEffect spire = player.getActivePotionEffect(AoVPotions.spire);
+			EffectInstance spire = player.getActivePotionEffect(AoVPotions.spire);
 			if (spire != null)
 				dodge += 10 * (spire.getAmplifier() + 1);
-			PotionEffect spear = player.getActivePotionEffect(AoVPotions.spear);
+			EffectInstance spear = player.getActivePotionEffect(AoVPotions.spear);
 			if (spear != null)
 				doublestrike += 10 * (spear.getAmplifier() + 1);
-			PotionEffect balance = player.getActivePotionEffect(AoVPotions.balance);
+			EffectInstance balance = player.getActivePotionEffect(AoVPotions.balance);
 			if (balance != null)
 				spellpower += 50 * (balance.getAmplifier() + 1);
 		}
 	}
 
-	private void updateAbilities(@Nullable EntityPlayer player) {
+	private void updateAbilities(@Nullable PlayerEntity player) {
 		for (Ability ability : slots)
 			if (ability != null)
 				ability.update(player, this);
@@ -312,7 +312,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			}
 	}
 
-	private void updateAuras(@Nullable EntityPlayer player) {
+	private void updateAuras(@Nullable PlayerEntity player) {
 		Iterator<Aura> iter = auras.iterator();
 		while (iter.hasNext()) {
 			Aura aura = iter.next();
@@ -356,7 +356,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@Override
-	public void resetCharges(EntityPlayer player) {
+	public void resetCharges(PlayerEntity player) {
 		cooldowns.clear();
 		decay.clear();
 		for (Ability ability : slots)
@@ -366,7 +366,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@Override
-	public void restoreCharges(EntityLivingBase caster, int amount) {
+	public void restoreCharges(LivingEntity caster, int amount) {
 		for (Ability ability : slots)
 			if (ability != null)
 				ability.restoreCharge(caster, this, amount);
@@ -447,10 +447,10 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		}
 		int tempLevel = getLevel();
 		exp += amount;
-		if (player instanceof EntityPlayerMP) {
-			FloatyTextHelper.sendText((EntityPlayerMP) player, "+" + amount + " Exp");
+		if (player instanceof ServerPlayerEntity) {
+			FloatyTextHelper.sendText((ServerPlayerEntity) player, "+" + amount + " Exp");
 			if (getLevel() > tempLevel)
-				FloatyTextHelper.sendText((EntityPlayerMP) player, "Level Up! (" + (getLevel()) + ")");
+				FloatyTextHelper.sendText((ServerPlayerEntity) player, "Level Up! (" + (getLevel()) + ")");
 		}
 		dirty = true;
 	}
@@ -549,7 +549,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	}
 
 	@Override
-	public int getExtraCharges(EntityLivingBase caster, Ability ability) {
+	public int getExtraCharges(LivingEntity caster, Ability ability) {
 		return extraCharges + ((caster == null || ability == null) ? 0 : ability.getAbility().getExtraCharges(caster, this));
 	}
 
@@ -703,7 +703,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		return slots;
 	}
 
-	private void sendPacketUpdates(EntityPlayerMP player) {
+	private void sendPacketUpdates(ServerPlayerEntity player) {
 		IPolymorphCapability poly = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
 		if (poly == null)
 			return;

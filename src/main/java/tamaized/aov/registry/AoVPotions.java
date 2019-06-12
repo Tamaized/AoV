@@ -1,6 +1,6 @@
 package tamaized.aov.registry;
 
-import net.minecraft.potion.Potion;
+import net.minecraft.potion.Effect;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -20,20 +20,20 @@ import tamaized.aov.common.potion.PotionStalwartPact;
 @Mod.EventBusSubscriber(modid = AoV.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AoVPotions {
 
-	public static Potion aid;
-	public static Potion shieldOfFaith;
-	public static Potion zeal;
-	public static Potion stalwartPact;
-	public static Potion slowFall;
-	public static Potion spear;
-	public static Potion ewer;
-	public static Potion spire;
-	public static Potion balance;
-	public static Potion naturesBounty;
-	public static Potion coldChill;
+	public static Effect aid;
+	public static Effect shieldOfFaith;
+	public static Effect zeal;
+	public static Effect stalwartPact;
+	public static Effect slowFall;
+	public static Effect spear;
+	public static Effect ewer;
+	public static Effect spire;
+	public static Effect balance;
+	public static Effect naturesBounty;
+	public static Effect coldChill;
 
 	@SubscribeEvent
-	public static void registerPotions(RegistryEvent.Register<Potion> event) {
+	public static void registerPotions(RegistryEvent.Register<Effect> event) {
 		event.getRegistry().registerAll(
 
 				aid = new PotionAid("aid"),

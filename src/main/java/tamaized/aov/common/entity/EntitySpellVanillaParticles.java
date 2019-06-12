@@ -2,14 +2,14 @@ package tamaized.aov.common.entity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Particles;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.IRegistry;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -59,12 +59,12 @@ public class EntitySpellVanillaParticles extends Entity {
 	}
 
 	@Override
-	protected void readAdditional(@Nonnull NBTTagCompound compound) {
-		dataManager.set(PARTICLE, (IParticleData) Objects.requireNonNull(IRegistry.field_212632_u.func_212608_b(new ResourceLocation(compound.getString("particle")))));
+	protected void readAdditional(@Nonnull CompoundNBT compound) {
+		dataManager.set(PARTICLE, (IParticleData) Objects.requireNonNull(Registry.field_212632_u.func_212608_b(new ResourceLocation(compound.getString("particle")))));
 	}
 
 	@Override
-	protected void writeAdditional(@Nonnull NBTTagCompound compound) {
+	protected void writeAdditional(@Nonnull CompoundNBT compound) {
 		compound.setString("particle", getParticle().getType().getId().toString());
 	}
 

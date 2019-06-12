@@ -1,8 +1,8 @@
 package tamaized.aov.network.client;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
@@ -13,7 +13,7 @@ public class ClientPacketHandlerAstroAnimation implements NetworkMessages.IMessa
 	private int entityID;
 	private IAstroCapability.IAnimation animation;
 
-	public ClientPacketHandlerAstroAnimation(EntityLivingBase entity, IAstroCapability.IAnimation a) {
+	public ClientPacketHandlerAstroAnimation(LivingEntity entity, IAstroCapability.IAnimation a) {
 		IAstroCapability cap = CapabilityList.getCap(entity, CapabilityList.ASTRO, null);
 		if (cap == null)
 			return;
@@ -22,10 +22,10 @@ public class ClientPacketHandlerAstroAnimation implements NetworkMessages.IMessa
 	}
 
 	@Override
-	public void handle(EntityPlayer player) {
+	public void handle(PlayerEntity player) {
 		Entity e = player.world.getEntityByID(entityID);
-		if (e instanceof EntityPlayer) {
-			EntityPlayer p = (EntityPlayer) e;
+		if (e instanceof PlayerEntity) {
+			PlayerEntity p = (PlayerEntity) e;
 			IAstroCapability cap = CapabilityList.getCap(player, CapabilityList.ASTRO);
 			if (cap != null)
 				cap.playAnimation(p, animation);

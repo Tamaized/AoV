@@ -3,8 +3,8 @@ package tamaized.aov.client.entity;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import tamaized.aov.AoV;
@@ -12,11 +12,11 @@ import tamaized.aov.common.entity.EntityMalefic;
 
 import javax.annotation.Nonnull;
 
-public class RenderMalefic<T extends EntityMalefic> extends Render<T> {
+public class RenderMalefic<T extends EntityMalefic> extends EntityRenderer<T> {
 
 	private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.MODID, "textures/entity/malefic.png");
 
-	public RenderMalefic(RenderManager renderManager) {
+	public RenderMalefic(EntityRendererManager renderManager) {
 		super(renderManager);
 	}
 

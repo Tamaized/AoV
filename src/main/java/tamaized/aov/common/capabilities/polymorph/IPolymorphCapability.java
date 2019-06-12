@@ -1,10 +1,10 @@
 package tamaized.aov.common.capabilities.polymorph;
 
 import com.google.common.collect.ImmutableSet;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.potion.Potion;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.Effects;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.potion.Effect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
@@ -15,9 +15,9 @@ import java.util.Set;
 
 public interface IPolymorphCapability extends IPlayerCapabilityHandler<IPolymorphCapability> {
 
-	Set<Potion> ELEMENTAL_IMMUNITY_EFFECTS = ImmutableSet.of(
+	Set<Effect> ELEMENTAL_IMMUNITY_EFFECTS = ImmutableSet.of(
 
-			MobEffects.SLOWNESS, MobEffects.POISON, MobEffects.WITHER
+			Effects.SLOWNESS, Effects.POISON, Effects.WITHER
 
 	);
 
@@ -33,17 +33,17 @@ public interface IPolymorphCapability extends IPlayerCapabilityHandler<IPolymorp
 
 	float getAttackCooldown();
 
-	void doAttack(EntityPlayer player);
+	void doAttack(PlayerEntity player);
 
-	void doAttack(EntityPlayer player, boolean fromPacket);
+	void doAttack(PlayerEntity player, boolean fromPacket);
 
-	void doAttack(EntityPlayer player, boolean fromPacket, int cooldown);
+	void doAttack(PlayerEntity player, boolean fromPacket, int cooldown);
 
 	float getInitalAttackCooldown();
 
-	void callWolves(World world, EntityPlayer caster, float damage);
+	void callWolves(World world, PlayerEntity caster, float damage);
 
-	void update(EntityPlayer player);
+	void update(PlayerEntity player);
 
 	byte getFlagBits();
 

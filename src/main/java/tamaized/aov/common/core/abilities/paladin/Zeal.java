@@ -1,11 +1,11 @@
 package tamaized.aov.common.core.abilities.paladin;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
@@ -24,15 +24,15 @@ public class Zeal extends AbilityBase {
 	public Zeal() {
 		super(
 
-				new TextComponentTranslation(name),
+				new TranslationTextComponent(name),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.global.charges", charges),
+				new TranslationTextComponent("aov.spells.global.charges", charges),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.zeal.desc")
+				new TranslationTextComponent("aov.spells.zeal.desc")
 
 		);
 	}
@@ -59,7 +59,7 @@ public class Zeal extends AbilityBase {
 	}
 
 	@Override
-	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+	public boolean isCastOnTarget(PlayerEntity caster, IAoVCapability cap, LivingEntity target) {
 		return false;
 	}
 
@@ -68,7 +68,7 @@ public class Zeal extends AbilityBase {
 	}
 
 	@Override
-	public boolean cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
+	public boolean cast(Ability ability, PlayerEntity player, LivingEntity e) {
 		IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
 		if (cap == null)
 			return false;
@@ -78,8 +78,8 @@ public class Zeal extends AbilityBase {
 		return true;
 	}
 
-	private void addPotionEffects(EntityLivingBase entity) {
-		entity.addPotionEffect(new PotionEffect(AoVPotions.zeal, 20 * (int) (60F * 2.5F)));
+	private void addPotionEffects(LivingEntity entity) {
+		entity.addPotionEffect(new EffectInstance(AoVPotions.zeal, 20 * (int) (60F * 2.5F)));
 	}
 
 	@Override

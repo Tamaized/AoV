@@ -1,21 +1,18 @@
 package tamaized.aov.common.entity;
 
-import io.netty.buffer.ByteBuf;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.IProjectile;
-import net.minecraft.entity.monster.EntityEnderman;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.entity.monster.EndermanEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.network.play.server.SPacketChangeGameState;
+import net.minecraft.network.play.server.SChangeGameStatePacket;
 import net.minecraft.util.DamageSource;
 import net.minecraft.init.Particles;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -34,7 +31,7 @@ import tamaized.aov.common.core.abilities.AbilityBase;
 
 import javax.annotation.Nonnull;
 
-public abstract class ProjectileBase extends EntityArrow implements IProjectile, IEntityAdditionalSpawnData {
+public abstract class ProjectileBase extends AbstractArrowEntity implements IProjectile, IEntityAdditionalSpawnData {
 
 	/**
 	 * The owner of this arrow.
@@ -54,7 +51,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 	public ProjectileBase(EntityType type, World worldIn) {
 		super(type, worldIn);
 		startingPoint = getPositionVector();
-		pickupStatus = EntityArrow.PickupStatus.DISALLOWED;
+		pickupStatus = AbstractArrowEntity.PickupStatus.DISALLOWED;
 		damage = 2.0D;
 		setSize(0.5F, 0.5F);
 		ignoreFrustumCheck = true;
@@ -66,11 +63,11 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 		startingPoint = getPositionVector();
 	}
 
-	public ProjectileBase(EntityType type, World worldIn, EntityLivingBase shooter) {
+	public ProjectileBase(EntityType type, World worldIn, LivingEntity shooter) {
 		this(type, worldIn, shooter, shooter.posX, shooter.posY, shooter.posZ);
 	}
 
-	public ProjectileBase(EntityType type, World worldIn, EntityLivingBase shooter, double x, double y, double z) {
+	public ProjectileBase(EntityType type, World worldIn, LivingEntity shooter, double x, double y, double z) {
 		this(type, worldIn);
 		shootingEntity = shooter;
 		setPosition(x, y + shooter.getEyeHeight(), z);
@@ -80,7 +77,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 	}
 
 	@SuppressWarnings("unused")
-	public ProjectileBase(EntityType type, World worldIn, EntityLivingBase shooter, EntityLivingBase target, float dmg) {
+	public ProjectileBase(EntityType type, World worldIn, LivingEntity shooter, LivingEntity target, float dmg) {
 		this(type, worldIn, shooter.posX, shooter.posY + (double) shooter.getEyeHeight() - 0.10000000149011612D, shooter.posZ);
 		shootingEntity = shooter;
 		damage = dmg;
@@ -200,7 +197,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 		}
 
 		BlockPos blockpos = new BlockPos(posX, posY, posZ);
-		IBlockState iblockstate = world.getBlockState(blockpos);
+		BlockState iblockstate = world.getBlockState(blockpos);
 
 		if (!iblockstate.isAir(this.world, blockpos)) {
 			VoxelShape voxelshape = iblockstate.getCollisionShape(this.world, blockpos);
@@ -280,7 +277,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 
 	protected boolean canHitEntity(Entity entity) {
 		IAoVCapability cap = CapabilityList.getCap(shootingEntity, CapabilityList.AOV);
-		return entity instanceof EntityLivingBase && (cap == null || IAoVCapability.selectiveTarget(shootingEntity, cap, (EntityLivingBase) entity));
+		return entity instanceof LivingEntity && (cap == null || IAoVCapability.selectiveTarget(shootingEntity, cap, (LivingEntity) entity));
 	}
 
 	protected abstract DamageSource getDamageSource();
@@ -295,22 +292,22 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 	protected void onHit(Entity entity) {
 		DamageSource damagesource = getDamageSource();
 
-		if (isBurning() && !(entity instanceof EntityEnderman)) {
+		if (isBurning() && !(entity instanceof EndermanEntity)) {
 			entity.setFire(5);
 		}
 
 		if (entity.attackEntityFrom(damagesource, getDamageAmp(damage, shootingEntity, entity))) {
-			if (entity instanceof EntityLivingBase) {
-				EntityLivingBase entitylivingbase = (EntityLivingBase) entity;
+			if (entity instanceof LivingEntity) {
+				LivingEntity entitylivingbase = (LivingEntity) entity;
 
 				arrowHit(entitylivingbase);
 
-				if (shootingEntity != null && entitylivingbase != shootingEntity && entitylivingbase instanceof EntityPlayer && shootingEntity instanceof EntityPlayerMP) {
-					((EntityPlayerMP) shootingEntity).connection.sendPacket(new SPacketChangeGameState(6, 0.0F));
+				if (shootingEntity != null && entitylivingbase != shootingEntity && entitylivingbase instanceof PlayerEntity && shootingEntity instanceof ServerPlayerEntity) {
+					((ServerPlayerEntity) shootingEntity).connection.sendPacket(new SChangeGameStatePacket(6, 0.0F));
 				}
 			}
 
-			if (!(entity instanceof EntityEnderman)) {
+			if (!(entity instanceof EndermanEntity)) {
 				remove();
 			}
 		} else {
@@ -322,7 +319,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 			ticksInAir = 0;
 
 			if (!world.isRemote && motionX * motionX + motionY * motionY + motionZ * motionZ < 0.0010000000474974513D) {
-				if (pickupStatus == EntityArrow.PickupStatus.ALLOWED) {
+				if (pickupStatus == AbstractArrowEntity.PickupStatus.ALLOWED) {
 					entityDropItem(getArrowStack(), 0.1F);
 				}
 
@@ -332,12 +329,12 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 	}
 
 	@Override
-	protected abstract void arrowHit(EntityLivingBase entity);
+	protected abstract void arrowHit(LivingEntity entity);
 
-	protected abstract void blockHit(IBlockState state, BlockPos pos);
+	protected abstract void blockHit(BlockState state, BlockPos pos);
 
 	@Override
-	public void writeAdditional(NBTTagCompound nbt) {
+	public void writeAdditional(CompoundNBT nbt) {
 		nbt.setDouble("damage", damage);
 		nbt.setFloat("range", range);
 		nbt.setDouble("speed", speed);
@@ -345,7 +342,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 	}
 
 	@Override
-	public void readAdditional(NBTTagCompound nbt) {
+	public void readAdditional(CompoundNBT nbt) {
 		damage = nbt.getDouble("damage");
 		range = nbt.getFloat("range");
 		speed = nbt.getDouble("speed");
@@ -356,7 +353,7 @@ public abstract class ProjectileBase extends EntityArrow implements IProjectile,
 	 * Called by a player entity when they collide with an entity
 	 */
 	@Override
-	public void onCollideWithPlayer(@Nonnull EntityPlayer p_70100_1_) {
+	public void onCollideWithPlayer(@Nonnull PlayerEntity p_70100_1_) {
 
 	}
 

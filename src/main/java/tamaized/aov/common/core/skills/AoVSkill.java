@@ -3,7 +3,7 @@ package tamaized.aov.common.core.skills;
 import com.google.common.collect.Lists;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.common.core.abilities.AbilityBase;
@@ -13,9 +13,9 @@ import java.util.List;
 public class AoVSkill {
 
 	private final List<AbilityBase> abilities;
-	private final List<TextComponentTranslation> description = Lists.newArrayList();
+	private final List<TranslationTextComponent> description = Lists.newArrayList();
 
-	private final TextComponentTranslation name;
+	private final TranslationTextComponent name;
 	private final ResourceLocation icon;
 	private final int level;
 	private final int spentpoints;
@@ -27,7 +27,7 @@ public class AoVSkill {
 	private final boolean core;
 	private final AoVSkill parent;
 
-	public AoVSkill(TextComponentTranslation name, ResourceLocation icon, int level, int spentpoints, int charges, int cost, int spellpower, int dodge, int doublestrike, boolean core, AoVSkill parent, List<AbilityBase> spells, TextComponentTranslation... desc) {
+	public AoVSkill(TranslationTextComponent name, ResourceLocation icon, int level, int spentpoints, int charges, int cost, int spellpower, int dodge, int doublestrike, boolean core, AoVSkill parent, List<AbilityBase> spells, TranslationTextComponent... desc) {
 		this.name = name;
 		this.icon = icon;
 		this.level = level;
@@ -42,34 +42,34 @@ public class AoVSkill {
 		abilities = spells;
 	}
 
-	public AoVSkill setupTooltip(TextComponentTranslation desc) {
+	public AoVSkill setupTooltip(TranslationTextComponent desc) {
 		description.clear();
 		description.add(name);
 		if (isClassCore()) {
-			description.add(new TextComponentTranslation("aov.skill.global.core"));
-			description.add(new TextComponentTranslation(""));
+			description.add(new TranslationTextComponent("aov.skill.global.core"));
+			description.add(new TranslationTextComponent(""));
 		}
 		if (getCharges() > 0)
-			description.add(new TextComponentTranslation("aov.skill.global.charge", getCharges()));
+			description.add(new TranslationTextComponent("aov.skill.global.charge", getCharges()));
 		if (spellpower > 0)
-			description.add(new TextComponentTranslation("aov.skill.global.spellpower", spellpower));
+			description.add(new TranslationTextComponent("aov.skill.global.spellpower", spellpower));
 		if (dodge > 0)
-			description.add(new TextComponentTranslation("aov.skill.global.dodge", dodge));
+			description.add(new TranslationTextComponent("aov.skill.global.dodge", dodge));
 		if (doublestrike > 0)
-			description.add(new TextComponentTranslation("aov.skill.global.doublestrike", doublestrike));
+			description.add(new TranslationTextComponent("aov.skill.global.doublestrike", doublestrike));
 
 		if (!isClassCore()) {
-			description.add(new TextComponentTranslation(""));
+			description.add(new TranslationTextComponent(""));
 			if (level > 0)
-				description.add(new TextComponentTranslation("aov.skill.global.minlevel", level));
+				description.add(new TranslationTextComponent("aov.skill.global.minlevel", level));
 			if (spentpoints > 0)
-				description.add(new TextComponentTranslation("aov.skill.global.minpoint", spentpoints));
+				description.add(new TranslationTextComponent("aov.skill.global.minpoint", spentpoints));
 			if (parent != null)
-				description.add(new TextComponentTranslation("aov.skill.global.parent", parent.getName().getKey()));
+				description.add(new TranslationTextComponent("aov.skill.global.parent", parent.getName().getKey()));
 		}
 
 		if (desc != null) {
-			description.add(new TextComponentTranslation(""));
+			description.add(new TranslationTextComponent(""));
 			description.add(desc);
 		}
 		return this;
@@ -79,7 +79,7 @@ public class AoVSkill {
 		return AoVSkills.getID(this);
 	}
 
-	public TextComponentTranslation getName() {
+	public TranslationTextComponent getName() {
 		return name;
 	}
 
@@ -130,7 +130,7 @@ public class AoVSkill {
 	@OnlyIn(Dist.CLIENT)
 	public final List<String> getDescription() {
 		List<String> list = Lists.newArrayList();
-		for (TextComponentTranslation s : description) {
+		for (TranslationTextComponent s : description) {
 			Object[] args = new Object[s.getFormatArgs().length];
 			for (int index = 0; index < args.length; index++)
 				args[index] = I18n.format(String.valueOf(s.getFormatArgs()[index]));

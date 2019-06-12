@@ -2,18 +2,18 @@ package tamaized.aov.common.entity;
 
 import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.MobEffects;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.block.Blocks;
+import net.minecraft.potion.Effects;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
@@ -58,7 +58,7 @@ public class EntityEarthquake extends Entity {
 	}
 
 	@SuppressWarnings("deprecation")
-	private static IBlockState checkDestruction(String check) {
+	private static BlockState checkDestruction(String check) {
 		int index = 0;
 		for (String compare : AoV.config.EARTHQUAKE.destruction.get()) {
 			index++;
@@ -104,8 +104,8 @@ public class EntityEarthquake extends Entity {
 			if (AoV.config.EARTHQUAKE.enable.get() && ticksExisted % AoV.config.EARTHQUAKE.ticks.get() == 0 && rand.nextInt(AoV.config.EARTHQUAKE.chance.get()) == 0) {
 				final int radius = 2;
 				List<BlockPos> positions = Lists.newArrayList(BlockPos.getAllInBox(new BlockPos(posX - radius, posY - 1, posZ - radius), new BlockPos(posX + radius, posY, posZ + radius)));
-				IBlockState newState;
-				IBlockState state;
+				BlockState newState;
+				BlockState state;
 				BlockPos pos;
 				int tries = positions.size();
 				do {
@@ -132,9 +132,9 @@ public class EntityEarthquake extends Entity {
 						if (e.getUniqueID().equals(casterID))
 							caster = e;
 				IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
-				for (EntityLivingBase entity : world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(posX - width, posY - 1F, posZ - width, posX + width, posY + 3F, posZ + width))) {
+				for (LivingEntity entity : world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(posX - width, posY - 1F, posZ - width, posX + width, posY + 3F, posZ + width))) {
 					if (entity != caster && IAoVCapability.selectiveTarget(caster, cap, entity) && entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, caster), damage)) {
-						entity.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 20 * 8));
+						entity.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 20 * 8));
 						if (cap != null)
 							cap.addExp(caster, 20, Abilities.earthquake);
 					}
@@ -151,14 +151,14 @@ public class EntityEarthquake extends Entity {
 	}
 
 	@Override
-	protected void readAdditional(@Nonnull NBTTagCompound compound) {
+	protected void readAdditional(@Nonnull CompoundNBT compound) {
 		damage = Math.max(1F, compound.getFloat("damage"));
 		if (compound.hasUniqueId("casterID"))
 			casterID = compound.getUniqueId("casterID");
 	}
 
 	@Override
-	protected void writeAdditional(@Nonnull NBTTagCompound compound) {
+	protected void writeAdditional(@Nonnull CompoundNBT compound) {
 		if (caster != null)
 			compound.setUniqueId("casterID", caster.getUniqueID());
 		compound.setFloat("damage", damage);

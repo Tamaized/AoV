@@ -1,11 +1,12 @@
 package tamaized.aov.common.potion;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -15,7 +16,7 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 
 import javax.annotation.Nonnull;
 
-public class PotionEwer extends Potion {
+public class PotionEwer extends Effect {
 
 	private final ResourceLocation iconTexture;
 
@@ -37,9 +38,9 @@ public class PotionEwer extends Potion {
 	}
 
 	@Override
-	public void performEffect(@Nonnull EntityLivingBase entityLivingBaseIn, int p_76394_2_) {
-		if (entityLivingBaseIn instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) entityLivingBaseIn;
+	public void performEffect(@Nonnull LivingEntity entityLivingBaseIn, int p_76394_2_) {
+		if (entityLivingBaseIn instanceof PlayerEntity) {
+			PlayerEntity player = (PlayerEntity) entityLivingBaseIn;
 			IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
 			if (cap != null)
 				cap.restoreCharges(entityLivingBaseIn, 1);
@@ -48,21 +49,21 @@ public class PotionEwer extends Potion {
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void renderInventoryEffect(PotionEffect effect, net.minecraft.client.gui.Gui gui, int x, int y, float z) {
+	public void renderInventoryEffect(EffectInstance effect, AbstractGui gui, int x, int y, float z) {
 		Minecraft.getInstance().getTextureManager().bindTexture(iconTexture);
 		GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f);
 		GlStateManager.enableBlend();
-		net.minecraft.client.gui.Gui.drawModalRectWithCustomSizedTexture(x + 7, y + 8, 0, 0, 16, 16, 16, 16);
+		AbstractGui.drawModalRectWithCustomSizedTexture(x + 7, y + 8, 0, 0, 16, 16, 16, 16);
 		GlStateManager.disableBlend();
 		GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void renderHUDEffect(PotionEffect effect, net.minecraft.client.gui.Gui gui, int x, int y, float z, float alpha) {
+	public void renderHUDEffect(EffectInstance effect, AbstractGui gui, int x, int y, float z, float alpha) {
 		Minecraft.getInstance().getTextureManager().bindTexture(iconTexture);
 		GlStateManager.enableBlend();
-		net.minecraft.client.gui.Gui.drawModalRectWithCustomSizedTexture(x + 4, y + 4, 0, 0, 16, 16, 16, 16);
+		AbstractGui.drawModalRectWithCustomSizedTexture(x + 4, y + 4, 0, 0, 16, 16, 16, 16);
 		GlStateManager.disableBlend();
 		GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f);
 	}

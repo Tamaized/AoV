@@ -1,10 +1,9 @@
 package tamaized.aov.common.entity;
 
 import com.google.common.collect.Lists;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -29,7 +28,7 @@ public class EntitySpellBladeBarrier extends Entity implements IEntityAdditional
 	private float damage = 1;
 	private int range = 10;
 
-	private List<EntityLivingBase> entityList = Lists.newArrayList();
+	private List<LivingEntity> entityList = Lists.newArrayList();
 
 	public EntitySpellBladeBarrier(World worldIn) {
 		super(Objects.requireNonNull(AoVEntities.entityspellbladebarrier), worldIn);
@@ -67,12 +66,12 @@ public class EntitySpellBladeBarrier extends Entity implements IEntityAdditional
 	}
 
 	@Override
-	protected void readAdditional(@Nonnull NBTTagCompound compound) {
+	protected void readAdditional(@Nonnull CompoundNBT compound) {
 
 	}
 
 	@Override
-	protected void writeAdditional(@Nonnull NBTTagCompound compound) {
+	protected void writeAdditional(@Nonnull CompoundNBT compound) {
 
 	}
 
@@ -85,24 +84,24 @@ public class EntitySpellBladeBarrier extends Entity implements IEntityAdditional
 			return;
 		}
 		List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(caster, new AxisAlignedBB(getPosition().add(-range, -2, -range), getPosition().add(range, 2, range)));
-		Iterator<EntityLivingBase> iter = entityList.iterator();
+		Iterator<LivingEntity> iter = entityList.iterator();
 		while (iter.hasNext()) {
-			EntityLivingBase e = iter.next();
+			LivingEntity e = iter.next();
 			if (!list.contains(e)) {
 				doDamage(e);
 				iter.remove();
 			}
 		}
 		for (Entity e : list) {
-			if (e instanceof EntityLivingBase && !entityList.contains(e)) {
-				doDamage((EntityLivingBase) e);
-				entityList.add((EntityLivingBase) e);
+			if (e instanceof LivingEntity && !entityList.contains(e)) {
+				doDamage((LivingEntity) e);
+				entityList.add((LivingEntity) e);
 			}
 		}
 		tick++;
 	}
 
-	private void doDamage(EntityLivingBase e) {
+	private void doDamage(LivingEntity e) {
 		IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (cap != null) {
 			if (IAoVCapability.selectiveTarget(caster, cap, e)) {

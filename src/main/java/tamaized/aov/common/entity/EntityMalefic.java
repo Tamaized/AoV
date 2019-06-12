@@ -1,9 +1,9 @@
 package tamaized.aov.common.entity;
 
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.init.Particles;
 import net.minecraft.util.SoundCategory;
@@ -22,18 +22,18 @@ import java.util.Objects;
 
 public class EntityMalefic extends ProjectileBase {
 
-	private EntityLivingBase target;
+	private LivingEntity target;
 
 	public EntityMalefic(World worldIn) {
 		super(Objects.requireNonNull(AoVEntities.entitymalefic), worldIn);
 		setDamageRangeSpeed(2.0F, 0, 0.0F);
 	}
 
-	public EntityMalefic(World world, EntityPlayer shooter) {
+	public EntityMalefic(World world, PlayerEntity shooter) {
 		super(Objects.requireNonNull(AoVEntities.entitymalefic), world, shooter);
 	}
 
-	public EntityMalefic(World world, EntityPlayer shooter, double x, double y, double z) {
+	public EntityMalefic(World world, PlayerEntity shooter, double x, double y, double z) {
 		super(Objects.requireNonNull(AoVEntities.entitymalefic), world, shooter, x, y, z);
 	}
 
@@ -47,10 +47,10 @@ public class EntityMalefic extends ProjectileBase {
 	public void tick() {
 		if (!world.isRemote) {
 			if (target == null || target.removed) {
-				EntityLivingBase closest = null;
+				LivingEntity closest = null;
 				double radius = 10;
 				IAoVCapability cap = CapabilityList.getCap(shootingEntity, CapabilityList.AOV);
-				for (EntityLivingBase e : world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(posX - radius, posY - radius, posZ - radius, posX + radius, posY + radius, posZ + radius)))
+				for (LivingEntity e : world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(posX - radius, posY - radius, posZ - radius, posX + radius, posY + radius, posZ + radius)))
 					if (shootingEntity != e)
 						if (cap == null || !cap.hasSelectiveFocus() || IAoVCapability.selectiveTarget(shootingEntity, cap, e))
 							if (closest == null || getDistance(closest) > getDistance(e))
@@ -79,7 +79,7 @@ public class EntityMalefic extends ProjectileBase {
 	}
 
 	@Override
-	protected void arrowHit(EntityLivingBase entity) {
+	protected void arrowHit(LivingEntity entity) {
 		if (shootingEntity != null && !shootingEntity.removed) {
 			IAoVCapability cap = CapabilityList.getCap(shootingEntity, CapabilityList.AOV);
 			if (cap != null)
@@ -89,7 +89,7 @@ public class EntityMalefic extends ProjectileBase {
 	}
 
 	@Override
-	protected void blockHit(IBlockState state, BlockPos pos) {
+	protected void blockHit(BlockState state, BlockPos pos) {
 		if (!world.isRemote)
 			world.playSound(null, pos, SoundEvents.malefic_hit, SoundCategory.NEUTRAL, 1.0F, 1.0F);
 	}

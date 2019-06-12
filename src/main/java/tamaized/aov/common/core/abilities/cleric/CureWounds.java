@@ -1,11 +1,11 @@
 package tamaized.aov.common.core.abilities.cleric;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.common.capabilities.CapabilityList;
@@ -29,19 +29,19 @@ public abstract class CureWounds extends AbilityBase {
 	public CureWounds(String n, int c, double r, int dmg) {
 		super(
 
-				new TextComponentTranslation(n),
+				new TranslationTextComponent(n),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.global.charges", c),
+				new TranslationTextComponent("aov.spells.global.charges", c),
 
-				new TextComponentTranslation("aov.spells.global.range", r),
+				new TranslationTextComponent("aov.spells.global.range", r),
 
-				new TextComponentTranslation("aov.spells.global.healing", dmg),
+				new TranslationTextComponent("aov.spells.global.healing", dmg),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.curewounds.desc")
+				new TranslationTextComponent("aov.spells.curewounds.desc")
 
 		);
 		name = n;
@@ -72,14 +72,14 @@ public abstract class CureWounds extends AbilityBase {
 	}
 
 	@Override
-	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+	public boolean isCastOnTarget(PlayerEntity caster, IAoVCapability cap, LivingEntity target) {
 		return IAoVCapability.canBenefit(caster, cap, target);
 	}
 
 	protected abstract int getParticleColor();
 
 	@Override
-	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase e) {
+	public boolean cast(Ability ability, PlayerEntity caster, LivingEntity e) {
 		IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (cap == null)
 			return false;
@@ -96,17 +96,17 @@ public abstract class CureWounds extends AbilityBase {
 		return true;
 	}
 
-	private void castAsMass(EntityLivingBase caster, int dmg, IAoVCapability cap) {
+	private void castAsMass(LivingEntity caster, int dmg, IAoVCapability cap) {
 		int range = (int) (getMaxDistance() * 2);
 		ParticleHelper.spawnParticleMesh(ParticleHelper.MeshType.BURST, CommonProxy.ParticleType.Heart, caster.world, caster.getPositionVector(), range, getParticleColor());
-		List<EntityLivingBase> list = caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-range, -range, -range), caster.getPosition().add(range, range, range)));
-		for (EntityLivingBase entity : list) {
+		List<LivingEntity> list = caster.world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(caster.getPosition().add(-range, -range, -range), caster.getPosition().add(range, range, range)));
+		for (LivingEntity entity : list) {
 			heal(entity, caster, dmg, cap);
 			cap.addExp(caster, 24, this);
 		}
 	}
 
-	private void heal(EntityLivingBase entity, EntityLivingBase caster, int dmg, IAoVCapability cap) {
+	private void heal(LivingEntity entity, LivingEntity caster, int dmg, IAoVCapability cap) {
 		if (entity.isEntityUndead()) {
 			entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, caster), dmg);
 			SoundEvents.playMovingSoundOnServer(SoundEvents.heal, entity);

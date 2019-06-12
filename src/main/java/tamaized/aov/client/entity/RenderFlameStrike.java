@@ -4,8 +4,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.init.Particles;
 import net.minecraft.util.ResourceLocation;
@@ -15,13 +15,13 @@ import tamaized.aov.common.entity.ProjectileFlameStrike;
 
 import java.util.Random;
 
-public class RenderFlameStrike<T extends ProjectileFlameStrike> extends Render<T> {
+public class RenderFlameStrike<T extends ProjectileFlameStrike> extends EntityRenderer<T> {
 
 	private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.MODID, "textures/entity/ray.png");
 
 	private static final Random rand = new Random();
 
-	public RenderFlameStrike(RenderManager renderManager) {
+	public RenderFlameStrike(EntityRendererManager renderManager) {
 		super(renderManager);
 	}
 

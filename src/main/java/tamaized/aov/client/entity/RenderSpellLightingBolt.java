@@ -3,8 +3,8 @@ package tamaized.aov.client.entity;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
@@ -14,9 +14,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class RenderSpellLightingBolt extends Render<EntitySpellLightningBolt> {
+public class RenderSpellLightingBolt extends EntityRenderer<EntitySpellLightningBolt> {
 
-	public RenderSpellLightingBolt(RenderManager renderManagerIn) {
+	public RenderSpellLightingBolt(EntityRendererManager renderManagerIn) {
 		super(renderManagerIn);
 	}
 

@@ -5,11 +5,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -33,7 +33,7 @@ public class EntitySpellLightningStorm extends Entity {
 
 	public final List<Cloud> clouds = Lists.newArrayList();
 	private float damage = 1F;
-	private EntityLivingBase caster;
+	private LivingEntity caster;
 	private UUID casterID;
 	private int nextMod = 30;
 
@@ -43,7 +43,7 @@ public class EntitySpellLightningStorm extends Entity {
 		ignoreFrustumCheck = true;
 	}
 
-	public EntitySpellLightningStorm(World worldIn, EntityLivingBase caster, float damage) {
+	public EntitySpellLightningStorm(World worldIn, LivingEntity caster, float damage) {
 		this(worldIn);
 		this.caster = caster;
 		this.damage = damage;
@@ -57,12 +57,12 @@ public class EntitySpellLightningStorm extends Entity {
 				nextMod = 20 + rand.nextInt(30);
 				if (caster == null && casterID != null)
 					for (Entity e : world.loadedEntityList)
-						if (e instanceof EntityLivingBase && e.getUniqueID().equals(casterID))
-							caster = (EntityLivingBase) e;
+						if (e instanceof LivingEntity && e.getUniqueID().equals(casterID))
+							caster = (LivingEntity) e;
 				final double size = width / 2F;
-				List<EntityLivingBase> list = world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(posX - size, posY - 36F, posZ - size, posX + size, posY + 3F, posZ + size));
+				List<LivingEntity> list = world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(posX - size, posY - 36F, posZ - size, posX + size, posY + 3F, posZ + size));
 				list.removeIf(e -> e == caster || !IAoVCapability.selectiveTarget(caster, CapabilityList.getCap(caster, CapabilityList.AOV, null), e));
-				EntityLivingBase entity = list.isEmpty() ? null : list.size() == 1 ? list.get(0) : list.get(rand.nextInt(list.size()));
+				LivingEntity entity = list.isEmpty() ? null : list.size() == 1 ? list.get(0) : list.get(rand.nextInt(list.size()));
 				EntitySpellLightningBolt strike = new EntitySpellLightningBolt(world, caster, damage, Abilities.lightningStorm);
 				Vec3d vec;
 				if (entity != null)
@@ -94,14 +94,14 @@ public class EntitySpellLightningStorm extends Entity {
 	}
 
 	@Override
-	protected void readAdditional(@Nonnull NBTTagCompound compound) {
+	protected void readAdditional(@Nonnull CompoundNBT compound) {
 		damage = Math.max(1F, compound.getFloat("damage"));
 		if (compound.hasUniqueId("casterID"))
 			casterID = compound.getUniqueId("casterID");
 	}
 
 	@Override
-	protected void writeAdditional(@Nonnull NBTTagCompound compound) {
+	protected void writeAdditional(@Nonnull CompoundNBT compound) {
 		if (caster != null)
 			compound.setUniqueId("casterID", caster.getUniqueID());
 		compound.setFloat("damage", damage);
@@ -123,7 +123,7 @@ public class EntitySpellLightningStorm extends Entity {
 		}
 
 		@OnlyIn(Dist.CLIENT)
-		public boolean render(@Nonnull EntitySpellLightningStorm entity, double ox, double oy, double oz, float partialTicks, RenderManager renderManager) {
+		public boolean render(@Nonnull EntitySpellLightningStorm entity, double ox, double oy, double oz, float partialTicks, EntityRendererManager renderManager) {
 			if (!Minecraft.getInstance().isGamePaused()) {
 				life -= partialTicks;
 				alpha += (life < maxLife / 2F ? -1 : 1) * partialTicks * (1F / (maxLife / 2F));

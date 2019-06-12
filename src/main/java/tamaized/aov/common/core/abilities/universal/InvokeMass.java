@@ -1,10 +1,10 @@
 package tamaized.aov.common.core.abilities.universal;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
@@ -20,13 +20,13 @@ public class InvokeMass extends AbilityBase {
 	public InvokeMass() {
 		super(
 
-				new TextComponentTranslation(getStaticName()),
+				new TranslationTextComponent(getStaticName()),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.invokemass.desc"),
+				new TranslationTextComponent("aov.spells.invokemass.desc"),
 
-				new TextComponentTranslation("aov.spells.global.double")
+				new TranslationTextComponent("aov.spells.global.double")
 
 		);
 	}
@@ -36,7 +36,7 @@ public class InvokeMass extends AbilityBase {
 	}
 
 	@Override
-	public boolean cast(Ability ability, EntityPlayer player, EntityLivingBase e) {
+	public boolean cast(Ability ability, PlayerEntity player, LivingEntity e) {
 		IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
 		if (cap == null)
 			return false;
@@ -81,7 +81,7 @@ public class InvokeMass extends AbilityBase {
 	}
 
 	@Override
-	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+	public boolean isCastOnTarget(PlayerEntity caster, IAoVCapability cap, LivingEntity target) {
 		return false;
 	}
 

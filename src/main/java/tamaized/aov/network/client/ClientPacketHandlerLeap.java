@@ -1,7 +1,7 @@
 package tamaized.aov.network.client;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.leap.ILeapCapability;
@@ -18,7 +18,7 @@ public class ClientPacketHandlerLeap implements NetworkMessages.IMessage<ClientP
 	}
 
 	@Override
-	public void handle(EntityPlayer player) {
+	public void handle(PlayerEntity player) {
 		Entity e = player.world.getEntityByID(entityID);
 		if (e != null) {
 			ILeapCapability cap = CapabilityList.getCap(e, CapabilityList.LEAP);

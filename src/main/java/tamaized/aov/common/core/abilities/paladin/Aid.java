@@ -1,13 +1,13 @@
 package tamaized.aov.common.core.abilities.paladin;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
@@ -31,17 +31,17 @@ public class Aid extends AbilityBase {
 	public Aid() {
 		super(
 
-				new TextComponentTranslation(name),
+				new TranslationTextComponent(name),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.global.charges", charges),
+				new TranslationTextComponent("aov.spells.global.charges", charges),
 
-				new TextComponentTranslation("aov.spells.global.range", range),
+				new TranslationTextComponent("aov.spells.global.range", range),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.aid.desc")
+				new TranslationTextComponent("aov.spells.aid.desc")
 
 		);
 	}
@@ -72,12 +72,12 @@ public class Aid extends AbilityBase {
 	}
 
 	@Override
-	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+	public boolean isCastOnTarget(PlayerEntity caster, IAoVCapability cap, LivingEntity target) {
 		return IAoVCapability.canBenefit(caster, cap, target);
 	}
 
 	@Override
-	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase e) {
+	public boolean cast(Ability ability, PlayerEntity caster, LivingEntity e) {
 		IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (cap == null)
 			return false;
@@ -94,16 +94,16 @@ public class Aid extends AbilityBase {
 		return true;
 	}
 
-	private void addPotionEffects(EntityLivingBase entity) {
-		entity.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 20 * (60 * 5)));
-		entity.addPotionEffect(new PotionEffect(AoVPotions.aid, 20 * (60 * 5)));
+	private void addPotionEffects(LivingEntity entity) {
+		entity.addPotionEffect(new EffectInstance(Effects.ABSORPTION, 20 * (60 * 5)));
+		entity.addPotionEffect(new EffectInstance(AoVPotions.aid, 20 * (60 * 5)));
 	}
 
-	private void castAsMass(EntityLivingBase caster, IAoVCapability cap) {
+	private void castAsMass(LivingEntity caster, IAoVCapability cap) {
 		int range = (int) (getMaxDistance() * 2);
 		ParticleHelper.spawnParticleMesh(ParticleHelper.MeshType.BURST, CommonProxy.ParticleType.Fluff, caster.world, caster.getPositionVector(), range, getParticleColor());
-		List<EntityLivingBase> list = caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-range, -range, -range), caster.getPosition().add(range, range, range)));
-		for (EntityLivingBase entity : list) {
+		List<LivingEntity> list = caster.world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(caster.getPosition().add(-range, -range, -range), caster.getPosition().add(range, range, range)));
+		for (LivingEntity entity : list) {
 			if (IAoVCapability.canBenefit(caster, cap, entity)) {
 				addPotionEffects(entity);
 				cap.addExp(caster, 12, this);

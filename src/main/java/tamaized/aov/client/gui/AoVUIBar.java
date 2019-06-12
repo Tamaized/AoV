@@ -3,7 +3,7 @@ package tamaized.aov.client.gui;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -91,10 +91,10 @@ public class AoVUIBar {
 				GlStateManager.enableBlend();
 				renderIcon(icon);
 				if (active)
-					Gui.drawRect(0, 0, 256, 256, 0x7700FFFF);
+					AbstractGui.drawRect(0, 0, 256, 256, 0x7700FFFF);
 				Ability ability = cap == null ? null : cap.getSlot(index);
 				if (ability != null && (!ability.canUse(cap) || (ability.isOnCooldown(cap) && !ability.getAbility().canUseOnCooldown(cap, mc.player))))
-					Gui.drawRect(0, 0, 256, 256, 0x77FF0000);
+					AbstractGui.drawRect(0, 0, 256, 256, 0x77FF0000);
 				GlStateManager.disableBlend();
 			}
 			GlStateManager.popMatrix();

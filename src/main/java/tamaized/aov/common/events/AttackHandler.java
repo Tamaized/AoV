@@ -3,15 +3,15 @@ package tamaized.aov.common.events;
 
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.potion.Effects;
+import net.minecraft.util.Hand;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.common.ForgeHooks;
@@ -61,7 +61,7 @@ public class AttackHandler {
 	private static boolean livingAttackState = true;
 
 	public static boolean canHurt(Entity entity) {
-		return entity instanceof EntityLivingBase && entity.hurtResistantTime <= ((EntityLivingBase) entity).maxHurtResistantTime / 2F;
+		return entity instanceof LivingEntity && entity.hurtResistantTime <= ((LivingEntity) entity).maxHurtResistantTime / 2F;
 	}
 
 	@SubscribeEvent
@@ -74,7 +74,7 @@ public class AttackHandler {
 	public static void onLivingHurtEvent(LivingHurtEvent event) {
 		Entity attacker = event.getSource().getTrueSource();
 		IAoVCapability cap = CapabilityList.getCap(attacker, CapabilityList.AOV);
-		if (attacker instanceof EntityLivingBase && cap != null && cap.hasSkill(AoVSkills.druid_core_4) && IAoVCapability.isCentered((EntityLivingBase) attacker, cap))
+		if (attacker instanceof LivingEntity && cap != null && cap.hasSkill(AoVSkills.druid_core_4) && IAoVCapability.isCentered((LivingEntity) attacker, cap))
 			event.setAmount(event.getAmount() + cap.getLevel());
 		if (event.getEntityLiving() != null && event.getEntityLiving().getActivePotionEffect(AoVPotions.shieldOfFaith) != null)
 			event.setAmount(event.getAmount() / 2F);
@@ -82,7 +82,7 @@ public class AttackHandler {
 
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void onPlayerMeleeAttack(AttackEntityEvent e) {
-		EntityPlayer player = e.getEntityPlayer();
+		PlayerEntity player = e.getEntityPlayer();
 		IPolymorphCapability poly = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
 		IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
 		if (canHurt(e.getTarget()) && cap != null && cap.getCoreSkill() == AoVSkills.druid_core_1 && IAoVCapability.isCentered(player, cap))
@@ -104,7 +104,7 @@ public class AttackHandler {
 	@SubscribeEvent
 	public static void onLivingAttack(LivingAttackEvent event) {
 		Entity attacker = event.getSource().getTrueSource();
-		EntityLivingBase entity = event.getEntityLiving();
+		LivingEntity entity = event.getEntityLiving();
 		if (entity.world.isRemote)
 			return;
 
@@ -112,7 +112,7 @@ public class AttackHandler {
 		if (poly != null) {
 			if ((poly.getMorph() == IPolymorphCapability.Morph.WaterElemental && WATER_SOURCES.contains(event.getSource())) || (poly.getMorph() == IPolymorphCapability.Morph.FireElemental && FIRE_SOURCES.contains(event.getSource()))) {
 				if (entity.hurtResistantTime <= 0) {
-					entity.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 100));
+					entity.addPotionEffect(new EffectInstance(Effects.REGENERATION, 100));
 					entity.hurtResistantTime = 60;
 				}
 				event.setCanceled(true);
@@ -131,15 +131,15 @@ public class AttackHandler {
 			if (canHurt(entity) && cap != null && cap.getDoubleStrike() > 0 && livingAttackState && attacker.world.rand.nextInt(cap.getDoubleStrikeForRand()) == 0) {
 				livingAttackState = false;
 				cap.addExp(attacker, 20, Abilities.defenderDoublestrike);
-				if (attacker instanceof EntityPlayer)
-					FloatyTextHelper.sendText((EntityPlayer) attacker, "Doublestrike");
+				if (attacker instanceof PlayerEntity)
+					FloatyTextHelper.sendText((PlayerEntity) attacker, "Doublestrike");
 				entity.attackEntityFrom(event.getSource(), event.getAmount());
 				entity.hurtResistantTime = 0;
 				livingAttackState = true;
 			}
-			EntityLivingBase attackerLiving = null;
-			if (attacker instanceof EntityLivingBase)
-				attackerLiving = (EntityLivingBase) attacker;
+			LivingEntity attackerLiving = null;
+			if (attacker instanceof LivingEntity)
+				attackerLiving = (LivingEntity) attacker;
 			if (cap != null) {
 				if (cap.hasSkill(AoVSkills.paladin_core_3) && attackerLiving != null && ((!attackerLiving.getHeldItemMainhand().isEmpty() && attackerLiving.getHeldItemMainhand().getItem().isShield(attackerLiving.getHeldItemMainhand(), attackerLiving)) || (!attackerLiving.getHeldItemOffhand().isEmpty() && attackerLiving.getHeldItemOffhand().getItem().isShield(attackerLiving.getHeldItemOffhand(), attackerLiving)))) {
 					double d1 = attacker.posX - entity.posX;
@@ -155,8 +155,8 @@ public class AttackHandler {
 
 		IAoVCapability cap = CapabilityList.getCap(entity, CapabilityList.AOV);
 		if (cap != null) {
-			if (cap.hasSkill(AoVSkills.paladin_core_1) && entity instanceof EntityPlayer) {
-				if (canBlockDamageSource((EntityPlayer) entity, event.getSource(), false) && event.getAmount() > 0.0F) {
+			if (cap.hasSkill(AoVSkills.paladin_core_1) && entity instanceof PlayerEntity) {
+				if (canBlockDamageSource((PlayerEntity) entity, event.getSource(), false) && event.getAmount() > 0.0F) {
 					cap.addExp(entity, 20, Abilities.defenderBlocking);
 				}
 			}
@@ -164,15 +164,15 @@ public class AttackHandler {
 			// Dodge
 			if (isWhiteListed(event.getSource()) && cap.getDodge() > 0 && entity.world.rand.nextInt(cap.getDodgeForRand()) == 0) {
 				cap.addExp(entity, 20, Abilities.defenderDodge);
-				if (entity instanceof EntityPlayer)
-					FloatyTextHelper.sendText((EntityPlayer) entity, "Dodged");
+				if (entity instanceof PlayerEntity)
+					FloatyTextHelper.sendText((PlayerEntity) entity, "Dodged");
 				event.setCanceled(true);
 				return;
 			}
 
 			// Elemental Empowerment - Water
-			if (attacker instanceof EntityLivingBase && poly != null && poly.getMorph() == IPolymorphCapability.Morph.WaterElemental && cap.isAuraActive(Abilities.elementalEmpowerment)) {
-				((EntityLivingBase) attacker).addPotionEffect(new PotionEffect(AoVPotions.coldChill, 20 * 20, (int) Math.floor(cap.getSpellPower() / 25F)));
+			if (attacker instanceof LivingEntity && poly != null && poly.getMorph() == IPolymorphCapability.Morph.WaterElemental && cap.isAuraActive(Abilities.elementalEmpowerment)) {
+				((LivingEntity) attacker).addPotionEffect(new EffectInstance(AoVPotions.coldChill, 20 * 20, (int) Math.floor(cap.getSpellPower() / 25F)));
 				cap.addExp(entity, 20, Abilities.elementalEmpowerment);
 			}
 
@@ -185,11 +185,11 @@ public class AttackHandler {
 
 	private static void handleShield(LivingAttackEvent e, boolean fullRadial) {
 		float damage = e.getAmount();
-		EntityPlayer player;
-		if (!(e.getEntityLiving() instanceof EntityPlayer)) {
+		PlayerEntity player;
+		if (!(e.getEntityLiving() instanceof PlayerEntity)) {
 			return;
 		}
-		player = (EntityPlayer) e.getEntityLiving();
+		player = (PlayerEntity) e.getEntityLiving();
 
 		if (canBlockDamageSource(player, e.getSource(), fullRadial) && damage > 0.0F) {
 			damageShield(player, damage);
@@ -198,8 +198,8 @@ public class AttackHandler {
 			if (!e.getSource().isProjectile()) {
 				Entity entity = e.getSource().getImmediateSource();
 
-				if (entity instanceof EntityLivingBase) {
-					EntityLivingBase p_190629_1_ = (EntityLivingBase) entity;
+				if (entity instanceof LivingEntity) {
+					LivingEntity p_190629_1_ = (LivingEntity) entity;
 					p_190629_1_.knockBack(player, 0.5F, player.posX - p_190629_1_.posX, player.posZ - p_190629_1_.posZ);
 				}
 				player.world.setEntityState(player, (byte) 29);
@@ -207,19 +207,19 @@ public class AttackHandler {
 		}
 	}
 
-	private static void damageShield(EntityPlayer player, float damage) {
+	private static void damageShield(PlayerEntity player, float damage) {
 		if (damage >= 3.0F && !player.getActiveItemStack().isEmpty()) {
 			int i = 1 + MathHelper.floor(damage);
 			player.getActiveItemStack().damageItem(i, player);
 
 			if (player.getActiveItemStack().isEmpty()) {
-				EnumHand enumhand = player.getActiveHand();
+				Hand enumhand = player.getActiveHand();
 				net.minecraftforge.event.ForgeEventFactory.onPlayerDestroyItem(player, player.getActiveItemStack(), enumhand);
 
-				if (enumhand == EnumHand.MAIN_HAND) {
-					player.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, ItemStack.EMPTY);
+				if (enumhand == Hand.MAIN_HAND) {
+					player.setItemStackToSlot(EquipmentSlotType.MAINHAND, ItemStack.EMPTY);
 				} else {
-					player.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, ItemStack.EMPTY);
+					player.setItemStackToSlot(EquipmentSlotType.OFFHAND, ItemStack.EMPTY);
 				}
 
 				player.resetActiveHand();
@@ -228,7 +228,7 @@ public class AttackHandler {
 		}
 	}
 
-	private static boolean canBlockDamageSource(EntityPlayer player, DamageSource damageSourceIn, boolean fullRadial) {
+	private static boolean canBlockDamageSource(PlayerEntity player, DamageSource damageSourceIn, boolean fullRadial) {
 		if (!damageSourceIn.isUnblockable() && player.isActiveItemStackBlocking()) {
 			Vec3d vec3d = damageSourceIn.getDamageLocation();
 

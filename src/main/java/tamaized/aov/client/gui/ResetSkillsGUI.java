@@ -1,6 +1,6 @@
 package tamaized.aov.client.gui;
 
-import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
 import tamaized.aov.AoV;
 import tamaized.aov.common.blocks.BlockAngelicBlock;
@@ -25,21 +25,21 @@ public class ResetSkillsGUI extends GuiScreenClose {
 
 	@Override
 	public void initGui() {
-		buttons.add(new GuiButton(BUTTON_CLOSE, 10, height - 25, 80, 20, I18n.format("aov.gui.button.close")) {
+		buttons.add(new Button(BUTTON_CLOSE, 10, height - 25, 80, 20, I18n.format("aov.gui.button.close")) {
 			@Override
 			public void onClick(double mouseX, double mouseY) {
 				super.onClick(mouseX, mouseY);
 				mc.player.closeScreen();
 			}
 		});
-		buttons.add(new GuiButton(BUTTON_BACK, 110, height - 25, 80, 20, I18n.format("aov.gui.button.back")) {
+		buttons.add(new Button(BUTTON_BACK, 110, height - 25, 80, 20, I18n.format("aov.gui.button.back")) {
 			@Override
 			public void onClick(double mouseX, double mouseY) {
 				super.onClick(mouseX, mouseY);
 				GuiHandler.openGui(GuiHandler.GUI.SKILLS, parent);
 			}
 		});
-		buttons.add(new GuiButton(BUTTON_RESET_FULL, width - 190, height - 25, 80, 20, I18n.format("aov.gui.button.fullreset")) {
+		buttons.add(new Button(BUTTON_RESET_FULL, width - 190, height - 25, 80, 20, I18n.format("aov.gui.button.fullreset")) {
 			@Override
 			public void onClick(double mouseX, double mouseY) {
 				super.onClick(mouseX, mouseY);
@@ -47,7 +47,7 @@ public class ResetSkillsGUI extends GuiScreenClose {
 				ClientProxy.barToggle = false;
 			}
 		});
-		buttons.add(new GuiButton(BUTTON_RESET_MINOR, width - 90, height - 25, 80, 20, I18n.format("aov.gui.button.minorreset")) {
+		buttons.add(new Button(BUTTON_RESET_MINOR, width - 90, height - 25, 80, 20, I18n.format("aov.gui.button.minorreset")) {
 			@Override
 			public void onClick(double mouseX, double mouseY) {
 				super.onClick(mouseX, mouseY);

@@ -1,16 +1,16 @@
 package tamaized.aov.common.capabilities.aov;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.IEntityOwnable;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.IAnimal;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import tamaized.aov.AoV;
@@ -35,34 +35,34 @@ public interface IAoVCapability extends IPlayerCapabilityHandler<IAoVCapability>
 	/**
 	 * @return true if can damage
 	 */
-	static boolean selectiveTarget(@Nullable Entity caster, @Nullable IAoVCapability cap, EntityLivingBase entity) {
+	static boolean selectiveTarget(@Nullable Entity caster, @Nullable IAoVCapability cap, LivingEntity entity) {
 		return caster != entity && (cap == null || !cap.hasSelectiveFocus() || // We don't have selective focus, just return true
 				caster == null || // Caster is null, what's the point, return true
 				(caster.getTeam() != null && // We are on a team
 						!caster.isOnSameTeam(entity)) || // Not the same team, return true
 				(!(entity instanceof IEntityOwnable && // Target is a possible pet
 						((IEntityOwnable) entity).getOwner() == caster) && // If this is our pet, dont do the final player check, let it return false
-						(!(entity instanceof EntityPlayer) && (!(entity instanceof IAnimal) || entity instanceof IMob)))); // Wasn't our pet, we're not on a team, is target a player or passive mob? if not return true
+						(!(entity instanceof PlayerEntity) && (!(entity instanceof IAnimal) || entity instanceof IMob)))); // Wasn't our pet, we're not on a team, is target a player or passive mob? if not return true
 		// If all the above fails, it'll return false.
 	}
 
-	static boolean canBenefit(Entity caster, IAoVCapability cap, EntityLivingBase entity) {
+	static boolean canBenefit(Entity caster, IAoVCapability cap, LivingEntity entity) {
 		return !cap.hasSelectiveFocus() || !selectiveTarget(caster, cap, entity);
 	}
 
-	static boolean isCentered(EntityLivingBase entity, IAoVCapability cap) {
+	static boolean isCentered(LivingEntity entity, IAoVCapability cap) {
 		if (entity != null && cap != null && cap.hasSkill(AoVSkills.druid_core_1)) {
 			for (ItemStack stack : entity.getArmorInventoryList())
 				if (!stack.isEmpty() && !ItemStackWrapper.compareItems(ConfigHandler.CENTERED_WEAR, stack))
 					return false;
 			if (!entity.getHeldItemMainhand().isEmpty() && !ItemStackWrapper.compareItems(ConfigHandler.CENTERED_WEAR, entity.getHeldItemMainhand()))
-				return !entity.getHeldItemMainhand().getAttributeModifiers(EntityEquipmentSlot.MAINHAND).containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
-			return entity.getHeldItemOffhand().isEmpty() || ItemStackWrapper.compareItems(ConfigHandler.CENTERED_WEAR, entity.getHeldItemOffhand()) || !entity.getHeldItemOffhand().getAttributeModifiers(EntityEquipmentSlot.OFFHAND).containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
+				return !entity.getHeldItemMainhand().getAttributeModifiers(EquipmentSlotType.MAINHAND).containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
+			return entity.getHeldItemOffhand().isEmpty() || ItemStackWrapper.compareItems(ConfigHandler.CENTERED_WEAR, entity.getHeldItemOffhand()) || !entity.getHeldItemOffhand().getAttributeModifiers(EquipmentSlotType.OFFHAND).containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
 		}
 		return false;
 	}
 
-	static boolean isImprovedCentered(EntityLivingBase entity, IAoVCapability cap) {
+	static boolean isImprovedCentered(LivingEntity entity, IAoVCapability cap) {
 		return cap != null && cap.hasSkill(AoVSkills.druid_core_4) && isCentered(entity, cap);
 	}
 
@@ -72,7 +72,7 @@ public interface IAoVCapability extends IPlayerCapabilityHandler<IAoVCapability>
 
 	void reset(boolean b);
 
-	void update(EntityPlayer player);
+	void update(PlayerEntity player);
 
 	void setCooldown(AbilityBase ability, int cd);
 
@@ -82,9 +82,9 @@ public interface IAoVCapability extends IPlayerCapabilityHandler<IAoVCapability>
 
 	void setCooldowns(Map<AbilityBase, Integer> map);
 
-	void resetCharges(EntityPlayer player);
+	void resetCharges(PlayerEntity player);
 
-	void restoreCharges(EntityLivingBase caster, int amount);
+	void restoreCharges(LivingEntity caster, int amount);
 
 	List<Ability> getAbilities();
 
@@ -136,7 +136,7 @@ public interface IAoVCapability extends IPlayerCapabilityHandler<IAoVCapability>
 
 	float getSpellPower();
 
-	int getExtraCharges(@Nullable EntityLivingBase caster, @Nullable Ability ability);
+	int getExtraCharges(@Nullable LivingEntity caster, @Nullable Ability ability);
 
 	int getDodge();
 
@@ -202,7 +202,7 @@ public interface IAoVCapability extends IPlayerCapabilityHandler<IAoVCapability>
 			this(new ItemStack(item), true);
 		}
 
-		public ItemStackWrapper(NBTTagCompound tag, boolean ignoreNBT) {
+		public ItemStackWrapper(CompoundNBT tag, boolean ignoreNBT) {
 			this(ItemStack.read(tag), ignoreNBT);
 		}
 
@@ -231,7 +231,7 @@ public interface IAoVCapability extends IPlayerCapabilityHandler<IAoVCapability>
 			return false;
 		}
 
-		public ItemStackWrapper attachNBT(NBTTagCompound tag) {
+		public ItemStackWrapper attachNBT(CompoundNBT tag) {
 			ignoreNBT = false;
 			stack.setTag(tag);
 			return this;

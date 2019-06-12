@@ -2,7 +2,7 @@ package tamaized.aov.client.events;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -40,11 +40,11 @@ public class ClientSpawnEvent {
 		if (e.phase == TickEvent.Phase.START || Minecraft.getInstance().world == null)
 			return;
 		for (Entity entity : Minecraft.getInstance().world.loadedEntityList) {
-			if (!(entity instanceof EntityLivingBase))
+			if (!(entity instanceof LivingEntity))
 				continue;
 			IStunCapability cap = CapabilityList.getCap(entity, CapabilityList.STUN);
 			if (cap != null)
-				cap.update((EntityLivingBase) entity);
+				cap.update((LivingEntity) entity);
 		}
 	}
 

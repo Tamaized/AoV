@@ -3,7 +3,7 @@ package tamaized.aov.common.helper;
 import cpw.mods.modlauncher.api.INameMappingService;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -47,7 +47,7 @@ public class UtilHelper {
 		}
 	}
 
-	public static Vec3d getSpellLocation(EntityPlayer caster, int maxDistance, @Nullable Entity target) {
+	public static Vec3d getSpellLocation(PlayerEntity caster, int maxDistance, @Nullable Entity target) {
 		if (target == null) {
 			HashSet<Entity> exclude = new HashSet<>();
 			exclude.add(caster);

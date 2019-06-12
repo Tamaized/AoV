@@ -1,7 +1,7 @@
 package tamaized.aov.network.client;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.Vec3d;
 import tamaized.aov.network.NetworkMessages;
@@ -22,7 +22,7 @@ public class ClientPacketHandlerParticle implements NetworkMessages.IMessage<Cli
 	}
 
 	@Override
-	public void handle(EntityPlayer player) {
+	public void handle(PlayerEntity player) {
 		ParticleRegistry.IParticleHandler handler = ParticleRegistry.getHandlerFromID(handlerID);
 		if (handler != null)
 			handler.execute(Minecraft.getInstance().particles, player.world, pos.x, pos.y, pos.z, vel.x, vel.y, vel.z, data);

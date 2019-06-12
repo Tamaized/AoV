@@ -3,7 +3,7 @@ package tamaized.aov.client.events;
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -91,7 +91,7 @@ public class KeyHandler {
 	public static void handle(TickEvent.ClientTickEvent e) {
 		if (e.phase == TickEvent.Phase.START)
 			return;
-		EntityPlayer player = Minecraft.getInstance().player;
+		PlayerEntity player = Minecraft.getInstance().player;
 		IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
 		if (player == null || cap == null) {
 			ClientProxy.setTarget(null);
@@ -119,7 +119,7 @@ public class KeyHandler {
 	}
 
 	private static void callbackCursorPos(long id, double x, double y) {
-		EntityPlayer player = Minecraft.getInstance().player;
+		PlayerEntity player = Minecraft.getInstance().player;
 		if (player != null) {
 			if (!player.canUpdate()) {
 				GLFW.glfwSetCursorPos(Minecraft.getInstance().mainWindow.getHandle(), mx, my);
@@ -132,7 +132,7 @@ public class KeyHandler {
 	}
 
 	private static void callbackMouseButton(long id, int button, int action, int mods) {
-		EntityPlayer player = Minecraft.getInstance().player;
+		PlayerEntity player = Minecraft.getInstance().player;
 		IPolymorphCapability poly = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
 		if (ClientProxy.barToggle || (poly != null && poly.getMorph() == IPolymorphCapability.Morph.Wolf)) {
 			KeyBinding itemUse = Minecraft.getInstance().gameSettings.keyBindUseItem;
@@ -169,7 +169,7 @@ public class KeyHandler {
 
 	private static void callbackKey(long windowPointer, int key, int scanCode, int action, int modifiers) {
 		delegate_key.invoke(windowPointer, key, scanCode, action, modifiers);
-		EntityPlayer player = Minecraft.getInstance().player;
+		PlayerEntity player = Minecraft.getInstance().player;
 		if (player == null)
 			return;
 		if (!player.canUpdate()) {
@@ -220,7 +220,7 @@ public class KeyHandler {
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void handleCamera(EntityViewRenderEvent.CameraSetup e) {
-		EntityPlayer player = Minecraft.getInstance().player;
+		PlayerEntity player = Minecraft.getInstance().player;
 		if (player == null)
 			return;
 		if (!player.canUpdate()) {
@@ -242,7 +242,7 @@ public class KeyHandler {
 
 	@SubscribeEvent
 	public static void handleDelta(TickEvent.RenderTickEvent e) {
-		EntityPlayer player = Minecraft.getInstance().player;
+		PlayerEntity player = Minecraft.getInstance().player;
 		if (player == null || e.phase == TickEvent.Phase.END)
 			return;
 		if (!player.canUpdate()) {

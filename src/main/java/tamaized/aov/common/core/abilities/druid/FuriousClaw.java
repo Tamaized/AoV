@@ -2,12 +2,12 @@ package tamaized.aov.common.core.abilities.druid;
 
 import com.google.common.collect.Sets;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.EnumHand;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
@@ -33,29 +33,29 @@ public class FuriousClaw extends AbilityBase {
 	public FuriousClaw() {
 		super(
 
-				new TextComponentTranslation(UNLOC.concat(".name")),
+				new TranslationTextComponent(UNLOC.concat(".name")),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.global.charges", CHARGES),
+				new TranslationTextComponent("aov.spells.global.charges", CHARGES),
 
-				new TextComponentTranslation("aov.spells.global.damage", DAMAGE),
+				new TranslationTextComponent("aov.spells.global.damage", DAMAGE),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation(UNLOC.concat(".desc"))
+				new TranslationTextComponent(UNLOC.concat(".desc"))
 
 		);
 	}
 
-	public static boolean invoke(byte bit, EntityPlayer caster, AbilityBase ability) {
+	public static boolean invoke(byte bit, PlayerEntity caster, AbilityBase ability) {
 		IPolymorphCapability cap = CapabilityList.getCap(caster, CapabilityList.POLYMORPH);
 		if (cap == null || cap.getMorph() != IPolymorphCapability.Morph.Wolf)
 			return false;
 		if (caster.world.isRemote)
-			caster.swingArm(EnumHand.MAIN_HAND);
+			caster.swingArm(Hand.MAIN_HAND);
 		cap.addFlagBits(bit);
-		RayTraceResult ray = RayTraceHelper.tracePath(caster.world, caster, (int) caster.getAttribute(EntityPlayer.REACH_DISTANCE).getValue(), 1, Sets.newHashSet(caster));
+		RayTraceResult ray = RayTraceHelper.tracePath(caster.world, caster, (int) caster.getAttribute(PlayerEntity.REACH_DISTANCE).getValue(), 1, Sets.newHashSet(caster));
 		if (ray != null && ray.type == RayTraceResult.Type.ENTITY) {
 			caster.attackTargetEntityWithCurrentItem(ray.entity);
 			IAoVCapability aov = CapabilityList.getCap(caster, CapabilityList.AOV);
@@ -83,7 +83,7 @@ public class FuriousClaw extends AbilityBase {
 	}
 
 	@Override
-	public int getExtraCharges(EntityLivingBase entity, IAoVCapability cap) {
+	public int getExtraCharges(LivingEntity entity, IAoVCapability cap) {
 		return IAoVCapability.isImprovedCentered(entity, cap) ? getMaxCharges() : super.getExtraCharges(entity, cap);
 	}
 
@@ -103,18 +103,18 @@ public class FuriousClaw extends AbilityBase {
 	}
 
 	@Override
-	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+	public boolean isCastOnTarget(PlayerEntity caster, IAoVCapability cap, LivingEntity target) {
 		return false;
 	}
 
 	@Override
-	public boolean shouldDisable(@Nullable EntityPlayer caster, IAoVCapability cap) {
+	public boolean shouldDisable(@Nullable PlayerEntity caster, IAoVCapability cap) {
 		IPolymorphCapability poly = CapabilityList.getCap(caster, CapabilityList.POLYMORPH);
 		return poly == null || poly.getMorph() != IPolymorphCapability.Morph.Wolf;
 	}
 
 	@Override
-	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
+	public boolean cast(Ability ability, PlayerEntity caster, LivingEntity target) {
 		return invoke(BIT, caster, this);
 	}
 

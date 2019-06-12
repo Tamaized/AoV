@@ -2,7 +2,7 @@ package tamaized.aov.client.gui;
 
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -41,7 +41,7 @@ public class AdjustElementsGUI extends GuiScreenClose {
 	public boolean mouseClicked(double mouseX, double mouseY, int id) {
 		oldMouseX = mouseX;
 		oldMouseY = mouseY;
-		for (GuiButton button : buttons) {
+		for (Button button : buttons) {
 			if (button instanceof Element) {
 				Element check = (Element) button;
 				if (mouseX >= check.x + check.defaultX && mouseX <= check.x + check.defaultX + check.width)
@@ -191,7 +191,7 @@ public class AdjustElementsGUI extends GuiScreenClose {
 		GlStateManager.popMatrix();
 	}
 
-	static class Element extends GuiButton {
+	static class Element extends Button {
 
 		private final float defaultX;
 		private final float defaultY;

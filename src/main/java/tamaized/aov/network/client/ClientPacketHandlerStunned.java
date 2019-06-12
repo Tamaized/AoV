@@ -1,7 +1,7 @@
 package tamaized.aov.network.client;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.stun.IStunCapability;
@@ -18,7 +18,7 @@ public class ClientPacketHandlerStunned implements NetworkMessages.IMessage<Clie
 	}
 
 	@Override
-	public void handle(EntityPlayer player) {
+	public void handle(PlayerEntity player) {
 		Entity e = player.world.getEntityByID(entityID);
 		if (e != null) {
 			IStunCapability cap = CapabilityList.getCap(e, CapabilityList.STUN);

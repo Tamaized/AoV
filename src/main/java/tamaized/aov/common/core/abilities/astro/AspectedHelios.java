@@ -1,13 +1,13 @@
 package tamaized.aov.common.core.abilities.astro;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.Effects;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
@@ -32,19 +32,19 @@ public class AspectedHelios extends AbilityBase {
 	public AspectedHelios() {
 		super(
 
-				new TextComponentTranslation(getStaticName()),
+				new TranslationTextComponent(getStaticName()),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.global.charges", charges),
+				new TranslationTextComponent("aov.spells.global.charges", charges),
 
-				new TextComponentTranslation("aov.spells.global.range", distance),
+				new TranslationTextComponent("aov.spells.global.range", distance),
 
-				new TextComponentTranslation("aov.spells.global.healing", heal),
+				new TranslationTextComponent("aov.spells.global.healing", heal),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.aspectedhelios.desc")
+				new TranslationTextComponent("aov.spells.aspectedhelios.desc")
 
 		);
 	}
@@ -90,22 +90,22 @@ public class AspectedHelios extends AbilityBase {
 	}
 
 	@Override
-	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+	public boolean isCastOnTarget(PlayerEntity caster, IAoVCapability cap, LivingEntity target) {
 		return false;
 	}
 
 	@Override
-	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
+	public boolean cast(Ability ability, PlayerEntity caster, LivingEntity target) {
 		IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (cap == null)
 			return false;
-		EntityLivingBase e = target != null && IAoVCapability.canBenefit(caster, cap, target) ? target : caster;
-		List<EntityLivingBase> list = e.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(e.getPosition().add(-distance, -distance, -distance), e.getPosition().add(distance, distance, distance)));
-		for (EntityLivingBase entity : list) {
+		LivingEntity e = target != null && IAoVCapability.canBenefit(caster, cap, target) ? target : caster;
+		List<LivingEntity> list = e.world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(e.getPosition().add(-distance, -distance, -distance), e.getPosition().add(distance, distance, distance)));
+		for (LivingEntity entity : list) {
 			if (entity == caster || IAoVCapability.canBenefit(caster, cap, entity)) {
 				entity.heal(heal);
 				entity.world.spawnEntity(new EntitySpellAoVParticles(entity.world, entity, CommonProxy.ParticleType.Heart, 0x00FF87FF, 5));
-				entity.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 600));
+				entity.addPotionEffect(new EffectInstance(Effects.REGENERATION, 600));
 			}
 			cap.addExp(caster, 15, this);
 		}

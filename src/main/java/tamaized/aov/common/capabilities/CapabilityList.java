@@ -1,10 +1,10 @@
 package tamaized.aov.common.capabilities;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityProvider;
@@ -58,117 +58,117 @@ public class CapabilityList {
 		return getCap(provider, cap, null);
 	}
 
-	public static <T> T getCap(@Nullable ICapabilityProvider provider, Capability<T> cap, @Nullable EnumFacing face) {
+	public static <T> T getCap(@Nullable ICapabilityProvider provider, Capability<T> cap, @Nullable Direction face) {
 		LazyOptional<T> data = provider != null ? provider.getCapability(cap, face) : null;
 		return data != null && data.isPresent() ? data.orElseThrow(IllegalStateException::new) : null;
 	}
 
 	@SubscribeEvent
 	public static void attachCapabilityEntity(AttachCapabilitiesEvent<Entity> e) {
-		if (e.getObject() instanceof EntityPlayer) {
-			e.addCapability(IAoVCapability.ID, new ICapabilitySerializable<NBTTagCompound>() {
+		if (e.getObject() instanceof PlayerEntity) {
+			e.addCapability(IAoVCapability.ID, new ICapabilitySerializable<CompoundNBT>() {
 
 				IAoVCapability inst = AOV.getDefaultInstance();
 
 				@Nonnull
 				@Override
-				public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
+				public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, Direction facing) {
 					return AOV.orEmpty(capability, LazyOptional.of(() -> inst)).cast();
 				}
 
 				@Override
-				public NBTTagCompound serializeNBT() {
-					return (NBTTagCompound) AOV.getStorage().writeNBT(AOV, inst, null);
+				public CompoundNBT serializeNBT() {
+					return (CompoundNBT) AOV.getStorage().writeNBT(AOV, inst, null);
 				}
 
 				@Override
-				public void deserializeNBT(NBTTagCompound nbt) {
+				public void deserializeNBT(CompoundNBT nbt) {
 					AOV.getStorage().readNBT(AOV, inst, null, nbt);
 				}
 
 			});
-			e.addCapability(IAstroCapability.ID, new ICapabilitySerializable<NBTTagCompound>() {
+			e.addCapability(IAstroCapability.ID, new ICapabilitySerializable<CompoundNBT>() {
 
 				IAstroCapability inst = ASTRO.getDefaultInstance();
 
 				@Nonnull
 				@Override
-				public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
+				public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, Direction facing) {
 					return ASTRO.orEmpty(capability, LazyOptional.of(() -> inst)).cast();
 				}
 
 				@Override
-				public NBTTagCompound serializeNBT() {
-					return (NBTTagCompound) ASTRO.getStorage().writeNBT(ASTRO, inst, null);
+				public CompoundNBT serializeNBT() {
+					return (CompoundNBT) ASTRO.getStorage().writeNBT(ASTRO, inst, null);
 				}
 
 				@Override
-				public void deserializeNBT(NBTTagCompound nbt) {
+				public void deserializeNBT(CompoundNBT nbt) {
 					ASTRO.getStorage().readNBT(ASTRO, inst, null, nbt);
 				}
 
 			});
-			e.addCapability(IPolymorphCapability.ID, new ICapabilitySerializable<NBTTagCompound>() {
+			e.addCapability(IPolymorphCapability.ID, new ICapabilitySerializable<CompoundNBT>() {
 
 				IPolymorphCapability inst = POLYMORPH.getDefaultInstance();
 
 				@Nonnull
 				@Override
-				public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
+				public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, Direction facing) {
 					return POLYMORPH.orEmpty(capability, LazyOptional.of(() -> inst)).cast();
 				}
 
 				@Override
-				public NBTTagCompound serializeNBT() {
-					return (NBTTagCompound) POLYMORPH.getStorage().writeNBT(POLYMORPH, inst, null);
+				public CompoundNBT serializeNBT() {
+					return (CompoundNBT) POLYMORPH.getStorage().writeNBT(POLYMORPH, inst, null);
 				}
 
 				@Override
-				public void deserializeNBT(NBTTagCompound nbt) {
+				public void deserializeNBT(CompoundNBT nbt) {
 					POLYMORPH.getStorage().readNBT(POLYMORPH, inst, null, nbt);
 				}
 
 			});
 		}
-		if (e.getObject() instanceof EntityLivingBase) {
-			e.addCapability(IStunCapability.ID, new ICapabilitySerializable<NBTTagCompound>() {
+		if (e.getObject() instanceof LivingEntity) {
+			e.addCapability(IStunCapability.ID, new ICapabilitySerializable<CompoundNBT>() {
 
 				IStunCapability inst = STUN.getDefaultInstance();
 
 				@Nonnull
 				@Override
-				public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
+				public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, Direction facing) {
 					return STUN.orEmpty(capability, LazyOptional.of(() -> inst)).cast();
 				}
 
 				@Override
-				public NBTTagCompound serializeNBT() {
-					return (NBTTagCompound) STUN.getStorage().writeNBT(STUN, inst, null);
+				public CompoundNBT serializeNBT() {
+					return (CompoundNBT) STUN.getStorage().writeNBT(STUN, inst, null);
 				}
 
 				@Override
-				public void deserializeNBT(NBTTagCompound nbt) {
+				public void deserializeNBT(CompoundNBT nbt) {
 					STUN.getStorage().readNBT(STUN, inst, null, nbt);
 				}
 
 			});
-			e.addCapability(ILeapCapability.ID, new ICapabilitySerializable<NBTTagCompound>() {
+			e.addCapability(ILeapCapability.ID, new ICapabilitySerializable<CompoundNBT>() {
 
 				ILeapCapability inst = LEAP.getDefaultInstance();
 
 				@Nonnull
 				@Override
-				public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
+				public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, Direction facing) {
 					return LEAP.orEmpty(capability, LazyOptional.of(() -> inst)).cast();
 				}
 
 				@Override
-				public NBTTagCompound serializeNBT() {
-					return (NBTTagCompound) LEAP.getStorage().writeNBT(LEAP, inst, null);
+				public CompoundNBT serializeNBT() {
+					return (CompoundNBT) LEAP.getStorage().writeNBT(LEAP, inst, null);
 				}
 
 				@Override
-				public void deserializeNBT(NBTTagCompound nbt) {
+				public void deserializeNBT(CompoundNBT nbt) {
 					LEAP.getStorage().readNBT(LEAP, inst, null, nbt);
 				}
 
@@ -202,7 +202,7 @@ public class CapabilityList {
 		}
 	}
 
-	public static <C extends IPlayerCapabilityHandler<C>> void handlePlayerCopy(EntityPlayer player, EntityPlayer old, Capability<C> cap) {
+	public static <C extends IPlayerCapabilityHandler<C>> void handlePlayerCopy(PlayerEntity player, PlayerEntity old, Capability<C> cap) {
 		C newCap = getCap(player, cap);
 		C oldCap = getCap(old, cap);
 		if (newCap != null && oldCap != null) {

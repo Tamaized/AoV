@@ -1,6 +1,6 @@
 package tamaized.aov.client.gui;
 
-import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
 import tamaized.aov.common.blocks.BlockAngelicBlock;
 import tamaized.aov.common.capabilities.CapabilityList;
@@ -26,14 +26,14 @@ public class ShowStatsGUI extends GuiScreenClose {
 		float workW = width - padding;
 		int loc1 = (int) (workW * .25) + margin;
 		int loc2 = (int) (workW * .75) + margin;
-		buttons.add(new GuiButton(BUTTON_BACK, loc1, height - 25, 80, 20, I18n.format("aov.gui.button.back")) {
+		buttons.add(new Button(BUTTON_BACK, loc1, height - 25, 80, 20, I18n.format("aov.gui.button.back")) {
 			@Override
 			public void onClick(double mouseX, double mouseY) {
 				super.onClick(mouseX, mouseY);
 				GuiHandler.openGui(GuiHandler.GUI.SKILLS, parent);
 			}
 		});
-		buttons.add(new GuiButton(BUTTON_CLOSE, loc2, height - 25, 80, 20, I18n.format("aov.gui.button.close")) {
+		buttons.add(new Button(BUTTON_CLOSE, loc2, height - 25, 80, 20, I18n.format("aov.gui.button.close")) {
 			@Override
 			public void onClick(double mouseX, double mouseY) {
 				super.onClick(mouseX, mouseY);

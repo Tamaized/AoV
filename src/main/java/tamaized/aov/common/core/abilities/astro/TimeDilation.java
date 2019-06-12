@@ -1,12 +1,12 @@
 package tamaized.aov.common.core.abilities.astro;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.init.Particles;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
@@ -27,15 +27,15 @@ public class TimeDilation extends AbilityBase {
 	public TimeDilation() {
 		super(
 
-				new TextComponentTranslation(getStaticName()),
+				new TranslationTextComponent(getStaticName()),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.global.range", distance),
+				new TranslationTextComponent("aov.spells.global.range", distance),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.timedilation.desc")
+				new TranslationTextComponent("aov.spells.timedilation.desc")
 
 		);
 	}
@@ -81,17 +81,17 @@ public class TimeDilation extends AbilityBase {
 	}
 
 	@Override
-	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+	public boolean isCastOnTarget(PlayerEntity caster, IAoVCapability cap, LivingEntity target) {
 		return IAoVCapability.canBenefit(caster, cap, target);
 	}
 
 	@Override
-	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
+	public boolean cast(Ability ability, PlayerEntity caster, LivingEntity target) {
 		IAoVCapability aov = CapabilityList.getCap(caster, CapabilityList.AOV);
-		EntityLivingBase entity = target != null && aov != null && IAoVCapability.canBenefit(caster, aov, target) ? target : caster;
-		for (PotionEffect effect : entity.getActivePotionEffects())
+		LivingEntity entity = target != null && aov != null && IAoVCapability.canBenefit(caster, aov, target) ? target : caster;
+		for (EffectInstance effect : entity.getActivePotionEffects())
 			if (!effect.getPotion().isBadEffect())
-				entity.addPotionEffect(new PotionEffect(effect.getPotion(), effect.getDuration() * 2, effect.getAmplifier(), effect.isAmbient(), effect.doesShowParticles()));
+				entity.addPotionEffect(new EffectInstance(effect.getPotion(), effect.getDuration() * 2, effect.getAmplifier(), effect.isAmbient(), effect.doesShowParticles()));
 		if (!entity.world.isRemote) {
 			SoundEvents.playMovingSoundOnServer(SoundEvents.timedilation, entity);
 			entity.world.spawnEntity(new EntitySpellVanillaParticles(entity.world, entity, Particles.HAPPY_VILLAGER, 3));

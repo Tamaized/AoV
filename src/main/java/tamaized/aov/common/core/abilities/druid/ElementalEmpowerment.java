@@ -1,13 +1,13 @@
 package tamaized.aov.common.core.abilities.druid;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.init.Particles;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
@@ -37,19 +37,19 @@ public class ElementalEmpowerment extends AbilityBase implements IAura {
 	public ElementalEmpowerment() {
 		super(
 
-				new TextComponentTranslation(UNLOC.concat(".name")),
+				new TranslationTextComponent(UNLOC.concat(".name")),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation("aov.spells.global.charges", CHARGES),
+				new TranslationTextComponent("aov.spells.global.charges", CHARGES),
 
-				new TextComponentTranslation("aov.spells.global.range", RANGE),
+				new TranslationTextComponent("aov.spells.global.range", RANGE),
 
-				new TextComponentTranslation("aov.spells.global.damage", DAMAGE),
+				new TranslationTextComponent("aov.spells.global.damage", DAMAGE),
 
-				new TextComponentTranslation(""),
+				new TranslationTextComponent(""),
 
-				new TextComponentTranslation(UNLOC.concat(".desc"))
+				new TranslationTextComponent(UNLOC.concat(".desc"))
 
 		);
 	}
@@ -86,18 +86,18 @@ public class ElementalEmpowerment extends AbilityBase implements IAura {
 	}
 
 	@Override
-	public boolean isCastOnTarget(EntityPlayer caster, IAoVCapability cap, EntityLivingBase target) {
+	public boolean isCastOnTarget(PlayerEntity caster, IAoVCapability cap, LivingEntity target) {
 		return false;
 	}
 
 	@Override
-	public boolean shouldDisable(@Nullable EntityPlayer caster, IAoVCapability cap) {
+	public boolean shouldDisable(@Nullable PlayerEntity caster, IAoVCapability cap) {
 		IPolymorphCapability poly = CapabilityList.getCap(caster, CapabilityList.POLYMORPH);
 		return poly == null || (poly.getMorph() != IPolymorphCapability.Morph.FireElemental && poly.getMorph() != IPolymorphCapability.Morph.WaterElemental);
 	}
 
 	@Override
-	public boolean cast(Ability ability, EntityPlayer caster, EntityLivingBase target) {
+	public boolean cast(Ability ability, PlayerEntity caster, LivingEntity target) {
 		IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (cap == null)
 			return false;
@@ -122,7 +122,7 @@ public class ElementalEmpowerment extends AbilityBase implements IAura {
 	}
 
 	@Override
-	public void castAsAura(EntityPlayer caster, IAoVCapability cap, int life) {
+	public void castAsAura(PlayerEntity caster, IAoVCapability cap, int life) {
 		IPolymorphCapability poly = CapabilityList.getCap(caster, CapabilityList.POLYMORPH);
 		if (poly != null) {
 			switch (poly.getMorph()) {
@@ -133,8 +133,8 @@ public class ElementalEmpowerment extends AbilityBase implements IAura {
 					ParticleHelper.spawnVanillaParticleOnServer(caster.world, Particles.FLAME, caster.posX + caster.world.rand.nextDouble() * 1.5F - 0.75F, caster.posY + caster.getEyeHeight() - 0.25F + caster.world.rand.nextDouble() * 1.5F - 0.75F, caster.posZ + caster.world.rand.nextDouble() * 1.5F - 0.75F, 0, 0, 0);
 					float damage = DAMAGE * (1F + (cap.getSpellPower() / 100F));
 					if (life > 0 && life % (3 * 20) == 0) {
-						List<EntityLivingBase> list = caster.world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(caster.getPosition().add(-RANGE, -RANGE, -RANGE), caster.getPosition().add(RANGE, RANGE, RANGE)));
-						for (EntityLivingBase entity : list) {
+						List<LivingEntity> list = caster.world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(caster.getPosition().add(-RANGE, -RANGE, -RANGE), caster.getPosition().add(RANGE, RANGE, RANGE)));
+						for (LivingEntity entity : list) {
 							if (IAoVCapability.selectiveTarget(caster, cap, entity) && entity.attackEntityFrom(DamageSource.IN_FIRE, damage)) {
 								entity.setFire(5);
 								cap.addExp(caster, 20, this);
