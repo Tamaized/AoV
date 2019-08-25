@@ -2,19 +2,20 @@ package tamaized.aov.common.entity;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.IProjectile;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.EndermanEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.SChangeGameStatePacket;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
-import net.minecraft.init.Particles;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -28,6 +29,7 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.AbilityBase;
+import tamaized.aov.network.SpawnEntityPacket;
 
 import javax.annotation.Nonnull;
 
@@ -53,7 +55,6 @@ public abstract class ProjectileBase extends AbstractArrowEntity implements IPro
 		startingPoint = getPositionVector();
 		pickupStatus = AbstractArrowEntity.PickupStatus.DISALLOWED;
 		damage = 2.0D;
-		setSize(0.5F, 0.5F);
 		ignoreFrustumCheck = true;
 	}
 
@@ -82,7 +83,7 @@ public abstract class ProjectileBase extends AbstractArrowEntity implements IPro
 		shootingEntity = shooter;
 		damage = dmg;
 		double d0 = target.posX - posX;
-		double d1 = target.getBoundingBox().minY + (double) (target.height / 2.0F) - posY;
+		double d1 = target.getBoundingBox().minY + (double) (target.getHeight() / 2.0F) - posY;
 		double d2 = target.posZ - posZ;
 		shoot(d0, d1/* + d3 * 0.20000000298023224D */, d2, 1.6F, (float) (14 - world.getDifficulty().getId() * 4));
 	}
@@ -102,9 +103,7 @@ public abstract class ProjectileBase extends AbstractArrowEntity implements IPro
 	}
 
 	public void setTheVelocity(double x, double y, double z) {
-		this.motionX = x;
-		this.motionY = y;
-		this.motionZ = z;
+		setMotion(x, y, z);
 
 		if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F) {
 			float f = MathHelper.sqrt(x * x + z * z);
@@ -191,9 +190,9 @@ public abstract class ProjectileBase extends AbstractArrowEntity implements IPro
 		baseTick();
 
 		if (prevRotationPitch == 0.0F && prevRotationYaw == 0.0F) {
-			float f = MathHelper.sqrt(motionX * motionX + motionZ * motionZ);
-			prevRotationYaw = rotationYaw = (float) (Math.atan2(motionX, motionZ) * (180.0D / Math.PI));
-			prevRotationPitch = rotationPitch = (float) (Math.atan2(motionY, (double) f) * (180.0D / Math.PI));
+			float f = MathHelper.sqrt(getMotion().x * getMotion().x + getMotion().z * getMotion().z);
+			prevRotationYaw = rotationYaw = (float) (Math.atan2(getMotion().x, getMotion().z) * (180.0D / Math.PI));
+			prevRotationPitch = rotationPitch = (float) (Math.atan2(getMotion().y, (double) f) * (180.0D / Math.PI));
 		}
 
 		BlockPos blockpos = new BlockPos(posX, posY, posZ);
@@ -202,7 +201,7 @@ public abstract class ProjectileBase extends AbstractArrowEntity implements IPro
 		if (!iblockstate.isAir(this.world, blockpos)) {
 			VoxelShape voxelshape = iblockstate.getCollisionShape(this.world, blockpos);
 			if (!voxelshape.isEmpty()) {
-				for(AxisAlignedBB axisalignedbb : voxelshape.toBoundingBoxList()) {
+				for (AxisAlignedBB axisalignedbb : voxelshape.toBoundingBoxList()) {
 					if (axisalignedbb.offset(blockpos).contains(new Vec3d(this.posX, this.posY, this.posZ))) {
 						blockHit(iblockstate, blockpos);
 						remove();
@@ -227,13 +226,13 @@ public abstract class ProjectileBase extends AbstractArrowEntity implements IPro
 				onHit(e);
 			}
 
-		posX += motionX * speed;
-		posY += motionY * speed;
-		posZ += motionZ * speed;
-		float f4 = MathHelper.sqrt(motionX * motionX + motionZ * motionZ);
-		rotationYaw = (float) (Math.atan2(motionX, motionZ) * (180.0D / Math.PI));
+		posX += getMotion().x * speed;
+		posY += getMotion().y * speed;
+		posZ += getMotion().z * speed;
+		float f4 = MathHelper.sqrt(getMotion().x * getMotion().x + getMotion().z * getMotion().z);
+		rotationYaw = (float) (Math.atan2(getMotion().x, getMotion().z) * (180.0D / Math.PI));
 
-		rotationPitch = (float) (MathHelper.atan2(motionY, (double) f4) * (180D / Math.PI));
+		rotationPitch = (float) (MathHelper.atan2(getMotion().y, (double) f4) * (180D / Math.PI));
 		while (rotationPitch - prevRotationPitch < -180.0F) {
 			prevRotationPitch -= 360.0F;
 		}
@@ -259,7 +258,7 @@ public abstract class ProjectileBase extends AbstractArrowEntity implements IPro
 			remove();
 			for (int l = 0; l < 4; ++l) {
 				f4 = 0.25F;
-				world.spawnParticle(Particles.BUBBLE, posX - motionX * (double) f4, posY - motionY * (double) f4, posZ - motionZ * (double) f4, motionX, motionY, motionZ);
+				world.addParticle(ParticleTypes.BUBBLE, posX - getMotion().x * (double) f4, posY - getMotion().y * (double) f4, posZ - getMotion().z * (double) f4, getMotion().x, getMotion().y, getMotion().z);
 			}
 			f1 = 0.6F;
 		}
@@ -267,10 +266,7 @@ public abstract class ProjectileBase extends AbstractArrowEntity implements IPro
 		if (isWet())
 			extinguish();
 
-		motionX *= (double) f1;
-		motionY *= (double) f1;
-		motionZ *= (double) f1;
-		motionY -= (double) f2;
+		setMotion(getMotion().x * (double) f1, getMotion().y * (double) f1 - (double) f2, getMotion().z * (double) f1);
 		setPosition(posX, posY, posZ);
 		doBlockCollisions();
 	}
@@ -311,14 +307,12 @@ public abstract class ProjectileBase extends AbstractArrowEntity implements IPro
 				remove();
 			}
 		} else {
-			motionX *= -0.10000000149011612D;
-			motionY *= -0.10000000149011612D;
-			motionZ *= -0.10000000149011612D;
+			setMotion(getMotion().x * -0.10000000149011612D, getMotion().y * -0.10000000149011612D, getMotion().z * -0.10000000149011612D);
 			rotationYaw += 180.0F;
 			prevRotationYaw += 180.0F;
 			ticksInAir = 0;
 
-			if (!world.isRemote && motionX * motionX + motionY * motionY + motionZ * motionZ < 0.0010000000474974513D) {
+			if (!world.isRemote && getMotion().x * getMotion().x + getMotion().y * getMotion().y + getMotion().z * getMotion().z < 0.0010000000474974513D) {
 				if (pickupStatus == AbstractArrowEntity.PickupStatus.ALLOWED) {
 					entityDropItem(getArrowStack(), 0.1F);
 				}
@@ -335,10 +329,10 @@ public abstract class ProjectileBase extends AbstractArrowEntity implements IPro
 
 	@Override
 	public void writeAdditional(CompoundNBT nbt) {
-		nbt.setDouble("damage", damage);
-		nbt.setFloat("range", range);
-		nbt.setDouble("speed", speed);
-		nbt.setInt("maxRange", maxRange);
+		nbt.putDouble("damage", damage);
+		nbt.putFloat("range", range);
+		nbt.putDouble("speed", speed);
+		nbt.putInt("maxRange", maxRange);
 	}
 
 	@Override
@@ -367,6 +361,12 @@ public abstract class ProjectileBase extends AbstractArrowEntity implements IPro
 	@Override
 	protected ItemStack getArrowStack() {
 		return ItemStack.EMPTY;
+	}
+
+	@Nonnull
+	@Override
+	public IPacket<?> createSpawnPacket() {
+		return new SpawnEntityPacket(this);
 	}
 
 }

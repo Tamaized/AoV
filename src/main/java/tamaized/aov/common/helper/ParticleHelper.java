@@ -12,12 +12,12 @@ import tamaized.aov.proxy.CommonProxy;
 public class ParticleHelper {
 
 	public static void spawnVanillaParticleOnServer(World world, BasicParticleType particle, double x, double y, double z, double xS, double yS, double zS) {
-		world.spawnParticle(particle, x, y, z, xS, yS, zS);
+		world.addParticle(particle, x, y, z, xS, yS, zS);
 	}
 
 	public static void spawnParticleMesh(MeshType type, CommonProxy.ParticleType particle, World world, Vec3d target, int range, int color) {
 		if (!world.isRemote) {
-			AoV.network.send(PacketDistributor.TRACKING_CHUNK.with(() -> world.getChunk(new BlockPos(target.x, target.y, target.z))), new ClientPacketHandlerParticleMesh(type, particle, target, range, color));
+			AoV.network.send(PacketDistributor.TRACKING_CHUNK.with(() -> world.getChunkAt(new BlockPos(target.x, target.y, target.z))), new ClientPacketHandlerParticleMesh(type, particle, target, range, color));
 		} else {
 			switch (type) {
 				case BURST:

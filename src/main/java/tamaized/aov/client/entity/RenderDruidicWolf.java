@@ -1,6 +1,6 @@
 package tamaized.aov.client.entity;
 
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.WolfRenderer;
 import net.minecraft.entity.passive.WolfEntity;

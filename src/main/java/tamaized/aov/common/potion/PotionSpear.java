@@ -2,10 +2,12 @@ package tamaized.aov.common.potion;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.gui.DisplayEffectsScreen;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.EffectType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -18,10 +20,9 @@ public class PotionSpear extends Effect {
 	private final ResourceLocation iconTexture;
 
 	public PotionSpear(String name) {
-		super(false, 0x0000FF);
+		super(EffectType.BENEFICIAL, 0x0000FF);
 		iconTexture = new ResourceLocation(AoV.MODID, "textures/potions/" + name + ".png");
 		setRegistryName(AoV.MODID, name);
-		setBeneficial();
 	}
 
 	@Override
@@ -41,11 +42,11 @@ public class PotionSpear extends Effect {
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void renderInventoryEffect(EffectInstance effect, AbstractGui gui, int x, int y, float z) {
+	public void renderInventoryEffect(EffectInstance effect, DisplayEffectsScreen<?> gui, int x, int y, float z) {
 		Minecraft.getInstance().getTextureManager().bindTexture(iconTexture);
 		GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f);
 		GlStateManager.enableBlend();
-		AbstractGui.drawModalRectWithCustomSizedTexture(x + 7, y + 8, 0, 0, 16, 16, 16, 16);
+		AbstractGui.blit(x + 7, y + 8, 0, 0, 16, 16, 16, 16);
 		GlStateManager.disableBlend();
 		GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f);
 	}
@@ -55,7 +56,7 @@ public class PotionSpear extends Effect {
 	public void renderHUDEffect(EffectInstance effect, AbstractGui gui, int x, int y, float z, float alpha) {
 		Minecraft.getInstance().getTextureManager().bindTexture(iconTexture);
 		GlStateManager.enableBlend();
-		AbstractGui.drawModalRectWithCustomSizedTexture(x + 4, y + 4, 0, 0, 16, 16, 16, 16);
+		AbstractGui.blit(x + 4, y + 4, 0, 0, 16, 16, 16, 16);
 		GlStateManager.disableBlend();
 		GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f);
 	}

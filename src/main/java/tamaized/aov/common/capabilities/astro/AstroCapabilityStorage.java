@@ -11,10 +11,10 @@ public class AstroCapabilityStorage implements IStorage<IAstroCapability> {
 	@Override
 	public INBT writeNBT(Capability<IAstroCapability> capability, IAstroCapability instance, Direction side) {
 		CompoundNBT nbt = new CompoundNBT();
-		nbt.setInt("draw", IAstroCapability.ICard.getCardID(instance.getDraw()));
-		nbt.setInt("spread", IAstroCapability.ICard.getCardID(instance.getSpread()));
-		nbt.setInt("burn", IAstroCapability.ICard.getCardID(instance.getBurn()));
-		nbt.setInt("drawtime", instance.getDrawTime());
+		nbt.putInt("draw", IAstroCapability.ICard.getCardID(instance.getDraw()));
+		nbt.putInt("spread", IAstroCapability.ICard.getCardID(instance.getSpread()));
+		nbt.putInt("burn", IAstroCapability.ICard.getCardID(instance.getBurn()));
+		nbt.putInt("drawtime", instance.getDrawTime());
 		return nbt;
 	}
 

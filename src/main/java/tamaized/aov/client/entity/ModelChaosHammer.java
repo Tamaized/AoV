@@ -1,10 +1,10 @@
 package tamaized.aov.client.entity;
 
+import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.client.renderer.model.Model;
 import net.minecraft.entity.Entity;
 
-public class ModelChaosHammer extends Model {
+public class ModelChaosHammer extends EntityModel {
 
 	public RendererModel handle;
 	public RendererModel head;

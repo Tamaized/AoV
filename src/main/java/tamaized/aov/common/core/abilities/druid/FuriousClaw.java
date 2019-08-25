@@ -6,6 +6,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
@@ -55,9 +56,9 @@ public class FuriousClaw extends AbilityBase {
 		if (caster.world.isRemote)
 			caster.swingArm(Hand.MAIN_HAND);
 		cap.addFlagBits(bit);
-		RayTraceResult ray = RayTraceHelper.tracePath(caster.world, caster, (int) caster.getAttribute(PlayerEntity.REACH_DISTANCE).getValue(), 1, Sets.newHashSet(caster));
-		if (ray != null && ray.type == RayTraceResult.Type.ENTITY) {
-			caster.attackTargetEntityWithCurrentItem(ray.entity);
+		RayTraceResult ray = RayTraceHelper.tracePath(caster, caster.world, caster, (int) caster.getAttribute(PlayerEntity.REACH_DISTANCE).getValue(), 1, Sets.newHashSet(caster));
+		if (ray instanceof EntityRayTraceResult) {
+			caster.attackTargetEntityWithCurrentItem(((EntityRayTraceResult) ray).getEntity());
 			IAoVCapability aov = CapabilityList.getCap(caster, CapabilityList.AOV);
 			if (aov != null)
 				aov.addExp(caster, 20, ability);

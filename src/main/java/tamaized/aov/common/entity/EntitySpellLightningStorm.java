@@ -3,24 +3,27 @@ package tamaized.aov.common.entity;
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.opengl.GL11;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
+import tamaized.aov.network.SpawnEntityPacket;
 import tamaized.aov.registry.AoVEntities;
 
 import javax.annotation.Nonnull;
@@ -28,6 +31,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class EntitySpellLightningStorm extends Entity {
 
@@ -39,7 +43,6 @@ public class EntitySpellLightningStorm extends Entity {
 
 	public EntitySpellLightningStorm(World worldIn) {
 		super(Objects.requireNonNull(AoVEntities.entityspelllightningstorm), worldIn);
-		setSize(12F, 0.1F);
 		ignoreFrustumCheck = true;
 	}
 
@@ -55,11 +58,11 @@ public class EntitySpellLightningStorm extends Entity {
 		if (!world.isRemote) {
 			if (ticksExisted % nextMod == 0) {
 				nextMod = 20 + rand.nextInt(30);
-				if (caster == null && casterID != null)
-					for (Entity e : world.loadedEntityList)
+				if (caster == null && casterID != null && world instanceof ServerWorld)
+					for (Entity e : ((ServerWorld) world).getEntities().collect(Collectors.toList()))
 						if (e instanceof LivingEntity && e.getUniqueID().equals(casterID))
 							caster = (LivingEntity) e;
-				final double size = width / 2F;
+				final double size = getWidth() / 2F;
 				List<LivingEntity> list = world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(posX - size, posY - 36F, posZ - size, posX + size, posY + 3F, posZ + size));
 				list.removeIf(e -> e == caster || !IAoVCapability.selectiveTarget(caster, CapabilityList.getCap(caster, CapabilityList.AOV, null), e));
 				LivingEntity entity = list.isEmpty() ? null : list.size() == 1 ? list.get(0) : list.get(rand.nextInt(list.size()));
@@ -70,7 +73,7 @@ public class EntitySpellLightningStorm extends Entity {
 				else
 					vec = getNextPos();
 				strike.setPosition(vec.x, vec.y, vec.z);
-				world.spawnEntity(strike);
+				world.addEntity(strike);
 			}
 		}
 		if (ticksExisted >= 400)
@@ -78,7 +81,7 @@ public class EntitySpellLightningStorm extends Entity {
 	}
 
 	private double getNextCoord() {
-		return rand.nextDouble() * width - (width / 2F);
+		return rand.nextDouble() * getWidth() - (getWidth() / 2F);
 	}
 
 	private Vec3d getNextPos() {
@@ -103,8 +106,8 @@ public class EntitySpellLightningStorm extends Entity {
 	@Override
 	protected void writeAdditional(@Nonnull CompoundNBT compound) {
 		if (caster != null)
-			compound.setUniqueId("casterID", caster.getUniqueID());
-		compound.setFloat("damage", damage);
+			compound.putUniqueId("casterID", caster.getUniqueID());
+		compound.putFloat("damage", damage);
 	}
 
 	public static class Cloud {
@@ -156,6 +159,12 @@ public class EntitySpellLightningStorm extends Entity {
 			return life <= 0;
 		}
 
+	}
+
+	@Nonnull
+	@Override
+	public IPacket<?> createSpawnPacket() {
+		return new SpawnEntityPacket(this);
 	}
 
 }

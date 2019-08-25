@@ -4,8 +4,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
-import net.minecraft.init.Particles;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -58,13 +58,13 @@ public class EntityMalefic extends ProjectileBase {
 				target = closest;
 			} else if (ticksExisted % 8 == 0) {
 				double d0 = target.posX - posX;
-				double d1 = target.getBoundingBox().minY + (double) (target.height / 2.0F) - posY;
+				double d1 = target.getBoundingBox().minY + (double) (target.getHeight() / 2.0F) - posY;
 				double d2 = target.posZ - posZ;
 				shoot(d0, d1, d2, (float) getSpeed(), (float) (14 - world.getDifficulty().getId() * 4));
 			}
 		} else
 			for (int i = 0; i < 5; i++)
-				world.spawnParticle(Particles.END_ROD, posX + world.rand.nextDouble() - 0.5D, posY + world.rand.nextDouble() - 0.5D, posZ + world.rand.nextDouble() - 0.5D, 0, 5.0E-4F, 0);
+				world.addParticle(ParticleTypes.END_ROD, posX + world.rand.nextDouble() - 0.5D, posY + world.rand.nextDouble() - 0.5D, posZ + world.rand.nextDouble() - 0.5D, 0, 5.0E-4F, 0);
 		super.tick();
 	}
 

@@ -1,7 +1,7 @@
 package tamaized.aov.client.entity;
 
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -24,7 +24,7 @@ public class RenderSpellLightingBolt extends EntityRenderer<EntitySpellLightning
 	public void doRender(@Nonnull EntitySpellLightningBolt entity, double x, double y, double z, float entityYaw, float partialTicks) {
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
-		GlStateManager.disableTexture2D();
+		GlStateManager.disableTexture();
 		GlStateManager.disableLighting();
 		GlStateManager.enableBlend();
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
@@ -118,7 +118,7 @@ public class RenderSpellLightingBolt extends EntityRenderer<EntitySpellLightning
 
 		GlStateManager.disableBlend();
 		GlStateManager.enableLighting();
-		GlStateManager.enableTexture2D();
+		GlStateManager.enableTexture();
 	}
 
 	@Override

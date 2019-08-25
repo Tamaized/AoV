@@ -1,12 +1,14 @@
 package tamaized.aov.client.gui.buttons;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import tamaized.aov.client.gui.AoVSkillsGUI;
 import tamaized.aov.client.gui.AoVUIBar;
+import tamaized.aov.client.gui.RenderUtils;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.skills.AoVSkill;
 
@@ -16,14 +18,10 @@ public class SkillButton extends Button {
 	private boolean isObtained;
 	private boolean notEnoughPoints = false;
 
-	/**
-	 * @param buttonId
-	 * @param x
-	 * @param y
-	 * @param s
-	 */
-	public SkillButton(int buttonId, int x, int y, AoVSkill s) {
-		super(buttonId, x, y, 18, 18, "");
+	public SkillButton(int x, int y, AoVSkill s) {
+		super(x, y, 18, 18, "", p_onPress_1_ -> {
+
+		});
 		skill = s;
 		update(null);
 	}
@@ -49,7 +47,7 @@ public class SkillButton extends Button {
 	}
 
 	public void update(IAoVCapability cap) {
-		enabled = false;
+		active = false;
 		notEnoughPoints = true;
 		if (cap == null)
 			return;
@@ -59,7 +57,7 @@ public class SkillButton extends Button {
 		}
 
 		if (cap.hasSkill(skill)) {
-			enabled = false;
+			active = false;
 			isObtained = true;
 		} else {
 			isObtained = false;
@@ -71,7 +69,7 @@ public class SkillButton extends Button {
 			return;
 		if (canObtain(cap)) {
 			notEnoughPoints = false;
-			enabled = true;
+			active = true;
 		}
 	}
 
@@ -85,8 +83,7 @@ public class SkillButton extends Button {
 		if (visible) {
 			FontRenderer fontrenderer = mc.fontRenderer;
 			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-			hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
-			int i = getHoverState(hovered);
+			isHovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 			GlStateManager.enableBlend();
 			GlStateManager.blendFuncSeparate(770, 771, 1, 0);
 			GlStateManager.blendFunc(770, 771);
@@ -96,9 +93,9 @@ public class SkillButton extends Button {
 
 			if (packedFGColor != 0) {
 				j = packedFGColor;
-			} else if (!enabled) {
+			} else if (!active) {
 				j = 0xFF888888;
-			} else if (hovered) {
+			} else if (isHovered) {
 				j = 0xFFFFFFFF;
 			}
 			if (notEnoughPoints)
@@ -106,7 +103,8 @@ public class SkillButton extends Button {
 			if (isObtained)
 				j = 0xFF00FF00;
 
-			drawRect(x, y, x + width, y + height, j);
+			RenderUtils.setup(blitOffset);
+			RenderUtils.renderRect(x, y, x + width, y + height, false, j);
 			float alpha = (float) (j >> 24 & 255) / 255.0F;
 			GlStateManager.color4f(1.0f, 1.0f, 1.0f, alpha);
 			AoVUIBar.renderHotbarIcon(null, 0, x + 1, y + 1, skill == null ? null : skill.getIcon(), false);

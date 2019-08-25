@@ -5,6 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
@@ -74,13 +75,13 @@ public final class Ability {
 
 	@SuppressWarnings("UnusedReturnValue")
 	public CompoundNBT encode(CompoundNBT nbt, IAoVCapability cap) {
-		nbt.setInt("id", ability.getID());
-		nbt.setInt("cooldown", cooldown);
-		nbt.setInt("cooldownfailsafe", cap.getCooldown(ability));
-		nbt.setInt("charges", charges);
-		nbt.setInt("decay", decay);
-		nbt.setInt("timer", timer);
-		nbt.setBoolean("disabled", disabled);
+		nbt.putInt("id", ability.getID());
+		nbt.putInt("cooldown", cooldown);
+		nbt.putInt("cooldownfailsafe", cap.getCooldown(ability));
+		nbt.putInt("charges", charges);
+		nbt.putInt("decay", decay);
+		nbt.putInt("timer", timer);
+		nbt.putBoolean("disabled", disabled);
 		return nbt;
 	}
 
@@ -121,8 +122,9 @@ public final class Ability {
 			return;
 		HashSet<Entity> set = new HashSet<>();
 		set.add(caster);
-		RayTraceResult ray = RayTraceHelper.tracePath(caster.world, caster, (int) getAbility().getMaxDistance(), 1, set);
-		cast(caster, (ray == null || !(ray.entity instanceof LivingEntity)) ? null : (LivingEntity) ray.entity);
+		RayTraceResult ray = RayTraceHelper.tracePath(caster, caster.world, caster, (int) getAbility().getMaxDistance(), 1, set);
+		Entity target = ray instanceof EntityRayTraceResult ? ((EntityRayTraceResult) ray).getEntity() : null;
+		cast(caster, target instanceof LivingEntity ? (LivingEntity) target : null);
 	}
 
 	public void cast(PlayerEntity caster, LivingEntity target) {

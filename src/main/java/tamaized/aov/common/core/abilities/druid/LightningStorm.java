@@ -93,7 +93,7 @@ public class LightningStorm extends AbilityBase {
 		if (pos.equals(caster.getPositionVector()))
 			return false;
 		storm.setPosition(pos.x, pos.y + 10F, pos.z);
-		caster.world.spawnEntity(storm);
+		caster.world.addEntity(storm);
 		caster.world.playSound(null, storm.posX, storm.posY, storm.posZ, SoundEvents.ENTITY_EVOKER_PREPARE_SUMMON, SoundCategory.PLAYERS, 4.0F, caster.getRNG().nextFloat() * 0.5F + 0.5F);
 		return true;
 	}

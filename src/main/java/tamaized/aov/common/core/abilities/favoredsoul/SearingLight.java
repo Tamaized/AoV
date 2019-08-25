@@ -97,7 +97,7 @@ public class SearingLight extends AbilityBase {
 		ray.setDamage(a);
 		ray.setMaxRange(distance);
 		ray.setSpeed(3);
-		caster.world.spawnEntity(ray);
+		caster.world.addEntity(ray);
 		return true;
 	}
 

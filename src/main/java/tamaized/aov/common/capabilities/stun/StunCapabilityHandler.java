@@ -45,14 +45,12 @@ public class StunCapabilityHandler implements IStunCapability {
 
 	private void sendPacketUpdates(Entity e) {
 		if (!e.canUpdate()) {
-			mx = e.motionX;
-			my = e.motionY;
-			mz = e.motionZ;
-			e.motionX = e.motionY = e.motionZ = 0;
+			mx = e.getMotion().x;
+			my = e.getMotion().y;
+			mz = e.getMotion().z;
+			e.setMotion(0, 0, 0);
 		} else {
-			e.motionX = mx;
-			e.motionY = my;
-			e.motionZ = mz;
+			e.setMotion(mx, my, mz);
 		}
 		if (!e.world.isRemote)
 			AoV.network.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> e), new ClientPacketHandlerStunned(e, this));

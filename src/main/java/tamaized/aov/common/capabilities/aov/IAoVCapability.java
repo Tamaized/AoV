@@ -2,10 +2,10 @@ package tamaized.aov.common.capabilities.aov;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.IEntityOwnable;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.passive.IAnimal;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
@@ -40,9 +40,9 @@ public interface IAoVCapability extends IPlayerCapabilityHandler<IAoVCapability>
 				caster == null || // Caster is null, what's the point, return true
 				(caster.getTeam() != null && // We are on a team
 						!caster.isOnSameTeam(entity)) || // Not the same team, return true
-				(!(entity instanceof IEntityOwnable && // Target is a possible pet
-						((IEntityOwnable) entity).getOwner() == caster) && // If this is our pet, dont do the final player check, let it return false
-						(!(entity instanceof PlayerEntity) && (!(entity instanceof IAnimal) || entity instanceof IMob)))); // Wasn't our pet, we're not on a team, is target a player or passive mob? if not return true
+				(!(entity instanceof TameableEntity && // Target is a possible pet
+						((TameableEntity) entity).getOwner() == caster) && // If this is our pet, dont do the final player check, let it return false
+						(!(entity instanceof PlayerEntity) && (!(entity instanceof AnimalEntity) || entity instanceof IMob)))); // Wasn't our pet, we're not on a team, is target a player or passive mob? if not return true
 		// If all the above fails, it'll return false.
 	}
 

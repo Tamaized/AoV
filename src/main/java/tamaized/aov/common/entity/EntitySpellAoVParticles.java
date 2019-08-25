@@ -2,6 +2,7 @@ package tamaized.aov.common.entity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -10,6 +11,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
+import tamaized.aov.network.SpawnEntityPacket;
 import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.AoVEntities;
 
@@ -76,7 +78,13 @@ public class EntitySpellAoVParticles extends Entity {
 
 	@Override
 	protected void writeAdditional(@Nonnull CompoundNBT compound) {
-		compound.setInt("particle", dataManager.get(PARTICLE));
+		compound.putInt("particle", dataManager.get(PARTICLE));
+	}
+
+	@Nonnull
+	@Override
+	public IPacket<?> createSpawnPacket() {
+		return new SpawnEntityPacket(this);
 	}
 
 	@Override

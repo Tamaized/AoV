@@ -2,11 +2,13 @@ package tamaized.aov.common.entity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.init.Particles;
+import net.minecraft.network.IPacket;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import tamaized.aov.network.SpawnEntityPacket;
 import tamaized.aov.registry.AoVDamageSource;
 import tamaized.aov.registry.AoVEntities;
 
@@ -49,7 +51,7 @@ public class EntityCombust extends Entity {
 		super.tick();
 		if (world.isRemote) {
 			Vec3d vec = getLook(1.0F).rotatePitch(rand.nextInt(360)).rotateYaw(rand.nextInt(360));
-			world.spawnParticle(Particles.END_ROD, 0, 0, 0, vec.x, 5.0E-4F + vec.y, vec.z);
+			world.addParticle(ParticleTypes.END_ROD, 0, 0, 0, vec.x, 5.0E-4F + vec.y, vec.z);
 			return;
 		}
 		if (ticksExisted >= 18 * 20 || target == null || target.removed) {
@@ -68,5 +70,11 @@ public class EntityCombust extends Entity {
 	@Override
 	protected void writeAdditional(@Nonnull CompoundNBT compound) {
 
+	}
+
+	@Nonnull
+	@Override
+	public IPacket<?> createSpawnPacket() {
+		return new SpawnEntityPacket(this);
 	}
 }

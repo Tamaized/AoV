@@ -3,8 +3,9 @@ package tamaized.aov.common.core.abilities.astro;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
-import net.minecraft.init.Particles;
+import net.minecraft.potion.EffectType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
@@ -90,11 +91,11 @@ public class TimeDilation extends AbilityBase {
 		IAoVCapability aov = CapabilityList.getCap(caster, CapabilityList.AOV);
 		LivingEntity entity = target != null && aov != null && IAoVCapability.canBenefit(caster, aov, target) ? target : caster;
 		for (EffectInstance effect : entity.getActivePotionEffects())
-			if (!effect.getPotion().isBadEffect())
+			if (effect.getPotion().getEffectType() != EffectType.HARMFUL)
 				entity.addPotionEffect(new EffectInstance(effect.getPotion(), effect.getDuration() * 2, effect.getAmplifier(), effect.isAmbient(), effect.doesShowParticles()));
 		if (!entity.world.isRemote) {
 			SoundEvents.playMovingSoundOnServer(SoundEvents.timedilation, entity);
-			entity.world.spawnEntity(new EntitySpellVanillaParticles(entity.world, entity, Particles.HAPPY_VILLAGER, 3));
+			entity.world.addEntity(new EntitySpellVanillaParticles(entity.world, entity, ParticleTypes.HAPPY_VILLAGER, 3));
 			if (aov != null)
 				aov.addExp(caster, 20, ability.getAbility());
 		}

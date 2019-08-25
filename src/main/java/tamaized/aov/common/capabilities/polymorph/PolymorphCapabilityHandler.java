@@ -4,20 +4,18 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.state.BlockFaceShape;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.block.Blocks;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
-import net.minecraft.init.Particles;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -72,7 +70,7 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 	private static boolean isTeleportFriendlyBlock(World world, Entity entity, int x, int z, int y, int xOffset, int zOffset) {
 		BlockPos blockpos = new BlockPos(x + xOffset, y - 1, z + zOffset);
 		BlockState iblockstate = world.getBlockState(blockpos);
-		return iblockstate.getBlockFaceShape(world, blockpos, Direction.DOWN) == BlockFaceShape.SOLID && iblockstate.canEntitySpawn(entity) && world.isAirBlock(blockpos.up()) && world.isAirBlock(blockpos.up(2));
+		return iblockstate.canEntitySpawn(world, blockpos, entity.getType()) && world.isAirBlock(blockpos.up()) && world.isAirBlock(blockpos.up(2));
 	}
 
 	@Override
@@ -165,10 +163,10 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 						wolf.setLocationAndAngles(posx, posy, posz, wolf.rotationYaw, wolf.rotationPitch);
 						for (int i = 0; i < 25; i++) {
 							Vec3d result = wolf.getLook(1F).rotateYaw(wolf.getRNG().nextFloat() * 360F).rotatePitch(wolf.getRNG().nextFloat() * 360F);
-							ParticleHelper.spawnVanillaParticleOnServer(world, Particles.END_ROD, wolf.posX + result.x, wolf.posY + wolf.height / 2F + result.y, wolf.posZ + result.z, 0, 0, 0);
+							ParticleHelper.spawnVanillaParticleOnServer(world, ParticleTypes.END_ROD, wolf.posX + result.x, wolf.posY + wolf.getHeight() / 2F + result.y, wolf.posZ + result.z, 0, 0, 0);
 						}
 						wolves.add(wolf);
-						world.spawnEntity(wolf);
+						world.addEntity(wolf);
 						world.playSound(null, wolf.getPosition(), SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1.0F, wolf.getRNG().nextFloat() + 0.5F);
 						continue loop;
 					}
@@ -204,7 +202,7 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 			player.ticksSinceLastSwing = 9000;
 			UtilHelper.setSize(player, 0.6F, 0.85F);
 			try {
-				ENTITYPLAYER_eyeHeight.set(player, player.height * 0.8F);
+				ENTITYPLAYER_eyeHeight.set(player, player.getHeight() * 0.8F);
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			}
@@ -222,7 +220,7 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 		} else if (localMorphSize()) {
 			UtilHelper.setSize(player, 0.6F, 1.8F);
 			try {
-				ENTITYPLAYER_eyeHeight.set(player, player.getDefaultEyeHeight());
+				ENTITYPLAYER_eyeHeight.set(player, player.getStandingEyeHeight(player.getPose(), player.getSize(player.getPose())));
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			}

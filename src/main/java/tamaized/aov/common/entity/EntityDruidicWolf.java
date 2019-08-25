@@ -19,14 +19,17 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
-import net.minecraft.init.Particles;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
+import tamaized.aov.registry.AoVEntities;
+
+import java.util.Objects;
 
 public class EntityDruidicWolf extends WolfEntity {
 
@@ -34,7 +37,7 @@ public class EntityDruidicWolf extends WolfEntity {
 	private int life;
 
 	public EntityDruidicWolf(World worldIn) {
-		super(worldIn);
+		super(Objects.requireNonNull(AoVEntities.entitydruidicwolf), worldIn);
 	}
 
 	public EntityDruidicWolf(World worldIn, PlayerEntity caster, float dmg) {
@@ -50,18 +53,18 @@ public class EntityDruidicWolf extends WolfEntity {
 	}
 
 	@Override
-	protected void initEntityAI() {
-		this.tasks.addTask(1, new SwimGoal(this));
-		this.tasks.addTask(4, new LeapAtTargetGoal(this, 0.4F));
-		this.tasks.addTask(5, new MeleeAttackGoal(this, 1.0D, true));
-		this.tasks.addTask(6, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
-		this.tasks.addTask(8, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
-		this.tasks.addTask(10, new LookAtGoal(this, PlayerEntity.class, 8.0F));
-		this.tasks.addTask(10, new LookRandomlyGoal(this));
-		this.targetTasks.addTask(1, new OwnerHurtByTargetGoal(this));
-		this.targetTasks.addTask(2, new OwnerHurtTargetGoal(this));
-		this.targetTasks.addTask(3, new HurtByTargetGoal(this, true));
-		this.targetTasks.addTask(5, new NearestAttackableTargetGoal<>(this, MonsterEntity.class, 10, false, false, e -> !(e instanceof ZombiePigmanEntity)));
+	protected void registerGoals() {
+		this.goalSelector.addGoal(1, new SwimGoal(this));
+		this.goalSelector.addGoal(4, new LeapAtTargetGoal(this, 0.4F));
+		this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.0D, true));
+		this.goalSelector.addGoal(6, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
+		this.goalSelector.addGoal(8, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+		this.goalSelector.addGoal(10, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+		this.goalSelector.addGoal(10, new LookRandomlyGoal(this));
+		this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
+		this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
+		this.targetSelector.addGoal(3, new HurtByTargetGoal(this));
+		this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, MonsterEntity.class, 10, false, false, e -> !(e instanceof ZombiePigmanEntity)));
 	}
 
 	@Override
@@ -80,7 +83,7 @@ public class EntityDruidicWolf extends WolfEntity {
 		if (world.isRemote) {
 			for (int index = 0; index < 4; index++) {
 				Vec3d result = getLook(1F).rotateYaw(rand.nextFloat() * 360F).rotatePitch(rand.nextFloat() * 360F).scale(0.08F);//.add(getPositionVector());
-				world.spawnParticle(Particles.END_ROD, posX, posY + height / 2F, posZ, result.x, result.y, result.z);
+				world.addParticle(ParticleTypes.END_ROD, posX, posY + getHeight() / 2F, posZ, result.x, result.y, result.z);
 			}
 		}
 	}

@@ -3,8 +3,8 @@ package tamaized.aov.common.core.abilities.druid;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
-import net.minecraft.init.Particles;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -130,7 +130,7 @@ public class ElementalEmpowerment extends AbilityBase implements IAura {
 					ParticleRegistry.spawnFromServer(caster.world, AoVParticles.SNOW, caster.posX + caster.world.rand.nextDouble() * 1.5F - 0.75F, caster.posY + caster.getEyeHeight() - 0.25F + caster.world.rand.nextDouble() * 1.5F - 0.75F, caster.posZ + caster.world.rand.nextDouble() * 1.5F - 0.75F, 0, -0.03F, 0);
 					break;
 				case FireElemental:
-					ParticleHelper.spawnVanillaParticleOnServer(caster.world, Particles.FLAME, caster.posX + caster.world.rand.nextDouble() * 1.5F - 0.75F, caster.posY + caster.getEyeHeight() - 0.25F + caster.world.rand.nextDouble() * 1.5F - 0.75F, caster.posZ + caster.world.rand.nextDouble() * 1.5F - 0.75F, 0, 0, 0);
+					ParticleHelper.spawnVanillaParticleOnServer(caster.world, ParticleTypes.FLAME, caster.posX + caster.world.rand.nextDouble() * 1.5F - 0.75F, caster.posY + caster.getEyeHeight() - 0.25F + caster.world.rand.nextDouble() * 1.5F - 0.75F, caster.posZ + caster.world.rand.nextDouble() * 1.5F - 0.75F, 0, 0, 0);
 					float damage = DAMAGE * (1F + (cap.getSpellPower() / 100F));
 					if (life > 0 && life % (3 * 20) == 0) {
 						List<LivingEntity> list = caster.world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(caster.getPosition().add(-RANGE, -RANGE, -RANGE), caster.getPosition().add(RANGE, RANGE, RANGE)));

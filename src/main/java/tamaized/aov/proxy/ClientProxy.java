@@ -2,12 +2,14 @@ package tamaized.aov.proxy;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import tamaized.aov.client.ClientHelpers;
 import tamaized.aov.client.events.KeyHandler;
+import tamaized.aov.client.gui.RenderUtils;
 import tamaized.aov.client.particle.ParticleFeather;
 import tamaized.aov.client.particle.ParticleHeartColor;
 
@@ -38,10 +40,7 @@ public class ClientProxy extends CommonProxy {
 	public void init() {
 		super.init();
 		KeyHandler.register();
-		Minecraft.getInstance().addScheduledTask(() -> {
-			if (!Minecraft.getInstance().getFramebuffer().isStencilEnabled())
-				Minecraft.getInstance().getFramebuffer().enableStencil();
-		});
+		Minecraft.getInstance().enqueue(ClientHelpers::enableStencilBuffer);
 	}
 
 	@Override

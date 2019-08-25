@@ -4,6 +4,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.EffectType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -70,7 +71,7 @@ public class Burst extends AbilityBase {
 				//noinspection ForLoopReplaceableByForEach
 				for (Iterator<EffectInstance> iter = entity.getActivePotionEffects().iterator(); iter.hasNext(); ) {
 					EffectInstance effect = iter.next();
-					if (effect.getPotion().isBadEffect())
+					if (effect.getPotion().getEffectType() == EffectType.HARMFUL)
 						entity.removePotionEffect(effect.getPotion());
 				}
 				cap.addExp(caster, 20, this);

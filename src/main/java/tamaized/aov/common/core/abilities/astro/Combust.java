@@ -96,7 +96,7 @@ public class Combust extends AbilityBase {
 		if (!caster.world.isRemote && aov != null && IAoVCapability.selectiveTarget(caster, aov, target)) {
 			int a = (int) (damage * (1f + (aov.getSpellPower() / 100f)));
 			EntityCombust spell = new EntityCombust(caster.world, caster, target, a);
-			caster.world.spawnEntity(spell);
+			caster.world.addEntity(spell);
 			SoundEvents.playMovingSoundOnServer(SoundEvents.malefic_hit, spell);
 			return true;
 		}

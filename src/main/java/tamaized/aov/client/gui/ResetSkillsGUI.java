@@ -10,6 +10,8 @@ import tamaized.aov.common.gui.GuiHandler;
 import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
 import tamaized.aov.proxy.ClientProxy;
 
+import java.util.Objects;
+
 public class ResetSkillsGUI extends GuiScreenClose {
 
 	private static final int BUTTON_CLOSE = 0;
@@ -20,55 +22,33 @@ public class ResetSkillsGUI extends GuiScreenClose {
 	private final BlockAngelicBlock.ClassType parent;
 
 	public ResetSkillsGUI(BlockAngelicBlock.ClassType parent) {
+		super(makeTranslationKey("resetskills"));
 		this.parent = parent;
 	}
 
 	@Override
-	public void initGui() {
-		buttons.add(new Button(BUTTON_CLOSE, 10, height - 25, 80, 20, I18n.format("aov.gui.button.close")) {
-			@Override
-			public void onClick(double mouseX, double mouseY) {
-				super.onClick(mouseX, mouseY);
-				mc.player.closeScreen();
-			}
-		});
-		buttons.add(new Button(BUTTON_BACK, 110, height - 25, 80, 20, I18n.format("aov.gui.button.back")) {
-			@Override
-			public void onClick(double mouseX, double mouseY) {
-				super.onClick(mouseX, mouseY);
-				GuiHandler.openGui(GuiHandler.GUI.SKILLS, parent);
-			}
-		});
-		buttons.add(new Button(BUTTON_RESET_FULL, width - 190, height - 25, 80, 20, I18n.format("aov.gui.button.fullreset")) {
-			@Override
-			public void onClick(double mouseX, double mouseY) {
-				super.onClick(mouseX, mouseY);
-				AoV.network.sendToServer(new ServerPacketHandlerSpellSkill(ServerPacketHandlerSpellSkill.PacketType.RESETSKILLS_FULL, null, 0));
-				ClientProxy.barToggle = false;
-			}
-		});
-		buttons.add(new Button(BUTTON_RESET_MINOR, width - 90, height - 25, 80, 20, I18n.format("aov.gui.button.minorreset")) {
-			@Override
-			public void onClick(double mouseX, double mouseY) {
-				super.onClick(mouseX, mouseY);
-				IAoVCapability cap = CapabilityList.getCap(mc.player, CapabilityList.AOV);
-				if (cap == null)
-					return;
-				if (cap.getObtainedSkills().size() > 1)
-					AoV.network.sendToServer(new ServerPacketHandlerSpellSkill(ServerPacketHandlerSpellSkill.PacketType.RESETSKILLS_MINOR, null, 0));
-			}
-		});
+	public void init() {
+		buttons.add(new Button(10, height - 25, 80, 20, I18n.format("aov.gui.button.close"), button -> Objects.requireNonNull(minecraft).player.closeScreen()));
+		buttons.add(new Button(110, height - 25, 80, 20, I18n.format("aov.gui.button.back"), button -> GuiHandler.openGui(GuiHandler.GUI.SKILLS, parent)));
+		buttons.add(new Button(width - 190, height - 25, 80, 20, I18n.format("aov.gui.button.fullreset"), button -> {
+			AoV.network.sendToServer(new ServerPacketHandlerSpellSkill(ServerPacketHandlerSpellSkill.PacketType.RESETSKILLS_FULL, null, 0));
+			ClientProxy.barToggle = false;
+
+		}));
+		buttons.add(new Button(width - 90, height - 25, 80, 20, I18n.format("aov.gui.button.minorreset"), button -> {
+			IAoVCapability cap = CapabilityList.getCap(Objects.requireNonNull(minecraft).player, CapabilityList.AOV);
+			if (cap == null)
+				return;
+			if (cap.getObtainedSkills().size() > 1)
+				AoV.network.sendToServer(new ServerPacketHandlerSpellSkill(ServerPacketHandlerSpellSkill.PacketType.RESETSKILLS_MINOR, null, 0));
+
+		}));
 
 	}
 
 	@Override
-	public boolean doesGuiPauseGame() {
+	public boolean isPauseScreen() {
 		return false;
-	}
-
-	@Override
-	public void onGuiClosed() {
-
 	}
 
 	@Override
@@ -77,10 +57,10 @@ public class ResetSkillsGUI extends GuiScreenClose {
 
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks) {
-		drawDefaultBackground();
-		drawCenteredString(fontRenderer, I18n.format("aov.gui.title.reset"), width / 2, 15, 16777215);
-		fontRenderer.drawSplitString(I18n.format("aov.gui.reset.full"), 40, 40, width - 80, 0x00FFFF);
-		fontRenderer.drawSplitString(I18n.format("aov.gui.reset.minor"), 40, 125, width - 80, 0xFFFF00);
+		renderBackground();
+		drawCenteredString(Objects.requireNonNull(minecraft).fontRenderer, I18n.format("aov.gui.title.reset"), width / 2, 15, 16777215);
+		minecraft.fontRenderer.drawSplitString(I18n.format("aov.gui.reset.full"), 40, 40, width - 80, 0x00FFFF);
+		minecraft.fontRenderer.drawSplitString(I18n.format("aov.gui.reset.minor"), 40, 125, width - 80, 0xFFFF00);
 		super.render(mouseX, mouseY, partialTicks);
 	}
 }

@@ -1,8 +1,8 @@
 package tamaized.aov.client.entity;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -56,7 +56,7 @@ public class RenderNimbusRay<T extends ProjectileBase> extends EntityRenderer<T>
 
 		if (this.renderOutlines) {
 			GlStateManager.enableColorMaterial();
-			GlStateManager.enableOutlineMode(this.getTeamColor(entity));
+			GlStateManager.setupSolidRenderingTextureCombine(this.getTeamColor(entity));
 		}
 
 		GlStateManager.normal3f(0.05625F, 0.0F, 0.0F);
@@ -86,7 +86,7 @@ public class RenderNimbusRay<T extends ProjectileBase> extends EntityRenderer<T>
 		}
 
 		if (this.renderOutlines) {
-			GlStateManager.disableOutlineMode();
+			GlStateManager.tearDownSolidRenderingTextureCombine();
 			GlStateManager.disableColorMaterial();
 		}
 
@@ -97,7 +97,7 @@ public class RenderNimbusRay<T extends ProjectileBase> extends EntityRenderer<T>
 		Vec3d vec = entity.getLook(1.0F);
 		if (!Minecraft.getInstance().isGamePaused())
 			for (int i = 0; i < 2; i++)
-				Minecraft.getInstance().particles.addEffect(new ParticleColorSpark(
+				Minecraft.getInstance().particles.addEffect(ParticleColorSpark.makeSpark(
 
 						entity.world,
 

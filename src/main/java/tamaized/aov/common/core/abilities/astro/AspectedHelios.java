@@ -104,7 +104,7 @@ public class AspectedHelios extends AbilityBase {
 		for (LivingEntity entity : list) {
 			if (entity == caster || IAoVCapability.canBenefit(caster, cap, entity)) {
 				entity.heal(heal);
-				entity.world.spawnEntity(new EntitySpellAoVParticles(entity.world, entity, CommonProxy.ParticleType.Heart, 0x00FF87FF, 5));
+				entity.world.addEntity(new EntitySpellAoVParticles(entity.world, entity, CommonProxy.ParticleType.Heart, 0x00FF87FF, 5));
 				entity.addPotionEffect(new EffectInstance(Effects.REGENERATION, 600));
 			}
 			cap.addExp(caster, 15, this);

@@ -11,7 +11,7 @@ public class PolymorphCapabilityStorage implements IStorage<IPolymorphCapability
 	@Override
 	public INBT writeNBT(Capability<IPolymorphCapability> capability, IPolymorphCapability instance, Direction side) {
 		CompoundNBT nbt = new CompoundNBT();
-		nbt.setInt("morph", instance.getMorph() == null ? -1 : instance.getMorph().ordinal());
+		nbt.putInt("morph", instance.getMorph() == null ? -1 : instance.getMorph().ordinal());
 		return nbt;
 	}
 

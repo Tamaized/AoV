@@ -5,16 +5,19 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.AbilityBase;
+import tamaized.aov.network.SpawnEntityPacket;
 import tamaized.aov.registry.AoVEntities;
 
 import javax.annotation.Nonnull;
@@ -75,7 +78,7 @@ public class EntitySpellLightningBolt extends Entity {
 					this.boltVertex = this.rand.nextLong();
 					BlockPos blockpos = new BlockPos(this);
 
-					if (this.world.getGameRules().getBoolean("doFireTick") && this.world.isAreaLoaded(blockpos, 10) && this.world.getBlockState(blockpos).getMaterial() == Material.AIR && Blocks.FIRE.getDefaultState().isValidPosition(this.world, blockpos)) {
+					if (this.world.getGameRules().getBoolean(GameRules.DO_FIRE_TICK) && this.world.isAreaLoaded(blockpos, 10) && this.world.getBlockState(blockpos).getMaterial() == Material.AIR && Blocks.FIRE.getDefaultState().isValidPosition(this.world, blockpos)) {
 						this.world.setBlockState(blockpos, Blocks.FIRE.getDefaultState());
 					}
 				}
@@ -102,6 +105,12 @@ public class EntitySpellLightningBolt extends Entity {
 	@Override
 	protected void writeAdditional(@Nonnull CompoundNBT compound) {
 
+	}
+
+	@Nonnull
+	@Override
+	public IPacket<?> createSpawnPacket() {
+		return new SpawnEntityPacket(this);
 	}
 
 }

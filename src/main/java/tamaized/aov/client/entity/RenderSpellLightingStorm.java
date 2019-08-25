@@ -2,7 +2,7 @@ package tamaized.aov.client.entity;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -126,7 +126,7 @@ public class RenderSpellLightingStorm extends EntityRenderer<EntitySpellLightnin
 
 		for (int z = k - i1; z <= k + i1; ++z) {
 			for (int x = i - i1; x <= i + i1; ++x) {
-				if (x >= storm.posX - storm.width / 4F && x <= storm.posX + storm.width / 4F && z >= storm.posZ - storm.width / 4F && z <= storm.posZ + storm.width / 4F) {
+				if (x >= storm.posX - storm.getWidth() / 4F && x <= storm.posX + storm.getWidth() / 4F && z >= storm.posZ - storm.getWidth() / 4F && z <= storm.posZ + storm.getWidth() / 4F) {
 					int i2 = (z - k + 16) * 32 + x - i + 16;
 					double d3 = (double) rainXCoords[i2] * 0.5D;
 					double d4 = (double) rainYCoords[i2] * 0.5D;

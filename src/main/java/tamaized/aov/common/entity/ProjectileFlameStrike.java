@@ -1,14 +1,15 @@
 package tamaized.aov.common.entity;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.IProjectile;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceFluidMode;
+import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -20,6 +21,7 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.helper.ParticleHelper;
 import tamaized.aov.common.helper.ParticleHelper.MeshType;
+import tamaized.aov.network.SpawnEntityPacket;
 import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.AoVDamageSource;
 import tamaized.aov.registry.AoVEntities;
@@ -35,9 +37,7 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 	public ProjectileFlameStrike(World worldIn) {
 		super(Objects.requireNonNull(AoVEntities.projectileflamestrike), worldIn);
 		setFire(100);
-		motionX = 0;
-		motionY = -0.8;
-		motionZ = 0;
+		setMotion(0, -0.8, 0);
 		setRotation(0, 90);
 	}
 
@@ -78,20 +78,18 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 	public void tick() {
 		baseTick();
 		Vec3d vec3d1 = new Vec3d(posX, posY, posZ);
-		Vec3d vec3d = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
-		RayTraceResult ray = world.rayTraceBlocks(vec3d1, vec3d, RayTraceFluidMode.NEVER, true, false);
-		if (ray != null && ray.type != null) {
-			switch (ray.type) {
-				case BLOCK:
-				case ENTITY:
-					explode();
-					return;
-				case MISS:
-				default:
-					break;
-			}
+		Vec3d vec3d = vec3d1.add(getMotion());
+		RayTraceResult ray = world.rayTraceBlocks(new RayTraceContext(vec3d1, vec3d, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, this));
+		switch (ray.getType()) {
+			case BLOCK:
+			case ENTITY:
+				explode();
+				return;
+			case MISS:
+			default:
+				break;
 		}
-		posY += motionY;
+		posY += getMotion().y;
 	}
 
 	private void explode() {
@@ -123,9 +121,7 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 		x = x * (double) velocity;
 		y = y * (double) velocity;
 		z = z * (double) velocity;
-		this.motionX = x;
-		this.motionY = y;
-		this.motionZ = z;
+		setMotion(x, y, z);
 		float f1 = MathHelper.sqrt(x * x + z * z);
 		this.rotationYaw = (float) (MathHelper.atan2(x, z) * (180D / Math.PI));
 		this.rotationPitch = (float) (MathHelper.atan2(y, (double) f1) * (180D / Math.PI));
@@ -146,6 +142,12 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 	@Override
 	protected void writeAdditional(@Nonnull CompoundNBT compound) {
 
+	}
+
+	@Nonnull
+	@Override
+	public IPacket<?> createSpawnPacket() {
+		return new SpawnEntityPacket(this);
 	}
 
 }

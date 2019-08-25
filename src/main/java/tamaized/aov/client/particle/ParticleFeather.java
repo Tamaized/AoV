@@ -1,14 +1,15 @@
 package tamaized.aov.client.particle;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.entity.Entity;
+import net.minecraft.client.particle.IParticleRenderType;
+import net.minecraft.client.particle.SpriteTexturedParticle;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class ParticleFeather extends Particle {
+import javax.annotation.Nonnull;
+
+public class ParticleFeather extends SpriteTexturedParticle {
 
 	private static final ResourceLocation FEATHER = new ResourceLocation("item/feather");
 
@@ -24,17 +25,13 @@ public class ParticleFeather extends Particle {
 		particleGreen = (float) (color >> 16 & 255) / 255.0F;
 		particleBlue = (float) (color >> 8 & 255) / 255.0F;
 		particleAlpha = (float) (color & 255) / 255.0F;
-		particleTexture = Minecraft.getInstance().getTextureMap().getAtlasSprite(FEATHER.toString());
+		setSprite(Minecraft.getInstance().getTextureMap().getAtlasSprite(FEATHER.toString()));
 	}
 
+	@Nonnull
 	@Override
-	public int getFXLayer() {
-		return 1;
-	}
-
-	@Override
-	public void renderParticle(BufferBuilder buffer, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
-		super.renderParticle(buffer, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
+	public IParticleRenderType getRenderType() {
+		return IParticleRenderType.PARTICLE_SHEET_LIT;
 	}
 
 	@Override

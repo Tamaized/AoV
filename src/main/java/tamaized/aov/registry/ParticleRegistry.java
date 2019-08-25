@@ -25,7 +25,7 @@ public class ParticleRegistry {
 	}
 
 	public static void spawnFromServer(World world, int id, double x, double y, double z, double dx, double dy, double dz, int... data) {
-		AoV.network.send(PacketDistributor.TRACKING_CHUNK.with(() -> world.getChunk(new BlockPos(x, y, z))), new ClientPacketHandlerParticle(id, x, y, z, dx, dy, dz, data));
+		AoV.network.send(PacketDistributor.TRACKING_CHUNK.with(() -> world.getChunkAt(new BlockPos(x, y, z))), new ClientPacketHandlerParticle(id, x, y, z, dx, dy, dz, data));
 	}
 
 	public interface IParticleHandler {

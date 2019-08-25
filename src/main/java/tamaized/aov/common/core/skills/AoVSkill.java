@@ -3,6 +3,7 @@ package tamaized.aov.common.core.skills;
 import com.google.common.collect.Lists;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -137,6 +138,14 @@ public class AoVSkill {
 			list.add(I18n.format(s.getKey(), args));
 		}
 		return list;
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	public final ITextComponent getDescriptionAsTextComponent() {
+		TranslationTextComponent component = new TranslationTextComponent(description.get(0).getKey(), description.get(0).getFormatArgs());
+		for (int i = 1; i < description.size(); i++)
+			component.appendSibling(new TranslationTextComponent(description.get(i).getKey(), description.get(i).getFormatArgs()));
+		return component;
 	}
 
 }

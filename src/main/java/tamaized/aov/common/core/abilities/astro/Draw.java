@@ -3,9 +3,9 @@ package tamaized.aov.common.core.abilities.astro;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
-import net.minecraft.init.Particles;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -109,7 +109,7 @@ public class Draw extends AbilityBase {
 				caster.addPotionEffect(new EffectInstance(AoVPotions.spire, ticks, potency));
 				break;
 		}
-		caster.world.spawnEntity(new EntitySpellVanillaParticles(caster.world, caster, Particles.ENCHANTED_HIT, 5));
+		caster.world.addEntity(new EntitySpellVanillaParticles(caster.world, caster, ParticleTypes.ENCHANTED_HIT, 5));
 	}
 
 	@Override

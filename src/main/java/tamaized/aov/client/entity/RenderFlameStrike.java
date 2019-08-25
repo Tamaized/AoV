@@ -2,12 +2,12 @@ package tamaized.aov.client.entity;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.init.Particles;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import tamaized.aov.AoV;
@@ -49,7 +49,7 @@ public class RenderFlameStrike<T extends ProjectileFlameStrike> extends EntityRe
 
 		if (this.renderOutlines) {
 			GlStateManager.enableColorMaterial();
-			GlStateManager.enableOutlineMode(this.getTeamColor(entity));
+			GlStateManager.setupSolidRenderingTextureCombine(this.getTeamColor(entity));
 		}
 
 		GlStateManager.normal3f(0.05625F, 0.0F, 0.0F);
@@ -79,7 +79,7 @@ public class RenderFlameStrike<T extends ProjectileFlameStrike> extends EntityRe
 		}
 
 		if (this.renderOutlines) {
-			GlStateManager.disableOutlineMode();
+			GlStateManager.tearDownSolidRenderingTextureCombine();
 			GlStateManager.disableColorMaterial();
 		}
 
@@ -90,7 +90,7 @@ public class RenderFlameStrike<T extends ProjectileFlameStrike> extends EntityRe
 		Vec3d vec = entity.getLook(1.0F);
 		if (!Minecraft.getInstance().isGamePaused())
 			for (int index = 0; index < 20; index++)
-				entity.world.spawnParticle(Particles.FLAME,
+				entity.world.addParticle(ParticleTypes.FLAME,
 
 						entity.posX,
 

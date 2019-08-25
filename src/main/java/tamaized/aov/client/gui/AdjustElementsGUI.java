@@ -1,10 +1,11 @@
 package tamaized.aov.client.gui;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
@@ -28,10 +29,14 @@ public class AdjustElementsGUI extends GuiScreenClose {
 	private double oldElementX;
 	private double oldElementY;
 
+	protected AdjustElementsGUI() {
+		super(makeTranslationKey("adjustelements"));
+	}
+
 	@Override
-	public void initGui() {
-		super.initGui();
-		MainWindow sr = mc.mainWindow;
+	public void init() {
+		super.init();
+		MainWindow sr = Minecraft.getInstance().mainWindow;
 		addButton(new Element(ELEMENT_SPELLBAR, (sr.getScaledWidth() / 2F) - 91, 1, AoV.config.ELEMENT_POSITIONS.spellbar_x.get(), AoV.config.ELEMENT_POSITIONS.spellbar_y.get(), 182, 22, 0x00FFFF, ""));
 		addButton(new Element(ELEMENT_ASTRO, sr.getScaledWidth() * 2F / 3F, sr.getScaledHeight() / 5F - 8F, AoV.config.ELEMENT_POSITIONS.astro_x.get(), AoV.config.ELEMENT_POSITIONS.astro_y.get(), (int) (235F * 0.35F), (int) (143F * 0.35F) + 8, 0x00FFFF, ""));
 		addButton(new Element(ELEMENT_TARGET, 10, 150, AoV.config.ELEMENT_POSITIONS.target_x.get(), AoV.config.ELEMENT_POSITIONS.target_y.get(), 100, 41, 0x00FFFF, ""));
@@ -41,7 +46,7 @@ public class AdjustElementsGUI extends GuiScreenClose {
 	public boolean mouseClicked(double mouseX, double mouseY, int id) {
 		oldMouseX = mouseX;
 		oldMouseY = mouseY;
-		for (Button button : buttons) {
+		for (Widget button : buttons) {
 			if (button instanceof Element) {
 				Element check = (Element) button;
 				if (mouseX >= check.x + check.defaultX && mouseX <= check.x + check.defaultX + check.width)
@@ -77,7 +82,7 @@ public class AdjustElementsGUI extends GuiScreenClose {
 	}
 
 	private void updateValues(Element element) {
-//		AoV.config.file.set(AoV.config.ELEMENT_POSITIONS.spellbar_x.getPath(), );
+		//		AoV.config.file.set(AoV.config.ELEMENT_POSITIONS.spellbar_x.getPath(), );
 		/*switch (element.id) { TODO
 			case ELEMENT_SPELLBAR:
 				ConfigHandler.ELEMENT_POSITIONS.spellbar_x = element.x;
@@ -95,14 +100,14 @@ public class AdjustElementsGUI extends GuiScreenClose {
 	}
 
 	@Override
-	public void onGuiClosed() {
+	public void onClose() {
 		//		ConfigManager.sync(AoV.MODID, Config.Type.INSTANCE); TODO
 	}
 
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks) {
-		if (mc.world == null) {
-			drawDefaultBackground();
+		if (Minecraft.getInstance().world == null) {
+			renderBackground();
 			renderSpellBar();
 			renderAstro();
 			renderFocus();
@@ -116,17 +121,18 @@ public class AdjustElementsGUI extends GuiScreenClose {
 		final int ypos = AoV.config.ELEMENT_POSITIONS.spellbar_y.get();
 		GlStateManager.pushMatrix();
 		{
-			MainWindow sr = mc.mainWindow;
+			MainWindow sr = Minecraft.getInstance().mainWindow;
 			if (AoV.config.renderBarOverHotbar.get())
 				GlStateManager.translated(0, sr.getScaledHeight() - 23, 0);
 			float alpha = 0.2f;
 			if (ClientProxy.barToggle)
 				alpha = 1.0f;
 			GlStateManager.color4f(1.0F, 1.0F, 1.0F, alpha);
-			mc.getTextureManager().bindTexture(TEXTURE_SPELLBAR);
+			Minecraft.getInstance().getTextureManager().bindTexture(TEXTURE_SPELLBAR);
 			int i = sr.getScaledWidth() / 2;
-			drawTexturedModalRect(xpos + i - 91, ypos + 1, 0, 0, 182, 22);
-			drawTexturedModalRect(xpos + i - 91 - 1 + slotLoc * 20, ypos, 0, 22, 24, 22);
+			RenderUtils.setup(blitOffset);
+			RenderUtils.renderRect(xpos + i - 91, ypos + 1, 182, 22);
+			RenderUtils.renderRect(xpos + i - 91 - 1 + slotLoc * 20, ypos, 24, 22, 0, 22F / 256F);
 		}
 		GlStateManager.popMatrix();
 	}
@@ -135,14 +141,14 @@ public class AdjustElementsGUI extends GuiScreenClose {
 		GlStateManager.pushMatrix();
 		{
 			GlStateManager.color4f(1, 1, 1, 1);
-			mc.getTextureManager().bindTexture(AoVOverlay.TEXTURE_ASTRO);
+			Minecraft.getInstance().getTextureManager().bindTexture(AoVOverlay.TEXTURE_ASTRO);
 			GlStateManager.enableAlphaTest();
 			GlStateManager.enableBlend();
 			Tessellator tess = Tessellator.getInstance();
 			BufferBuilder buffer = tess.getBuffer();
 			buffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 
-			MainWindow sr = mc.mainWindow;
+			MainWindow sr = Minecraft.getInstance().mainWindow;
 			float x = sr.getScaledWidth() * 2F / 3F;
 			float y = sr.getScaledHeight() / 5F;
 
@@ -203,7 +209,9 @@ public class AdjustElementsGUI extends GuiScreenClose {
 		private final float blue;
 
 		public Element(int buttonId, float xDefault, float yDefault, int x, int y, int w, int h, int color, String buttonText) {
-			super(buttonId, x, y, buttonText);
+			super(x, y, w, h, buttonText, button -> {
+
+			});
 			defaultX = xDefault;
 			defaultY = yDefault;
 			width = w;
@@ -215,7 +223,7 @@ public class AdjustElementsGUI extends GuiScreenClose {
 
 		@Override
 		public void render(int mouseX, int mouseY, float partialTicks) {
-			GlStateManager.disableTexture2D();
+			GlStateManager.disableTexture();
 			GlStateManager.enableBlend();
 			Tessellator tessellator = Tessellator.getInstance();
 			BufferBuilder buf = tessellator.getBuffer();
@@ -229,7 +237,7 @@ public class AdjustElementsGUI extends GuiScreenClose {
 			buf.pos(x, y, 0).color(red, green, blue, alpha).endVertex();
 			tessellator.draw();
 			GlStateManager.disableBlend();
-			GlStateManager.enableTexture2D();
+			GlStateManager.enableTexture();
 		}
 	}
 }

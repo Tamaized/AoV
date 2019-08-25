@@ -3,16 +3,17 @@ package tamaized.aov.client.gui.buttons;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import tamaized.aov.client.gui.AoVUIBar;
+import tamaized.aov.client.gui.RenderUtils;
 import tamaized.aov.common.core.abilities.AbilityBase;
 
 public class SpellButton extends Button {
 
 	private final AbilityBase spell;
 
-	public SpellButton(int buttonId, int x, int y, AbilityBase theSpell) {
-		super(buttonId, x, y, 90, 18, "");
+	public SpellButton(int x, int y, AbilityBase theSpell, IPressable function) {
+		super(x, y, 90, 18, "", function);
 		spell = theSpell;
 	}
 
@@ -26,8 +27,7 @@ public class SpellButton extends Button {
 		if (visible) {
 			FontRenderer fontrenderer = mc.fontRenderer;
 			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-			hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
-			int i = getHoverState(hovered);
+			isHovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 			GlStateManager.enableBlend();
 			GlStateManager.blendFuncSeparate(770, 771, 1, 0);
 			GlStateManager.blendFunc(770, 771);
@@ -37,13 +37,14 @@ public class SpellButton extends Button {
 
 			if (packedFGColor != 0) {
 				j = packedFGColor;
-			} else if (!enabled) {
+			} else if (!active) {
 				j = 0xFF888888;
-			} else if (hovered) {
+			} else if (isHovered) {
 				j = 0xFFFFFFFF;
 			}
 
-			drawRect(x, y, x + width, y + height, j);
+			RenderUtils.setup(blitOffset);
+			RenderUtils.renderRect(x, y, x + width, y + height, false, j);
 			if (spell == null)
 				return;
 			AoVUIBar.renderHotbarIcon(null, 0, x + 1, y + 1, spell.getIcon(), false);

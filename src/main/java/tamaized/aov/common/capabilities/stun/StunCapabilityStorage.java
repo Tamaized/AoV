@@ -11,7 +11,7 @@ public class StunCapabilityStorage implements IStorage<IStunCapability> {
 	@Override
 	public INBT writeNBT(Capability<IStunCapability> capability, IStunCapability instance, Direction side) {
 		CompoundNBT nbt = new CompoundNBT();
-		nbt.setInt("stunTicks", instance.getStunTicks());
+		nbt.putInt("stunTicks", instance.getStunTicks());
 		return nbt;
 	}
 

@@ -6,9 +6,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -18,6 +21,7 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.helper.RayTraceHelper;
+import tamaized.aov.network.SpawnEntityPacket;
 import tamaized.aov.registry.AoVEntities;
 
 import javax.annotation.Nonnull;
@@ -42,9 +46,9 @@ public class EntityGravity extends Entity {
 		caster = entity;
 		damage = dmg;
 		if (caster instanceof PlayerEntity) {
-			RayTraceResult ray = RayTraceHelper.tracePath(world, (PlayerEntity) caster, r, 1, Sets.newHashSet(caster));
+			RayTraceResult ray = RayTraceHelper.tracePath(caster, world, (PlayerEntity) caster, r, 1, Sets.newHashSet(caster));
 			if (ray != null) {
-				BlockPos pos = ray.type == RayTraceResult.Type.BLOCK ? ray.getBlockPos() : ray.entity.getPosition();
+				BlockPos pos = ray instanceof BlockRayTraceResult ? ((BlockRayTraceResult) ray).getPos() : ray instanceof EntityRayTraceResult ? ((EntityRayTraceResult) ray).getEntity().getPosition() : caster.getPosition();
 				setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
 			}
 		}
@@ -108,6 +112,12 @@ public class EntityGravity extends Entity {
 		if (damageMod > 0.5F)
 			damageMod -= 0.1F;
 
+	}
+
+	@Nonnull
+	@Override
+	public IPacket<?> createSpawnPacket() {
+		return new SpawnEntityPacket(this);
 	}
 
 }

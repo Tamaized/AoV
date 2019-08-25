@@ -90,7 +90,7 @@ public class LightningStrike extends AbilityBase {
 		EntitySpellLightningBolt strike = new EntitySpellLightningBolt(caster.world, caster, damage, this);
 		Vec3d pos = UtilHelper.getSpellLocation(caster, RANGE, target);
 		strike.setPosition(pos.x, pos.y, pos.z);
-		caster.world.spawnEntity(strike);
+		caster.world.addEntity(strike);
 		//		strike.world.play(null, strike.posX, strike.posY, strike.posZ, SoundEvents.firestrike, SoundCategory.NEUTRAL, 1.0F, 1.0F);
 		return true;
 	}

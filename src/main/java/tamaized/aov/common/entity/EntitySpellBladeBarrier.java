@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -12,6 +13,7 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
+import tamaized.aov.network.SpawnEntityPacket;
 import tamaized.aov.registry.AoVEntities;
 
 import javax.annotation.Nonnull;
@@ -110,6 +112,12 @@ public class EntitySpellBladeBarrier extends Entity implements IEntityAdditional
 			}
 		} else
 			e.attackEntityFrom(DamageSource.causeIndirectMagicDamage(this, caster), damage);
+	}
+
+	@Nonnull
+	@Override
+	public IPacket<?> createSpawnPacket() {
+		return new SpawnEntityPacket(this);
 	}
 
 }

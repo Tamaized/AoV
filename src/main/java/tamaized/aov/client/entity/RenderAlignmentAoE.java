@@ -1,7 +1,7 @@
 package tamaized.aov.client.entity;
 
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
+import com.mojang.blaze3d.platform.GLX;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -33,10 +33,10 @@ public class RenderAlignmentAoE<T extends EntityAlignmentAoE> extends EntityRend
 				final int alpha = MathHelper.clamp((int) (((entity.ticksExisted > 25 ? 50 - ticks : ticks) / 25F) * 0xFF), 0x0, 0xFF);
 				final int color = 0xFFFFFF00 | alpha;
 				final float scale = 0.2F;
-				GlStateManager.disableTexture2D();
+				GlStateManager.disableTexture();
 				GlStateManager.disableLighting();
 				GlStateManager.enableBlend();
-				OpenGlHelper.glMultiTexCoord2f(OpenGlHelper.GL_TEXTURE1, 200, 200);
+				GLX.glMultiTexCoord2f(GLX.GL_TEXTURE1, 200, 200);
 				GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 				for (int tx = -4; tx <= 4; tx += 4)
 					for (int tz = -4; tz <= 4; tz += 4)
@@ -51,7 +51,7 @@ public class RenderAlignmentAoE<T extends EntityAlignmentAoE> extends EntityRend
 				}
 				GlStateManager.disableBlend();
 				GlStateManager.enableLighting();
-				GlStateManager.enableTexture2D();
+				GlStateManager.enableTexture();
 			}
 			break;
 			case ChaosHammer: {

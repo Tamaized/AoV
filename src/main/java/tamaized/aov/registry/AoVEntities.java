@@ -1,7 +1,9 @@
 package tamaized.aov.registry;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -58,42 +60,42 @@ public class AoVEntities {
 	public static final EntityType entityspelllightningbolt = getNull();
 	public static final EntityType entityearthquake = getNull();
 	public static final EntityType entityspelllightningstorm = getNull();
-	public static final EntityType entitydruidicwolf = getNull();
+	public static final EntityType<? extends WolfEntity> entitydruidicwolf = getNull();
 	public static final EntityType entityalignmentaoe = getNull();
 
 	@SubscribeEvent
 	public static void register(RegistryEvent.Register<EntityType<?>> e) {
 		e.getRegistry().registerAll(
 
-				create(ProjectileNimbusRay.class, 256, 1, true),
+				assign(ProjectileNimbusRay.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC),
 
-				create(ProjectileFlameStrike.class, 256, 1, true),
+				assign(ProjectileFlameStrike.class, 0F, 0F, 256, 1, true, EntityClassification.MISC),
 
-				create(EntitySpellImplosion.class, 256, 1, true),
+				assign(EntitySpellImplosion.class, 0F, 0F, 256, 1, true, EntityClassification.MISC),
 
-				create(EntitySpellBladeBarrier.class, 256, 1, true),
+				assign(EntitySpellBladeBarrier.class, 0F, 0F, 256, 1, true, EntityClassification.MISC),
 
-				create(EntitySpellVanillaParticles.class, 256, 1, true),
+				assign(EntitySpellVanillaParticles.class, 0F, 0F, 256, 1, true, EntityClassification.MISC),
 
-				create(EntitySpellAoVParticles.class, 256, 1, true),
+				assign(EntitySpellAoVParticles.class, 0F, 0F, 256, 1, true, EntityClassification.MISC),
 
-				create(EntityMalefic.class, 256, 1, true),
+				assign(EntityMalefic.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC),
 
-				create(EntityCombust.class, 256, 1, true),
+				assign(EntityCombust.class, 0F, 0F, 256, 1, true, EntityClassification.MISC),
 
-				create(EntityGravity.class, 256, 1, true),
+				assign(EntityGravity.class, 0F, 0F, 256, 1, true, EntityClassification.MISC),
 
-				create(EntityCelestialOpposition.class, 256, 1, true),
+				assign(EntityCelestialOpposition.class, 0F, 0F, 256, 1, true, EntityClassification.MISC),
 
-				create(EntitySpellLightningBolt.class, 256, 1, true),
+				assign(EntitySpellLightningBolt.class, 0F, 0F, 256, 1, true, EntityClassification.MISC),
 
-				create(EntityEarthquake.class, 256, 1, true),
+				assign(EntityEarthquake.class, 6F, 0.1F, 256, 1, true, EntityClassification.MISC),
 
-				create(EntitySpellLightningStorm.class, 256, 1, true),
+				assign(EntitySpellLightningStorm.class, 12F, 0.1F, 256, 1, true, EntityClassification.MISC),
 
-				create(EntityDruidicWolf.class, 256, 1, true),
+				assign(EntityDruidicWolf.class, 0.6F, 0.85F, 256, 1, true, EntityClassification.MISC),
 
-				create(EntityAlignmentAoE.class, 256, 1, true)
+				assign(EntityAlignmentAoE.class, 0F, 0F, 256, 1, true, EntityClassification.MISC)
 
 		);
 	}
@@ -117,17 +119,20 @@ public class AoVEntities {
 		RenderingRegistry.registerEntityRenderingHandler(EntityAlignmentAoE.class, RenderAlignmentAoE::new);
 	}
 
-	private static <T extends Entity> EntityType<T> create(Class<T> entity, int range, int freq, boolean updates) {
+	private static <T extends Entity> EntityType<T> assign(Class<T> entity, float w, float h, int range, int freq, boolean updates, EntityClassification classification) {
 		final String name = entity.getSimpleName().toLowerCase();
-		EntityType<T> type = EntityType.Builder.create(entity, world -> {
+		EntityType<T> type = EntityType.Builder.<T>create((et, world) -> {
 			try {
 				return entity.getConstructor(World.class).newInstance(world);
 			} catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 				e.printStackTrace();
 			}
 			return null;
-		}).
-				tracker(range, freq, updates).
+		}, classification).
+				setTrackingRange(range).
+				setUpdateInterval(freq).
+				setShouldReceiveVelocityUpdates(updates).
+				size(w, h).
 				build(name);
 		type.setRegistryName(AoV.MODID, name);
 		return type;

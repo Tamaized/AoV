@@ -55,7 +55,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			DRUID_HEALTH_NAME
 
 	);
-	private static final AttributeModifier PALADIN_HEALTH = new AttributeModifier(PALADIN_HEALTH_NAME, 10.0D, 0);
+	private static final AttributeModifier PALADIN_HEALTH = new AttributeModifier(PALADIN_HEALTH_NAME, 10.0D, AttributeModifier.Operation.ADDITION);
 	private int tick = 1;
 	private boolean dirty = true;
 	private boolean hasLoaded = false;
@@ -152,10 +152,10 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		if (tick % (20 * 30) == 0 && hasSkill(AoVSkills.paladin_capstone) && player != null && !player.removed) {
 			ItemStack main = player.getHeldItemMainhand();
 			ItemStack off = player.getHeldItemOffhand();
-			if (!main.isEmpty() && main.getItem().isShield(main, player) && main.getItem().isRepairable() && main.getDamage() > 0) {
+			if (!main.isEmpty() && main.getItem().isShield(main, player) && main.getStack().isRepairable() && main.getDamage() > 0) {
 				main.setDamage(0);
 			}
-			if (!off.isEmpty() && off.getItem().isShield(off, player) && off.getItem().isRepairable() && off.getDamage() > 0) {
+			if (!off.isEmpty() && off.getItem().isShield(off, player) && off.getStack().isRepairable() && off.getDamage() > 0) {
 				off.setDamage(0);
 			}
 		}
@@ -197,7 +197,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		if (hasSkill(AoVSkills.paladin_tier_4_2) && !hp.hasModifier(PALADIN_HEALTH) && player.getHeldItemOffhand().getItem().isShield(player.getHeldItemOffhand(), player))
 			hp.applyModifier(PALADIN_HEALTH);
 		if (getCoreSkill() == AoVSkills.druid_core_1 && IAoVCapability.isCentered(player, this))
-			hp.applyModifier(new AttributeModifier(DRUID_HEALTH_NAME, getLevel(), 0));
+			hp.applyModifier(new AttributeModifier(DRUID_HEALTH_NAME, getLevel(), AttributeModifier.Operation.ADDITION));
 	}
 
 	private void updateValues(@Nullable PlayerEntity player) {

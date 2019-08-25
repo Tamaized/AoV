@@ -1,6 +1,7 @@
 package tamaized.aov.common.events;
 
 import com.google.common.collect.Lists;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -9,12 +10,12 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
@@ -27,6 +28,7 @@ import tamaized.aov.registry.AoVPotions;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Mod.EventBusSubscriber(modid = AoV.MODID)
 public class TickHandler {
@@ -89,11 +91,17 @@ public class TickHandler {
 	public static void updateEntity(TickEvent.WorldTickEvent e) {
 		if (e.phase == TickEvent.Phase.START)
 			return;
-		List<Entity> list = Lists.newArrayList(e.world.loadedEntityList);
+		Iterable<Entity> list = null;
+		if (e.world instanceof ServerWorld)
+			list = ((ServerWorld) e.world).getEntities().collect(Collectors.toList());
+		else if (e.world instanceof ClientWorld)
+			list = ((ClientWorld) e.world).getAllEntities();
+		if (list == null)
+			return;
 		for (Entity entity : list) {
 			if (!(entity instanceof LivingEntity))
 				continue;
-			if (entity.removed)
+			if (!entity.isAlive())
 				continue;
 			IStunCapability cap = CapabilityList.getCap(entity, CapabilityList.STUN);
 			if (cap != null)
@@ -102,7 +110,7 @@ public class TickHandler {
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public static void update(PlayerTickEvent e) {
+	public static void update(TickEvent.PlayerTickEvent e) {
 		if (e.phase == TickEvent.Phase.START)
 			return;
 		PlayerEntity player = e.player;

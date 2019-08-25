@@ -1,18 +1,20 @@
 package tamaized.aov.common.entity;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.init.Particles;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.IParticleData;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import tamaized.aov.network.SpawnEntityPacket;
 import tamaized.aov.registry.AoVEntities;
 
 import javax.annotation.Nonnull;
@@ -46,7 +48,7 @@ public class EntitySpellVanillaParticles extends Entity {
 
 	@Override
 	protected void registerData() {
-		dataManager.register(PARTICLE, Particles.WITCH);
+		dataManager.register(PARTICLE, ParticleTypes.WITCH);
 		dataManager.register(RATE, 10);
 	}
 
@@ -60,12 +62,12 @@ public class EntitySpellVanillaParticles extends Entity {
 
 	@Override
 	protected void readAdditional(@Nonnull CompoundNBT compound) {
-		dataManager.set(PARTICLE, (IParticleData) Objects.requireNonNull(Registry.field_212632_u.func_212608_b(new ResourceLocation(compound.getString("particle")))));
+		Objects.requireNonNull(Registry.PARTICLE_TYPE.getValue(new ResourceLocation(compound.getString("particle")))).ifPresent(particleType -> dataManager.set(PARTICLE, (IParticleData) particleType));
 	}
 
 	@Override
 	protected void writeAdditional(@Nonnull CompoundNBT compound) {
-		compound.setString("particle", getParticle().getType().getId().toString());
+		compound.putString("particle", Objects.requireNonNull(getParticle().getType().getRegistryName()).toString());
 	}
 
 	@Override
@@ -74,7 +76,7 @@ public class EntitySpellVanillaParticles extends Entity {
 			for (int index = 0; index < dataManager.get(RATE); index++) {
 				Vec3d vec = getLook(1.0F).rotatePitch(rand.nextInt(360)).rotateYaw(rand.nextInt(360));
 				Vec3d pos = getPositionVector().add(0, 0.65F, 0).add(vec);
-				world.spawnParticle(getParticle(), pos.x, pos.y, pos.z, 0, 0.25F, 0);
+				world.addParticle(getParticle(), pos.x, pos.y, pos.z, 0, 0.25F, 0);
 			}
 			return;
 		}
@@ -83,6 +85,12 @@ public class EntitySpellVanillaParticles extends Entity {
 			return;
 		}
 		setPositionAndUpdate(target.posX, target.posY, target.posZ);
+	}
+
+	@Nonnull
+	@Override
+	public IPacket<?> createSpawnPacket() {
+		return new SpawnEntityPacket(this);
 	}
 
 }

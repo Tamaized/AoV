@@ -2,7 +2,7 @@ package tamaized.aov.common.events;
 
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemFood;
+import net.minecraft.item.Food;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerPickupXpEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
@@ -30,9 +30,9 @@ public class PlayerInteractHandler {
 
 	@SubscribeEvent
 	public static void onItemPickup(EntityItemPickupEvent e) {
-		IPolymorphCapability cap = CapabilityList.getCap(e.getEntityPlayer(), CapabilityList.POLYMORPH);
-		if (cap != null && cap.getMorph() == IPolymorphCapability.Morph.Wolf && e.getEntityPlayer().getFoodStats().needFood() && e.getItem().getItem().getItem() instanceof ItemFood) {
-			e.getItem().getItem().getItem().onItemUseFinish(e.getItem().getItem(), e.getEntityPlayer().world, e.getEntityPlayer());
+		IPolymorphCapability cap = CapabilityList.getCap(e.getPlayer(), CapabilityList.POLYMORPH);
+		if (cap != null && cap.getMorph() == IPolymorphCapability.Morph.Wolf && e.getPlayer().getFoodStats().needFood() && e.getItem().getItem().isFood()) {
+			e.getItem().getItem().getItem().onItemUseFinish(e.getItem().getItem(), e.getPlayer().world, e.getPlayer());
 			e.setCanceled(true);
 		}
 	}

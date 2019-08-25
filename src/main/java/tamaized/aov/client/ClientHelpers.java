@@ -7,6 +7,7 @@ import com.mojang.blaze3d.platform.TextureUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import tamaized.aov.common.helper.RayTraceHelper;
 
@@ -25,9 +26,9 @@ public final class ClientHelpers {
 	public static Entity getTargetOverMouse(Minecraft mc, int range) {
 		BLANK_SET.clear();
 		BLANK_SET.add(mc.player);
-		RayTraceResult ray = RayTraceHelper.tracePath(mc.world, mc.player, range, 1, BLANK_SET);
+		RayTraceResult ray = RayTraceHelper.tracePath(mc.player, mc.world, mc.player, range, 1, BLANK_SET);
 		BLANK_SET.clear();
-		return ray == null || ray.type != RayTraceResult.Type.ENTITY ? null : ray.entity;
+		return ray instanceof EntityRayTraceResult ? ((EntityRayTraceResult) ray).getEntity() : null;
 	}
 
 	public static boolean isStencilBufferEnabled() {
@@ -46,7 +47,7 @@ public final class ClientHelpers {
 		fbo.framebufferTextureWidth = width;
 		fbo.framebufferTextureHeight = height;
 		if (!GLX.isUsingFBOs()) {
-			fbo.func_216493_b(Minecraft.IS_RUNNING_ON_MAC);
+			fbo.framebufferClear(Minecraft.IS_RUNNING_ON_MAC);
 		} else {
 			fbo.framebufferObject = GLX.glGenFramebuffers();
 			fbo.framebufferTexture = TextureUtil.generateTextureId();
@@ -67,7 +68,7 @@ public final class ClientHelpers {
 			}
 
 			fbo.checkFramebufferComplete();
-			fbo.func_216493_b(Minecraft.IS_RUNNING_ON_MAC);
+			fbo.framebufferClear(Minecraft.IS_RUNNING_ON_MAC);
 			fbo.unbindFramebufferTexture();
 		}
 	}

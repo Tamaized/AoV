@@ -1,8 +1,9 @@
 package tamaized.aov.client.events;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
@@ -18,13 +19,13 @@ import tamaized.aov.proxy.ClientProxy;
 public class RenderLivingHook {
 
 	@SubscribeEvent
-	public static void render(RenderLivingEvent.Pre<? extends LivingEntity> e) {
+	public static void render(RenderLivingEvent.Pre<? extends LivingEntity, ? extends EntityModel<?>> e) {
 		if (e.getEntity() != ClientProxy.getTarget())
 			return;
 		GlStateManager.pushMatrix();
 		{
 			GlStateManager.translated(e.getX(), e.getY() + (e.getEntity().isSneaking() ? 0.1F : 0F), e.getZ());
-			GlStateManager.disableTexture2D();
+			GlStateManager.disableTexture();
 			GlStateManager.enableBlend();
 			GlStateManager.disableCull();
 			GlStateManager.disableLighting();
@@ -35,7 +36,7 @@ public class RenderLivingHook {
 
 			int segs = 50;
 			float r = 2F;
-			float width = e.getEntity().width;
+			float width = e.getEntity().getWidth();
 			drawArc(buffer, segs, r, 1, segs / 2 - 1, 0.4F * width, 0.41F * width);
 			GlStateManager.pushMatrix();
 			{
@@ -55,7 +56,7 @@ public class RenderLivingHook {
 			GlStateManager.enableLighting();
 			GlStateManager.enableCull();
 			GlStateManager.disableBlend();
-			GlStateManager.enableTexture2D();
+			GlStateManager.enableTexture();
 		}
 		GlStateManager.popMatrix();
 	}

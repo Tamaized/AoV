@@ -2,13 +2,14 @@ package tamaized.aov;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.command.CommandSource;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -16,6 +17,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.network.NetworkRegistry;
+import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
@@ -39,8 +41,8 @@ import tamaized.aov.common.commands.AoVCommands;
 import tamaized.aov.common.config.ConfigHandler;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.skills.AoVSkills;
-import tamaized.aov.common.gui.GuiHandler;
 import tamaized.aov.network.NetworkMessages;
+import tamaized.aov.network.client.ClientPacketHandlerSpawnNonLivingEntity;
 import tamaized.aov.proxy.ClientProxy;
 import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.AoVAchievements;
@@ -103,8 +105,6 @@ public class AoV {
 		CapabilityManager.INSTANCE.register(ILeapCapability.class, new LeapCapabilityStorage(), LeapCapabilityHandler::new);
 		CapabilityManager.INSTANCE.register(IPolymorphCapability.class, new PolymorphCapabilityStorage(), PolymorphCapabilityHandler::new);
 
-		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.GUIFACTORY, () -> GuiHandler::getGui);
-
 		Abilities.register();
 		AoVSkills.register();
 
@@ -123,6 +123,17 @@ public class AoV {
 						then(AoVCommands.Open.register()).
 						then(AoVCommands.SetLevel.register()).
 						then(AoVCommands.Reset.register())
+
+		);
+	}
+
+	public static void spawnNonLivingEntity(World world, Entity entity) {
+		world.addEntity(entity);
+		AoV.network.send(
+
+				PacketDistributor.TRACKING_CHUNK.with(() -> world.getChunk(entity.chunkCoordX, entity.chunkCoordZ)),
+
+				new ClientPacketHandlerSpawnNonLivingEntity(entity)
 
 		);
 	}

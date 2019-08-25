@@ -1,8 +1,9 @@
 package tamaized.aov.client.gui;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.MainWindow;
+import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import tamaized.aov.AoV;
@@ -18,49 +19,26 @@ import tamaized.aov.common.gui.GuiHandler;
 import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
 
 import java.util.List;
+import java.util.Objects;
 
 public class SpellBookGUI extends GuiScreenClose {
-
-	public static final int BUTTON_SPELL = 2;
-	public static final int BUTTON_BAR_SLOT_0 = 3;
-	public static final int BUTTON_BAR_SLOT_1 = 4;
-	public static final int BUTTON_BAR_SLOT_2 = 5;
-	public static final int BUTTON_BAR_SLOT_3 = 6;
-	public static final int BUTTON_BAR_SLOT_4 = 7;
-	public static final int BUTTON_BAR_SLOT_5 = 8;
-	public static final int BUTTON_BAR_SLOT_6 = 9;
-	public static final int BUTTON_BAR_SLOT_7 = 10;
-	public static final int BUTTON_BAR_SLOT_8 = 11;
-	private static final int BUTTON_CLOSE = 0;
-	private static final int BUTTON_BACK = 1;
 
 	private final BlockAngelicBlock.ClassType parent;
 
 	public SpellBookGUI(BlockAngelicBlock.ClassType parent) {
+		super(makeTranslationKey("spellbook"));
 		this.parent = parent;
 	}
 
 	@Override
-	public void initGui() {
+	public void init() {
 		int margin = 20;
 		int padding = 100;
 		float workW = width - padding;
 		int loc1 = (int) (workW * .25) + margin;
 		int loc2 = (int) (workW * .75) + margin;
-		buttons.add(new Button(BUTTON_BACK, loc1, height - 25, 80, 20, I18n.format("aov.gui.button.back")) {
-			@Override
-			public void onClick(double mouseX, double mouseY) {
-				super.onClick(mouseX, mouseY);
-				GuiHandler.openGui(GuiHandler.GUI.SKILLS, parent);
-			}
-		});
-		buttons.add(new Button(BUTTON_CLOSE, loc2, height - 25, 80, 20, I18n.format("aov.gui.button.close")) {
-			@Override
-			public void onClick(double mouseX, double mouseY) {
-				super.onClick(mouseX, mouseY);
-				mc.player.closeScreen();
-			}
-		});
+		buttons.add(new Button(loc1, height - 25, 80, 20, I18n.format("aov.gui.button.back"), button -> GuiHandler.openGui(GuiHandler.GUI.SKILLS, parent)));
+		buttons.add(new Button(loc2, height - 25, 80, 20, I18n.format("aov.gui.button.close"), button -> Objects.requireNonNull(minecraft).player.closeScreen()));
 
 		int xLoc = 50;
 		int yLoc = 50;
@@ -68,96 +46,31 @@ public class SpellBookGUI extends GuiScreenClose {
 		{
 			int y = height - 47;
 			int x = width / 2;
-			buttons.add(new BlankButton(BUTTON_BAR_SLOT_0, x - 88, y, 16, 16, false) {
-				@Override
-				public void onClick(double mouseX, double mouseY) {
-					super.onClick(mouseX, mouseY);
-					sendPacketTypeRemoveSlot(0);
-				}
-			});
-			buttons.add(new BlankButton(BUTTON_BAR_SLOT_1, x - 68, y, 16, 16, false) {
-				@Override
-				public void onClick(double mouseX, double mouseY) {
-					super.onClick(mouseX, mouseY);
-					sendPacketTypeRemoveSlot(1);
-				}
-			});
-			buttons.add(new BlankButton(BUTTON_BAR_SLOT_2, x - 48, y, 16, 16, false) {
-				@Override
-				public void onClick(double mouseX, double mouseY) {
-					super.onClick(mouseX, mouseY);
-					sendPacketTypeRemoveSlot(2);
-				}
-			});
-			buttons.add(new BlankButton(BUTTON_BAR_SLOT_3, x - 28, y, 16, 16, false) {
-				@Override
-				public void onClick(double mouseX, double mouseY) {
-					super.onClick(mouseX, mouseY);
-					sendPacketTypeRemoveSlot(3);
-				}
-			});
-			buttons.add(new BlankButton(BUTTON_BAR_SLOT_4, x - 8, y, 16, 16, false) {
-				@Override
-				public void onClick(double mouseX, double mouseY) {
-					super.onClick(mouseX, mouseY);
-					sendPacketTypeRemoveSlot(4);
-				}
-			});
-			buttons.add(new BlankButton(BUTTON_BAR_SLOT_5, x + 12, y, 16, 16, false) {
-				@Override
-				public void onClick(double mouseX, double mouseY) {
-					super.onClick(mouseX, mouseY);
-					sendPacketTypeRemoveSlot(5);
-				}
-			});
-			buttons.add(new BlankButton(BUTTON_BAR_SLOT_6, x + 32, y, 16, 16, false) {
-				@Override
-				public void onClick(double mouseX, double mouseY) {
-					super.onClick(mouseX, mouseY);
-					sendPacketTypeRemoveSlot(6);
-				}
-			});
-			buttons.add(new BlankButton(BUTTON_BAR_SLOT_7, x + 52, y, 16, 16, false) {
-				@Override
-				public void onClick(double mouseX, double mouseY) {
-					super.onClick(mouseX, mouseY);
-					sendPacketTypeRemoveSlot(7);
-				}
-			});
-			buttons.add(new BlankButton(BUTTON_BAR_SLOT_8, x + 72, y, 16, 16, false) {
-				@Override
-				public void onClick(double mouseX, double mouseY) {
-					super.onClick(mouseX, mouseY);
-					sendPacketTypeRemoveSlot(8);
-				}
-			});
+			buttons.add(new BlankButton(x - 88, y, 16, 16, button -> sendPacketTypeRemoveSlot(0)));
+			buttons.add(new BlankButton(x - 68, y, 16, 16, button -> sendPacketTypeRemoveSlot(1)));
+			buttons.add(new BlankButton(x - 48, y, 16, 16, button -> sendPacketTypeRemoveSlot(2)));
+			buttons.add(new BlankButton(x - 28, y, 16, 16, button -> sendPacketTypeRemoveSlot(3)));
+			buttons.add(new BlankButton(x - 8, y, 16, 16, button -> sendPacketTypeRemoveSlot(4)));
+			buttons.add(new BlankButton(x + 12, y, 16, 16, button -> sendPacketTypeRemoveSlot(5)));
+			buttons.add(new BlankButton(x + 32, y, 16, 16, button -> sendPacketTypeRemoveSlot(6)));
+			buttons.add(new BlankButton(x + 52, y, 16, 16, button -> sendPacketTypeRemoveSlot(7)));
+			buttons.add(new BlankButton(x + 72, y, 16, 16, button -> sendPacketTypeRemoveSlot(8)));
 		}
-		if (mc == null || mc.player == null)
+		if (minecraft == null || minecraft.player == null)
 			return;
-		IAoVCapability cap = CapabilityList.getCap(mc.player, CapabilityList.AOV);
+		IAoVCapability cap = CapabilityList.getCap(minecraft.player, CapabilityList.AOV);
 		if (cap == null)
 			return;
 		int index = 0;
 		for (Ability ability : cap.getAbilities()) {
-			buttons.add(new SpellButton(BUTTON_SPELL, xLoc + (100 * ((int) Math.floor(index / 6))), yLoc + (25 * (index % 6)), ability.getAbility()) {
-				@Override
-				public void onClick(double mouseX, double mouseY) {
-					super.onClick(mouseX, mouseY);
-					sendPacketTypeAddNearestSlot(getSpell());
-				}
-			});
+			buttons.add(new SpellButton(xLoc + (100 * ((int) Math.floor(index / 6))), yLoc + (25 * (index % 6)), ability.getAbility(), button -> sendPacketTypeAddNearestSlot(((SpellButton) button).getSpell())));
 			index++;
 		}
 	}
 
 	@Override
-	public boolean doesGuiPauseGame() {
+	public boolean isPauseScreen() {
 		return false;
-	}
-
-	@Override
-	public void onGuiClosed() {
-
 	}
 
 	@Override
@@ -166,32 +79,33 @@ public class SpellBookGUI extends GuiScreenClose {
 
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks) {
-		drawDefaultBackground();
-		drawCenteredString(fontRenderer, I18n.format("aov.gui.title.spellbook"), width / 2, 15, 16777215);
+		renderBackground();
+		drawCenteredString(Objects.requireNonNull(minecraft).fontRenderer, I18n.format("aov.gui.title.spellbook"), width / 2, 15, 16777215);
 		super.render(mouseX, mouseY, partialTicks);
 		renderBar();
-		for (Button b : buttons) {
-			if (!b.isMouseOver())
+		for (Widget b : buttons) {
+			if (!b.isMouseOver(mouseX, mouseY))
 				continue;
 			if (b instanceof SpellButton) {
 				SpellButton sb = (SpellButton) b;
 				List<String> desc;
-				if (sb.getSpell() != null && (desc = sb.getSpell().getDescription()) != null)
-					drawHoveringText(desc, mouseX, mouseY);
+				if (sb.getSpell() != null && (desc = sb.getSpell().getDescription()) != null) ;
+//					renderComponentHoverEffect(desc, mouseX, mouseY); TODO
 			}
 		}
 	}
 
 	private void renderBar() {
-		if (mc == null)
+		if (minecraft == null)
 			return;
-		IAoVCapability cap = CapabilityList.getCap(mc.player, CapabilityList.AOV);
-		MainWindow sr = mc.mainWindow;
+		IAoVCapability cap = CapabilityList.getCap(minecraft.player, CapabilityList.AOV);
+		MainWindow sr = minecraft.mainWindow;
 		float alpha = 1.0f;
 		GlStateManager.color4f(1.0F, 1.0F, 1.0F, alpha);
-		mc.getTextureManager().bindTexture(AoVUIBar.widgetsTexPath);
+		minecraft.getTextureManager().bindTexture(AoVUIBar.widgetsTexPath);
 		int i = sr.getScaledWidth() / 2;
-		drawTexturedModalRect(i - 91, sr.getScaledHeight() - 50, 0, 0, 182, 22);
+		RenderUtils.setup(blitOffset);
+		RenderUtils.renderRect(i - 91, sr.getScaledHeight() - 50, 0, 0, 182, 22);
 		GlStateManager.enableRescaleNormal();
 		GlStateManager.enableBlend();
 		GlStateManager.blendFuncSeparate(770, 771, 1, 0);

@@ -6,13 +6,16 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
-import net.minecraft.init.Particles;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -24,6 +27,7 @@ import tamaized.aov.common.capabilities.stun.IStunCapability;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.favoredsoul.AlignmentAoE;
 import tamaized.aov.common.helper.RayTraceHelper;
+import tamaized.aov.network.SpawnEntityPacket;
 import tamaized.aov.registry.AoVEntities;
 
 import javax.annotation.Nonnull;
@@ -51,9 +55,9 @@ public class EntityAlignmentAoE extends Entity {
 		rotationYaw = caster.rotationYaw;
 		damage = dmg;
 		if (caster instanceof PlayerEntity) {
-			RayTraceResult ray = RayTraceHelper.tracePath(world, (PlayerEntity) caster, r, 1, Sets.newHashSet(caster));
+			RayTraceResult ray = RayTraceHelper.tracePath(caster, world, (PlayerEntity) caster, r, 1, Sets.newHashSet(caster));
 			if (ray != null) {
-				BlockPos pos = ray.type == RayTraceResult.Type.BLOCK ? ray.getBlockPos() : ray.entity.getPosition();
+				BlockPos pos = ray instanceof BlockRayTraceResult ? ((BlockRayTraceResult) ray).getPos() : ray instanceof EntityRayTraceResult ? ((EntityRayTraceResult) ray).getEntity().getPosition() : caster.getPosition();
 				setPositionAndUpdate(pos.getX(), pos.getY(), pos.getZ());
 			}
 		}
@@ -96,7 +100,13 @@ public class EntityAlignmentAoE extends Entity {
 
 	@Override
 	protected void writeAdditional(@Nonnull CompoundNBT compound) {
-		compound.setInt("alignment", alignment.ordinal());
+		compound.putInt("alignment", alignment.ordinal());
+	}
+
+	@Nonnull
+	@Override
+	public IPacket<?> createSpawnPacket() {
+		return new SpawnEntityPacket(this);
 	}
 
 	@Override
@@ -105,7 +115,7 @@ public class EntityAlignmentAoE extends Entity {
 		if (world.isRemote && getAlignment() == AlignmentAoE.Type.ChaosHammer) {
 			if (ticksExisted >= 14) {
 				for (int i = 0; i <= 7; i++)
-					world.spawnParticle(Particles.CRIT,
+					world.addParticle(ParticleTypes.CRIT,
 
 							posX + 0.5F,
 

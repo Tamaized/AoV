@@ -98,7 +98,7 @@ public class Malefic extends AbilityBase {
 			spell.setDamage(a);
 			spell.setMaxRange(distance);
 			spell.setSpeed(1);
-			caster.world.spawnEntity(spell);
+			caster.world.addEntity(spell);
 			SoundEvents.playMovingSoundOnServer(SoundEvents.malefic_cast, spell);
 		}
 		return true;

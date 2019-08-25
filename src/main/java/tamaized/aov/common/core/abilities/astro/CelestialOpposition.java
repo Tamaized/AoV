@@ -4,6 +4,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.EffectType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -102,13 +103,13 @@ public class CelestialOpposition extends AbilityBase {
 				}
 				if (e == caster || IAoVCapability.canBenefit(caster, aov, e)) {
 					for (EffectInstance effect : e.getActivePotionEffects())
-						if (!effect.getPotion().isBadEffect())
+						if (effect.getPotion().getEffectType() != EffectType.HARMFUL)
 							e.addPotionEffect(new EffectInstance(effect.getPotion(), effect.getDuration() + 400, effect.getAmplifier(), effect.isAmbient(), effect.doesShowParticles()));
 				}
 			}
 			EntityCelestialOpposition spell = new EntityCelestialOpposition(caster.world);
 			spell.setPosition(caster.posX, caster.posY, caster.posZ);
-			caster.world.spawnEntity(spell);
+			caster.world.addEntity(spell);
 			SoundEvents.playMovingSoundOnServer(SoundEvents.celestialopposition, spell, 0.5F, 1F);
 			return true;
 		}

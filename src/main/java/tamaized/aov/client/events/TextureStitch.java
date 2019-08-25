@@ -1,6 +1,8 @@
 package tamaized.aov.client.events;
 
+import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
+import net.minecraft.profiler.EmptyProfiler;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.TextureStitchEvent;
@@ -15,7 +17,7 @@ public class TextureStitch {
 
 	@SubscribeEvent
 	public static void stitch(TextureStitchEvent e) {
-		e.getMap().registerSprite(Minecraft.getInstance().getResourceManager(), HEART);
+		e.getMap().stitch(Minecraft.getInstance().getResourceManager(), Lists.newArrayList(HEART), EmptyProfiler.INSTANCE);
 	}
 
 }

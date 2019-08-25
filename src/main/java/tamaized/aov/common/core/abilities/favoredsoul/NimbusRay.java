@@ -96,7 +96,7 @@ public class NimbusRay extends AbilityBase {
 		ray.setColor(0xFFFF66FF);
 		ray.setDamage(a);
 		ray.setMaxRange(distance);
-		caster.world.spawnEntity(ray);
+		caster.world.addEntity(ray);
 		return true;
 	}
 

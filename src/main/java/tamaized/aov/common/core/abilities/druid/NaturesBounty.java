@@ -100,7 +100,7 @@ public class NaturesBounty extends AbilityBase {
 
 	private void addPotionEffects(LivingEntity entity) {
 		entity.addPotionEffect(new EffectInstance(AoVPotions.naturesBounty, 20 * (60 * 15)));
-		entity.world.spawnEntity(new EntitySpellAoVParticles(entity.world, entity, CommonProxy.ParticleType.Heart, 0x00FFAAFF, 1));
+		entity.world.addEntity(new EntitySpellAoVParticles(entity.world, entity, CommonProxy.ParticleType.Heart, 0x00FFAAFF, 1));
 		entity.world.playSound(null, entity.posX, entity.posY, entity.posZ, SoundEvents.ENTITY_ILLUSIONER_PREPARE_BLINDNESS, SoundCategory.PLAYERS, 1.0F, entity.getRNG().nextFloat() * 0.5F + 0.75F);
 	}
 

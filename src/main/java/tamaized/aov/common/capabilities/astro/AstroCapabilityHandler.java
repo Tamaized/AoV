@@ -3,7 +3,7 @@ package tamaized.aov.common.capabilities.astro;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.init.Particles;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.network.PacketDistributor;
 import tamaized.aov.AoV;
@@ -27,7 +27,7 @@ public class AstroCapabilityHandler implements IAstroCapability {
 	private boolean dirty = true;
 
 	private static void spawnParticle(LivingEntity entity, double x, double y, double z) {
-		entity.world.spawnParticle(Particles.WITCH, x, y, z, 0.0D, 0.0D, 0.0D);
+		entity.world.addParticle(ParticleTypes.WITCH, x, y, z, 0.0D, 0.0D, 0.0D);
 	}
 
 	@Override
@@ -266,10 +266,10 @@ public class AstroCapabilityHandler implements IAstroCapability {
 						break;
 					case Burn:
 						float theta = (float) Math.toRadians(dat[3] * 16);
-						entity.world.spawnParticle(Particles.FLAME, entity.posX + MathHelper.cos(theta), entity.posY + 2F + MathHelper.sin(theta), entity.posZ + MathHelper.sin(theta), 0.0D, 0.0D, 0.0D);
-						entity.world.spawnParticle(Particles.FLAME, entity.posX + MathHelper.sin(theta), entity.posY + 2F + MathHelper.sin(theta), entity.posZ + MathHelper.cos(theta), 0.0D, 0.0D, 0.0D);
+						entity.world.addParticle(ParticleTypes.FLAME, entity.posX + MathHelper.cos(theta), entity.posY + 2F + MathHelper.sin(theta), entity.posZ + MathHelper.sin(theta), 0.0D, 0.0D, 0.0D);
+						entity.world.addParticle(ParticleTypes.FLAME, entity.posX + MathHelper.sin(theta), entity.posY + 2F + MathHelper.sin(theta), entity.posZ + MathHelper.cos(theta), 0.0D, 0.0D, 0.0D);
 						if (dat[3] <= 20 && dat[3] > 0)
-							entity.world.spawnParticle(Particles.FLAME, entity.posX + entity.getRNG().nextDouble() * 0.125D - 0.0625D, entity.posY + 2.9F - (0.125D * ((80F - dat[0]) / 80F)), entity.posZ + entity.getRNG().nextDouble() * 0.125D - 0.0625D, 0.0D, 0.0D, 0.0D);
+							entity.world.addParticle(ParticleTypes.FLAME, entity.posX + entity.getRNG().nextDouble() * 0.125D - 0.0625D, entity.posY + 2.9F - (0.125D * ((80F - dat[0]) / 80F)), entity.posZ + entity.getRNG().nextDouble() * 0.125D - 0.0625D, 0.0D, 0.0D, 0.0D);
 						break;
 					case Activate:
 						if (dat[3] <= 20 && dat[3] > 0)

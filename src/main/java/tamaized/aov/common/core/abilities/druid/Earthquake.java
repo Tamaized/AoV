@@ -90,7 +90,7 @@ public class Earthquake extends AbilityBase {
 		EntityEarthquake quake = new EntityEarthquake(caster.world, caster, damage);
 		Vec3d pos = UtilHelper.getSpellLocation(caster, RANGE, target);
 		quake.setPosition(pos.x + 0.5F, pos.y + 1F, pos.z + 0.5F);
-		caster.world.spawnEntity(quake);
+		caster.world.addEntity(quake);
 		return true;
 	}
 

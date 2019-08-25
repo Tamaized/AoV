@@ -94,7 +94,7 @@ public class AlignmentAoE extends AbilityBase {
 		if (!caster.world.isRemote && aov != null && (target == null || IAoVCapability.selectiveTarget(caster, aov, target))) {
 			int dmg = (int) (damage * (1f + (aov.getSpellPower() / 100f)));
 			EntityAlignmentAoE spell = target == null ? new EntityAlignmentAoE(caster.world, type, caster, dmg, distance) : new EntityAlignmentAoE(caster.world, type, caster, dmg, target.getPositionVector());
-			caster.world.spawnEntity(spell);
+			caster.world.addEntity(spell);
 			SoundEvents.playMovingSoundOnServer(type.sound, spell, 2F, type.minPitch + caster.getRNG().nextFloat() * 0.5F);
 			return true;
 		}

@@ -26,40 +26,40 @@ public class AoVCapabilityStorage implements IStorage<IAoVCapability> {
 		ListNBT list = new ListNBT();
 		for (AoVSkill skill : instance.getObtainedSkills())
 			list.add(new IntNBT(skill.getID()));
-		nbt.setTag("obtainedSkills", list);
+		nbt.put("obtainedSkills", list);
 		list = new ListNBT();
 		for (Entry<AbilityBase, DecayWrapper> entry : instance.getDecayMap().entrySet()) {
 			CompoundNBT comp = new CompoundNBT();
-			comp.setInt("id", AbilityBase.getID(entry.getKey()));
-			comp.setInt("decay", entry.getValue().getDecay());
+			comp.putInt("id", AbilityBase.getID(entry.getKey()));
+			comp.putInt("decay", entry.getValue().getDecay());
 			list.add(comp);
 		}
-		nbt.setTag("decay", list);
-		nbt.setInt("skillPoints", instance.getSkillPoints());
-		nbt.setInt("exp", instance.getExp());
-		nbt.setInt("maxLevel", instance.getMaxLevel());
-		nbt.setBoolean("invokeMass", instance.getInvokeMass());
+		nbt.put("decay", list);
+		nbt.putInt("skillPoints", instance.getSkillPoints());
+		nbt.putInt("exp", instance.getExp());
+		nbt.putInt("maxLevel", instance.getMaxLevel());
+		nbt.putBoolean("invokeMass", instance.getInvokeMass());
 		list = new ListNBT();
 		for (int index = 0; index < 9; index++) {
 			CompoundNBT ct = new CompoundNBT();
 			Ability ability = instance.getSlot(index);
-			ct.setInt("slot", index);
-			ct.setInt("id", ability == null ? -1 : ability.getAbility().getID());
+			ct.putInt("slot", index);
+			ct.putInt("id", ability == null ? -1 : ability.getAbility().getID());
 			list.add(ct);
 		}
-		nbt.setTag("slots", list);
+		nbt.put("slots", list);
 		list = new ListNBT();
 		for (Ability ability : instance.getAbilities())
 			list.add(ability.encode(new CompoundNBT(), instance));
-		nbt.setTag("abilities", list);
-		nbt.setInt("currentSlot", instance.getCurrentSlot());
+		nbt.put("abilities", list);
+		nbt.putInt("currentSlot", instance.getCurrentSlot());
 		return nbt;
 	}
 
 	@Override
 	public void readNBT(Capability<IAoVCapability> capability, IAoVCapability instance, Direction side, INBT nbt) {
 		CompoundNBT compound = (CompoundNBT) nbt;
-		INBT tag = compound.getTag("obtainedSkills");
+		INBT tag = compound.get("obtainedSkills");
 		if (tag instanceof ListNBT) {
 			ListNBT list = (ListNBT) tag;
 			for (int index = 0; index < list.size(); index++) {
@@ -67,7 +67,7 @@ public class AoVCapabilityStorage implements IStorage<IAoVCapability> {
 			}
 		}
 		Map<AbilityBase, DecayWrapper> decay = new HashMap<>();
-		tag = compound.getTag("decay");
+		tag = compound.get("decay");
 		if (tag instanceof ListNBT) {
 			ListNBT list = (ListNBT) tag;
 			for (int index = 0; index < list.size(); index++) {
@@ -82,7 +82,7 @@ public class AoVCapabilityStorage implements IStorage<IAoVCapability> {
 		instance.setMaxLevel(AoV.config.maxlevel.get());//compound.getInteger("maxLevel")); TODO
 		instance.toggleInvokeMass(compound.getBoolean("invokeMass"));
 		instance.update(null);
-		tag = compound.getTag("abilities");
+		tag = compound.get("abilities");
 		if (tag instanceof ListNBT) {
 			for (INBT nt : (ListNBT) tag) {
 				if (nt instanceof CompoundNBT) {
@@ -90,7 +90,7 @@ public class AoVCapabilityStorage implements IStorage<IAoVCapability> {
 				}
 			}
 		}
-		tag = compound.getTag("slots");
+		tag = compound.get("slots");
 		if (tag instanceof ListNBT) {
 			for (INBT nt : (ListNBT) tag) {
 				if (nt instanceof CompoundNBT) {

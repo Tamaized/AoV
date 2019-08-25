@@ -1,13 +1,13 @@
 package tamaized.aov.client.gui;
 
 import com.mojang.authlib.GameProfile;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
@@ -20,9 +20,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.opengl.GL11;
 import tamaized.aov.AoV;
 import tamaized.aov.client.ClientHelpers;
@@ -78,7 +78,7 @@ public class AoVOverlay {
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
 		GlStateManager.enableBlend();
-		GlStateManager.disableTexture2D();
+		GlStateManager.disableTexture();
 		GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 		GlStateManager.color4f(f, f1, f2, f3);
 		bufferbuilder.begin(7, DefaultVertexFormats.POSITION);
@@ -87,7 +87,7 @@ public class AoVOverlay {
 		bufferbuilder.pos((double) right, (double) top, 0.0D).endVertex();
 		bufferbuilder.pos((double) left, (double) top, 0.0D).endVertex();
 		tessellator.draw();
-		GlStateManager.enableTexture2D();
+		GlStateManager.enableTexture();
 		GlStateManager.disableBlend();
 	}
 
@@ -203,7 +203,7 @@ public class AoVOverlay {
 	@SubscribeEvent
 	public static void render(TickEvent.RenderTickEvent e) {
 		if (AoV.config.EARTHQUAKE.shake.get() && e.phase == TickEvent.Phase.START && mc.world != null) {
-			for (Entity entity : mc.world.loadedEntityList) {
+			for (Entity entity : mc.world.getAllEntities()) {
 				if (entity instanceof EntityEarthquake) {
 					float intense = (float) (1F - entity.getDistanceSq(Minecraft.getInstance().player) / Math.pow(16, 2));
 					if (intense > AoVOverlay.intensity)
@@ -228,8 +228,8 @@ public class AoVOverlay {
 	}
 
 	private static void renderStencils() {
-		if (!Minecraft.getInstance().getFramebuffer().isStencilEnabled())
-			Minecraft.getInstance().getFramebuffer().enableStencil();
+		if (!ClientHelpers.isStencilBufferEnabled())
+			ClientHelpers.enableStencilBuffer();
 		if (GL11.glGetInteger(GL11.GL_STENCIL_BITS) < 1) {
 			NO_STENCIL = true;
 			return;
@@ -243,10 +243,10 @@ public class AoVOverlay {
 			MainWindow resolution = mc.mainWindow;
 			float w = resolution.getScaledWidth();
 			float h = resolution.getScaledHeight();
-			float scale = (4F - resolution.getScaleFactor(mc.gameSettings.guiScale) + 1F) * 32F;
+			float scale = (float) ((4F - resolution.getGuiScaleFactor() + 1F) * 32F); //TODO check
 			float u = 1F / (scale / w);
 			float v = 1F / (scale / h);
-			resolution.setupOverlayRendering();
+			resolution.loadGUIRenderMatrix(Minecraft.IS_RUNNING_ON_MAC);
 			GlStateManager.enableBlend();
 			GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			GlStateManager.shadeModel(GL11.GL_SMOOTH);
@@ -472,7 +472,7 @@ public class AoVOverlay {
 							e1.printStackTrace();
 						}
 					}
-					if (cacheEntity != null && mc.getRenderManager().renderViewEntity != null)
+					if (cacheEntity != null && mc.renderViewEntity != null)
 						InventoryScreen.drawEntityOnScreen((int) (x + 30), (int) (y + 36), 8, -40, 5, cacheEntity);
 				}
 				GlStateManager.popMatrix();
@@ -510,7 +510,7 @@ public class AoVOverlay {
 							true);
 				}
 				{
-					Minecraft.getInstance().textureManager.bindTexture(AbstractGui.ICONS);
+					Minecraft.getInstance().textureManager.bindTexture(AbstractGui.GUI_ICONS_LOCATION);
 					int posx = (int) (x + 30);
 					int posy = (int) (y + 13);
 					int textureX = 52;

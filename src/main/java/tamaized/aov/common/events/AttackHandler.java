@@ -210,7 +210,7 @@ public class AttackHandler {
 	private static void damageShield(PlayerEntity player, float damage) {
 		if (damage >= 3.0F && !player.getActiveItemStack().isEmpty()) {
 			int i = 1 + MathHelper.floor(damage);
-			player.getActiveItemStack().damageItem(i, player);
+			player.getActiveItemStack().damageItem(i, player, (p_213833_1_) -> p_213833_1_.sendBreakAnimation(p_213833_1_.getActiveHand()));
 
 			if (player.getActiveItemStack().isEmpty()) {
 				Hand enumhand = player.getActiveHand();

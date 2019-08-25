@@ -6,12 +6,12 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
@@ -251,13 +251,13 @@ public class KeyHandler {
 			player.prevRotationYawHead = player.rotationYawHead = ryh;
 			player.prevRotationYaw = player.rotationYaw = ry;
 			player.prevRotationPitch = player.rotationPitch = rp;
-			player.prevCameraPitch = player.cameraPitch = rcp;
+//			player.prevCameraPitch = player.cameraPitch = rcp;
 			player.prevCameraYaw = player.cameraYaw = rcy;
 		} else {
 			ry = player.rotationYaw;
 			rp = player.rotationPitch;
 			ryh = player.rotationYawHead;
-			rcp = player.cameraPitch;
+//			rcp = player.cameraPitch;
 			rcy = player.cameraYaw;
 		}
 	}

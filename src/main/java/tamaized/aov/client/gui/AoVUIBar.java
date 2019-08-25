@@ -4,7 +4,7 @@ import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -91,10 +91,10 @@ public class AoVUIBar {
 				GlStateManager.enableBlend();
 				renderIcon(icon);
 				if (active)
-					AbstractGui.drawRect(0, 0, 256, 256, 0x7700FFFF);
+					AbstractGui.fill(0, 0, 256, 256, 0x7700FFFF);
 				Ability ability = cap == null ? null : cap.getSlot(index);
 				if (ability != null && (!ability.canUse(cap) || (ability.isOnCooldown(cap) && !ability.getAbility().canUseOnCooldown(cap, mc.player))))
-					AbstractGui.drawRect(0, 0, 256, 256, 0x77FF0000);
+					AbstractGui.fill(0, 0, 256, 256, 0x77FF0000);
 				GlStateManager.disableBlend();
 			}
 			GlStateManager.popMatrix();
@@ -122,7 +122,7 @@ public class AoVUIBar {
 	}
 
 	public static void renderRadial(int x, int y, float perc) { // TODO: clean up
-		GlStateManager.clear(GL11.GL_DEPTH_BUFFER_BIT);
+		GlStateManager.clear(GL11.GL_DEPTH_BUFFER_BIT, false);
 		//		GL11.glEnable(GL11.GL_STENCIL_TEST);
 		GlStateManager.colorMask(false, false, false, false);
 		GlStateManager.depthMask(false);
@@ -136,7 +136,7 @@ public class AoVUIBar {
 		float a = 0.5f;
 
 		GlStateManager.disableLighting();
-		GlStateManager.disableTexture2D();
+		GlStateManager.disableTexture();
 		GlStateManager.shadeModel(GL11.GL_SMOOTH);
 		GlStateManager.enableBlend();
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
@@ -172,7 +172,7 @@ public class AoVUIBar {
 		GL11.glVertex2i(centerX, centerY);
 		GL11.glEnd();
 		GlStateManager.disableBlend();
-		GlStateManager.enableTexture2D();
+		GlStateManager.enableTexture();
 		GlStateManager.shadeModel(GL11.GL_FLAT);
 		//		GL11.glDisable(GL11.GL_STENCIL_TEST);
 	}

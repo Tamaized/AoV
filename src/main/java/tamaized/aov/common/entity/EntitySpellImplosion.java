@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -14,6 +15,7 @@ import tamaized.aov.client.particle.ParticleImplosion;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
+import tamaized.aov.network.SpawnEntityPacket;
 import tamaized.aov.registry.AoVDamageSource;
 import tamaized.aov.registry.AoVEntities;
 
@@ -65,6 +67,12 @@ public class EntitySpellImplosion extends Entity implements IEntityAdditionalSpa
 
 	}
 
+	@Nonnull
+	@Override
+	public IPacket<?> createSpawnPacket() {
+		return new SpawnEntityPacket(this);
+	}
+
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public int getBrightnessForRender() {
@@ -78,8 +86,8 @@ public class EntitySpellImplosion extends Entity implements IEntityAdditionalSpa
 				for (int i = 0; i < 20; i++) {
 					Vec3d vec = getLook(1.0F).rotatePitch(rand.nextInt(360)).rotateYaw(rand.nextInt(360));
 					float speed = 0.08F;
-					Vec3d pos = getPositionVector().add(0, target.height / 2F, 0).add(vec);
-					Minecraft.getInstance().particles.addEffect(new ParticleImplosion(world, pos.x, pos.y, pos.z, -vec.x * speed, -vec.y * speed, -vec.z * speed));
+					Vec3d pos = getPositionVector().add(0, target.getHeight() / 2F, 0).add(vec);
+//					Minecraft.getInstance().particles.addEffect(new ParticleImplosion(world, pos.x, pos.y, pos.z, -vec.x * speed, -vec.y * speed, -vec.z * speed)); TODO
 				}
 			return;
 		}

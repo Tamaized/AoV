@@ -5,10 +5,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import tamaized.aov.AoV;
 import tamaized.aov.client.sound.EntityMovingSound;
 import tamaized.aov.common.capabilities.CapabilityList;
@@ -39,7 +39,7 @@ public class ClientSpawnEvent {
 	public static void update(TickEvent.ClientTickEvent e) {
 		if (e.phase == TickEvent.Phase.START || Minecraft.getInstance().world == null)
 			return;
-		for (Entity entity : Minecraft.getInstance().world.loadedEntityList) {
+		for (Entity entity : Minecraft.getInstance().world.getAllEntities()) {
 			if (!(entity instanceof LivingEntity))
 				continue;
 			IStunCapability cap = CapabilityList.getCap(entity, CapabilityList.STUN);

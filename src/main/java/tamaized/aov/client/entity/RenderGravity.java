@@ -1,9 +1,9 @@
 package tamaized.aov.client.entity;
 
+import com.mojang.blaze3d.platform.GLX;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -104,10 +104,10 @@ public class RenderGravity<T extends EntityGravity> extends EntityRenderer<T> {
 		Tessellator tessellator = Tessellator.getInstance();
 		Random random = new Random();
 
-		GlStateManager.disableTexture2D();
+		GlStateManager.disableTexture();
 		GlStateManager.disableLighting();
 		GlStateManager.enableBlend();
-		OpenGlHelper.glMultiTexCoord2f(OpenGlHelper.GL_TEXTURE1, 200, 200);
+		GLX.glMultiTexCoord2f(GLX.GL_TEXTURE1, 200, 200);
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 
 		double distance = point1.distanceTo(point2);
@@ -141,7 +141,7 @@ public class RenderGravity<T extends EntityGravity> extends EntityRenderer<T> {
 
 		GlStateManager.disableBlend();
 		GlStateManager.enableLighting();
-		GlStateManager.enableTexture2D();
+		GlStateManager.enableTexture();
 	}
 
 	@Override

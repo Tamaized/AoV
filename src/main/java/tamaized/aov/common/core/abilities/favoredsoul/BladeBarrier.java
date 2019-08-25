@@ -93,7 +93,7 @@ public class BladeBarrier extends AbilityBase {
 		if (cap == null)
 			return false;
 		int a = (int) (damage * (1f + (cap.getSpellPower() / 100f)));
-		caster.world.spawnEntity(new EntitySpellBladeBarrier(caster.world, caster, a, distance));
+		caster.world.addEntity(new EntitySpellBladeBarrier(caster.world, caster, a, distance));
 		return true;
 	}
 

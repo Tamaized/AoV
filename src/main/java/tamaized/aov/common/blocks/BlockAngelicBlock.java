@@ -11,6 +11,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import tamaized.aov.common.gui.GuiHandler;
@@ -42,11 +43,11 @@ public class BlockAngelicBlock extends Block {
 
 	@Override
 	@Deprecated
-	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity playerIn, Hand hand, Direction side, float hitX, float hitY, float hitZ) {
-		if ((type != ClassType.ALL || playerIn.isCreative()) && playerIn instanceof ServerPlayerEntity)
-			GuiHandler.openGui(GuiHandler.GUI.SKILLS, type, (ServerPlayerEntity) playerIn);
+	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		if ((type != ClassType.ALL || player.isCreative()) && player instanceof ServerPlayerEntity)
+			GuiHandler.openGui(GuiHandler.GUI.SKILLS, type, (ServerPlayerEntity) player);
 		else
-			return (type != ClassType.ALL || playerIn.isCreative());
+			return (type != ClassType.ALL || player.isCreative());
 		return true;
 	}
 

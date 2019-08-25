@@ -18,6 +18,7 @@ import tamaized.aov.network.client.ClientPacketHandlerParticle;
 import tamaized.aov.network.client.ClientPacketHandlerParticleMesh;
 import tamaized.aov.network.client.ClientPacketHandlerPlayerMotion;
 import tamaized.aov.network.client.ClientPacketHandlerPolymorphDogAttack;
+import tamaized.aov.network.client.ClientPacketHandlerSpawnNonLivingEntity;
 import tamaized.aov.network.client.ClientPacketHandlerStunned;
 import tamaized.aov.network.server.ServerPacketHandlerPolymorphDogAttack;
 import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
@@ -45,6 +46,7 @@ public class NetworkMessages {
 		registerMessage(network, ClientPacketHandlerFloatyText.class, IMessage.Side.CLIENT);
 		registerMessage(network, ClientPacketHandlerPlayerMotion.class, IMessage.Side.CLIENT);
 		registerMessage(network, ClientPacketHandlerOpenGui.class, IMessage.Side.CLIENT);
+		registerMessage(network, ClientPacketHandlerSpawnNonLivingEntity.class, IMessage.Side.CLIENT);
 	}
 
 	private static <M extends IMessage<M>> void registerMessage(SimpleChannel network, Class<M> type, IMessage.Side side) {
