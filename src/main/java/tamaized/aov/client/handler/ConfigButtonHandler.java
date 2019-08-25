@@ -11,7 +11,7 @@ import tamaized.aov.AoV;
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = AoV.MODID)
 public class ConfigButtonHandler {
 
-	private static final IConfigElement CONFIG_ELEMENT = new DummyConfigElement.DummyCategoryElement(I18n.format("aov.config.repositionelements.name"), "aov.config.repositionelements", Lists.newArrayList());
+//	private static final IConfigElement CONFIG_ELEMENT = new DummyConfigElement.DummyCategoryElement(I18n.format("aov.config.repositionelements.name"), "aov.config.repositionelements", Lists.newArrayList());
 
 	/*@SubscribeEvent TODO
 	public static void hook(GuiScreenEvent.InitGuiEvent.Post e) {
