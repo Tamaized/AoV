@@ -13,6 +13,7 @@ import net.minecraft.item.SwordItem;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import tamaized.aov.AoV;
+import tamaized.aov.common.config.ConfigHandler;
 
 import javax.annotation.Nonnull;
 
@@ -35,7 +36,7 @@ public class Handwraps extends SwordItem {
 
 		if (slot == EquipmentSlotType.MAINHAND) {
 			multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", 1F, AttributeModifier.Operation.ADDITION));
-			multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", AoV.config.handwrapsSpeed.get() ? 6F : 0F, AttributeModifier.Operation.ADDITION));
+			multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", ConfigHandler.LOADED && AoV.config.handwrapsSpeed.get() ? 6F : 0F, AttributeModifier.Operation.ADDITION));
 		}
 
 		return multimap;

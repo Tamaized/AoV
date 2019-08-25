@@ -40,6 +40,7 @@ public class ConfigHandler {
 	public ForgeConfigSpec.IntValue stencil;
 	public ForgeConfigSpec.DoubleValue targetOpacity;
 	public ForgeConfigSpec.ConfigValue<List<? extends String>> centered;
+	public static boolean LOADED = false;
 
 	public ConfigHandler(ForgeConfigSpec.Builder builder) {
 		builder.
@@ -223,6 +224,7 @@ public class ConfigHandler {
 
 	public static void update() {
 		setupCenteredWear();
+		LOADED = true;
 	}
 
 	@SubscribeEvent
