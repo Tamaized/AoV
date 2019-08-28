@@ -33,18 +33,18 @@ public class SpellButton extends Button {
 			GlStateManager.blendFunc(770, 771);
 			// drawRect(x + width / 2, y, width / 2, height, 0xFFFFFFFF);
 			mouseDragged(mouseX, mouseY, 0, mouseX, mouseY);
-			int j = 0xBBFFFFFF;
+			int j = 0xFFFFFFBB;
 
 			if (packedFGColor != 0) {
 				j = packedFGColor;
 			} else if (!active) {
-				j = 0xFF888888;
+				j = 0x888888FF;
 			} else if (isHovered) {
 				j = 0xFFFFFFFF;
 			}
 
 			RenderUtils.setup(blitOffset);
-			RenderUtils.renderRect(x, y, x + width, y + height, false, j);
+			RenderUtils.renderRect(x, y, width, height, false, j);
 			if (spell == null)
 				return;
 			AoVUIBar.renderHotbarIcon(null, 0, x + 1, y + 1, spell.getIcon(), false);

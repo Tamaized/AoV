@@ -105,7 +105,7 @@ public class SpellBookGUI extends GuiScreenClose {
 		minecraft.getTextureManager().bindTexture(AoVUIBar.widgetsTexPath);
 		int i = sr.getScaledWidth() / 2;
 		RenderUtils.setup(blitOffset);
-		RenderUtils.renderRect(i - 91, sr.getScaledHeight() - 50, 0, 0, 182, 22);
+		RenderUtils.renderRect(i - 91, sr.getScaledHeight() - 50, 182, 22, 0, 0, 182F / 256F, 22F / 256F);
 		GlStateManager.enableRescaleNormal();
 		GlStateManager.enableBlend();
 		GlStateManager.blendFuncSeparate(770, 771, 1, 0);
