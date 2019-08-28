@@ -1,5 +1,6 @@
 package tamaized.aov.client.gui;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -24,7 +25,9 @@ public class RenderUtils {
 			BufferBuilder buffer = Tessellator.getInstance().getBuffer();
 			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
 			setupRectVerticies(buffer, x, y, w, h, 0, 0, 0, 0, false, color);
+			GlStateManager.disableTexture();
 			Tessellator.getInstance().draw();
+			GlStateManager.enableTexture();
 		}
 	}
 
@@ -40,10 +43,10 @@ public class RenderUtils {
 	}
 
 	public static BufferBuilder setupRectVerticies(BufferBuilder buffer, float x, float y, float w, float h, float u, float v, float ue, float ve, boolean texture, int color) {
-		float r = (color >> 24) & 0xFF;
-		float g = (color >> 16) & 0xFF;
-		float b = (color >> 8) & 0xFF;
-		float a = color & 0xFF;
+		int r = (color >> 24) & 0xFF;
+		int g = (color >> 16) & 0xFF;
+		int b = (color >> 8) & 0xFF;
+		int a = color & 0xFF;
 		buffer.pos(x, y + h, zIndex);
 		if (texture)
 			buffer.tex(u, ve);

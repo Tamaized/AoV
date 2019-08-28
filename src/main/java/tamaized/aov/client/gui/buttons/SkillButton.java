@@ -1,8 +1,6 @@
 package tamaized.aov.client.gui.buttons;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -79,33 +77,31 @@ public class SkillButton extends Button {
 
 	@Override
 	public void render(int mouseX, int mouseY, float p_191745_4_) {
-		Minecraft mc = Minecraft.getInstance();
 		if (visible) {
-			FontRenderer fontrenderer = mc.fontRenderer;
 			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 			isHovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
-			GlStateManager.enableBlend();
 			GlStateManager.blendFuncSeparate(770, 771, 1, 0);
 			GlStateManager.blendFunc(770, 771);
 			// drawRect(x + width / 2, y, width / 2, height, 0xFFFFFFFF);
 			mouseDragged(mouseX, mouseY, 0, mouseX, mouseY);
-			int j = 0xBBFFFFFF;
+			GlStateManager.enableBlend();
+			int j = 0xFFFFFFBB;
 
 			if (packedFGColor != 0) {
 				j = packedFGColor;
 			} else if (!active) {
-				j = 0xFF888888;
+				j = 0x888888FF;
 			} else if (isHovered) {
 				j = 0xFFFFFFFF;
 			}
 			if (notEnoughPoints)
-				j = 0xAAFF0000;
+				j = 0xFF0000AA;
 			if (isObtained)
-				j = 0xFF00FF00;
+				j = 0x00FF00FF;
 
 			RenderUtils.setup(blitOffset);
-			RenderUtils.renderRect(x, y, x + width, y + height, false, j);
-			float alpha = (float) (j >> 24 & 255) / 255.0F;
+			RenderUtils.renderRect(x, y, width, height, false, j);
+			float alpha = ((float) (j & 0xFF)) / 255F;
 			GlStateManager.color4f(1.0f, 1.0f, 1.0f, alpha);
 			AoVUIBar.renderHotbarIcon(null, 0, x + 1, y + 1, skill == null ? null : skill.getIcon(), false);
 		}

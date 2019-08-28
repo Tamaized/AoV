@@ -4,11 +4,14 @@ import com.google.common.collect.Lists;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.event.HoverEvent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.common.core.abilities.AbilityBase;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class AoVSkill {
@@ -45,35 +48,40 @@ public class AoVSkill {
 
 	public AoVSkill setupTooltip(TranslationTextComponent desc) {
 		description.clear();
-		description.add(name);
-		if (isClassCore()) {
-			description.add(new TranslationTextComponent("aov.skill.global.core"));
-			description.add(new TranslationTextComponent(""));
-		}
+		addToDescription(name);
+		if (isClassCore())
+			addToDescription(new TranslationTextComponent("aov.skill.global.core"));
+
+		addToDescription();
 		if (getCharges() > 0)
-			description.add(new TranslationTextComponent("aov.skill.global.charge", getCharges()));
+			addToDescription(new TranslationTextComponent("aov.skill.global.charge", getCharges()));
 		if (spellpower > 0)
-			description.add(new TranslationTextComponent("aov.skill.global.spellpower", spellpower));
+			addToDescription(new TranslationTextComponent("aov.skill.global.spellpower", spellpower));
 		if (dodge > 0)
-			description.add(new TranslationTextComponent("aov.skill.global.dodge", dodge));
+			addToDescription(new TranslationTextComponent("aov.skill.global.dodge", dodge));
 		if (doublestrike > 0)
-			description.add(new TranslationTextComponent("aov.skill.global.doublestrike", doublestrike));
+			addToDescription(new TranslationTextComponent("aov.skill.global.doublestrike", doublestrike));
 
 		if (!isClassCore()) {
-			description.add(new TranslationTextComponent(""));
+			addToDescription();
 			if (level > 0)
-				description.add(new TranslationTextComponent("aov.skill.global.minlevel", level));
+				addToDescription(new TranslationTextComponent("aov.skill.global.minlevel", level));
 			if (spentpoints > 0)
-				description.add(new TranslationTextComponent("aov.skill.global.minpoint", spentpoints));
+				addToDescription(new TranslationTextComponent("aov.skill.global.minpoint", spentpoints));
 			if (parent != null)
-				description.add(new TranslationTextComponent("aov.skill.global.parent", parent.getName().getKey()));
+				addToDescription(new TranslationTextComponent("aov.skill.global.parent"), parent.getName());
 		}
 
 		if (desc != null) {
-			description.add(new TranslationTextComponent(""));
-			description.add(desc);
+			addToDescription();
+			addToDescription(desc);
 		}
 		return this;
+	}
+
+	private void addToDescription(TranslationTextComponent... components) {
+		description.addAll(Arrays.asList(components));
+		description.add(new TranslationTextComponent("\n"));
 	}
 
 	public final int getID() {
@@ -145,7 +153,7 @@ public class AoVSkill {
 		TranslationTextComponent component = new TranslationTextComponent(description.get(0).getKey(), description.get(0).getFormatArgs());
 		for (int i = 1; i < description.size(); i++)
 			component.appendSibling(new TranslationTextComponent(description.get(i).getKey(), description.get(i).getFormatArgs()));
-		return component;
+		return component.setStyle(new Style().setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, component)));
 	}
 
 }

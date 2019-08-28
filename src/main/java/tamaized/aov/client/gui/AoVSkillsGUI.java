@@ -141,33 +141,16 @@ public class AoVSkillsGUI extends GuiScreenClose {
 		drawString(font, I18n.format("aov.gui.skills.level"), width - 40, 5, 0xFFFFFF00);
 		drawString(font, "" + (cap == null ? "null" : cap.getLevel()), width - 40, 15, 0xFFFFFF00);
 
-		// drawCenteredString(font, "Tier 4", width / 2 - 135, height - 222, 0xFFFFFF00);
-		// drawCenteredString(font, "Tier 3", width / 2 - 135, height - 182, 0xFFFFFF00);
-		// drawCenteredString(font, "Tier 2", width / 2 - 135, height - 142, 0xFFFFFF00);
-		// drawCenteredString(font, "Tier 1", width / 2 - 135, height - 102, 0xFFFFFF00);
-		// drawCenteredString(font, "Core", width / 2 - 135, height - 62, 0xFFFFFF00);
-
-		// drawCenteredString(font, "Tier 4", width / 2, height - 222, 0xFFFFFF00);
-		// drawCenteredString(font, "Tier 3", width / 2, height - 182, 0xFFFFFF00);
-		// drawCenteredString(font, "Tier 2", width / 2, height - 142, 0xFFFFFF00);
-		// drawCenteredString(font, "Tier 1", width / 2, height - 102, 0xFFFFFF00);
-		// drawCenteredString(font, "Core", width / 2, height - 62, 0xFFFFFF00);
-
-		// drawCenteredString(font, "Tier 4", width / 2 + 135, height - 222, 0xFFFFFF00);
-		// drawCenteredString(font, "Tier 3", width / 2 + 135, height - 182, 0xFFFFFF00);
-		// drawCenteredString(font, "Tier 2", width / 2 + 135, height - 142, 0xFFFFFF00);
-		// drawCenteredString(font, "Tier 1", width / 2 + 135, height - 102, 0xFFFFFF00);
-		// drawCenteredString(font, "Core", width / 2 + 135, height - 62, 0xFFFFFF00);
-
-		//		drawRect(width / 2 - 200, height - 215, width / 2 - 200 + 126, height - 27, 0x88000000);
+		GlStateManager.enableBlend();
 		RenderUtils.setup(blitOffset);
-		RenderUtils.renderRect(width / 2F - 66, height - 215, width / 2F - 66 + 126, height - 27, false, 0x00000088);
-		//		drawRect(width / 2 + 68, height - 215, width / 2 + 68 + 126, height - 27, 0x88000000);
+		RenderUtils.renderRect(width / 2F - 66, height - 215, 126, 188, false, 0x00000088);
 		super.render(mouseX, mouseY, partialTicks);
+		GlStateManager.disableBlend();
+
 		if (mouseX != lastMx || mouseY != lastMy) {
 			boolean flag = true;
 			for (SkillButton b : skillbuttons) {
-				if (!b.isMouseOver(mouseX, mouseY))
+				if (!b.visible || mouseX < b.x || mouseX > b.x + b.getWidth() || mouseY < b.y || mouseY > b.y + b.getHeight())
 					continue;
 				if (b.getSkill() != null && b.getSkill().getDescription() != null) {
 					renderComponentHoverEffect(b.getSkill().getDescriptionAsTextComponent(), mouseX, mouseY); // TODO check

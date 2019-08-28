@@ -209,7 +209,7 @@
   "aov.skill.global.core": "§cObtaining this skill prevents you from taking skills from any other class!",
   "aov.skill.global.minlevel": "§cRequires: Level %s",
   "aov.skill.global.minpoint": "§cRequires: %s Point(s) Spent in Tree",
-  "aov.skill.global.parent": "§cRequires: %s",
+  "aov.skill.global.parent": "§cRequires: ",
   "aov.skill.global.charge": "§a+%s Charge",
   "aov.skill.global.spellpower": "§a+%s Spell Power",
   "aov.skill.global.dodge": "§a+%s Dodge",
