@@ -7,6 +7,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -50,10 +51,8 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 
 	);
 	private static final byte FLAG_BIT_LENGTH = 0b1111;
-	private static Field ENTITY_isImmuneToFire;
 	private static Field ENTITYPLAYER_eyeHeight;
 	List<EntityDruidicWolf> wolves = Lists.newArrayList();
-	private boolean unsetter_ENTITY_isImmuneToFire = false;
 	private Morph morph;
 	private boolean morphSize = false;
 	private int attackCooldown;
@@ -177,10 +176,8 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 
 	@Override
 	public void update(PlayerEntity player) {
-		if (ENTITY_isImmuneToFire == null)
-			ENTITY_isImmuneToFire = UtilHelper.findField(Entity.class, "field_70178_ae");
 		if (ENTITYPLAYER_eyeHeight == null)
-			ENTITYPLAYER_eyeHeight = UtilHelper.findField(PlayerEntity.class, "eyeHeight");
+			ENTITYPLAYER_eyeHeight = UtilHelper.findField(Entity.class, "field_213326_aJ");
 		if (!player.world.isRemote && getMorph() == Morph.ArchAngel && polymorphTicker-- <= 0) {
 			morph(null);
 			player.removePotionEffect(AoVPotions.slowFall);
@@ -302,17 +299,6 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 			}
 		} else {
 			flagBits &= 0b1110;
-		}
-		try {
-			if (getMorph() == Morph.FireElemental && !player.isImmuneToFire()) {
-				ENTITY_isImmuneToFire.setBoolean(player, true);
-				unsetter_ENTITY_isImmuneToFire = true;
-			} else if (getMorph() != Morph.FireElemental && player.isImmuneToFire() && unsetter_ENTITY_isImmuneToFire) {
-				ENTITY_isImmuneToFire.setBoolean(player, false);
-				unsetter_ENTITY_isImmuneToFire = false;
-			}
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
 		}
 	}
 
