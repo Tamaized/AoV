@@ -40,7 +40,6 @@ public class ClientProxy extends CommonProxy {
 	public void init() {
 		super.init();
 		KeyHandler.register();
-		Minecraft.getInstance().enqueue(ClientHelpers::enableStencilBuffer);
 	}
 
 	@Override

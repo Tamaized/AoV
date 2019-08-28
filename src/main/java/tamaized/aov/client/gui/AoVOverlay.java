@@ -228,8 +228,6 @@ public class AoVOverlay {
 	}
 
 	private static void renderStencils() {
-		if (!ClientHelpers.isStencilBufferEnabled())
-			ClientHelpers.enableStencilBuffer();
 		if (GL11.glGetInteger(GL11.GL_STENCIL_BITS) < 1) {
 			NO_STENCIL = true;
 			return;

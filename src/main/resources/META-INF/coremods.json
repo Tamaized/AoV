@@ -1,3 +1,4 @@
 {
-  "immunetofire": "META-INF/immunetofire.js"
+  "immunetofire": "META-INF/asm/immunetofire.js",
+  "enablestencilbuffer": "META-INF/asm/enablestencilbuffer.js"
 }
