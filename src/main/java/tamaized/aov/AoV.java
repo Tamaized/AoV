@@ -127,15 +127,4 @@ public class AoV {
 		);
 	}
 
-	public static void spawnNonLivingEntity(World world, Entity entity) {
-		world.addEntity(entity);
-		AoV.network.send(
-
-				PacketDistributor.TRACKING_CHUNK.with(() -> world.getChunk(entity.chunkCoordX, entity.chunkCoordZ)),
-
-				new ClientPacketHandlerSpawnNonLivingEntity(entity)
-
-		);
-	}
-
 }

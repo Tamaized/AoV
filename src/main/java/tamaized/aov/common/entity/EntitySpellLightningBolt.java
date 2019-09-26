@@ -17,7 +17,7 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.AbilityBase;
-import tamaized.aov.network.SpawnEntityPacket;
+import net.minecraftforge.fml.network.NetworkHooks;
 import tamaized.aov.registry.AoVEntities;
 
 import javax.annotation.Nonnull;
@@ -110,7 +110,7 @@ public class EntitySpellLightningBolt extends Entity {
 	@Nonnull
 	@Override
 	public IPacket<?> createSpawnPacket() {
-		return new SpawnEntityPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 }

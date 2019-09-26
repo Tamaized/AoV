@@ -8,7 +8,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import tamaized.aov.network.SpawnEntityPacket;
+import net.minecraftforge.fml.network.NetworkHooks;
 import tamaized.aov.registry.AoVDamageSource;
 import tamaized.aov.registry.AoVEntities;
 
@@ -75,6 +75,6 @@ public class EntityCombust extends Entity {
 	@Nonnull
 	@Override
 	public IPacket<?> createSpawnPacket() {
-		return new SpawnEntityPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 }

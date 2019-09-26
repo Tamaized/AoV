@@ -3,6 +3,7 @@ package tamaized.aov.network;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.ProtocolType;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 import net.minecraftforge.fml.unsafe.UnsafeHacks;

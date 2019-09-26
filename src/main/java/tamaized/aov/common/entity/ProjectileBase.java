@@ -29,7 +29,7 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.AbilityBase;
-import tamaized.aov.network.SpawnEntityPacket;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
 
@@ -366,7 +366,7 @@ public abstract class ProjectileBase extends AbstractArrowEntity implements IPro
 	@Nonnull
 	@Override
 	public IPacket<?> createSpawnPacket() {
-		return new SpawnEntityPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 }

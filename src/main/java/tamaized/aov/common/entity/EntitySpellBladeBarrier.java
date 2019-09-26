@@ -10,10 +10,10 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
+import net.minecraftforge.fml.network.NetworkHooks;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
-import tamaized.aov.network.SpawnEntityPacket;
 import tamaized.aov.registry.AoVEntities;
 
 import javax.annotation.Nonnull;
@@ -117,7 +117,7 @@ public class EntitySpellBladeBarrier extends Entity implements IEntityAdditional
 	@Nonnull
 	@Override
 	public IPacket<?> createSpawnPacket() {
-		return new SpawnEntityPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 }

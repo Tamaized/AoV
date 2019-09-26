@@ -31,7 +31,7 @@ import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
-import tamaized.aov.network.SpawnEntityPacket;
+import net.minecraftforge.fml.network.NetworkHooks;
 import tamaized.aov.registry.AoVDamageSource;
 import tamaized.aov.registry.AoVEntities;
 
@@ -225,6 +225,6 @@ public class EntityEarthquake extends Entity {
 	@Nonnull
 	@Override
 	public IPacket<?> createSpawnPacket() {
-		return new SpawnEntityPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 }

@@ -10,6 +10,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.registries.ObjectHolder;
 import tamaized.aov.AoV;
 import tamaized.aov.client.entity.RenderAlignmentAoE;
@@ -42,6 +43,7 @@ import tamaized.aov.common.entity.ProjectileFlameStrike;
 import tamaized.aov.common.entity.ProjectileNimbusRay;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.function.BiFunction;
 
 @ObjectHolder(AoV.MODID)
 @Mod.EventBusSubscriber(modid = AoV.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -69,25 +71,25 @@ public class AoVEntities {
 
 				assign(ProjectileNimbusRay.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC),
 
-				assign(ProjectileFlameStrike.class, 0F, 0F, 256, 1, true, EntityClassification.MISC),
+				assign(ProjectileFlameStrike.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC),
 
-				assign(EntitySpellImplosion.class, 0F, 0F, 256, 1, true, EntityClassification.MISC),
+				assign(EntitySpellImplosion.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC),
 
-				assign(EntitySpellBladeBarrier.class, 0F, 0F, 256, 1, true, EntityClassification.MISC),
+				assign(EntitySpellBladeBarrier.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC),
 
-				assign(EntitySpellVanillaParticles.class, 0F, 0F, 256, 1, true, EntityClassification.MISC),
+				assign(EntitySpellVanillaParticles.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC),
 
-				assign(EntitySpellAoVParticles.class, 0F, 0F, 256, 1, true, EntityClassification.MISC),
+				assign(EntitySpellAoVParticles.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC),
 
 				assign(EntityMalefic.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC),
 
-				assign(EntityCombust.class, 0F, 0F, 256, 1, true, EntityClassification.MISC),
+				assign(EntityCombust.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC),
 
-				assign(EntityGravity.class, 0F, 0F, 256, 1, true, EntityClassification.MISC),
+				assign(EntityGravity.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC),
 
-				assign(EntityCelestialOpposition.class, 0F, 0F, 256, 1, true, EntityClassification.MISC),
+				assign(EntityCelestialOpposition.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC),
 
-				assign(EntitySpellLightningBolt.class, 0F, 0F, 256, 1, true, EntityClassification.MISC),
+				assign(EntitySpellLightningBolt.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC),
 
 				assign(EntityEarthquake.class, 6F, 0.1F, 256, 1, true, EntityClassification.MISC),
 
@@ -95,7 +97,7 @@ public class AoVEntities {
 
 				assign(EntityDruidicWolf.class, 0.6F, 0.85F, 256, 1, true, EntityClassification.MISC),
 
-				assign(EntityAlignmentAoE.class, 0F, 0F, 256, 1, true, EntityClassification.MISC)
+				assign(EntityAlignmentAoE.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC)
 
 		);
 	}
@@ -133,6 +135,14 @@ public class AoVEntities {
 				setUpdateInterval(freq).
 				setShouldReceiveVelocityUpdates(updates).
 				size(w, h).
+				setCustomClientFactory((spawnEntity, world) -> {
+					try {
+						return entity.getConstructor(World.class).newInstance(world);
+					} catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+						e.printStackTrace();
+					}
+					return null;
+				}).
 				build(name);
 		type.setRegistryName(AoV.MODID, name);
 		return type;

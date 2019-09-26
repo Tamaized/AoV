@@ -27,7 +27,7 @@ import tamaized.aov.common.capabilities.stun.IStunCapability;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.favoredsoul.AlignmentAoE;
 import tamaized.aov.common.helper.RayTraceHelper;
-import tamaized.aov.network.SpawnEntityPacket;
+import net.minecraftforge.fml.network.NetworkHooks;
 import tamaized.aov.registry.AoVEntities;
 
 import javax.annotation.Nonnull;
@@ -106,7 +106,7 @@ public class EntityAlignmentAoE extends Entity {
 	@Nonnull
 	@Override
 	public IPacket<?> createSpawnPacket() {
-		return new SpawnEntityPacket(this);
+		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
 	@Override
