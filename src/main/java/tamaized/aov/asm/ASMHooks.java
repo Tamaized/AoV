@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 
+@SuppressWarnings("unused") // Not possible for the IDE to detect usages from runtime class transformations
 public class ASMHooks {
 
 	/**
@@ -25,7 +26,6 @@ public class ASMHooks {
 	 * {@link net.minecraft.client.shader.Framebuffer#func_216492_b}<br>
 	 * [BEFORE] {@link net.minecraft.client.shader.Framebuffer#checkFramebufferComplete}
 	 */
-	@SuppressWarnings("unused")
 	public static void enableStencilBuffer(Framebuffer fbo) {
 		if (fbo.useDepth) {
 			GLX.glBindRenderbuffer(GLX.GL_RENDERBUFFER, fbo.depthBuffer);

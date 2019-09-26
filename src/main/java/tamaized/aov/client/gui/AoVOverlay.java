@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
@@ -465,7 +466,7 @@ public class AoVOverlay {
 							if (target instanceof PlayerEntity)
 								cacheEntity = target.getClass().getConstructor(World.class, GameProfile.class).newInstance(mc.world, ((PlayerEntity) target).getGameProfile());
 							else
-								cacheEntity = target.getClass().getConstructor(World.class).newInstance(mc.world);
+								cacheEntity = target.getClass().getConstructor(EntityType.class, World.class).newInstance(target.getType(), mc.world);
 						} catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e1) {
 							e1.printStackTrace();
 						}
