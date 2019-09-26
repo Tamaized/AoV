@@ -120,7 +120,7 @@ public class KeyHandler {
 
 	private static void callbackCursorPos(long id, double x, double y) {
 		PlayerEntity player = Minecraft.getInstance().player;
-		if (player != null) {
+		if (player != null && player.world != null && Minecraft.getInstance().currentScreen == null) {
 			if (!player.canUpdate()) {
 				GLFW.glfwSetCursorPos(Minecraft.getInstance().mainWindow.getHandle(), mx, my);
 				return;
@@ -134,27 +134,29 @@ public class KeyHandler {
 	private static void callbackMouseButton(long id, int button, int action, int mods) {
 		PlayerEntity player = Minecraft.getInstance().player;
 		IPolymorphCapability poly = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
-		if (ClientProxy.barToggle || (poly != null && poly.getMorph() == IPolymorphCapability.Morph.Wolf)) {
-			KeyBinding itemUse = Minecraft.getInstance().gameSettings.keyBindUseItem;
-			IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
-			if (button == itemUse.getKey().getKeyCode()) {
-				// Cancel item use on the main hotbar if we're a mouse button
-				if (action == GLFW.GLFW_RELEASE) {
-					if (ClientProxy.barToggle && cap != null)
-						cap.cast(AoVUIBar.slotLoc);
-					if (!ClientProxy.barToggle && poly != null && poly.getMorph() == IPolymorphCapability.Morph.Wolf) {
-						poly.doAttack(player, false);
+		if (player != null && player.world != null && Minecraft.getInstance().currentScreen == null)
+			if (ClientProxy.barToggle || (poly != null && poly.getMorph() == IPolymorphCapability.Morph.Wolf)) {
+				KeyBinding itemUse = Minecraft.getInstance().gameSettings.keyBindUseItem;
+				IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
+				if (button == itemUse.getKey().getKeyCode()) {
+					// Cancel item use on the main hotbar if we're a mouse button
+					if (action == GLFW.GLFW_RELEASE) {
+						if (ClientProxy.barToggle && cap != null)
+							cap.cast(AoVUIBar.slotLoc);
+						if (!ClientProxy.barToggle && poly != null && poly.getMorph() == IPolymorphCapability.Morph.Wolf) {
+							poly.doAttack(player, false);
+						}
+						KeyBinding.setKeyBindState(itemUse.getKey(), false);
 					}
-					KeyBinding.setKeyBindState(itemUse.getKey(), false);
+					return;
 				}
-				return;
 			}
-		}
 		delegate_mouseButton.invoke(id, button, action, mods);
 	}
 
 	private static void callbackScroll(long id, double xoffset, double yoffset) {
-		if (ClientProxy.barToggle) {
+		PlayerEntity player = Minecraft.getInstance().player;
+		if (ClientProxy.barToggle && player != null && player.world != null && Minecraft.getInstance().currentScreen == null) {
 			if (yoffset > 0)
 				AoVUIBar.slotLoc--;
 			if (yoffset < 0)
@@ -170,7 +172,7 @@ public class KeyHandler {
 	private static void callbackKey(long windowPointer, int key, int scanCode, int action, int modifiers) {
 		delegate_key.invoke(windowPointer, key, scanCode, action, modifiers);
 		PlayerEntity player = Minecraft.getInstance().player;
-		if (player == null)
+		if (player == null || player.world == null || Minecraft.getInstance().currentScreen != null)
 			return;
 		if (!player.canUpdate()) {
 			KeyBinding chat = Minecraft.getInstance().gameSettings.keyBindChat;
@@ -251,13 +253,13 @@ public class KeyHandler {
 			player.prevRotationYawHead = player.rotationYawHead = ryh;
 			player.prevRotationYaw = player.rotationYaw = ry;
 			player.prevRotationPitch = player.rotationPitch = rp;
-//			player.prevCameraPitch = player.cameraPitch = rcp;
+			//			player.prevCameraPitch = player.cameraPitch = rcp;
 			player.prevCameraYaw = player.cameraYaw = rcy;
 		} else {
 			ry = player.rotationYaw;
 			rp = player.rotationPitch;
 			ryh = player.rotationYawHead;
-//			rcp = player.cameraPitch;
+			//			rcp = player.cameraPitch;
 			rcy = player.cameraYaw;
 		}
 	}
