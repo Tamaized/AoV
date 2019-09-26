@@ -3,6 +3,9 @@ package tamaized.aov;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.Entity;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.IDataSerializer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -55,6 +58,8 @@ import tamaized.aov.registry.AoVParticles;
 import tamaized.aov.registry.AoVPotions;
 import tamaized.aov.registry.AoVTabs;
 
+import javax.annotation.Nonnull;
+
 @Mod(value = AoV.MODID)
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AoV {
@@ -70,6 +75,31 @@ public class AoV {
 			serverAcceptedVersions(s -> true).
 			networkProtocolVersion(() -> "1").
 			simpleChannel();
+
+
+	public static final IDataSerializer<Integer[]> VARINTS = new IDataSerializer<Integer[]>() {
+		@Override
+		public void write(PacketBuffer buf, Integer[] values) {
+			buf.writeVarInt(values.length);
+			for (int value : values)
+				buf.writeVarInt(value);
+		}
+
+		@Override
+		public Integer[] read(PacketBuffer buf) {
+			int length = buf.readVarInt();
+			Integer[] values = new Integer[length];
+			for (int i = 0; i < length; i++)
+				values[i] = buf.readVarInt();
+			return values;
+		}
+
+		@Nonnull
+		@Override
+		public Integer[] copyValue(@Nonnull Integer[] value) {
+			return value;
+		}
+	};
 
 	static {
 		new AoVTabs();
@@ -98,6 +128,7 @@ public class AoV {
 		ConfigHandler.update();
 
 		NetworkMessages.register(network);
+		DataSerializers.registerSerializer(VARINTS);
 
 		CapabilityManager.INSTANCE.register(IAoVCapability.class, new AoVCapabilityStorage(), AoVCapabilityHandler::new);
 		CapabilityManager.INSTANCE.register(IAstroCapability.class, new AstroCapabilityStorage(), AstroCapabilityHandler::new);

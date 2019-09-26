@@ -11,6 +11,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
+import net.minecraft.util.SoundEvents;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.PacketDistributor;
@@ -24,11 +25,13 @@ import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.abilities.Aura;
 import tamaized.aov.common.core.skills.AoVSkill;
 import tamaized.aov.common.core.skills.AoVSkills;
+import tamaized.aov.common.entity.EntitySpellAoVParticles;
 import tamaized.aov.common.helper.FloatyTextHelper;
 import tamaized.aov.network.client.ClientPacketHandlerAoVData;
 import tamaized.aov.network.client.ClientPacketHandlerAoVSimpleData;
 import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
 import tamaized.aov.proxy.ClientProxy;
+import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.AoVPotions;
 
 import javax.annotation.Nullable;
@@ -449,8 +452,11 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		exp += amount;
 		if (player instanceof ServerPlayerEntity) {
 			FloatyTextHelper.sendText((ServerPlayerEntity) player, "+" + amount + " Exp");
-			if (getLevel() > tempLevel)
+			if (getLevel() > tempLevel) {
 				FloatyTextHelper.sendText((ServerPlayerEntity) player, "Level Up! (" + (getLevel()) + ")");
+				player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_PLAYER_LEVELUP, player.getSoundCategory(), 0.25F, 0.95F + 0.5F * ((ServerPlayerEntity) player).getRNG().nextFloat());
+				player.world.addEntity(new EntitySpellAoVParticles(player.world, player, CommonProxy.ParticleType.Spark, 1, 0x00FFD8FF, 0x00FF87FF, 0x3FFF6AFF));
+			}
 		}
 		dirty = true;
 	}

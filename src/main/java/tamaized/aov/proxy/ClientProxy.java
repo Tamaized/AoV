@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 import tamaized.aov.client.ClientHelpers;
 import tamaized.aov.client.events.KeyHandler;
 import tamaized.aov.client.gui.RenderUtils;
+import tamaized.aov.client.particle.ParticleColorSpark;
 import tamaized.aov.client.particle.ParticleFeather;
 import tamaized.aov.client.particle.ParticleHeartColor;
 
@@ -48,7 +49,8 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	@Override
-	public void spawnParticle(ParticleType type, World world, Vec3d pos, Vec3d target, int life, float gravity, float scale, int color) {
+	public void spawnParticle(ParticleType type, World world, Vec3d pos, Vec3d target, int life, float gravity, float scale, Integer... colors) {
+		int color = colors[world.rand.nextInt(colors.length)];
 		Particle particle = null;
 		switch (type) {
 			case Fluff:
@@ -59,6 +61,30 @@ public class ClientProxy extends CommonProxy {
 				break;
 			case Feather:
 				particle = new ParticleFeather(world, pos, target, life, gravity, scale, color);
+				break;
+			case Spark:
+				Vec3d vec = new Vec3d(1, 0, 0);
+				particle = ParticleColorSpark.makeSpark(
+
+						world,
+
+						pos.x,
+
+						pos.y + 0.75F,
+
+						pos.z,
+
+						-((0.015 * vec.x) + ((world.rand.nextFloat() * 0.125) - 0.0625)),
+
+						((0.015 * vec.y) + ((world.rand.nextFloat() * 0.125) - 0.0625)),
+
+						-((0.015 * vec.z) + ((world.rand.nextFloat() * 0.125) - 0.0625)),
+
+						Minecraft.getInstance().particles,
+
+						color >> 8
+
+						);
 				break;
 		}
 		if (particle != null)

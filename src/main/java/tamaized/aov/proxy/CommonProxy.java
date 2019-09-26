@@ -16,12 +16,12 @@ public class CommonProxy {
 
 	}
 
-	public void spawnParticle(ParticleType type, World world, Vec3d pos, Vec3d target, int life, float gravity, float scale, int color) {
+	public void spawnParticle(ParticleType type, World world, Vec3d pos, Vec3d target, int life, float gravity, float scale, Integer... color) {
 
 	}
 
 	public enum ParticleType {
-		Fluff, Heart, Feather
+		Fluff, Heart, Feather, Spark
 	}
 
 }

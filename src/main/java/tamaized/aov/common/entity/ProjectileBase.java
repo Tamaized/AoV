@@ -26,10 +26,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
+import net.minecraftforge.fml.network.NetworkHooks;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.AbilityBase;
-import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
 
@@ -269,6 +269,11 @@ public abstract class ProjectileBase extends AbstractArrowEntity implements IPro
 		setMotion(getMotion().x * (double) f1, getMotion().y * (double) f1 - (double) f2, getMotion().z * (double) f1);
 		setPosition(posX, posY, posZ);
 		doBlockCollisions();
+		postTick();
+	}
+
+	protected void postTick() {
+
 	}
 
 	protected boolean canHitEntity(Entity entity) {

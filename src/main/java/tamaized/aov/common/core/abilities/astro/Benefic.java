@@ -98,7 +98,7 @@ public class Benefic extends AbilityBase {
 		int a = (int) (heal * (1f + (cap.getSpellPower() / 100f)));
 		entity.heal(a);
 		SoundEvents.playMovingSoundOnServer(SoundEvents.benefic, entity);
-		entity.world.addEntity(new EntitySpellAoVParticles(entity.world, entity, CommonProxy.ParticleType.Heart, 0x3FFF6AFF, 2));
+		entity.world.addEntity(new EntitySpellAoVParticles(entity.world, entity, CommonProxy.ParticleType.Heart, 2, 0x3FFF6AFF));
 		cap.addExp(caster, 20, this);
 		return true;
 	}

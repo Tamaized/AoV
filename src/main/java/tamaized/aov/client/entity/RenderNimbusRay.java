@@ -94,32 +94,6 @@ public class RenderNimbusRay<T extends ProjectileBase> extends EntityRenderer<T>
 		GlStateManager.enableLighting();
 		GlStateManager.popMatrix();
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
-		Vec3d vec = entity.getLook(1.0F);
-		if (!Minecraft.getInstance().isGamePaused())
-			for (int i = 0; i < 2; i++)
-				Minecraft.getInstance().particles.addEffect(ParticleColorSpark.makeSpark(
-
-						entity.world,
-
-						entity.posX,
-
-						entity.posY,
-
-						entity.posZ,
-
-						-((0.015 * vec.x) + ((rand.nextFloat() * 0.125) - 0.0625)),
-
-						((0.015 * vec.y) + ((rand.nextFloat() * 0.125) - 0.0625)),
-
-						-((0.015 * vec.z) + ((rand.nextFloat() * 0.125) - 0.0625)),
-
-						Minecraft.getInstance().particles,
-
-						color >> 8
-
-				));
-		//				net.minecraft.client.Minecraft.getInstance().effectRenderer.addEffect(new tamaized.tammodized.client.particles.ParticleFluff(entity.world, entity.getPositionVector(), new Vec3d(-((0.015 * vec.x) + ((rand.nextFloat() * 0.125) - 0.0625)), ((0.015 * vec.y) + ((rand.nextFloat() * 0.125) - 0.0625)), -((0.015 * vec.z) + ((rand.nextFloat() * 0.125) - 0.0625))), rand.nextInt(10), 0, (rand.nextFloat() * 0.85F) + 0.15F, color));
-
 	}
 
 	@Override

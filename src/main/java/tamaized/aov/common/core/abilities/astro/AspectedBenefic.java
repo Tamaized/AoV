@@ -100,7 +100,7 @@ public class AspectedBenefic extends AbilityBase {
 		int a = (int) (heal * (1f + (cap.getSpellPower() / 100f)));
 		entity.heal(a);
 		SoundEvents.playMovingSoundOnServer(SoundEvents.aspectedbenefic, entity);
-		entity.world.addEntity(new EntitySpellAoVParticles(entity.world, entity, CommonProxy.ParticleType.Heart, 0x00FFD8FF, 5));
+		entity.world.addEntity(new EntitySpellAoVParticles(entity.world, entity, CommonProxy.ParticleType.Heart, 5, 0x00FFD8FF));
 		entity.addPotionEffect(new EffectInstance(Effects.REGENERATION, 600));
 		cap.addExp(caster, 15, this);
 		return true;

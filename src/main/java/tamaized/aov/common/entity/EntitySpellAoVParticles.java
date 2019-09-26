@@ -10,8 +10,8 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import tamaized.aov.AoV;
 import net.minecraftforge.fml.network.NetworkHooks;
+import tamaized.aov.AoV;
 import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.AoVEntities;
 
@@ -19,11 +19,11 @@ import javax.annotation.Nonnull;
 import java.util.Objects;
 
 public class EntitySpellAoVParticles extends Entity {
-
 	private static final CommonProxy.ParticleType[] particles = CommonProxy.ParticleType.values();
 	private static final DataParameter<Integer> PARTICLE = EntityDataManager.createKey(EntitySpellAoVParticles.class, DataSerializers.VARINT);
-	private static final DataParameter<Integer> COLOR = EntityDataManager.createKey(EntitySpellAoVParticles.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer[]> COLOR = EntityDataManager.createKey(EntitySpellAoVParticles.class, AoV.VARINTS);
 	private static final DataParameter<Integer> RATE = EntityDataManager.createKey(EntitySpellAoVParticles.class, DataSerializers.VARINT);
+
 	private Entity target;
 	private int tick = 0;
 
@@ -31,13 +31,13 @@ public class EntitySpellAoVParticles extends Entity {
 		super(Objects.requireNonNull(AoVEntities.entityspellaovparticles), worldIn);
 	}
 
-	public EntitySpellAoVParticles(World world, Entity entity, CommonProxy.ParticleType particle, int color, int rate) {
+	public EntitySpellAoVParticles(World world, Entity entity, CommonProxy.ParticleType particle, int rate, Integer... colors) {
 		this(world);
 		target = entity;
 		setPositionAndUpdate(target.posX, target.posY, target.posZ);
 		tick = rand.nextInt(10) + 20;
 		setParticle(particle);
-		setColor(color);
+		setColors(colors);
 		dataManager.set(RATE, rate);
 	}
 
@@ -50,15 +50,15 @@ public class EntitySpellAoVParticles extends Entity {
 	@Override
 	protected void registerData() {
 		dataManager.register(PARTICLE, CommonProxy.ParticleType.Fluff.ordinal());
-		dataManager.register(COLOR, 0xFFFFFFFF);
+		dataManager.register(COLOR, new Integer[]{0xFFFFFFFF});
 		dataManager.register(RATE, 10);
 	}
 
-	public int getColor() {
+	public Integer[] getColors() {
 		return dataManager.get(COLOR);
 	}
 
-	public void setColor(int color) {
+	public void setColors(Integer... color) {
 		dataManager.set(COLOR, color);
 	}
 
@@ -93,7 +93,7 @@ public class EntitySpellAoVParticles extends Entity {
 			for (int index = 0; index < dataManager.get(RATE); index++) {
 				Vec3d vec = getLook(1.0F).rotatePitch(rand.nextInt(360)).rotateYaw(rand.nextInt(360));
 				Vec3d pos = getPositionVector().add(0, 0.65F, 0).add(vec);
-				AoV.proxy.spawnParticle(getParticle(), world, pos, new Vec3d(0, 0.0625F, 0), 16, 0, 1, getColor());
+				AoV.proxy.spawnParticle(getParticle(), world, pos, new Vec3d(0, 0.0625F, 0), 16, 0, 1, getColors());
 			}
 			return;
 		}
