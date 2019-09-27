@@ -30,7 +30,7 @@ public class ParticleHeartColor extends SpriteTexturedParticle {
 		particleGreen = (float) (color >> 16 & 255) / 255.0F;
 		particleBlue = (float) (color >> 8 & 255) / 255.0F;
 		particleAlpha = (float) (color & 255) / 255.0F;
-		setSprite(Minecraft.getInstance().getTextureMap().getAtlasSprite(TextureStitch.HEART.toString()));
+		setSprite(Minecraft.getInstance().getTextureMap().getSprite(TextureStitch.HEART));
 	}
 
 	@Nonnull
