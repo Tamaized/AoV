@@ -36,7 +36,7 @@ public class ParticleHeartColor extends SpriteTexturedParticle {
 	@Nonnull
 	@Override
 	public IParticleRenderType getRenderType() {
-		return IParticleRenderType.PARTICLE_SHEET_OPAQUE;
+		return IParticleRenderType.TERRAIN_SHEET;
 	}
 
 	@Override
