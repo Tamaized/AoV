@@ -3,11 +3,13 @@ package tamaized.aov.proxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.entity.PlayerRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import tamaized.aov.client.ClientHelpers;
+import tamaized.aov.client.LayerWings;
 import tamaized.aov.client.events.KeyHandler;
 import tamaized.aov.client.gui.RenderUtils;
 import tamaized.aov.client.particle.ParticleColorSpark;
@@ -41,6 +43,8 @@ public class ClientProxy extends CommonProxy {
 	public void init() {
 		super.init();
 		KeyHandler.register();
+		for(PlayerRenderer render : Minecraft.getInstance().getRenderManager().getSkinMap().values())
+			render.addLayer(new LayerWings(render));
 	}
 
 	@Override

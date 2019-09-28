@@ -41,7 +41,7 @@ public class TickHandler {
 			return;
 		final float perc = MathHelper.clamp((float) cap.getLeapDuration() / (float) cap.getMaxLeapDuration(), 0, 1);
 		final int bound = 100 - ((int) (perc * 100)) + 1;
-		Vec3d pos = living.getPositionVector();
+		Vec3d pos = living.getPositionVector().add(0, living.getHeight() - 1.62F, 0);
 		for (int i = 0; i < 3; i++)
 			if (living.world.rand.nextInt(bound > 0 ? bound : 1) <= 2) {
 				double yaw = Math.toRadians(living.renderYawOffset + 63);

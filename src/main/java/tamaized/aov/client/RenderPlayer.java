@@ -2,16 +2,14 @@ package tamaized.aov.client;
 
 import com.google.common.base.MoreObjects;
 import com.mojang.blaze3d.platform.GLX;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.BufferBuilder;
-import com.mojang.blaze3d.platform.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerModelPart;
@@ -34,12 +32,9 @@ import tamaized.aov.client.entity.ModelPolymorphWolf;
 import tamaized.aov.client.gui.AoVOverlay;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
-import tamaized.aov.common.capabilities.leap.ILeapCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.items.Handwraps;
-
-import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = AoV.MODID, value = Dist.CLIENT)
 public class RenderPlayer {
@@ -81,118 +76,6 @@ public class RenderPlayer {
 	}
 
 	@SubscribeEvent
-	public static void render(RenderPlayerEvent.Post e) {
-		PlayerEntity player = e.getPlayer();
-		ILeapCapability cap = CapabilityList.getCap(player, CapabilityList.LEAP);
-		if (cap == null || cap.getLeapDuration() <= 0)
-			return;
-		float perc = (float) cap.getLeapDuration() / (float) cap.getMaxLeapDuration();
-		GlStateManager.pushMatrix();
-		{
-			Tessellator tess = Tessellator.getInstance();
-			BufferBuilder buffer = tess.getBuffer();
-
-			IPolymorphCapability poly = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
-			boolean flag = poly != null && poly.getMorph() == IPolymorphCapability.Morph.ArchAngel;
-			if (flag) {
-				RenderHelper.disableStandardItemLighting();
-				float f = perc;
-				float f1 = 0.0F;
-
-				if (f > 0.8F) {
-					f1 = (f - 0.8F) / 0.2F;
-				}
-
-				Random random = new Random(432L);
-				GlStateManager.disableTexture();
-				GlStateManager.shadeModel(7425);
-				GlStateManager.enableBlend();
-				GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-				GlStateManager.disableAlphaTest();
-				GlStateManager.enableCull();
-				GlStateManager.depthMask(false);
-				GlStateManager.pushMatrix();
-				GlStateManager.translated(e.getX(), e.getY(), e.getZ());
-				GlStateManager.translated(0.0F, 1.0F, 0.0F);
-				final float scale = 0.0625F;
-				GlStateManager.scalef(scale, scale, scale);
-
-				for (int i = 0; (float) i < (f + f * f) / 2.0F * 60.0F; ++i) {
-					GlStateManager.rotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
-					GlStateManager.rotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
-					GlStateManager.rotatef(random.nextFloat() * 360.0F, 0.0F, 0.0F, 1.0F);
-					GlStateManager.rotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
-					GlStateManager.rotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
-					GlStateManager.rotatef(random.nextFloat() * 360.0F + f * 90.0F, 0.0F, 0.0F, 1.0F);
-					float f2 = random.nextFloat() * 20.0F + 5.0F + f1 * 10.0F;
-					float f3 = random.nextFloat() * 2.0F + 1.0F + f1 * 2.0F;
-					buffer.begin(6, DefaultVertexFormats.POSITION_COLOR);
-					buffer.pos(0.0D, 0.0D, 0.0D).color(255, 255, 0, (int) (255.0F * (1.0F - f1))).endVertex();
-					buffer.pos(-0.866D * (double) f3, (double) f2, (double) (-0.5F * f3)).color(255, 255, 255, 0).endVertex();
-					buffer.pos(0.866D * (double) f3, (double) f2, (double) (-0.5F * f3)).color(255, 255, 255, 0).endVertex();
-					buffer.pos(0.0D, (double) f2, (double) (1.0F * f3)).color(255, 255, 255, 0).endVertex();
-					buffer.pos(-0.866D * (double) f3, (double) f2, (double) (-0.5F * f3)).color(255, 255, 255, 0).endVertex();
-					tess.draw();
-				}
-
-				GlStateManager.popMatrix();
-				GlStateManager.depthMask(true);
-				GlStateManager.disableCull();
-				GlStateManager.disableBlend();
-				GlStateManager.shadeModel(7424);
-				GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-				GlStateManager.enableTexture();
-				GlStateManager.enableAlphaTest();
-				RenderHelper.enableStandardItemLighting();
-			}
-			GlStateManager.enableBlend();
-			GlStateManager.disableCull();
-			GlStateManager.color4f(1, 1, 1, perc);
-			float scale = 1;
-			GlStateManager.translated(e.getX(), e.getY(), e.getZ());
-			GlStateManager.scalef(scale, scale, scale);
-			GlStateManager.rotatef(-player.renderYawOffset, 0, 1, 0);
-			if (player.isSneaking()) {
-				GlStateManager.translated(0.0F, -0.2F, 0.0F);
-			}
-			Minecraft.getInstance().textureManager.bindTexture(TEXTURE_WING);
-			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-			double x1 = 0;
-			double x2 = x1 + 1;
-			double y1 = 1.90;
-			double y2 = y1 - 1;
-			double z1 = -0.05;
-			double z2 = z1 - 0.5;
-
-			buffer.pos(x1, y1, z1).tex(1, 0).endVertex();
-			buffer.pos(x2, y1, z2).tex(0, 0).endVertex();
-			buffer.pos(x2, y2, z2).tex(0, 1).endVertex();
-			buffer.pos(x1, y2, z1).tex(1, 1).endVertex();
-
-			double offset = -1.0;
-
-			buffer.pos(x2 + offset, y1, z1).tex(1, 0).endVertex();
-			buffer.pos(x1 + offset, y1, z2).tex(0, 0).endVertex();
-			buffer.pos(x1 + offset, y2, z2).tex(0, 1).endVertex();
-			buffer.pos(x2 + offset, y2, z1).tex(1, 1).endVertex();
-
-			if (flag) {
-				GlStateManager.disableLighting();
-				GlStateManager.blendFunc(GL11.GL_ONE, GL11.GL_ONE);
-			}
-			tess.draw();
-			if (flag) {
-				GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-				GlStateManager.enableLighting();
-			}
-			GlStateManager.enableCull();
-			GlStateManager.disableBlend();
-			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-		}
-		GlStateManager.popMatrix();
-	}
-
-	@SubscribeEvent
 	public static void renderName(RenderLivingEvent.Specials.Pre<? extends LivingEntity, ? extends EntityModel<? extends LivingEntity>> e) {
 		if (hackyshit)
 			return;
@@ -209,29 +92,8 @@ public class RenderPlayer {
 		PlayerEntity player = (PlayerEntity) e.getEntity();
 		IPolymorphCapability cap = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
 		if (cap != null) {
-			if (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental || cap.getMorph() == IPolymorphCapability.Morph.FireElemental || cap.getMorph() == IPolymorphCapability.Morph.ArchAngel) {
-				GlStateManager.enableBlend();
-				if (AoVOverlay.NO_STENCIL) {
-					if (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental)
-						GlStateManager.color4f(0F, 0.5F, 1F, 0.75F);
-					else if (cap.getMorph() == IPolymorphCapability.Morph.FireElemental)
-						GlStateManager.color4f(1F, 0.75F, 0F, 0.75F);
-					else if (cap.getMorph() == IPolymorphCapability.Morph.ArchAngel)
-						GlStateManager.color4f(1F, 1F, 0F, 0.75F);
-				} else {
-					GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.SRC_COLOR, GlStateManager.DestFactor.ZERO);
-					GL11.glEnable(GL11.GL_STENCIL_TEST);
-					GL11.glStencilMask(0xFF);
-					GL11.glStencilFunc(GL11.GL_ALWAYS, (
-
-							AoV.config.stencil.get() + (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental ? 8 :
-
-									cap.getMorph() == IPolymorphCapability.Morph.FireElemental ? 9 : 10
-
-					) + (AoVOverlay.hackyshit ? 3 : 0)), 0xFF);
-					GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_REPLACE);
-				}
-			}
+			GlStateManager.enableBlend();
+			enableStencils(cap);
 		}
 	}
 
@@ -246,11 +108,7 @@ public class RenderPlayer {
 				if (AoVOverlay.NO_STENCIL) {
 					GlStateManager.color4f(1F, 1F, 1F, 1F);
 				} else {
-					GL11.glStencilFunc(GL11.GL_ALWAYS, 0, 0xFF);
-					GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_KEEP);
-					GL11.glStencilMask(0x00);
-					GL11.glDisable(GL11.GL_STENCIL_TEST);
-					GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+					disableStencils();
 					hackyshit = true;
 					e.getRenderer().renderName(player, e.getX(), e.getY(), e.getZ());
 					hackyshit = false;
@@ -306,6 +164,39 @@ public class RenderPlayer {
 				GlStateManager.disableBlend();
 			}
 		}
+	}
+
+	public static void enableStencils(IPolymorphCapability cap) {
+		if (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental || cap.getMorph() == IPolymorphCapability.Morph.FireElemental || cap.getMorph() == IPolymorphCapability.Morph.ArchAngel) {
+			if (AoVOverlay.NO_STENCIL) {
+				if (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental)
+					GlStateManager.color4f(0F, 0.5F, 1F, 0.75F);
+				else if (cap.getMorph() == IPolymorphCapability.Morph.FireElemental)
+					GlStateManager.color4f(1F, 0.75F, 0F, 0.75F);
+				else if (cap.getMorph() == IPolymorphCapability.Morph.ArchAngel)
+					GlStateManager.color4f(1F, 1F, 0F, 0.75F);
+			} else {
+				GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.SRC_COLOR, GlStateManager.DestFactor.ZERO);
+				GL11.glEnable(GL11.GL_STENCIL_TEST);
+				GL11.glStencilMask(0xFF);
+				GL11.glStencilFunc(GL11.GL_ALWAYS, (
+
+						AoV.config.stencil.get() + (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental ? 8 :
+
+								cap.getMorph() == IPolymorphCapability.Morph.FireElemental ? 9 : 10
+
+						) + (AoVOverlay.hackyshit ? 3 : 0)), 0xFF);
+				GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_REPLACE);
+			}
+		}
+	}
+
+	public static void disableStencils() {
+		GL11.glStencilFunc(GL11.GL_ALWAYS, 0, 0xFF);
+		GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_KEEP);
+		GL11.glStencilMask(0x00);
+		GL11.glDisable(GL11.GL_STENCIL_TEST);
+		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 	}
 
 	@SubscribeEvent
