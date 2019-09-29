@@ -5,6 +5,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -167,6 +168,12 @@ public class EntityEarthquake extends Entity {
 		compound.putFloat("damage", damage);
 	}
 
+	@Nonnull
+	@Override
+	public IPacket<?> createSpawnPacket() {
+		return NetworkHooks.getEntitySpawningPacket(this);
+	}
+
 	public static class Quake {
 
 		static final float WIDTH = 2.5F;
@@ -185,7 +192,8 @@ public class EntityEarthquake extends Entity {
 
 		@OnlyIn(Dist.CLIENT)
 		public boolean render(@Nonnull EntityEarthquake entity, double ox, double oy, double oz, float partialTicks) {
-			life -= partialTicks;
+			if (!Minecraft.getInstance().isGamePaused())
+				life -= partialTicks;
 			if (life <= 0)
 				return true;
 
@@ -220,11 +228,5 @@ public class EntityEarthquake extends Entity {
 			return false;
 		}
 
-	}
-
-	@Nonnull
-	@Override
-	public IPacket<?> createSpawnPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 }

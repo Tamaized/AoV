@@ -36,7 +36,7 @@ public class RenderEarthquake extends EntityRenderer<EntityEarthquake> {
 	// [Vanilla Copy] Render#renderShadow
 	private static void renderShadow(EntityRendererManager renderManager, Entity entityIn, double x, double y, double z, float shadowSize, float shadowAlpha, float partialTicks) {
 		GlStateManager.enableBlend();
-		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+		GlStateManager.color4f(1F, 1F, 1F, 1F);
 		renderManager.textureManager.bindTexture(SHADOW_TEXTURES);
 		IWorldReader iworldreader = renderManager.world;
 		GlStateManager.depthMask(false);
@@ -89,7 +89,8 @@ public class RenderEarthquake extends EntityRenderer<EntityEarthquake> {
 				if (!(d0 < 0.0D)) {
 					if (d0 > 1.0D) {
 						d0 = 1.0D;
-					}
+					} else if (d0 < 0.5D)
+						d0 = 0;
 
 					AxisAlignedBB axisalignedbb = voxelshape.getBoundingBox();
 					double d1 = (double) p_217759_10_.getX() + axisalignedbb.minX + p_217759_13_;
@@ -125,7 +126,7 @@ public class RenderEarthquake extends EntityRenderer<EntityEarthquake> {
 		GL11.glStencilFunc(GL11.GL_ALWAYS, AoV.config.stencil.get() + 6, 0xFF);
 		GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_REPLACE);
 		{
-			renderShadow(renderManager, entity, x, y, z, shadowSize, 1F, partialTicks);
+			renderShadow(renderManager, entity, x, y, z, 3F, 1F, partialTicks);
 		}
 		GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_KEEP);
 		GL11.glStencilMask(0x00);
