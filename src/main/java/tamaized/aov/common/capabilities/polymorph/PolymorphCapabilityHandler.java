@@ -7,7 +7,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -22,6 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.PacketDistributor;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.CapabilityList;
@@ -29,7 +29,7 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.common.entity.EntityDruidicWolf;
-import tamaized.aov.common.helper.ParticleHelper;
+import tamaized.aov.client.ParticleHelper;
 import tamaized.aov.common.helper.UtilHelper;
 import tamaized.aov.network.client.ClientPacketHandlerPolymorphDogAttack;
 import tamaized.aov.network.server.ServerPacketHandlerPolymorphDogAttack;
@@ -160,9 +160,10 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 						double posy = (double) y;
 						double posz = (double) ((float) (z + i1) + 0.5F);
 						wolf.setLocationAndAngles(posx, posy, posz, wolf.rotationYaw, wolf.rotationPitch);
+						if(world instanceof ServerWorld)
 						for (int i = 0; i < 25; i++) {
 							Vec3d result = wolf.getLook(1F).rotateYaw(wolf.getRNG().nextFloat() * 360F).rotatePitch(wolf.getRNG().nextFloat() * 360F);
-							ParticleHelper.spawnVanillaParticleOnServer(world, ParticleTypes.END_ROD, wolf.posX + result.x, wolf.posY + wolf.getHeight() / 2F + result.y, wolf.posZ + result.z, 0, 0, 0);
+							((ServerWorld) world).spawnParticle(ParticleTypes.END_ROD, wolf.posX + result.x, wolf.posY + wolf.getHeight() / 2F + result.y, wolf.posZ + result.z, 0, 0, 0, 0, 1);
 						}
 						wolves.add(wolf);
 						world.addEntity(wolf);

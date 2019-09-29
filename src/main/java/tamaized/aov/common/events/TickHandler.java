@@ -17,13 +17,13 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import tamaized.aov.AoV;
+import tamaized.aov.client.ParticleHelper;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
 import tamaized.aov.common.capabilities.leap.ILeapCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.capabilities.stun.IStunCapability;
-import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.AoVPotions;
 
 import java.util.List;
@@ -49,7 +49,7 @@ public class TickHandler {
 				float r = ((living.world.rand.nextFloat() * (1.0F + range)) - (0.5F + range));
 				Vec3d vec = new Vec3d(-Math.cos(yaw), 1.7F, -Math.sin(yaw)).rotateYaw(r);
 				vec = pos.add(vec).add(0, living.world.rand.nextFloat() * 0.5F - 0.5F, 0);
-				AoV.proxy.spawnParticle(CommonProxy.ParticleType.Feather, living.world, vec, new Vec3d(0, 0, 0), 55, 0.1F, 0.15F, 0xFFFF00FF);
+				ParticleHelper.spawnParticle(ParticleHelper.ParticleType.Feather, living.world, vec, new Vec3d(0, 0, 0), 55, 0.1F, 0.15F, 0xFFFF00FF);
 			}
 	}
 

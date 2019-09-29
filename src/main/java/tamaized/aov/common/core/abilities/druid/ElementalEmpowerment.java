@@ -17,7 +17,7 @@ import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.abilities.IAura;
-import tamaized.aov.common.helper.ParticleHelper;
+import tamaized.aov.client.ParticleHelper;
 import tamaized.aov.registry.AoVParticles;
 import tamaized.aov.registry.ParticleRegistry;
 import tamaized.aov.registry.SoundEvents;
@@ -130,7 +130,7 @@ public class ElementalEmpowerment extends AbilityBase implements IAura {
 					ParticleRegistry.spawnFromServer(caster.world, AoVParticles.SNOW, caster.posX + caster.world.rand.nextDouble() * 1.5F - 0.75F, caster.posY + caster.getEyeHeight() - 0.25F + caster.world.rand.nextDouble() * 1.5F - 0.75F, caster.posZ + caster.world.rand.nextDouble() * 1.5F - 0.75F, 0, -0.03F, 0);
 					break;
 				case FireElemental:
-					ParticleHelper.spawnVanillaParticleOnServer(caster.world, ParticleTypes.FLAME, caster.posX + caster.world.rand.nextDouble() * 1.5F - 0.75F, caster.posY + caster.getEyeHeight() - 0.25F + caster.world.rand.nextDouble() * 1.5F - 0.75F, caster.posZ + caster.world.rand.nextDouble() * 1.5F - 0.75F, 0, 0, 0);
+					caster.world.addParticle(ParticleTypes.FLAME, caster.posX + caster.world.rand.nextDouble() * 1.5F - 0.75F, caster.posY + caster.getEyeHeight() - 0.25F + caster.world.rand.nextDouble() * 1.5F - 0.75F, caster.posZ + caster.world.rand.nextDouble() * 1.5F - 0.75F, 0, 0, 0);
 					float damage = DAMAGE * (1F + (cap.getSpellPower() / 100F));
 					if (life > 0 && life % (3 * 20) == 0) {
 						List<LivingEntity> list = caster.world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(caster.getPosition().add(-RANGE, -RANGE, -RANGE), caster.getPosition().add(RANGE, RANGE, RANGE)));

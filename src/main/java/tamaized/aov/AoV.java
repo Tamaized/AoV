@@ -46,8 +46,6 @@ import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.network.NetworkMessages;
 import tamaized.aov.network.client.ClientPacketHandlerSpawnNonLivingEntity;
-import tamaized.aov.proxy.ClientProxy;
-import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.AoVAchievements;
 import tamaized.aov.registry.AoVArmors;
 import tamaized.aov.registry.AoVBlocks;
@@ -67,7 +65,6 @@ public class AoV {
 	public static final String MODID = "aov";
 
 	public static final Logger LOGGER = LogManager.getLogger("AoV");
-	public static CommonProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> CommonProxy::new);
 	public static ConfigHandler config;
 	public static SimpleChannel network = NetworkRegistry.ChannelBuilder.
 			named(new ResourceLocation(MODID, MODID)).
@@ -139,12 +136,6 @@ public class AoV {
 		Abilities.register();
 		AoVSkills.register();
 
-		proxy.init();
-	}
-
-	@SubscribeEvent
-	public static void finish(FMLLoadCompleteEvent event){
-		proxy.finish();
 	}
 
 	public void serverStarting(FMLServerStartingEvent evt) {

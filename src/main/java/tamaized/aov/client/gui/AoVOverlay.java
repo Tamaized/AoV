@@ -36,8 +36,8 @@ import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.common.entity.EntityEarthquake;
-import tamaized.aov.proxy.ClientProxy;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Random;
@@ -170,7 +170,7 @@ public class AoVOverlay {
 		float sW = (float) sr.getScaledWidth() / 2F;
 
 		if (cap != null && cap.hasCoreSkill()) {
-			if (ClientProxy.barToggle) {
+			if (ClientHelpers.barToggle) {
 				GlStateManager.pushMatrix();
 				{
 					if (AoV.config.renderBarOverHotbar.get())
@@ -195,7 +195,7 @@ public class AoVOverlay {
 			AoVUIBar.render(AoV.config.ELEMENT_POSITIONS.spellbar_x.get(), AoV.config.ELEMENT_POSITIONS.spellbar_y.get());
 			if (cap.getCoreSkill() == AoVSkills.astro_core_1)
 				renderAstro(mc.player, sr);
-			Entity target = ClientProxy.getTarget() != null ? ClientProxy.getTarget() : ClientHelpers.getTargetOverMouse(mc, 128);
+			Entity target = ClientHelpers.getTarget() != null ? ClientHelpers.getTarget() : ClientHelpers.getTargetOverMouse(mc, 128);
 			if (AoV.config.renderTarget.get() && target instanceof LivingEntity)
 				renderTarget((LivingEntity) target);
 		}
@@ -465,8 +465,19 @@ public class AoVOverlay {
 						try {
 							if (target instanceof PlayerEntity)
 								cacheEntity = target.getClass().getConstructor(World.class, GameProfile.class).newInstance(mc.world, ((PlayerEntity) target).getGameProfile());
-							else
-								cacheEntity = target.getClass().getConstructor(EntityType.class, World.class).newInstance(target.getType(), mc.world);
+							else {
+								for (Constructor<?> ctor : target.getClass().getConstructors()) {
+									if (ctor.getParameterTypes().length == 2) {
+										if (ctor.getParameterTypes()[0] == EntityType.class && ctor.getParameterTypes()[1] == World.class)
+											cacheEntity = target.getClass().getConstructor(EntityType.class, World.class).newInstance(target.getType(), target.world);
+										else if (ctor.getParameterTypes()[0] == World.class && ctor.getParameterTypes()[1] == EntityType.class)
+											cacheEntity = target.getClass().getConstructor(World.class, EntityType.class).newInstance(target.world, target.getType());
+									} else if (ctor.getParameterTypes().length == 1 && ctor.getParameterTypes()[0] == World.class)
+										cacheEntity = target.getClass().getConstructor(World.class).newInstance(target.world);
+									else if (ctor.getParameterTypes().length == 0)
+										cacheEntity = target.getClass().newInstance();
+								}
+							}
 						} catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e1) {
 							e1.printStackTrace();
 						}

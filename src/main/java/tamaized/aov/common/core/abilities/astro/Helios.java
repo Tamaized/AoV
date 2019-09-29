@@ -9,12 +9,12 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
+import tamaized.aov.client.ParticleHelper;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.entity.EntitySpellAoVParticles;
-import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.SoundEvents;
 
 import java.util.List;
@@ -102,7 +102,7 @@ public class Helios extends AbilityBase {
 		for (LivingEntity entity : list) {
 			if (entity == caster || IAoVCapability.canBenefit(caster, cap, entity)) {
 				entity.heal(heal);
-				entity.world.addEntity(new EntitySpellAoVParticles(entity.world, entity, CommonProxy.ParticleType.Heart, 2, 0x3FFF6AFF));
+				entity.world.addEntity(new EntitySpellAoVParticles(entity.world, entity, ParticleHelper.ParticleType.Heart, 2, 0x3FFF6AFF));
 			}
 			cap.addExp(caster, 12, this);
 		}

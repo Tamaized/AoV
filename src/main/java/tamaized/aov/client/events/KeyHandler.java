@@ -18,11 +18,11 @@ import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 import org.lwjgl.glfw.GLFWScrollCallback;
 import tamaized.aov.AoV;
+import tamaized.aov.client.ClientHelpers;
 import tamaized.aov.client.gui.AoVUIBar;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
-import tamaized.aov.proxy.ClientProxy;
 
 import java.util.List;
 
@@ -94,14 +94,14 @@ public class KeyHandler {
 		PlayerEntity player = Minecraft.getInstance().player;
 		IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
 		if (player == null || cap == null) {
-			ClientProxy.setTarget(null);
-			ClientProxy.barToggle = false;
+			ClientHelpers.setTarget(null);
+			ClientHelpers.barToggle = false;
 			return;
 		}
 		if (key_bar.isPressed() || !cap.hasCoreSkill())
-			ClientProxy.barToggle = cap.hasCoreSkill() && !ClientProxy.barToggle;
+			ClientHelpers.barToggle = cap.hasCoreSkill() && !ClientHelpers.barToggle;
 		if (key_target.isPressed())
-			ClientProxy.setTarget();
+			ClientHelpers.setTarget();
 		for (KeyBinding slotKey : SLOT_KEYS)
 			if (slotKey.isPressed())
 				cap.cast(SLOT_KEYS.indexOf(slotKey));
@@ -135,15 +135,15 @@ public class KeyHandler {
 		PlayerEntity player = Minecraft.getInstance().player;
 		IPolymorphCapability poly = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
 		if (player != null && player.world != null && Minecraft.getInstance().currentScreen == null)
-			if (ClientProxy.barToggle || (poly != null && poly.getMorph() == IPolymorphCapability.Morph.Wolf)) {
+			if (ClientHelpers.barToggle || (poly != null && poly.getMorph() == IPolymorphCapability.Morph.Wolf)) {
 				KeyBinding itemUse = Minecraft.getInstance().gameSettings.keyBindUseItem;
 				IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
 				if (button == itemUse.getKey().getKeyCode()) {
 					// Cancel item use on the main hotbar if we're a mouse button
 					if (action == GLFW.GLFW_RELEASE) {
-						if (ClientProxy.barToggle && cap != null)
+						if (ClientHelpers.barToggle && cap != null)
 							cap.cast(AoVUIBar.slotLoc);
-						if (!ClientProxy.barToggle && poly != null && poly.getMorph() == IPolymorphCapability.Morph.Wolf) {
+						if (!ClientHelpers.barToggle && poly != null && poly.getMorph() == IPolymorphCapability.Morph.Wolf) {
 							poly.doAttack(player, false);
 						}
 						KeyBinding.setKeyBindState(itemUse.getKey(), false);
@@ -156,7 +156,7 @@ public class KeyHandler {
 
 	private static void callbackScroll(long id, double xoffset, double yoffset) {
 		PlayerEntity player = Minecraft.getInstance().player;
-		if (ClientProxy.barToggle && player != null && player.world != null && Minecraft.getInstance().currentScreen == null) {
+		if (ClientHelpers.barToggle && player != null && player.world != null && Minecraft.getInstance().currentScreen == null) {
 			if (yoffset > 0)
 				AoVUIBar.slotLoc--;
 			if (yoffset < 0)
@@ -190,7 +190,7 @@ public class KeyHandler {
 			}
 			return;
 		}
-		if (ClientProxy.barToggle) {
+		if (ClientHelpers.barToggle) {
 			for (int i = 0; i <= 8; i++) {
 				KeyBinding keyBind = Minecraft.getInstance().gameSettings.keyBindsHotbar[i];
 				if (keyBind.isPressed()) {
@@ -202,7 +202,7 @@ public class KeyHandler {
 		}
 		KeyBinding itemUse = Minecraft.getInstance().gameSettings.keyBindUseItem;
 		if (itemUse.isPressed()) {
-			if (ClientProxy.barToggle) {
+			if (ClientHelpers.barToggle) {
 				IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
 				if (cap != null) {
 					cap.cast(AoVUIBar.slotLoc);

@@ -12,14 +12,14 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
 import tamaized.aov.AoV;
-import tamaized.aov.proxy.CommonProxy;
+import tamaized.aov.client.ParticleHelper;
 import tamaized.aov.registry.AoVEntities;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
 
 public class EntitySpellAoVParticles extends Entity {
-	private static final CommonProxy.ParticleType[] particles = CommonProxy.ParticleType.values();
+	private static final ParticleHelper.ParticleType[] particles = ParticleHelper.ParticleType.values();
 	private static final DataParameter<Integer> PARTICLE = EntityDataManager.createKey(EntitySpellAoVParticles.class, DataSerializers.VARINT);
 	private static final DataParameter<Integer[]> COLOR = EntityDataManager.createKey(EntitySpellAoVParticles.class, AoV.VARINTS);
 	private static final DataParameter<Integer> RATE = EntityDataManager.createKey(EntitySpellAoVParticles.class, DataSerializers.VARINT);
@@ -31,7 +31,7 @@ public class EntitySpellAoVParticles extends Entity {
 		super(Objects.requireNonNull(AoVEntities.entityspellaovparticles), worldIn);
 	}
 
-	public EntitySpellAoVParticles(World world, Entity entity, CommonProxy.ParticleType particle, int rate, Integer... colors) {
+	public EntitySpellAoVParticles(World world, Entity entity, ParticleHelper.ParticleType particle, int rate, Integer... colors) {
 		this(world);
 		target = entity;
 		setPositionAndUpdate(target.posX, target.posY, target.posZ);
@@ -49,7 +49,7 @@ public class EntitySpellAoVParticles extends Entity {
 
 	@Override
 	protected void registerData() {
-		dataManager.register(PARTICLE, CommonProxy.ParticleType.Fluff.ordinal());
+		dataManager.register(PARTICLE, ParticleHelper.ParticleType.Fluff.ordinal());
 		dataManager.register(COLOR, new Integer[]{0xFFFFFFFF});
 		dataManager.register(RATE, 10);
 	}
@@ -62,12 +62,12 @@ public class EntitySpellAoVParticles extends Entity {
 		dataManager.set(COLOR, color);
 	}
 
-	public CommonProxy.ParticleType getParticle() {
+	public ParticleHelper.ParticleType getParticle() {
 		int index = dataManager.get(PARTICLE);
-		return index >= 0 && index < particles.length ? particles[index] : CommonProxy.ParticleType.Fluff;
+		return index >= 0 && index < particles.length ? particles[index] : ParticleHelper.ParticleType.Fluff;
 	}
 
-	public void setParticle(CommonProxy.ParticleType particle) {
+	public void setParticle(ParticleHelper.ParticleType particle) {
 		dataManager.set(PARTICLE, particle.ordinal());
 	}
 
@@ -93,7 +93,7 @@ public class EntitySpellAoVParticles extends Entity {
 			for (int index = 0; index < dataManager.get(RATE); index++) {
 				Vec3d vec = getLook(1.0F).rotatePitch(rand.nextInt(360)).rotateYaw(rand.nextInt(360));
 				Vec3d pos = getPositionVector().add(0, 0.65F, 0).add(vec);
-				AoV.proxy.spawnParticle(getParticle(), world, pos, new Vec3d(0, 0.0625F, 0), 16, 0, 1, getColors());
+				ParticleHelper.spawnParticle(getParticle(), world, pos, new Vec3d(0, 0.0625F, 0), 16, 0, 1, getColors());
 			}
 			return;
 		}

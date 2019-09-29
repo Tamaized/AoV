@@ -6,10 +6,12 @@ import net.minecraft.client.particle.IAnimatedSprite;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.particle.SmokeParticle;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
+import java.util.Map;
 import java.util.Objects;
 
 public class ParticleSnow extends SmokeParticle {
@@ -24,9 +26,9 @@ public class ParticleSnow extends SmokeParticle {
 
 	private static IAnimatedSprite getAnimatedSprite() {
 		if (FACTORY == null)
-			FACTORY = Objects.requireNonNull(ObfuscationReflectionHelper.<Int2ObjectMap<SmokeParticle.Factory>, ParticleManager>getPrivateValue(ParticleManager.class, Minecraft.getInstance().particles, "field_178932_g")).get(Registry.PARTICLE_TYPE.getId(ParticleTypes.SMOKE));
+			FACTORY = Objects.requireNonNull(ObfuscationReflectionHelper.<Map<ResourceLocation, Factory>, ParticleManager>getPrivateValue(ParticleManager.class, Minecraft.getInstance().particles, "field_178932_g")).get(ParticleTypes.SMOKE.getRegistryName());
 		if (SPRITE_SET == null)
-			SPRITE_SET = ObfuscationReflectionHelper.getPrivateValue(SmokeParticle.Factory.class, FACTORY, "field_217540_a ");
+			SPRITE_SET = ObfuscationReflectionHelper.getPrivateValue(SmokeParticle.Factory.class, FACTORY, "field_217540_a");
 		return SPRITE_SET;
 	}
 

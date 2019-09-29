@@ -12,11 +12,11 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.lwjgl.opengl.GL11;
 import tamaized.aov.AoV;
+import tamaized.aov.client.ClientHelpers;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.universal.InvokeMass;
-import tamaized.aov.proxy.ClientProxy;
 
 @Mod.EventBusSubscriber(modid = AoV.MODID, value = Dist.CLIENT)
 public class AoVUIBar {
@@ -27,12 +27,12 @@ public class AoVUIBar {
 
 	@SubscribeEvent
 	public static void disableHotbar(RenderGameOverlayEvent e) {
-		if (AoV.config.renderBarOverHotbar.get() && e.getType() == RenderGameOverlayEvent.ElementType.HOTBAR && ClientProxy.barToggle)
+		if (AoV.config.renderBarOverHotbar.get() && e.getType() == RenderGameOverlayEvent.ElementType.HOTBAR && ClientHelpers.barToggle)
 			e.setCanceled(true);
 	}
 
 	public static void render(int xpos, int ypos) {
-		if (AoV.config.renderBarOverHotbar.get() && !ClientProxy.barToggle)
+		if (AoV.config.renderBarOverHotbar.get() && !ClientHelpers.barToggle)
 			return;
 		if (mc.player == null)
 			return;
@@ -48,7 +48,7 @@ public class AoVUIBar {
 				GlStateManager.translated(0, sr.getScaledHeight() - 23, 0);
 			}
 			float alpha = 0.2f;
-			if (ClientProxy.barToggle)
+			if (ClientHelpers.barToggle)
 				alpha = 1.0f;
 			GlStateManager.color4f(1.0F, 1.0F, 1.0F, alpha);
 			mc.getTextureManager().bindTexture(widgetsTexPath);

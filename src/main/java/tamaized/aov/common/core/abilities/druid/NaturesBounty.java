@@ -11,12 +11,12 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
+import tamaized.aov.client.ParticleHelper;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.entity.EntitySpellAoVParticles;
-import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.AoVPotions;
 
 public class NaturesBounty extends AbilityBase {
@@ -100,7 +100,7 @@ public class NaturesBounty extends AbilityBase {
 
 	private void addPotionEffects(LivingEntity entity) {
 		entity.addPotionEffect(new EffectInstance(AoVPotions.naturesBounty, 20 * (60 * 15)));
-		entity.world.addEntity(new EntitySpellAoVParticles(entity.world, entity, CommonProxy.ParticleType.Heart, 1, 0x00FFAAFF));
+		entity.world.addEntity(new EntitySpellAoVParticles(entity.world, entity, ParticleHelper.ParticleType.Heart, 1, 0x00FFAAFF));
 		entity.world.playSound(null, entity.posX, entity.posY, entity.posZ, SoundEvents.ENTITY_ILLUSIONER_PREPARE_BLINDNESS, SoundCategory.PLAYERS, 1.0F, entity.getRNG().nextFloat() * 0.5F + 0.75F);
 	}
 

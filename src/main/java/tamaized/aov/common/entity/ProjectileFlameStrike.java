@@ -19,10 +19,9 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
-import tamaized.aov.common.helper.ParticleHelper;
-import tamaized.aov.common.helper.ParticleHelper.MeshType;
+import tamaized.aov.client.ParticleHelper;
+import tamaized.aov.client.ParticleHelper.MeshType;
 import net.minecraftforge.fml.network.NetworkHooks;
-import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.AoVDamageSource;
 import tamaized.aov.registry.AoVEntities;
 
@@ -106,7 +105,7 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 			entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.IN_FIRE, attacker), damage);
 		}
 		for (int i = 0; i < 2; i++)
-			ParticleHelper.spawnParticleMesh(MeshType.BURST, CommonProxy.ParticleType.Fluff, world, new Vec3d(posX, posY, posZ), 10, 0xFF4801FF);
+			ParticleHelper.spawnParticleMesh(MeshType.BURST, ParticleHelper.ParticleType.Fluff, world, new Vec3d(posX, posY, posZ), 10, 0xFF4801FF);
 	}
 
 	@Override

@@ -24,7 +24,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import tamaized.aov.proxy.ClientProxy;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -149,7 +148,7 @@ public class SizedFontRenderer extends FontRenderer {
 								return new TexturedGlyph(textureLocation, u0, u1, v0, v1, field_211240_f, field_211241_g, field_211242_h, field_211243_i) {
 									@Override
 									public void render(TextureManager textureManagerIn, boolean isItalic, float x, float y, BufferBuilder buffer, float red, float green, float blue, float alpha) {
-										float size = 1F;//ClientProxy.getFontRenderer() == null ? 0 : ClientProxy.getFontRenderer().size;
+										float size = 1F;//ClientHelpers.getFontRenderer() == null ? 0 : ClientHelpers.getFontRenderer().size;
 										int i = 3;
 										float f = x + field_211240_f;
 										float f1 = x + field_211241_g;

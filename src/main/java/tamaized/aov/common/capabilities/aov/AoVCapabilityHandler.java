@@ -16,6 +16,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.PacketDistributor;
 import tamaized.aov.AoV;
+import tamaized.aov.client.ClientHelpers;
+import tamaized.aov.client.ParticleHelper;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.astro.IAstroCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
@@ -30,8 +32,6 @@ import tamaized.aov.common.helper.FloatyTextHelper;
 import tamaized.aov.network.client.ClientPacketHandlerAoVData;
 import tamaized.aov.network.client.ClientPacketHandlerAoVSimpleData;
 import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
-import tamaized.aov.proxy.ClientProxy;
-import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.AoVPotions;
 
 import javax.annotation.Nullable;
@@ -455,7 +455,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 			if (getLevel() > tempLevel) {
 				FloatyTextHelper.sendText((ServerPlayerEntity) player, "Level Up! (" + (getLevel()) + ")");
 				player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_PLAYER_LEVELUP, player.getSoundCategory(), 0.25F, 0.95F + 0.5F * ((ServerPlayerEntity) player).getRNG().nextFloat());
-				player.world.addEntity(new EntitySpellAoVParticles(player.world, player, CommonProxy.ParticleType.Spark, 1, 0x00FFD8FF, 0x00FF87FF, 0x3FFF6AFF));
+				player.world.addEntity(new EntitySpellAoVParticles(player.world, player, ParticleHelper.ParticleType.Spark, 1, 0x00FFD8FF, 0x00FF87FF, 0x3FFF6AFF));
 			}
 		}
 		dirty = true;
@@ -599,13 +599,13 @@ public class AoVCapabilityHandler implements IAoVCapability {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void cast(int slotLoc) {
-		AoV.network.sendToServer(new ServerPacketHandlerSpellSkill(ServerPacketHandlerSpellSkill.PacketType.CAST_SPELL, null, ClientProxy.getTarget() != null ? new int[]{slotLoc, ClientProxy.getTarget().getEntityId()} : new int[]{slotLoc}));
+		AoV.network.sendToServer(new ServerPacketHandlerSpellSkill(ServerPacketHandlerSpellSkill.PacketType.CAST_SPELL, null, ClientHelpers.getTarget() != null ? new int[]{slotLoc, ClientHelpers.getTarget().getEntityId()} : new int[]{slotLoc}));
 		Ability ability = getSlot(slotLoc);
 		if (ability != null && ability.getAbility().runOnClient())
-			if (ClientProxy.getTarget() == null)
+			if (ClientHelpers.getTarget() == null)
 				ability.cast(Minecraft.getInstance().player);
 			else
-				ability.cast(Minecraft.getInstance().player, ClientProxy.getTarget());
+				ability.cast(Minecraft.getInstance().player, ClientHelpers.getTarget());
 	}
 
 	@Override

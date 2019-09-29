@@ -17,8 +17,7 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
-import tamaized.aov.common.helper.ParticleHelper;
-import tamaized.aov.proxy.CommonProxy;
+import tamaized.aov.client.ParticleHelper;
 
 import java.util.List;
 
@@ -99,7 +98,7 @@ public class DruidicRegenerate extends AbilityBase {
 				entity.addPotionEffect(new EffectInstance(Effects.REGENERATION, 200, IAoVCapability.isImprovedCentered(caster, cap) ? 1 : 0));
 				cap.addExp(caster, 15, this);
 			}
-			ParticleHelper.spawnParticleMesh(ParticleHelper.MeshType.BURST, CommonProxy.ParticleType.Heart, caster.world, caster.getPositionVector(), range, 0x00FFAAFF);
+			ParticleHelper.spawnParticleMesh(ParticleHelper.MeshType.BURST, ParticleHelper.ParticleType.Heart, caster.world, caster.getPositionVector(), range, 0x00FFAAFF);
 			caster.world.playSound(null, caster.posX, caster.posY, caster.posZ, SoundEvents.ENTITY_EVOKER_CAST_SPELL, SoundCategory.PLAYERS, 1.0F, caster.getRNG().nextFloat() * 0.50F + 0.50F);
 			return true;
 		}

@@ -10,12 +10,12 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
+import tamaized.aov.client.ParticleHelper;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.entity.EntitySpellAoVParticles;
-import tamaized.aov.proxy.CommonProxy;
 import tamaized.aov.registry.SoundEvents;
 
 public class AspectedBenefic extends AbilityBase {
@@ -100,7 +100,7 @@ public class AspectedBenefic extends AbilityBase {
 		int a = (int) (heal * (1f + (cap.getSpellPower() / 100f)));
 		entity.heal(a);
 		SoundEvents.playMovingSoundOnServer(SoundEvents.aspectedbenefic, entity);
-		entity.world.addEntity(new EntitySpellAoVParticles(entity.world, entity, CommonProxy.ParticleType.Heart, 5, 0x00FFD8FF));
+		entity.world.addEntity(new EntitySpellAoVParticles(entity.world, entity, ParticleHelper.ParticleType.Heart, 5, 0x00FFD8FF));
 		entity.addPotionEffect(new EffectInstance(Effects.REGENERATION, 600));
 		cap.addExp(caster, 15, this);
 		return true;

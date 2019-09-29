@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import tamaized.aov.AoV;
-import tamaized.aov.proxy.ClientProxy;
+import tamaized.aov.client.ClientHelpers;
 
 import static tamaized.aov.client.gui.AoVUIBar.slotLoc;
 
@@ -125,7 +125,7 @@ public class AdjustElementsGUI extends GuiScreenClose {
 			if (AoV.config.renderBarOverHotbar.get())
 				GlStateManager.translated(0, sr.getScaledHeight() - 23, 0);
 			float alpha = 0.2f;
-			if (ClientProxy.barToggle)
+			if (ClientHelpers.barToggle)
 				alpha = 1.0f;
 			GlStateManager.color4f(1.0F, 1.0F, 1.0F, alpha);
 			Minecraft.getInstance().getTextureManager().bindTexture(TEXTURE_SPELLBAR);

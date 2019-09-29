@@ -5,7 +5,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import tamaized.aov.AoV;
-import tamaized.aov.proxy.ClientProxy;
+import tamaized.aov.client.ClientHelpers;
 
 @Mod.EventBusSubscriber(modid = AoV.MODID)
 public class ClientTicker {
@@ -22,8 +22,8 @@ public class ClientTicker {
 			return;
 		frames++;
 		charges.update();
-		if (ClientProxy.getTarget() != null && !ClientProxy.getTarget().isAlive())
-			ClientProxy.setTarget(null);
+		if (ClientHelpers.getTarget() != null && !ClientHelpers.getTarget().isAlive())
+			ClientHelpers.setTarget(null);
 		{
 			if (dangerBiomeTicksFlag) {
 				if (dangerBiomeTicks < dangerBiomeMaxTick)

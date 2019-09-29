@@ -3,12 +3,12 @@ package tamaized.aov.client.gui;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
 import tamaized.aov.AoV;
+import tamaized.aov.client.ClientHelpers;
 import tamaized.aov.common.blocks.BlockAngelicBlock;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.gui.GuiHandler;
 import tamaized.aov.network.server.ServerPacketHandlerSpellSkill;
-import tamaized.aov.proxy.ClientProxy;
 
 import java.util.Objects;
 
@@ -32,7 +32,7 @@ public class ResetSkillsGUI extends GuiScreenClose {
 		buttons.add(new Button(110, height - 25, 80, 20, I18n.format("aov.gui.button.back"), button -> GuiHandler.openGui(GuiHandler.GUI.SKILLS, parent)));
 		buttons.add(new Button(width - 190, height - 25, 80, 20, I18n.format("aov.gui.button.fullreset"), button -> {
 			AoV.network.sendToServer(new ServerPacketHandlerSpellSkill(ServerPacketHandlerSpellSkill.PacketType.RESETSKILLS_FULL, null, 0));
-			ClientProxy.barToggle = false;
+			ClientHelpers.barToggle = false;
 
 		}));
 		buttons.add(new Button(width - 90, height - 25, 80, 20, I18n.format("aov.gui.button.minorreset"), button -> {

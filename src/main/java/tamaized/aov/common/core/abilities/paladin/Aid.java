@@ -15,8 +15,7 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
-import tamaized.aov.common.helper.ParticleHelper;
-import tamaized.aov.proxy.CommonProxy;
+import tamaized.aov.client.ParticleHelper;
 import tamaized.aov.registry.AoVPotions;
 import tamaized.aov.registry.SoundEvents;
 
@@ -101,7 +100,7 @@ public class Aid extends AbilityBase {
 
 	private void castAsMass(LivingEntity caster, IAoVCapability cap) {
 		int range = (int) (getMaxDistance() * 2);
-		ParticleHelper.spawnParticleMesh(ParticleHelper.MeshType.BURST, CommonProxy.ParticleType.Fluff, caster.world, caster.getPositionVector(), range, getParticleColor());
+		ParticleHelper.spawnParticleMesh(ParticleHelper.MeshType.BURST, ParticleHelper.ParticleType.Fluff, caster.world, caster.getPositionVector(), range, getParticleColor());
 		List<LivingEntity> list = caster.world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(caster.getPosition().add(-range, -range, -range), caster.getPosition().add(range, range, range)));
 		for (LivingEntity entity : list) {
 			if (IAoVCapability.canBenefit(caster, cap, entity)) {

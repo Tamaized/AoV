@@ -13,14 +13,14 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.lwjgl.opengl.GL11;
 import tamaized.aov.AoV;
-import tamaized.aov.proxy.ClientProxy;
+import tamaized.aov.client.ClientHelpers;
 
 @Mod.EventBusSubscriber(modid = AoV.MODID, value = Dist.CLIENT)
 public class RenderLivingHook {
 
 	@SubscribeEvent
 	public static void render(RenderLivingEvent.Pre<? extends LivingEntity, ? extends EntityModel<?>> e) {
-		if (e.getEntity() != ClientProxy.getTarget())
+		if (e.getEntity() != ClientHelpers.getTarget())
 			return;
 		GlStateManager.pushMatrix();
 		{
