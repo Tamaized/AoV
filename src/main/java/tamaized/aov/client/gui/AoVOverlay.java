@@ -211,6 +211,11 @@ public class AoVOverlay {
 						AoVOverlay.intensity = intense;
 				}
 			}
+			PlayerEntity player = Minecraft.getInstance().player;
+			if (!mc.isGamePaused() && intensity > 0 && player != null) {
+				player.setPositionAndRotation(player.posX, player.posY, player.posZ, player.rotationYaw + (rand.nextFloat() * 2F - 1F) * intensity, player.rotationPitch + (rand.nextFloat() * 2F - 1F) * intensity);
+				intensity = 0F;
+			}
 		}
 		if (e.phase == TickEvent.Phase.END && mc.currentScreen != null) {
 			renderStencils();
