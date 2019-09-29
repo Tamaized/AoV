@@ -1,10 +1,10 @@
 package tamaized.aov.client.gui;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
-import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;

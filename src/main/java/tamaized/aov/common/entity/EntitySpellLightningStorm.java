@@ -1,9 +1,9 @@
 package tamaized.aov.common.entity;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
-import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -19,11 +19,11 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.network.NetworkHooks;
 import org.lwjgl.opengl.GL11;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
-import net.minecraftforge.fml.network.NetworkHooks;
 import tamaized.aov.registry.AoVEntities;
 
 import javax.annotation.Nonnull;

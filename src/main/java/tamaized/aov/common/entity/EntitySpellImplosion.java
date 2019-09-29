@@ -1,6 +1,5 @@
 package tamaized.aov.common.entity;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -11,11 +10,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
-import tamaized.aov.client.particle.ParticleImplosion;
+import net.minecraftforge.fml.network.NetworkHooks;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
-import net.minecraftforge.fml.network.NetworkHooks;
 import tamaized.aov.registry.AoVDamageSource;
 import tamaized.aov.registry.AoVEntities;
 
@@ -87,7 +85,7 @@ public class EntitySpellImplosion extends Entity implements IEntityAdditionalSpa
 					Vec3d vec = getLook(1.0F).rotatePitch(rand.nextInt(360)).rotateYaw(rand.nextInt(360));
 					float speed = 0.08F;
 					Vec3d pos = getPositionVector().add(0, target.getHeight() / 2F, 0).add(vec);
-//					Minecraft.getInstance().particles.addEffect(new ParticleImplosion(world, pos.x, pos.y, pos.z, -vec.x * speed, -vec.y * speed, -vec.z * speed)); TODO
+					//					Minecraft.getInstance().particles.addEffect(new ParticleImplosion(world, pos.x, pos.y, pos.z, -vec.x * speed, -vec.y * speed, -vec.z * speed)); TODO
 				}
 			return;
 		}

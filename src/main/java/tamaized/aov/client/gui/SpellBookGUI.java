@@ -89,8 +89,9 @@ public class SpellBookGUI extends GuiScreenClose {
 			if (b instanceof SpellButton) {
 				SpellButton sb = (SpellButton) b;
 				List<String> desc;
-				if (sb.getSpell() != null && (desc = sb.getSpell().getDescription()) != null) ;
-//					renderComponentHoverEffect(desc, mouseX, mouseY); TODO
+				if (sb.getSpell() != null && (desc = sb.getSpell().getDescription()) != null)
+					;
+				//					renderComponentHoverEffect(desc, mouseX, mouseY); TODO
 			}
 		}
 	}

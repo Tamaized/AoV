@@ -21,13 +21,13 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.network.NetworkHooks;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.stun.IStunCapability;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.abilities.favoredsoul.AlignmentAoE;
 import tamaized.aov.common.helper.RayTraceHelper;
-import net.minecraftforge.fml.network.NetworkHooks;
 import tamaized.aov.registry.AoVEntities;
 
 import javax.annotation.Nonnull;

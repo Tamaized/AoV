@@ -1,8 +1,8 @@
 package tamaized.aov.common.potion;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
-import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.DisplayEffectsScreen;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AbstractAttributeMap;

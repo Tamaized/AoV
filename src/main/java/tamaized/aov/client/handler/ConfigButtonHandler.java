@@ -1,17 +1,13 @@
 package tamaized.aov.client.handler;
 
-import com.google.common.collect.Lists;
-import net.minecraft.client.resources.I18n;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.client.config.DummyConfigElement;
-import net.minecraftforge.fml.client.config.IConfigElement;
 import net.minecraftforge.fml.common.Mod;
 import tamaized.aov.AoV;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = AoV.MODID)
 public class ConfigButtonHandler {
 
-//	private static final IConfigElement CONFIG_ELEMENT = new DummyConfigElement.DummyCategoryElement(I18n.format("aov.config.repositionelements.name"), "aov.config.repositionelements", Lists.newArrayList());
+	//	private static final IConfigElement CONFIG_ELEMENT = new DummyConfigElement.DummyCategoryElement(I18n.format("aov.config.repositionelements.name"), "aov.config.repositionelements", Lists.newArrayList());
 
 	/*@SubscribeEvent TODO
 	public static void hook(GuiScreenEvent.InitGuiEvent.Post e) {

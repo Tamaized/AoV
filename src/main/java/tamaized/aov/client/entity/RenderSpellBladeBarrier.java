@@ -1,13 +1,13 @@
 package tamaized.aov.client.entity;
 
-import net.minecraft.client.Minecraft;
 import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.texture.AtlasTexture;
-import net.minecraft.item.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import tamaized.aov.common.entity.EntitySpellBladeBarrier;

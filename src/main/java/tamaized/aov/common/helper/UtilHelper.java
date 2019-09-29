@@ -5,7 +5,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
@@ -29,12 +28,12 @@ public class UtilHelper {
 	}
 
 	public static void setSize(Entity e, float width, float height) {
-		if(true)
+		if (true)
 			return; // TODO
 		if (width != e.getWidth() || height != e.getHeight()) {
 			float f = e.getWidth();
-//			e.getWidth() = width;
-//			e.getHeight() = height;
+			//			e.getWidth() = width;
+			//			e.getHeight() = height;
 
 			if (e.getWidth() < f) {
 				double d0 = (double) width / 2.0D;
@@ -56,9 +55,9 @@ public class UtilHelper {
 			HashSet<Entity> exclude = new HashSet<>();
 			exclude.add(caster);
 			RayTraceResult result = RayTraceHelper.tracePath(caster, caster.world, caster, maxDistance, 1, exclude);
-			if(result instanceof BlockRayTraceResult)
+			if (result instanceof BlockRayTraceResult)
 				return new Vec3d(((BlockRayTraceResult) result).getPos());
-			if(result instanceof EntityRayTraceResult)
+			if (result instanceof EntityRayTraceResult)
 				return ((EntityRayTraceResult) result).getEntity().getPositionVec();
 			return caster.getPositionVector();
 		} else

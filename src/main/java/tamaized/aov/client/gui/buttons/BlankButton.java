@@ -1,7 +1,7 @@
 package tamaized.aov.client.gui.buttons;
 
-import net.minecraft.client.gui.widget.button.Button;
 import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.gui.widget.button.Button;
 import tamaized.aov.client.gui.RenderUtils;
 
 public class BlankButton extends Button {
@@ -12,7 +12,7 @@ public class BlankButton extends Button {
 		super(x, y, w, h, "", function);
 	}
 
-	public BlankButton markDebug(){
+	public BlankButton markDebug() {
 		debug = true;
 		return this;
 	}

@@ -1,7 +1,7 @@
 package tamaized.aov.client;
 
-import net.minecraft.client.gui.FontRenderer;
 import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.gui.FontRenderer;
 
 public class SizedFontHelper {
 

@@ -1,12 +1,8 @@
 package tamaized.aov.client;
 
 import com.google.common.collect.Sets;
-import com.mojang.blaze3d.platform.GLX;
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.platform.TextureUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.PlayerRenderer;
-import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.EntityRayTraceResult;
@@ -35,9 +31,9 @@ public final class ClientHelpers {
 	}
 
 	@SubscribeEvent
-	public static void init(FMLClientSetupEvent event){
+	public static void init(FMLClientSetupEvent event) {
 		KeyHandler.register();
-		for(PlayerRenderer render : Minecraft.getInstance().getRenderManager().getSkinMap().values())
+		for (PlayerRenderer render : Minecraft.getInstance().getRenderManager().getSkinMap().values())
 			render.addLayer(new LayerWings(render));
 	}
 

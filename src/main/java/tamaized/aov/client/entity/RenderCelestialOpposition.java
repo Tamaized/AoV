@@ -36,7 +36,7 @@ public class RenderCelestialOpposition<T extends EntityCelestialOpposition> exte
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.SRC_ALPHA);
 
 		bindTexture(TEXTURE);
-//		RenderGravity.SPHERE.setTextureFlag(true); TODO
+		//		RenderGravity.SPHERE.setTextureFlag(true); TODO
 		RenderGravity.renderSphere(1F);
 
 		bindTexture(RenderCombust.RING);

@@ -3,12 +3,8 @@ package tamaized.aov.client.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import org.lwjgl.opengl.GL11;
 import tamaized.aov.AoV;
 
 public class GuiScreenClose extends Screen {

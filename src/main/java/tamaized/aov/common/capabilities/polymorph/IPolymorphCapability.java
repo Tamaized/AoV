@@ -2,11 +2,11 @@ package tamaized.aov.common.capabilities.polymorph;
 
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.potion.Effect;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.IPlayerCapabilityHandler;

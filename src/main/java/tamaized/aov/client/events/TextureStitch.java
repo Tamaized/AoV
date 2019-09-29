@@ -1,8 +1,5 @@
 package tamaized.aov.client.events;
 
-import com.google.common.collect.Lists;
-import net.minecraft.client.Minecraft;
-import net.minecraft.profiler.EmptyProfiler;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.TextureStitchEvent;

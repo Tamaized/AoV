@@ -10,7 +10,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.registries.ObjectHolder;
 import tamaized.aov.AoV;
 import tamaized.aov.client.entity.RenderAlignmentAoE;
@@ -43,7 +42,6 @@ import tamaized.aov.common.entity.ProjectileFlameStrike;
 import tamaized.aov.common.entity.ProjectileNimbusRay;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.function.BiFunction;
 
 @ObjectHolder(AoV.MODID)
 @Mod.EventBusSubscriber(modid = AoV.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)

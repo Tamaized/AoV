@@ -29,7 +29,6 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.common.entity.EntityDruidicWolf;
-import tamaized.aov.client.ParticleHelper;
 import tamaized.aov.common.helper.UtilHelper;
 import tamaized.aov.network.client.ClientPacketHandlerPolymorphDogAttack;
 import tamaized.aov.network.server.ServerPacketHandlerPolymorphDogAttack;
@@ -160,11 +159,11 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 						double posy = (double) y;
 						double posz = (double) ((float) (z + i1) + 0.5F);
 						wolf.setLocationAndAngles(posx, posy, posz, wolf.rotationYaw, wolf.rotationPitch);
-						if(world instanceof ServerWorld)
-						for (int i = 0; i < 25; i++) {
-							Vec3d result = wolf.getLook(1F).rotateYaw(wolf.getRNG().nextFloat() * 360F).rotatePitch(wolf.getRNG().nextFloat() * 360F);
-							((ServerWorld) world).spawnParticle(ParticleTypes.END_ROD, wolf.posX + result.x, wolf.posY + wolf.getHeight() / 2F + result.y, wolf.posZ + result.z, 0, 0, 0, 0, 1);
-						}
+						if (world instanceof ServerWorld)
+							for (int i = 0; i < 25; i++) {
+								Vec3d result = wolf.getLook(1F).rotateYaw(wolf.getRNG().nextFloat() * 360F).rotatePitch(wolf.getRNG().nextFloat() * 360F);
+								((ServerWorld) world).spawnParticle(ParticleTypes.END_ROD, wolf.posX + result.x, wolf.posY + wolf.getHeight() / 2F + result.y, wolf.posZ + result.z, 0, 0, 0, 0, 1);
+							}
 						wolves.add(wolf);
 						world.addEntity(wolf);
 						world.playSound(null, wolf.getPosition(), SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1.0F, wolf.getRNG().nextFloat() + 0.5F);

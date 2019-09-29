@@ -12,11 +12,11 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.AoV;
+import tamaized.aov.client.ParticleHelper;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
-import tamaized.aov.client.ParticleHelper;
 import tamaized.aov.registry.AoVDamageSource;
 import tamaized.aov.registry.SoundEvents;
 

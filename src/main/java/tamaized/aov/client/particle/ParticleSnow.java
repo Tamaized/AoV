@@ -1,13 +1,11 @@
 package tamaized.aov.client.particle;
 
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.IAnimatedSprite;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.particle.SmokeParticle;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 

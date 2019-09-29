@@ -1,9 +1,9 @@
 package tamaized.aov.client.entity;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.BufferBuilder;
-import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -16,8 +16,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IWorldReader;
-import net.minecraft.world.LightType;
-import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 import tamaized.aov.AoV;
 import tamaized.aov.common.entity.EntityEarthquake;
@@ -44,7 +42,7 @@ public class RenderEarthquake extends EntityRenderer<EntityEarthquake> {
 		GlStateManager.depthMask(false);
 		float f = shadowSize;
 		if (entityIn instanceof MobEntity) {
-			MobEntity mobentity = (MobEntity)entityIn;
+			MobEntity mobentity = (MobEntity) entityIn;
 			if (mobentity.isChild()) {
 				f *= 0.5F;
 			}
@@ -53,12 +51,12 @@ public class RenderEarthquake extends EntityRenderer<EntityEarthquake> {
 		double d5 = MathHelper.lerp(partialTicks, entityIn.lastTickPosX, entityIn.posX);
 		double d0 = MathHelper.lerp(partialTicks, entityIn.lastTickPosY, entityIn.posY);
 		double d1 = MathHelper.lerp(partialTicks, entityIn.lastTickPosZ, entityIn.posZ);
-		int i = MathHelper.floor(d5 - (double)f);
-		int j = MathHelper.floor(d5 + (double)f);
-		int k = MathHelper.floor(d0 - (double)f);
+		int i = MathHelper.floor(d5 - (double) f);
+		int j = MathHelper.floor(d5 + (double) f);
+		int k = MathHelper.floor(d0 - (double) f);
 		int l = MathHelper.floor(d0);
-		int i1 = MathHelper.floor(d1 - (double)f);
-		int j1 = MathHelper.floor(d1 + (double)f);
+		int i1 = MathHelper.floor(d1 - (double) f);
+		int j1 = MathHelper.floor(d1 + (double) f);
 		double d2 = x - d5;
 		double d3 = y - d0;
 		double d4 = z - d1;
@@ -66,7 +64,7 @@ public class RenderEarthquake extends EntityRenderer<EntityEarthquake> {
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
 		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
 
-		for(BlockPos blockpos : BlockPos.getAllInBoxMutable(new BlockPos(i, k, i1), new BlockPos(j, l, j1))) {
+		for (BlockPos blockpos : BlockPos.getAllInBoxMutable(new BlockPos(i, k, i1), new BlockPos(j, l, j1))) {
 			BlockPos blockpos1 = blockpos.down();
 			BlockState blockstate = iworldreader.getBlockState(blockpos1);
 			if (blockstate.getRenderType() != BlockRenderType.INVISIBLE && iworldreader.getLight(blockpos) > 3) {
@@ -87,26 +85,26 @@ public class RenderEarthquake extends EntityRenderer<EntityEarthquake> {
 			if (!voxelshape.isEmpty()) {
 				Tessellator tessellator = Tessellator.getInstance();
 				BufferBuilder bufferbuilder = tessellator.getBuffer();
-				double d0 = ((double)p_217759_11_ - (p_217759_6_ - ((double)p_217759_10_.getY() + p_217759_15_)) / 2.0D) * 0.5D * (double)renderManager.world.getBrightness(p_217759_10_);
+				double d0 = ((double) p_217759_11_ - (p_217759_6_ - ((double) p_217759_10_.getY() + p_217759_15_)) / 2.0D) * 0.5D * (double) renderManager.world.getBrightness(p_217759_10_);
 				if (!(d0 < 0.0D)) {
 					if (d0 > 1.0D) {
 						d0 = 1.0D;
 					}
 
 					AxisAlignedBB axisalignedbb = voxelshape.getBoundingBox();
-					double d1 = (double)p_217759_10_.getX() + axisalignedbb.minX + p_217759_13_;
-					double d2 = (double)p_217759_10_.getX() + axisalignedbb.maxX + p_217759_13_;
-					double d3 = (double)p_217759_10_.getY() + axisalignedbb.minY + p_217759_15_ + 0.015625D;
-					double d4 = (double)p_217759_10_.getZ() + axisalignedbb.minZ + p_217759_17_;
-					double d5 = (double)p_217759_10_.getZ() + axisalignedbb.maxZ + p_217759_17_;
-					float f = (float)((p_217759_4_ - d1) / 2.0D / (double)p_217759_12_ + 0.5D);
-					float f1 = (float)((p_217759_4_ - d2) / 2.0D / (double)p_217759_12_ + 0.5D);
-					float f2 = (float)((p_217759_8_ - d4) / 2.0D / (double)p_217759_12_ + 0.5D);
-					float f3 = (float)((p_217759_8_ - d5) / 2.0D / (double)p_217759_12_ + 0.5D);
-					bufferbuilder.pos(d1, d3, d4).tex((double)f, (double)f2).color(1.0F, 1.0F, 1.0F, (float)d0).endVertex();
-					bufferbuilder.pos(d1, d3, d5).tex((double)f, (double)f3).color(1.0F, 1.0F, 1.0F, (float)d0).endVertex();
-					bufferbuilder.pos(d2, d3, d5).tex((double)f1, (double)f3).color(1.0F, 1.0F, 1.0F, (float)d0).endVertex();
-					bufferbuilder.pos(d2, d3, d4).tex((double)f1, (double)f2).color(1.0F, 1.0F, 1.0F, (float)d0).endVertex();
+					double d1 = (double) p_217759_10_.getX() + axisalignedbb.minX + p_217759_13_;
+					double d2 = (double) p_217759_10_.getX() + axisalignedbb.maxX + p_217759_13_;
+					double d3 = (double) p_217759_10_.getY() + axisalignedbb.minY + p_217759_15_ + 0.015625D;
+					double d4 = (double) p_217759_10_.getZ() + axisalignedbb.minZ + p_217759_17_;
+					double d5 = (double) p_217759_10_.getZ() + axisalignedbb.maxZ + p_217759_17_;
+					float f = (float) ((p_217759_4_ - d1) / 2.0D / (double) p_217759_12_ + 0.5D);
+					float f1 = (float) ((p_217759_4_ - d2) / 2.0D / (double) p_217759_12_ + 0.5D);
+					float f2 = (float) ((p_217759_8_ - d4) / 2.0D / (double) p_217759_12_ + 0.5D);
+					float f3 = (float) ((p_217759_8_ - d5) / 2.0D / (double) p_217759_12_ + 0.5D);
+					bufferbuilder.pos(d1, d3, d4).tex((double) f, (double) f2).color(1.0F, 1.0F, 1.0F, (float) d0).endVertex();
+					bufferbuilder.pos(d1, d3, d5).tex((double) f, (double) f3).color(1.0F, 1.0F, 1.0F, (float) d0).endVertex();
+					bufferbuilder.pos(d2, d3, d5).tex((double) f1, (double) f3).color(1.0F, 1.0F, 1.0F, (float) d0).endVertex();
+					bufferbuilder.pos(d2, d3, d4).tex((double) f1, (double) f2).color(1.0F, 1.0F, 1.0F, (float) d0).endVertex();
 				}
 			}
 		}

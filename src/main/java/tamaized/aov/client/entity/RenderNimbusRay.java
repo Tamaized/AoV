@@ -1,7 +1,6 @@
 package tamaized.aov.client.entity;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -9,9 +8,7 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import tamaized.aov.AoV;
-import tamaized.aov.client.particle.ParticleColorSpark;
 import tamaized.aov.common.entity.ProjectileBase;
 
 import java.util.Random;

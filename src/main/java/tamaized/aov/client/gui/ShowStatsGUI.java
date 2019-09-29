@@ -3,8 +3,6 @@ package tamaized.aov.client.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.util.text.TranslationTextComponent;
-import tamaized.aov.AoV;
 import tamaized.aov.common.blocks.BlockAngelicBlock;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.AoVCapabilityHandler;

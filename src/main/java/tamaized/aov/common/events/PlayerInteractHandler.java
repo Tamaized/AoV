@@ -2,7 +2,6 @@ package tamaized.aov.common.events;
 
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Food;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerPickupXpEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;

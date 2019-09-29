@@ -1,8 +1,8 @@
 package tamaized.aov.registry;
 
-import net.minecraft.item.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemTier;
+import net.minecraft.item.Items;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

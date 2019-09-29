@@ -16,12 +16,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
+import net.minecraftforge.fml.network.NetworkHooks;
+import tamaized.aov.client.ParticleHelper;
+import tamaized.aov.client.ParticleHelper.MeshType;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
-import tamaized.aov.client.ParticleHelper;
-import tamaized.aov.client.ParticleHelper.MeshType;
-import net.minecraftforge.fml.network.NetworkHooks;
 import tamaized.aov.registry.AoVDamageSource;
 import tamaized.aov.registry.AoVEntities;
 

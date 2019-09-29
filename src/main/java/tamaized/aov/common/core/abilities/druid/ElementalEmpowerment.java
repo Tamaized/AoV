@@ -17,7 +17,6 @@ import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.abilities.IAura;
-import tamaized.aov.client.ParticleHelper;
 import tamaized.aov.registry.AoVParticles;
 import tamaized.aov.registry.ParticleRegistry;
 import tamaized.aov.registry.SoundEvents;

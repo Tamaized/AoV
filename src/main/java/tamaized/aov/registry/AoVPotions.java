@@ -1,7 +1,6 @@
 package tamaized.aov.registry;
 
 import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;

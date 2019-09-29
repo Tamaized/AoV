@@ -1,9 +1,9 @@
 package tamaized.aov.client.gui.buttons;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
-import com.mojang.blaze3d.platform.GlStateManager;
 import tamaized.aov.client.gui.AoVSkillsGUI;
 import tamaized.aov.client.gui.AoVUIBar;
 import tamaized.aov.client.gui.RenderUtils;

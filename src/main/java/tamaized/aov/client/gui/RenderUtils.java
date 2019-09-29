@@ -10,7 +10,7 @@ public class RenderUtils {
 
 	private static float zIndex = 0;
 
-	public static void setup(float zindex){
+	public static void setup(float zindex) {
 		zIndex = zindex;
 	}
 
