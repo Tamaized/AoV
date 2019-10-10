@@ -1,6 +1,5 @@
 package tamaized.aov.client.particle;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.IParticleRenderType;
 import net.minecraft.client.particle.SpriteTexturedParticle;
 import net.minecraft.client.renderer.ActiveRenderInfo;
@@ -30,13 +29,13 @@ public class ParticleHeartColor extends SpriteTexturedParticle {
 		particleGreen = (float) (color >> 16 & 255) / 255.0F;
 		particleBlue = (float) (color >> 8 & 255) / 255.0F;
 		particleAlpha = (float) (color & 255) / 255.0F;
-		setSprite(Minecraft.getInstance().getTextureMap().getSprite(TextureStitch.HEART));
+		setSprite(TextureStitch.PARTICLE_MAP.getSprite(TextureStitch.HEART));
 	}
 
 	@Nonnull
 	@Override
 	public IParticleRenderType getRenderType() {
-		return IParticleRenderType.TERRAIN_SHEET;
+		return IParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
 	}
 
 	@Override
