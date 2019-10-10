@@ -16,37 +16,24 @@ import tamaized.aov.common.potion.PotionSpear;
 import tamaized.aov.common.potion.PotionSpire;
 import tamaized.aov.common.potion.PotionStalwartPact;
 
-import java.lang.reflect.InvocationTargetException;
-
 public class AoVPotions {
 
 	static final DeferredRegister<Effect> REGISTRY = new DeferredRegister<>(ForgeRegistries.POTIONS, AoV.MODID);
 
-	public static RegistryObject<Effect> aid = make("aid", PotionAid.class);
-	public static RegistryObject<Effect> shieldOfFaith = make("shieldoffaith", PotionAid.class);
-	public static RegistryObject<Effect> zeal = make("zeal", PotionAid.class);
-	public static RegistryObject<Effect> stalwartPact = make("stalwartpact", PotionStalwartPact.class);
-	public static RegistryObject<Effect> slowFall = make("slowfall", PotionSlowFall.class);
-	public static RegistryObject<Effect> spear = make("spear", PotionSpear.class);
-	public static RegistryObject<Effect> ewer = make("ewer", PotionEwer.class);
-	public static RegistryObject<Effect> spire = make("spire", PotionSpire.class);
-	public static RegistryObject<Effect> balance = make("balance", PotionBalance.class);
-	public static RegistryObject<Effect> naturesBounty = make("naturesbounty", PotionNaturesBounty.class);
-	public static RegistryObject<Effect> coldChill = make("coldchill", PotionColdChill.class);
+	public static RegistryObject<Effect> aid = REGISTRY.register("aid", PotionAid::new);
+	public static RegistryObject<Effect> shieldOfFaith = REGISTRY.register("shieldoffaith", PotionAid::new);
+	public static RegistryObject<Effect> zeal = REGISTRY.register("zeal", PotionAid::new);
+	public static RegistryObject<Effect> stalwartPact = REGISTRY.register("stalwartpact", PotionStalwartPact::new);
+	public static RegistryObject<Effect> slowFall = REGISTRY.register("slowfall", PotionSlowFall::new);
+	public static RegistryObject<Effect> spear = REGISTRY.register("spear", PotionSpear::new);
+	public static RegistryObject<Effect> ewer = REGISTRY.register("ewer", PotionEwer::new);
+	public static RegistryObject<Effect> spire = REGISTRY.register("spire", PotionSpire::new);
+	public static RegistryObject<Effect> balance = REGISTRY.register("balance", PotionBalance::new);
+	public static RegistryObject<Effect> naturesBounty = REGISTRY.register("naturesbounty", PotionNaturesBounty::new);
+	public static RegistryObject<Effect> coldChill = REGISTRY.register("coldchill", PotionColdChill::new);
 
 	public static void register(IEventBus mod) {
 		REGISTRY.register(mod);
-	}
-
-	private static RegistryObject<Effect> make(String name, Class<? extends Effect> type) {
-		return REGISTRY.register(name, () -> {
-			try {
-				return type.getConstructor(String.class).newInstance(name);
-			} catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-				e.printStackTrace();
-				return null;
-			}
-		});
 	}
 
 }
