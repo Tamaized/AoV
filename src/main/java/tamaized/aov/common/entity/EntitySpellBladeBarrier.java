@@ -33,7 +33,7 @@ public class EntitySpellBladeBarrier extends Entity implements IEntityAdditional
 	private List<LivingEntity> entityList = Lists.newArrayList();
 
 	public EntitySpellBladeBarrier(World worldIn) {
-		super(Objects.requireNonNull(AoVEntities.entityspellbladebarrier), worldIn);
+		super(Objects.requireNonNull(AoVEntities.entityspellbladebarrier.get()), worldIn);
 		ignoreFrustumCheck = true;
 	}
 

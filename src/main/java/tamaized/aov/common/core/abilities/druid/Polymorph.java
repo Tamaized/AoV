@@ -18,6 +18,7 @@ import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.registry.AoVPotions;
 
 import javax.annotation.Nullable;
+import java.util.Objects;
 
 public class Polymorph extends AbilityBase {
 
@@ -103,7 +104,7 @@ public class Polymorph extends AbilityBase {
 			if (cap.getMorph() != type || type == IPolymorphCapability.Morph.ArchAngel) {
 				cap.morph(type);
 				if (type == IPolymorphCapability.Morph.ArchAngel)
-					caster.addPotionEffect(new EffectInstance(AoVPotions.slowFall, 120 * 20));
+					caster.addPotionEffect(new EffectInstance(Objects.requireNonNull(AoVPotions.slowFall.get()), 120 * 20));
 			} else {
 				cap.morph(null);
 				cooldown = false;

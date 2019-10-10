@@ -33,6 +33,7 @@ import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.common.helper.FloatyTextHelper;
 import tamaized.aov.registry.AoVPotions;
 
+import java.util.Objects;
 import java.util.Set;
 
 @Mod.EventBusSubscriber(modid = AoV.MODID)
@@ -66,7 +67,7 @@ public class AttackHandler {
 
 	@SubscribeEvent
 	public static void onLivingFallEvent(LivingFallEvent event) {
-		if (event.getEntityLiving() != null && event.getEntityLiving().getActivePotionEffect(AoVPotions.slowFall) != null)
+		if (event.getEntityLiving() != null && event.getEntityLiving().getActivePotionEffect(Objects.requireNonNull(AoVPotions.slowFall.get())) != null)
 			event.setDamageMultiplier(0);
 	}
 
@@ -76,7 +77,7 @@ public class AttackHandler {
 		IAoVCapability cap = CapabilityList.getCap(attacker, CapabilityList.AOV);
 		if (attacker instanceof LivingEntity && cap != null && cap.hasSkill(AoVSkills.druid_core_4) && IAoVCapability.isCentered((LivingEntity) attacker, cap))
 			event.setAmount(event.getAmount() + cap.getLevel());
-		if (event.getEntityLiving() != null && event.getEntityLiving().getActivePotionEffect(AoVPotions.shieldOfFaith) != null)
+		if (event.getEntityLiving() != null && event.getEntityLiving().getActivePotionEffect(Objects.requireNonNull(AoVPotions.shieldOfFaith.get())) != null)
 			event.setAmount(event.getAmount() / 2F);
 	}
 
@@ -172,7 +173,7 @@ public class AttackHandler {
 
 			// Elemental Empowerment - Water
 			if (attacker instanceof LivingEntity && poly != null && poly.getMorph() == IPolymorphCapability.Morph.WaterElemental && cap.isAuraActive(Abilities.elementalEmpowerment)) {
-				((LivingEntity) attacker).addPotionEffect(new EffectInstance(AoVPotions.coldChill, 20 * 20, (int) Math.floor(cap.getSpellPower() / 25F)));
+				((LivingEntity) attacker).addPotionEffect(new EffectInstance(Objects.requireNonNull(AoVPotions.coldChill.get()), 20 * 20, (int) Math.floor(cap.getSpellPower() / 25F)));
 				cap.addExp(entity, 20, Abilities.elementalEmpowerment);
 			}
 

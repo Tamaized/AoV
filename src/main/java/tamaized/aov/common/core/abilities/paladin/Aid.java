@@ -20,6 +20,7 @@ import tamaized.aov.registry.AoVPotions;
 import tamaized.aov.registry.SoundEvents;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Aid extends AbilityBase {
 
@@ -95,7 +96,7 @@ public class Aid extends AbilityBase {
 
 	private void addPotionEffects(LivingEntity entity) {
 		entity.addPotionEffect(new EffectInstance(Effects.ABSORPTION, 20 * (60 * 5)));
-		entity.addPotionEffect(new EffectInstance(AoVPotions.aid, 20 * (60 * 5)));
+		entity.addPotionEffect(new EffectInstance(Objects.requireNonNull(AoVPotions.aid.get()), 20 * (60 * 5)));
 	}
 
 	private void castAsMass(LivingEntity caster, IAoVCapability cap) {

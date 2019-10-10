@@ -19,6 +19,8 @@ import tamaized.aov.common.helper.MotionHelper;
 import tamaized.aov.registry.AoVPotions;
 import tamaized.aov.registry.SoundEvents;
 
+import java.util.Objects;
+
 public class LeapOfFaith extends AbilityBase {
 
 	public LeapOfFaith() {
@@ -87,7 +89,7 @@ public class LeapOfFaith extends AbilityBase {
 		Vec3d vec = caster.getLook(1.0F);
 		double distance = 3.5;
 		MotionHelper.addMotion(caster, new Vec3d(vec.x * distance, 1, vec.z * distance));
-		caster.addPotionEffect(new EffectInstance(AoVPotions.slowFall, 300));
+		caster.addPotionEffect(new EffectInstance(Objects.requireNonNull(AoVPotions.slowFall.get()), 300));
 		ILeapCapability cap = CapabilityList.getCap(caster, CapabilityList.LEAP);
 		if (cap != null)
 			cap.setLeapDuration(300);

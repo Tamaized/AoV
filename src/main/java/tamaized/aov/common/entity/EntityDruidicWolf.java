@@ -37,7 +37,7 @@ public class EntityDruidicWolf extends WolfEntity {
 	private int life;
 
 	public EntityDruidicWolf(World worldIn) {
-		super(Objects.requireNonNull(AoVEntities.entitydruidicwolf), worldIn);
+		super(Objects.requireNonNull(AoVEntities.entitydruidicwolf.get()), worldIn);
 	}
 
 	public EntityDruidicWolf(World worldIn, PlayerEntity caster, float dmg) {

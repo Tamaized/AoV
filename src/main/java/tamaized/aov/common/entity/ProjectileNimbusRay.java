@@ -23,12 +23,12 @@ import java.util.Objects;
 public class ProjectileNimbusRay extends ProjectileBase {
 
 	public ProjectileNimbusRay(World worldIn) {
-		super(Objects.requireNonNull(AoVEntities.projectilenimbusray), worldIn);
+		super(Objects.requireNonNull(AoVEntities.projectilenimbusray.get()), worldIn);
 		setDamageRangeSpeed(2.0F, 0, 0.0F);
 	}
 
 	public ProjectileNimbusRay(World world, PlayerEntity shooter, double x, double y, double z) {
-		super(Objects.requireNonNull(AoVEntities.projectilenimbusray), world, shooter, x, y, z);
+		super(Objects.requireNonNull(AoVEntities.projectilenimbusray.get()), world, shooter, x, y, z);
 	}
 
 	@Override

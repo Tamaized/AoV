@@ -44,7 +44,7 @@ public class EntityAlignmentAoE extends Entity {
 	private float damageMod = 1F;
 
 	public EntityAlignmentAoE(World worldIn) {
-		super(Objects.requireNonNull(AoVEntities.entityalignmentaoe), worldIn);
+		super(Objects.requireNonNull(AoVEntities.entityalignmentaoe.get()), worldIn);
 		ignoreFrustumCheck = true;
 	}
 

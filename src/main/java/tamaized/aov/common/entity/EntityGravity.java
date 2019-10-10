@@ -37,7 +37,7 @@ public class EntityGravity extends Entity {
 	private float damageMod = 1F;
 
 	public EntityGravity(World worldIn) {
-		super(Objects.requireNonNull(AoVEntities.entitygravity), worldIn);
+		super(Objects.requireNonNull(AoVEntities.entitygravity.get()), worldIn);
 		ignoreFrustumCheck = true;
 	}
 

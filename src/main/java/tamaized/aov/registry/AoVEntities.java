@@ -3,14 +3,16 @@ package tamaized.aov.registry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.registries.ObjectHolder;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import tamaized.aov.AoV;
 import tamaized.aov.client.entity.RenderAlignmentAoE;
 import tamaized.aov.client.entity.RenderCelestialOpposition;
@@ -43,61 +45,28 @@ import tamaized.aov.common.entity.ProjectileNimbusRay;
 
 import java.lang.reflect.InvocationTargetException;
 
-@ObjectHolder(AoV.MODID)
 @Mod.EventBusSubscriber(modid = AoV.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AoVEntities {
 
-	public static final EntityType projectilenimbusray = getNull();
-	public static final EntityType projectileflamestrike = getNull();
-	public static final EntityType entityspellimplosion = getNull();
-	public static final EntityType entityspellbladebarrier = getNull();
-	public static final EntityType entityspellvanillaparticles = getNull();
-	public static final EntityType entityspellaovparticles = getNull();
-	public static final EntityType entitymalefic = getNull();
-	public static final EntityType entitycombust = getNull();
-	public static final EntityType entitygravity = getNull();
-	public static final EntityType entitycelestialopposition = getNull();
-	public static final EntityType entityspelllightningbolt = getNull();
-	public static final EntityType entityearthquake = getNull();
-	public static final EntityType entityspelllightningstorm = getNull();
-	public static final EntityType<? extends WolfEntity> entitydruidicwolf = getNull();
-	public static final EntityType entityalignmentaoe = getNull();
+	static final DeferredRegister<EntityType<?>> REGISTRY = new DeferredRegister<>(ForgeRegistries.ENTITIES, AoV.MODID);
+	public static final RegistryObject<EntityType<ProjectileNimbusRay>> projectilenimbusray = assign(ProjectileNimbusRay.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC);
+	public static final RegistryObject<EntityType<ProjectileFlameStrike>> projectileflamestrike = assign(ProjectileFlameStrike.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC);
+	public static final RegistryObject<EntityType<EntitySpellImplosion>> entityspellimplosion = assign(EntitySpellImplosion.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC);
+	public static final RegistryObject<EntityType<EntitySpellBladeBarrier>> entityspellbladebarrier = assign(EntitySpellBladeBarrier.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC);
+	public static final RegistryObject<EntityType<EntitySpellVanillaParticles>> entityspellvanillaparticles = assign(EntitySpellVanillaParticles.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC);
+	public static final RegistryObject<EntityType<EntitySpellAoVParticles>> entityspellaovparticles = assign(EntitySpellAoVParticles.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC);
+	public static final RegistryObject<EntityType<EntityMalefic>> entitymalefic = assign(EntityMalefic.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC);
+	public static final RegistryObject<EntityType<EntityCombust>> entitycombust = assign(EntityCombust.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC);
+	public static final RegistryObject<EntityType<EntityGravity>> entitygravity = assign(EntityGravity.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC);
+	public static final RegistryObject<EntityType<EntityCelestialOpposition>> entitycelestialopposition = assign(EntityCelestialOpposition.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC);
+	public static final RegistryObject<EntityType<EntitySpellLightningBolt>> entityspelllightningbolt = assign(EntitySpellLightningBolt.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC);
+	public static final RegistryObject<EntityType<EntityEarthquake>> entityearthquake = assign(EntityEarthquake.class, 6F, 0.1F, 256, 1, true, EntityClassification.MISC);
+	public static final RegistryObject<EntityType<EntitySpellLightningStorm>> entityspelllightningstorm = assign(EntitySpellLightningStorm.class, 12F, 0.1F, 256, 1, true, EntityClassification.MISC);
+	public static final RegistryObject<EntityType<EntityDruidicWolf>> entitydruidicwolf = assign(EntityDruidicWolf.class, 0.6F, 0.85F, 256, 1, true, EntityClassification.MISC);
+	public static final RegistryObject<EntityType<EntityAlignmentAoE>> entityalignmentaoe = assign(EntityAlignmentAoE.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC);
 
-	@SubscribeEvent
-	public static void register(RegistryEvent.Register<EntityType<?>> e) {
-		e.getRegistry().registerAll(
-
-				assign(ProjectileNimbusRay.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC),
-
-				assign(ProjectileFlameStrike.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC),
-
-				assign(EntitySpellImplosion.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC),
-
-				assign(EntitySpellBladeBarrier.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC),
-
-				assign(EntitySpellVanillaParticles.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC),
-
-				assign(EntitySpellAoVParticles.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC),
-
-				assign(EntityMalefic.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC),
-
-				assign(EntityCombust.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC),
-
-				assign(EntityGravity.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC),
-
-				assign(EntityCelestialOpposition.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC),
-
-				assign(EntitySpellLightningBolt.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC),
-
-				assign(EntityEarthquake.class, 6F, 0.1F, 256, 1, true, EntityClassification.MISC),
-
-				assign(EntitySpellLightningStorm.class, 12F, 0.1F, 256, 1, true, EntityClassification.MISC),
-
-				assign(EntityDruidicWolf.class, 0.6F, 0.85F, 256, 1, true, EntityClassification.MISC),
-
-				assign(EntityAlignmentAoE.class, 0.5F, 0.5F, 256, 1, true, EntityClassification.MISC)
-
-		);
+	public static void register(IEventBus mod) {
+		REGISTRY.register(mod);
 	}
 
 	@SubscribeEvent
@@ -119,9 +88,10 @@ public class AoVEntities {
 		RenderingRegistry.registerEntityRenderingHandler(EntityAlignmentAoE.class, RenderAlignmentAoE::new);
 	}
 
-	private static <T extends Entity> EntityType<T> assign(Class<T> entity, float w, float h, int range, int freq, boolean updates, EntityClassification classification) {
+	@SuppressWarnings("ConstantConditions")
+	private static <T extends Entity> RegistryObject<EntityType<T>> assign(Class<T> entity, float w, float h, int range, int freq, boolean updates, EntityClassification classification) {
 		final String name = entity.getSimpleName().toLowerCase();
-		EntityType<T> type = EntityType.Builder.<T>create((et, world) -> {
+		return REGISTRY.register(name, () -> EntityType.Builder.<T>create((et, world) -> {
 			try {
 				return entity.getConstructor(World.class).newInstance(world);
 			} catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
@@ -141,13 +111,7 @@ public class AoVEntities {
 					}
 					return null;
 				}).
-				build(name);
-		type.setRegistryName(AoV.MODID, name);
-		return type;
-	}
-
-	private static <T> T getNull() {
-		return null;
+				build(name));
 	}
 
 }

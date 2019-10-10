@@ -2,6 +2,7 @@ package tamaized.aov.registry;
 
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.world.World;
+import net.minecraftforge.eventbus.api.IEventBus;
 import tamaized.aov.client.particle.ParticleSnow;
 
 import java.util.function.Supplier;
@@ -20,5 +21,8 @@ public class AoVParticles {
 			};
 		}
 	});
+
+	public static void register(IEventBus mod) {
+	}
 
 }

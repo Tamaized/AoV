@@ -25,16 +25,16 @@ public class EntityMalefic extends ProjectileBase {
 	private LivingEntity target;
 
 	public EntityMalefic(World worldIn) {
-		super(Objects.requireNonNull(AoVEntities.entitymalefic), worldIn);
+		super(Objects.requireNonNull(AoVEntities.entitymalefic.get()), worldIn);
 		setDamageRangeSpeed(2.0F, 0, 0.0F);
 	}
 
 	public EntityMalefic(World world, PlayerEntity shooter) {
-		super(Objects.requireNonNull(AoVEntities.entitymalefic), world, shooter);
+		super(Objects.requireNonNull(AoVEntities.entitymalefic.get()), world, shooter);
 	}
 
 	public EntityMalefic(World world, PlayerEntity shooter, double x, double y, double z) {
-		super(Objects.requireNonNull(AoVEntities.entitymalefic), world, shooter, x, y, z);
+		super(Objects.requireNonNull(AoVEntities.entitymalefic.get()), world, shooter, x, y, z);
 	}
 
 	@Override

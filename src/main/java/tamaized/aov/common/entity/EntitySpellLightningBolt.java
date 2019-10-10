@@ -34,7 +34,7 @@ public class EntitySpellLightningBolt extends Entity {
 	private AbilityBase source;
 
 	public EntitySpellLightningBolt(World world) {
-		super(Objects.requireNonNull(AoVEntities.entityspelllightningbolt), world);
+		super(Objects.requireNonNull(AoVEntities.entityspelllightningbolt.get()), world);
 		damage = 3F;
 	}
 

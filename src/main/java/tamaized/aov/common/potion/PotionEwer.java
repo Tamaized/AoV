@@ -25,7 +25,6 @@ public class PotionEwer extends Effect {
 	public PotionEwer(String name) {
 		super(EffectType.BENEFICIAL, 0x00FFFF);
 		iconTexture = new ResourceLocation(AoV.MODID, "textures/potions/" + name + ".png");
-		setRegistryName(AoV.MODID, name);
 	}
 
 	@Override

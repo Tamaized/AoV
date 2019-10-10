@@ -2,61 +2,27 @@ package tamaized.aov.registry;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemTier;
-import net.minecraft.item.Items;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ObjectHolder;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import tamaized.aov.AoV;
 import tamaized.aov.common.items.DebugItem;
 import tamaized.aov.common.items.Handwraps;
 
-@ObjectHolder(AoV.MODID)
-@Mod.EventBusSubscriber(modid = AoV.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AoVItems {
 
-	public static final Item debugger = Items.AIR;
-	public static final Item handwraps = Items.AIR;
+	static final DeferredRegister<Item> REGISTRY = new DeferredRegister<>(ForgeRegistries.ITEMS, AoV.MODID);
 
-	@SubscribeEvent
-	public static void registerItems(RegistryEvent.Register<Item> event) {
-		event.getRegistry().registerAll(
+	public static final RegistryObject<Item> debugger = REGISTRY.register("debugger", () -> new DebugItem(prop()));
+	public static final RegistryObject<Item> handwraps = REGISTRY.register("handwraps", () -> new Handwraps(ItemTier.DIAMOND, 1, 1, prop()));
 
-				assign(new DebugItem(new Item.Properties().maxStackSize(1).group(AoVTabs.tabAoV)), "debugger"),
-
-				assign(new Handwraps(ItemTier.DIAMOND, 1, 1, new Item.Properties().maxStackSize(1).group(AoVTabs.tabAoV)), "handwraps")
-
-		);
+	private static Item.Properties prop() {
+		return new Item.Properties().group(AoVTabs.tabAoV).maxStackSize(1);
 	}
 
-	@SubscribeEvent
-	public static void registerModels(ModelRegistryEvent event) {
-		registerModel(debugger);
-		registerModel(handwraps);
-	}
-
-	private static void registerModel(Item item, String... variant) {
-		if (item.getRegistryName() == null)
-			return;
-		/*ModelLoader.setCustomModelResourceLocation(
-
-				Item.getItemFromBlock(item),
-
-				new ModelResourceLocation(
-
-						new ResourceLocation(item.getRegistryName().getNamespace(), variant.length > 1 ? variant[1] : item.getRegistryName().getPath()),
-
-						variant.length > 0 ? variant[0] : "normal"
-
-				)
-
-		);*/
-	}
-
-	private static Item assign(Item item, String name) {
-		return item.
-				setRegistryName(AoV.MODID, name);
+	public static void register(IEventBus mod) {
+		REGISTRY.register(mod);
 	}
 
 }

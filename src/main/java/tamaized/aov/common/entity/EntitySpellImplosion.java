@@ -27,7 +27,7 @@ public class EntitySpellImplosion extends Entity implements IEntityAdditionalSpa
 	private int tick = 0;
 
 	public EntitySpellImplosion(World worldIn) {
-		super(Objects.requireNonNull(AoVEntities.entityspellimplosion), worldIn);
+		super(Objects.requireNonNull(AoVEntities.entityspellimplosion.get()), worldIn);
 	}
 
 	public EntitySpellImplosion(World world, Entity caster, LivingEntity entity) {

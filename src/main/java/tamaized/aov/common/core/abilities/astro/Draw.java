@@ -22,6 +22,7 @@ import tamaized.aov.registry.AoVPotions;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Objects;
 
 public class Draw extends AbilityBase {
 
@@ -89,7 +90,7 @@ public class Draw extends AbilityBase {
 		switch (card) {
 			default:
 			case Balance:
-				caster.addPotionEffect(new EffectInstance(AoVPotions.balance, ticks, hardcodedBalancePotency));
+				caster.addPotionEffect(new EffectInstance(Objects.requireNonNull(AoVPotions.balance.get()), ticks, hardcodedBalancePotency));
 				break;
 			case Bole:
 				caster.addPotionEffect(new EffectInstance(Effects.RESISTANCE, ticks, potency));
@@ -97,16 +98,16 @@ public class Draw extends AbilityBase {
 				caster.addPotionEffect(new EffectInstance(Effects.SATURATION, 20 * 3, (int) Math.floor(potency / 2F)));
 				break;
 			case Spear:
-				caster.addPotionEffect(new EffectInstance(AoVPotions.spear, ticks, potency));
+				caster.addPotionEffect(new EffectInstance(Objects.requireNonNull(AoVPotions.spear.get()), ticks, potency));
 				break;
 			case Arrow:
 				caster.addPotionEffect(new EffectInstance(Effects.HASTE, ticks, potency));
 				break;
 			case Ewer:
-				caster.addPotionEffect(new EffectInstance(AoVPotions.ewer, ticks, 0));
+				caster.addPotionEffect(new EffectInstance(Objects.requireNonNull(AoVPotions.ewer.get()), ticks, 0));
 				break;
 			case Spire:
-				caster.addPotionEffect(new EffectInstance(AoVPotions.spire, ticks, potency));
+				caster.addPotionEffect(new EffectInstance(Objects.requireNonNull(AoVPotions.spire.get()), ticks, potency));
 				break;
 		}
 		caster.world.addEntity(new EntitySpellVanillaParticles(caster.world, caster, ParticleTypes.ENCHANTED_HIT, 5));

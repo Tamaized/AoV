@@ -19,6 +19,7 @@ import tamaized.aov.registry.AoVPotions;
 import tamaized.aov.registry.SoundEvents;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ShieldOfFaith extends AbilityBase {
 
@@ -93,7 +94,7 @@ public class ShieldOfFaith extends AbilityBase {
 	}
 
 	private void addPotionEffects(LivingEntity entity) {
-		entity.addPotionEffect(new EffectInstance(AoVPotions.shieldOfFaith, 20 * (60 * 5)));
+		entity.addPotionEffect(new EffectInstance(Objects.requireNonNull(AoVPotions.shieldOfFaith.get()), 20 * (60 * 5)));
 	}
 
 	private void castAsMass(LivingEntity caster, IAoVCapability cap) {

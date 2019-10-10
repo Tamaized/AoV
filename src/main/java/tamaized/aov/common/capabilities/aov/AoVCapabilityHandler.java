@@ -164,16 +164,15 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		}
 	}
 
-	@SuppressWarnings("ConstantConditions")
 	private void checkState(@Nullable PlayerEntity player) {
-		if (!(player instanceof ServerPlayerEntity) || player.removed)
+		if (!(player instanceof ServerPlayerEntity) || !player.isAlive())
 			return;
-		final boolean aid = player.getActivePotionEffect(AoVPotions.aid) != null;
-		final boolean zeal = player.getActivePotionEffect(AoVPotions.zeal) != null;
-		final boolean ewer = player.getActivePotionEffect(AoVPotions.ewer) != null;
-		final boolean balance = player.getActivePotionEffect(AoVPotions.balance) != null;
-		final boolean spire = player.getActivePotionEffect(AoVPotions.spire) != null;
-		final boolean spear = player.getActivePotionEffect(AoVPotions.spear) != null;
+		final boolean aid = player.getActivePotionEffect(Objects.requireNonNull(AoVPotions.aid.get())) != null;
+		final boolean zeal = player.getActivePotionEffect(Objects.requireNonNull(AoVPotions.zeal.get())) != null;
+		final boolean ewer = player.getActivePotionEffect(Objects.requireNonNull(AoVPotions.ewer.get())) != null;
+		final boolean balance = player.getActivePotionEffect(Objects.requireNonNull(AoVPotions.balance.get())) != null;
+		final boolean spire = player.getActivePotionEffect(Objects.requireNonNull(AoVPotions.spire.get())) != null;
+		final boolean spear = player.getActivePotionEffect(Objects.requireNonNull(AoVPotions.spear.get())) != null;
 		if (hasAid != aid || hasZeal != zeal || hasEwer != ewer || hasBalance != balance || hasSpire != spire || hasSpear != spear) {
 			hasAid = aid;
 			hasZeal = zeal;
@@ -286,17 +285,17 @@ public class AoVCapabilityHandler implements IAoVCapability {
 				else if (poly.getMorph() == IPolymorphCapability.Morph.WaterElemental && player.world.getDayTime() % 24000 >= 12000) // Night (6 PM)
 					spellpower += 20;
 			}
-			if (player.getActivePotionEffect(AoVPotions.aid) != null)
+			if (player.getActivePotionEffect(Objects.requireNonNull(AoVPotions.aid.get())) != null)
 				dodge += 5;
-			if (player.getActivePotionEffect(AoVPotions.zeal) != null)
+			if (player.getActivePotionEffect(Objects.requireNonNull(AoVPotions.zeal.get())) != null)
 				doublestrike += 25;
-			EffectInstance spire = player.getActivePotionEffect(AoVPotions.spire);
+			EffectInstance spire = player.getActivePotionEffect(Objects.requireNonNull(AoVPotions.spire.get()));
 			if (spire != null)
 				dodge += 10 * (spire.getAmplifier() + 1);
-			EffectInstance spear = player.getActivePotionEffect(AoVPotions.spear);
+			EffectInstance spear = player.getActivePotionEffect(Objects.requireNonNull(AoVPotions.spear.get()));
 			if (spear != null)
 				doublestrike += 10 * (spear.getAmplifier() + 1);
-			EffectInstance balance = player.getActivePotionEffect(AoVPotions.balance);
+			EffectInstance balance = player.getActivePotionEffect(Objects.requireNonNull(AoVPotions.balance.get()));
 			if (balance != null)
 				spellpower += 50 * (balance.getAmplifier() + 1);
 		}

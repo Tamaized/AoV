@@ -36,6 +36,7 @@ import tamaized.aov.registry.AoVPotions;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public class PolymorphCapabilityHandler implements IPolymorphCapability {
@@ -180,7 +181,7 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 			ENTITYPLAYER_eyeHeight = UtilHelper.findField(Entity.class, "field_213326_aJ");
 		if (!player.world.isRemote && getMorph() == Morph.ArchAngel && polymorphTicker-- <= 0) {
 			morph(null);
-			player.removePotionEffect(AoVPotions.slowFall);
+			player.removePotionEffect(Objects.requireNonNull(AoVPotions.slowFall.get()));
 			IAoVCapability aov = CapabilityList.getCap(player, CapabilityList.AOV);
 			if (aov != null)
 				aov.markDirty();

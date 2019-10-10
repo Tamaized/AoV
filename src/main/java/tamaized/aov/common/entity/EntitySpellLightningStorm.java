@@ -42,7 +42,7 @@ public class EntitySpellLightningStorm extends Entity {
 	private int nextMod = 30;
 
 	public EntitySpellLightningStorm(World worldIn) {
-		super(Objects.requireNonNull(AoVEntities.entityspelllightningstorm), worldIn);
+		super(Objects.requireNonNull(AoVEntities.entityspelllightningstorm.get()), worldIn);
 		ignoreFrustumCheck = true;
 	}
 

@@ -22,7 +22,6 @@ public class PotionSpire extends Effect {
 	public PotionSpire(String name) {
 		super(EffectType.BENEFICIAL, 0xFFFF00);
 		iconTexture = new ResourceLocation(AoV.MODID, "textures/potions/" + name + ".png");
-		setRegistryName(AoV.MODID, name);
 	}
 
 	@Override

@@ -9,12 +9,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 import org.apache.commons.lang3.tuple.Pair;
@@ -59,15 +61,6 @@ public class AoV {
 	public static final String MODID = "aov";
 
 	public static final Logger LOGGER = LogManager.getLogger("AoV");
-	public static ConfigHandler config;
-	public static SimpleChannel network = NetworkRegistry.ChannelBuilder.
-			named(new ResourceLocation(MODID, MODID)).
-			clientAcceptedVersions(s -> true).
-			serverAcceptedVersions(s -> true).
-			networkProtocolVersion(() -> "1").
-			simpleChannel();
-
-
 	public static final IDataSerializer<Integer[]> VARINTS = new IDataSerializer<Integer[]>() {
 		@Override
 		public void write(PacketBuffer buf, Integer[] values) {
@@ -91,18 +84,13 @@ public class AoV {
 			return value;
 		}
 	};
-
-	static {
-		new AoVTabs();
-		new AoVItems();
-		new AoVArmors();
-		new AoVBlocks();
-		new AoVPotions();
-		new AoVAchievements();
-		new AoVDamageSource();
-		new AoVParticles();
-		new AoVEntities();
-	}
+	public static ConfigHandler config;
+	public static SimpleChannel network = NetworkRegistry.ChannelBuilder.
+			named(new ResourceLocation(MODID, MODID)).
+			clientAcceptedVersions(s -> true).
+			serverAcceptedVersions(s -> true).
+			networkProtocolVersion(() -> "1").
+			simpleChannel();
 
 	public AoV() {
 		final Pair<ConfigHandler, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(ConfigHandler::new);
@@ -110,6 +98,18 @@ public class AoV {
 		config = specPair.getLeft();
 
 		MinecraftForge.EVENT_BUS.addListener(this::serverStarting);
+
+		IEventBus mod = FMLJavaModLoadingContext.get().getModEventBus();
+
+		AoVTabs.register(mod);
+		AoVItems.register(mod);
+		AoVArmors.register(mod);
+		AoVBlocks.register(mod);
+		AoVPotions.register(mod);
+		AoVAchievements.register(mod);
+		AoVDamageSource.register(mod);
+		AoVParticles.register(mod);
+		AoVEntities.register(mod);
 	}
 
 	@SubscribeEvent

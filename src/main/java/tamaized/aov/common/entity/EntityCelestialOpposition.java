@@ -17,7 +17,7 @@ public class EntityCelestialOpposition extends Entity {
 	public float tickBoi;
 
 	public EntityCelestialOpposition(World worldIn) {
-		super(Objects.requireNonNull(AoVEntities.entitycelestialopposition), worldIn);
+		super(Objects.requireNonNull(AoVEntities.entitycelestialopposition.get()), worldIn);
 		ignoreFrustumCheck = true;
 	}
 

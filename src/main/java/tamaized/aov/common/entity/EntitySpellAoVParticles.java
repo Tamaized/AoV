@@ -28,7 +28,7 @@ public class EntitySpellAoVParticles extends Entity {
 	private int tick = 0;
 
 	public EntitySpellAoVParticles(World worldIn) {
-		super(Objects.requireNonNull(AoVEntities.entityspellaovparticles), worldIn);
+		super(Objects.requireNonNull(AoVEntities.entityspellaovparticles.get()), worldIn);
 	}
 
 	public EntitySpellAoVParticles(World world, Entity entity, ParticleHelper.ParticleType particle, int rate, Integer... colors) {

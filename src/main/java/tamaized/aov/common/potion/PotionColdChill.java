@@ -24,7 +24,6 @@ public class PotionColdChill extends Effect {
 	public PotionColdChill(String name) {
 		super(EffectType.HARMFUL, 0xFFFFFF);
 		iconTexture = new ResourceLocation(AoV.MODID, "textures/potions/" + name + ".png");
-		setRegistryName(AoV.MODID, name);
 	}
 
 	@Override

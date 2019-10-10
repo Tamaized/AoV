@@ -23,7 +23,6 @@ public class PotionAid extends Effect {
 	public PotionAid(String name) {
 		super(EffectType.BENEFICIAL, 0xFFFFFF);
 		iconTexture = new ResourceLocation(AoV.MODID, "textures/potions/" + name + ".png");
-		setRegistryName(AoV.MODID, name);
 	}
 
 	@Override

@@ -24,7 +24,7 @@ public class EntityCombust extends Entity {
 	private float damage = 2F;
 
 	public EntityCombust(World worldIn) {
-		super(Objects.requireNonNull(AoVEntities.entitycombust), worldIn);
+		super(Objects.requireNonNull(AoVEntities.entitycombust.get()), worldIn);
 	}
 
 	public EntityCombust(World world, Entity caster, Entity target, float dmg) {

@@ -16,6 +16,8 @@ import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.registry.AoVPotions;
 import tamaized.aov.registry.SoundEvents;
 
+import java.util.Objects;
+
 public class Zeal extends AbilityBase {
 
 	private final static String name = "aov.spells.zeal.name";
@@ -79,7 +81,7 @@ public class Zeal extends AbilityBase {
 	}
 
 	private void addPotionEffects(LivingEntity entity) {
-		entity.addPotionEffect(new EffectInstance(AoVPotions.zeal, 20 * (int) (60F * 2.5F)));
+		entity.addPotionEffect(new EffectInstance(Objects.requireNonNull(AoVPotions.zeal.get()), 20 * (int) (60F * 2.5F)));
 	}
 
 	@Override

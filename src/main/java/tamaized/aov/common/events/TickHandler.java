@@ -27,6 +27,7 @@ import tamaized.aov.common.capabilities.stun.IStunCapability;
 import tamaized.aov.registry.AoVPotions;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -79,7 +80,7 @@ public class TickHandler {
 					player.sendPlayerAbilities();
 				}
 			ILeapCapability cap = CapabilityList.getCap(living, CapabilityList.LEAP);
-			EffectInstance pot = living.getActivePotionEffect(AoVPotions.slowFall);
+			EffectInstance pot = living.getActivePotionEffect(Objects.requireNonNull(AoVPotions.slowFall.get()));
 			if (pot == null || cap == null)
 				return;
 			if (living.ticksExisted % 20 == 0)
@@ -115,13 +116,13 @@ public class TickHandler {
 			return;
 		PlayerEntity player = e.player;
 		if (player.getHealth() <= (player.getMaxHealth() / 2)) {
-			if (player.getActivePotionEffect(AoVPotions.stalwartPact) != null) {
-				player.removeActivePotionEffect(AoVPotions.stalwartPact);
+			if (player.getActivePotionEffect(Objects.requireNonNull(AoVPotions.stalwartPact.get())) != null) {
+				player.removeActivePotionEffect(AoVPotions.stalwartPact.get());
 				player.addPotionEffect(new EffectInstance(Effects.ABSORPTION, (20 * (60 * 5)), 2));
 				player.addPotionEffect(new EffectInstance(Effects.REGENERATION, (20 * (10)), 2));
 			}
-			if (player.getActivePotionEffect(AoVPotions.naturesBounty) != null) {
-				player.removeActivePotionEffect(AoVPotions.naturesBounty);
+			if (player.getActivePotionEffect(Objects.requireNonNull(AoVPotions.naturesBounty.get())) != null) {
+				player.removeActivePotionEffect(AoVPotions.naturesBounty.get());
 				player.addPotionEffect(new EffectInstance(Effects.REGENERATION, (20 * (10)), 2));
 			}
 		}

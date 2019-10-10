@@ -28,7 +28,7 @@ public class EntitySpellVanillaParticles extends Entity {
 	private int tick = 0;
 
 	public EntitySpellVanillaParticles(World worldIn) {
-		super(Objects.requireNonNull(AoVEntities.entityspellvanillaparticles), worldIn);
+		super(Objects.requireNonNull(AoVEntities.entityspellvanillaparticles.get()), worldIn);
 	}
 
 	public EntitySpellVanillaParticles(World world, Entity entity, IParticleData particle, int rate) {

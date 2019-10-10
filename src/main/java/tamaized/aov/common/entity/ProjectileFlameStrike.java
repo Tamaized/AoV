@@ -34,7 +34,7 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 	private float damage = 2;
 
 	public ProjectileFlameStrike(World worldIn) {
-		super(Objects.requireNonNull(AoVEntities.projectileflamestrike), worldIn);
+		super(Objects.requireNonNull(AoVEntities.projectileflamestrike.get()), worldIn);
 		setFire(100);
 		setMotion(0, -0.8, 0);
 		setRotation(0, 90);

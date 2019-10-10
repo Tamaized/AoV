@@ -52,7 +52,7 @@ public class EntityEarthquake extends Entity {
 	private UUID casterID;
 
 	public EntityEarthquake(World worldIn) {
-		super(Objects.requireNonNull(AoVEntities.entityearthquake), worldIn);
+		super(Objects.requireNonNull(AoVEntities.entityearthquake.get()), worldIn);
 	}
 
 	public EntityEarthquake(World worldIn, Entity caster, float damage) {

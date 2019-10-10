@@ -22,7 +22,6 @@ public class PotionNaturesBounty extends Effect {
 	public PotionNaturesBounty(String name) {
 		super(EffectType.BENEFICIAL, 0x00FF00);
 		iconTexture = new ResourceLocation(AoV.MODID, "textures/potions/" + name + ".png");
-		setRegistryName(AoV.MODID, name);
 	}
 
 	@Override
