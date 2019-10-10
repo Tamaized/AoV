@@ -6,6 +6,7 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.command.arguments.EntitySelector;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import tamaized.aov.AoV;
 import tamaized.aov.common.blocks.BlockAngelicBlock;
@@ -13,6 +14,7 @@ import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.AoVCapabilityHandler;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
+import tamaized.aov.common.capabilities.stun.IStunCapability;
 import tamaized.aov.common.gui.GuiHandler;
 
 public final class AoVCommands {
@@ -95,6 +97,26 @@ public final class AoVCommands {
 
 		private enum Type {
 			FULL, MINOR, COOLDOWN
+		}
+	}
+
+	public static class Debug {
+		public static ArgumentBuilder<CommandSource, ?> register() {
+			return Commands.literal("debug").
+					requires(cs -> cs.hasPermissionLevel(2)).
+					then(Commands.literal("stun").
+							then(Commands.argument("length", IntegerArgumentType.integer(0)).
+									then(Commands.argument("target", EntityArgument.entity()).
+											executes(context -> run(context.getArgument("target", EntitySelector.class).selectOne(context.getSource()), context.getArgument("length", int.class)))).
+									executes(context -> run(context.getSource().asPlayer(), context.getArgument("length", int.class)))));
+
+		}
+
+		private static int run(Entity target, int len) {
+			IStunCapability cap = CapabilityList.getCap(target, CapabilityList.STUN);
+			if (cap != null)
+				cap.setStunTicks(len);
+			return 0;
 		}
 	}
 

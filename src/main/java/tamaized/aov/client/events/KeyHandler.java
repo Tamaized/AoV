@@ -23,6 +23,7 @@ import tamaized.aov.client.gui.AoVUIBar;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
+import tamaized.aov.common.capabilities.stun.IStunCapability;
 
 import java.util.List;
 
@@ -133,6 +134,9 @@ public class KeyHandler {
 
 	private static void callbackMouseButton(long id, int button, int action, int mods) {
 		PlayerEntity player = Minecraft.getInstance().player;
+		IStunCapability stun = CapabilityList.getCap(player, CapabilityList.STUN);
+		if (Minecraft.getInstance().currentScreen == null && stun != null && stun.getStunTicks() > 0)
+			return;
 		IPolymorphCapability poly = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
 		if (player != null && player.world != null && Minecraft.getInstance().currentScreen == null)
 			if (ClientHelpers.barToggle || (poly != null && poly.getMorph() == IPolymorphCapability.Morph.Wolf)) {
@@ -156,6 +160,9 @@ public class KeyHandler {
 
 	private static void callbackScroll(long id, double xoffset, double yoffset) {
 		PlayerEntity player = Minecraft.getInstance().player;
+		IStunCapability stun = CapabilityList.getCap(player, CapabilityList.STUN);
+		if (Minecraft.getInstance().currentScreen == null && stun != null && stun.getStunTicks() > 0)
+			return;
 		if (ClientHelpers.barToggle && player != null && player.world != null && Minecraft.getInstance().currentScreen == null) {
 			if (yoffset > 0)
 				AoVUIBar.slotLoc--;
@@ -218,8 +225,6 @@ public class KeyHandler {
 		}
 	}
 
-	//TODO: EVERYTHING BELOW HERE NEEDS TO BE DOUBLECHECKED
-
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void handleCamera(EntityViewRenderEvent.CameraSetup e) {
 		PlayerEntity player = Minecraft.getInstance().player;
@@ -248,18 +253,14 @@ public class KeyHandler {
 		if (player == null || e.phase == TickEvent.Phase.END)
 			return;
 		if (!player.canUpdate()) {
-			//			Mouse.getDX();
-			//			Mouse.getDY(); TODO
 			player.prevRotationYawHead = player.rotationYawHead = ryh;
 			player.prevRotationYaw = player.rotationYaw = ry;
 			player.prevRotationPitch = player.rotationPitch = rp;
-			//			player.prevCameraPitch = player.cameraPitch = rcp;
 			player.prevCameraYaw = player.cameraYaw = rcy;
 		} else {
 			ry = player.rotationYaw;
 			rp = player.rotationPitch;
 			ryh = player.rotationYawHead;
-			//			rcp = player.cameraPitch;
 			rcy = player.cameraYaw;
 		}
 	}

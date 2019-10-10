@@ -138,7 +138,8 @@ public class AoV {
 				LiteralArgumentBuilder.<CommandSource>literal("aov").
 						then(AoVCommands.Open.register()).
 						then(AoVCommands.SetLevel.register()).
-						then(AoVCommands.Reset.register())
+						then(AoVCommands.Reset.register()).
+						then(AoVCommands.Debug.register())
 
 		);
 	}
