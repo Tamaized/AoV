@@ -5,7 +5,10 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.event.HoverEvent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import tamaized.aov.common.capabilities.CapabilityList;
@@ -13,7 +16,6 @@ import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
 import java.util.List;
 
 public abstract class AbilityBase {
@@ -21,10 +23,14 @@ public abstract class AbilityBase {
 	private static final List<AbilityBase> registry = Lists.newArrayList();
 
 	private final List<TranslationTextComponent> description;
+	private ITextComponent descriptionCache;
 
 	public AbilityBase(TranslationTextComponent... desc) {
 		description = Lists.newArrayList();
-		description.addAll(Arrays.asList(desc));
+		for (TranslationTextComponent component : desc) {
+			description.add(component);
+			description.add(new TranslationTextComponent("\n"));
+		}
 		registry.add(this);
 	}
 
@@ -59,6 +65,17 @@ public abstract class AbilityBase {
 			list.add(I18n.format(s.getKey(), args));
 		}
 		return list;
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	public final ITextComponent getDescriptionAsTextComponent() {
+		if (descriptionCache == null && !description.isEmpty()) {
+			TranslationTextComponent component = new TranslationTextComponent(description.get(0).getKey(), description.get(0).getFormatArgs());
+			for (int i = 1; i < description.size(); i++)
+				component.appendSibling(new TranslationTextComponent(description.get(i).getKey(), description.get(i).getFormatArgs()));
+			descriptionCache = component.setStyle(new Style().setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, component)));
+		}
+		return descriptionCache;
 	}
 
 	@OnlyIn(Dist.CLIENT)

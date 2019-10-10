@@ -18,6 +18,7 @@ public class AoVSkill {
 
 	private final List<AbilityBase> abilities;
 	private final List<TranslationTextComponent> description = Lists.newArrayList();
+	private ITextComponent descriptionCache;
 
 	private final TranslationTextComponent name;
 	private final ResourceLocation icon;
@@ -150,10 +151,13 @@ public class AoVSkill {
 
 	@OnlyIn(Dist.CLIENT)
 	public final ITextComponent getDescriptionAsTextComponent() {
-		TranslationTextComponent component = new TranslationTextComponent(description.get(0).getKey(), description.get(0).getFormatArgs());
-		for (int i = 1; i < description.size(); i++)
-			component.appendSibling(new TranslationTextComponent(description.get(i).getKey(), description.get(i).getFormatArgs()));
-		return component.setStyle(new Style().setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, component)));
+		if (descriptionCache == null && !description.isEmpty()) {
+			TranslationTextComponent component = new TranslationTextComponent(description.get(0).getKey(), description.get(0).getFormatArgs());
+			for (int i = 1; i < description.size(); i++)
+				component.appendSibling(new TranslationTextComponent(description.get(i).getKey(), description.get(i).getFormatArgs()));
+			descriptionCache = component.setStyle(new Style().setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, component)));
+		}
+		return descriptionCache;
 	}
 
 }

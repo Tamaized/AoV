@@ -152,8 +152,8 @@ public class AoVSkillsGUI extends GuiScreenClose {
 			for (SkillButton b : skillbuttons) {
 				if (!b.visible || mouseX < b.x || mouseX > b.x + b.getWidth() || mouseY < b.y || mouseY > b.y + b.getHeight())
 					continue;
-				if (b.getSkill() != null && b.getSkill().getDescription() != null) {
-					renderComponentHoverEffect(b.getSkill().getDescriptionAsTextComponent(), mouseX, mouseY); // TODO check
+				if (b.getSkill() != null && b.getSkill().getDescriptionAsTextComponent() != null) {
+					renderComponentHoverEffect(b.getSkill().getDescriptionAsTextComponent(), mouseX, mouseY);
 					flag = false;
 					break;
 				}

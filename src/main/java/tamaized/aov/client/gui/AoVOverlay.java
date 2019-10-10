@@ -247,7 +247,7 @@ public class AoVOverlay {
 			MainWindow resolution = mc.mainWindow;
 			float w = resolution.getScaledWidth();
 			float h = resolution.getScaledHeight();
-			float scale = (float) ((4F - resolution.getGuiScaleFactor() + 1F) * 32F); //TODO check
+			float scale = (float) ((4F - resolution.getGuiScaleFactor() + 1F) * 32F);
 			float u = 1F / (scale / w);
 			float v = 1F / (scale / h);
 			resolution.loadGUIRenderMatrix(Minecraft.IS_RUNNING_ON_MAC);
