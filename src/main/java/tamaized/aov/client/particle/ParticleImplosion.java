@@ -1,35 +1,25 @@
 package tamaized.aov.client.particle;
 
-public class ParticleImplosion /*extends SquidInkParticle*/ {
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleManager;
+import net.minecraft.client.particle.SquidInkParticle;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
-	/*public ParticleImplosion(World p_i48831_1_, double p_i48831_2_, double p_i48831_4_, double p_i48831_6_, double p_i48831_8_, double p_i48831_10_, double p_i48831_12_) {
-		super(p_i48831_1_, p_i48831_2_, p_i48831_4_, p_i48831_6_, p_i48831_8_, p_i48831_10_, p_i48831_12_);
-		particleScale = 1F;
+import java.util.Map;
+import java.util.Objects;
+
+public class ParticleImplosion {
+
+	private static SquidInkParticle.Factory FACTORY = null;
+
+	public static Particle make(World p_i46465_1_, double p_i46465_2_, double p_i46465_4_, double p_i46465_6_, double p_i46465_8_, double p_i46465_10_, double p_i46465_12_, ParticleManager p_i46465_14_) {
+		if (FACTORY == null)
+			FACTORY = Objects.requireNonNull(ObfuscationReflectionHelper.<Map<ResourceLocation, SquidInkParticle.Factory>, ParticleManager>getPrivateValue(ParticleManager.class, p_i46465_14_, "field_178932_g")).get(ParticleTypes.SQUID_INK.getRegistryName());
+		Particle particle = FACTORY.makeParticle(ParticleTypes.SQUID_INK, p_i46465_1_, p_i46465_2_, p_i46465_4_, p_i46465_6_, p_i46465_8_, p_i46465_10_, p_i46465_12_);
+		Objects.requireNonNull(particle).multipleParticleScaleBy(0.25F);
+		return particle;
 	}
-
-	@Override
-	public void tick() {
-		this.prevPosX = this.posX;
-		this.prevPosY = this.posY;
-		this.prevPosZ = this.posZ;
-		if (this.age++ >= this.maxAge) {
-			this.setExpired();
-		}
-
-		if (this.age > this.maxAge / 2) {
-			this.setAlphaF(1.0F - ((float) this.age - (float) (this.maxAge / 2)) / (float) this.maxAge);
-		}
-
-		this.setParticleTextureIndex(this.textureIdx + this.numAgingFrames - 1 - this.age * this.numAgingFrames / this.maxAge);
-		this.move(this.motionX, this.motionY, this.motionZ);
-
-		this.motionX *= (double) 0.92F;
-		this.motionY *= (double) 0.92F;
-		this.motionZ *= (double) 0.92F;
-		if (this.onGround) {
-			this.motionX *= (double) 0.7F;
-			this.motionZ *= (double) 0.7F;
-		}
-
-	}*/
 }

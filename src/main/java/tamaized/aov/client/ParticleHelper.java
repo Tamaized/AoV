@@ -10,6 +10,7 @@ import tamaized.aov.AoV;
 import tamaized.aov.client.particle.ParticleColorSpark;
 import tamaized.aov.client.particle.ParticleFeather;
 import tamaized.aov.client.particle.ParticleHeartColor;
+import tamaized.aov.client.particle.ParticleImplosion;
 import tamaized.aov.network.client.ClientPacketHandlerParticleMesh;
 
 public class ParticleHelper {
@@ -27,7 +28,7 @@ public class ParticleHelper {
 			case Feather:
 				particle = new ParticleFeather(world, pos, target, life, gravity, scale, color);
 				break;
-			case Spark:
+			case Spark: {
 				Vec3d vec = new Vec3d(1, 0, 0);
 				particle = ParticleColorSpark.makeSpark(
 
@@ -50,7 +51,30 @@ public class ParticleHelper {
 						color >> 8
 
 				);
-				break;
+			}
+			break;
+			case Implosion: {
+				particle = ParticleImplosion.make(
+
+						world,
+
+						pos.x,
+
+						pos.y + 0.75F,
+
+						pos.z,
+
+						target.x,
+
+						target.y,
+
+						target.z,
+
+						Minecraft.getInstance().particles
+
+				);
+			}
+			break;
 		}
 		if (particle != null)
 			Minecraft.getInstance().particles.addEffect(particle);
@@ -84,7 +108,7 @@ public class ParticleHelper {
 	}
 
 	public enum ParticleType {
-		Fluff, Heart, Feather, Spark
+		Fluff, Heart, Feather, Spark, Implosion
 	}
 
 }
