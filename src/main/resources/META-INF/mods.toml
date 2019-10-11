@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[26,)"
+loaderVersion="[28,)"
 issueTrackerURL="https://github.com/Tamaized/AoV/issues"
 [[mods]]
 modId="aov"
