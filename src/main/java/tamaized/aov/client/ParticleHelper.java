@@ -5,6 +5,8 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.PacketDistributor;
 import tamaized.aov.AoV;
 import tamaized.aov.client.particle.ParticleColorSpark;
@@ -15,6 +17,7 @@ import tamaized.aov.network.client.ClientPacketHandlerParticleMesh;
 
 public class ParticleHelper {
 
+	@OnlyIn(Dist.CLIENT)
 	public static void spawnParticle(ParticleType type, World world, Vec3d pos, Vec3d target, int life, float gravity, float scale, Integer... colors) {
 		int color = colors[world.rand.nextInt(colors.length)];
 		Particle particle = null;
