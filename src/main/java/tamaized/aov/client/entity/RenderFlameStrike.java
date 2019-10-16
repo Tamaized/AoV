@@ -87,24 +87,6 @@ public class RenderFlameStrike<T extends ProjectileFlameStrike> extends EntityRe
 		GlStateManager.enableLighting();
 		GlStateManager.popMatrix();
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
-		Vec3d vec = entity.getLook(1.0F);
-		if (!Minecraft.getInstance().isGamePaused())
-			for (int index = 0; index < 20; index++)
-				entity.world.addParticle(ParticleTypes.FLAME,
-
-						entity.posX,
-
-						entity.posY,
-
-						entity.posZ,
-
-						-((0.015 * vec.x) + ((rand.nextFloat() * 0.5) - 0.25)),
-
-						((0.015 * vec.y) + ((rand.nextFloat() * 0.5) - 0.25)),
-
-						-((0.015 * vec.z) + ((rand.nextFloat() * 0.5) - 0.25))
-
-				);
 
 	}
 

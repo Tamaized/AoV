@@ -6,6 +6,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
@@ -17,8 +18,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
-import tamaized.aov.client.ParticleHelper;
-import tamaized.aov.client.ParticleHelper.MeshType;
 import tamaized.aov.common.capabilities.CapabilityList;
 import tamaized.aov.common.capabilities.aov.IAoVCapability;
 import tamaized.aov.common.core.abilities.Abilities;
@@ -76,6 +75,25 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 	@Override
 	public void tick() {
 		baseTick();
+		if (world.isRemote) {
+			Vec3d vec = getLook(1.0F);
+			for (int index = 0; index < 20; index++)
+				world.addParticle(ParticleTypes.FLAME,
+
+						posX,
+
+						posY,
+
+						posZ,
+
+						-((0.015 * vec.x) + ((rand.nextFloat() * 0.5) - 0.25)),
+
+						((0.015 * vec.y) + ((rand.nextFloat() * 0.5) - 0.25)),
+
+						-((0.015 * vec.z) + ((rand.nextFloat() * 0.5) - 0.25))
+
+				);
+		}
 		Vec3d vec3d1 = new Vec3d(posX, posY, posZ);
 		Vec3d vec3d = vec3d1.add(getMotion());
 		RayTraceResult ray = world.rayTraceBlocks(new RayTraceContext(vec3d1, vec3d, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, this));
@@ -104,8 +122,10 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 			entity.setFire(15);
 			entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.IN_FIRE, attacker), damage);
 		}
-		for (int i = 0; i < 2; i++)
-			ParticleHelper.spawnParticleMesh(MeshType.BURST, ParticleHelper.ParticleType.Fluff, world, new Vec3d(posX, posY, posZ), 10, 0xFF4801FF);
+		for (int i = 0; i <= 80; i++)
+			world.addParticle(ParticleTypes.FLAME, posX, posY, posZ, (world.rand.nextFloat() * 1F) - 0.5F, world.rand.nextFloat() * 0.04F + 0.01F, (world.rand.nextFloat() * 1F) - 0.5F);
+		for (int i = 0; i <= 100; i++)
+			world.addParticle(ParticleTypes.LARGE_SMOKE, posX, posY, posZ, (world.rand.nextFloat() * 0.75F) - 0.375F, world.rand.nextFloat() * 0.04F + 0.01F, (world.rand.nextFloat() * 0.75F) - 0.375F);
 	}
 
 	@Override
