@@ -43,7 +43,7 @@
   "block.aov.druidstatue": "Druidic Statue",
 
   "# Entity": "",
-  "entity.aov.EntityDruidicWolf.name": "Druidic Wolf",
+  "entity.aov.entitydruidicwolf.name": "Druidic Wolf",
 
   "# KeyBinds": "",
   "key.categories.aov": "Angel of Vengeance",
