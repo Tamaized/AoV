@@ -7,6 +7,9 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.registries.ForgeRegistries;
 import tamaized.aov.client.sound.EntityMovingSound;
 import tamaized.aov.network.NetworkMessages;
@@ -31,6 +34,11 @@ public class ClientPacketHandlerMovingSound implements NetworkMessages.IMessage<
 
 	@Override
 	public void handle(PlayerEntity player) {
+		classLoadingIsVeryFuckingStupidWhatTheFuck(player);
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	private void classLoadingIsVeryFuckingStupidWhatTheFuck(PlayerEntity player) {
 		Minecraft.getInstance().getSoundHandler().play(new EntityMovingSound(ForgeRegistries.SOUND_EVENTS.getValue(soundID), SoundCategory.PLAYERS, player.world.getEntityByID(e), false, 0, volume, pitch));
 	}
 
