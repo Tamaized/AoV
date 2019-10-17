@@ -1,25 +1,11 @@
 package tamaized.aov.common.config;
 
 import com.electronwill.nightconfig.core.utils.ConfigWrapper;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.AirItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.registries.ForgeRegistries;
 import tamaized.aov.AoV;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 
 @Mod.EventBusSubscriber(modid = AoV.MODID)
 public class ClientConfig {
