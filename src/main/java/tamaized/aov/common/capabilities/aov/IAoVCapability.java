@@ -16,7 +16,7 @@ import net.minecraft.util.ResourceLocation;
 import tamaized.aov.AoV;
 import tamaized.aov.common.capabilities.IPlayerCapabilityHandler;
 import tamaized.aov.common.capabilities.aov.AoVCapabilityHandler.DecayWrapper;
-import tamaized.aov.common.config.ConfigHandler;
+import tamaized.aov.common.config.CommonConfig;
 import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.abilities.AbilityBase;
 import tamaized.aov.common.core.abilities.Aura;
@@ -53,11 +53,11 @@ public interface IAoVCapability extends IPlayerCapabilityHandler<IAoVCapability>
 	static boolean isCentered(LivingEntity entity, IAoVCapability cap) {
 		if (entity != null && cap != null && cap.hasSkill(AoVSkills.druid_core_1)) {
 			for (ItemStack stack : entity.getArmorInventoryList())
-				if (!stack.isEmpty() && !ItemStackWrapper.compareItems(ConfigHandler.CENTERED_WEAR, stack))
+				if (!stack.isEmpty() && !ItemStackWrapper.compareItems(CommonConfig.CENTERED_WEAR, stack))
 					return false;
-			if (!entity.getHeldItemMainhand().isEmpty() && !ItemStackWrapper.compareItems(ConfigHandler.CENTERED_WEAR, entity.getHeldItemMainhand()))
+			if (!entity.getHeldItemMainhand().isEmpty() && !ItemStackWrapper.compareItems(CommonConfig.CENTERED_WEAR, entity.getHeldItemMainhand()))
 				return !entity.getHeldItemMainhand().getAttributeModifiers(EquipmentSlotType.MAINHAND).containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
-			return entity.getHeldItemOffhand().isEmpty() || ItemStackWrapper.compareItems(ConfigHandler.CENTERED_WEAR, entity.getHeldItemOffhand()) || !entity.getHeldItemOffhand().getAttributeModifiers(EquipmentSlotType.OFFHAND).containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
+			return entity.getHeldItemOffhand().isEmpty() || ItemStackWrapper.compareItems(CommonConfig.CENTERED_WEAR, entity.getHeldItemOffhand()) || !entity.getHeldItemOffhand().getAttributeModifiers(EquipmentSlotType.OFFHAND).containsKey(SharedMonsterAttributes.ATTACK_DAMAGE.getName());
 		}
 		return false;
 	}

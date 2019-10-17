@@ -181,7 +181,7 @@ public class RenderPlayer {
 				GL11.glStencilMask(0xFF);
 				GL11.glStencilFunc(GL11.GL_ALWAYS, (
 
-						AoV.config.stencil.get() + (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental ? 8 :
+						AoV.config_client.stencil.get() + (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental ? 8 :
 
 								cap.getMorph() == IPolymorphCapability.Morph.FireElemental ? 9 : 10
 
@@ -224,7 +224,7 @@ public class RenderPlayer {
 						GL11.glStencilMask(0xFF);
 						GL11.glStencilFunc(GL11.GL_ALWAYS,
 
-								AoV.config.stencil.get() + (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental ? 8 :
+								AoV.config_client.stencil.get() + (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental ? 8 :
 
 										cap.getMorph() == IPolymorphCapability.Morph.FireElemental ? 9 : 10),
 

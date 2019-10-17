@@ -38,7 +38,8 @@ import tamaized.aov.common.capabilities.stun.IStunCapability;
 import tamaized.aov.common.capabilities.stun.StunCapabilityHandler;
 import tamaized.aov.common.capabilities.stun.StunCapabilityStorage;
 import tamaized.aov.common.commands.AoVCommands;
-import tamaized.aov.common.config.ConfigHandler;
+import tamaized.aov.common.config.ClientConfig;
+import tamaized.aov.common.config.CommonConfig;
 import tamaized.aov.common.core.abilities.Abilities;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.network.NetworkMessages;
@@ -84,7 +85,8 @@ public class AoV {
 			return value;
 		}
 	};
-	public static ConfigHandler config;
+	public static CommonConfig config;
+	public static ClientConfig config_client;
 	public static SimpleChannel network = NetworkRegistry.ChannelBuilder.
 			named(new ResourceLocation(MODID, MODID)).
 			clientAcceptedVersions(s -> true).
@@ -93,9 +95,16 @@ public class AoV {
 			simpleChannel();
 
 	public AoV() {
-		final Pair<ConfigHandler, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(ConfigHandler::new);
-		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, specPair.getRight());
-		config = specPair.getLeft();
+		{
+			final Pair<CommonConfig, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(CommonConfig::new);
+			ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, specPair.getRight());
+			config = specPair.getLeft();
+		}
+		{
+			final Pair<ClientConfig, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(ClientConfig::new);
+			ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, specPair.getRight());
+			config_client = specPair.getLeft();
+		}
 
 		MinecraftForge.EVENT_BUS.addListener(this::serverStarting);
 
@@ -116,7 +125,7 @@ public class AoV {
 	public static void init(FMLCommonSetupEvent event) {
 		LOGGER.info("Initalizating AoV");
 
-		ConfigHandler.update();
+		CommonConfig.update();
 
 		NetworkMessages.register(network);
 		DataSerializers.registerSerializer(VARINTS);

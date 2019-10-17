@@ -173,37 +173,37 @@ public class AoVOverlay {
 			if (ClientHelpers.barToggle) {
 				GlStateManager.pushMatrix();
 				{
-					if (AoV.config.renderBarOverHotbar.get())
+					if (AoV.config_client.renderBarOverHotbar.get())
 						GlStateManager.translated(0, sr.getScaledHeight() - 23, 0);
 					for (int i = 0; i < 9; i++) {
 						float x = sW - 90F + (20F * (float) i);
 						float y = ClientTicker.charges.getValue(i);
 						float partialTicks = (mc.isGamePaused() ? 0 : e.getPartialTicks()) * AoVUIBar.slotLoc == i ? 1 : -1;
-						if (AoV.config.renderBarOverHotbar.get() || AoV.config.renderChargesAboveSpellbar.get()) {
+						if (AoV.config_client.renderBarOverHotbar.get() || AoV.config_client.renderChargesAboveSpellbar.get()) {
 							y = 1F - y - partialTicks;
 							y = MathHelper.clamp(y, -15F, 1F);
 						} else {
 							y = 1F + y + partialTicks;
 							y = MathHelper.clamp(y, 1F, 15F);
 						}
-						renderCharges(x + (AoV.config.renderBarOverHotbar.get() ? 0 : AoV.config.ELEMENT_POSITIONS.spellbar_x.get()), y + (AoV.config.renderBarOverHotbar.get() ? 0 : AoV.config.ELEMENT_POSITIONS.spellbar_y.get()), fontRender, cap, i);
+						renderCharges(x + (AoV.config_client.renderBarOverHotbar.get() ? 0 : AoV.config_client.ELEMENT_POSITIONS.spellbar_x.get()), y + (AoV.config_client.renderBarOverHotbar.get() ? 0 : AoV.config_client.ELEMENT_POSITIONS.spellbar_y.get()), fontRender, cap, i);
 					}
 				}
 				GlStateManager.popMatrix();
 			}
 
-			AoVUIBar.render(AoV.config.ELEMENT_POSITIONS.spellbar_x.get(), AoV.config.ELEMENT_POSITIONS.spellbar_y.get());
+			AoVUIBar.render(AoV.config_client.ELEMENT_POSITIONS.spellbar_x.get(), AoV.config_client.ELEMENT_POSITIONS.spellbar_y.get());
 			if (cap.getCoreSkill() == AoVSkills.astro_core_1)
 				renderAstro(mc.player, sr);
 			Entity target = ClientHelpers.getTarget() != null ? ClientHelpers.getTarget() : ClientHelpers.getTargetOverMouse(mc, 128);
-			if (AoV.config.renderTarget.get() && target instanceof LivingEntity)
+			if (AoV.config_client.renderTarget.get() && target instanceof LivingEntity)
 				renderTarget((LivingEntity) target);
 		}
 	}
 
 	@SubscribeEvent
 	public static void render(TickEvent.RenderTickEvent e) {
-		if (AoV.config.EARTHQUAKE.shake.get() && e.phase == TickEvent.Phase.START && mc.world != null) {
+		if (AoV.config_client.EARTHQUAKE.shake.get() && e.phase == TickEvent.Phase.START && mc.world != null) {
 			for (Entity entity : mc.world.getAllEntities()) {
 				if (entity instanceof EntityEarthquake) {
 					float intense = (float) (1F - entity.getDistanceSq(Minecraft.getInstance().player) / Math.pow(16, 2));
@@ -225,7 +225,7 @@ public class AoVOverlay {
 
 	@SubscribeEvent
 	public static void camera(EntityViewRenderEvent.CameraSetup e) {
-		if (!mc.isGamePaused() && AoV.config.EARTHQUAKE.shake.get() && intensity > 0) {
+		if (!mc.isGamePaused() && AoV.config_client.EARTHQUAKE.shake.get() && intensity > 0) {
 			e.setYaw(e.getYaw() + (rand.nextFloat() * 2F - 1F) * intensity);
 			e.setPitch(e.getPitch() + (rand.nextFloat() * 2F - 1F) * intensity);
 			e.setRoll(e.getRoll() + (rand.nextFloat() * 2F - 1F) * intensity);
@@ -257,7 +257,7 @@ public class AoVOverlay {
 			GlStateManager.color4f(1F, 1F, 1F, 1F);
 			GL11.glEnable(GL11.GL_STENCIL_TEST);
 
-			int curStencil = AoV.config.stencil.get() + 8 + (hackyshit ? 3 : 0);
+			int curStencil = AoV.config_client.stencil.get() + 8 + (hackyshit ? 3 : 0);
 			GL11.glStencilFunc(GL11.GL_EQUAL, curStencil, 0xFF); // Water
 			{
 				buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
@@ -280,7 +280,7 @@ public class AoVOverlay {
 				GlStateManager.popMatrix();
 			}
 			GL11.glStencilFunc(GL11.GL_ALWAYS, curStencil, 0xFF);
-			GL11.glStencilFunc(GL11.GL_EQUAL, curStencil = (AoV.config.stencil.get() + 9 + (hackyshit ? 3 : 0)), 0xFF); // Fire
+			GL11.glStencilFunc(GL11.GL_EQUAL, curStencil = (AoV.config_client.stencil.get() + 9 + (hackyshit ? 3 : 0)), 0xFF); // Fire
 			{
 				buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
 				buffer.pos(0, h, 0).tex(0, v).color(0.75F, 0.25F, 0F, 0.75F).endVertex();
@@ -302,7 +302,7 @@ public class AoVOverlay {
 				GlStateManager.popMatrix();
 			}
 			GL11.glStencilFunc(GL11.GL_ALWAYS, curStencil, 0xFF);
-			GL11.glStencilFunc(GL11.GL_EQUAL, curStencil = (AoV.config.stencil.get() + 10 + (hackyshit ? 3 : 0)), 0xFF); // Arch-Angel
+			GL11.glStencilFunc(GL11.GL_EQUAL, curStencil = (AoV.config_client.stencil.get() + 10 + (hackyshit ? 3 : 0)), 0xFF); // Arch-Angel
 			{
 				buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
 				buffer.pos(0, h, 0).tex(0, v).color(1F, 0.85F, 0.2F, 0.75F).endVertex();
@@ -347,7 +347,7 @@ public class AoVOverlay {
 		int w = 20;
 		int h = 20;
 		drawRect(x, y, x + w, y + h, (!cap.canUseAbility(ability) || (ability.isOnCooldown(cap) && !ability.getAbility().canUseOnCooldown(cap, mc.player))) ? 0x77FF0000 : 0x7700BBFF);
-		drawCenteredStringNoShadow(fontRender, String.valueOf(val), x + 10, y + (AoV.config.renderBarOverHotbar.get() || AoV.config.renderChargesAboveSpellbar.get() ? 3 : 10), 0x000000);
+		drawCenteredStringNoShadow(fontRender, String.valueOf(val), x + 10, y + (AoV.config_client.renderBarOverHotbar.get() || AoV.config_client.renderChargesAboveSpellbar.get() ? 3 : 10), 0x000000);
 	}
 
 	private static void drawCenteredStringNoShadow(FontRenderer fontRendererIn, String text, float x, float y, int color) {
@@ -358,7 +358,7 @@ public class AoVOverlay {
 		IAstroCapability cap = CapabilityList.getCap(player, CapabilityList.ASTRO);
 		if (cap == null)
 			return;
-		if (!AoV.config.renderAstro.get() && cap.getDraw() == null && cap.getBurn() == null && cap.getSpread() == null)
+		if (!AoV.config_client.renderAstro.get() && cap.getDraw() == null && cap.getBurn() == null && cap.getSpread() == null)
 			return;
 		GlStateManager.pushMatrix();
 		{
@@ -373,8 +373,8 @@ public class AoVOverlay {
 			float x = sr.getScaledWidth() * 2F / 3F;
 			float y = sr.getScaledHeight() / 5F;
 
-			x += AoV.config.ELEMENT_POSITIONS.astro_x.get();
-			y += AoV.config.ELEMENT_POSITIONS.astro_y.get();
+			x += AoV.config_client.ELEMENT_POSITIONS.astro_x.get();
+			y += AoV.config_client.ELEMENT_POSITIONS.astro_y.get();
 
 			float scale = 0.35F;
 			buffer.pos(x, y + 143F * scale, 0).tex(0, 0.5F).endVertex();
@@ -420,7 +420,7 @@ public class AoVOverlay {
 		buffer.pos(x, y, 0).tex(0.5F + (0.08F + xOffset), 0 + yOffset).endVertex();
 		buffer.pos(x, y + 286F * scale, 0).tex(0.5F + (0.08F + xOffset), 0.5F + yOffset).endVertex();
 		buffer.pos(x + 80F * scale, y + 286F * scale, 0).tex(0.5F + xOffset, 0.5F + yOffset).endVertex();
-		if (AoV.config.renderRoyalRoad.get()) {
+		if (AoV.config_client.renderRoyalRoad.get()) {
 			Tessellator.getInstance().draw();
 			GlStateManager.pushMatrix();
 			drawCenteredString(mc.fontRenderer, I18n.format("aov.astro.burn." + index), (int) x - 16, (int) y, index == 0 ? 0x00AAFF : index == 1 ? 0x00FFAA : 0xFFDD88);
@@ -434,8 +434,8 @@ public class AoVOverlay {
 	private static void renderTarget(LivingEntity target) {
 		GlStateManager.pushMatrix();
 		{
-			double x = 10 + AoV.config.ELEMENT_POSITIONS.target_x.get();
-			double y = 150 + AoV.config.ELEMENT_POSITIONS.target_y.get();
+			double x = 10 + AoV.config_client.ELEMENT_POSITIONS.target_x.get();
+			double y = 150 + AoV.config_client.ELEMENT_POSITIONS.target_y.get();
 			double w = 100;
 			double h = 41;
 
@@ -450,7 +450,7 @@ public class AoVOverlay {
 				float r = 1F;
 				float g = 1F;
 				float b = 1F;
-				float a = AoV.config.targetOpacity.get().floatValue();
+				float a = AoV.config_client.targetOpacity.get().floatValue();
 
 				buffer.pos(x + w, y, 0).tex(1, 0).color(r, g, b, a).endVertex();
 				buffer.pos(x, y, 0).tex(0, 0).color(r, g, b, a).endVertex();

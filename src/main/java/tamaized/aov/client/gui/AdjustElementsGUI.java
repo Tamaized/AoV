@@ -37,9 +37,9 @@ public class AdjustElementsGUI extends GuiScreenClose {
 	public void init() {
 		super.init();
 		MainWindow sr = Minecraft.getInstance().mainWindow;
-		addButton(new Element(ELEMENT_SPELLBAR, (sr.getScaledWidth() / 2F) - 91, 1, AoV.config.ELEMENT_POSITIONS.spellbar_x.get(), AoV.config.ELEMENT_POSITIONS.spellbar_y.get(), 182, 22, 0x00FFFF, ""));
-		addButton(new Element(ELEMENT_ASTRO, sr.getScaledWidth() * 2F / 3F, sr.getScaledHeight() / 5F - 8F, AoV.config.ELEMENT_POSITIONS.astro_x.get(), AoV.config.ELEMENT_POSITIONS.astro_y.get(), (int) (235F * 0.35F), (int) (143F * 0.35F) + 8, 0x00FFFF, ""));
-		addButton(new Element(ELEMENT_TARGET, 10, 150, AoV.config.ELEMENT_POSITIONS.target_x.get(), AoV.config.ELEMENT_POSITIONS.target_y.get(), 100, 41, 0x00FFFF, ""));
+		addButton(new Element(ELEMENT_SPELLBAR, (sr.getScaledWidth() / 2F) - 91, 1, AoV.config_client.ELEMENT_POSITIONS.spellbar_x.get(), AoV.config_client.ELEMENT_POSITIONS.spellbar_y.get(), 182, 22, 0x00FFFF, ""));
+		addButton(new Element(ELEMENT_ASTRO, sr.getScaledWidth() * 2F / 3F, sr.getScaledHeight() / 5F - 8F, AoV.config_client.ELEMENT_POSITIONS.astro_x.get(), AoV.config_client.ELEMENT_POSITIONS.astro_y.get(), (int) (235F * 0.35F), (int) (143F * 0.35F) + 8, 0x00FFFF, ""));
+		addButton(new Element(ELEMENT_TARGET, 10, 150, AoV.config_client.ELEMENT_POSITIONS.target_x.get(), AoV.config_client.ELEMENT_POSITIONS.target_y.get(), 100, 41, 0x00FFFF, ""));
 	}
 
 	@Override
@@ -117,12 +117,12 @@ public class AdjustElementsGUI extends GuiScreenClose {
 	}
 
 	private void renderSpellBar() {
-		final int xpos = AoV.config.ELEMENT_POSITIONS.spellbar_x.get();
-		final int ypos = AoV.config.ELEMENT_POSITIONS.spellbar_y.get();
+		final int xpos = AoV.config_client.ELEMENT_POSITIONS.spellbar_x.get();
+		final int ypos = AoV.config_client.ELEMENT_POSITIONS.spellbar_y.get();
 		GlStateManager.pushMatrix();
 		{
 			MainWindow sr = Minecraft.getInstance().mainWindow;
-			if (AoV.config.renderBarOverHotbar.get())
+			if (AoV.config_client.renderBarOverHotbar.get())
 				GlStateManager.translated(0, sr.getScaledHeight() - 23, 0);
 			float alpha = 0.2f;
 			if (ClientHelpers.barToggle)
@@ -152,8 +152,8 @@ public class AdjustElementsGUI extends GuiScreenClose {
 			float x = sr.getScaledWidth() * 2F / 3F;
 			float y = sr.getScaledHeight() / 5F;
 
-			x += AoV.config.ELEMENT_POSITIONS.astro_x.get();
-			y += AoV.config.ELEMENT_POSITIONS.astro_y.get();
+			x += AoV.config_client.ELEMENT_POSITIONS.astro_x.get();
+			y += AoV.config_client.ELEMENT_POSITIONS.astro_y.get();
 
 			float scale = 0.35F;
 			buffer.pos(x, y + 143F * scale, 0).tex(0, 0.5F).endVertex();
@@ -168,8 +168,8 @@ public class AdjustElementsGUI extends GuiScreenClose {
 	private void renderFocus() {
 		GlStateManager.pushMatrix();
 		{
-			double x = 10 + AoV.config.ELEMENT_POSITIONS.target_x.get();
-			double y = 150 + AoV.config.ELEMENT_POSITIONS.target_y.get();
+			double x = 10 + AoV.config_client.ELEMENT_POSITIONS.target_x.get();
+			double y = 150 + AoV.config_client.ELEMENT_POSITIONS.target_y.get();
 			double w = 100;
 			double h = 41;
 
