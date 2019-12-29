@@ -1,9 +1,12 @@
 package tamaized.aov.client.entity;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GLX;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -65,8 +68,8 @@ public class RenderGravity<T extends EntityGravity> extends EntityRenderer<T> {
 	public static void drawBoltSegment(Tessellator tessellator, Vec3d p1, Vec3d p2, float scale, int color) {
 		BufferBuilder buffer = tessellator.getBuffer();
 
-		GlStateManager.pushMatrix();
-		GlStateManager.translated(p1.x, p1.y, p1.z);
+		RenderSystem.pushMatrix();
+		RenderSystem.translated(p1.x, p1.y, p1.z);
 
 		double dist = p1.distanceTo(p2);
 		float xd = (float) (p1.x - p2.x);
@@ -76,10 +79,10 @@ public class RenderGravity<T extends EntityGravity> extends EntityRenderer<T> {
 		float rotYaw = (float) (Math.atan2((double) xd, (double) zd) * 180.0D / 3.141592653589793D);
 		float rotPitch = (float) (Math.atan2((double) yd, var7) * 180.0D / 3.141592653589793D);
 
-		GlStateManager.rotatef(90.0F, 1.0F, 0.0F, 0.0F);
-		GlStateManager.rotatef(180.0F + rotYaw, 0.0F, 0.0F, -1.0F);
-		GlStateManager.rotatef(rotPitch, 1.0F, 0.0F, 0.0F);
-		GlStateManager.disableCull();
+		RenderSystem.rotatef(90.0F, 1.0F, 0.0F, 0.0F);
+		RenderSystem.rotatef(180.0F + rotYaw, 0.0F, 0.0F, -1.0F);
+		RenderSystem.rotatef(rotPitch, 1.0F, 0.0F, 0.0F);
+		RenderSystem.disableCull();
 
 		buffer.begin(GL11.GL_TRIANGLE_STRIP, DefaultVertexFormats.POSITION_COLOR);
 		for (int i = 0; i <= 9; i++) {
@@ -96,19 +99,19 @@ public class RenderGravity<T extends EntityGravity> extends EntityRenderer<T> {
 		}
 		tessellator.draw();
 
-		GlStateManager.enableCull();
-		GlStateManager.popMatrix();
+		RenderSystem.enableCull();
+		RenderSystem.popMatrix();
 	}
 
 	public static void renderBoltBetween(Vec3d point1, Vec3d point2, double scale, double maxDeflection, int maxSegments, int color) {
 		Tessellator tessellator = Tessellator.getInstance();
 		Random random = new Random();
 
-		GlStateManager.disableTexture();
-		GlStateManager.disableLighting();
-		GlStateManager.enableBlend();
+		RenderSystem.disableTexture();
+		RenderSystem.disableLighting();
+		RenderSystem.enableBlend();
 		GLX.glMultiTexCoord2f(GLX.GL_TEXTURE1, 200, 200);
-		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+		RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 
 		double distance = point1.distanceTo(point2);
 		Vec3d dirVec = new Vec3d(point2.x - point1.x, point2.y - point1.y, point2.z - point1.z);
@@ -139,50 +142,50 @@ public class RenderGravity<T extends EntityGravity> extends EntityRenderer<T> {
 			drawBoltSegment(tessellator, vectors[i - 1], vectors[i], (float) rScale, color);
 		}
 
-		GlStateManager.disableBlend();
-		GlStateManager.enableLighting();
-		GlStateManager.enableTexture();
+		RenderSystem.disableBlend();
+		RenderSystem.enableLighting();
+		RenderSystem.enableTexture();
 	}
 
 	@Override
-	public void doRender(@Nonnull T entity, double x, double y, double z, float entityYaw, float partialTicks) {
-		GlStateManager.pushMatrix();
-		GlStateManager.disableCull();
-		GlStateManager.disableLighting();
-		GlStateManager.enableBlend();
-		GlStateManager.disableDepthTest();
+	public void func_225629_a_(@Nonnull T entity, @Nonnull String p_225629_2_, @Nonnull MatrixStack p_225629_3_, @Nonnull IRenderTypeBuffer p_225629_4_, int p_225629_5_) {
+		RenderSystem.pushMatrix();
+		RenderSystem.disableCull();
+		RenderSystem.disableLighting();
+		RenderSystem.enableBlend();
+		RenderSystem.disableDepthTest();
 		float alpha = entity.spinnyBoi >= 600 ? (entity.spinnyBoi - 600F) / 420F : 0F;
-		GlStateManager.color4f(0.5F, 0.5F, 0.5F, 1F);
-		GlStateManager.translated(x + 0.5F, y + 5.0F, z + 0.5F);
-		GlStateManager.rotatef(90F, 1.0F, 0.0F, 0.0F);
+		RenderSystem.color4f(0.5F, 0.5F, 0.5F, 1F);
+		RenderSystem.translated(x + 0.5F, y + 5.0F, z + 0.5F);
+		RenderSystem.rotatef(90F, 1.0F, 0.0F, 0.0F);
 		float s = Math.min(entity.spinnyBoi / 180F, 1F);
-		GlStateManager.scalef(s, s, s);
-		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.SRC_ALPHA);
+		RenderSystem.scalef(s, s, s);
+		RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.SRC_ALPHA);
 
-		GlStateManager.pushMatrix();
+		RenderSystem.pushMatrix();
 		bindTexture(TEXTURE);
 		//		SPHERE.setTextureFlag(true); TODO
-		GlStateManager.rotatef((entity.spinnyBoi += Minecraft.getInstance().isGamePaused() ? 0 : (360F / (float) Minecraft.getDebugFPS())) % 360, 0, 0, 1);
-		GlStateManager.alphaFunc(GL11.GL_GREATER, alpha);
+		RenderSystem.rotatef((entity.spinnyBoi += Minecraft.getInstance().isGamePaused() ? 0 : (360F / (float) Minecraft.getDebugFPS())) % 360, 0, 0, 1);
+		RenderSystem.alphaFunc(GL11.GL_GREATER, alpha);
 		renderSphere(4F);
-		GlStateManager.color4f(0.5F, 0.75F, 0.75F, 1F);
+		RenderSystem.color4f(0.5F, 0.75F, 0.75F, 1F);
 		renderSphere(1F);
-		GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
-		GlStateManager.rotatef(-entity.spinnyBoi % 360, 0, 0, 1);
+		RenderSystem.alphaFunc(GL11.GL_GREATER, 0.1F);
+		RenderSystem.rotatef(-entity.spinnyBoi % 360, 0, 0, 1);
 		float scale = 0.25F;
 		for (int i = 0; i <= 8; i++) {
 			Vec3d rot = new Vec3d(0.75F, 2.35F, 0).rotatePitch(((i * 30F)) % 360).rotateYaw(((i * 30F)) % 360);
 			rot.add(((float) i / 4F) - 1F, 0, ((float) i / 4F) - 1F);
 			renderBoltBetween(rot, new Vec3d(-rot.x * scale, -rot.y * scale, -rot.z * scale), 0.015f, 0.5f, 6, 0x77AAFF20);
 		}
-		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-		GlStateManager.popMatrix();
-		GlStateManager.color4f(1, 1, 1, 1);
-		GlStateManager.enableDepthTest();
-		GlStateManager.disableBlend();
-		GlStateManager.enableLighting();
-		GlStateManager.enableCull();
-		GlStateManager.popMatrix();
+		RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+		RenderSystem.popMatrix();
+		RenderSystem.color4f(1, 1, 1, 1);
+		RenderSystem.enableDepthTest();
+		RenderSystem.disableBlend();
+		RenderSystem.enableLighting();
+		RenderSystem.enableCull();
+		RenderSystem.popMatrix();
 	}
 
 	@Override

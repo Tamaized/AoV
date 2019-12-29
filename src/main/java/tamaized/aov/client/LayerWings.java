@@ -36,7 +36,7 @@ public class LayerWings extends LayerRenderer<AbstractClientPlayerEntity, Player
 		if (cap == null || cap.getLeapDuration() <= 0)
 			return;
 		float perc = (float) cap.getLeapDuration() / (float) cap.getMaxLeapDuration();
-		GlStateManager.pushMatrix();
+		RenderSystem.pushMatrix();
 		{
 			Tessellator tess = Tessellator.getInstance();
 			BufferBuilder buffer = tess.getBuffer();
@@ -50,27 +50,27 @@ public class LayerWings extends LayerRenderer<AbstractClientPlayerEntity, Player
 					f1 = (perc - 0.8F) / 0.2F;
 
 				Random random = new Random(432L);
-				GlStateManager.disableTexture();
-				GlStateManager.shadeModel(7425);
-				GlStateManager.enableBlend();
-				GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-				GlStateManager.disableAlphaTest();
-				GlStateManager.enableCull();
-				GlStateManager.depthMask(false);
-				GlStateManager.pushMatrix();
+				RenderSystem.disableTexture();
+				RenderSystem.shadeModel(7425);
+				RenderSystem.enableBlend();
+				RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+				RenderSystem.disableAlphaTest();
+				RenderSystem.enableCull();
+				RenderSystem.depthMask(false);
+				RenderSystem.pushMatrix();
 
-				GlStateManager.translated(0.0F, 0.25F, 0.0F);
-				GlStateManager.rotatef(-MathHelper.func_219805_h(partialTicks, player.prevRenderYawOffset, player.renderYawOffset), 0, 1, 0);
+				RenderSystem.translated(0.0F, 0.25F, 0.0F);
+				RenderSystem.rotatef(-MathHelper.func_219805_h(partialTicks, player.prevRenderYawOffset, player.renderYawOffset), 0, 1, 0);
 				final float scale = 0.0625F;
-				GlStateManager.scalef(scale, scale, scale);
+				RenderSystem.scalef(scale, scale, scale);
 
 				for (int i = 0; (float) i < (perc + perc * perc) / 2.0F * 60.0F; ++i) {
-					GlStateManager.rotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
-					GlStateManager.rotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
-					GlStateManager.rotatef(random.nextFloat() * 360.0F, 0.0F, 0.0F, 1.0F);
-					GlStateManager.rotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
-					GlStateManager.rotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
-					GlStateManager.rotatef(random.nextFloat() * 360.0F + perc * 90.0F, 0.0F, 0.0F, 1.0F);
+					RenderSystem.rotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
+					RenderSystem.rotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
+					RenderSystem.rotatef(random.nextFloat() * 360.0F, 0.0F, 0.0F, 1.0F);
+					RenderSystem.rotatef(random.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
+					RenderSystem.rotatef(random.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
+					RenderSystem.rotatef(random.nextFloat() * 360.0F + perc * 90.0F, 0.0F, 0.0F, 1.0F);
 					float f2 = random.nextFloat() * 20.0F + 5.0F + f1 * 10.0F;
 					float f3 = random.nextFloat() * 2.0F + 1.0F + f1 * 2.0F;
 					buffer.begin(6, DefaultVertexFormats.POSITION_COLOR);
@@ -82,19 +82,19 @@ public class LayerWings extends LayerRenderer<AbstractClientPlayerEntity, Player
 					tess.draw();
 				}
 
-				GlStateManager.popMatrix();
-				GlStateManager.depthMask(true);
-				GlStateManager.disableCull();
-				GlStateManager.disableBlend();
-				GlStateManager.shadeModel(7424);
-				GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-				GlStateManager.enableTexture();
-				GlStateManager.enableAlphaTest();
+				RenderSystem.popMatrix();
+				RenderSystem.depthMask(true);
+				RenderSystem.disableCull();
+				RenderSystem.disableBlend();
+				RenderSystem.shadeModel(7424);
+				RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+				RenderSystem.enableTexture();
+				RenderSystem.enableAlphaTest();
 				RenderHelper.enableStandardItemLighting();
 			}
-			GlStateManager.enableBlend();
-			GlStateManager.disableCull();
-			GlStateManager.color4f(1F, 1F, 1F, perc);
+			RenderSystem.enableBlend();
+			RenderSystem.disableCull();
+			RenderSystem.color4f(1F, 1F, 1F, perc);
 
 			Minecraft.getInstance().textureManager.bindTexture(TEXTURE_WING);
 			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
@@ -118,19 +118,19 @@ public class LayerWings extends LayerRenderer<AbstractClientPlayerEntity, Player
 			buffer.pos(x2 + offset, y2, z2).tex(1, 1).endVertex();
 
 			if (flag) {
-				GlStateManager.disableLighting();
-				GlStateManager.blendFunc(GL11.GL_ONE, GL11.GL_ONE);
+				RenderSystem.disableLighting();
+				RenderSystem.blendFunc(GL11.GL_ONE, GL11.GL_ONE);
 			}
 			tess.draw();
 			if (flag) {
-				GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-				GlStateManager.enableLighting();
+				RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+				RenderSystem.enableLighting();
 			}
-			GlStateManager.enableCull();
-			GlStateManager.disableBlend();
-			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+			RenderSystem.enableCull();
+			RenderSystem.disableBlend();
+			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		}
-		GlStateManager.popMatrix();
+		RenderSystem.popMatrix();
 		IPolymorphCapability poly = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
 		RenderPlayer.enableStencils(poly);
 	}

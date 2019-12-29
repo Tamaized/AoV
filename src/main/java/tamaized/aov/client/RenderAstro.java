@@ -33,18 +33,18 @@ public class RenderAstro {
 		if (cap == null)
 			return;
 
-		GlStateManager.pushMatrix();
-		GlStateManager.translated(e.getX(), e.getY(), e.getZ());
+		RenderSystem.pushMatrix();
+		RenderSystem.translated(e.getX(), e.getY(), e.getZ());
 		AstroCapabilityHandler handler = cap instanceof AstroCapabilityHandler ? (AstroCapabilityHandler) cap : null;
 
 
-		/*GlStateManager.pushMatrix();
-		GlStateManager.disableLighting();
-		GlStateManager.enableBlend();
-		GlStateManager.disableCull();
-		GlStateManager.color4f(0, 0.6F, 1, 1.0F);
-		GlStateManager.rotatef(90F, 1.0F, 0.0F, 0.0F);
-		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.SRC_ALPHA);
+		/*RenderSystem.pushMatrix();
+		RenderSystem.disableLighting();
+		RenderSystem.enableBlend();
+		RenderSystem.disableCull();
+		RenderSystem.color4f(0, 0.6F, 1, 1.0F);
+		RenderSystem.rotatef(90F, 1.0F, 0.0F, 0.0F);
+		RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.SRC_ALPHA);
 
 		e.getRenderer().bindTexture(RenderCombust.RING);
 		Tessellator tess = Tessellator.getInstance();
@@ -56,16 +56,16 @@ public class RenderAstro {
 		buf.pos(0, 0, 0).tex(0, 0).endVertex();
 		buf.pos(0, 1, 0).tex(0, 1).endVertex();
 
-		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-		GlStateManager.disableDepthTest();
+		RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+		RenderSystem.disableDepthTest();
 		tess.draw();
-		GlStateManager.enableDepthTest();
+		RenderSystem.enableDepthTest();
 
-		GlStateManager.color4f(1, 1, 1, 1);
-		GlStateManager.enableCull();
-		GlStateManager.disableBlend();
-		GlStateManager.enableLighting();
-		GlStateManager.popMatrix();*/
+		RenderSystem.color4f(1, 1, 1, 1);
+		RenderSystem.enableCull();
+		RenderSystem.disableBlend();
+		RenderSystem.enableLighting();
+		RenderSystem.popMatrix();*/
 
 		for (IAstroCapability.IAnimation animation : cap.getAnimations())
 			if (animation != null)
@@ -88,8 +88,8 @@ public class RenderAstro {
 					default:
 						break;
 				}
-		GlStateManager.color4f(1, 1, 1, 1);
-		GlStateManager.popMatrix();
+		RenderSystem.color4f(1, 1, 1, 1);
+		RenderSystem.popMatrix();
 	}
 
 	@SubscribeEvent
@@ -140,21 +140,21 @@ public class RenderAstro {
 	private static void renderRedraw(int index, RenderPlayerEvent.Post e, IAstroCapability cap) {
 		float timer = cap.getFrameData()[index][3];
 		if (timer > 0) {
-			GlStateManager.pushMatrix();
-			GlStateManager.disableCull();
-			GlStateManager.disableLighting();
-			GlStateManager.enableBlend();
-			GlStateManager.rotatef(-e.getEntityPlayer().renderYawOffset, 0, 1, 0);
+			RenderSystem.pushMatrix();
+			RenderSystem.disableCull();
+			RenderSystem.disableLighting();
+			RenderSystem.enableBlend();
+			RenderSystem.rotatef(-e.getEntityPlayer().renderYawOffset, 0, 1, 0);
 
-			GlStateManager.color4f(1, 1, 1, 1);
-			GlStateManager.translated(0F, 1.5F, 1F);
+			RenderSystem.color4f(1, 1, 1, 1);
+			RenderSystem.translated(0F, 1.5F, 1F);
 			if (!Minecraft.getInstance().isGamePaused() && cap.getFrameData()[index][0] > 0)
 				cap.getFrameData()[index][0] -= (240F / (float) Minecraft.getDebugFPS());
-			GlStateManager.rotatef(cap.getFrameData()[index][0] % 360, 0, 0, 1);
+			RenderSystem.rotatef(cap.getFrameData()[index][0] % 360, 0, 0, 1);
 			if (!Minecraft.getInstance().isGamePaused() && cap.getFrameData()[index][1] > 0)
 				cap.getFrameData()[index][1] -= (120F / (float) Minecraft.getDebugFPS());
 			float s = (80F - cap.getFrameData()[index][1]) / 80F;
-			GlStateManager.scalef(s, s, s);
+			RenderSystem.scalef(s, s, s);
 			float f = 1.5F;//ftimer > 0 ? ((ftimer / 80f) * 1.5F) : 0F;
 			float scale = 0.3F;
 
@@ -162,7 +162,7 @@ public class RenderAstro {
 			Tessellator tessellator = Tessellator.getInstance();
 			BufferBuilder vertexbuffer = tessellator.getBuffer();
 
-			GlStateManager.pushMatrix();
+			RenderSystem.pushMatrix();
 			if (!Minecraft.getInstance().isGamePaused() && cap.getFrameData()[index][0] <= 0)
 				cap.getFrameData()[index][4] -= (60F / (float) Minecraft.getDebugFPS());
 			if (!Minecraft.getInstance().isGamePaused() && cap.getFrameData()[index][4] <= 0)
@@ -170,7 +170,7 @@ public class RenderAstro {
 			for (int i = 0; i <= 12; i++) {
 				vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 				if (i > 0)
-					GlStateManager.rotatef(30, 0, 0, 1);
+					RenderSystem.rotatef(30, 0, 0, 1);
 				float xpos = -0.15F;
 				float ypos = -0.435F;
 				float uScale = 125F / 12F;
@@ -181,24 +181,24 @@ public class RenderAstro {
 				vertexbuffer.pos(xpos + (scale * u), ypos + 1F, 0).tex(0.25 * (1F - u), 0.5).endVertex();
 				tessellator.draw();
 			}
-			GlStateManager.popMatrix();
-			GlStateManager.disableBlend();
-			GlStateManager.enableLighting();
-			GlStateManager.enableCull();
-			GlStateManager.popMatrix();
+			RenderSystem.popMatrix();
+			RenderSystem.disableBlend();
+			RenderSystem.enableLighting();
+			RenderSystem.enableCull();
+			RenderSystem.popMatrix();
 		}
 	}
 
 	private static void renderBurn(int index, RenderPlayerEvent.Post e, IAstroCapability cap) {
 		float timer = cap.getFrameData()[index][3];
 		if (timer > 0) {
-			GlStateManager.pushMatrix();
-			GlStateManager.disableCull();
-			GlStateManager.disableLighting();
-			GlStateManager.enableBlend();
-			GlStateManager.rotatef(180F - e.getRenderer().getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
+			RenderSystem.pushMatrix();
+			RenderSystem.disableCull();
+			RenderSystem.disableLighting();
+			RenderSystem.enableBlend();
+			RenderSystem.rotatef(180F - e.getRenderer().getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
 
-			GlStateManager.translated(-0.125F, 0.5F + MathHelper.cos((float) Math.toRadians(cap.getFrameData()[index][1])), -0.125F);
+			RenderSystem.translated(-0.125F, 0.5F + MathHelper.cos((float) Math.toRadians(cap.getFrameData()[index][1])), -0.125F);
 			cap.getFrameData()[index][1] = Math.max(0, cap.getFrameData()[index][1] - ((240F * (cap.getFrameData()[index][1] / 90F)) / (float) Minecraft.getDebugFPS()));
 
 			float ftimer = cap.getFrameData()[index][0];
@@ -218,29 +218,29 @@ public class RenderAstro {
 			vertexbuffer.pos(0, 1F, 0.0001).tex(0.25, 0.5).endVertex();
 
 			tessellator.draw();
-			GlStateManager.disableBlend();
-			GlStateManager.enableLighting();
-			GlStateManager.enableCull();
-			GlStateManager.popMatrix();
+			RenderSystem.disableBlend();
+			RenderSystem.enableLighting();
+			RenderSystem.enableCull();
+			RenderSystem.popMatrix();
 		}
 	}
 
 	private static void renderDraw(int index, RenderPlayerEvent.Post e, IAstroCapability cap, IAstroCapability.ICard card) {
 		float timer = cap.getFrameData()[index][3];
 		if (timer > 0) {
-			GlStateManager.pushMatrix();
-			GlStateManager.disableCull();
-			GlStateManager.disableLighting();
-			GlStateManager.enableBlend();
-			GlStateManager.rotatef((180F + cap.getFrameData()[index][2] - e.getRenderer().getRenderManager().playerViewY), 0.0F, 1.0F, 0.0F);
+			RenderSystem.pushMatrix();
+			RenderSystem.disableCull();
+			RenderSystem.disableLighting();
+			RenderSystem.enableBlend();
+			RenderSystem.rotatef((180F + cap.getFrameData()[index][2] - e.getRenderer().getRenderManager().playerViewY), 0.0F, 1.0F, 0.0F);
 			if (timer < 60 && !Minecraft.getInstance().isGamePaused() && cap.getFrameData()[index][2] > 0) {
 				cap.getFrameData()[index][2] = Math.max(0, cap.getFrameData()[index][2] - (240F / (float) Minecraft.getDebugFPS()));
 			}
-			GlStateManager.translated(-0.5F, 1.0F, 0);
+			RenderSystem.translated(-0.5F, 1.0F, 0);
 			if (timer < 90 && !Minecraft.getInstance().isGamePaused() && cap.getFrameData()[index][1] > 0) {
 				cap.getFrameData()[index][1] = Math.max(0, cap.getFrameData()[index][1] - (160F / (float) Minecraft.getDebugFPS()));
 			}
-			GlStateManager.color4f(1.0F, 1.0F, 1.0F, (80F - cap.getFrameData()[index][1]) / 80F);
+			RenderSystem.color4f(1.0F, 1.0F, 1.0F, (80F - cap.getFrameData()[index][1]) / 80F);
 			float ftimer = cap.getFrameData()[index][0];
 			if (cap.getFrameData()[index][0] > 0 && !Minecraft.getInstance().isGamePaused() && timer < 25)
 				cap.getFrameData()[index][0] = Math.max(0, cap.getFrameData()[index][0] - (240F / (float) Minecraft.getDebugFPS()));
@@ -265,29 +265,29 @@ public class RenderAstro {
 			vertexbuffer.pos(0, 1, 0).tex(0.25 + (0.25 * cardID % 4), 0.5F + uv).endVertex();
 
 			tessellator.draw();
-			GlStateManager.disableBlend();
-			GlStateManager.enableLighting();
-			GlStateManager.enableCull();
-			GlStateManager.popMatrix();
+			RenderSystem.disableBlend();
+			RenderSystem.enableLighting();
+			RenderSystem.enableCull();
+			RenderSystem.popMatrix();
 		}
 	}
 
 	private static void renderSpread(int index, RenderPlayerEvent.Post e, IAstroCapability cap, IAstroCapability.ICard card) {
-		GlStateManager.pushMatrix();
-		GlStateManager.enableBlend();
-		GlStateManager.disableCull();
-		GlStateManager.disableLighting();
-		GlStateManager.rotatef((90F - e.getRenderer().getRenderManager().playerViewY), 0.0F, 1.0F, 0.0F);
-		GlStateManager.translated(-0.2F, 2.2F, 0.05F);
-		GlStateManager.rotatef(25, 0, 0, 1);
-		GlStateManager.rotatef(60, 1, 0, 0);
+		RenderSystem.pushMatrix();
+		RenderSystem.enableBlend();
+		RenderSystem.disableCull();
+		RenderSystem.disableLighting();
+		RenderSystem.rotatef((90F - e.getRenderer().getRenderManager().playerViewY), 0.0F, 1.0F, 0.0F);
+		RenderSystem.translated(-0.2F, 2.2F, 0.05F);
+		RenderSystem.rotatef(25, 0, 0, 1);
+		RenderSystem.rotatef(60, 1, 0, 0);
 		if (!Minecraft.getInstance().isGamePaused())
 			cap.getFrameData()[index][4] += (240F / (float) Minecraft.getDebugFPS()) % 360;
-		GlStateManager.rotatef(cap.getFrameData()[index][4], 0, 0, 1);
-		GlStateManager.translated(-1.45F, -1.55F, 0);
+		RenderSystem.rotatef(cap.getFrameData()[index][4], 0, 0, 1);
+		RenderSystem.translated(-1.45F, -1.55F, 0);
 		if (!Minecraft.getInstance().isGamePaused())
 			cap.getFrameData()[index][5] += (cap.getFrameData()[index][5] >= 90 && cap.getFrameData()[index][3] > 35 ? 0 : 60F) / (float) Minecraft.getDebugFPS();
-		GlStateManager.color4f(1, 1, 1, MathHelper.sin((float) Math.toRadians(Math.min(cap.getFrameData()[index][5], 180))));
+		RenderSystem.color4f(1, 1, 1, MathHelper.sin((float) Math.toRadians(Math.min(cap.getFrameData()[index][5], 180))));
 
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder vertexbuffer = tessellator.getBuffer();
@@ -300,9 +300,9 @@ public class RenderAstro {
 		vertexbuffer.pos(0, 3, 0).tex(1, 0).endVertex();
 
 		tessellator.draw();
-		GlStateManager.enableCull();
-		GlStateManager.disableBlend();
-		GlStateManager.popMatrix();
+		RenderSystem.enableCull();
+		RenderSystem.disableBlend();
+		RenderSystem.popMatrix();
 		renderDraw(index, e, cap, card);
 	}
 

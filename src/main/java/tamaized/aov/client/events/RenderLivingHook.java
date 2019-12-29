@@ -22,13 +22,13 @@ public class RenderLivingHook {
 	public static void render(RenderLivingEvent.Pre<? extends LivingEntity, ? extends EntityModel<?>> e) {
 		if (e.getEntity() != ClientHelpers.getTarget())
 			return;
-		GlStateManager.pushMatrix();
+		RenderSystem.pushMatrix();
 		{
-			GlStateManager.translated(e.getX(), e.getY() + (e.getEntity().isSneaking() ? 0.1F : 0F), e.getZ());
-			GlStateManager.disableTexture();
-			GlStateManager.enableBlend();
-			GlStateManager.disableCull();
-			GlStateManager.disableLighting();
+			RenderSystem.translated(e.getX(), e.getY() + (e.getEntity().isSneaking() ? 0.1F : 0F), e.getZ());
+			RenderSystem.disableTexture();
+			RenderSystem.enableBlend();
+			RenderSystem.disableCull();
+			RenderSystem.disableLighting();
 
 			Tessellator tessellator = Tessellator.getInstance();
 			BufferBuilder buffer = tessellator.getBuffer();
@@ -38,27 +38,27 @@ public class RenderLivingHook {
 			float r = 2F;
 			float width = e.getEntity().getWidth();
 			drawArc(buffer, segs, r, 1, segs / 2 - 1, 0.4F * width, 0.41F * width);
-			GlStateManager.pushMatrix();
+			RenderSystem.pushMatrix();
 			{
-				GlStateManager.rotatef(-((e.getEntity().ticksExisted + e.getPartialRenderTick()) % 360) * 16F, 0, 1, 0);
+				RenderSystem.rotatef(-((e.getEntity().ticksExisted + e.getPartialRenderTick()) % 360) * 16F, 0, 1, 0);
 				tessellator.draw();
 			}
-			GlStateManager.popMatrix();
+			RenderSystem.popMatrix();
 			buffer.begin(GL11.GL_QUAD_STRIP, DefaultVertexFormats.POSITION_COLOR);
 			drawArc(buffer, segs, r, 1, segs / 2 - 1, 0.5F * width, 0.51F * width);
-			GlStateManager.pushMatrix();
+			RenderSystem.pushMatrix();
 			{
-				GlStateManager.rotatef(180 + ((e.getEntity().ticksExisted + e.getPartialRenderTick()) % 360) * 16F, 0, 1, 0);
+				RenderSystem.rotatef(180 + ((e.getEntity().ticksExisted + e.getPartialRenderTick()) % 360) * 16F, 0, 1, 0);
 				tessellator.draw();
 			}
-			GlStateManager.popMatrix();
+			RenderSystem.popMatrix();
 
-			GlStateManager.enableLighting();
-			GlStateManager.enableCull();
-			GlStateManager.disableBlend();
-			GlStateManager.enableTexture();
+			RenderSystem.enableLighting();
+			RenderSystem.enableCull();
+			RenderSystem.disableBlend();
+			RenderSystem.enableTexture();
 		}
-		GlStateManager.popMatrix();
+		RenderSystem.popMatrix();
 	}
 
 	private static void drawArc(BufferBuilder buffer, int segs, float radius, int start, int end, float inner, float outer) {

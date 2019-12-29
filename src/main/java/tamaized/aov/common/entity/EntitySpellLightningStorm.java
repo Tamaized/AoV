@@ -2,6 +2,7 @@ package tamaized.aov.common.entity;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
@@ -132,7 +133,7 @@ public class EntitySpellLightningStorm extends Entity {
 				alpha += (life < maxLife / 2F ? -1 : 1) * partialTicks * (1F / (maxLife / 2F));
 				alpha = MathHelper.clamp(alpha, 0, 1);
 			}
-			GlStateManager.pushMatrix();
+			RenderSystem.pushMatrix();
 			Tessellator tessellator = Tessellator.getInstance();
 			BufferBuilder buffer = tessellator.getBuffer();
 			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL);
@@ -142,11 +143,11 @@ public class EntitySpellLightningStorm extends Entity {
 				double y = oy - height / 2F + offset.y;
 				double z = oz + offset.z;
 
-				GlStateManager.translated(ox, oy, oz);
-				GlStateManager.rotatef(180.0F - renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-				GlStateManager.rotatef((float) (renderManager.options.thirdPersonView == 2 ? -1 : 1) * -renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-				GlStateManager.rotatef(rot, 0F, 0F, 1F);
-				GlStateManager.translated(-ox, -oy, -oz);
+				RenderSystem.translated(ox, oy, oz);
+				RenderSystem.rotatef(180.0F - renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+				RenderSystem.rotatef((float) (renderManager.options.thirdPersonView == 2 ? -1 : 1) * -renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+				RenderSystem.rotatef(rot, 0F, 0F, 1F);
+				RenderSystem.translated(-ox, -oy, -oz);
 
 				buffer.pos(x, y, z).tex(0, 0).color(0.45F, 0.45F, 0.45F, alpha).normal(0F, 1F, 0F).endVertex();
 				buffer.pos(x + width, y, z).tex(1, 0).color(0.45F, 0.45F, 0.45F, alpha).normal(0F, 1F, 0F).endVertex();
@@ -155,7 +156,7 @@ public class EntitySpellLightningStorm extends Entity {
 
 			}
 			tessellator.draw();
-			GlStateManager.popMatrix();
+			RenderSystem.popMatrix();
 			return life <= 0;
 		}
 

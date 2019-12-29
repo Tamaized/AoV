@@ -57,9 +57,9 @@ public class FloatyTextOverlay extends AbstractGui {
 		MainWindow window = Minecraft.getInstance().mainWindow;
 		int sW = window.getScaledWidth() / 2;
 
-		GlStateManager.pushMatrix();
+		RenderSystem.pushMatrix();
 		{
-			GlStateManager.scalef(0.5F, 0.5F, 0F);
+			RenderSystem.scalef(0.5F, 0.5F, 0F);
 			for (int i = 0; i <= 5; i++) {
 				FloatyText ft = floatyText[i];
 				if (ft == null)
@@ -68,7 +68,7 @@ public class FloatyTextOverlay extends AbstractGui {
 			}
 
 		}
-		GlStateManager.popMatrix();
+		RenderSystem.popMatrix();
 
 	}
 

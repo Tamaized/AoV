@@ -1,7 +1,10 @@
 package tamaized.aov.client.entity;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -11,6 +14,8 @@ import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import tamaized.aov.common.entity.EntitySpellBladeBarrier;
+
+import javax.annotation.Nonnull;
 
 public class RenderSpellBladeBarrier<T extends EntitySpellBladeBarrier> extends EntityRenderer<T> {
 
@@ -25,30 +30,30 @@ public class RenderSpellBladeBarrier<T extends EntitySpellBladeBarrier> extends 
 	}
 
 	@Override
-	public void doRender(T entity, double x, double y, double z, float entityYaw, float ticks) {
+	public void func_225629_a_(@Nonnull T entity, @Nonnull String p_225629_2_, @Nonnull MatrixStack p_225629_3_, @Nonnull IRenderTypeBuffer p_225629_4_, int p_225629_5_) {
 		World world = entity.world;
 		if (world == null)
 			return;
 		bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
-		GlStateManager.pushMatrix();
+		RenderSystem.pushMatrix();
 		{
-			GlStateManager.translated(x, y + 1, z);
+			RenderSystem.translated(x, y + 1, z);
 			int t = entity.ticksExisted * 10;
-			GlStateManager.pushMatrix();
+			RenderSystem.pushMatrix();
 			{
-				GlStateManager.translated(0, 0.5, 0);
-				GlStateManager.rotatef(-(t > 0 ? t % 360 : 0), 0, 1, 0);
+				RenderSystem.translated(0, 0.5, 0);
+				RenderSystem.rotatef(-(t > 0 ? t % 360 : 0), 0, 1, 0);
 				drawRing(entity);
 			}
-			GlStateManager.popMatrix();
-			GlStateManager.pushMatrix();
+			RenderSystem.popMatrix();
+			RenderSystem.pushMatrix();
 			{
-				GlStateManager.rotatef((t > 0 ? t % 360 : 0), 0, 1, 0);
+				RenderSystem.rotatef((t > 0 ? t % 360 : 0), 0, 1, 0);
 				drawRing(entity);
 			}
-			GlStateManager.popMatrix();
+			RenderSystem.popMatrix();
 		}
-		GlStateManager.popMatrix();
+		RenderSystem.popMatrix();
 	}
 
 	@Override
@@ -59,14 +64,14 @@ public class RenderSpellBladeBarrier<T extends EntitySpellBladeBarrier> extends 
 	private void drawRing(T entity) {
 		ItemRenderer itemRender = Minecraft.getInstance().getItemRenderer();
 		for (int r = 0; r <= entity.getRange() + 1; r++) {
-			GlStateManager.pushMatrix();
+			RenderSystem.pushMatrix();
 			{
-				GlStateManager.translated(Math.cos(r) * entity.getRange(), 0, Math.sin(r) * entity.getRange());
-				GlStateManager.rotatef(60, 1, 0, 0);
+				RenderSystem.translated(Math.cos(r) * entity.getRange(), 0, Math.sin(r) * entity.getRange());
+				RenderSystem.rotatef(60, 1, 0, 0);
 				ItemStack stack = getSword(r == 0 ? 0 : r % 5);
 				itemRender.renderItem(stack, itemRender.getItemModelWithOverrides(stack, entity.world, null));
 			}
-			GlStateManager.popMatrix();
+			RenderSystem.popMatrix();
 		}
 	}
 

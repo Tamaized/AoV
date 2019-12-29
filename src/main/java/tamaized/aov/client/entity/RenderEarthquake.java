@@ -1,9 +1,12 @@
 package tamaized.aov.client.entity;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -35,11 +38,11 @@ public class RenderEarthquake extends EntityRenderer<EntityEarthquake> {
 
 	// [Vanilla Copy] Render#renderShadow
 	private static void renderShadow(EntityRendererManager renderManager, Entity entityIn, double x, double y, double z, float shadowSize, float shadowAlpha, float partialTicks) {
-		GlStateManager.enableBlend();
-		GlStateManager.color4f(1F, 1F, 1F, 1F);
+		RenderSystem.enableBlend();
+		RenderSystem.color4f(1F, 1F, 1F, 1F);
 		renderManager.textureManager.bindTexture(SHADOW_TEXTURES);
 		IWorldReader iworldreader = renderManager.world;
-		GlStateManager.depthMask(false);
+		RenderSystem.depthMask(false);
 		float f = shadowSize;
 		if (entityIn instanceof MobEntity) {
 			MobEntity mobentity = (MobEntity) entityIn;
@@ -73,9 +76,9 @@ public class RenderEarthquake extends EntityRenderer<EntityEarthquake> {
 		}
 
 		tessellator.draw();
-		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-		GlStateManager.disableBlend();
-		GlStateManager.depthMask(true);
+		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.disableBlend();
+		RenderSystem.depthMask(true);
 	}
 
 	// [Vanilla Copy] Render#renderShadowSingle
@@ -112,15 +115,15 @@ public class RenderEarthquake extends EntityRenderer<EntityEarthquake> {
 	}
 
 	@Override
-	public void doRender(@Nonnull EntityEarthquake entity, double x, double y, double z, float entityYaw, float partialTicks) {
+	public void func_225629_a_(@Nonnull T entity, @Nonnull String p_225629_2_, @Nonnull MatrixStack p_225629_3_, @Nonnull IRenderTypeBuffer p_225629_4_, int p_225629_5_) {
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 		renderMask(entity, x, y, z, partialTicks);
 		renderQuakes(entity, x, y, z, partialTicks);
 	}
 
 	private void renderMask(@Nonnull EntityEarthquake entity, double x, double y, double z, float partialTicks) {
-		GlStateManager.enableBlend();
-		GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.SRC_COLOR, GlStateManager.DestFactor.ZERO);
+		RenderSystem.enableBlend();
+		RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.SRC_COLOR, GlStateManager.DestFactor.ZERO);
 		GL11.glEnable(GL11.GL_STENCIL_TEST);
 		GL11.glStencilMask(0xFF);
 		GL11.glStencilFunc(GL11.GL_ALWAYS, AoV.config_client.stencil.get() + 6, 0xFF);
@@ -131,8 +134,8 @@ public class RenderEarthquake extends EntityRenderer<EntityEarthquake> {
 		GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_KEEP);
 		GL11.glStencilMask(0x00);
 		GL11.glDisable(GL11.GL_STENCIL_TEST);
-		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GlStateManager.disableBlend();
+		RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		RenderSystem.disableBlend();
 	}
 
 	private void renderQuakes(@Nonnull EntityEarthquake entity, double x, double y, double z, float partialTicks) {
@@ -140,15 +143,15 @@ public class RenderEarthquake extends EntityRenderer<EntityEarthquake> {
 		GL11.glStencilFunc(GL11.GL_EQUAL, AoV.config_client.stencil.get() + 6, 0xFF);
 		{
 			bindTexture(TEXTURE);
-			GlStateManager.color4f(1F, 1F, 1F, 1F);
-			GlStateManager.enableBlend();
+			RenderSystem.color4f(1F, 1F, 1F, 1F);
+			RenderSystem.enableBlend();
 			AtomicReference<Float> offset = new AtomicReference<>(0F);
 			entity.quakes.removeIf(q -> q.render(entity, x, y + (offset.updateAndGet(v -> v + 0.0001F)), z, partialTicks));
 		}
 		GL11.glStencilMask(0x00);
 		GL11.glDisable(GL11.GL_STENCIL_TEST);
-		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GlStateManager.disableBlend();
+		RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		RenderSystem.disableBlend();
 	}
 
 	@Nullable

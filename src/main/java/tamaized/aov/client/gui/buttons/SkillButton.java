@@ -78,13 +78,13 @@ public class SkillButton extends Button {
 	@Override
 	public void render(int mouseX, int mouseY, float p_191745_4_) {
 		if (visible) {
-			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 			isHovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
-			GlStateManager.blendFuncSeparate(770, 771, 1, 0);
-			GlStateManager.blendFunc(770, 771);
+			RenderSystem.blendFuncSeparate(770, 771, 1, 0);
+			RenderSystem.blendFunc(770, 771);
 			// drawRect(x + width / 2, y, width / 2, height, 0xFFFFFFFF);
 			mouseDragged(mouseX, mouseY, 0, mouseX, mouseY);
-			GlStateManager.enableBlend();
+			RenderSystem.enableBlend();
 			int j = 0xFFFFFFBB;
 
 			if (packedFGColor != 0) {
@@ -102,7 +102,7 @@ public class SkillButton extends Button {
 			RenderUtils.setup(blitOffset);
 			RenderUtils.renderRect(x, y, width, height, false, j);
 			float alpha = ((float) (j & 0xFF)) / 255F;
-			GlStateManager.color4f(1.0f, 1.0f, 1.0f, alpha);
+			RenderSystem.color4f(1.0f, 1.0f, 1.0f, alpha);
 			AoVUIBar.renderHotbarIcon(null, 0, x + 1, y + 1, skill == null ? null : skill.getIcon(), false);
 		}
 	}

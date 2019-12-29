@@ -218,12 +218,12 @@ public class EntityEarthquake extends Entity {
 			buffer.pos(x + WIDTH, y, z).tex(1, 0).color(r, g, b, alpha).endVertex();
 			buffer.pos(x, y, z).tex(0, 0).color(r, g, b, alpha).endVertex();
 
-			GlStateManager.pushMatrix();
-			GlStateManager.translated(ox, oy, oz);
-			GlStateManager.rotatef(rot, 0, 1, 0);
-			GlStateManager.translated(-ox, -oy, -oz);
+			RenderSystem.pushMatrix();
+			RenderSystem.translated(ox, oy, oz);
+			RenderSystem.rotatef(rot, 0, 1, 0);
+			RenderSystem.translated(-ox, -oy, -oz);
 			Tessellator.getInstance().draw();
-			GlStateManager.popMatrix();
+			RenderSystem.popMatrix();
 
 			return false;
 		}

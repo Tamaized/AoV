@@ -1,8 +1,11 @@
 package tamaized.aov.client.entity;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -49,21 +52,21 @@ public class RenderSpellLightingStorm extends EntityRenderer<EntitySpellLightnin
 	}
 
 	@Override
-	public void doRender(@Nonnull EntitySpellLightningStorm entity, double x, double y, double z, float entityYaw, float partialTicks) {
+	public void func_225629_a_(@Nonnull T entity, @Nonnull String p_225629_2_, @Nonnull MatrixStack p_225629_3_, @Nonnull IRenderTypeBuffer p_225629_4_, int p_225629_5_) {
 		if (lastTick != entity.ticksExisted && entity.ticksExisted % nextCloud == 0) {
 			nextCloud = 10 + entity.world.rand.nextInt(20);
 			lastTick = entity.ticksExisted;
 			entity.clouds.add(new EntitySpellLightningStorm.Cloud());
 		}
-		GlStateManager.pushMatrix();
+		RenderSystem.pushMatrix();
 		renderRain(entity, partialTicks);
 		bindTexture(TEXTURE);
-		GlStateManager.enableBlend();
-		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-		GlStateManager.disableLighting();
-		GlStateManager.alphaFunc(GL11.GL_GREATER, 0.0F);
-		GlStateManager.depthMask(false);
-		GlStateManager.shadeModel(GL11.GL_SMOOTH);
+		RenderSystem.enableBlend();
+		RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+		RenderSystem.disableLighting();
+		RenderSystem.alphaFunc(GL11.GL_GREATER, 0.0F);
+		RenderSystem.depthMask(false);
+		RenderSystem.shadeModel(GL11.GL_SMOOTH);
 		entity.clouds.sort((o1, o2) -> {
 			boolean reverse = false;
 			Entity view = Minecraft.getInstance().getRenderViewEntity();
@@ -76,12 +79,12 @@ public class RenderSpellLightingStorm extends EntityRenderer<EntitySpellLightnin
 			return dist1 == dist2 ? 0 : reverse ? dist1 > dist2 ? 1 : -1 : dist1 > dist2 ? -1 : 1;
 		});
 		entity.clouds.removeIf(c -> c.render(entity, x, y, z, partialTicks, renderManager));
-		GlStateManager.shadeModel(GL11.GL_FLAT);
-		GlStateManager.depthMask(true);
-		GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
-		GlStateManager.enableLighting();
-		GlStateManager.disableBlend();
-		GlStateManager.popMatrix();
+		RenderSystem.shadeModel(GL11.GL_FLAT);
+		RenderSystem.depthMask(true);
+		RenderSystem.alphaFunc(GL11.GL_GREATER, 0.1F);
+		RenderSystem.enableLighting();
+		RenderSystem.disableBlend();
+		RenderSystem.popMatrix();
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 	}
 
@@ -104,11 +107,11 @@ public class RenderSpellLightingStorm extends EntityRenderer<EntitySpellLightnin
 		int k = MathHelper.floor(entity.posZ);
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
-		GlStateManager.disableCull();
-		GlStateManager.normal3f(0.0F, 1.0F, 0.0F);
-		GlStateManager.enableBlend();
-		GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-		GlStateManager.alphaFunc(516, 0.1F);
+		RenderSystem.disableCull();
+		RenderSystem.normal3f(0.0F, 1.0F, 0.0F);
+		RenderSystem.enableBlend();
+		RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+		RenderSystem.alphaFunc(516, 0.1F);
 		double d0 = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * (double) partialTicks;
 		double d1 = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double) partialTicks;
 		double d2 = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double) partialTicks;
@@ -121,7 +124,7 @@ public class RenderSpellLightingStorm extends EntityRenderer<EntitySpellLightnin
 
 		int j1 = -1;
 		bufferbuilder.setTranslation(-d0, -d1, -d2);
-		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
 		for (int z = k - i1; z <= k + i1; ++z) {
@@ -182,8 +185,8 @@ public class RenderSpellLightingStorm extends EntityRenderer<EntitySpellLightnin
 			tessellator.draw();
 
 		bufferbuilder.setTranslation(0.0D, 0.0D, 0.0D);
-		GlStateManager.enableCull();
-		GlStateManager.disableBlend();
-		GlStateManager.alphaFunc(516, 0.1F);
+		RenderSystem.enableCull();
+		RenderSystem.disableBlend();
+		RenderSystem.alphaFunc(516, 0.1F);
 	}
 }

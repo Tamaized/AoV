@@ -99,31 +99,31 @@ public class SpellBookGUI extends GuiScreenClose {
 		IAoVCapability cap = CapabilityList.getCap(minecraft.player, CapabilityList.AOV);
 		MainWindow sr = minecraft.mainWindow;
 		float alpha = 1.0f;
-		GlStateManager.color4f(1.0F, 1.0F, 1.0F, alpha);
+		RenderSystem.color4f(1.0F, 1.0F, 1.0F, alpha);
 		minecraft.getTextureManager().bindTexture(AoVUIBar.widgetsTexPath);
 		int i = sr.getScaledWidth() / 2;
 		RenderUtils.setup(blitOffset);
 		RenderUtils.renderRect(i - 91, sr.getScaledHeight() - 50, 182, 22, 0, 0, 182F / 256F, 22F / 256F);
-		GlStateManager.enableRescaleNormal();
-		GlStateManager.enableBlend();
-		GlStateManager.blendFuncSeparate(770, 771, 1, 0);
+		RenderSystem.enableRescaleNormal();
+		RenderSystem.enableBlend();
+		RenderSystem.blendFuncSeparate(770, 771, 1, 0);
 		RenderHelper.enableGUIStandardItemLighting();
-		GlStateManager.pushMatrix();
-		GlStateManager.translated(0.01f, 0, 0);
-		GlStateManager.translated(-20.01f, 0, 0);
+		RenderSystem.pushMatrix();
+		RenderSystem.translated(0.01f, 0, 0);
+		RenderSystem.translated(-20.01f, 0, 0);
 		for (int j = 0; j < 9; ++j) {
-			GlStateManager.translated(20.01f, 0, 0);
+			RenderSystem.translated(20.01f, 0, 0);
 			if (cap == null || cap.getSlot(j) == null)
 				continue;
 			int k = sr.getScaledWidth() / 2 - 90 + 2;
 			int l = sr.getScaledHeight() - 47;
-			GlStateManager.color4f(1.0F, 1.0F, 1.0F, alpha);
+			RenderSystem.color4f(1.0F, 1.0F, 1.0F, alpha);
 			AoVUIBar.renderHotbarIcon(null, j, k, l, cap.getSlot(j).getAbility().getIcon(), (cap.getSlot(j).getAbility() instanceof InvokeMass) && cap.getInvokeMass());
 		}
-		GlStateManager.popMatrix();
+		RenderSystem.popMatrix();
 		RenderHelper.disableStandardItemLighting();
-		GlStateManager.disableRescaleNormal();
-		GlStateManager.disableBlend();
+		RenderSystem.disableRescaleNormal();
+		RenderSystem.disableBlend();
 	}
 
 	private void sendPacketTypeRemoveSlot(int slot) {

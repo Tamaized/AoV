@@ -141,11 +141,11 @@ public class AoVSkillsGUI extends GuiScreenClose {
 		drawString(font, I18n.format("aov.gui.skills.level"), width - 40, 5, 0xFFFFFF00);
 		drawString(font, "" + (cap == null ? "null" : cap.getLevel()), width - 40, 15, 0xFFFFFF00);
 
-		GlStateManager.enableBlend();
+		RenderSystem.enableBlend();
 		RenderUtils.setup(blitOffset);
 		RenderUtils.renderRect(width / 2F - 66, height - 215, 126, 188, false, 0x00000088);
 		super.render(mouseX, mouseY, partialTicks);
-		GlStateManager.disableBlend();
+		RenderSystem.disableBlend();
 
 		if (mouseX != lastMx || mouseY != lastMy) {
 			boolean flag = true;
@@ -186,12 +186,12 @@ public class AoVSkillsGUI extends GuiScreenClose {
 			if (this.visible) {
 				FontRenderer font = mc.fontRenderer;
 				mc.getTextureManager().bindTexture(TEXTURE);
-				GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+				RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 				this.isHovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
 				int i = this.getYImage(isHovered());
-				GlStateManager.enableBlend();
-				GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-				GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+				RenderSystem.enableBlend();
+				RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+				RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 				Tessellator tessellator = Tessellator.getInstance();
 				BufferBuilder bufferbuilder = tessellator.getBuffer();
 				bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);

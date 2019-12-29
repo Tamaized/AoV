@@ -78,18 +78,18 @@ public class AoVOverlay {
 		float f2 = (float) (color & 255) / 255.0F;
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
-		GlStateManager.enableBlend();
-		GlStateManager.disableTexture();
-		GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-		GlStateManager.color4f(f, f1, f2, f3);
+		RenderSystem.enableBlend();
+		RenderSystem.disableTexture();
+		RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+		RenderSystem.color4f(f, f1, f2, f3);
 		bufferbuilder.begin(7, DefaultVertexFormats.POSITION);
 		bufferbuilder.pos((double) left, (double) bottom, 0.0D).endVertex();
 		bufferbuilder.pos((double) right, (double) bottom, 0.0D).endVertex();
 		bufferbuilder.pos((double) right, (double) top, 0.0D).endVertex();
 		bufferbuilder.pos((double) left, (double) top, 0.0D).endVertex();
 		tessellator.draw();
-		GlStateManager.enableTexture();
-		GlStateManager.disableBlend();
+		RenderSystem.enableTexture();
+		RenderSystem.disableBlend();
 	}
 
 	@SubscribeEvent
@@ -101,7 +101,7 @@ public class AoVOverlay {
 					e.setCanceled(true);
 					float perc = poly.getAttackCooldown() / poly.getInitalAttackCooldown();
 					if (perc > 0F) {
-						GlStateManager.pushMatrix();
+						RenderSystem.pushMatrix();
 						{
 							Tessellator tessellator = Tessellator.getInstance();
 							BufferBuilder buffer = tessellator.getBuffer();
@@ -123,7 +123,7 @@ public class AoVOverlay {
 							mc.textureManager.bindTexture(TEXTURE_DOGGO);
 							tessellator.draw();
 						}
-						GlStateManager.popMatrix();
+						RenderSystem.popMatrix();
 					}
 				}
 			}
@@ -152,9 +152,9 @@ public class AoVOverlay {
 					buffer.pos(resolution.getScaledWidth(), resolution.getScaledHeight(), 0).tex(1, 1).color(r, g, b, a).endVertex();
 					buffer.pos(resolution.getScaledWidth(), 0, 0).tex(1, 0).color(r, g, b, a).endVertex();
 					buffer.pos(0, 0, 0).tex(0, 0).color(r, g, b, a).endVertex();
-					GlStateManager.enableBlend();
+					RenderSystem.enableBlend();
 					tessellator.draw();
-					GlStateManager.disableBlend();
+					RenderSystem.disableBlend();
 				}
 			}
 		}
@@ -171,10 +171,10 @@ public class AoVOverlay {
 
 		if (cap != null && cap.hasCoreSkill()) {
 			if (ClientHelpers.barToggle) {
-				GlStateManager.pushMatrix();
+				RenderSystem.pushMatrix();
 				{
 					if (AoV.config_client.renderBarOverHotbar.get())
-						GlStateManager.translated(0, sr.getScaledHeight() - 23, 0);
+						RenderSystem.translated(0, sr.getScaledHeight() - 23, 0);
 					for (int i = 0; i < 9; i++) {
 						float x = sW - 90F + (20F * (float) i);
 						float y = ClientTicker.charges.getValue(i);
@@ -189,7 +189,7 @@ public class AoVOverlay {
 						renderCharges(x + (AoV.config_client.renderBarOverHotbar.get() ? 0 : AoV.config_client.ELEMENT_POSITIONS.spellbar_x.get()), y + (AoV.config_client.renderBarOverHotbar.get() ? 0 : AoV.config_client.ELEMENT_POSITIONS.spellbar_y.get()), fontRender, cap, i);
 					}
 				}
-				GlStateManager.popMatrix();
+				RenderSystem.popMatrix();
 			}
 
 			AoVUIBar.render(AoV.config_client.ELEMENT_POSITIONS.spellbar_x.get(), AoV.config_client.ELEMENT_POSITIONS.spellbar_y.get());
@@ -251,10 +251,10 @@ public class AoVOverlay {
 			float u = 1F / (scale / w);
 			float v = 1F / (scale / h);
 			resolution.loadGUIRenderMatrix(Minecraft.IS_RUNNING_ON_MAC);
-			GlStateManager.enableBlend();
-			GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-			GlStateManager.shadeModel(GL11.GL_SMOOTH);
-			GlStateManager.color4f(1F, 1F, 1F, 1F);
+			RenderSystem.enableBlend();
+			RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			RenderSystem.shadeModel(GL11.GL_SMOOTH);
+			RenderSystem.color4f(1F, 1F, 1F, 1F);
 			GL11.glEnable(GL11.GL_STENCIL_TEST);
 
 			int curStencil = AoV.config_client.stencil.get() + 8 + (hackyshit ? 3 : 0);
@@ -266,18 +266,18 @@ public class AoVOverlay {
 				buffer.pos(w, 0, 0).tex(u, 0).color(0F, 0.5F, 1F, 0.75F).endVertex();
 				buffer.pos(0, 0, 0).tex(0, 0).color(0F, 0F, 1F, 1F).endVertex();
 
-				GlStateManager.pushMatrix();
-				GlStateManager.matrixMode(GL11.GL_TEXTURE);
-				GlStateManager.loadIdentity();
-				GlStateManager.translated(frames * 0.001F, frames * -0.01F, 0.0F);
-				GlStateManager.scalef(0.5F, 0.5F, 0.5F);
-				GlStateManager.rotatef(frames * 0.1F, 0, 1, 0);
-				GlStateManager.matrixMode(GL11.GL_MODELVIEW);
+				RenderSystem.pushMatrix();
+				RenderSystem.matrixMode(GL11.GL_TEXTURE);
+				RenderSystem.loadIdentity();
+				RenderSystem.translated(frames * 0.001F, frames * -0.01F, 0.0F);
+				RenderSystem.scalef(0.5F, 0.5F, 0.5F);
+				RenderSystem.rotatef(frames * 0.1F, 0, 1, 0);
+				RenderSystem.matrixMode(GL11.GL_MODELVIEW);
 				tess.draw();
-				GlStateManager.matrixMode(GL11.GL_TEXTURE);
-				GlStateManager.loadIdentity();
-				GlStateManager.matrixMode(GL11.GL_MODELVIEW);
-				GlStateManager.popMatrix();
+				RenderSystem.matrixMode(GL11.GL_TEXTURE);
+				RenderSystem.loadIdentity();
+				RenderSystem.matrixMode(GL11.GL_MODELVIEW);
+				RenderSystem.popMatrix();
 			}
 			GL11.glStencilFunc(GL11.GL_ALWAYS, curStencil, 0xFF);
 			GL11.glStencilFunc(GL11.GL_EQUAL, curStencil = (AoV.config_client.stencil.get() + 9 + (hackyshit ? 3 : 0)), 0xFF); // Fire
@@ -288,18 +288,18 @@ public class AoVOverlay {
 				buffer.pos(w, 0, 0).tex(u, 0).color(1F, 0.5F, 0F, 0.75F).endVertex();
 				buffer.pos(0, 0, 0).tex(0, 0).color(0.5F, 0.5F, 0F, 1F).endVertex();
 
-				GlStateManager.pushMatrix();
-				GlStateManager.matrixMode(GL11.GL_TEXTURE);
-				GlStateManager.loadIdentity();
-				GlStateManager.translated(frames * 0.01F, frames * 0.01F, 0.0F);
-				GlStateManager.scalef(0.5F, 0.5F, 0.5F);
-				GlStateManager.rotatef(frames, 0, 0, 1);
-				GlStateManager.matrixMode(GL11.GL_MODELVIEW);
+				RenderSystem.pushMatrix();
+				RenderSystem.matrixMode(GL11.GL_TEXTURE);
+				RenderSystem.loadIdentity();
+				RenderSystem.translated(frames * 0.01F, frames * 0.01F, 0.0F);
+				RenderSystem.scalef(0.5F, 0.5F, 0.5F);
+				RenderSystem.rotatef(frames, 0, 0, 1);
+				RenderSystem.matrixMode(GL11.GL_MODELVIEW);
 				tess.draw();
-				GlStateManager.matrixMode(GL11.GL_TEXTURE);
-				GlStateManager.loadIdentity();
-				GlStateManager.matrixMode(GL11.GL_MODELVIEW);
-				GlStateManager.popMatrix();
+				RenderSystem.matrixMode(GL11.GL_TEXTURE);
+				RenderSystem.loadIdentity();
+				RenderSystem.matrixMode(GL11.GL_MODELVIEW);
+				RenderSystem.popMatrix();
 			}
 			GL11.glStencilFunc(GL11.GL_ALWAYS, curStencil, 0xFF);
 			GL11.glStencilFunc(GL11.GL_EQUAL, curStencil = (AoV.config_client.stencil.get() + 10 + (hackyshit ? 3 : 0)), 0xFF); // Arch-Angel
@@ -310,20 +310,20 @@ public class AoVOverlay {
 				buffer.pos(w, 0, 0).tex(u, 0).color(1F, 0.85F, 0.2F, 0.75F).endVertex();
 				buffer.pos(0, 0, 0).tex(0, 0).color(1F, 0.85F, 0.2F, 0.75F).endVertex();
 
-				GlStateManager.pushMatrix();
-				GlStateManager.matrixMode(GL11.GL_TEXTURE);
-				GlStateManager.loadIdentity();
-				GlStateManager.translated(0.0F, frames * 0.1F, 0.0F);
-				GlStateManager.scalef(0.5F, 0.5F, 0.5F);
-				//				GlStateManager.rotatef(frames, 0, 0, 1);
-				GlStateManager.matrixMode(GL11.GL_MODELVIEW);
-				GlStateManager.blendFunc(GL11.GL_ONE, GL11.GL_ONE);
+				RenderSystem.pushMatrix();
+				RenderSystem.matrixMode(GL11.GL_TEXTURE);
+				RenderSystem.loadIdentity();
+				RenderSystem.translated(0.0F, frames * 0.1F, 0.0F);
+				RenderSystem.scalef(0.5F, 0.5F, 0.5F);
+				//				RenderSystem.rotatef(frames, 0, 0, 1);
+				RenderSystem.matrixMode(GL11.GL_MODELVIEW);
+				RenderSystem.blendFunc(GL11.GL_ONE, GL11.GL_ONE);
 				tess.draw();
-				GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-				GlStateManager.matrixMode(GL11.GL_TEXTURE);
-				GlStateManager.loadIdentity();
-				GlStateManager.matrixMode(GL11.GL_MODELVIEW);
-				GlStateManager.popMatrix();
+				RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+				RenderSystem.matrixMode(GL11.GL_TEXTURE);
+				RenderSystem.loadIdentity();
+				RenderSystem.matrixMode(GL11.GL_MODELVIEW);
+				RenderSystem.popMatrix();
 			}
 			GL11.glStencilFunc(GL11.GL_ALWAYS, curStencil, 0xFF);
 
@@ -332,10 +332,10 @@ public class AoVOverlay {
 			GL11.glClear(GL11.GL_STENCIL_BUFFER_BIT);
 			GL11.glStencilMask(0x00);
 			GL11.glDisable(GL11.GL_STENCIL_TEST);
-			GlStateManager.shadeModel(GL11.GL_FLAT);
-			GlStateManager.disableBlend();
-			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-			GlStateManager.disableBlend();
+			RenderSystem.shadeModel(GL11.GL_FLAT);
+			RenderSystem.disableBlend();
+			RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+			RenderSystem.disableBlend();
 		}
 	}
 
@@ -360,12 +360,12 @@ public class AoVOverlay {
 			return;
 		if (!AoV.config_client.renderAstro.get() && cap.getDraw() == null && cap.getBurn() == null && cap.getSpread() == null)
 			return;
-		GlStateManager.pushMatrix();
+		RenderSystem.pushMatrix();
 		{
-			GlStateManager.color4f(1F, 1F, 1F, 1F);
+			RenderSystem.color4f(1F, 1F, 1F, 1F);
 			mc.getTextureManager().bindTexture(TEXTURE_ASTRO);
-			GlStateManager.enableAlphaTest();
-			GlStateManager.enableBlend();
+			RenderSystem.enableAlphaTest();
+			RenderSystem.enableBlend();
 			Tessellator tess = Tessellator.getInstance();
 			BufferBuilder buffer = tess.getBuffer();
 			buffer.begin(7, DefaultVertexFormats.POSITION_TEX);
@@ -388,7 +388,7 @@ public class AoVOverlay {
 				drawCenteredString(mc.fontRenderer, "" + cap.getDrawTime(), (int) (x + 43), (int) (y + 50), 0xbd7e10);
 				buffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 				mc.getTextureManager().bindTexture(TEXTURE_ASTRO);
-				GlStateManager.color4f(1, 1, 1, 1);
+				RenderSystem.color4f(1, 1, 1, 1);
 			}
 
 			if (cap.getSpread() != null)
@@ -399,7 +399,7 @@ public class AoVOverlay {
 
 			tess.draw();
 		}
-		GlStateManager.popMatrix();
+		RenderSystem.popMatrix();
 	}
 
 	private static void renderAstroIcon(int index, BufferBuilder buffer, float x, float y, float scale) {
@@ -422,17 +422,17 @@ public class AoVOverlay {
 		buffer.pos(x + 80F * scale, y + 286F * scale, 0).tex(0.5F + xOffset, 0.5F + yOffset).endVertex();
 		if (AoV.config_client.renderRoyalRoad.get()) {
 			Tessellator.getInstance().draw();
-			GlStateManager.pushMatrix();
+			RenderSystem.pushMatrix();
 			drawCenteredString(mc.fontRenderer, I18n.format("aov.astro.burn." + index), (int) x - 16, (int) y, index == 0 ? 0x00AAFF : index == 1 ? 0x00FFAA : 0xFFDD88);
-			GlStateManager.popMatrix();
+			RenderSystem.popMatrix();
 			buffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 			mc.getTextureManager().bindTexture(TEXTURE_ASTRO);
 		}
-		GlStateManager.color4f(1, 1, 1, 1);
+		RenderSystem.color4f(1, 1, 1, 1);
 	}
 
 	private static void renderTarget(LivingEntity target) {
-		GlStateManager.pushMatrix();
+		RenderSystem.pushMatrix();
 		{
 			double x = 10 + AoV.config_client.ELEMENT_POSITIONS.target_x.get();
 			double y = 150 + AoV.config_client.ELEMENT_POSITIONS.target_y.get();
@@ -442,9 +442,9 @@ public class AoVOverlay {
 			Tessellator tess = Tessellator.getInstance();
 			BufferBuilder buffer = tess.getBuffer();
 			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
-			GlStateManager.color4f(1F, 1F, 1F, 1F);
-			GlStateManager.enableBlend();
-			GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+			RenderSystem.color4f(1F, 1F, 1F, 1F);
+			RenderSystem.enableBlend();
+			RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 			{
 
 				float r = 1F;
@@ -460,10 +460,10 @@ public class AoVOverlay {
 				Minecraft.getInstance().textureManager.bindTexture(TEXTURE_FOCUS);
 				tess.draw();
 			}
-			GlStateManager.disableBlend();
+			RenderSystem.disableBlend();
 
 			{
-				GlStateManager.pushMatrix();
+				RenderSystem.pushMatrix();
 				{
 					if (cacheEntityID != target.getEntityId()) {
 						cacheEntityID = target.getEntityId();
@@ -490,7 +490,7 @@ public class AoVOverlay {
 					if (cacheEntity != null && mc.renderViewEntity != null)
 						InventoryScreen.drawEntityOnScreen((int) (x + 30), (int) (y + 36), 8, -40, 5, cacheEntity);
 				}
-				GlStateManager.popMatrix();
+				RenderSystem.popMatrix();
 				String name = target.getDisplayName().getFormattedText();
 				{
 					FontRenderer font = Minecraft.getInstance().fontRenderer;
@@ -545,7 +545,7 @@ public class AoVOverlay {
 				}
 			}
 		}
-		GlStateManager.popMatrix();
+		RenderSystem.popMatrix();
 	}
 
 	public static void drawCenteredString(FontRenderer fontRendererIn, String text, int x, int y, int color) {

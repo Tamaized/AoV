@@ -25,9 +25,9 @@ public class RenderUtils {
 			BufferBuilder buffer = Tessellator.getInstance().getBuffer();
 			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR);
 			setupRectVerticies(buffer, x, y, w, h, 0, 0, 0, 0, false, color);
-			GlStateManager.disableTexture();
+			RenderSystem.disableTexture();
 			Tessellator.getInstance().draw();
-			GlStateManager.enableTexture();
+			RenderSystem.enableTexture();
 		}
 	}
 

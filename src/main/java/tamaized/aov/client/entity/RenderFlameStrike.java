@@ -1,7 +1,10 @@
 package tamaized.aov.client.entity;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -10,6 +13,7 @@ import net.minecraft.util.ResourceLocation;
 import tamaized.aov.AoV;
 import tamaized.aov.common.entity.ProjectileFlameStrike;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class RenderFlameStrike<T extends ProjectileFlameStrike> extends EntityRenderer<T> {
@@ -23,40 +27,40 @@ public class RenderFlameStrike<T extends ProjectileFlameStrike> extends EntityRe
 	}
 
 	@Override
-	public void doRender(T entity, double x, double y, double z, float entityYaw, float partialTicks) {
+	public void func_225629_a_(@Nonnull T entity, @Nonnull String p_225629_2_, @Nonnull MatrixStack p_225629_3_, @Nonnull IRenderTypeBuffer p_225629_4_, int p_225629_5_) {
 		this.bindEntityTexture(entity);
 		int color = 0xFF4801FF;
 		float red = ((color >> 24) & 0xFF) / 255F;
 		float green = ((color >> 16) & 0xFF) / 255F;
 		float blue = ((color >> 8) & 0xFF) / 255F;
 		float alpha = ((color) & 0xFF) / 255F;
-		GlStateManager.color4f(red, green, blue, alpha);
-		GlStateManager.pushMatrix();
-		GlStateManager.disableLighting();
-		GlStateManager.translated((float) x, (float) y, (float) z);
-		GlStateManager.rotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks - 90.0F, 0.0F, 1.0F, 0.0F);
-		GlStateManager.rotatef(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, 0.0F, 0.0F, 1.0F);
+		RenderSystem.color4f(red, green, blue, alpha);
+		RenderSystem.pushMatrix();
+		RenderSystem.disableLighting();
+		RenderSystem.translated((float) x, (float) y, (float) z);
+		RenderSystem.rotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks - 90.0F, 0.0F, 1.0F, 0.0F);
+		RenderSystem.rotatef(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, 0.0F, 0.0F, 1.0F);
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder vertexbuffer = tessellator.getBuffer();
-		GlStateManager.enableRescaleNormal();
+		RenderSystem.enableRescaleNormal();
 
-		GlStateManager.rotatef(45.0F, 1.0F, 0.0F, 0.0F);
-		GlStateManager.scalef(0.05625F, 0.05625F, 0.05625F);
-		GlStateManager.translated(-4.0F, 0.0F, 0.0F);
+		RenderSystem.rotatef(45.0F, 1.0F, 0.0F, 0.0F);
+		RenderSystem.scalef(0.05625F, 0.05625F, 0.05625F);
+		RenderSystem.translated(-4.0F, 0.0F, 0.0F);
 
 		if (this.renderOutlines) {
-			GlStateManager.enableColorMaterial();
-			GlStateManager.setupSolidRenderingTextureCombine(this.getTeamColor(entity));
+			RenderSystem.enableColorMaterial();
+			RenderSystem.setupSolidRenderingTextureCombine(this.getTeamColor(entity));
 		}
 
-		GlStateManager.normal3f(0.05625F, 0.0F, 0.0F);
+		RenderSystem.normal3f(0.05625F, 0.0F, 0.0F);
 		vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 		vertexbuffer.pos(-7.0D, -2.0D, -2.0D).tex(0.0D, 0.15625D).endVertex();
 		vertexbuffer.pos(-7.0D, -2.0D, 2.0D).tex(0.15625D, 0.15625D).endVertex();
 		vertexbuffer.pos(-7.0D, 2.0D, 2.0D).tex(0.15625D, 0.3125D).endVertex();
 		vertexbuffer.pos(-7.0D, 2.0D, -2.0D).tex(0.0D, 0.3125D).endVertex();
 		tessellator.draw();
-		GlStateManager.normal3f(-0.05625F, 0.0F, 0.0F);
+		RenderSystem.normal3f(-0.05625F, 0.0F, 0.0F);
 		vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 		vertexbuffer.pos(-7.0D, 2.0D, -2.0D).tex(0.0D, 0.15625D).endVertex();
 		vertexbuffer.pos(-7.0D, 2.0D, 2.0D).tex(0.15625D, 0.15625D).endVertex();
@@ -65,8 +69,8 @@ public class RenderFlameStrike<T extends ProjectileFlameStrike> extends EntityRe
 		tessellator.draw();
 
 		for (int j = 0; j < 4; ++j) {
-			GlStateManager.rotatef(90.0F, 1.0F, 0.0F, 0.0F);
-			GlStateManager.normal3f(0.0F, 0.0F, 0.05625F);
+			RenderSystem.rotatef(90.0F, 1.0F, 0.0F, 0.0F);
+			RenderSystem.normal3f(0.0F, 0.0F, 0.05625F);
 			vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 			vertexbuffer.pos(-8.0D, -2.0D, 0.0D).tex(0.0D, 0.0D).endVertex();
 			vertexbuffer.pos(8.0D, -2.0D, 0.0D).tex(0.5D, 0.0D).endVertex();
@@ -76,13 +80,13 @@ public class RenderFlameStrike<T extends ProjectileFlameStrike> extends EntityRe
 		}
 
 		if (this.renderOutlines) {
-			GlStateManager.tearDownSolidRenderingTextureCombine();
-			GlStateManager.disableColorMaterial();
+			RenderSystem.tearDownSolidRenderingTextureCombine();
+			RenderSystem.disableColorMaterial();
 		}
 
-		GlStateManager.disableRescaleNormal();
-		GlStateManager.enableLighting();
-		GlStateManager.popMatrix();
+		RenderSystem.disableRescaleNormal();
+		RenderSystem.enableLighting();
+		RenderSystem.popMatrix();
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 
 	}

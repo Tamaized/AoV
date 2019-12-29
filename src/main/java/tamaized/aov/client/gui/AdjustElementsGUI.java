@@ -119,31 +119,31 @@ public class AdjustElementsGUI extends GuiScreenClose {
 	private void renderSpellBar() {
 		final int xpos = AoV.config_client.ELEMENT_POSITIONS.spellbar_x.get();
 		final int ypos = AoV.config_client.ELEMENT_POSITIONS.spellbar_y.get();
-		GlStateManager.pushMatrix();
+		RenderSystem.pushMatrix();
 		{
 			MainWindow sr = Minecraft.getInstance().mainWindow;
 			if (AoV.config_client.renderBarOverHotbar.get())
-				GlStateManager.translated(0, sr.getScaledHeight() - 23, 0);
+				RenderSystem.translated(0, sr.getScaledHeight() - 23, 0);
 			float alpha = 0.2f;
 			if (ClientHelpers.barToggle)
 				alpha = 1.0f;
-			GlStateManager.color4f(1.0F, 1.0F, 1.0F, alpha);
+			RenderSystem.color4f(1.0F, 1.0F, 1.0F, alpha);
 			Minecraft.getInstance().getTextureManager().bindTexture(TEXTURE_SPELLBAR);
 			int i = sr.getScaledWidth() / 2;
 			RenderUtils.setup(blitOffset);
 			RenderUtils.renderRect(xpos + i - 91, ypos + 1, 182, 22);
 			RenderUtils.renderRect(xpos + i - 91 - 1 + slotLoc * 20, ypos, 24, 22, 0, 22F / 256F);
 		}
-		GlStateManager.popMatrix();
+		RenderSystem.popMatrix();
 	}
 
 	private void renderAstro() {
-		GlStateManager.pushMatrix();
+		RenderSystem.pushMatrix();
 		{
-			GlStateManager.color4f(1, 1, 1, 1);
+			RenderSystem.color4f(1, 1, 1, 1);
 			Minecraft.getInstance().getTextureManager().bindTexture(AoVOverlay.TEXTURE_ASTRO);
-			GlStateManager.enableAlphaTest();
-			GlStateManager.enableBlend();
+			RenderSystem.enableAlphaTest();
+			RenderSystem.enableBlend();
 			Tessellator tess = Tessellator.getInstance();
 			BufferBuilder buffer = tess.getBuffer();
 			buffer.begin(7, DefaultVertexFormats.POSITION_TEX);
@@ -162,11 +162,11 @@ public class AdjustElementsGUI extends GuiScreenClose {
 			buffer.pos(x, y, 0).tex(0, 0).endVertex();
 			tess.draw();
 		}
-		GlStateManager.popMatrix();
+		RenderSystem.popMatrix();
 	}
 
 	private void renderFocus() {
-		GlStateManager.pushMatrix();
+		RenderSystem.pushMatrix();
 		{
 			double x = 10 + AoV.config_client.ELEMENT_POSITIONS.target_x.get();
 			double y = 150 + AoV.config_client.ELEMENT_POSITIONS.target_y.get();
@@ -176,8 +176,8 @@ public class AdjustElementsGUI extends GuiScreenClose {
 			Tessellator tess = Tessellator.getInstance();
 			BufferBuilder buffer = tess.getBuffer();
 			buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
-			GlStateManager.color4f(1F, 1F, 1F, 1F);
-			GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+			RenderSystem.color4f(1F, 1F, 1F, 1F);
+			RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 			{
 
 				float r = 1F;
@@ -194,7 +194,7 @@ public class AdjustElementsGUI extends GuiScreenClose {
 				tess.draw();
 			}
 		}
-		GlStateManager.popMatrix();
+		RenderSystem.popMatrix();
 	}
 
 	static class Element extends Button {
@@ -223,8 +223,8 @@ public class AdjustElementsGUI extends GuiScreenClose {
 
 		@Override
 		public void render(int mouseX, int mouseY, float partialTicks) {
-			GlStateManager.disableTexture();
-			GlStateManager.enableBlend();
+			RenderSystem.disableTexture();
+			RenderSystem.enableBlend();
 			Tessellator tessellator = Tessellator.getInstance();
 			BufferBuilder buf = tessellator.getBuffer();
 			final float x = this.x + defaultX;
@@ -236,8 +236,8 @@ public class AdjustElementsGUI extends GuiScreenClose {
 			buf.pos(x + width, y, 0).color(red, green, blue, alpha).endVertex();
 			buf.pos(x, y, 0).color(red, green, blue, alpha).endVertex();
 			tessellator.draw();
-			GlStateManager.disableBlend();
-			GlStateManager.enableTexture();
+			RenderSystem.disableBlend();
+			RenderSystem.enableTexture();
 		}
 	}
 }

@@ -20,11 +20,11 @@ public class BlankButton extends Button {
 	@Override
 	public void render(int mouseX, int mouseY, float p_191745_4_) {
 		if (debug) {
-			GlStateManager.pushMatrix();
-			GlStateManager.translated(0, 0, 1);
+			RenderSystem.pushMatrix();
+			RenderSystem.translated(0, 0, 1);
 			RenderUtils.setup(blitOffset);
 			RenderUtils.renderRect(this.x, this.y, x + this.width, y + this.height, false, 0xFF00AA00);
-			GlStateManager.popMatrix();
+			RenderSystem.popMatrix();
 		}
 	}
 

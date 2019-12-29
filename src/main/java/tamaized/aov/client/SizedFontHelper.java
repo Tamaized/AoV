@@ -6,9 +6,9 @@ import net.minecraft.client.gui.FontRenderer;
 public class SizedFontHelper {
 
 	public static void render(FontRenderer font, String text, float x, float y, float scale, int color, boolean shadow) {
-		GlStateManager.pushMatrix();
+		RenderSystem.pushMatrix();
 		{
-			GlStateManager.scalef(scale, scale, scale);
+			RenderSystem.scalef(scale, scale, scale);
 			x /= scale;
 			y /= scale;
 			if (shadow)
@@ -16,7 +16,7 @@ public class SizedFontHelper {
 			else
 				drawString(font, text, x, y, color);
 		}
-		GlStateManager.popMatrix();
+		RenderSystem.popMatrix();
 	}
 
 	public static void drawString(FontRenderer fontRendererIn, String text, float x, float y, int color) {

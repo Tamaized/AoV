@@ -28,10 +28,10 @@ public class ASMHooks {
 	 */
 	public static void enableStencilBuffer(Framebuffer fbo) {
 		if (fbo.useDepth) {
-			GLX.glBindRenderbuffer(GLX.GL_RENDERBUFFER, fbo.depthBuffer);
+			/*GLX.glBindRenderbuffer(GLX.GL_RENDERBUFFER, fbo.depthBuffer); TODO
 			GLX.glRenderbufferStorage(GLX.GL_RENDERBUFFER, org.lwjgl.opengl.EXTPackedDepthStencil.GL_DEPTH24_STENCIL8_EXT, fbo.framebufferTextureWidth, fbo.framebufferTextureHeight);
 			GLX.glFramebufferRenderbuffer(GLX.GL_FRAMEBUFFER, org.lwjgl.opengl.EXTFramebufferObject.GL_DEPTH_ATTACHMENT_EXT, GLX.GL_RENDERBUFFER, fbo.depthBuffer);
-			GLX.glFramebufferRenderbuffer(GLX.GL_FRAMEBUFFER, org.lwjgl.opengl.EXTFramebufferObject.GL_STENCIL_ATTACHMENT_EXT, GLX.GL_RENDERBUFFER, fbo.depthBuffer);
+			GLX.glFramebufferRenderbuffer(GLX.GL_FRAMEBUFFER, org.lwjgl.opengl.EXTFramebufferObject.GL_STENCIL_ATTACHMENT_EXT, GLX.GL_RENDERBUFFER, fbo.depthBuffer);*/
 		}
 	}
 

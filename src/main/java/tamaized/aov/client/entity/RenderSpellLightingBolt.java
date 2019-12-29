@@ -1,7 +1,10 @@
 package tamaized.aov.client.entity;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -21,13 +24,13 @@ public class RenderSpellLightingBolt extends EntityRenderer<EntitySpellLightning
 	}
 
 	@Override
-	public void doRender(@Nonnull EntitySpellLightningBolt entity, double x, double y, double z, float entityYaw, float partialTicks) {
+	public void func_225629_a_(@Nonnull T entity, @Nonnull String p_225629_2_, @Nonnull MatrixStack p_225629_3_, @Nonnull IRenderTypeBuffer p_225629_4_, int p_225629_5_) {
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
-		GlStateManager.disableTexture();
-		GlStateManager.disableLighting();
-		GlStateManager.enableBlend();
-		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+		RenderSystem.disableTexture();
+		RenderSystem.disableLighting();
+		RenderSystem.enableBlend();
+		RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
 		double[] adouble = new double[8];
 		double[] adouble1 = new double[8];
 		double d0 = 0.0D;
@@ -116,9 +119,9 @@ public class RenderSpellLightingBolt extends EntityRenderer<EntitySpellLightning
 			}
 		}
 
-		GlStateManager.disableBlend();
-		GlStateManager.enableLighting();
-		GlStateManager.enableTexture();
+		RenderSystem.disableBlend();
+		RenderSystem.enableLighting();
+		RenderSystem.enableTexture();
 	}
 
 	@Override

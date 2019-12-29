@@ -39,68 +39,68 @@ public class AoVUIBar {
 		IAoVCapability cap = CapabilityList.getCap(mc.player, CapabilityList.AOV);
 		if (cap == null)
 			return;
-		GlStateManager.pushMatrix();
+		RenderSystem.pushMatrix();
 		{
 			MainWindow sr = mc.mainWindow;
 			if (AoV.config_client.renderBarOverHotbar.get()) {
 				xpos = 0;
 				ypos = 0;
-				GlStateManager.translated(0, sr.getScaledHeight() - 23, 0);
+				RenderSystem.translated(0, sr.getScaledHeight() - 23, 0);
 			}
 			float alpha = 0.2f;
 			if (ClientHelpers.barToggle)
 				alpha = 1.0f;
-			GlStateManager.color4f(1.0F, 1.0F, 1.0F, alpha);
+			RenderSystem.color4f(1.0F, 1.0F, 1.0F, alpha);
 			mc.getTextureManager().bindTexture(widgetsTexPath);
 			int i = sr.getScaledWidth() / 2;
 			AoVOverlay.drawTexturedModalRect(xpos + i - 91, ypos + 1, 0, 0, 182, 22);
 			AoVOverlay.drawTexturedModalRect(xpos + i - 91 - 1 + slotLoc * 20, ypos, 0, 22, 24, 22);
-			GlStateManager.pushMatrix();
+			RenderSystem.pushMatrix();
 			{
-				GlStateManager.translated(0.01f, 0, 0);
-				GlStateManager.translated(-20.01f, 0, 0);
+				RenderSystem.translated(0.01f, 0, 0);
+				RenderSystem.translated(-20.01f, 0, 0);
 				for (int j = 0; j < 9; ++j) {
-					GlStateManager.translated(20.01f, 0, 0);
+					RenderSystem.translated(20.01f, 0, 0);
 					Ability ability = cap.getSlot(j);
 					if (ability == null)
 						continue;
 					int k = sr.getScaledWidth() / 2 - 90 + 2;
 					int l = 4;
-					GlStateManager.color4f(1.0F, 1.0F, 1.0F, alpha);
+					RenderSystem.color4f(1.0F, 1.0F, 1.0F, alpha);
 					renderHotbarIcon(cap, j, xpos + k, ypos + l, ability.getAbility().getIcon(), (ability.getAbility() instanceof InvokeMass) && cap.getInvokeMass());
 					if (ability.getCooldown() > 0)
 						renderCooldown(mc.fontRenderer, xpos + k, ypos + l, ability.getCooldownPerc(), ability.getCooldown());
 				}
 			}
-			GlStateManager.popMatrix();
-			GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+			RenderSystem.popMatrix();
+			RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		}
-		GlStateManager.popMatrix();
+		RenderSystem.popMatrix();
 	}
 
 	public static void renderHotbarIcon(IAoVCapability cap, int index, int xPos, int yPos, ResourceLocation icon, boolean active) {
 		if (icon == null)
 			return;
-		GlStateManager.pushMatrix();
+		RenderSystem.pushMatrix();
 		{
 			float f1 = 1.0F / 16.0F;
-			GlStateManager.translated((float) (xPos), (float) (yPos), 0.0F);
-			GlStateManager.scalef(1.0F * f1, 1.0f * f1, 1.0F);
-			GlStateManager.pushMatrix();
+			RenderSystem.translated((float) (xPos), (float) (yPos), 0.0F);
+			RenderSystem.scalef(1.0F * f1, 1.0f * f1, 1.0F);
+			RenderSystem.pushMatrix();
 			{
-				GlStateManager.enableBlend();
+				RenderSystem.enableBlend();
 				renderIcon(icon);
 				if (active)
 					AbstractGui.fill(0, 0, 256, 256, 0x7700FFFF);
 				Ability ability = cap == null ? null : cap.getSlot(index);
 				if (ability != null && (!ability.canUse(cap) || (ability.isOnCooldown(cap) && !ability.getAbility().canUseOnCooldown(cap, mc.player))))
 					AbstractGui.fill(0, 0, 256, 256, 0x77FF0000);
-				GlStateManager.disableBlend();
+				RenderSystem.disableBlend();
 			}
-			GlStateManager.popMatrix();
+			RenderSystem.popMatrix();
 
 		}
-		GlStateManager.popMatrix();
+		RenderSystem.popMatrix();
 	}
 
 	private static void renderIcon(ResourceLocation icon) {
@@ -109,23 +109,23 @@ public class AoVUIBar {
 	}
 
 	private static void renderCooldown(FontRenderer fr, int xPos, int yPos, float perc, int timeLeft) {
-		GlStateManager.pushMatrix();
+		RenderSystem.pushMatrix();
 		{
 			float f1 = 1.0F / 16.0F;
-			GlStateManager.translated((float) (xPos), (float) (yPos), 0.0F);
-			GlStateManager.scalef(1.0F * f1, 1.0f * f1, 1.0F);
-			GlStateManager.scalef(16.0f, 16.0f, 1.0f);
+			RenderSystem.translated((float) (xPos), (float) (yPos), 0.0F);
+			RenderSystem.scalef(1.0F * f1, 1.0f * f1, 1.0F);
+			RenderSystem.scalef(16.0f, 16.0f, 1.0f);
 			renderRadial(0, 0, perc);
 			AoVOverlay.drawCenteredString(fr, String.valueOf(timeLeft), 8, 4, 0xFFFF00);
 		}
-		GlStateManager.popMatrix();
+		RenderSystem.popMatrix();
 	}
 
 	public static void renderRadial(int x, int y, float perc) { // TODO: clean up
-		GlStateManager.clear(GL11.GL_DEPTH_BUFFER_BIT, false);
+		RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, false);
 		//		GL11.glEnable(GL11.GL_STENCIL_TEST);
-		GlStateManager.colorMask(false, false, false, false);
-		GlStateManager.depthMask(false);
+		RenderSystem.colorMask(false, false, false, false);
+		RenderSystem.depthMask(false);
 		//		GL11.glStencilFunc(GL11.GL_NEVER, 13, 0xFF);
 		//		GL11.glStencilOp(GL11.GL_REPLACE, GL11.GL_KEEP, GL11.GL_KEEP);
 		//		GL11.glStencilMask(0xFF);
@@ -135,19 +135,19 @@ public class AoVUIBar {
 		int centerY = y + 8;
 		float a = 0.5f;
 
-		GlStateManager.disableLighting();
-		GlStateManager.disableTexture();
-		GlStateManager.shadeModel(GL11.GL_SMOOTH);
-		GlStateManager.enableBlend();
-		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-		GlStateManager.colorMask(true, true, true, true);
-		GlStateManager.depthMask(true);
+		RenderSystem.disableLighting();
+		RenderSystem.disableTexture();
+		RenderSystem.shadeModel(GL11.GL_SMOOTH);
+		RenderSystem.enableBlend();
+		RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+		RenderSystem.colorMask(true, true, true, true);
+		RenderSystem.depthMask(true);
 		//		GL11.glStencilMask(0x00);
 		//		GL11.glStencilFunc(GL11.GL_EQUAL, 13, 0xFF);
 		GL11.glBegin(GL11.GL_TRIANGLE_FAN);
-		GlStateManager.color4f(0F, 0.0F, 0.0F, a);
+		RenderSystem.color4f(0F, 0.0F, 0.0F, a);
 		GL11.glVertex2i(centerX, centerY);
-		GlStateManager.color4f(0F, 0F, 0.0F, a);
+		RenderSystem.color4f(0F, 0F, 0.0F, a);
 		int v = (int) ((405f) * perc);
 		int v1 = v > 45 ? -45 : -v;
 		int v2 = v > 135 ? -135 : -v;
@@ -171,9 +171,9 @@ public class AoVUIBar {
 
 		GL11.glVertex2i(centerX, centerY);
 		GL11.glEnd();
-		GlStateManager.disableBlend();
-		GlStateManager.enableTexture();
-		GlStateManager.shadeModel(GL11.GL_FLAT);
+		RenderSystem.disableBlend();
+		RenderSystem.enableTexture();
+		RenderSystem.shadeModel(GL11.GL_FLAT);
 		//		GL11.glDisable(GL11.GL_STENCIL_TEST);
 	}
 }

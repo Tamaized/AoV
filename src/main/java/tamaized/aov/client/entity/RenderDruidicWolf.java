@@ -1,6 +1,7 @@
 package tamaized.aov.client.entity;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.WolfRenderer;
 import net.minecraft.entity.passive.WolfEntity;
@@ -17,17 +18,18 @@ public class RenderDruidicWolf extends WolfRenderer {
 		layerRenderers.clear();
 	}
 
+	@Nonnull
 	@Override
-	protected ResourceLocation getEntityTexture(WolfEntity entity) {
+	public ResourceLocation getEntityTexture(WolfEntity entity) {
 		return ANRGY_WOLF_TEXTURES;
 	}
 
 	@Override
 	public float prepareScale(@Nonnull WolfEntity entitylivingbaseIn, float partialTicks) {
-		GlStateManager.enableRescaleNormal();
-		GlStateManager.scalef(-1.0F, -1.0F, 1.0F);
+		RenderSystem.enableRescaleNormal();
+		RenderSystem.scalef(-1.0F, -1.0F, 1.0F);
 		this.preRenderCallback(entitylivingbaseIn, partialTicks);
-		GlStateManager.translated(0.0F, -1.501F, 0.0F);
+		RenderSystem.translated(0.0F, -1.501F, 0.0F);
 		return 0.0625F;
 	}
 }
