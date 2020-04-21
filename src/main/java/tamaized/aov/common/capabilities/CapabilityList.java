@@ -195,7 +195,6 @@ public class CapabilityList {
 					handlePlayerCopy(event.getEntityPlayer(), event.getOriginal(), AOV);
 					handlePlayerCopy(event.getEntityPlayer(), event.getOriginal(), POLYMORPH);
 				}
-				FIELD_capabilityProvider_valid.invoke(event.getOriginal(), false);
 			} catch (Throwable e) {
 				e.printStackTrace();
 			}
