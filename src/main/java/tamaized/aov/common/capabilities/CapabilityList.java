@@ -7,7 +7,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
-import net.minecraftforge.common.capabilities.CapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -25,34 +24,20 @@ import tamaized.aov.common.capabilities.stun.IStunCapability;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
-import java.lang.reflect.Field;
 
 @Mod.EventBusSubscriber(modid = AoV.MODID)
 public class CapabilityList {
 
 	@CapabilityInject(IAoVCapability.class)
-	public static final Capability<IAoVCapability> AOV;
+	public static final Capability<IAoVCapability> AOV = getNull();
 	@CapabilityInject(IAstroCapability.class)
-	public static final Capability<IAstroCapability> ASTRO;
+	public static final Capability<IAstroCapability> ASTRO = getNull();
 	@CapabilityInject(IStunCapability.class)
-	public static final Capability<IStunCapability> STUN;
+	public static final Capability<IStunCapability> STUN = getNull();
 	@CapabilityInject(ILeapCapability.class)
-	public static final Capability<ILeapCapability> LEAP;
+	public static final Capability<ILeapCapability> LEAP = getNull();
 	@CapabilityInject(IPolymorphCapability.class)
-	public static final Capability<IPolymorphCapability> POLYMORPH;
-
-	private static volatile MethodHandle FIELD_capabilityProvider_valid;
-
-	// Tricks Intellij
-	static {
-		AOV = null;
-		ASTRO = null;
-		STUN = null;
-		LEAP = null;
-		POLYMORPH = null;
-	}
+	public static final Capability<IPolymorphCapability> POLYMORPH = getNull();
 
 	public static <T> T getCap(@Nullable ICapabilityProvider provider, Capability<T> cap) {
 		return getCap(provider, cap, null);
@@ -178,28 +163,8 @@ public class CapabilityList {
 
 	@SubscribeEvent
 	public static void updateClone(PlayerEvent.Clone event) {
-		if (FIELD_capabilityProvider_valid == null) {
-			try {
-				Field f = CapabilityProvider.class.getDeclaredField("valid");
-				f.setAccessible(true);
-				FIELD_capabilityProvider_valid = MethodHandles.lookup().unreflectSetter(f);
-				f.setAccessible(false);
-			} catch (IllegalAccessException | NoSuchFieldException e) {
-				e.printStackTrace();
-			}
-		}
-		if (FIELD_capabilityProvider_valid != null) {
-			try {
-				FIELD_capabilityProvider_valid.invoke(event.getOriginal(), true);
-				{
-					handlePlayerCopy(event.getEntityPlayer(), event.getOriginal(), AOV);
-					handlePlayerCopy(event.getEntityPlayer(), event.getOriginal(), POLYMORPH);
-				}
-				FIELD_capabilityProvider_valid.invoke(event.getOriginal(), false);
-			} catch (Throwable e) {
-				e.printStackTrace();
-			}
-		}
+		handlePlayerCopy(event.getPlayer(), event.getOriginal(), AOV);
+		handlePlayerCopy(event.getPlayer(), event.getOriginal(), POLYMORPH);
 	}
 
 	public static <C extends IPlayerCapabilityHandler<C>> void handlePlayerCopy(PlayerEntity player, PlayerEntity old, Capability<C> cap) {
@@ -220,6 +185,12 @@ public class CapabilityList {
 		IAstroCapability astro = getCap(e.getEntity(), ASTRO);
 		if (astro != null)
 			astro.markDirty();
+	}
+
+	@Nonnull
+	@SuppressWarnings("ConstantConditions")
+	private static <T> T getNull() {
+		return null;
 	}
 
 }
