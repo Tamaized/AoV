@@ -1,9 +1,10 @@
 package tamaized.aov.client.gui;
 
-import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
+import net.minecraft.client.entity.player.RemoteClientPlayerEntity;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
@@ -12,12 +13,10 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -37,9 +36,8 @@ import tamaized.aov.common.core.abilities.Ability;
 import tamaized.aov.common.core.skills.AoVSkills;
 import tamaized.aov.common.entity.EntityEarthquake;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = AoV.MODID, value = Dist.CLIENT)
@@ -58,6 +56,7 @@ public class AoVOverlay {
 	public static float zLevel;
 	private static LivingEntity cacheEntity;
 	private static int cacheEntityID = -1;
+	private static boolean canThrow = true;
 
 	public static void drawRect(float left, float top, float right, float bottom, int color) {
 		if (left < right) {
@@ -467,28 +466,24 @@ public class AoVOverlay {
 				{
 					if (cacheEntityID != target.getEntityId()) {
 						cacheEntityID = target.getEntityId();
-						try {
-							if (target instanceof PlayerEntity)
-								cacheEntity = target.getClass().getConstructor(World.class, GameProfile.class).newInstance(mc.world, ((PlayerEntity) target).getGameProfile());
-							else {
-								for (Constructor<?> ctor : target.getClass().getConstructors()) {
-									if (ctor.getParameterTypes().length == 2) {
-										if (ctor.getParameterTypes()[0] == EntityType.class && ctor.getParameterTypes()[1] == World.class)
-											cacheEntity = target.getClass().getConstructor(EntityType.class, World.class).newInstance(target.getType(), target.world);
-										else if (ctor.getParameterTypes()[0] == World.class && ctor.getParameterTypes()[1] == EntityType.class)
-											cacheEntity = target.getClass().getConstructor(World.class, EntityType.class).newInstance(target.world, target.getType());
-									} else if (ctor.getParameterTypes().length == 1 && ctor.getParameterTypes()[0] == World.class)
-										cacheEntity = target.getClass().getConstructor(World.class).newInstance(target.world);
-									else if (ctor.getParameterTypes().length == 0)
-										cacheEntity = target.getClass().newInstance();
-								}
-							}
-						} catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e1) {
-							e1.printStackTrace();
+						canThrow = true;
+						if (target instanceof AbstractClientPlayerEntity)
+							cacheEntity = new RemoteClientPlayerEntity(((AbstractClientPlayerEntity) target).field_213837_d, Objects.requireNonNull(Objects.requireNonNull(mc.getConnection()).getPlayerInfo(target.getUniqueID())).getGameProfile());
+						else {
+							cacheEntity = (LivingEntity) target.getType().create(target.world);
 						}
 					}
-					if (cacheEntity != null && mc.renderViewEntity != null)
-						InventoryScreen.drawEntityOnScreen((int) (x + 30), (int) (y + 36), 8, -40, 5, cacheEntity);
+					try {
+						if (cacheEntity != null && mc.renderViewEntity != null)
+							InventoryScreen.drawEntityOnScreen((int) (x + 30), (int) (y + 36), 8, -40, 5, cacheEntity);
+					} catch (Throwable e) {
+						// NO-OP catch all incase of mod fuckups
+						// We'll throw at least once for awareness
+						if (canThrow) {
+							canThrow = false;
+							e.printStackTrace();
+						}
+					}
 				}
 				GlStateManager.popMatrix();
 				String name = target.getDisplayName().getFormattedText();
