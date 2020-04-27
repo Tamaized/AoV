@@ -65,7 +65,7 @@ public class TickHandler {
 			spawnSlowfallParticles(living);
 		else {
 			PlayerEntity player = living instanceof PlayerEntity ? (PlayerEntity) living : null;
-			if (player != null)
+			if (player != null && player.isAlive())
 				if (poly != null && poly.getMorph() == IPolymorphCapability.Morph.ArchAngel) {
 					player.abilities.allowFlying = true;
 					player.sendPlayerAbilities();

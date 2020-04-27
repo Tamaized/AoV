@@ -190,7 +190,7 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 			attackCooldown--;
 		if (attacking && attackCooldown < attackCooldownMax - 10 && (attackCooldown <= 0 || player.onGround))
 			attacking = false;
-		if (!player.world.isRemote && getMorph() != null && getMorph().requiresCentered && !IAoVCapability.isCentered(player, CapabilityList.getCap(player, CapabilityList.AOV, null))) {
+		if (!player.world.isRemote && getMorph() != null && ((getMorph().requiresCentered && !IAoVCapability.isCentered(player, CapabilityList.getCap(player, CapabilityList.AOV, null)) || !player.isAlive()))) {
 			morph(null);
 			IAoVCapability aov = CapabilityList.getCap(player, CapabilityList.AOV);
 			if (aov != null)
