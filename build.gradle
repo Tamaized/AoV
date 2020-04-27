@@ -1,5 +1,3 @@
-import net.minecraftforge.gradle.common.util.RunConfig
-
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
@@ -23,57 +21,54 @@ repositories {
     }*/
 }
 
-version = "1.14-${modVersion}${modVersionValue}"
+version = "1.${project.minecraftVersionMajor}-${modVersion}${modVersionValue}"
 group = "tamaized.aov"
 archivesBaseName = "AoV"
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
-class DefaultRunConfig extends RunConfig {
-
-    DefaultRunConfig(Project project, SourceSet sourceSet, boolean client) {
-        super(project, client ? 'client' : 'server')
-        this.taskName "Minecraft_" + name.substring(0, 1).toUpperCase(Locale.US).concat(name.substring(1)) + "_1.14"
-        this.properties 'forge.logging.markers': 'SCAN,AXFORM'
-        this.properties 'forge.logging.console.level': 'debug'
-        this.workingDirectory project.file('run').canonicalPath
-        this.source sourceSet
-        this.environment 'TMP': './tmp/'
-        this.ideaModule project.getName()
-        this.singleInstance true
-    }
-
-    DefaultRunConfig setArgs(String... args) {
-        setArgs(new ArrayList() {
-            {
-                for (String arg : args)
-                    add(arg)
-            }
-        })
-        return this
-    }
-}
-
 minecraft {
     mappings("${project.mappingType}", "${project.mappingVersion}")
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-    getRuns().addAll(
-            new DefaultRunConfig(project, sourceSets.main, true).setArgs(
+    runs {
+        client {
+            workingDirectory project.file('run')
 
-                    '--username', 'Tamaized',
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
 
-                    '--uuid', '16fea09e-314e-4955-88c2-6b552ecf314a'
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
 
-            ),
+            mods {
+                aov {
+                    source sourceSets.main
+                }
+            }
+        }
 
-            new DefaultRunConfig(project, sourceSets.main, false)
-    )
+        server {
+            workingDirectory project.file('run')
+
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+
+            mods {
+                aov {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${project.minecraftVersion}-${project.forgeVersion}"
+    minecraft "net.minecraftforge:forge:1.${project.minecraftVersionMajor}.${project.minecraftVersionMinor}-${project.forgeVersion}"
 
-    runtime fg.deobf("mezz.jei:jei-1.14.4:${project.jeiVersion}")
+    runtime fg.deobf("mezz.jei:jei-1.${project.minecraftVersionMajor}.${project.minecraftVersionMinor}:${project.jeiVersion}")
 }
 
 processResources {
