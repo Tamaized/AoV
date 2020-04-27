@@ -21,7 +21,7 @@ repositories {
     }*/
 }
 
-version = "1.15-${modVersion}${modVersionValue}"
+version = "1.${minecraftVersionMajor}-${modVersion}${modVersionValue}"
 group = "tamaized.aov"
 archivesBaseName = "AoV"
 
@@ -66,7 +66,7 @@ minecraft {
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${project.minecraftVersion}-${project.forgeVersion}"
+    minecraft "net.minecraftforge:forge:1.${project.minecraftVersionMajor}.${project.minecraftVersionMinor}-${project.forgeVersion}"
 
     //runtime fg.deobf("mezz.jei:jei-1.14.4:${project.jeiVersion}")
 }
