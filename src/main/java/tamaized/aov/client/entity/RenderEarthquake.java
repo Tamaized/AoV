@@ -37,7 +37,7 @@ public class RenderEarthquake extends EntityRenderer<EntityEarthquake> {
 	}
 
 	// [Vanilla Copy] Render#renderShadow
-	private static void renderShadow(EntityRendererManager renderManager, Entity entityIn, double x, double y, double z, float shadowSize, float shadowAlpha, float partialTicks) {
+	/*private static void renderShadow(EntityRendererManager renderManager, Entity entityIn, double x, double y, double z, float shadowSize, float shadowAlpha, float partialTicks) { TODO
 		RenderSystem.enableBlend();
 		RenderSystem.color4f(1F, 1F, 1F, 1F);
 		renderManager.textureManager.bindTexture(SHADOW_TEXTURES);
@@ -152,11 +152,11 @@ public class RenderEarthquake extends EntityRenderer<EntityEarthquake> {
 		GL11.glDisable(GL11.GL_STENCIL_TEST);
 		RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		RenderSystem.disableBlend();
-	}
+	}*/
 
 	@Nullable
 	@Override
-	protected ResourceLocation getEntityTexture(@Nonnull EntityEarthquake entity) {
+	public ResourceLocation getEntityTexture(@Nonnull EntityEarthquake entity) {
 		return TEXTURE;
 	}
 }

@@ -52,8 +52,8 @@ public class RenderSpellLightingStorm extends EntityRenderer<EntitySpellLightnin
 	}
 
 	@Override
-	public void render(T entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-		if (lastTick != entity.ticksExisted && entity.ticksExisted % nextCloud == 0) {
+	public void render(EntitySpellLightningStorm p_225623_1_, float p_225623_2_, float p_225623_3_, MatrixStack p_225623_4_, IRenderTypeBuffer p_225623_5_, int p_225623_6_) {
+		/*if (lastTick != entity.ticksExisted && entity.ticksExisted % nextCloud == 0) { TODO
 			nextCloud = 10 + entity.world.rand.nextInt(20);
 			lastTick = entity.ticksExisted;
 			entity.clouds.add(new EntitySpellLightningStorm.Cloud());
@@ -85,17 +85,17 @@ public class RenderSpellLightingStorm extends EntityRenderer<EntitySpellLightnin
 		RenderSystem.enableLighting();
 		RenderSystem.disableBlend();
 		RenderSystem.popMatrix();
-		super.doRender(entity, x, y, z, entityYaw, partialTicks);
+		super.doRender(entity, x, y, z, entityYaw, partialTicks);*/
 	}
 
+	@Nonnull
 	@Override
-	@Nullable
-	protected ResourceLocation getEntityTexture(@Nonnull EntitySpellLightningStorm entity) {
+	public ResourceLocation getEntityTexture(@Nonnull EntitySpellLightningStorm entity) {
 		return null;
 	}
 
 	private void renderRain(EntitySpellLightningStorm storm, float partialTicks) {
-		Minecraft mc = Minecraft.getInstance();
+		/*Minecraft mc = Minecraft.getInstance(); TODO
 		Entity entity = mc.getRenderViewEntity();
 		if (entity == null)
 			return;
@@ -187,6 +187,6 @@ public class RenderSpellLightingStorm extends EntityRenderer<EntitySpellLightnin
 		bufferbuilder.setTranslation(0.0D, 0.0D, 0.0D);
 		RenderSystem.enableCull();
 		RenderSystem.disableBlend();
-		RenderSystem.alphaFunc(516, 0.1F);
+		RenderSystem.alphaFunc(516, 0.1F);*/
 	}
 }

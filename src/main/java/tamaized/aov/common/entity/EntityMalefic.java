@@ -38,9 +38,8 @@ public class EntityMalefic extends ProjectileBase {
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
-	public int getBrightnessForRender() {
-		return 0xF000F0;
+	public float getBrightness() {
+		return 1.0F;
 	}
 
 	@Override

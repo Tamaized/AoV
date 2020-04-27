@@ -26,7 +26,7 @@ public class RenderCelestialOpposition<T extends EntityCelestialOpposition> exte
 
 	@Override
 	public void render(T entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-		RenderSystem.pushMatrix();
+		/*RenderSystem.pushMatrix(); TODO
 		RenderSystem.disableLighting();
 		RenderSystem.enableBlend();
 		RenderSystem.disableCull();
@@ -64,11 +64,11 @@ public class RenderCelestialOpposition<T extends EntityCelestialOpposition> exte
 		RenderSystem.enableCull();
 		RenderSystem.disableBlend();
 		RenderSystem.enableLighting();
-		RenderSystem.popMatrix();
+		RenderSystem.popMatrix();*/
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(@Nonnull T entity) {
+	public ResourceLocation getEntityTexture(@Nonnull T entity) {
 		return TEXTURE;
 	}
 }

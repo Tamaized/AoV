@@ -28,7 +28,7 @@ public class RenderCombust<T extends EntityCombust> extends EntityRenderer<T> {
 
 	@Override
 	public void render(T entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-		RenderSystem.pushMatrix();
+		/*RenderSystem.pushMatrix(); TODO
 		RenderSystem.disableCull();
 		RenderSystem.disableLighting();
 		RenderSystem.enableBlend();
@@ -83,7 +83,7 @@ public class RenderCombust<T extends EntityCombust> extends EntityRenderer<T> {
 			entity.scale += (120F / (float) Minecraft.getDebugFPS());
 		if (entity.ticksExisted % 40 == 0)
 			entity.scale = 0;
-
+*/
 	}
 
 	@Nonnull

@@ -31,7 +31,7 @@ public class RenderSpellBladeBarrier<T extends EntitySpellBladeBarrier> extends 
 
 	@Override
 	public void render(T entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-		World world = entity.world;
+		/*World world = entity.world; TODO
 		if (world == null)
 			return;
 		bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
@@ -53,16 +53,16 @@ public class RenderSpellBladeBarrier<T extends EntitySpellBladeBarrier> extends 
 			}
 			RenderSystem.popMatrix();
 		}
-		RenderSystem.popMatrix();
+		RenderSystem.popMatrix();*/
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(T entity) {
+	public ResourceLocation getEntityTexture(T entity) {
 		return null;
 	}
 
 	private void drawRing(T entity) {
-		ItemRenderer itemRender = Minecraft.getInstance().getItemRenderer();
+		/*ItemRenderer itemRender = Minecraft.getInstance().getItemRenderer(); TODO
 		for (int r = 0; r <= entity.getRange() + 1; r++) {
 			RenderSystem.pushMatrix();
 			{
@@ -72,7 +72,7 @@ public class RenderSpellBladeBarrier<T extends EntitySpellBladeBarrier> extends 
 				itemRender.renderItem(stack, itemRender.getItemModelWithOverrides(stack, entity.world, null));
 			}
 			RenderSystem.popMatrix();
-		}
+		}*/
 	}
 
 	private ItemStack getSword(int index) {

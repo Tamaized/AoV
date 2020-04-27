@@ -32,7 +32,7 @@ public class RenderAlignmentAoE<T extends EntityAlignmentAoE> extends EntityRend
 
 	@Override
 	public void render(T entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-		final float ticks = entity.ticksExisted + Minecraft.getInstance().getRenderPartialTicks();
+		/*final float ticks = entity.ticksExisted + Minecraft.getInstance().getRenderPartialTicks(); TODO
 		switch (entity.getAlignment()) {
 			case OrdersWrath: {
 				final int alpha = MathHelper.clamp((int) (((entity.ticksExisted > 25 ? 50 - ticks : ticks) / 25F) * 0xFF), 0x0, 0xFF);
@@ -97,7 +97,7 @@ public class RenderAlignmentAoE<T extends EntityAlignmentAoE> extends EntityRend
 				RenderSystem.popMatrix();
 			}
 			break;
-		}
+		}*/
 	}
 
 	@Nonnull

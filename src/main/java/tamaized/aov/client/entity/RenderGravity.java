@@ -8,13 +8,18 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.BlazeRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.shader.Shader;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+import org.lwjgl.opengl.GL13;
+import org.lwjgl.opengl.GLUtil;
 import tamaized.aov.AoV;
 import tamaized.aov.common.entity.EntityGravity;
 
@@ -110,7 +115,7 @@ public class RenderGravity<T extends EntityGravity> extends EntityRenderer<T> {
 		RenderSystem.disableTexture();
 		RenderSystem.disableLighting();
 		RenderSystem.enableBlend();
-		GLX.glMultiTexCoord2f(GLX.GL_TEXTURE1, 200, 200);
+		RenderSystem.glMultiTexCoord2f(GL13.GL_TEXTURE2, 200, 200);
 		RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 
 		double distance = point1.distanceTo(point2);
@@ -149,7 +154,7 @@ public class RenderGravity<T extends EntityGravity> extends EntityRenderer<T> {
 
 	@Override
 	public void render(T entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-		RenderSystem.pushMatrix();
+		/*RenderSystem.pushMatrix(); TODO
 		RenderSystem.disableCull();
 		RenderSystem.disableLighting();
 		RenderSystem.enableBlend();
@@ -185,11 +190,11 @@ public class RenderGravity<T extends EntityGravity> extends EntityRenderer<T> {
 		RenderSystem.disableBlend();
 		RenderSystem.enableLighting();
 		RenderSystem.enableCull();
-		RenderSystem.popMatrix();
+		RenderSystem.popMatrix();*/
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(@Nonnull T entity) {
+	public ResourceLocation getEntityTexture(@Nonnull T entity) {
 		return TEXTURE;
 	}
 }

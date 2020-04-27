@@ -26,7 +26,7 @@ public class RenderFlameStrike<T extends ProjectileFlameStrike> extends EntityRe
 		super(renderManager);
 	}
 
-	@Override
+	/*@Override TODO
 	public void render(T entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
 		this.bindEntityTexture(entity);
 		int color = 0xFF4801FF;
@@ -89,10 +89,10 @@ public class RenderFlameStrike<T extends ProjectileFlameStrike> extends EntityRe
 		RenderSystem.popMatrix();
 		super.doRender(entity, x, y, z, entityYaw, partialTicks);
 
-	}
+	}*/
 
 	@Override
-	protected ResourceLocation getEntityTexture(T entity) {
+	public ResourceLocation getEntityTexture(T entity) {
 		return TEXTURE;
 	}
 }

@@ -25,7 +25,7 @@ public class RenderMalefic<T extends EntityMalefic> extends EntityRenderer<T> {
 
 	@Override
 	public void render(T entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-		bindEntityTexture(entity);
+		/*bindEntityTexture(entity); TODO
 		RenderSystem.pushMatrix();
 		RenderSystem.disableCull();
 		RenderSystem.disableLighting();
@@ -48,11 +48,11 @@ public class RenderMalefic<T extends EntityMalefic> extends EntityRenderer<T> {
 		RenderSystem.disableBlend();
 		RenderSystem.enableLighting();
 		RenderSystem.enableCull();
-		RenderSystem.popMatrix();
+		RenderSystem.popMatrix();*/
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(@Nonnull T entity) {
+	public ResourceLocation getEntityTexture(@Nonnull T entity) {
 		return TEXTURE;
 	}
 }

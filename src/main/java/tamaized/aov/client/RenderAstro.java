@@ -27,8 +27,8 @@ public class RenderAstro {
 
 	public static float testVarPleaseIgnore = 0F;
 
-	@SubscribeEvent
-	public static void render(RenderPlayerEvent.Post e) {
+	/*@SubscribeEvent
+	public static void render(RenderPlayerEvent.Post e) { TODO
 		PlayerEntity player = e.getPlayer();
 		IAstroCapability cap = CapabilityList.getCap(player, CapabilityList.ASTRO);
 		if (cap == null)
@@ -39,7 +39,7 @@ public class RenderAstro {
 		AstroCapabilityHandler handler = cap instanceof AstroCapabilityHandler ? (AstroCapabilityHandler) cap : null;
 
 
-		/*RenderSystem.pushMatrix();
+		*//*RenderSystem.pushMatrix();
 		RenderSystem.disableLighting();
 		RenderSystem.enableBlend();
 		RenderSystem.disableCull();
@@ -66,7 +66,7 @@ public class RenderAstro {
 		RenderSystem.enableCull();
 		RenderSystem.disableBlend();
 		RenderSystem.enableLighting();
-		RenderSystem.popMatrix();*/
+		RenderSystem.popMatrix();*//*
 
 		for (IAstroCapability.IAnimation animation : cap.getAnimations())
 			if (animation != null)
@@ -91,7 +91,7 @@ public class RenderAstro {
 				}
 		RenderSystem.color4f(1, 1, 1, 1);
 		RenderSystem.popMatrix();
-	}
+	}*/
 
 	@SubscribeEvent
 	public static void tick(TickEvent.RenderTickEvent e) { // Lets tick our frame data while in first person
@@ -138,7 +138,7 @@ public class RenderAstro {
 			cap.getFrameData()[4][2] -= (300F / (float) Minecraft.debugFPS);
 	}
 
-	private static void renderRedraw(int index, RenderPlayerEvent.Post e, IAstroCapability cap) {
+	/*private static void renderRedraw(int index, RenderPlayerEvent.Post e, IAstroCapability cap) { TODO
 		float timer = cap.getFrameData()[index][3];
 		if (timer > 0) {
 			RenderSystem.pushMatrix();
@@ -305,6 +305,6 @@ public class RenderAstro {
 		RenderSystem.disableBlend();
 		RenderSystem.popMatrix();
 		renderDraw(index, e, cap, card);
-	}
+	}*/
 
 }

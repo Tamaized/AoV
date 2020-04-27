@@ -24,7 +24,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
-import net.minecraftforge.client.event.RenderSpecificHandEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.lwjgl.opengl.GL11;
@@ -51,8 +50,8 @@ public class RenderPlayer {
 		PlayerEntity player = e.getPlayer();
 		IPolymorphCapability cap = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
 		if (cap != null) {
-			if (cap.getMorph() == IPolymorphCapability.Morph.Wolf) {
-				RenderSystem.pushMatrix();
+			if (cap.getMorph() == IPolymorphCapability.Morph.Wolf) { // TODO
+				/*RenderSystem.pushMatrix();
 				e.getRenderer().renderName((AbstractClientPlayerEntity) player, e.getX(), e.getY(), e.getZ());
 				RenderSystem.translated(e.getX(), e.getY(), e.getZ());
 				float swingProgress = player.limbSwing - player.limbSwingAmount * (1.0F - e.getPartialRenderTick());//e.getRenderer().getMainModel().swingProgress;
@@ -71,19 +70,19 @@ public class RenderPlayer {
 				e.getRenderer().bindTexture(WOLF_TEXTURES);
 				WOLF_MODEL.render(null, swingProgress, swingAmount, ticksExisted, netHeadYaw, headPitch, scale);
 				RenderSystem.popMatrix();
-				e.setCanceled(true);
+				e.setCanceled(true);*/
 			}
 		}
 	}
 
-	@SubscribeEvent
+	/*@SubscribeEvent TODO
 	public static void renderName(RenderLivingEvent.Specials.Pre<? extends LivingEntity, ? extends EntityModel<? extends LivingEntity>> e) {
 		if (hackyshit)
 			return;
 		IPolymorphCapability cap = CapabilityList.getCap(e.getEntity(), CapabilityList.POLYMORPH);
 		if (cap != null && (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental || cap.getMorph() == IPolymorphCapability.Morph.FireElemental || cap.getMorph() == IPolymorphCapability.Morph.ArchAngel))
 			e.setCanceled(true);
-	}
+	}*/
 
 	@SubscribeEvent
 	public static void renderLiving(RenderLivingEvent.Pre<? extends LivingEntity, ? extends EntityModel<? extends LivingEntity>> e) {
@@ -111,12 +110,12 @@ public class RenderPlayer {
 				} else {
 					disableStencils();
 					hackyshit = true;
-					e.getRenderer().renderName(player, e.getX(), e.getY(), e.getZ());
+					//e.getRenderer().renderName(player, e.getX(), e.getY(), e.getZ()); TODO
 					hackyshit = false;
 				}
 				IAoVCapability aov = CapabilityList.getCap(player, CapabilityList.AOV);
 				if (aov != null && cap.getMorph() == IPolymorphCapability.Morph.FireElemental && aov.isAuraActive(Abilities.elementalEmpowerment)) {
-					RenderSystem.pushMatrix();
+					/*RenderSystem.pushMatrix(); TODO
 					{
 						RenderSystem.translated(e.getX(), e.getY(), e.getZ());
 						Minecraft.getInstance().textureManager.bindTexture(TEXTURE_SUNBODY);
@@ -160,7 +159,7 @@ public class RenderPlayer {
 							z += 0.0001F;
 						}
 					}
-					RenderSystem.popMatrix();
+					RenderSystem.popMatrix();*/
 				}
 				RenderSystem.disableBlend();
 			}
@@ -209,7 +208,7 @@ public class RenderPlayer {
 				Minecraft mc = Minecraft.getInstance();
 				boolean flag = mc.getRenderViewEntity() instanceof LivingEntity && ((LivingEntity) mc.getRenderViewEntity()).isSleeping();
 				if (mc.gameSettings.thirdPersonView == 0 && !flag && !mc.gameSettings.hideGUI && !mc.playerController.isSpectatorMode()) {
-					mc.gameRenderer.enableLightmap();
+					/*mc.gameRenderer.enableLightmap(); TODO
 					RenderSystem.enableBlend();
 					if (AoVOverlay.NO_STENCIL) {
 						if (cap.getMorph() == IPolymorphCapability.Morph.WaterElemental)
@@ -240,13 +239,13 @@ public class RenderPlayer {
 					}
 					RenderSystem.color4f(1F, 1F, 1F, 1F);
 					RenderSystem.disableBlend();
-					mc.gameRenderer.disableLightmap();
+					mc.gameRenderer.disableLightmap();*/
 				}
 			}
 		}
 	}
 
-	@SubscribeEvent
+	/*@SubscribeEvent TODO
 	public static void render(RenderSpecificHandEvent e) {
 		AbstractClientPlayerEntity player = Minecraft.getInstance().player;
 		IPolymorphCapability cap = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
@@ -285,9 +284,9 @@ public class RenderPlayer {
 				e.setCanceled(true);
 			}
 		}
-	}
+	}*/
 
-	public static void renderRightArm(AbstractClientPlayerEntity clientPlayer) {
+	/*public static void renderRightArm(AbstractClientPlayerEntity clientPlayer) { TODO
 		float f = 1.0F;
 		RenderSystem.color3f(f, f, f);
 		float f1 = 0.0625F;
@@ -302,7 +301,7 @@ public class RenderPlayer {
 		WOLF_MODEL.legBackLeft.render(f1);
 		RenderSystem.popMatrix();
 		RenderSystem.disableBlend();
-	}
+	}*/
 
 	/*
 	 * [Vanilla Copy] from RenderLivingBase

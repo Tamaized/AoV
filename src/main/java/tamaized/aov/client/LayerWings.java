@@ -1,10 +1,12 @@
 package tamaized.aov.client;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
@@ -31,6 +33,11 @@ public class LayerWings extends LayerRenderer<AbstractClientPlayerEntity, Player
 	}
 
 	@Override
+	public void render(MatrixStack matrixStack, IRenderTypeBuffer iRenderTypeBuffer, int i, AbstractClientPlayerEntity abstractClientPlayerEntity, float v, float v1, float v2, float v3, float v4, float v5) {
+
+	}
+
+	/*@Override TODO
 	public void render(@Nonnull AbstractClientPlayerEntity player, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scaleIn) {
 		RenderPlayer.disableStencils();
 		ILeapCapability cap = CapabilityList.getCap(player, CapabilityList.LEAP);
@@ -139,5 +146,5 @@ public class LayerWings extends LayerRenderer<AbstractClientPlayerEntity, Player
 	@Override
 	public boolean shouldCombineTextures() {
 		return false;
-	}
+	}*/
 }

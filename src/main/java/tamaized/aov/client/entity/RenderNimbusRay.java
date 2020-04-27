@@ -29,7 +29,7 @@ public class RenderNimbusRay<T extends ProjectileBase> extends EntityRenderer<T>
 
 	@Override
 	public void render(T entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-		this.bindEntityTexture(entity);
+		/*this.bindEntityTexture(entity); TODO
 		int color = entity.getColor();
 		float red = ((color >> 24) & 0xFF) / 255F;
 		float green = ((color >> 16) & 0xFF) / 255F;
@@ -94,11 +94,11 @@ public class RenderNimbusRay<T extends ProjectileBase> extends EntityRenderer<T>
 		RenderSystem.disableRescaleNormal();
 		RenderSystem.enableLighting();
 		RenderSystem.popMatrix();
-		super.doRender(entity, x, y, z, entityYaw, partialTicks);
+		super.doRender(entity, x, y, z, entityYaw, partialTicks);*/
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(T entity) {
+	public ResourceLocation getEntityTexture(T entity) {
 		return TEXTURE;
 	}
 }

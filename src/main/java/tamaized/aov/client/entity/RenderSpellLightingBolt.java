@@ -24,8 +24,8 @@ public class RenderSpellLightingBolt extends EntityRenderer<EntitySpellLightning
 	}
 
 	@Override
-	public void render(T entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-		Tessellator tessellator = Tessellator.getInstance();
+	public void render(EntitySpellLightningBolt p_225623_1_, float p_225623_2_, float p_225623_3_, MatrixStack p_225623_4_, IRenderTypeBuffer p_225623_5_, int p_225623_6_) {
+		/*Tessellator tessellator = Tessellator.getInstance(); TODO
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
 		RenderSystem.disableTexture();
 		RenderSystem.disableLighting();
@@ -121,12 +121,12 @@ public class RenderSpellLightingBolt extends EntityRenderer<EntitySpellLightning
 
 		RenderSystem.disableBlend();
 		RenderSystem.enableLighting();
-		RenderSystem.enableTexture();
+		RenderSystem.enableTexture();*/
 	}
 
 	@Override
 	@Nullable
-	protected ResourceLocation getEntityTexture(@Nonnull EntitySpellLightningBolt entity) {
+	public ResourceLocation getEntityTexture(@Nonnull EntitySpellLightningBolt entity) {
 		return null;
 	}
 }
