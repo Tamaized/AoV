@@ -109,7 +109,7 @@ public class FuriousHowl extends AbilityBase {
 				aov.addExp(caster, 20, this);
 		}
 		for (int i = 0; i < 3; i++)
-			caster.world.playSound(null, caster.posX, caster.posY, caster.posZ, SoundEvents.ENTITY_WOLF_GROWL, SoundCategory.PLAYERS, 0.5F, caster.getRNG().nextFloat() * 0.75F + 0.25F);
+			caster.world.playSound(null, caster.getPosX(), caster.getPosY(), caster.getPosZ(), SoundEvents.ENTITY_WOLF_GROWL, SoundCategory.PLAYERS, 0.5F, caster.getRNG().nextFloat() * 0.75F + 0.25F);
 		return true;
 	}
 

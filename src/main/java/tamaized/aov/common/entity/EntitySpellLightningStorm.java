@@ -64,7 +64,7 @@ public class EntitySpellLightningStorm extends Entity {
 						if (e instanceof LivingEntity && e.getUniqueID().equals(casterID))
 							caster = (LivingEntity) e;
 				final double size = getWidth() / 2F;
-				List<LivingEntity> list = world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(posX - size, posY - 36F, posZ - size, posX + size, posY + 3F, posZ + size));
+				List<LivingEntity> list = world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(getPosX() - size, getPosY() - 36F, getPosZ() - size, getPosX() + size, getPosY() + 3F, getPosZ() + size));
 				list.removeIf(e -> e == caster || !IAoVCapability.selectiveTarget(caster, CapabilityList.getCap(caster, CapabilityList.AOV, null), e));
 				LivingEntity entity = list.isEmpty() ? null : list.size() == 1 ? list.get(0) : list.get(rand.nextInt(list.size()));
 				EntitySpellLightningBolt strike = new EntitySpellLightningBolt(world, caster, damage, Abilities.lightningStorm);
@@ -86,7 +86,7 @@ public class EntitySpellLightningStorm extends Entity {
 	}
 
 	private Vec3d getNextPos() {
-		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(new BlockPos(getNextCoord() + posX, posY, getNextCoord() + posZ));
+		BlockPos.Mutable pos = new BlockPos.Mutable(new BlockPos(getNextCoord() + getPosX(), getPosY(), getNextCoord() + getPosZ()));
 		while (pos.getY() > 1 && world.isAirBlock(pos))
 			pos.setPos(pos.down());
 		return new Vec3d(pos.getX(), pos.getY(), pos.getZ());
@@ -144,8 +144,9 @@ public class EntitySpellLightningStorm extends Entity {
 				double z = oz + offset.z;
 
 				RenderSystem.translated(ox, oy, oz);
-				RenderSystem.rotatef(180.0F - renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-				RenderSystem.rotatef((float) (renderManager.options.thirdPersonView == 2 ? -1 : 1) * -renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+//				RenderSystem.rotatef(180.0F - renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+//				RenderSystem.rotatef((float) (renderManager.options.thirdPersonView == 2 ? -1 : 1) * -renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+				//matrixStackIn.rotate(Vector3f.YP.rotationDegrees(-this.info.getYaw())); // ActiveRenderInfo // TODO
 				RenderSystem.rotatef(rot, 0F, 0F, 1F);
 				RenderSystem.translated(-ox, -oy, -oz);
 

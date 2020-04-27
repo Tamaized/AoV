@@ -246,34 +246,34 @@ public class AstroCapabilityHandler implements IAstroCapability {
 							for (int i = 0; i < 15; i++)
 								spawnParticle(entity,
 
-										entity.posX + (entity.getRNG().nextDouble() * 0.75D) - 0.375D,
+										entity.getPosX() + (entity.getRNG().nextDouble() * 0.75D) - 0.375D,
 
-										entity.posY + 2.7D + entity.getRNG().nextGaussian() * 0.25D,
+										entity.getPosY() + 2.7D + entity.getRNG().nextGaussian() * 0.25D,
 
-										entity.posZ + (entity.getRNG().nextDouble() * 0.75D) - 0.375D);
+										entity.getPosZ() + (entity.getRNG().nextDouble() * 0.75D) - 0.375D);
 						if (dat[0] > 0 && dat[3] < 25)
 							for (int x = 0; x < 7; x++)
 								for (int z = 0; z < 7; z++)
 									spawnParticle(entity,
 
-											entity.posX - 0.375D + 0.13 * x,
+											entity.getPosX() - 0.375D + 0.13 * x,
 
-											entity.posY + 2.95D - (0.75D * ((80F - dat[0]) / 80F)),
+											entity.getPosY() + 2.95D - (0.75D * ((80F - dat[0]) / 80F)),
 
-											entity.posZ - 0.375D + 0.13 * z);
+											entity.getPosZ() - 0.375D + 0.13 * z);
 						if (dat[3] == 60 && !entity.world.isRemote)
 							SoundEvents.playMovingSoundOnServer(SoundEvents.draw2, entity);
 						break;
 					case Burn:
 						float theta = (float) Math.toRadians(dat[3] * 16);
-						entity.world.addParticle(ParticleTypes.FLAME, entity.posX + MathHelper.cos(theta), entity.posY + 2F + MathHelper.sin(theta), entity.posZ + MathHelper.sin(theta), 0.0D, 0.0D, 0.0D);
-						entity.world.addParticle(ParticleTypes.FLAME, entity.posX + MathHelper.sin(theta), entity.posY + 2F + MathHelper.sin(theta), entity.posZ + MathHelper.cos(theta), 0.0D, 0.0D, 0.0D);
+						entity.world.addParticle(ParticleTypes.FLAME, entity.getPosX() + MathHelper.cos(theta), entity.getPosY() + 2F + MathHelper.sin(theta), entity.getPosZ() + MathHelper.sin(theta), 0.0D, 0.0D, 0.0D);
+						entity.world.addParticle(ParticleTypes.FLAME, entity.getPosX() + MathHelper.sin(theta), entity.getPosY() + 2F + MathHelper.sin(theta), entity.getPosZ() + MathHelper.cos(theta), 0.0D, 0.0D, 0.0D);
 						if (dat[3] <= 20 && dat[3] > 0)
-							entity.world.addParticle(ParticleTypes.FLAME, entity.posX + entity.getRNG().nextDouble() * 0.125D - 0.0625D, entity.posY + 2.9F - (0.125D * ((80F - dat[0]) / 80F)), entity.posZ + entity.getRNG().nextDouble() * 0.125D - 0.0625D, 0.0D, 0.0D, 0.0D);
+							entity.world.addParticle(ParticleTypes.FLAME, entity.getPosX() + entity.getRNG().nextDouble() * 0.125D - 0.0625D, entity.getPosY() + 2.9F - (0.125D * ((80F - dat[0]) / 80F)), entity.getPosZ() + entity.getRNG().nextDouble() * 0.125D - 0.0625D, 0.0D, 0.0D, 0.0D);
 						break;
 					case Activate:
 						if (dat[3] <= 20 && dat[3] > 0)
-							spawnParticle(entity, entity.posX + entity.getRNG().nextDouble() * 0.125D - 0.0625D, entity.posY + 2.7F - (0.125D * ((80F - dat[0]) / 80F)), entity.posZ + entity.getRNG().nextDouble() * 0.125D - 0.0625D);
+							spawnParticle(entity, entity.getPosX() + entity.getRNG().nextDouble() * 0.125D - 0.0625D, entity.getPosY() + 2.7F - (0.125D * ((80F - dat[0]) / 80F)), entity.getPosZ() + entity.getRNG().nextDouble() * 0.125D - 0.0625D);
 						break;
 					default:
 						break;

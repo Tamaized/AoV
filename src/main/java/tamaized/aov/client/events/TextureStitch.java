@@ -16,7 +16,7 @@ public class TextureStitch {
 
 	@SubscribeEvent
 	public static void stitch(TextureStitchEvent.Pre e) {
-		if (e.getMap().getBasePath().equalsIgnoreCase("textures/particle")) {
+		if (e.getMap().getTextureLocation() == AtlasTexture.LOCATION_PARTICLES_TEXTURE) {
 			PARTICLE_MAP = e.getMap();
 			e.addSprite(HEART);
 		}

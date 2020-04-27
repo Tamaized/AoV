@@ -91,7 +91,7 @@ public class NimbusRay extends AbilityBase {
 		if (cap == null)
 			return false;
 		int a = (int) (damage * (1f + (cap.getSpellPower() / 100f)));
-		ProjectileNimbusRay ray = new ProjectileNimbusRay(caster.world, caster, caster.posX, caster.posY, caster.posZ);
+		ProjectileNimbusRay ray = new ProjectileNimbusRay(caster.world, caster, caster.getPosX(), caster.getPosY(), caster.getPosZ());
 		ray.setSpell(this);
 		ray.setColor(0xFFFF66FF);
 		ray.setDamage(a);

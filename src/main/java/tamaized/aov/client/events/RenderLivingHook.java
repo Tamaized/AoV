@@ -1,6 +1,7 @@
 package tamaized.aov.client.events;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.model.EntityModel;
@@ -24,7 +25,7 @@ public class RenderLivingHook {
 			return;
 		RenderSystem.pushMatrix();
 		{
-			RenderSystem.translated(e.getX(), e.getY() + (e.getEntity().isSneaking() ? 0.1F : 0F), e.getZ());
+			RenderSystem.translated(0, e.getEntity().isSneaking() ? 0.1F : 0F, 0);
 			RenderSystem.disableTexture();
 			RenderSystem.enableBlend();
 			RenderSystem.disableCull();

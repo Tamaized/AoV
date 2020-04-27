@@ -126,10 +126,10 @@ public class ElementalEmpowerment extends AbilityBase implements IAura {
 		if (poly != null) {
 			switch (poly.getMorph()) {
 				case WaterElemental:
-					ParticleRegistry.spawnFromServer(caster.world, AoVParticles.SNOW, caster.posX + caster.world.rand.nextDouble() * 1.5F - 0.75F, caster.posY + caster.getEyeHeight() - 0.25F + caster.world.rand.nextDouble() * 1.5F - 0.75F, caster.posZ + caster.world.rand.nextDouble() * 1.5F - 0.75F, 0, -0.03F, 0);
+					ParticleRegistry.spawnFromServer(caster.world, AoVParticles.SNOW, caster.getPosX() + caster.world.rand.nextDouble() * 1.5F - 0.75F, caster.getPosY() + caster.getEyeHeight() - 0.25F + caster.world.rand.nextDouble() * 1.5F - 0.75F, caster.getPosZ() + caster.world.rand.nextDouble() * 1.5F - 0.75F, 0, -0.03F, 0);
 					break;
 				case FireElemental:
-					caster.world.addParticle(ParticleTypes.FLAME, caster.posX + caster.world.rand.nextDouble() * 1.5F - 0.75F, caster.posY + caster.getEyeHeight() - 0.25F + caster.world.rand.nextDouble() * 1.5F - 0.75F, caster.posZ + caster.world.rand.nextDouble() * 1.5F - 0.75F, 0, 0, 0);
+					caster.world.addParticle(ParticleTypes.FLAME, caster.getPosX() + caster.world.rand.nextDouble() * 1.5F - 0.75F, caster.getPosY() + caster.getEyeHeight() - 0.25F + caster.world.rand.nextDouble() * 1.5F - 0.75F, caster.getPosZ() + caster.world.rand.nextDouble() * 1.5F - 0.75F, 0, 0, 0);
 					float damage = DAMAGE * (1F + (cap.getSpellPower() / 100F));
 					if (life > 0 && life % (3 * 20) == 0) {
 						List<LivingEntity> list = caster.world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(caster.getPosition().add(-RANGE, -RANGE, -RANGE), caster.getPosition().add(RANGE, RANGE, RANGE)));

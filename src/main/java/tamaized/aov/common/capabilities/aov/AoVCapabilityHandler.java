@@ -188,7 +188,7 @@ public class AoVCapabilityHandler implements IAoVCapability {
 		if (player == null || player.world == null || player.world.isRemote)
 			return;
 		IAttributeInstance hp = player.getAttribute(SharedMonsterAttributes.MAX_HEALTH);
-		Iterator<AttributeModifier> iter = hp.getModifiers().iterator();
+		Iterator<AttributeModifier> iter = hp.func_225505_c_().iterator();
 		//noinspection WhileLoopReplaceableByForEach
 		while (iter.hasNext()) {
 			AttributeModifier mod = iter.next();

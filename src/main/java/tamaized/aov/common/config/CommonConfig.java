@@ -11,7 +11,6 @@ import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -160,12 +159,6 @@ public class CommonConfig {
 	}
 
 	@SubscribeEvent
-	public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
-		if (event.getModID().equals(AoV.MODID))
-			update();
-	}
-
-	@SubscribeEvent
 	public static void onLoad(final ModConfig.Loading event) {
 		if (event.getConfig().getModId().equals(AoV.MODID)) {
 			AoV.config.file = (ConfigWrapper) event.getConfig().getConfigData();
@@ -174,7 +167,7 @@ public class CommonConfig {
 	}
 
 	@SubscribeEvent
-	public static void onFileChange(final ModConfig.ConfigReloading event) {
+	public static void onFileChange(final ModConfig.Reloading event) {
 		if (event.getConfig().getModId().equals(AoV.MODID))
 			update();
 	}

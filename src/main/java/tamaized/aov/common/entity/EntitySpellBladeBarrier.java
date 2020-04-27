@@ -42,7 +42,7 @@ public class EntitySpellBladeBarrier extends Entity implements IEntityAdditional
 		caster = entity;
 		damage = dmg;
 		range = r;
-		setPositionAndUpdate(caster.posX, caster.posY, caster.posZ);
+		setPositionAndUpdate(caster.getPosX(), caster.getPosY(), caster.getPosZ());
 		tick = 0;
 	}
 

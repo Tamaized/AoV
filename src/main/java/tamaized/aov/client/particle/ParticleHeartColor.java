@@ -1,5 +1,6 @@
 package tamaized.aov.client.particle;
 
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.particle.IParticleRenderType;
 import net.minecraft.client.particle.SpriteTexturedParticle;
 import net.minecraft.client.renderer.ActiveRenderInfo;
@@ -39,11 +40,11 @@ public class ParticleHeartColor extends SpriteTexturedParticle {
 	}
 
 	@Override
-	public void renderParticle(BufferBuilder buffer, @Nonnull ActiveRenderInfo entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
+	public void renderParticle(IVertexBuilder buffer, ActiveRenderInfo renderInfo, float partialTicks) {
 		float f = ((float) this.age + partialTicks) / (float) this.maxAge * 32.0F;
 		f = MathHelper.clamp(f, 0.0F, 1.0F);
 		this.particleScale = this.particleScaleOverTime * f;
-		super.renderParticle(buffer, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
+		super.renderParticle(buffer, renderInfo, partialTicks);
 	}
 
 	@Override

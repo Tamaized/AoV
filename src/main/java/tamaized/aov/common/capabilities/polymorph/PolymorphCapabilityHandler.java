@@ -149,8 +149,8 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 		for (int index = 0; index < 5 - wolves.size(); index++) {
 			EntityDruidicWolf wolf = new EntityDruidicWolf(world, caster, damage);
 
-			int x = MathHelper.floor(caster.posX) - 2;
-			int z = MathHelper.floor(caster.posZ) - 2;
+			int x = MathHelper.floor(caster.getPosX()) - 2;
+			int z = MathHelper.floor(caster.getPosZ()) - 2;
 			int y = MathHelper.floor(caster.getBoundingBox().minY);
 
 			for (int l = wolf.getRNG().nextInt(6); l <= 8; ++l) {
@@ -163,7 +163,7 @@ public class PolymorphCapabilityHandler implements IPolymorphCapability {
 						if (world instanceof ServerWorld)
 							for (int i = 0; i < 25; i++) {
 								Vec3d result = wolf.getLook(1F).rotateYaw(wolf.getRNG().nextFloat() * 360F).rotatePitch(wolf.getRNG().nextFloat() * 360F);
-								((ServerWorld) world).spawnParticle(ParticleTypes.END_ROD, wolf.posX + result.x, wolf.posY + wolf.getHeight() / 2F + result.y, wolf.posZ + result.z, 0, 0, 0, 0, 1);
+								((ServerWorld) world).spawnParticle(ParticleTypes.END_ROD, wolf.getPosX() + result.x, wolf.getPosY() + wolf.getHeight() / 2F + result.y, wolf.getPosZ() + result.z, 0, 0, 0, 0, 1);
 							}
 						wolves.add(wolf);
 						world.addEntity(wolf);

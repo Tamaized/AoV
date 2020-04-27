@@ -2,6 +2,7 @@ package tamaized.aov.common.entity;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -98,16 +99,16 @@ public class EntityEarthquake extends Entity {
 						return;
 					}
 					if (!world.isAirBlock(new BlockPos(getPosition().getX(), i, getPosition().getZ()))) {
-						setPosition(posX, i + 1, posZ);
+						setPosition(getPosX(), i + 1, getPosZ());
 						break;
 					}
 				}
 			}
 			if ((ticksExisted % 3 == 0 || ticksExisted % 15 == 0 || ticksExisted % 35 == 0) && rand.nextBoolean())
-				world.playSound(null, posX, posY, posZ, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.PLAYERS, 2.0F, rand.nextFloat() * 0.65F + (rand.nextBoolean() ? 0.75F : 0.1F));
+				world.playSound(null, getPosX(), getPosY(), getPosZ(), SoundEvents.BLOCK_STONE_BREAK, SoundCategory.PLAYERS, 2.0F, rand.nextFloat() * 0.65F + (rand.nextBoolean() ? 0.75F : 0.1F));
 			if (AoV.config.EARTHQUAKE.enable.get() && ticksExisted % AoV.config.EARTHQUAKE.ticks.get() == 0 && rand.nextInt(AoV.config.EARTHQUAKE.chance.get()) == 0) {
 				final int radius = 2;
-				List<BlockPos> positions = BlockPos.getAllInBox(new BlockPos(posX - radius, posY - 1, posZ - radius), new BlockPos(posX + radius, posY, posZ + radius)).collect(Collectors.toList());
+				List<BlockPos> positions = BlockPos.getAllInBox(new BlockPos(getPosX() - radius, getPosY() - 1, getPosZ() - radius), new BlockPos(getPosX() + radius, getPosY(), getPosZ() + radius)).collect(Collectors.toList());
 				BlockState newState;
 				BlockState state;
 				BlockPos pos;
@@ -136,7 +137,7 @@ public class EntityEarthquake extends Entity {
 						if (e.getUniqueID().equals(casterID))
 							caster = e;
 				IAoVCapability cap = CapabilityList.getCap(caster, CapabilityList.AOV);
-				for (LivingEntity entity : world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(posX - getWidth(), posY - 1F, posZ - getWidth(), posX + getWidth(), posY + 3F, posZ + getWidth()))) {
+				for (LivingEntity entity : world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(getPosX() - getWidth(), getPosY() - 1F, getPosZ() - getWidth(), getPosX() + getWidth(), getPosY() + 3F, getPosZ() + getWidth()))) {
 					if (entity != caster && IAoVCapability.selectiveTarget(caster, cap, entity) && entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.MAGIC, caster), damage)) {
 						entity.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 20 * 8));
 						if (cap != null)

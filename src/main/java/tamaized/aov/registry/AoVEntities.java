@@ -7,6 +7,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -70,21 +71,25 @@ public class AoVEntities {
 
 	@SubscribeEvent
 	public static void registerRenders(FMLClientSetupEvent e) {
-		RenderingRegistry.registerEntityRenderingHandler(ProjectileNimbusRay.class, RenderNimbusRay::new);
-		RenderingRegistry.registerEntityRenderingHandler(ProjectileFlameStrike.class, RenderFlameStrike::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntitySpellImplosion.class, RenderSpellEntity::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntitySpellBladeBarrier.class, RenderSpellBladeBarrier::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntitySpellAoVParticles.class, RenderSpellEntity::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntitySpellVanillaParticles.class, RenderSpellEntity::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityMalefic.class, RenderMalefic::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityCombust.class, RenderCombust::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityGravity.class, RenderGravity::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityCelestialOpposition.class, RenderCelestialOpposition::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntitySpellLightningBolt.class, RenderSpellLightingBolt::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityEarthquake.class, RenderEarthquake::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntitySpellLightningStorm.class, RenderSpellLightingStorm::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityDruidicWolf.class, RenderDruidicWolf::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityAlignmentAoE.class, RenderAlignmentAoE::new);
+		registerEntityRenderingHandler(projectilenimbusray, RenderNimbusRay::new);
+		registerEntityRenderingHandler(projectileflamestrike, RenderFlameStrike::new);
+		registerEntityRenderingHandler(entityspellimplosion, RenderSpellEntity::new);
+		registerEntityRenderingHandler(entityspellbladebarrier, RenderSpellBladeBarrier::new);
+		registerEntityRenderingHandler(entityspellvanillaparticles, RenderSpellEntity::new);
+		registerEntityRenderingHandler(entityspellaovparticles, RenderSpellEntity::new);
+		registerEntityRenderingHandler(entitymalefic, RenderMalefic::new);
+		registerEntityRenderingHandler(entitycombust, RenderCombust::new);
+		registerEntityRenderingHandler(entitygravity, RenderGravity::new);
+		registerEntityRenderingHandler(entitycelestialopposition, RenderCelestialOpposition::new);
+		registerEntityRenderingHandler(entityspelllightningbolt, RenderSpellLightingBolt::new);
+		registerEntityRenderingHandler(entityearthquake, RenderEarthquake::new);
+		registerEntityRenderingHandler(entityspelllightningstorm, RenderSpellLightingStorm::new);
+		registerEntityRenderingHandler(entitydruidicwolf, RenderDruidicWolf::new);
+		registerEntityRenderingHandler(entityalignmentaoe, RenderAlignmentAoE::new);
+	}
+
+	private static <T extends Entity> void registerEntityRenderingHandler(RegistryObject<EntityType<T>> type, IRenderFactory<? super T> renderFactory) {
+		RenderingRegistry.registerEntityRenderingHandler(type.get(), renderFactory);
 	}
 
 	@SuppressWarnings("ConstantConditions")

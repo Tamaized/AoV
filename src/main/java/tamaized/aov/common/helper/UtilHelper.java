@@ -37,7 +37,7 @@ public class UtilHelper {
 
 			if (e.getWidth() < f) {
 				double d0 = (double) width / 2.0D;
-				e.setBoundingBox(new AxisAlignedBB(e.posX - d0, e.posY, e.posZ - d0, e.posX + d0, e.posY + (double) e.getHeight(), e.posZ + d0));
+				e.setBoundingBox(new AxisAlignedBB(e.getPosX() - d0, e.getPosY(), e.getPosZ() - d0, e.getPosX() + d0, e.getPosY() + (double) e.getHeight(), e.getPosZ() + d0));
 				return;
 			}
 

@@ -101,7 +101,7 @@ public class FlameStrike extends AbilityBase {
 		Vec3d pos = UtilHelper.getSpellLocation(caster, distance, target);
 		strike.setPosition(pos.x, pos.y + 15, pos.z);
 		caster.world.addEntity(strike);
-		strike.world.playSound(null, strike.posX, strike.posY - 20, strike.posZ, SoundEvents.firestrike, SoundCategory.NEUTRAL, 1.0F, 1.0F);
+		strike.world.playSound(null, strike.getPosX(), strike.getPosY() - 20, strike.getPosZ(), SoundEvents.firestrike, SoundCategory.NEUTRAL, 1.0F, 1.0F);
 		return true;
 	}
 

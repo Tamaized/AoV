@@ -1,6 +1,7 @@
 package tamaized.aov.client;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -60,7 +61,7 @@ public class LayerWings extends LayerRenderer<AbstractClientPlayerEntity, Player
 				RenderSystem.pushMatrix();
 
 				RenderSystem.translated(0.0F, 0.25F, 0.0F);
-				RenderSystem.rotatef(-MathHelper.func_219805_h(partialTicks, player.prevRenderYawOffset, player.renderYawOffset), 0, 1, 0);
+				RenderSystem.rotatef(-MathHelper.interpolateAngle(partialTicks, player.prevRenderYawOffset, player.renderYawOffset), 0, 1, 0);
 				final float scale = 0.0625F;
 				RenderSystem.scalef(scale, scale, scale);
 

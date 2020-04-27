@@ -110,20 +110,20 @@ public class KeyHandler {
 
 	public static void setupCallbacks() {
 		if (delegate_cursosPos == null)
-			delegate_cursosPos = GLFW.glfwSetCursorPosCallback(Minecraft.getInstance().mainWindow.getHandle(), KeyHandler::callbackCursorPos);
+			delegate_cursosPos = GLFW.glfwSetCursorPosCallback(Minecraft.getInstance().getMainWindow().getHandle(), KeyHandler::callbackCursorPos);
 		if (delegate_mouseButton == null)
-			delegate_mouseButton = GLFW.glfwSetMouseButtonCallback(Minecraft.getInstance().mainWindow.getHandle(), KeyHandler::callbackMouseButton);
+			delegate_mouseButton = GLFW.glfwSetMouseButtonCallback(Minecraft.getInstance().getMainWindow().getHandle(), KeyHandler::callbackMouseButton);
 		if (delegate_scroll == null)
-			delegate_scroll = GLFW.glfwSetScrollCallback(Minecraft.getInstance().mainWindow.getHandle(), KeyHandler::callbackScroll);
+			delegate_scroll = GLFW.glfwSetScrollCallback(Minecraft.getInstance().getMainWindow().getHandle(), KeyHandler::callbackScroll);
 		if (delegate_key == null)
-			delegate_key = GLFW.glfwSetKeyCallback(Minecraft.getInstance().mainWindow.getHandle(), KeyHandler::callbackKey);
+			delegate_key = GLFW.glfwSetKeyCallback(Minecraft.getInstance().getMainWindow().getHandle(), KeyHandler::callbackKey);
 	}
 
 	private static void callbackCursorPos(long id, double x, double y) {
 		PlayerEntity player = Minecraft.getInstance().player;
 		if (player != null && player.world != null && Minecraft.getInstance().currentScreen == null) {
 			if (!player.canUpdate()) {
-				GLFW.glfwSetCursorPos(Minecraft.getInstance().mainWindow.getHandle(), mx, my);
+				GLFW.glfwSetCursorPos(Minecraft.getInstance().getMainWindow().getHandle(), mx, my);
 				return;
 			}
 			mx = x;

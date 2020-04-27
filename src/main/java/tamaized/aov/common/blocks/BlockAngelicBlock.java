@@ -6,7 +6,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
-import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Rotation;
@@ -37,18 +37,13 @@ public class BlockAngelicBlock extends Block {
 
 	@Nonnull
 	@Override
-	public BlockRenderLayer getRenderLayer() {
-		return BlockRenderLayer.TRANSLUCENT;
-	}
-
-	@Override
 	@Deprecated
-	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		if ((type != ClassType.ALL || player.isCreative()) && player instanceof ServerPlayerEntity)
 			GuiHandler.openGui(GuiHandler.GUI.SKILLS, type, (ServerPlayerEntity) player);
-		else
-			return (type != ClassType.ALL || player.isCreative());
-		return true;
+		else if (type == ClassType.ALL && !player.isCreative())
+			return ActionResultType.FAIL;
+		return ActionResultType.SUCCESS;
 	}
 
 	@Override

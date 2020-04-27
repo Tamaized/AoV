@@ -25,7 +25,7 @@ public class AoVCapabilityStorage implements IStorage<IAoVCapability> {
 		CompoundNBT nbt = new CompoundNBT();
 		ListNBT list = new ListNBT();
 		for (AoVSkill skill : instance.getObtainedSkills())
-			list.add(new IntNBT(skill.getID()));
+			list.add(IntNBT.valueOf(skill.getID()));
 		nbt.put("obtainedSkills", list);
 		list = new ListNBT();
 		for (Entry<AbilityBase, DecayWrapper> entry : instance.getDecayMap().entrySet()) {

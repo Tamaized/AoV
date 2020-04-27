@@ -2,6 +2,7 @@ package tamaized.aov.client.gui;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.widget.Widget;
@@ -142,7 +143,7 @@ public class AoVSkillsGUI extends GuiScreenClose {
 		drawString(font, "" + (cap == null ? "null" : cap.getLevel()), width - 40, 15, 0xFFFFFF00);
 
 		RenderSystem.enableBlend();
-		RenderUtils.setup(blitOffset);
+		RenderUtils.setup(getBlitOffset());
 		RenderUtils.renderRect(width / 2F - 66, height - 215, 126, 188, false, 0x00000088);
 		super.render(mouseX, mouseY, partialTicks);
 		RenderSystem.disableBlend();

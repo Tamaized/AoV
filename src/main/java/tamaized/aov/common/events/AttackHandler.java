@@ -83,7 +83,7 @@ public class AttackHandler {
 
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void onPlayerMeleeAttack(AttackEntityEvent e) {
-		PlayerEntity player = e.getEntityPlayer();
+		PlayerEntity player = e.getPlayer();
 		IPolymorphCapability poly = CapabilityList.getCap(player, CapabilityList.POLYMORPH);
 		IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
 		if (canHurt(e.getTarget()) && cap != null && cap.getCoreSkill() == AoVSkills.druid_core_1 && IAoVCapability.isCentered(player, cap))
@@ -92,12 +92,12 @@ public class AttackHandler {
 			float amp = (1.0F + (cap == null ? 0F : (cap.getSpellPower() / 100F)));
 			float dmg = 4.0F * amp;
 			if (poly.isFlagBitActive(FuriousClaw.BIT))
-				dmg += FuriousClaw.DAMAGE * amp * (IAoVCapability.isCentered(e.getEntityPlayer(), cap) ? 2F : 1F) * (IAoVCapability.isImprovedCentered(player, cap) ? 2F : 1F);
+				dmg += FuriousClaw.DAMAGE * amp * (IAoVCapability.isCentered(e.getPlayer(), cap) ? 2F : 1F) * (IAoVCapability.isImprovedCentered(player, cap) ? 2F : 1F);
 			poly.subtractFlagBits(FuriousClaw.BIT);
 			if (poly.isFlagBitActive(FuriousFang.BIT))
-				dmg += FuriousFang.DAMAGE * amp * (IAoVCapability.isCentered(e.getEntityPlayer(), cap) ? 2F : 1F) * (IAoVCapability.isImprovedCentered(player, cap) ? 2F : 1F);
+				dmg += FuriousFang.DAMAGE * amp * (IAoVCapability.isCentered(e.getPlayer(), cap) ? 2F : 1F) * (IAoVCapability.isImprovedCentered(player, cap) ? 2F : 1F);
 			poly.subtractFlagBits(FuriousFang.BIT);
-			e.getTarget().attackEntityFrom(DamageSource.causePlayerDamage(e.getEntityPlayer()), dmg);
+			e.getTarget().attackEntityFrom(DamageSource.causePlayerDamage(e.getPlayer()), dmg);
 			e.setCanceled(true);
 		}
 	}
@@ -143,9 +143,9 @@ public class AttackHandler {
 				attackerLiving = (LivingEntity) attacker;
 			if (cap != null) {
 				if (cap.hasSkill(AoVSkills.paladin_core_3) && attackerLiving != null && ((!attackerLiving.getHeldItemMainhand().isEmpty() && attackerLiving.getHeldItemMainhand().getItem().isShield(attackerLiving.getHeldItemMainhand(), attackerLiving)) || (!attackerLiving.getHeldItemOffhand().isEmpty() && attackerLiving.getHeldItemOffhand().getItem().isShield(attackerLiving.getHeldItemOffhand(), attackerLiving)))) {
-					double d1 = attacker.posX - entity.posX;
+					double d1 = attacker.getPosX() - entity.getPosX();
 					double d0;
-					for (d0 = attacker.posZ - entity.posZ; d1 * d1 + d0 * d0 < 1.0E-4D; d0 = (Math.random() - Math.random()) * 0.01D) {
+					for (d0 = attacker.getPosZ() - entity.getPosZ(); d1 * d1 + d0 * d0 < 1.0E-4D; d0 = (Math.random() - Math.random()) * 0.01D) {
 						d1 = (Math.random() - Math.random()) * 0.01D;
 					}
 					entity.attackedAtYaw = (float) (MathHelper.atan2(d0, d1) * (180D / Math.PI) - (double) entity.rotationYaw);
@@ -201,7 +201,7 @@ public class AttackHandler {
 
 				if (entity instanceof LivingEntity) {
 					LivingEntity p_190629_1_ = (LivingEntity) entity;
-					p_190629_1_.knockBack(player, 0.5F, player.posX - p_190629_1_.posX, player.posZ - p_190629_1_.posZ);
+					p_190629_1_.knockBack(player, 0.5F, player.getPosX() - p_190629_1_.getPosX(), player.getPosZ() - p_190629_1_.getPosZ());
 				}
 				player.world.setEntityState(player, (byte) 29);
 			}
@@ -237,7 +237,7 @@ public class AttackHandler {
 				if (fullRadial)
 					return true;
 				Vec3d vec3d1 = player.getLook(1.0F);
-				Vec3d vec3d2 = vec3d.subtractReverse(new Vec3d(player.posX, player.posY, player.posZ)).normalize();
+				Vec3d vec3d2 = vec3d.subtractReverse(new Vec3d(player.getPosX(), player.getPosY(), player.getPosZ())).normalize();
 				vec3d2 = new Vec3d(vec3d2.x, 0.0D, vec3d2.z);
 
 				return vec3d2.dotProduct(vec3d1) < 0.0D;

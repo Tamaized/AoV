@@ -23,7 +23,7 @@ import java.util.Random;
 public class RenderAlignmentAoE<T extends EntityAlignmentAoE> extends EntityRenderer<T> {
 
 	private static final ResourceLocation TEXTURE = new ResourceLocation(AoV.MODID, "textures/entity/chaoshammer.png");
-	private static final ModelChaosHammer MODEL = new ModelChaosHammer(RenderType::func_228644_e_);
+	private static final ModelChaosHammer MODEL = new ModelChaosHammer(RenderType::getEntityTranslucent);
 	private static final Random rand = new Random();
 
 	public RenderAlignmentAoE(EntityRendererManager renderManager) {
@@ -31,7 +31,7 @@ public class RenderAlignmentAoE<T extends EntityAlignmentAoE> extends EntityRend
 	}
 
 	@Override
-	public void func_225629_a_(@Nonnull T entity, @Nonnull String p_225629_2_, @Nonnull MatrixStack p_225629_3_, @Nonnull IRenderTypeBuffer p_225629_4_, int p_225629_5_) {
+	public void render(T entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
 		final float ticks = entity.ticksExisted + Minecraft.getInstance().getRenderPartialTicks();
 		switch (entity.getAlignment()) {
 			case OrdersWrath: {

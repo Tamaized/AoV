@@ -93,7 +93,7 @@ public class CelestialOpposition extends AbilityBase {
 	public boolean cast(Ability ability, PlayerEntity caster, LivingEntity target) {
 		IAoVCapability aov = CapabilityList.getCap(caster, CapabilityList.AOV);
 		if (!caster.world.isRemote && aov != null) {
-			for (LivingEntity e : caster.world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(caster.posX - distance, caster.posY - distance, caster.posZ - distance, caster.posX + distance, caster.posY + distance, caster.posZ + distance))) {
+			for (LivingEntity e : caster.world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(caster.getPosX() - distance, caster.getPosY() - distance, caster.getPosZ() - distance, caster.getPosX() + distance, caster.getPosY() + distance, caster.getPosZ() + distance))) {
 				if (e != caster && IAoVCapability.selectiveTarget(caster, aov, e)) {
 					IStunCapability stun = CapabilityList.getCap(e, CapabilityList.STUN);
 					if (stun != null) {
@@ -108,7 +108,7 @@ public class CelestialOpposition extends AbilityBase {
 				}
 			}
 			EntityCelestialOpposition spell = new EntityCelestialOpposition(caster.world);
-			spell.setPosition(caster.posX, caster.posY, caster.posZ);
+			spell.setPosition(caster.getPosX(), caster.getPosY(), caster.getPosZ());
 			caster.world.addEntity(spell);
 			SoundEvents.playMovingSoundOnServer(SoundEvents.celestialopposition, spell, 0.5F, 1F);
 			return true;

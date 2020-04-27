@@ -23,8 +23,6 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
 import tamaized.aov.common.capabilities.CapabilityList;
@@ -65,7 +63,7 @@ public abstract class ProjectileBase extends AbstractArrowEntity implements IPro
 	}
 
 	public ProjectileBase(EntityType type, World worldIn, LivingEntity shooter) {
-		this(type, worldIn, shooter, shooter.posX, shooter.posY, shooter.posZ);
+		this(type, worldIn, shooter, shooter.getPosX(), shooter.getPosY(), shooter.getPosZ());
 	}
 
 	public ProjectileBase(EntityType type, World worldIn, LivingEntity shooter, double x, double y, double z) {
@@ -79,19 +77,18 @@ public abstract class ProjectileBase extends AbstractArrowEntity implements IPro
 
 	@SuppressWarnings("unused")
 	public ProjectileBase(EntityType type, World worldIn, LivingEntity shooter, LivingEntity target, float dmg) {
-		this(type, worldIn, shooter.posX, shooter.posY + (double) shooter.getEyeHeight() - 0.10000000149011612D, shooter.posZ);
+		this(type, worldIn, shooter.getPosX(), shooter.getPosY() + (double) shooter.getEyeHeight() - 0.10000000149011612D, shooter.getPosZ());
 		shootingEntity = shooter;
 		damage = dmg;
-		double d0 = target.posX - posX;
-		double d1 = target.getBoundingBox().minY + (double) (target.getHeight() / 2.0F) - posY;
-		double d2 = target.posZ - posZ;
+		double d0 = target.getPosX() - getPosX();
+		double d1 = target.getBoundingBox().minY + (double) (target.getHeight() / 2.0F) - getPosY();
+		double d2 = target.getPosZ() - getPosZ();
 		shoot(d0, d1/* + d3 * 0.20000000298023224D */, d2, 1.6F, (float) (14 - world.getDifficulty().getId() * 4));
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
-	public int getBrightnessForRender() {
-		return 0xF000F0;
+	public float getBrightness() {
+		return 1.0F;
 	}
 
 	public int getColor() {
@@ -111,7 +108,7 @@ public abstract class ProjectileBase extends AbstractArrowEntity implements IPro
 			this.rotationYaw = (float) (MathHelper.atan2(x, z) * (180D / Math.PI));
 			this.prevRotationPitch = this.rotationPitch;
 			this.prevRotationYaw = this.rotationYaw;
-			this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
+			this.setLocationAndAngles(this.getPosX(), this.getPosY(), this.getPosZ(), this.rotationYaw, this.rotationPitch);
 		}
 	}
 
@@ -151,9 +148,9 @@ public abstract class ProjectileBase extends AbstractArrowEntity implements IPro
 
 	@Override
 	public void writeSpawnData(PacketBuffer buffer) {
-		buffer.writeDouble(posX);
-		buffer.writeDouble(posY);
-		buffer.writeDouble(posZ);
+		buffer.writeDouble(getPosX());
+		buffer.writeDouble(getPosY());
+		buffer.writeDouble(getPosZ());
 
 		buffer.writeDouble(damage);
 		buffer.writeFloat(range);
@@ -195,14 +192,14 @@ public abstract class ProjectileBase extends AbstractArrowEntity implements IPro
 			prevRotationPitch = rotationPitch = (float) (Math.atan2(getMotion().y, (double) f) * (180.0D / Math.PI));
 		}
 
-		BlockPos blockpos = new BlockPos(posX, posY, posZ);
+		BlockPos blockpos = new BlockPos(getPosX(), getPosY(), getPosZ());
 		BlockState iblockstate = world.getBlockState(blockpos);
 
 		if (!iblockstate.isAir(this.world, blockpos)) {
 			VoxelShape voxelshape = iblockstate.getCollisionShape(this.world, blockpos);
 			if (!voxelshape.isEmpty()) {
 				for (AxisAlignedBB axisalignedbb : voxelshape.toBoundingBoxList()) {
-					if (axisalignedbb.offset(blockpos).contains(new Vec3d(this.posX, this.posY, this.posZ))) {
+					if (axisalignedbb.offset(blockpos).contains(new Vec3d(this.getPosX(), this.getPosY(), this.getPosZ()))) {
 						blockHit(iblockstate, blockpos);
 						remove();
 						return;
@@ -226,9 +223,7 @@ public abstract class ProjectileBase extends AbstractArrowEntity implements IPro
 				onHit(e);
 			}
 
-		posX += getMotion().x * speed;
-		posY += getMotion().y * speed;
-		posZ += getMotion().z * speed;
+		setPosition(getPosX() + getMotion().x * speed, getPosY() + getMotion().y * speed, getPosZ() + getMotion().z * speed);
 		float f4 = MathHelper.sqrt(getMotion().x * getMotion().x + getMotion().z * getMotion().z);
 		rotationYaw = (float) (Math.atan2(getMotion().x, getMotion().z) * (180.0D / Math.PI));
 
@@ -258,7 +253,7 @@ public abstract class ProjectileBase extends AbstractArrowEntity implements IPro
 			remove();
 			for (int l = 0; l < 4; ++l) {
 				f4 = 0.25F;
-				world.addParticle(ParticleTypes.BUBBLE, posX - getMotion().x * (double) f4, posY - getMotion().y * (double) f4, posZ - getMotion().z * (double) f4, getMotion().x, getMotion().y, getMotion().z);
+				world.addParticle(ParticleTypes.BUBBLE, getPosX() - getMotion().x * (double) f4, getPosY() - getMotion().y * (double) f4, getPosZ() - getMotion().z * (double) f4, getMotion().x, getMotion().y, getMotion().z);
 			}
 			f1 = 0.6F;
 		}
@@ -267,7 +262,7 @@ public abstract class ProjectileBase extends AbstractArrowEntity implements IPro
 			extinguish();
 
 		setMotion(getMotion().x * (double) f1, getMotion().y * (double) f1 - (double) f2, getMotion().z * (double) f1);
-		setPosition(posX, posY, posZ);
+		setPosition(getPosX(), getPosY(), getPosZ());
 		doBlockCollisions();
 		postTick();
 	}

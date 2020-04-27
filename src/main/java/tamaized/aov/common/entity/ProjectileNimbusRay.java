@@ -32,9 +32,8 @@ public class ProjectileNimbusRay extends ProjectileBase {
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
-	public int getBrightnessForRender() {
-		return 0xF000F0;
+	public float getBrightness() {
+		return 1.0F;
 	}
 
 	@Override
@@ -71,11 +70,11 @@ public class ProjectileNimbusRay extends ProjectileBase {
 
 							world,
 
-							posX,
+							getPosX(),
 
-							posY,
+							getPosY(),
 
-							posZ,
+							getPosZ(),
 
 							-((0.015 * vec.x) + ((rand.nextFloat() * 0.125) - 0.0625)),
 

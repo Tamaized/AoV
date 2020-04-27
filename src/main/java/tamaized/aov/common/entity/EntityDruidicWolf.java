@@ -57,7 +57,7 @@ public class EntityDruidicWolf extends WolfEntity {
 		this.goalSelector.addGoal(1, new SwimGoal(this));
 		this.goalSelector.addGoal(4, new LeapAtTargetGoal(this, 0.4F));
 		this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.0D, true));
-		this.goalSelector.addGoal(6, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
+		this.goalSelector.addGoal(6, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F, true));
 		this.goalSelector.addGoal(8, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
 		this.goalSelector.addGoal(10, new LookAtGoal(this, PlayerEntity.class, 8.0F));
 		this.goalSelector.addGoal(10, new LookRandomlyGoal(this));
@@ -83,7 +83,7 @@ public class EntityDruidicWolf extends WolfEntity {
 		if (world.isRemote) {
 			for (int index = 0; index < 4; index++) {
 				Vec3d result = getLook(1F).rotateYaw(rand.nextFloat() * 360F).rotatePitch(rand.nextFloat() * 360F).scale(0.08F);//.add(getPositionVector());
-				world.addParticle(ParticleTypes.END_ROD, posX, posY + getHeight() / 2F, posZ, result.x, result.y, result.z);
+				world.addParticle(ParticleTypes.END_ROD, getPosX(), getPosY() + getHeight() / 2F, getPosZ(), result.x, result.y, result.z);
 			}
 		}
 	}

@@ -1,6 +1,7 @@
 package tamaized.aov.client.gui;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
@@ -106,7 +107,7 @@ public class AoVOverlay {
 							BufferBuilder buffer = tessellator.getBuffer();
 							buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
 
-							MainWindow resolution = Minecraft.getInstance().mainWindow;
+							MainWindow resolution = Minecraft.getInstance().getMainWindow();
 							float scale = 3F;
 							float w = 89F / scale;
 							float h = 54F / scale;
@@ -143,7 +144,7 @@ public class AoVOverlay {
 					float g = isWater ? 0.15F : 0.6F;
 					float b = isWater ? 0F : 1F;
 					float a = MathHelper.clamp(((float) ClientTicker.dangerBiomeTicks + (mc.isGamePaused() ? 0 : e.getPartialTicks())) / (float) ClientTicker.dangerBiomeMaxTick, 0F, 1F);
-					MainWindow resolution = mc.mainWindow;
+					MainWindow resolution = mc.getMainWindow();
 					Tessellator tessellator = Tessellator.getInstance();
 					BufferBuilder buffer = tessellator.getBuffer();
 					buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
@@ -165,7 +166,7 @@ public class AoVOverlay {
 			return;
 		IAoVCapability cap = CapabilityList.getCap(mc.player, CapabilityList.AOV);
 		FontRenderer fontRender = mc.fontRenderer;
-		MainWindow sr = mc.mainWindow;
+		MainWindow sr = mc.getMainWindow();
 		float sW = (float) sr.getScaledWidth() / 2F;
 
 		if (cap != null && cap.hasCoreSkill()) {
@@ -212,7 +213,7 @@ public class AoVOverlay {
 			}
 			PlayerEntity player = Minecraft.getInstance().player;
 			if (!mc.isGamePaused() && intensity > 0 && player != null) {
-				player.setPositionAndRotation(player.posX, player.posY, player.posZ, player.rotationYaw + (rand.nextFloat() * 2F - 1F) * intensity, player.rotationPitch + (rand.nextFloat() * 2F - 1F) * intensity);
+				player.setPositionAndRotation(player.getPosX(), player.getPosY(), player.getPosZ(), player.rotationYaw + (rand.nextFloat() * 2F - 1F) * intensity, player.rotationPitch + (rand.nextFloat() * 2F - 1F) * intensity);
 				intensity = 0F;
 			}
 		}
@@ -243,13 +244,13 @@ public class AoVOverlay {
 			Minecraft.getInstance().textureManager.bindTexture(TEXTURE_ELEMENTALS);
 			Tessellator tess = Tessellator.getInstance();
 			BufferBuilder buffer = tess.getBuffer();
-			MainWindow resolution = mc.mainWindow;
+			MainWindow resolution = mc.getMainWindow();
 			float w = resolution.getScaledWidth();
 			float h = resolution.getScaledHeight();
 			float scale = (float) ((4F - resolution.getGuiScaleFactor() + 1F) * 32F);
 			float u = 1F / (scale / w);
 			float v = 1F / (scale / h);
-			resolution.loadGUIRenderMatrix(Minecraft.IS_RUNNING_ON_MAC);
+			//resolution.loadGUIRenderMatrix(Minecraft.IS_RUNNING_ON_MAC); TODO look into
 			RenderSystem.enableBlend();
 			RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			RenderSystem.shadeModel(GL11.GL_SMOOTH);
@@ -468,7 +469,7 @@ public class AoVOverlay {
 						cacheEntityID = target.getEntityId();
 						canThrow = true;
 						if (target instanceof AbstractClientPlayerEntity)
-							cacheEntity = new RemoteClientPlayerEntity(((AbstractClientPlayerEntity) target).field_213837_d, Objects.requireNonNull(Objects.requireNonNull(mc.getConnection()).getPlayerInfo(target.getUniqueID())).getGameProfile());
+							cacheEntity = new RemoteClientPlayerEntity(((AbstractClientPlayerEntity) target).worldClient, Objects.requireNonNull(Objects.requireNonNull(mc.getConnection()).getPlayerInfo(target.getUniqueID())).getGameProfile());
 						else {
 							cacheEntity = (LivingEntity) target.getType().create(target.world);
 						}
@@ -532,10 +533,10 @@ public class AoVOverlay {
 					Tessellator tessellator = Tessellator.getInstance();
 					BufferBuilder bufferbuilder = tessellator.getBuffer();
 					bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-					bufferbuilder.pos((double) (posx), (double) (posy + sizeY), (double) zLevel).tex((double) ((float) (textureX) * 0.00390625F), (double) ((float) (textureY + height) * 0.00390625F)).endVertex();
-					bufferbuilder.pos((double) (posx + sizeX), (double) (posy + sizeY), (double) zLevel).tex((double) ((float) (textureX + width) * 0.00390625F), (double) ((float) (textureY + height) * 0.00390625F)).endVertex();
-					bufferbuilder.pos((double) (posx + sizeX), (double) (posy), (double) zLevel).tex((double) ((float) (textureX + width) * 0.00390625F), (double) ((float) (textureY) * 0.00390625F)).endVertex();
-					bufferbuilder.pos((double) (posx), (double) (posy), (double) zLevel).tex((double) ((float) (textureX) * 0.00390625F), (double) ((float) (textureY) * 0.00390625F)).endVertex();
+					bufferbuilder.pos(posx, posy + sizeY, zLevel).tex(((float) (textureX) * 0.00390625F), ((float) (textureY + height) * 0.00390625F)).endVertex();
+					bufferbuilder.pos(posx + sizeX, posy + sizeY, zLevel).tex(((float) (textureX + width) * 0.00390625F), ((float) (textureY + height) * 0.00390625F)).endVertex();
+					bufferbuilder.pos(posx + sizeX, posy, zLevel).tex(((float) (textureX + width) * 0.00390625F), ((float) (textureY) * 0.00390625F)).endVertex();
+					bufferbuilder.pos(posx, posy, zLevel).tex(((float) (textureX) * 0.00390625F), ((float) (textureY) * 0.00390625F)).endVertex();
 					tessellator.draw();
 				}
 			}
@@ -555,10 +556,10 @@ public class AoVOverlay {
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferbuilder = tessellator.getBuffer();
 		bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-		bufferbuilder.pos((double) (x + 0), (double) (y + height), (double) zLevel).tex((double) ((float) (textureX + 0) * 0.00390625F), (double) ((float) (textureY + height) * 0.00390625F)).endVertex();
-		bufferbuilder.pos((double) (x + width), (double) (y + height), (double) zLevel).tex((double) ((float) (textureX + width) * 0.00390625F), (double) ((float) (textureY + height) * 0.00390625F)).endVertex();
-		bufferbuilder.pos((double) (x + width), (double) (y + 0), (double) zLevel).tex((double) ((float) (textureX + width) * 0.00390625F), (double) ((float) (textureY + 0) * 0.00390625F)).endVertex();
-		bufferbuilder.pos((double) (x + 0), (double) (y + 0), (double) zLevel).tex((double) ((float) (textureX + 0) * 0.00390625F), (double) ((float) (textureY + 0) * 0.00390625F)).endVertex();
+		bufferbuilder.pos(x + 0, y + height, zLevel).tex(((float) (textureX + 0) * 0.00390625F), ((float) (textureY + height) * 0.00390625F)).endVertex();
+		bufferbuilder.pos(x + width, y + height, zLevel).tex(((float) (textureX + width) * 0.00390625F), ((float) (textureY + height) * 0.00390625F)).endVertex();
+		bufferbuilder.pos(x + width, y + 0, zLevel).tex(((float) (textureX + width) * 0.00390625F), ((float) (textureY + 0) * 0.00390625F)).endVertex();
+		bufferbuilder.pos(x + 0, y + 0, zLevel).tex(((float) (textureX + 0) * 0.00390625F), ((float) (textureY + 0) * 0.00390625F)).endVertex();
 		tessellator.draw();
 	}
 

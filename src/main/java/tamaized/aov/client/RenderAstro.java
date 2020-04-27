@@ -1,6 +1,7 @@
 package tamaized.aov.client;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
@@ -28,7 +29,7 @@ public class RenderAstro {
 
 	@SubscribeEvent
 	public static void render(RenderPlayerEvent.Post e) {
-		PlayerEntity player = e.getEntityPlayer();
+		PlayerEntity player = e.getPlayer();
 		IAstroCapability cap = CapabilityList.getCap(player, CapabilityList.ASTRO);
 		if (cap == null)
 			return;
@@ -107,34 +108,34 @@ public class RenderAstro {
 		float timer;
 		for (int index = 1; index <= 3; index += 2) {
 			timer = cap.getFrameData()[index][3];
-			cap.getFrameData()[index][1] = Math.max(0, cap.getFrameData()[index][1] - ((240F * (cap.getFrameData()[1][1] / 90F)) / (float) Minecraft.getDebugFPS()));
+			cap.getFrameData()[index][1] = Math.max(0, cap.getFrameData()[index][1] - ((240F * (cap.getFrameData()[1][1] / 90F)) / (float) Minecraft.debugFPS));
 			if (cap.getFrameData()[index][0] > 0 && !Minecraft.getInstance().isGamePaused() && timer < 20)
-				cap.getFrameData()[index][0] = Math.max(0, cap.getFrameData()[index][0] - (240F / (float) Minecraft.getDebugFPS()));
+				cap.getFrameData()[index][0] = Math.max(0, cap.getFrameData()[index][0] - (240F / (float) Minecraft.debugFPS));
 		}
 		// Spread
 		if (!Minecraft.getInstance().isGamePaused()) {
-			cap.getFrameData()[2][4] += (240F / (float) Minecraft.getDebugFPS()) % 360;
-			cap.getFrameData()[2][5] += (cap.getFrameData()[2][5] >= 90 && cap.getFrameData()[2][3] > 35 ? 0 : 60F) / (float) Minecraft.getDebugFPS();
+			cap.getFrameData()[2][4] += (240F / (float) Minecraft.debugFPS) % 360;
+			cap.getFrameData()[2][5] += (cap.getFrameData()[2][5] >= 90 && cap.getFrameData()[2][3] > 35 ? 0 : 60F) / (float) Minecraft.debugFPS;
 		}
 		// Draw
 		for (int index = 0; index <= 2; index += 2) {
 			timer = cap.getFrameData()[index][3];
 			if (timer < 60 && !Minecraft.getInstance().isGamePaused() && cap.getFrameData()[index][2] > 0)
-				cap.getFrameData()[index][2] = Math.max(0, cap.getFrameData()[index][2] - (240F / (float) Minecraft.getDebugFPS()));
+				cap.getFrameData()[index][2] = Math.max(0, cap.getFrameData()[index][2] - (240F / (float) Minecraft.debugFPS));
 			if (timer < 90 && !Minecraft.getInstance().isGamePaused() && cap.getFrameData()[index][1] > 0)
-				cap.getFrameData()[index][1] = Math.max(0, cap.getFrameData()[index][1] - (160F / (float) Minecraft.getDebugFPS()));
+				cap.getFrameData()[index][1] = Math.max(0, cap.getFrameData()[index][1] - (160F / (float) Minecraft.debugFPS));
 			if (cap.getFrameData()[index][0] > 0 && !Minecraft.getInstance().isGamePaused() && timer < 25)
-				cap.getFrameData()[index][0] = Math.max(0, cap.getFrameData()[index][0] - (240F / (float) Minecraft.getDebugFPS()));
+				cap.getFrameData()[index][0] = Math.max(0, cap.getFrameData()[index][0] - (240F / (float) Minecraft.debugFPS));
 		}
 		// Redraw
 		if (!Minecraft.getInstance().isGamePaused() && cap.getFrameData()[4][0] > 0)
-			cap.getFrameData()[4][0] -= (240F / (float) Minecraft.getDebugFPS());
+			cap.getFrameData()[4][0] -= (240F / (float) Minecraft.debugFPS);
 		if (!Minecraft.getInstance().isGamePaused() && cap.getFrameData()[4][1] > 0)
-			cap.getFrameData()[4][1] -= (120F / (float) Minecraft.getDebugFPS());
+			cap.getFrameData()[4][1] -= (120F / (float) Minecraft.debugFPS);
 		if (!Minecraft.getInstance().isGamePaused() && cap.getFrameData()[4][0] <= 0)
-			cap.getFrameData()[4][4] -= (60F / (float) Minecraft.getDebugFPS());
+			cap.getFrameData()[4][4] -= (60F / (float) Minecraft.debugFPS);
 		if (!Minecraft.getInstance().isGamePaused() && cap.getFrameData()[4][4] <= 0)
-			cap.getFrameData()[4][2] -= (300F / (float) Minecraft.getDebugFPS());
+			cap.getFrameData()[4][2] -= (300F / (float) Minecraft.debugFPS);
 	}
 
 	private static void renderRedraw(int index, RenderPlayerEvent.Post e, IAstroCapability cap) {
@@ -144,15 +145,15 @@ public class RenderAstro {
 			RenderSystem.disableCull();
 			RenderSystem.disableLighting();
 			RenderSystem.enableBlend();
-			RenderSystem.rotatef(-e.getEntityPlayer().renderYawOffset, 0, 1, 0);
+			RenderSystem.rotatef(-e.getPlayer().renderYawOffset, 0, 1, 0);
 
 			RenderSystem.color4f(1, 1, 1, 1);
 			RenderSystem.translated(0F, 1.5F, 1F);
 			if (!Minecraft.getInstance().isGamePaused() && cap.getFrameData()[index][0] > 0)
-				cap.getFrameData()[index][0] -= (240F / (float) Minecraft.getDebugFPS());
+				cap.getFrameData()[index][0] -= (240F / (float) Minecraft.debugFPS);
 			RenderSystem.rotatef(cap.getFrameData()[index][0] % 360, 0, 0, 1);
 			if (!Minecraft.getInstance().isGamePaused() && cap.getFrameData()[index][1] > 0)
-				cap.getFrameData()[index][1] -= (120F / (float) Minecraft.getDebugFPS());
+				cap.getFrameData()[index][1] -= (120F / (float) Minecraft.debugFPS);
 			float s = (80F - cap.getFrameData()[index][1]) / 80F;
 			RenderSystem.scalef(s, s, s);
 			float f = 1.5F;//ftimer > 0 ? ((ftimer / 80f) * 1.5F) : 0F;
@@ -164,9 +165,9 @@ public class RenderAstro {
 
 			RenderSystem.pushMatrix();
 			if (!Minecraft.getInstance().isGamePaused() && cap.getFrameData()[index][0] <= 0)
-				cap.getFrameData()[index][4] -= (60F / (float) Minecraft.getDebugFPS());
+				cap.getFrameData()[index][4] -= (60F / (float) Minecraft.debugFPS);
 			if (!Minecraft.getInstance().isGamePaused() && cap.getFrameData()[index][4] <= 0)
-				cap.getFrameData()[index][2] -= (300F / (float) Minecraft.getDebugFPS());
+				cap.getFrameData()[index][2] -= (300F / (float) Minecraft.debugFPS);
 			for (int i = 0; i <= 12; i++) {
 				vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 				if (i > 0)
@@ -199,11 +200,11 @@ public class RenderAstro {
 			RenderSystem.rotatef(180F - e.getRenderer().getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
 
 			RenderSystem.translated(-0.125F, 0.5F + MathHelper.cos((float) Math.toRadians(cap.getFrameData()[index][1])), -0.125F);
-			cap.getFrameData()[index][1] = Math.max(0, cap.getFrameData()[index][1] - ((240F * (cap.getFrameData()[index][1] / 90F)) / (float) Minecraft.getDebugFPS()));
+			cap.getFrameData()[index][1] = Math.max(0, cap.getFrameData()[index][1] - ((240F * (cap.getFrameData()[index][1] / 90F)) / (float) Minecraft.debugFPS));
 
 			float ftimer = cap.getFrameData()[index][0];
 			if (cap.getFrameData()[index][0] > 0 && !Minecraft.getInstance().isGamePaused() && timer < 20)
-				cap.getFrameData()[index][0] = Math.max(0, cap.getFrameData()[index][0] - (240F / (float) Minecraft.getDebugFPS()));
+				cap.getFrameData()[index][0] = Math.max(0, cap.getFrameData()[index][0] - (240F / (float) Minecraft.debugFPS));
 			float f = ftimer > 0 ? ((ftimer / 80f) * 1.5F) : 0F;
 			float scale = 0.25F;
 
@@ -234,16 +235,16 @@ public class RenderAstro {
 			RenderSystem.enableBlend();
 			RenderSystem.rotatef((180F + cap.getFrameData()[index][2] - e.getRenderer().getRenderManager().playerViewY), 0.0F, 1.0F, 0.0F);
 			if (timer < 60 && !Minecraft.getInstance().isGamePaused() && cap.getFrameData()[index][2] > 0) {
-				cap.getFrameData()[index][2] = Math.max(0, cap.getFrameData()[index][2] - (240F / (float) Minecraft.getDebugFPS()));
+				cap.getFrameData()[index][2] = Math.max(0, cap.getFrameData()[index][2] - (240F / (float) Minecraft.debugFPS));
 			}
 			RenderSystem.translated(-0.5F, 1.0F, 0);
 			if (timer < 90 && !Minecraft.getInstance().isGamePaused() && cap.getFrameData()[index][1] > 0) {
-				cap.getFrameData()[index][1] = Math.max(0, cap.getFrameData()[index][1] - (160F / (float) Minecraft.getDebugFPS()));
+				cap.getFrameData()[index][1] = Math.max(0, cap.getFrameData()[index][1] - (160F / (float) Minecraft.debugFPS));
 			}
 			RenderSystem.color4f(1.0F, 1.0F, 1.0F, (80F - cap.getFrameData()[index][1]) / 80F);
 			float ftimer = cap.getFrameData()[index][0];
 			if (cap.getFrameData()[index][0] > 0 && !Minecraft.getInstance().isGamePaused() && timer < 25)
-				cap.getFrameData()[index][0] = Math.max(0, cap.getFrameData()[index][0] - (240F / (float) Minecraft.getDebugFPS()));
+				cap.getFrameData()[index][0] = Math.max(0, cap.getFrameData()[index][0] - (240F / (float) Minecraft.debugFPS));
 			float f = ftimer > 0 ? ((ftimer / 80f) * 1.5F) : 0F;
 
 			Tessellator tessellator = Tessellator.getInstance();
@@ -282,11 +283,11 @@ public class RenderAstro {
 		RenderSystem.rotatef(25, 0, 0, 1);
 		RenderSystem.rotatef(60, 1, 0, 0);
 		if (!Minecraft.getInstance().isGamePaused())
-			cap.getFrameData()[index][4] += (240F / (float) Minecraft.getDebugFPS()) % 360;
+			cap.getFrameData()[index][4] += (240F / (float) Minecraft.debugFPS) % 360;
 		RenderSystem.rotatef(cap.getFrameData()[index][4], 0, 0, 1);
 		RenderSystem.translated(-1.45F, -1.55F, 0);
 		if (!Minecraft.getInstance().isGamePaused())
-			cap.getFrameData()[index][5] += (cap.getFrameData()[index][5] >= 90 && cap.getFrameData()[index][3] > 35 ? 0 : 60F) / (float) Minecraft.getDebugFPS();
+			cap.getFrameData()[index][5] += (cap.getFrameData()[index][5] >= 90 && cap.getFrameData()[index][3] > 35 ? 0 : 60F) / (float) Minecraft.debugFPS;
 		RenderSystem.color4f(1, 1, 1, MathHelper.sin((float) Math.toRadians(Math.min(cap.getFrameData()[index][5], 180))));
 
 		Tessellator tessellator = Tessellator.getInstance();

@@ -34,16 +34,15 @@ public class EntitySpellVanillaParticles extends Entity {
 	public EntitySpellVanillaParticles(World world, Entity entity, IParticleData particle, int rate) {
 		this(world);
 		target = entity;
-		setPositionAndUpdate(target.posX, target.posY, target.posZ);
+		setPositionAndUpdate(target.getPosX(), target.getPosY(), target.getPosZ());
 		tick = rand.nextInt(30) + 20;
 		setParticle(particle);
 		dataManager.set(RATE, rate);
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
-	public int getBrightnessForRender() {
-		return 0xF000F0;
+	public float getBrightness() {
+		return 1.0F;
 	}
 
 	@Override
@@ -84,7 +83,7 @@ public class EntitySpellVanillaParticles extends Entity {
 			remove();
 			return;
 		}
-		setPositionAndUpdate(target.posX, target.posY, target.posZ);
+		setPositionAndUpdate(target.getPosX(), target.getPosY(), target.getPosZ());
 	}
 
 	@Nonnull

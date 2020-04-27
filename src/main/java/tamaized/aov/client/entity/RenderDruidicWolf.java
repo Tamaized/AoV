@@ -23,13 +23,4 @@ public class RenderDruidicWolf extends WolfRenderer {
 	public ResourceLocation getEntityTexture(WolfEntity entity) {
 		return ANRGY_WOLF_TEXTURES;
 	}
-
-	@Override
-	public float prepareScale(@Nonnull WolfEntity entitylivingbaseIn, float partialTicks) {
-		RenderSystem.enableRescaleNormal();
-		RenderSystem.scalef(-1.0F, -1.0F, 1.0F);
-		this.preRenderCallback(entitylivingbaseIn, partialTicks);
-		RenderSystem.translated(0.0F, -1.501F, 0.0F);
-		return 0.0625F;
-	}
 }

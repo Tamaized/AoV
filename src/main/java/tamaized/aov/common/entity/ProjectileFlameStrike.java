@@ -50,9 +50,8 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
-	public int getBrightnessForRender() {
-		return 0xF000F0;
+	public float getBrightness() {
+		return 1.0F;
 	}
 
 	public void setDamage(float d) {
@@ -61,9 +60,9 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 
 	@Override
 	public void writeSpawnData(PacketBuffer buffer) {
-		buffer.writeDouble(posX);
-		buffer.writeDouble(posY);
-		buffer.writeDouble(posZ);
+		buffer.writeDouble(getPosX());
+		buffer.writeDouble(getPosY());
+		buffer.writeDouble(getPosZ());
 	}
 
 	@Override
@@ -80,11 +79,11 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 			for (int index = 0; index < 20; index++)
 				world.addParticle(ParticleTypes.FLAME,
 
-						posX,
+						getPosX(),
 
-						posY,
+						getPosY(),
 
-						posZ,
+						getPosZ(),
 
 						-((0.015 * vec.x) + ((rand.nextFloat() * 0.5) - 0.25)),
 
@@ -94,7 +93,7 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 
 				);
 		}
-		Vec3d vec3d1 = new Vec3d(posX, posY, posZ);
+		Vec3d vec3d1 = new Vec3d(getPosX(), getPosY(), getPosZ());
 		Vec3d vec3d = vec3d1.add(getMotion());
 		RayTraceResult ray = world.rayTraceBlocks(new RayTraceContext(vec3d1, vec3d, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, this));
 		switch (ray.getType()) {
@@ -106,7 +105,7 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 			default:
 				break;
 		}
-		posY += getMotion().y;
+		setPosition(getPosX(), getPosY() + getMotion().y, getPosZ());
 	}
 
 	private void explode() {
@@ -123,9 +122,9 @@ public class ProjectileFlameStrike extends Entity implements IProjectile, IEntit
 			entity.attackEntityFrom(AoVDamageSource.createEntityDamageSource(DamageSource.IN_FIRE, attacker), damage);
 		}
 		for (int i = 0; i <= 80; i++)
-			world.addParticle(ParticleTypes.FLAME, posX, posY, posZ, (world.rand.nextFloat() * 1F) - 0.5F, world.rand.nextFloat() * 0.04F + 0.01F, (world.rand.nextFloat() * 1F) - 0.5F);
+			world.addParticle(ParticleTypes.FLAME, getPosX(), getPosY(), getPosZ(), (world.rand.nextFloat() * 1F) - 0.5F, world.rand.nextFloat() * 0.04F + 0.01F, (world.rand.nextFloat() * 1F) - 0.5F);
 		for (int i = 0; i <= 100; i++)
-			world.addParticle(ParticleTypes.LARGE_SMOKE, posX, posY, posZ, (world.rand.nextFloat() * 0.75F) - 0.375F, world.rand.nextFloat() * 0.04F + 0.01F, (world.rand.nextFloat() * 0.75F) - 0.375F);
+			world.addParticle(ParticleTypes.LARGE_SMOKE, getPosX(), getPosY(), getPosZ(), (world.rand.nextFloat() * 0.75F) - 0.375F, world.rand.nextFloat() * 0.04F + 0.01F, (world.rand.nextFloat() * 0.75F) - 0.375F);
 	}
 
 	@Override

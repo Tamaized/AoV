@@ -3,8 +3,8 @@ package tamaized.aov.common.events;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
-import net.minecraftforge.event.entity.player.PlayerPickupXpEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
+import net.minecraftforge.event.entity.player.PlayerXpEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import tamaized.aov.AoV;
@@ -16,10 +16,10 @@ import tamaized.aov.common.capabilities.polymorph.IPolymorphCapability;
 public class PlayerInteractHandler {
 
 	@SubscribeEvent
-	public static void onXPGain(PlayerPickupXpEvent e) {
+	public static void onXPGain(PlayerXpEvent.PickupXp e) {
 		if (!AoV.config.experience.get())
 			return;
-		PlayerEntity player = e.getEntityPlayer();
+		PlayerEntity player = e.getPlayer();
 		if (player != null) {
 			IAoVCapability cap = CapabilityList.getCap(player, CapabilityList.AOV);
 			if (cap != null)
@@ -38,13 +38,13 @@ public class PlayerInteractHandler {
 
 	@SubscribeEvent
 	public static void onWakeUp(PlayerWakeUpEvent e) {
-		// WorldServer#wakeAllPlayers is the only vanilla method that passes (false, false, true)
-		// ForgeEventFactory.fireSleepingTimeCheck passes false, true, true, lets ensure the time is day when we check this
-		PlayerEntity player = e.getEntityPlayer();
+		// ServerWorld#wakeAllPlayers is the only vanilla method that passes (false, false)
+		// ForgeEventFactory.fireSleepingTimeCheck passes (false, true), lets ensure the time is day when we check this
+		PlayerEntity player = e.getPlayer();
 		if (player != null) {
-			boolean flag = !e.wakeImmediately() && !e.updateWorld() && e.shouldSetSpawn();
+			boolean flag = !e.wakeImmediately() && !e.updateWorld();
 			if (!flag) {
-				if (!e.wakeImmediately() && e.updateWorld() && e.shouldSetSpawn()) {
+				if (!e.wakeImmediately() && e.updateWorld()) {
 					flag = player.world.isDaytime();
 				}
 			}

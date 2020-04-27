@@ -1,6 +1,7 @@
 package tamaized.aov.client.gui;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.Widget;
@@ -36,7 +37,7 @@ public class AdjustElementsGUI extends GuiScreenClose {
 	@Override
 	public void init() {
 		super.init();
-		MainWindow sr = Minecraft.getInstance().mainWindow;
+		MainWindow sr = Minecraft.getInstance().getMainWindow();
 		addButton(new Element(ELEMENT_SPELLBAR, (sr.getScaledWidth() / 2F) - 91, 1, AoV.config_client.ELEMENT_POSITIONS.spellbar_x.get(), AoV.config_client.ELEMENT_POSITIONS.spellbar_y.get(), 182, 22, 0x00FFFF, ""));
 		addButton(new Element(ELEMENT_ASTRO, sr.getScaledWidth() * 2F / 3F, sr.getScaledHeight() / 5F - 8F, AoV.config_client.ELEMENT_POSITIONS.astro_x.get(), AoV.config_client.ELEMENT_POSITIONS.astro_y.get(), (int) (235F * 0.35F), (int) (143F * 0.35F) + 8, 0x00FFFF, ""));
 		addButton(new Element(ELEMENT_TARGET, 10, 150, AoV.config_client.ELEMENT_POSITIONS.target_x.get(), AoV.config_client.ELEMENT_POSITIONS.target_y.get(), 100, 41, 0x00FFFF, ""));
@@ -121,7 +122,7 @@ public class AdjustElementsGUI extends GuiScreenClose {
 		final int ypos = AoV.config_client.ELEMENT_POSITIONS.spellbar_y.get();
 		RenderSystem.pushMatrix();
 		{
-			MainWindow sr = Minecraft.getInstance().mainWindow;
+			MainWindow sr = Minecraft.getInstance().getMainWindow();
 			if (AoV.config_client.renderBarOverHotbar.get())
 				RenderSystem.translated(0, sr.getScaledHeight() - 23, 0);
 			float alpha = 0.2f;
@@ -130,7 +131,7 @@ public class AdjustElementsGUI extends GuiScreenClose {
 			RenderSystem.color4f(1.0F, 1.0F, 1.0F, alpha);
 			Minecraft.getInstance().getTextureManager().bindTexture(TEXTURE_SPELLBAR);
 			int i = sr.getScaledWidth() / 2;
-			RenderUtils.setup(blitOffset);
+			RenderUtils.setup(getBlitOffset());
 			RenderUtils.renderRect(xpos + i - 91, ypos + 1, 182, 22);
 			RenderUtils.renderRect(xpos + i - 91 - 1 + slotLoc * 20, ypos, 24, 22, 0, 22F / 256F);
 		}
@@ -148,7 +149,7 @@ public class AdjustElementsGUI extends GuiScreenClose {
 			BufferBuilder buffer = tess.getBuffer();
 			buffer.begin(7, DefaultVertexFormats.POSITION_TEX);
 
-			MainWindow sr = Minecraft.getInstance().mainWindow;
+			MainWindow sr = Minecraft.getInstance().getMainWindow();
 			float x = sr.getScaledWidth() * 2F / 3F;
 			float y = sr.getScaledHeight() / 5F;
 

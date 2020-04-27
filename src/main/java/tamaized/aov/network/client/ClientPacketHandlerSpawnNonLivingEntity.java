@@ -32,9 +32,9 @@ public class ClientPacketHandlerSpawnNonLivingEntity implements NetworkMessages.
 	public ClientPacketHandlerSpawnNonLivingEntity(Entity entity) {
 		this.entityId = entity.getEntityId();
 		this.uniqueId = entity.getUniqueID();
-		this.x = entity.posX;
-		this.y = entity.posY;
-		this.z = entity.posZ;
+		this.x = entity.getPosX();
+		this.y = entity.getPosY();
+		this.z = entity.getPosZ();
 		this.pitch = MathHelper.floor(entity.rotationPitch * 256.0F / 360.0F);
 		this.yaw = MathHelper.floor(entity.rotationYaw * 256.0F / 360.0F);
 		this.type = entity.getType();
@@ -48,7 +48,7 @@ public class ClientPacketHandlerSpawnNonLivingEntity implements NetworkMessages.
 	public void handle(PlayerEntity player) {
 		World world = player.world;
 		Entity entity = type.create(world);
-		Objects.requireNonNull(entity).func_213312_b(x, y, z);
+		Objects.requireNonNull(entity).setPacketCoordinates(x, y, z);
 		entity.setMotion(speedX, speedY, speedZ);
 		entity.rotationPitch = (float) (pitch * 360) / 256.0F;
 		entity.rotationYaw = (float) (yaw * 360) / 256.0F;

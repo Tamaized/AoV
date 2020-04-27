@@ -73,9 +73,8 @@ public class EntityAlignmentAoE extends Entity {
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
-	public int getBrightnessForRender() {
-		return 0xF000F0;
+	public float getBrightness() {
+		return 1.0F;
 	}
 
 	@Override
@@ -117,11 +116,11 @@ public class EntityAlignmentAoE extends Entity {
 				for (int i = 0; i <= 7; i++)
 					world.addParticle(ParticleTypes.CRIT,
 
-							posX + 0.5F,
+							getPosX() + 0.5F,
 
-							posY + 1F,
+							getPosY() + 1F,
 
-							posZ + 0.5F,
+							getPosZ() + 0.5F,
 
 
 							rand.nextFloat() * 6F - 3.0F,

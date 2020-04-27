@@ -34,7 +34,7 @@ public class EntitySpellAoVParticles extends Entity {
 	public EntitySpellAoVParticles(World world, Entity entity, ParticleHelper.ParticleType particle, int rate, Integer... colors) {
 		this(world);
 		target = entity;
-		setPositionAndUpdate(target.posX, target.posY, target.posZ);
+		setPositionAndUpdate(target.getPosX(), target.getPosY(), target.getPosZ());
 		tick = rand.nextInt(10) + 20;
 		setParticle(particle);
 		setColors(colors);
@@ -42,9 +42,8 @@ public class EntitySpellAoVParticles extends Entity {
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
-	public int getBrightnessForRender() {
-		return 0xF000F0;
+	public float getBrightness() {
+		return 1.0F;
 	}
 
 	@Override
@@ -101,7 +100,7 @@ public class EntitySpellAoVParticles extends Entity {
 			remove();
 			return;
 		}
-		setPositionAndUpdate(target.posX, target.posY, target.posZ);
+		setPositionAndUpdate(target.getPosX(), target.getPosY(), target.getPosZ());
 	}
 
 }

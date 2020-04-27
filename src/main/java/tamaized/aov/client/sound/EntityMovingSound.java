@@ -27,9 +27,9 @@ public class EntityMovingSound extends TickableSound {
 		if (entity == null || this.entity.removed) {
 			this.donePlaying = true;
 		} else {
-			this.x = (float) this.entity.posX;
-			this.y = (float) this.entity.posY;
-			this.z = (float) this.entity.posZ;
+			this.x = (float) this.entity.getPosX();
+			this.y = (float) this.entity.getPosY();
+			this.z = (float) this.entity.getPosZ();
 			// float f = MathHelper.sqrt(this.entity.motionX * this.entity.motionX + this.entity.motionZ * this.entity.motionZ);
 			//
 			// if ((double) f >= 0.01D) {

@@ -1,6 +1,7 @@
 package tamaized.aov.client.gui;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -41,7 +42,7 @@ public class AoVUIBar {
 			return;
 		RenderSystem.pushMatrix();
 		{
-			MainWindow sr = mc.mainWindow;
+			MainWindow sr = mc.getMainWindow();
 			if (AoV.config_client.renderBarOverHotbar.get()) {
 				xpos = 0;
 				ypos = 0;

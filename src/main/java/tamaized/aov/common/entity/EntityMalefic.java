@@ -50,21 +50,21 @@ public class EntityMalefic extends ProjectileBase {
 				LivingEntity closest = null;
 				double radius = 10;
 				IAoVCapability cap = CapabilityList.getCap(shootingEntity, CapabilityList.AOV);
-				for (LivingEntity e : world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(posX - radius, posY - radius, posZ - radius, posX + radius, posY + radius, posZ + radius)))
+				for (LivingEntity e : world.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(getPosX() - radius, getPosY() - radius, getPosZ() - radius, getPosX() + radius, getPosY() + radius, getPosZ() + radius)))
 					if (shootingEntity != e)
 						if (cap == null || !cap.hasSelectiveFocus() || IAoVCapability.selectiveTarget(shootingEntity, cap, e))
 							if (closest == null || getDistance(closest) > getDistance(e))
 								closest = e;
 				target = closest;
 			} else if (ticksExisted % 8 == 0) {
-				double d0 = target.posX - posX;
-				double d1 = target.getBoundingBox().minY + (double) (target.getHeight() / 2.0F) - posY;
-				double d2 = target.posZ - posZ;
+				double d0 = target.getPosX() - getPosX();
+				double d1 = target.getBoundingBox().minY + (double) (target.getHeight() / 2.0F) - getPosY();
+				double d2 = target.getPosZ() - getPosZ();
 				shoot(d0, d1, d2, (float) getSpeed(), (float) (14 - world.getDifficulty().getId() * 4));
 			}
 		} else
 			for (int i = 0; i < 5; i++)
-				world.addParticle(ParticleTypes.END_ROD, posX + world.rand.nextDouble() - 0.5D, posY + world.rand.nextDouble() - 0.5D, posZ + world.rand.nextDouble() - 0.5D, 0, 5.0E-4F, 0);
+				world.addParticle(ParticleTypes.END_ROD, getPosX() + world.rand.nextDouble() - 0.5D, getPosY() + world.rand.nextDouble() - 0.5D, getPosZ() + world.rand.nextDouble() - 0.5D, 0, 5.0E-4F, 0);
 		super.tick();
 	}
 

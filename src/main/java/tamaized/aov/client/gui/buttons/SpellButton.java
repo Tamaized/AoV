@@ -1,6 +1,7 @@
 package tamaized.aov.client.gui.buttons;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.widget.button.Button;
@@ -43,7 +44,7 @@ public class SpellButton extends Button {
 				j = 0xFFFFFFFF;
 			}
 
-			RenderUtils.setup(blitOffset);
+			RenderUtils.setup(getBlitOffset());
 			RenderUtils.renderRect(x, y, width, height, false, j);
 			if (spell == null)
 				return;

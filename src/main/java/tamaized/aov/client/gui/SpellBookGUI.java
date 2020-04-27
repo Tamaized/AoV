@@ -1,6 +1,7 @@
 package tamaized.aov.client.gui;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
@@ -97,17 +98,17 @@ public class SpellBookGUI extends GuiScreenClose {
 		if (minecraft == null)
 			return;
 		IAoVCapability cap = CapabilityList.getCap(minecraft.player, CapabilityList.AOV);
-		MainWindow sr = minecraft.mainWindow;
+		MainWindow sr = minecraft.getMainWindow();
 		float alpha = 1.0f;
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, alpha);
 		minecraft.getTextureManager().bindTexture(AoVUIBar.widgetsTexPath);
 		int i = sr.getScaledWidth() / 2;
-		RenderUtils.setup(blitOffset);
+		RenderUtils.setup(getBlitOffset());
 		RenderUtils.renderRect(i - 91, sr.getScaledHeight() - 50, 182, 22, 0, 0, 182F / 256F, 22F / 256F);
 		RenderSystem.enableRescaleNormal();
 		RenderSystem.enableBlend();
 		RenderSystem.blendFuncSeparate(770, 771, 1, 0);
-		RenderHelper.enableGUIStandardItemLighting();
+		RenderHelper.enableStandardItemLighting();
 		RenderSystem.pushMatrix();
 		RenderSystem.translated(0.01f, 0, 0);
 		RenderSystem.translated(-20.01f, 0, 0);

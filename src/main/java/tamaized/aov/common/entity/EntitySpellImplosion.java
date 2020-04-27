@@ -35,7 +35,7 @@ public class EntitySpellImplosion extends Entity implements IEntityAdditionalSpa
 		this(world);
 		this.caster = caster;
 		target = entity;
-		setPositionAndUpdate(target.posX, target.posY, target.posZ);
+		setPositionAndUpdate(target.getPosX(), target.getPosY(), target.getPosZ());
 		tick = rand.nextInt(80);
 	}
 
@@ -73,9 +73,8 @@ public class EntitySpellImplosion extends Entity implements IEntityAdditionalSpa
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
-	public int getBrightnessForRender() {
-		return 0xF000F0;
+	public float getBrightness() {
+		return 1.0F;
 	}
 
 	@Override
@@ -93,7 +92,7 @@ public class EntitySpellImplosion extends Entity implements IEntityAdditionalSpa
 			remove();
 			return;
 		}
-		setPositionAndUpdate(target.posX, target.posY, target.posZ);
+		setPositionAndUpdate(target.getPosX(), target.getPosY(), target.getPosZ());
 		tick++;
 		if (tick % (20 * 5) == 0) {
 			float damage = rand.nextFloat() * target.getMaxHealth();

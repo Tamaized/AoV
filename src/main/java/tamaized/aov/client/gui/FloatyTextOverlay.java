@@ -1,6 +1,7 @@
 package tamaized.aov.client.gui;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -54,7 +55,7 @@ public class FloatyTextOverlay extends AbstractGui {
 		if (e.isCancelable() || e.getType() != RenderGameOverlayEvent.ElementType.EXPERIENCE)
 			return;
 		FontRenderer fontRender = mc.fontRenderer;
-		MainWindow window = Minecraft.getInstance().mainWindow;
+		MainWindow window = Minecraft.getInstance().getMainWindow();
 		int sW = window.getScaledWidth() / 2;
 
 		RenderSystem.pushMatrix();
