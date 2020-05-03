@@ -16,8 +16,9 @@ public class LeapCapabilityHandler implements ILeapCapability {
 
 	@Override
 	public void update(LivingEntity entity) {
-		leapDuration--;
-		if (dirty || ++tick % 20 == 0)
+		if (leapDuration-- > 0)
+			dirty = true;
+		if (dirty && ++tick % 20 == 0)
 			sendPacketUpdates(entity);
 	}
 
