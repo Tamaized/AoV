@@ -279,11 +279,12 @@ public class AstroCapabilityHandler implements IAstroCapability {
 			index++;
 		}
 		if (++tick % 20 == 0) {
-			dirty = true;
 			if (drawTime > 0) {
 				drawTime--;
+				dirty = true;
 			} else if (getDraw() != null) {
 				draw = null;
+				dirty = true;
 			}
 			tick = 0;
 		}
