@@ -1,0 +1,459 @@
+#PARSE_ESCAPES
+# Tab
+itemGroup.aov=エンジェル・オブ・ヴェンジェンス
+
+# Commands
+commands.aov.usage=/aov [open | setlevel [level] <player> | reset [minor | full | cooldown] <player>]
+commands.aov.error.level=レベルの数値は 0 から %s の間でなければなりません
+commands.aov.usage.setlevel=/aov setlevel [level] <player>
+commands.aov.usage.reset=/aov reset [minor | full | cooldown] <player>
+commands.aov.success.level=%s のレベルを %s レベルに設定しました
+commands.aov.success.reset=リセットは正常に行われました
+
+# Death
+death.attack.aov.destruction=%s は破壊された。
+death.attack.aov.nimbusray=%s は光線に貫かれた。
+death.attack.aov.cosmic=%s は星に運命を落とした。
+
+# Potion
+effect.aov.slowfall=低速落下
+effect.aov.aid=回避率 +
+effect.aov.faith=ダメージ半減
+effect.aov.zeal=二回攻撃確率 +
+effect.aov.stalwart=スターワートパクト
+effect.aov.balance=魔法力 +
+effect.aov.ewer=ストック回復
+effect.aov.spear=二回攻撃確率 +
+effect.aov.spire=回避率 +
+effect.aov.naturesbounty=ネイチャーズバウンティ
+effect.aov.coldchill=寒気
+
+# Item
+item.aov.debugger.name=デバッガー
+item.aov.handwraps.name=パンチグローブ
+
+# Block
+tile.aov.angelicstatue.name=未同調の像
+tile.aov.favoredsoulstatue.name=魔術師の像
+tile.aov.clericstatue.name=聖職者の像
+tile.aov.paladinstatue.name=聖騎士の像
+tile.aov.astrostatue.name=占星術師の像
+tile.aov.druidstatue.name=ドルイドの像
+
+# Entity
+entity.aov.EntityDruidicWolf.name=ドルイドのオオカミ
+
+# KeyBinds
+key.categories.aov=エンジェル・オブ・ヴェンジェンス
+key.aov.target=対象のロックオン
+key.aov.bartoggle=ホットバーとスペルバーの切り替え
+key.aov.bar.0=スロット1の魔法を使用する
+key.aov.bar.1=スロット2の魔法を使用する
+key.aov.bar.2=スロット3の魔法を使用する
+key.aov.bar.3=スロット4の魔法を使用する
+key.aov.bar.4=スロット5の魔法を使用する
+key.aov.bar.5=スロット6の魔法を使用する
+key.aov.bar.6=スロット7の魔法を使用する
+key.aov.bar.7=スロット8の魔法を使用する
+key.aov.bar.8=スロット9の魔法を使用する
+
+# GUI
+aov.gui.infinite=無限
+aov.gui.title.skills=エンジェル・オブ・ヴェンジェンス: スキル
+aov.gui.skills.points=スキルポイント: %s
+aov.gui.skills.spent=使用したポイント: %s / %s
+aov.gui.skills.level=レベル:
+aov.astro.burn.0=効力 ++
+aov.astro.burn.1=持続時間 +30秒
+aov.astro.burn.2=効力 + /範囲魔法化
+
+aov.gui.title.stats=エンジェル・オブ・ヴェンジェンス: ステータス
+aov.gui.stats.max=最大レベルに到達しました
+aov.gui.stats.experience=経験値: %s
+aov.gui.stats.level=レベル: %s
+aov.gui.stats.charges=ストック増加: %s
+aov.gui.stats.spellpower=魔法力: %s
+aov.gui.stats.dodge=回避率: %s
+aov.gui.stats.doublestrike=二回攻撃確率: %s
+
+aov.gui.title.spellbook=エンジェル・オブ・ヴェンジェンス: 呪文書
+
+aov.gui.title.reset=エンジェル・オブ・ヴェンジェンスのスキルをリセットします。
+aov.gui.reset.full=スキル初期化:職業の心得を含むすべてのスキルを未習得状態に戻します。これにより、職業の変更ができますが、レベルと経験値も初期化されてしまいます。
+aov.gui.reset.minor=スキル振り直し:職業の心得以外のすべてのスキルを未習得状態に戻します。これにより、スキルポイントの振り直しができますが、職業の変更はできません。
+
+aov.gui.button.close=閉じる
+aov.gui.button.back=戻る
+aov.gui.button.spellbook=呪文書
+aov.gui.button.stats=ステータスの確認
+aov.gui.button.reset=スキルリセット
+aov.gui.button.fullreset=スキル初期化
+aov.gui.button.minorreset=スキル振り直し
+
+aov.config.repositionelements.name=手動でエレメントを再配置
+aov.config.repositionelements.tooltip=画面上のスペルバーとアストロエレメントの位置をマウスのクリック＆ドラッグで変更可能
+aov.repositionelements.exit= %s または %s を押すと、保存して終了します。
+
+# Spells
+aov.spells.global.charges=§bストック: %s
+aov.spells.global.range=§b範囲: %s
+aov.spells.global.damage=§b基本攻撃力: %s
+aov.spells.global.healing=§b基本回復力: %s
+aov.spells.global.length=§b持続時間: %s 秒
+aov.spells.global.double=§cこれにより、消費するストックとクールタイムも2倍になります。
+
+aov.spells.invokemass.name=§eインヴォーク・マス
+aov.spells.invokemass.desc=§5【術者/補助】アクティブな間、特定の魔法や技能の範囲が2倍になり、範囲魔法、範囲技能として使用することができます。
+aov.spells.bladebarrier.name=§eブレードバリア
+aov.spells.bladebarrier.desc=§5【範囲/攻撃】回転する刃の輪を召喚し、輪に出入りする生物にダメージを与えます。
+aov.spells.destruction.name=§eDestruction
+aov.spells.destruction.desc=§5Outright destroys a target. Works on Undead but not bosses. If the target has more than 8 current health then they have a chance to take half damage. The more health, the better chance.
+aov.spells.flamestrike.name=§eフレイムストライク
+aov.spells.flamestrike.desc=§5【範囲/攻撃】炎の球を召喚して地面に叩きつけ、ダメージを与えて炎上させます。
+aov.spells.impolsion.name=§eインプロージョン
+aov.spells.impolsion.desc=§5【範囲/攻撃】対象は短時間のうちに崩壊を始め、対象の最大HPを魔法力でスケーリングしたランダムな量のダメージを与えます。
+aov.spells.leapoffaith.name=§eリープ・オブ・フェイス
+aov.spells.leapoffaith.desc=§5【術者/補助】前方に跳躍して敵と空中戦を行ったり、峡谷を飛び越えたりすることができます。魔法の発動中とクールタイムの間、低速落下が付与されます。
+aov.spells.nimbus.name=§eニンバスレイ
+aov.spells.nimbus.desc=§5【射撃/攻撃】小さな光線を放ち、ダメージを与えます。この魔法はアンデッドの相手に2倍のダメージを与えます。
+aov.spells.searing.name=§eシーリングライト
+aov.spells.searing.desc=§5【射撃/攻撃】光線を放ち、ダメージを与えます。この魔法はアンデッドの相手に2倍のダメージを与えます。
+aov.spells.slayliving.name=§eSlay Living
+aov.spells.slayliving.desc=§5Destroys a living target. Does not affect Undead or bosses. If the target has more than 4 current health then they have a chance to take half damage. The more health, the better chance.
+aov.spells.orderswrath.name=§eオーダーズラース
+aov.spells.orderswrath.desc=§5【範囲/攻撃】秩序の力を呼び出し、ダメージを与えます。この魔法はアンデッドをスタンさせます。
+aov.spells.chaoshammer.name=§eカオティックハンマー
+aov.spells.chaoshammer.desc=§5【範囲/攻撃】混沌の力を呼び出し、ダメージを与えます。この魔法はアンデッド以外をスタンさせます。
+aov.spells.aid.name=§eエイド
+aov.spells.aid.desc=§5【術者・単体/補助】一定時間、対象は衝撃吸収、回避率 +5 のボーナスが付与されます。
+aov.spells.faith.name=§eシールド・オブ・フェイス
+aov.spells.faith.desc=§5【術者・単体/補助】一定時間、対象の受けるダメージを半減させます。
+aov.spells.stalwart.name=§eスターワートパクト
+aov.spells.stalwart.desc=§5【術者・単体/補助】一定時間、対象は「スターワートパクト」が付与されます。\n\n「スターワートパクト」が付与された対象は、現在HPが最大HPの半分を下回ると「スターワートパクト」を消費して、一定時間の衝撃吸収 III と再生能力 III が付与されます。
+aov.spells.zeal.name=§eゼアル
+aov.spells.zeal.desc=§5【術者/補助】一定時間、術者は二回攻撃 +25 のボーナスが付与されます。
+aov.spells.burst.name=§eポジティブエナジー・バースト
+aov.spells.burst.desc=§5【範囲/回復】術者を含む周囲の生物のHPを回復し、全ての悪質なステータス効果を癒します。アンデッドにはダメージを与えます。
+aov.spells.posaura.name=§eポジティブエナジー・オーラ
+aov.spells.posaura.desc=§5【範囲/回復】術者の周りにオーラを発生させ、一定時間、術者を含む周囲の生物のHPを継続的に回復します。アンデッドにはダメージを与えます。
+aov.spells.cure.desc=§e【術者・単体/回復】対象を癒します。\n\nスモール/ミディアム/ラージ/アブソリュート/ヒールはHPを回復します。アンデッドにはダメージを与えます。\nブラインド/ポイズン/ウィザーは対応したステータス効果を回復します。アンデッドも回復することができます。
+aov.spells.cureblind.name=§eキュア・ブラインド
+aov.spells.curepoison.name=§eキュア・ポイズン
+aov.spells.curewither.name=§eキュア・ウィザー
+aov.spells.curewounds.desc=§5【術者・単体/回復】対象を癒します。\n\nスモール/ミディアム/ラージ/アブソリュート/ヒールはHPを回復します。アンデッドにはダメージを与えます。\nブラインド/ポイズン/ウィザーは対応したステータス効果を回復します。アンデッドも回復することができます。
+aov.spells.curecritwounds.name=§eアブソリュート・キュア
+aov.spells.curelightwounds.name=§eキュア・スモール
+aov.spells.curemodwounds.name=§eキュア・ミディアム
+aov.spells.cureseriouswounds.name=§eキュア・ラージ
+aov.spells.heal.name=§eヒール
+aov.spells.aspectedbenefic.name=§eアスペクト・ベネフィック
+aov.spells.aspectedbenefic.desc=§5【術者・単体/回復】対象のHPを大きく回復し、再生能力を付与します。アンデッドも回復することができます。
+aov.spells.aspectedhelios.name=§eアスペクト・ヘリオス
+aov.spells.aspectedhelios.desc=§5【範囲/回復】術者を含む周囲の生物のHPを大きく回復し、再生能力を付与します。アンデッドも回復することができます。
+aov.spells.benefic.name=§eベネフィック
+aov.spells.benefic.desc=§5【術者・単体/回復】対象の生物のHPを回復します。アンデッドも回復することができます。
+aov.spells.celestialopposition.name=§eセレスティアルオポジション
+aov.spells.celestialopposition.desc=§5【範囲/攻撃】範囲内の敵をスタンさせ、範囲内の味方にかかっている良質なステータス効果全てを、20秒延長させます。
+aov.spells.combust.name=§eコンバスト
+aov.spells.combust.desc=§5【単体/攻撃】対象に継続的なダメージを与えます。この魔法は命中時にダメージを与えません。
+aov.spells.draw.name=§eドロー
+aov.spells.draw.desc=§5【術者/補助】6枚のランダムなカードの中から1枚を引きます。引いたカードを起動するには、この魔法を再度唱える必要があります。\nカードを起動すると、一定時間、術者は絵柄に応じたステータス効果が付与されます。\n\n大樹: 満腹度回復、耐性、体力増強\n一矢: 採掘速度上昇\n陽光: 魔法力 +\n氷雪: 二回攻撃確率 +\n迅雷: 回避率 +\n聖水: 持続時間中、魔法のストックが急速に回復する
+aov.spells.essentialdignity.name=§eエッセンシャルディグニティ
+aov.spells.essentialdignity.desc=§5【単体/回復】対象の生物のHPをありえないほど回復します。クールタイムはかなり長いですが、本当にあり得ないほど回復します。アンデッドも回復することができます。
+aov.spells.gravity.name=§eグラビティ
+aov.spells.gravity.desc=§5【範囲/攻撃】重力の力で、ダメージを与えます。この魔法は複数の対象に命中すると、追加1体につき10%%ダメージが減少します。ダメージが50%%以下になることはありません。
+aov.spells.helios.name=§eヘリオス
+aov.spells.helios.desc=§5【範囲/回復】術者を含む周囲の生物のHPを回復します。アンデッドも回復することができます。
+aov.spells.malefic.name=§eマレフィック
+aov.spells.malefic.desc=§5【射撃/攻撃】凶星の力を放ち、小ダメージを与えます。この魔法は唱えられた少し後、近くの生物に向かって自動的に方向を変えます。
+aov.spells.redraw.name=§eリドロー
+aov.spells.redraw.desc=§5【特殊】現在引いているカードを捨てて、引き直します。
+aov.spells.royalroad.name=§eロイヤルロード
+aov.spells.royalroad.desc=§5【特殊】現在引いているカードを燃やして、次に起動するカードの効果を強化します。カードによって強化の種類が違います。\n\n大樹・陽光: 効力 ++\n一矢・氷雪: 持続時間 +30秒\n迅雷・聖水: 効力 + /範囲魔法化
+aov.spells.spread.name=§eスプレッド
+aov.spells.spread.desc=§5【特殊】現在引いているカードを待機スロットに移動し、後で使用できるようにします。待機スロットにあるカードを起動するには、この魔法を再度唱える必要があります。
+aov.spells.timedilation.name=§eタイムダイレーション
+aov.spells.timedilation.desc=§5【術者・単体/補助】対象にかかっている、良質なステータス効果全ての効果時間を2倍にします。
+aov.spells.polymorph.wolf.name=§eワイルドシェイプ:ウルフ
+aov.spells.polymorph.wolf.desc=§5【術者/変身】術者をオオカミに変身させます。\n\nオオカミの状態では、アイテムやブロックを使用できなくなります。右クリックすると、見ている方向に飛び掛かり、着地時周囲にダメージを与える「急襲」を発動します。\n\n特に明記しない限り、魔法を唱えることはできなくなります。\n\n食料を食べるには、インベントリからドロップして地面で食べる必要があります。\n\n二回攻撃確率 +15 と回避率 +10 のボーナスが付与されます。
+aov.spells.furiousclaw.name=§eフューリアス・クロー
+aov.spells.furiousclaw.desc=§5【単体/攻撃】獲物を切り裂く大きな爪で、大ダメージを与えます。
+aov.spells.druidregenerate.name=§eドルイドリジェネレイト
+aov.spells.druidregenerate.desc=§5【範囲/補助】術者を含む周囲の生物に、一定時間の再生能力 II を付与します。
+aov.spells.litstrike.name=§eライトニングストライク
+aov.spells.litstrike.desc=§5【範囲/攻撃】狙った場所に雷を落とします。
+aov.spells.furiousfang.name=§eフューリアス・ファング
+aov.spells.furiousfang.desc=§5【単体/攻撃】恐ろしい鋭さを持った牙で、ダメージを与えます。
+aov.spells.naturesbounty.name=§eネイチャーズバウンティ
+aov.spells.naturesbounty.desc=§5【術者・単体/補助】一定時間、対象は「ネイチャーズバウンティ」が付与されます。\n\n「ネイチャーズバウンティ」が付与された対象は、現在HPが最大HPの半分を下回ると「ネイチャーズバウンティ」を消費して、一定時間の再生能力 III が付与されます。
+aov.spells.earthquake.name=§eアースクエイク
+aov.spells.earthquake.desc=§5【範囲/攻撃】対象の地面に地震を発生させ、そこを歩いている敵にダメージを与えて移動速度低下を付与します。この魔法は周囲の地形を破壊します。
+aov.spells.furioushowl.name=§eフューリアス・ハウル
+aov.spells.furioushowl.desc=§5【範囲/攻撃】耳をつんざくような遠吠えで、近くの敵にダメージを与えます。
+aov.spells.polymorph.water.name=§eワイルドシェイプ: ウォーターエレメンタル
+aov.spells.polymorph.water.desc=§5【術者/変身】術者をウォーターエレメンタルに変身させます。\n\n日中は魔法力 -20 のペナルティを受けますが、夜間は魔法力 +20 のボーナスが付与されます。\n\n水の中では再生能力が付与されます。\n溶岩や火の中では、信じられないほど大きなダメージを受けます。\n\n暑いバイオームではゆっくりとダメージを受け、寒いバイオームではゆっくりと体力が回復します。\n\n移動速度低下、衰弱、毒の影響を受けなくなります。
+aov.spells.polymorph.fire.name=§eワイルドシェイプ: ファイアエレメンタル
+aov.spells.polymorph.fire.desc=§5【術者/変身】術者をファイアエレメンタルに変身させます。\n\n日中は魔法力 +20 のボーナスが付与されますが、夜間は魔法力 -20 のペナルティを受けます。\n\n溶岩や火の中では再生能力が付与されます。\n水の中では、信じられないほど大きなダメージを受けます。\n\n寒いバイオームではゆっくりとダメージを受け、暑いバイオームではゆっくりと体力が回復します。\n\n移動速度低下、衰弱、毒の影響を受けなくなります。
+aov.spells.litstorm.name=§eライトニングストーム
+aov.spells.litstorm.desc=§5【範囲/攻撃】対象の上空に雲を発生させ、雲が下にいる敵に雷で攻撃します。雷の与えるダメージは魔法力に比例して大きくなります。
+aov.spells.formpack.name=§eフォームパック
+aov.spells.formpack.desc=§5【特殊】一定時間の間、3匹のオオカミを呼び寄せ、味方として戦わせます。オオカミは同時に6匹以上の呼び寄せることはできません。オオカミの与えるダメージは魔法力に比例して大きくなります。
+aov.spells.elementalempowerment.name=§eエレメンタルエンパワーメント
+aov.spells.elementalempowerment.desc=§5【術者/補助】ファイアエレメンタルかウォーターエレメンタルの状態でのみ使用できます。ファイアエレメンタルとウォーターエレメンタルで違った効果を発揮します。\n\nファイアエレメンタル:近くの敵を炎上させて炎のダメージを与える、長時間持続する炎のオーラを発生させます。オーラの与えるダメージは魔法力に比例して大きくなります。\n\nウォーターエレメンタル: 近くの敵に移動速度低下を付与し、術者を攻撃した敵に、より強力な移動速度低下と継続的な冷気のダメージを与える、長時間持続する冷気のオーラを発生させます。オーラの与えるダメージは魔法力に比例して大きくなります。
+aov.spells.polymorph.archangelic.name=§eアーチエンジェリック・フォーム
+aov.spells.polymorph.archangelic.desc=§5【術者/補助】2分間、あなたは光の道標になります。\n\n魔法力 +75 と 回避率 +25 のボーナスが付与されます。\n\n飛行能力を与えられます。\n\n移動速度低下、衰弱、毒の影響を受けなくなり、水中で無期限に呼吸できます。
+
+# Skills TODO: [.req] is unused, remove at some point
+aov.skill.global.core=§cこのスキルを取得すると、他のクラスのスキルを取得できなくなります!
+aov.skill.global.minlevel=§c前提: レベル %s
+aov.skill.global.minpoint=§c前提: この職業でスキルポイントを %s ポイント使用
+aov.skill.global.parent=§c前提: %s
+aov.skill.global.charge=§a+%s ストック追加
+aov.skill.global.spellpower=§a+%s 魔法力
+aov.skill.global.dodge=§a+%s 回避率
+aov.skill.global.doublestrike=§a+%s 二回攻撃確率
+aov.skill.global.selective.name=§bセレクティブフォーカス
+aov.skill.global.selective.desc=§5あなたの魔法は、敵対生物に良質な効果を、友好生物に悪質な効果を与えなくなります。\n§c単体回復魔法でアンデッドにダメージを与えられなくなります。
+aov.skill.global.invoke.name=§bインヴォークマス
+aov.skill.global.invoke.desc=§e技能の習得: インヴォークマス\nアクティブな間、魔法のストック消費が2倍になりますが、範囲魔法として唱えることができます。
+
+## Favored Soul
+### Core
+aov.skill.favoredsoul.core.1.name=§b職業の心得: 魔術師
+aov.skill.favoredsoul.core.1.desc=§e魔法の習得: ニンバスレイ
+aov.skill.favoredsoul.core.2.name=§b魔術師の心得 2
+aov.skill.favoredsoul.core.2.req=§c前提: 職業の心得 魔術師
+aov.skill.favoredsoul.core.3.name=§b魔術師の心得 3
+aov.skill.favoredsoul.core.3.req=§c前提: 魔術師の心得 2
+aov.skill.favoredsoul.core.3.desc=§e魔法の習得: フレイムストライク
+aov.skill.favoredsoul.core.4.name=§b魔術師の心得 4
+aov.skill.favoredsoul.core.4.req=§c前提: 魔術師の心得 3
+aov.skill.favoredsoul.core.4.desc=§e魔法の習得: ブレードバリア
+aov.skill.favoredsoul.core.5.name=§b極致: 魔術師
+aov.skill.favoredsoul.core.5.desc=§e魔法の習得: アーチエンジェリック・フォーム
+aov.skill.favoredsoul.core.5.req=§c前提: 魔術師の心得 4
+### T1
+aov.skill.favoredsoul.tier1.1.name=§bシーリングライト
+aov.skill.favoredsoul.tier1.1.desc=§e魔法の習得: シーリングライト
+aov.skill.favoredsoul.tier1.3.name=§b魔法力上昇 I
+aov.skill.favoredsoul.tier1.5.name=§bキュア・スモール
+aov.skill.favoredsoul.tier1.5.desc=§e魔法の習得: キュア・スモール
+### T2
+aov.skill.favoredsoul.tier2.1.name=§bオーダーズラース
+aov.skill.favoredsoul.tier2.1.desc=§e魔法の習得: オーダーズラース
+aov.skill.favoredsoul.tier2.1.req=§c前提: シーリングライト
+aov.skill.favoredsoul.tier2.2.name=§b魔法ストック追加 I
+aov.skill.favoredsoul.tier2.3.name=§b魔法力上昇 II
+aov.skill.favoredsoul.tier2.3.req=§c前提: 魔法力上昇 I
+### T3
+aov.skill.favoredsoul.tier3.1.name=§bカオティックハンマー
+aov.skill.favoredsoul.tier3.1.desc=§e魔法の習得: カオティックハンマー
+aov.skill.favoredsoul.tier3.1.req=§c前提: Slay Living
+aov.skill.favoredsoul.tier3.2.name=§b魔法ストック追加 II
+aov.skill.favoredsoul.tier3.2.req=§c前提: ストック追加 I
+aov.skill.favoredsoul.tier3.3.name=§b魔法力上昇 III
+aov.skill.favoredsoul.tier3.3.req=§c前提: 魔法力上昇 II
+aov.skill.favoredsoul.tier3.5.name=§bキュア・ミディアム
+aov.skill.favoredsoul.tier3.5.desc=§e魔法の習得: キュア・ミディアム
+### T4
+aov.skill.favoredsoul.tier4.1.name=§bインプロージョン
+aov.skill.favoredsoul.tier4.1.desc=§e魔法の習得: インプロージョン
+aov.skill.favoredsoul.tier4.1.req=§c前提: Destruction
+aov.skill.favoredsoul.tier4.3.name=§bスペルパワー上昇 IV
+aov.skill.favoredsoul.tier4.3.req=§c前提: スペルパワー上昇 III
+aov.skill.favoredsoul.tier4.4.name=§bリープ・オブ・フェイス
+aov.skill.favoredsoul.tier4.4.desc=§e魔法の習得: リープ・オブ・フェイス
+
+## Cleric
+### Core
+aov.skill.cleric.core.1.name=§b職業の心得: 聖職者
+aov.skill.cleric.core.1.desc=§e魔法の習得: キュア・スモール
+aov.skill.cleric.core.2.name=§b聖職者の心得 2
+aov.skill.cleric.core.2.req=§c前提: 職業の心得 聖職者
+aov.skill.cleric.core.3.name=§b聖職者の心得 3
+aov.skill.cleric.core.3.req=§c前提: 聖職者の心得 2
+aov.skill.cleric.core.3.desc=§e魔法の習得l: ポジティブエナジー・バースト
+aov.skill.cleric.core.4.name=§b聖職者の心得 4
+aov.skill.cleric.core.4.req=§c前提: 聖職者の心得 3
+aov.skill.cleric.core.4.desc=§e魔法の習得: ポジティブエナジー・オーラ
+aov.skill.cleric.core.5.name=§b極致: 聖職者
+aov.skill.cleric.core.5.req=§c前提: 聖職者の心得 4
+### T1
+aov.skill.cleric.tier1.1.name=§bキュア・ミディアム
+aov.skill.cleric.tier1.1.desc=§e魔法の習得: キュア・ミディアム
+aov.skill.cleric.tier1.2.name=§bキュア・ポイズン
+aov.skill.cleric.tier1.2.desc=§e魔法の習得: キュア・ポイズン
+aov.skill.cleric.tier1.3.name=§b魔法力上昇 I
+### T2
+aov.skill.cleric.tier2.1.name=§bキュア・ラージ
+aov.skill.cleric.tier2.1.desc=§e魔法の習得: キュア・ラージ
+aov.skill.cleric.tier2.1.req=§c前提: キュア・ミディアム
+aov.skill.cleric.tier2.2.name=§bキュア・ウィザー
+aov.skill.cleric.tier2.2.desc=§e魔法の習得: キュア・ウィザー
+aov.skill.cleric.tier2.2.req=§c前提: キュア・ポイズン
+aov.skill.cleric.tier2.3.name=§b魔法力上昇 II
+aov.skill.cleric.tier2.3.req=§c前提: 魔法力上昇 I
+aov.skill.cleric.tier2.4.name=§bキュア・ブラインド
+aov.skill.cleric.tier2.4.desc=§e魔法の習得: キュア・ブラインド
+### T3
+aov.skill.cleric.tier3.1.name=§bアブソリュート・キュア
+aov.skill.cleric.tier3.1.desc=§e魔法の習得: アブソリュート・キュア
+aov.skill.cleric.tier3.1.req=§c前提: キュア・ラージ
+aov.skill.cleric.tier3.2.name=§bストック追加 I
+aov.skill.cleric.tier3.3.name=§b魔法力上昇 III
+aov.skill.cleric.tier3.3.req=§c前提: 魔法力上昇 II
+### T4
+aov.skill.cleric.tier4.1.name=§bヒール
+aov.skill.cleric.tier4.1.desc=§e魔法の習得: ヒール
+aov.skill.cleric.tier4.1.req=§c前提: アブソリュート・キュア
+aov.skill.cleric.tier4.2.name=§bストック追加 II
+aov.skill.cleric.tier4.2.req=§c前提: ストック追加 I
+aov.skill.cleric.tier4.3.name=§b魔法力上昇 IV
+aov.skill.cleric.tier4.3.req=§c前提: 魔法力上昇 III
+aov.skill.cleric.tier4.4.name=§b
+
+## Paladin
+### Core
+aov.skill.paladin.core.1.name=§b職業の心得: 聖騎士
+aov.skill.paladin.core.2.name=§b聖騎士の心得 2
+aov.skill.paladin.core.2.req=§c前提: 職業の心得 聖騎士
+aov.skill.paladin.core.3.name=§b聖騎士の心得 3
+aov.skill.paladin.core.3.req=§c前提: 聖騎士の心得 2
+aov.skill.paladin.core.3.desc=§e盾を装備している間、近接攻撃と遠隔攻撃が強力なノックバックを持つようになります。
+aov.skill.paladin.core.4.name=§b聖騎士の心得 4
+aov.skill.paladin.core.4.req=§c前提: 聖騎士の心得 3
+aov.skill.paladin.core.4.desc=§e盾が正面だけでなく、全方位を防御できるようになります。
+aov.skill.paladin.core.5.name=§b極致: 聖騎士
+aov.skill.paladin.core.5.desc=§e装備した盾の耐久力が減少しても、少しした後に耐久力が全回復します。
+aov.skill.paladin.core.5.req=§c前提: 聖騎士の心得
+### T1
+aov.skill.paladin.tier1.1.name=§bエイド
+aov.skill.paladin.tier1.1.desc=§e魔法の習得: エイド
+aov.skill.paladin.tier1.3.name=§b回避率上昇 I
+### T2
+aov.skill.paladin.tier2.1.name=§bシールド・オブ・フェイス
+aov.skill.paladin.tier2.1.desc=§e魔法の習得: シールド・オブ・フェイス
+aov.skill.paladin.tier2.1.req=§c前提: エイド
+aov.skill.paladin.tier2.3.name=§b回避率上昇 II
+aov.skill.paladin.tier2.3.req=§c前提: 回避率上昇 I
+aov.skill.paladin.tier2.4.name=§b二回攻撃確率上昇 I
+### T3
+aov.skill.paladin.tier3.1.name=§bゼアル
+aov.skill.paladin.tier3.1.desc=§e魔法の習得: ゼアル
+aov.skill.paladin.tier3.1.req=§c前提: シールド・オブ・フェイス
+aov.skill.paladin.tier3.3.name=§b回避率上昇 III
+aov.skill.paladin.tier3.3.req=§c前提: 回避率上昇 II
+aov.skill.paladin.tier3.4.name=§b二回攻撃確率上昇 II
+aov.skill.paladin.tier3.4.req=§c前提: 二回攻撃確率上昇 I
+### T4
+aov.skill.paladin.tier4.1.name=§bスターワートパクト
+aov.skill.paladin.tier4.1.desc=§e魔法の習得: スターワートパクト
+aov.skill.paladin.tier4.1.req=§c前提: ゼアル
+aov.skill.paladin.tier4.2.name=§bバイタリティ
+aov.skill.paladin.tier4.2.desc=§eオフハンドに盾を持っている間、最大HPがハート5つ分増加します。
+aov.skill.paladin.tier4.3.name=§b回避率上昇 IV
+aov.skill.paladin.tier4.3.req=§c前提: 回避率上昇 III
+
+## Astro
+### Core
+aov.skill.astro.core.1.name=§b職業の心得: 占星術師
+aov.skill.astro.core.1.desc=§e技能の習得: ドロー
+aov.skill.astro.core.2.name=§占星術師の心得 2
+aov.skill.astro.core.2.req=§c前提: 職業の心得 占星術師
+aov.skill.astro.core.2.desc=§e技能の習得: ロイヤルロード
+aov.skill.astro.core.3.name=§占星術師の心得 3
+aov.skill.astro.core.3.req=§c前提: 占星術師の心得 2
+aov.skill.astro.core.3.desc=§e技能の習得: スプレッド
+aov.skill.astro.core.4.name=§占星術師の心得 4
+aov.skill.astro.core.4.req=§c前提: 占星術師の心得 3
+aov.skill.astro.core.4.desc=§e技能の習得: リドロー
+aov.skill.astro.core.5.name=§b極致: 占星術師
+aov.skill.astro.core.5.req=§c前提: 占星術師の心得 4
+aov.skill.astro.core.5.desc=§e技能の習得: タイムダイレーション
+### T1
+aov.skill.astro.tier1.1.name=§bマレフィック
+aov.skill.astro.tier1.1.desc=§e魔法の習得: マレフィック
+aov.skill.astro.tier1.3.name=§b魔法力上昇 I
+aov.skill.astro.tier1.5.name=§bベネフィック
+aov.skill.astro.tier1.5.desc=§e魔法の習得: ベネフィック
+### T2
+aov.skill.astro.tier2.1.name=§bコンバスト
+aov.skill.astro.tier2.1.req=§c前提: マレフィック
+aov.skill.astro.tier2.1.desc=§e魔法の習得: コンバスト
+aov.skill.astro.tier2.3.name=§b魔法力上昇 II
+aov.skill.astro.tier2.3.req=§c前提: 魔法力上昇 I
+aov.skill.astro.tier2.4.name=§bエッセンシャルディグニティ
+aov.skill.astro.tier2.4.desc=§e魔法の習得: エッセンシャルディグニティ
+aov.skill.astro.tier2.5.name=§bヘリオス
+aov.skill.astro.tier2.5.req=§c前提: ベネフィック
+aov.skill.astro.tier2.5.desc=§e魔法の習得: ヘリオス
+### T3
+aov.skill.astro.tier3.1.name=§bグラビティ
+aov.skill.astro.tier3.1.req=§c前提: コンバスト
+aov.skill.astro.tier3.1.desc=§e魔法の習得: グラビティ
+aov.skill.astro.tier3.2.name=§bストック追加 I
+aov.skill.astro.tier3.3.name=§b魔法力上昇 III
+aov.skill.astro.tier3.3.req=§c前提: 魔法力上昇 II
+aov.skill.astro.tier3.5.name=§bアスペクト・ベネフィック
+aov.skill.astro.tier3.5.req=§c前提: ヘリオス
+aov.skill.astro.tier3.5.desc=§e魔法の習得: アスペクト・ベネフィック
+### T4
+aov.skill.astro.tier4.1.name=§bセレスティアルオポジション
+aov.skill.astro.tier4.1.req=§c前提: グラビティ
+aov.skill.astro.tier4.1.desc=§e魔法の習得: セレスティアルオポジション
+aov.skill.astro.tier4.2.name=§bストック追加 II
+aov.skill.astro.tier4.2.req=§c前提: ストック追加 I
+aov.skill.astro.tier4.3.name=§b魔法力上昇 IV
+aov.skill.astro.tier4.3.req=§c前提: 魔法力上昇 III
+aov.skill.astro.tier4.5.name=§bアスペクト・ヘリオス
+aov.skill.astro.tier4.5.req=§c前提: アスペクト・ベネフィック
+aov.skill.astro.tier4.5.desc=§e魔法の習得: アスペクト・ヘリオス
+
+## Druid
+### Core
+aov.skill.druid.core.1.name=§b職業の心得: ドルイド
+aov.skill.druid.core.1.desc=§e集中状態になることができるようになります。:\n革以外の防具を装備していない状態であり、メインハンドに木製以外のツールをもっていない状態ならば、集中状態になる。\n集中状態になると、1レベルごとにハート0.5個、回避率 +1 、二回攻撃確率 +1 、魔法力 +5 を与えられます。
+aov.skill.druid.core.2.name=§bドルイドの心得 2
+aov.skill.druid.core.2.desc=§e技能の習得: ワイルド・シェイプ (ウルフ)
+aov.skill.druid.core.3.name=§bドルイドの心得 3
+aov.skill.druid.core.3.desc=§e回避率が上昇します。:\n集中状態なら、回避率 +25 を与えられます。
+aov.skill.druid.core.4.name=§bドルイドの心得 4
+aov.skill.druid.core.4.desc=§e集中状態が強化されます。:\n1レベルごとに攻撃力が+1され、オオカミの状態での「急襲」がより遠くに届くようになります。獣の導き、精霊の導きで習得できる技能のストックと効力が2倍になります。
+aov.skill.druid.core.5.name=§b極致: ドルイド
+aov.skill.druid.core.5.desc=§e回避率が上昇します。:\n集中状態なら、さらに回避率 +25 を与えられます。
+### T1
+aov.skill.druid.tier1.1.name=§bキュア・スモール
+aov.skill.druid.tier1.1.desc=§e魔法の習得: キュア・スモール
+aov.skill.druid.tier1.2.name=§b獣の導き I
+aov.skill.druid.tier1.2.desc=§c獣の導きで習得できる技能はオオカミの状態でのみ使用できます。\n\n§e技能の習得: フューリアス・クロー
+aov.skill.druid.tier1.3.name=§b回避率上昇 I
+aov.skill.druid.tier1.4.name=§b精霊の導き I
+aov.skill.druid.tier1.4.desc=§e技能の習得: ドルイドリジェネレイト
+aov.skill.druid.tier1.5.name=§bライトニングストライク
+aov.skill.druid.tier1.5.desc=§e魔法の習得: ライトニングストライク
+### T2
+aov.skill.druid.tier2.2.name=§b獣の導き II
+aov.skill.druid.tier2.2.desc=§e技能の習得: フューリアス・ファング
+aov.skill.druid.tier2.3.name=§b回避率上昇 II
+aov.skill.druid.tier2.4.name=§b精霊の導き II
+aov.skill.druid.tier2.4.desc=§e技能の習得: ネイチャーズバウンティ
+aov.skill.druid.tier2.5.name=§bアースクエイク
+aov.skill.druid.tier2.5.desc=§e魔法の習得: アースクエイク
+### T3
+aov.skill.druid.tier3.1.name=§bキュア・ミディアム
+aov.skill.druid.tier3.1.desc=§e魔法の習得: キュア・ミディアム
+aov.skill.druid.tier3.2.name=§b獣の導き III
+aov.skill.druid.tier3.2.desc=§e技能の習得: フューリアス・ハウル
+aov.skill.druid.tier3.3.name=§b回避率上昇 III
+aov.skill.druid.tier3.4.name=§b精霊の導き III
+aov.skill.druid.tier3.4.desc=§e技能の習得: ワイルドシェイプ (ウォーターエレメンタル)
+aov.skill.druid.tier3.5.name=§bライトニングストーム
+aov.skill.druid.tier3.5.desc=§e魔法の習得: ライトニングストーム
+### T4
+aov.skill.druid.tier4.2.name=§b獣の導き IV
+aov.skill.druid.tier4.2.desc=§e技能の習得: フォームパック
+aov.skill.druid.tier4.3.name=§b回避率上昇 IV
+aov.skill.druid.tier4.4.name=§b精霊の導き IV
+aov.skill.druid.tier4.4.desc=§e技能の習得: ワイルドシェイプ (ファイアエレメンタル)
+aov.skill.druid.tier4.5.name=§bエレメンタルエンパワーメント
+aov.skill.druid.tier4.5.desc=§e魔法の習得: エレメンタルエンパワーメント
